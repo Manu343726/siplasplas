@@ -1,0 +1,6 @@
+[submodule "3rdParty/ctti"]
+	path = 3rdParty/ctti
+	url = https://github.com/Manu343726/ctti
+[submodule "3rdParty/cmake"]
+	path = 3rdParty/cmake
+	url = https://github.com/Manu343726/cmake

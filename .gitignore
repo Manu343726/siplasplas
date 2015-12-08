@@ -1,3 +1,12 @@
+# Ignore cmake buildtree
+build/
+
+# Ignore clion project metadata
+.idea/
+
+# Ignore compiled python (From Vim YouCompleteMe config script)
+*.pyc
+
 # Compiled Object files
 *.slo
 *.lo
