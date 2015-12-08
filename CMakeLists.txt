@@ -7,4 +7,5 @@ include(3rdParty/cmake/exec_target.cmake)
 
 configure_exec_targets(PROJECT CPP)
 include_directories(include)
+
 add_subdirectory(examples)

@@ -159,7 +159,7 @@ namespace cpp
         struct VariantExecutorImpl<typelist<Head>>
         {
             template<typename... Args>
-            static constexpr bool construct(Variant& v, Args&&... args)
+            static bool construct(Variant& v, Args&&... args)
             {
                 if(v.tag() == ctti::type_id<Head>())
                 {
@@ -172,7 +172,7 @@ namespace cpp
                 }
             }
 
-            static constexpr bool destroy(Variant& v)
+            static bool destroy(Variant& v)
             {
                 if(v.tag() == ctti::type_id<Head>())
                 {
@@ -185,7 +185,7 @@ namespace cpp
                 }
             }
 
-            static constexpr bool move(Variant& v, Variant&& other)
+            static bool move(Variant& v, Variant&& other)
             {
                 if(other.tag() == ctti::type_id<Head>())
                 {   
@@ -200,7 +200,7 @@ namespace cpp
                 }
             }
 
-            static constexpr bool copy(Variant& v, const Variant& other)
+            static bool copy(Variant& v, const Variant& other)
             {
                 if(other.tag() == ctti::type_id<Head>())
                 {
@@ -213,7 +213,7 @@ namespace cpp
                 }
             }
 
-            static constexpr bool move_assign(Variant& v, Variant&& other)
+            static bool move_assign(Variant& v, Variant&& other)
             {
                 if(other.tag() == ctti::type_id<Head>())
                 {
@@ -241,7 +241,7 @@ namespace cpp
                 }
             }
 
-            static constexpr bool copy_assign(Variant& v, const Variant& other)
+            static bool copy_assign(Variant& v, const Variant& other)
             {
                 if(other.tag() == ctti::type_id<Head>())
                 {
@@ -270,7 +270,7 @@ namespace cpp
             }
 
             template<typename F>
-            static constexpr typename F::ResultType const_visit(const Variant& v, F f)
+            static typename F::ResultType const_visit(const Variant& v, F f)
             {
                 if(v.tag() == ctti::type_id<Head>())
                 {
@@ -283,7 +283,7 @@ namespace cpp
             }
             
             template<typename F>
-            static constexpr typename F::ResultType visit(Variant& v, F f)
+            static typename F::ResultType visit(Variant& v, F f)
             {
                 if(v.tag() == ctti::type_id<Head>())
                 {
@@ -300,43 +300,43 @@ namespace cpp
         struct VariantExecutorImpl<typelist<Head, Second, Tail...>>
         {
             template<typename... Args>
-            static constexpr bool construct(Variant& v, Args&&... args)
+            static bool construct(Variant& v, Args&&... args)
             {
                 return VariantExecutor<Head>::construct(v, std::forward<Args>(args)...) ||
                        NextVariantExecutor<Head, Second, Tail...>::construct(v, std::forward<Args>(args)...);
             }
 
-            static constexpr bool destroy(Variant& v)
+            static bool destroy(Variant& v)
             {
                 return VariantExecutor<Head>::destroy(v) || NextVariantExecutor<Head, Second, Tail...>::destroy(v);
             }
 
-            static constexpr bool move(Variant v, Variant&& other)
+            static bool move(Variant v, Variant&& other)
             {
                 return VariantExecutor<Head>::move(v, std::move(other)) || 
                        NextVariantExecutor<Head, Second, Tail...>::move(v, std::move(other));
             }
 
-            static constexpr bool copy(Variant& v, const Variant& other)
+            static bool copy(Variant& v, const Variant& other)
             {
                 return VariantExecutor<Head>::copy(v, other) ||
                        NextVariantExecutor<Head, Second, Tail...>::copy(v, other);
             }
 
-            static constexpr bool move_assign(Variant& v, Variant&& other)
+            static bool move_assign(Variant& v, Variant&& other)
             {
                 return VariantExecutor<Head>::move_assign(v, std::move(other)) ||
                        NextVariantExecutor<Head, Second, Tail...>::move_assign(v, std::move(other));
             }
 
-            static constexpr bool copy_assignment(Variant& v, const Variant& other)
+            static bool copy_assignment(Variant& v, const Variant& other)
             {
                 return VariantExecutor<Head>::copy_assign(v, other) ||
                        NextVariantExecutor<Head, Second, Tail...>::copy_assign(v, other);
             }
 
             template<typename F>
-            static constexpr typename F::ResultType const_visit(const Variant& v, F f)
+            static typename F::ResultType const_visit(const Variant& v, F f)
             {
                 if(v.tag() == ctti::type_id<Head>())
                 {
@@ -349,7 +349,7 @@ namespace cpp
             }
             
             template<typename F>
-            static constexpr typename F::ResultType visit(Variant& v, F f)
+            static typename F::ResultType visit(Variant& v, F f)
             {
                 if(v.tag() == ctti::type_id<Head>())
                 {

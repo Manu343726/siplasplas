@@ -3,11 +3,12 @@
 #include <iostream>
 #include <vector>
 #include <unordered_map>
+#include <string>
 
 int main()
 {
     // So ctti is still constexpr...
-    static_assert(ctti::type_id(1) != ctti::type_id('c'), "???");
+    //static_assert(ctti::type_id(1) != ctti::type_id('c'), "???");
 
     using map_t = std::unordered_map<int, cpp::Variant<bool, int, std::string>>;
     using nested_variant_t = cpp::Variant<int, char, map_t>;

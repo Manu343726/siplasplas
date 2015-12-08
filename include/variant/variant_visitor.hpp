@@ -17,8 +17,8 @@ namespace cpp
     struct GenericVariantVisitor : public F, public GenericVariantVisitor<Result, Fs...>
     {
         GenericVariantVisitor(F f, Fs... fs) :
-            F{f},
-            GenericVariantVisitor<Result, Fs...>{fs...}
+            F(f),
+            GenericVariantVisitor<Result, Fs...>(fs...)
         {}
 
         using F::operator();
