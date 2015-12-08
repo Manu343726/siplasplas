@@ -76,6 +76,7 @@ namespace cpp
             this->~Variant();
             _tag = ctti::type_id<typename std::decay<T>::type>();
             new(rawStorage()) typename std::decay<T>::type{std::forward<T>(value)};
+            return *this;
         }
 
         Variant& operator=(const Variant& other)
