@@ -36,10 +36,12 @@ import ycm_core
 # compilation database set (by default, one is not set).
 # CHANGE THIS LIST OF FLAGS. YES, THIS IS THE DROID YOU HAVE BEEN LOOKING FOR.
 flags = [
-    '-std=c++14'
-    '-Wall'
-    '-Werror'
-    '-pedantic'
+    '-std=c++14',
+    '-Wall',
+    '-pedantic',
+    '-Iinclude/',
+    '-I3rdParty/ctti/include/',
+    '-I3rdParty/cppascii/snippets/'
 ]
 
 
@@ -119,11 +121,6 @@ def GetCompilationInfoForFile( filename ):
 
 
 def FlagsForFile( filename, **kwargs ):
-  return {
-    'flags': flags,
-    'do_cache': False
-  }
-
   if database:
     # Bear in mind that compilation_info.compiler_flags_ does NOT return a
     # python list, but a "list-like" StringVec object
@@ -145,6 +142,8 @@ def FlagsForFile( filename, **kwargs ):
   else:
     relative_to = DirectoryOfThisScript()
     final_flags = MakeRelativePathsInFlagsAbsolute( flags, relative_to )
+    
+  print final_flags
 
   return {
     'flags': final_flags,
