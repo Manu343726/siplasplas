@@ -39,7 +39,7 @@ namespace cpp
     GenericVariantVisitor<Result, Fs...> visitor(Fs... fs)
     {
         return { fs... };
-    };
+    }
 }
 
 #endif //CEPLUSPLUS_VARIANT_VISITOR_HPP
