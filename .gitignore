@@ -4,6 +4,12 @@ build/
 # Ignore clion project metadata
 .idea/
 
+# Ignore netbeans project
+nbproject/
+
+# Ignore clang input
+compile_commands.json
+
 # Ignore compiled python (From Vim YouCompleteMe config script)
 *.pyc
 
