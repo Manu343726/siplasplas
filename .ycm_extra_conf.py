@@ -41,7 +41,9 @@ flags = [
     '-pedantic',
     '-Iinclude/',
     '-I3rdParty/ctti/include/',
-    '-I3rdParty/cppascii/snippets/'
+    '-I3rdParty/cppascii/snippets/',
+    '-Ibuild/tests/gtest/src/gtest/include',
+    '-Ibuild/tests/gmock/src/gmock/include'
 ]
 
 
