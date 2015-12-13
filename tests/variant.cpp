@@ -84,10 +84,3 @@ using test_cases = detail::functor_t<TestCases<variants>, Types>;
 INSTANTIATE_TYPED_TEST_CASE_P(TestMultipleVariantInstances, VariantTest, 
     test_cases
 );
-                           
-int main(int argc, char **argv)
-{
-    ::testing::InitGoogleTest(&argc, argv);
-    int ret = RUN_ALL_TESTS();
-    return ret;
-}

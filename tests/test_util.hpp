@@ -194,8 +194,8 @@ class LifetimeRegistered<T, std::enable_if_t<!std::is_class<T>::value>> :
 public:
     template<typename... Args>
     LifetimeRegistered(Args&&... args) :
-        LifetimeRegistered<MakeClass<T>>{MakeClass<T>{std::forward<Args>(args)...}}
-    {}
+        LifetimeRegistered<MakeClass<T>>(MakeClass<T>{std::forward<Args>(args)...})
+	{}
 };
 
 
