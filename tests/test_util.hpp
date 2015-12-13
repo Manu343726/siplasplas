@@ -2,6 +2,10 @@
 #define CEPLUSPLUS_TESTS_TEST_UTIL_HPP
 
 #include "gtest/gtest.h"
+#include "variant/variant.hpp"
+
+#include <unordered_map>
+#include <iostream>
 
 template<typename... Ts>
 class TypeList {};
@@ -123,5 +127,96 @@ struct GenerateTestCasesForVariant
 
 template<typename Variants>
 using TestCases = detail::join<detail::fmap_t<GenerateTestCasesForVariant,Variants>>; 
+
+
+template<typename T, typename = void>
+class LifetimeRegistered : public T
+{
+public:
+    template<typename... Args>
+    LifetimeRegistered(Args&&... args) :
+        T{std::forward<Args>(args)...},
+        _id{_latestId++}
+    {
+        _lifetimeRegistry[_id] = false;
+    }
+
+    ~LifetimeRegistered()
+    {
+        _lifetimeRegistry[_id] = true;
+    }
+
+    static bool latestWasDestroyed()
+    {
+        if(_latestId == 0)
+            throw std::runtime_error{"No objects were instanced yet!"};
+        else
+            return _lifetimeRegistry[_latestId - 1];
+    }
+
+private:
+    static int _latestId;
+    static std::unordered_map<int, bool> _lifetimeRegistry;
+    int _id;
+};
+
+template<typename T, typename U>
+int LifetimeRegistered<T, U>::_latestId = 0;
+
+template<typename T, typename U>
+std::unordered_map<int, bool> LifetimeRegistered<T, U>::_lifetimeRegistry;
+
+template<typename T>
+struct MakeClass
+{
+    template<typename... Args>
+    MakeClass(Args&&... args) :
+        _value{std::forward<Args>(args)...}
+    {}
+
+    operator const T&() const
+    {
+        return _value;
+    }
+
+    operator T&()
+    {
+        return _value;
+    }
+private:
+    T _value;
+};
+
+template<typename T>
+class LifetimeRegistered<T, std::enable_if_t<!std::is_class<T>::value>> :
+    public LifetimeRegistered<MakeClass<T>>
+{
+public:
+    template<typename... Args>
+    LifetimeRegistered(Args&&... args) :
+        LifetimeRegistered<MakeClass<T>>{MakeClass<T>{std::forward<Args>(args)...}}
+    {}
+};
+
+
+template<typename Variant>
+struct make_test_variant;
+
+template<typename... Ts>
+struct make_test_variant<cpp::Variant<Ts...>>
+{
+    using type = cpp::Variant<LifetimeRegistered<Ts>...>;
+};
+
+template<typename Variant>
+using make_test_variant_t = typename make_test_variant<Variant>::type;
+
+
+template<typename T>
+LifetimeRegistered<std::decay_t<T>> lifetime_registered(T&& value)
+{
+    return { std::forward<T>(value) };
+}
+
 
 #endif // CEPLUSPLUS_TESTS_TEST_UTIL_HPP

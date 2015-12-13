@@ -352,11 +352,11 @@ namespace cpp
             }
         }
 
-        template<typename T, typename = std::enable_if_t<VariantExecutor<Ts...>::template has_type_static<T>::value>>
+        template<typename T, typename = std::enable_if_t<VariantExecutor<Ts...>::template has_type_static<std::decay_t<T>>::value>>
         Variant(T&& value) :
             _tag{ctti::type_id<typename std::decay<T>::type>()}
         {
-            if(VariantExecutor<Ts...>::template has_type_static<T>::value)
+            if(VariantExecutor<Ts...>::template has_type_static<std::decay_t<T>>::value)
                 new (rawStorage()) std::decay_t<T>{std::forward<T>(value)};
             else
                 Throw("construct from", _tag);
@@ -373,7 +373,7 @@ namespace cpp
             }
         }
 
-        template<typename T, typename = std::enable_if_t<!std::is_same<std::decay_t<T>, Variant>::value>>
+        template<typename T, typename = std::enable_if_t<VariantExecutor<Ts...>::template has_type_static<std::decay_t<T>>::value>>
         Variant& operator=(T&& value)
         {
             Variant variant{std::forward<T>(value)};

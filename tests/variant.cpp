@@ -1,6 +1,9 @@
 #include "gtest/gtest.h"
+#include "gmock/gmock.h"
 #include "variant/variant.hpp"
 #include "test_util.hpp"
+#include <unordered_map>
+#include <stdexcept>
 
 using namespace ::testing;
 
@@ -26,9 +29,42 @@ TYPED_TEST_P(VariantTest, ConstructionFromValue_NotEmpty)
     EXPECT_FALSE(v.empty());
 }
 
+TYPED_TEST_P(VariantTest, MoveAssignmentOfValue_NotEmpty)
+{
+    test_case::Variant<TypeParam> v;
+
+    ASSERT_NO_THROW(v = TypeParam::getValue());
+    EXPECT_FALSE(v.empty());
+    EXPECT_EQ(ctti::type_id<test_case::value_type<TypeParam>>(), v.tag());
+}
+
+TYPED_TEST_P(VariantTest, CopyAssignmentOfValue_NotEmpty)
+{
+    test_case::Variant<TypeParam> v;
+    auto lvalue = TypeParam::getValue();
+
+    ASSERT_NO_THROW(v = lvalue);
+    EXPECT_FALSE(v.empty());
+    EXPECT_EQ(ctti::type_id<test_case::value_type<TypeParam>>(), v.tag());
+}
+
+TYPED_TEST_P(VariantTest, ValueDestructorCalled)
+{
+    using Variant = make_test_variant_t<test_case::Variant<TypeParam>>;
+
+    {
+        Variant v{lifetime_registered(TypeParam::getValue())};
+    }
+
+    EXPECT_TRUE(LifetimeRegistered<test_case::value_type<TypeParam>>::latestWasDestroyed());
+})
+
+
 
 REGISTER_TYPED_TEST_CASE_P(VariantTest,
-                           DefaultConstruction_Empty, ConstructionFromValue_NotEmpty);
+                           DefaultConstruction_Empty, ConstructionFromValue_NotEmpty,
+                           ValueDestructorCalled,
+                           MoveAssignmentOfValue_NotEmpty, CopyAssignmentOfValue_NotEmpty);
 
 
 
