@@ -7,3 +7,6 @@
 [submodule "3rdParty/cppasscii"]
 	path = 3rdParty/cppasscii
 	url = https://github.com/Manu343726/cppascii
+[submodule "3rdParty/optparse"]
+	path = 3rdParty/optparse
+	url = https://github.com/nk412/optparse
