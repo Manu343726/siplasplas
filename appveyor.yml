@@ -1,0 +1,28 @@
+version: 1.0.{build}
+
+environment:
+  matrix:
+    - generator: "MinGW Makefiles"
+    - generator: "Visual Studio 12"
+
+configuration:
+  - Debug
+  - Release
+
+install:
+  - cinst cmake mingw
+  #- cmd: set PATH=%PATH:CMake 2.8\bin=%;C:\ProgramData\chocolatey\lib\cmake.3.0.2\content\cmake-3.0.2-win32-x86\bin
+  - cmd: set PATH=%PATH:Git\bin=%;C:\MinGW\bin
+  - cmd: cmake --version
+  - cmd: g++ --version
+
+build_script:
+  - cmd: IF NOT EXIST build mkdir build
+  - cmd: cd build
+  - cmd: cmake .. -G "%generator%" -DCMAKE_BUILD_TYPE="%configuration%"
+  - cmd: cmake --build . --config "%configuration%"
+
+test_script:
+  - cmd: ctest -C "%configuration%" . -VV
+
+
