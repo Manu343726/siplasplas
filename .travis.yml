@@ -24,7 +24,7 @@ matrix:
       addons: &gcc49
         apt:
           packages:
-            - g++4.9
+            - g++-4.9
           sources:
             - ubuntu-toolchain-r-test
 
