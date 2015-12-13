@@ -7,8 +7,6 @@
 
 using namespace ::testing;
 
-using Ts = Types<void>;
-
 template<typename TestCase>
 struct VariantTest : public Test
 {};
@@ -35,7 +33,7 @@ TYPED_TEST_P(VariantTest, MoveAssignmentOfValue_NotEmpty)
 
     ASSERT_NO_THROW(v = TypeParam::getValue());
     EXPECT_FALSE(v.empty());
-    EXPECT_EQ(ctti::type_id<test_case::value_type<TypeParam>>(), v.tag());
+    EXPECT_EQ(ctti::unnamed_type_id<test_case::value_type<TypeParam>>(), v.tag());
 }
 
 TYPED_TEST_P(VariantTest, CopyAssignmentOfValue_NotEmpty)
@@ -45,7 +43,7 @@ TYPED_TEST_P(VariantTest, CopyAssignmentOfValue_NotEmpty)
 
     ASSERT_NO_THROW(v = lvalue);
     EXPECT_FALSE(v.empty());
-    EXPECT_EQ(ctti::type_id<test_case::value_type<TypeParam>>(), v.tag());
+    EXPECT_EQ(ctti::unnamed_type_id<test_case::value_type<TypeParam>>(), v.tag());
 }
 
 TYPED_TEST_P(VariantTest, ValueDestructorCalled)

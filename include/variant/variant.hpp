@@ -14,18 +14,18 @@ namespace cpp
     class Variant
     {
     private:
-        std::string print_variant(const ctti::type_id_t& id) const
+        std::string print_variant(const ctti::unnamed_type_id_t& id) const
         {
             std::ostringstream os;
             
-            if(id != ctti::type_id<void>())
-                os << ctti::type_id<Variant>().name() << "{" << id.name() << "}";
+            if(id != ctti::unnamed_type_id<void>())
+                os << "Variant{" << id.hash() << "}";
             else
-                os << ctti::type_id<Variant>().name() << "{[Empty]}";
+                os << "Variant{[Empty]}";
 
             return os.str();
         }
-        void Throw(const std::string& operation, const ctti::type_id_t& tag)
+        void Throw(const std::string& operation, const ctti::unnamed_type_id_t& tag)
         {   
             throw std::runtime_error{print_variant(this->tag()) + 
                 ": Cannot " + operation + " " + print_variant(tag)};
@@ -50,15 +50,15 @@ namespace cpp
             struct has_type_static : public std::is_same<T, Head>
             {};
             
-            static constexpr bool has_type(ctti::type_id_t id)
+            static constexpr bool has_type(ctti::unnamed_type_id_t id)
             {
-                return id == ctti::type_id<Head>();
+                return id == ctti::unnamed_type_id<Head>();
             }
             
             template<typename... Args>
             static bool construct(Variant& v, Args&&... args)
             {
-                if(v.tag() == ctti::type_id<Head>())
+                if(v.tag() == ctti::unnamed_type_id<Head>())
                 {
                     new (v.rawStorage()) Head(std::forward<Args>(args)...);
                     return !v.empty();
@@ -76,7 +76,7 @@ namespace cpp
                 if(v.empty())
                     return true;
 
-                if(v.tag() == ctti::type_id<Head>())
+                if(v.tag() == ctti::unnamed_type_id<Head>())
                 {
                     v.storageAs<Head>()->~Head();
                     return true;
@@ -89,12 +89,12 @@ namespace cpp
 
             static bool move(Variant& v, Variant&& other)
             {
-                if(other.tag() == ctti::type_id<Head>())
+                if(other.tag() == ctti::unnamed_type_id<Head>())
                 {
                     new(v.rawStorage()) Head(std::move(other.get<Head>()));
 
                     v.tag() = other.tag();
-                    other.tag() = ctti::type_id<void>();
+                    other.tag() = ctti::unnamed_type_id<void>();
 
                     return !v.empty() && other.empty();
                 }
@@ -106,7 +106,7 @@ namespace cpp
 
             static bool copy(Variant& v, const Variant& other)
             {
-                if(other.tag() == ctti::type_id<Head>())
+                if(other.tag() == ctti::unnamed_type_id<Head>())
                 {
                     new(v.rawStorage()) Head(other.get<Head>());
                     v.tag() = other.tag();
@@ -121,7 +121,7 @@ namespace cpp
 
             static bool move_assign(Variant& v, Variant&& other)
             {
-                if(other.tag() == ctti::type_id<Head>())
+                if(other.tag() == ctti::unnamed_type_id<Head>())
                 {
                     if(v.tag() == other.tag())
                     {
@@ -133,8 +133,8 @@ namespace cpp
                         if(VariantExecutor<Ts...>::destroy(v))
                         {
                             new (v.rawStorage()) Head( std::move(other.get<Head>()) );
-                            v.tag() = ctti::type_id<Head>();
-                            other.tag() = ctti::type_id<void>();
+                            v.tag() = ctti::unnamed_type_id<Head>();
+                            other.tag() = ctti::unnamed_type_id<void>();
 
                             return !v.empty() && other.empty();
                         }
@@ -152,7 +152,7 @@ namespace cpp
 
             static bool copy_assign(Variant& v, const Variant& other)
             {
-                if(other.tag() == ctti::type_id<Head>())
+                if(other.tag() == ctti::unnamed_type_id<Head>())
                 {
                     if(v.tag() == other.tag())
                     {
@@ -180,26 +180,26 @@ namespace cpp
             template<typename F>
             static typename F::ResultType const_visit(const Variant& v, F f)
             {
-                if(v.tag() == ctti::type_id<Head>())
+                if(v.tag() == ctti::unnamed_type_id<Head>())
                 {
                     return f(v.get<Head>());
                 }
                 else
                 {
-                    throw std::runtime_error{"Cannot visit variant{" + std::string{v.tag().name().c_str()} + "}"};
+                    throw std::runtime_error{"Cannot visit " + v.print_variant(v.tag())};
                 }
             }
             
             template<typename F>
             static typename F::ResultType visit(Variant& v, F f)
             {
-                if(v.tag() == ctti::type_id<Head>())
+                if(v.tag() == ctti::unnamed_type_id<Head>())
                 {
                     return f(v.get<Head>());
                 }
                 else
                 {
-                    throw std::runtime_error{"Cannot visit variant{" + std::string{v.tag().name().c_str()} + "}"};
+                    throw std::runtime_error{ "Cannot visit " + v.print_variant(v.tag())};
                 }
             }
         };
@@ -213,7 +213,7 @@ namespace cpp
                 >
             {};
             
-            static constexpr bool has_type(ctti::type_id_t id)
+            static constexpr bool has_type(ctti::unnamed_type_id_t id)
             {
                 return VariantExecutor<Head>::has_type(id) && VariantExecutor<Second, Tail...>::has_type(id); 
             }
@@ -257,7 +257,7 @@ namespace cpp
             template<typename F>
             static typename F::ResultType const_visit(const Variant& v, F f)
             {
-                if(v.tag() == ctti::type_id<Head>())
+                if(v.tag() == ctti::unnamed_type_id<Head>())
                 {
                     return f(v.get<Head>());
                 }
@@ -270,7 +270,7 @@ namespace cpp
             template<typename F>
             static typename F::ResultType visit(Variant& v, F f)
             {
-                if(v.tag() == ctti::type_id<Head>())
+                if(v.tag() == ctti::unnamed_type_id<Head>())
                 {
                     return f(v.get<Head>());
                 }
@@ -282,7 +282,7 @@ namespace cpp
         };
 
     public:
-        using tag_t = ctti::type_id_t;
+        using tag_t = ctti::unnamed_type_id_t;
 
         const tag_t& tag() const
         {
@@ -301,7 +301,7 @@ namespace cpp
 
         bool empty() const
         {
-            return _tag == ctti::type_id<void>();
+            return _tag == ctti::unnamed_type_id<void>();
         }
         
         explicit operator bool() const
@@ -312,7 +312,7 @@ namespace cpp
         void clear()
         {
             VariantExecutor<Ts...>::destroy(*this);
-            _tag = ctti::type_id<void>();
+            _tag = ctti::unnamed_type_id<void>();
         }
 
         template<typename T>
@@ -354,7 +354,7 @@ namespace cpp
 
         template<typename T, typename = std::enable_if_t<VariantExecutor<Ts...>::template has_type_static<std::decay_t<T>>::value>>
         Variant(T&& value) :
-            _tag{ctti::type_id<typename std::decay<T>::type>()}
+            _tag{ctti::unnamed_type_id<typename std::decay<T>::type>()}
         {
             if(VariantExecutor<Ts...>::template has_type_static<std::decay_t<T>>::value)
                 new (rawStorage()) std::decay_t<T>{std::forward<T>(value)};
@@ -447,7 +447,7 @@ namespace cpp
     private:
         using storage_t = typename std::aligned_union<0, Ts...>::type;
         
-        tag_t _tag = ctti::type_id<void>();
+        tag_t _tag = ctti::unnamed_type_id<void>();
         storage_t _storage;
 
         void* rawStorage()
