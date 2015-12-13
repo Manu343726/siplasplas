@@ -14,6 +14,7 @@ matrix:
             - clang-3.4
           sources:
             - ubuntu-toolchain-r-test
+            - ppa:kubuntu-ppa/backports
 
     - env: BUILD_TYPE=Debug CLANG_VERSION=3.4
       os: linux
@@ -38,9 +39,27 @@ before_install:
   - if [ "$CLANG_VERSION" == "3.4" ]; then export CXX="/usr/local/clang-3.4/bin/clang++" CC="/usr/local/clang-3.4/bin/clang"; fi
   - which $CXX
   - which $CC
-  - cmake --version
 
 install:
+
+# From Louis Dionne's Boost.Hana .travis.yml
+
+############################################################################
+# All the dependencies are installed in ${TRAVIS_BUILD_DIR}/deps/
+############################################################################
+  - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
+  - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
+
+############################################################################
+# Install a recent CMake
+############################################################################
+  - CMAKE_URL="http://www.cmake.org/files/v3.3/cmake-3.3.2-Linux-x86_64.tar.gz"
+  - mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
+  - export PATH=${DEPS_DIR}/cmake/bin:${PATH}
+
+  - cmake --version
+  - cd ${TRAVIS_BUILD_DIR}
+
   - if [ ! -d build ]; then mkdir build; fi
   - cd build
   - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
