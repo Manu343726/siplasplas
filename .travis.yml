@@ -38,6 +38,7 @@ before_install:
   - if [ "$CLANG_VERSION" == "3.4" ]; then export CXX="/usr/local/clang-3.4/bin/clang++" CC="/usr/local/clang-3.4/bin/clang"; fi
   - which $CXX
   - which $CC
+  - cmake --version
 
 install:
   - if [ ! -d build ]; then mkdir build; fi
