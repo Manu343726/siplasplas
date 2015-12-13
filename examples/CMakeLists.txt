@@ -1,6 +1,6 @@
 
 if(NOT MSVC)
-	set(CPP_example_ALL_COMPILE_OPTIONS -std=c++14 -Wall -pedantic -ftemplate-depth-1024)
+    set(CPP_example_ALL_COMPILE_OPTIONS -DCTTI_STRING_MAX_LENGTH=1024 -std=c++14 -Wall -pedantic -ftemplate-depth-1024)
 	set(CPP_example_DEBUG_COMPILE_OPTIONS -O0 -g3 -fstack-protector-strong)
 	set(CPP_example_RELEASE_COMPILE_OPTIONS -O3 -g0)
 endif()

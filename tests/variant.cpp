@@ -57,7 +57,7 @@ TYPED_TEST_P(VariantTest, ValueDestructorCalled)
     }
 
     EXPECT_TRUE(LifetimeRegistered<test_case::value_type<TypeParam>>::latestWasDestroyed());
-})
+}
 
 
 
