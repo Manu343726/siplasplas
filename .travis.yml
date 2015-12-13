@@ -6,32 +6,32 @@ script: cmake
 
 matrix:
   include:
-    - env: BUILD_TYPE=Release CLANG_VERSION=3.4
+    - env: BUILD_TYPE=Release CLANG_VERSION=3.7
       os: linux
-      addons: &clang34
+      addons: &clang37
         apt:
           packages:
-            - clang-3.4
+            - clang-3.7
           sources:
             - ubuntu-toolchain-r-test
-            - ppa:kubuntu-ppa/backports
+            - llvm-toolchain-precise-3.7
 
-    - env: BUILD_TYPE=Debug CLANG_VERSION=3.4
+    - env: BUILD_TYPE=Debug CLANG_VERSION=3.7
       os: linux
-      addons: *clang34
+      addons: *clang37
 
-    - env: BUILD_TYPE=Release GCC_VERSION=4.9
+    - env: BUILD_TYPE=Release GCC_VERSION=5.2
       os: linux
-      addons: &gcc49
+      addons: &gcc52
         apt:
           packages:
-            - g++-4.9
+            - g++-5.2
           sources:
             - ubuntu-toolchain-r-test
 
-    - env: BUILD_TYPE=Debug GCC_VERSION=4.9
+    - env: BUILD_TYPE=Debug GCC_VERSION=5.2
       os: linux
-      addons: *gcc49
+      addons: *gcc52
 
 before_install:
   - if [ -n "$GCC_VERSION" ]; then export CXX="g++-${GCC_VERSION}" CC="gcc-${GCC_VERSION}"; fi
