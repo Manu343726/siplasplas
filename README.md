@@ -38,6 +38,14 @@ Aunque podéis correr los tests unitarios directamente lanzando los ejecutables,
 user@siplasplas/build: $ ctest . -VV
 ```
 
+*El generador de Visual Studio es multi-configuración, así que tendréis que decirle a CTest qué configuración (Release o Debug) queréis testear:*
+
+``` bash
+user@siplasplas/build: $ ctest -C Debug . -VV
+```
+
+*Además tened en cuenta que GTest y GMock se compilan para la configuración especificada en tiempo de configuración (Es decir, la variable `${CMAKE_BUILD_TYPE}`, así que aseguraros de haber configurado el proyecto en el modo correspondiente antes de lanzar el test, si no no enlazará.*
+
 ### 3rdParty/cmake
 
 Es un pequeño repo donde he ido subiendo utilidades para hacer más llevadero el uso de CMake. Por ahora consta de:
