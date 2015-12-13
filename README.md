@@ -44,7 +44,7 @@ user@siplasplas/build: $ ctest . -VV
 user@siplasplas/build: $ ctest -C Debug . -VV
 ```
 
-*Además tened en cuenta que GTest y GMock se compilan para la configuración especificada en tiempo de configuración (Es decir, la variable `${CMAKE_BUILD_TYPE}`, así que aseguraros de haber configurado el proyecto en el modo correspondiente antes de lanzar el test, si no no enlazará.*
+*Además tened en cuenta que GTest y GMock se compilan para la configuración especificada en tiempo de configuración (Es decir, la variable `${CMAKE_BUILD_TYPE}`), así que aseguraros de haber configurado el proyecto en el modo correspondiente antes de lanzar el test, si no no enlazará.*
 
 ### 3rdParty/cmake
 
