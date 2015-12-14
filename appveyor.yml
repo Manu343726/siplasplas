@@ -1,9 +1,11 @@
 version: 1.0.{build}
 
 environment:
+  GCCGenerator: "MinGW Makefiles"
   matrix:
-    - generator: "Unix Makefiles"
-    - generator: "Visual Studio 14"
+    - generator: "Visual Studio 11 2012"
+    - generator: "Visual Studio 12 2013"
+    - generator: "Visual Studio 14 2015"
 
 configuration:
   - Debug
@@ -12,9 +14,9 @@ configuration:
 install:
   - cmd: git submodule update --init
   - cmd: choco install cmake 
-  - cmd: if "%generator%" == "Unix Makefiles" choco install mingw > nul # The mingw installer is in verbose mode, see https://chocolatey.org/packages/mingw
+  - cmd: if "%generator%" == "%GCCGenerator%" choco install mingw > nul # The mingw installer is in verbose mode, see https://chocolatey.org/packages/mingw
   - cmd: cmake --version
-  - cmd: if "%generator%" == "Unix Makefiles" g++ --version
+  - cmd: if "%generator%" == "%GCCGenerator%" g++ --version
 
 build_script:
   - cmd: IF NOT EXIST build mkdir build
