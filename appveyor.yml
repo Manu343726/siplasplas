@@ -2,14 +2,15 @@ version: 1.0.{build}
 
 environment:
   matrix:
-    - generator: "MinGW Makefiles"
-    - generator: "Visual Studio 12"
+    - generator: "Unix Makefiles"
+    - generator: "Visual Studio 14"
 
 configuration:
   - Debug
   - Release
 
 install:
+  - cmd: git submodule update --init
   - cinst cmake mingw
   #- cmd: set PATH=%PATH:CMake 2.8\bin=%;C:\ProgramData\chocolatey\lib\cmake.3.0.2\content\cmake-3.0.2-win32-x86\bin
   - cmd: set PATH=%PATH:Git\bin=%;C:\MinGW\bin
