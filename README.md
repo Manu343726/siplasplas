@@ -1,4 +1,4 @@
-# siplasplas [![Build Status](https://travis-ci.org/GueimUCM/siplasplas.svg?branch=master)](https://travis-ci.org/GueimUCM/siplasplas)
+# siplasplas [![Build Status](https://travis-ci.org/GueimUCM/siplasplas.svg?branch=master)](https://travis-ci.org/GueimUCM/siplasplas) [![Build status](https://ci.appveyor.com/api/projects/status/1rf604ixu7drh89t?svg=true)](https://ci.appveyor.com/project/Manu343726/siplasplas)
 
 Ejemplos y utilidades del curso de C++ avanzado de la asociación GUEIM, Universidad Complutense de Madrid.
 
