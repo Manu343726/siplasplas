@@ -78,7 +78,7 @@ namespace cpp
 
                 if(v.tag() == ctti::unnamed_type_id<Head>())
                 {
-                    v.storageAs<Head>()->~Head();
+                    destructor_call<Head>::apply(v.storageAs<Head>());
                     return true;
                 }
                 else
@@ -87,6 +87,21 @@ namespace cpp
                 }
             }
 
+            template<typename T, bool isClass = std::is_class<T>::value>
+            struct destructor_call
+            {
+                static void apply(T* obj){}
+            };
+
+            template<typename T>
+            struct destructor_call<T, true>
+            {
+                static void apply(T* obj)
+                {
+                    obj->~T();
+                }
+            };
+            
             static bool move(Variant& v, Variant&& other)
             {
                 if(other.tag() == ctti::unnamed_type_id<Head>())
