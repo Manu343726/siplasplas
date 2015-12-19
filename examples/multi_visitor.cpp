@@ -43,15 +43,18 @@ struct comparer<Lhs, Rhs, void_t<decltype(std::declval<Lhs>() == std::declval<Rh
     }
 };
 
-template<typename... Ts>
-bool operator==(const cpp::Variant<Ts...>& lhs, const cpp::Variant<Ts...>& rhs)
+namespace cpp
 {
-    return cpp::multi_visitor<bool>(
-        [](const auto& lhs, const auto& rhs)            
-        {
-            return comparer<decltype(lhs), decltype(rhs)>()(lhs, rhs);
-        }
-    )(lhs, rhs);
+	template<typename... Ts>
+	bool operator==(const cpp::Variant<Ts...>& lhs, const cpp::Variant<Ts...>& rhs)
+	{
+		return cpp::multi_visitor<bool>(
+			[](const auto& lhs, const auto& rhs)            
+			{
+				return comparer<decltype(lhs), decltype(rhs)>()(lhs, rhs);
+			}
+		)(lhs, rhs);
+	}
 }
 
 int main()

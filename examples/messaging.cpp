@@ -16,10 +16,10 @@ namespace appmsgs
 
 // Google search "CRTP C++" ;)
 struct MyClass : public HandlerFor<MyClass, appmsgs::ActionMessage>,
-                 public HandlerFor<MyClass, appmsgs::LoggingMessage>
+	public MessageHandler<MyClass, 2, std::string, int>
 {
     using HandlerFor<MyClass, appmsgs::ActionMessage>::receive;
-    using HandlerFor<MyClass, appmsgs::LoggingMessage>::receive;
+    using MessageHandler<MyClass, 2, std::string, int>::receive;
 
     void process(const std::string& str) const
     {
@@ -55,4 +55,6 @@ int main()
     myObject.receive(number);
     myObject.receive(transform);
     myObject.receive(appmsgs::LoggingMessage{"hello"s, "world"s});
+
+	std::cin.get();
 }

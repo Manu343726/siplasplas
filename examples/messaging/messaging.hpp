@@ -4,6 +4,8 @@
 #include "variant/variant.hpp"
 #include "variant/multi_visitor.hpp"
 
+#include "utility/function.hpp"
+
 namespace cpp
 {
     namespace examples
@@ -38,51 +40,42 @@ namespace cpp
         template<typename T, std::size_t Arity, typename... Args>
         struct MessageHandler
         {
-            template<typename...> class list {};
-            template<typename...> using void_t = void;
+			template<typename...> struct List {};
+			template<typename...> using void_t = void;
 
-            // processor class is a dispatcher to the T::process() function.
-            // It just asks "Has T a process() overload to handle this event?"
-            // If the answer is "yes", calls it, else does nothing.
-            template<typename U, typename _Args, typename = void>
-            struct processor;
+			template<typename Class, typename CallArgs, typename = void>
+			struct CallProcess
+			{
+				template<typename... _Args>
+				static void apply(Class* This, _Args&&... args)
+				{
+				
+				}
+			};
 
-            template<typename U, typename... _Args>
-            struct processor<U, list<_Args...>, void_t<decltype(std::declval<U>().process(std::declval<std::decay_t<Args>>()...))>>
-            {
-                static auto apply(U* This, _Args&&... args)
-                {
-                    This->process(std::forward<Args>(args)...);          
-                }
-            };
+			template<typename Class, typename... _Args>
+			struct CallProcess<Class, List<_Args...>, decltype(std::declval<Class>().process(std::declval<_Args>()...))>
+			{
+				template<typename... __Args>
+				static void apply(Class* This, __Args&&... args)
+				{
+					return This->process(std::forward<__Args>(args)...);
+				}
+			};
 
-            template<typename U, typename... _Args, typename _void>
-            struct processor<U, list<_Args...>, _void>
-            {
-                // Note a call to an empty function means no call at runtime
-                static void apply(U* This, _Args&&... args)
-                {
-                    std::cout << "nop!" << std::endl;
-                }
-            };
-
-            template<typename... _Args>
-            void apply_processor(_Args&&... args) const
-            {
-                processor<const T, list<_Args...>>::apply(static_cast<const T*>(this),
-                        std::forward<_Args>(args)...);
-            }
-
-            void receive(const Message<Arity, Args...>& message) const
+ 			void receive(const Message<Arity, Args...>& message) const
             {
                 message.process(
                     [this](auto&&... args)
                     {
-                        this->apply_processor(std::forward<decltype(args)>(args)...);
+						using CallArgs = List<decltype(std::forward<decltype(args)>(args))...>;
+
+
+						return CallProcess<const T, CallArgs>::apply(static_cast<const T*>(this), std::forward<decltype(args)>(args)...);
                     }
-                ); 
-            }
-        };
+                );
+			}				
+		};
 
         namespace detail 
         {

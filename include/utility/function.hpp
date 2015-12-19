@@ -49,8 +49,8 @@ namespace cpp
 
         template<typename _First, typename _Second, typename... _Tail>
         Function(_First&& first, _Second&& second, _Tail&&... tail) :
-            First{std::forward<_First>(first)},
-            Function<Second, Tail...>{ std::forward<_Second>(second), std::forward<Tail>(tail)...}
+            First(std::forward<_First>(first)),
+            Function<Second, Tail...>( std::forward<_Second>(second), std::forward<Tail>(tail)...)
         {}
     };
 

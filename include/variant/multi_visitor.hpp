@@ -124,16 +124,25 @@ namespace cpp
         };
     }
 
-    template<typename T, typename... Visitor>
-    auto multi_visitor(Visitor&&... visitor)
+    template<typename T, typename... Visitors>
+    auto multi_visitor(Visitors&&... visitors)
     {
-        return [&visitor...](auto&& variant, auto&&... variants)
+        return [&visitors...](auto&& variant, auto&&... variants)
         {
-            auto processor = ::cpp::detail::make_visitor_processor(
-                cpp::visitor<T>(std::forward<Visitor>(visitor)...),
-                std::make_tuple(),
-                std::forward_as_tuple(std::forward<decltype(variants)>(variants)...)
-            );
+#if defined(_MSC_VER) && _MSC_VER == 1900 
+			auto processor = ::cpp::detail::make_visitor_processor(
+				cpp::visitor<T>(visitors...), // VS2015 compiler bug when perfect-forwarding here: ERROR "'Visitors' should be expanded in this context"
+				std::make_tuple(),
+				std::forward_as_tuple(std::forward<decltype(variants)>(variants)...)
+			);
+#else
+			auto processor = ::cpp::detail::make_visitor_processor(
+				cpp::visitor<T>(std::forward<Visitors>(visitors)...),
+				std::make_tuple(),
+				std::forward_as_tuple(std::forward<decltype(variants)>(variants)...)
+			);
+#endif
+            
 
             return std::forward<decltype(variant)>(variant).template visit<T>(processor);
         };
