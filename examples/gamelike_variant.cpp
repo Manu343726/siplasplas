@@ -7,6 +7,7 @@
 #include <random>
 
 #include "variant/variant.hpp"
+#include "variant/multi_visitor.hpp"
 
 struct Particle
 {
@@ -90,13 +91,19 @@ public:
         }
     }
 
-    void doPhysics()
+    void doPhysics() const
     {
         for(const auto& a : _entities)
         {
             for(const auto& b : _entities)
             {
-                // TODO: Use multi-visitation to call collider
+                return cpp::multi_visitor<bool>(
+                    &Collider::collide,
+                    [](const auto&, const auto&)
+                    {
+                        return false;
+                    }
+                )(a, b);
             }
         }
     }
@@ -108,4 +115,6 @@ private:
 int main()
 {
     MyCoolGameEngine engine{10};
+
+    engine.doPhysics();
 }

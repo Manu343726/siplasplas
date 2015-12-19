@@ -6,7 +6,7 @@
 #include <iostream>
 #include <sstream>
 
-#include "variant_visitor.hpp"
+#include "variant/visitor.hpp"
 
 namespace cpp
 {
@@ -447,11 +447,6 @@ namespace cpp
         typename F::ResultType visit(F f) const
         {
             return VariantExecutor<Ts...>::const_visit(*this, f);
-        }
-
-        friend bool operator==(const Variant& lhs, const Variant& rhs)
-        {
-            return false;
         }
 
         friend bool operator!=(const Variant& lhs, const Variant& rhs)

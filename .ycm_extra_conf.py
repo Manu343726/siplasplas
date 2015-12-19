@@ -40,6 +40,7 @@ flags = [
     '-Wall',
     '-pedantic',
     '-Iinclude/',
+    '-Iexamples/',
     '-I3rdParty/ctti/include/',
     '-I3rdParty/cppascii/snippets/',
     '-Ibuild/tests/gtest/src/gtest/include',
