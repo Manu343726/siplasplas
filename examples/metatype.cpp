@@ -4,11 +4,11 @@
 
 struct BaseClass
 {
-    virtual ~BaseClass() = 0;
+    virtual ~BaseClass() = default;
     virtual void talk() const = 0;
 };
 
-struct Duck : public BaseClass, public cpp::MetaTypeSystem::Register<Duck>
+struct Duck : public BaseClass
 {
     Duck() = default;
 
@@ -18,7 +18,7 @@ struct Duck : public BaseClass, public cpp::MetaTypeSystem::Register<Duck>
     }
 };
 
-struct Cat : public BaseClass, public cpp::MetaTypeSystem::Register<Cat>
+struct Cat : public BaseClass
 {
     Cat() = default;
 
@@ -31,8 +31,14 @@ struct Cat : public BaseClass, public cpp::MetaTypeSystem::Register<Cat>
 int main()
 {
     cpp::MetaTypeSystem::registerMetatype<Cat>();
+    cpp::MetaTypeSystem::registerMetatype<Duck>();
 
-    auto cat = static_cast<BaseClass*>(cpp::MetaTypeSystem::create("Cat"));
+    auto cat = cpp::MetaTypeSystem::create<BaseClass>("Cat");
+    auto duck = cpp::MetaTypeSystem::create<BaseClass>("Duck");
 
     cat->talk();
+    duck->talk();
+
+    cpp::MetaTypeSystem::destroy(cat);
+    cpp::MetaTypeSystem::destroy(duck);
 }

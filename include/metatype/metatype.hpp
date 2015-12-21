@@ -14,20 +14,20 @@ namespace cpp
     {
     public:
         template<typename T>
-        static ctti::unnamed_type_id_t registerMetatype()
+        static void registerMetatype()
         {
-            std::cout << "Registering type " << ctti::type_id<T>().name() << std::endl;
+            std::string name = ctti::type_id<T>().name().c_str();
+            auto hash = ctti::detail::sid_hash(name.size(), name.data());
 
-            std::unique_ptr<MetaTypeBase> metaType = std::make_unique<MetaType<T>>( new MetaType<T>{} );
+            std::unique_ptr<MetaTypeBase> metaType = std::unique_ptr<MetaType<T>>( new MetaType<T>{} );
 
-            registry[MetaType<T>::typeId.hash()] = std::move(metaType);
-
-            return MetaType<T>::typeId; 
+            registry[hash] = std::move(metaType);
         }
 
-        static void* create(const std::string& typeName)
+        template<std::size_t N>
+        static void* create(const char (&typeName)[N])
         {
-            auto hash = ctti::detail::sid_hash(typeName.size()+1, typeName.data());
+            auto hash = ctti::detail::sid_hash(N-1, typeName);
 
             auto it = registry.find(hash);
 
@@ -37,6 +37,8 @@ namespace cpp
             }
             else
             {
+                std::cout << "[METATYPE_SYSTEM] Hash " << hash << " not found (Typename: " << typeName << ")" << std::endl;
+
                 for(const auto& keyValue : registry)
                 {
                     std::cout << "[METATYPE_SYSTEM] REGISTRY DUMP: " << keyValue.first << std::endl;
@@ -44,6 +46,18 @@ namespace cpp
 
                 throw std::runtime_error("[METATYPE_SYSTEM] Type not registered!");
             }
+        }
+
+        template<typename T, std::size_t N>
+        static T* create(const char (&typeName)[N])
+        {
+            return static_cast<T*>(create(typeName));
+        }
+
+        template<typename T>
+        static void destroy(T* ptr)
+        {
+            delete ptr;
         }
 
     private:
@@ -69,6 +83,7 @@ namespace cpp
         {
         protected:
             Register() = default;
+            virtual ~Register() = default;
         private:
             TypeRegister<T> _register;
         };
@@ -78,7 +93,7 @@ namespace cpp
         {
         public:
             virtual ~MetaTypeBase() = default;
-            virtual void* create() const;
+            virtual void* create() const = 0;
         };
 
         using MetaTypeRegistry = std::unordered_map<ctti::detail::hash_t, std::unique_ptr<MetaTypeBase>>;
