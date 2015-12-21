@@ -28,6 +28,8 @@ struct Cat : public BaseClass
     }
 };
 
+static_assert(ctti::type_id<int>().hash() == ctti::unnamed_type_id<int>().hash(), "???");
+
 int main()
 {
     cpp::MetaTypeSystem::registerMetatype<Cat>();

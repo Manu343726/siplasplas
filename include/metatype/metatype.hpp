@@ -16,36 +16,31 @@ namespace cpp
         template<typename T>
         static void registerMetatype()
         {
-            std::string name = ctti::type_id<T>().name().c_str();
-            auto hash = ctti::detail::sid_hash(name.size(), name.data());
-
             std::unique_ptr<MetaTypeBase> metaType = std::unique_ptr<MetaType<T>>( new MetaType<T>{} );
 
-            registry[hash] = std::move(metaType);
+            registry[ctti::unnamed_type_id<T>().hash()] = std::move(metaType);
         }
 
-        template<std::size_t N>
-        static void* create(const char (&typeName)[N])
+        static void* create(const std::string& typeName)
         {
-            auto hash = ctti::detail::sid_hash(N-1, typeName);
+			// MSVC mangling adds struct/class qualifiers to type names
+			std::string className = "class " + typeName;
+			std::string structName = "struct " + typeName;
 
-            auto it = registry.find(hash);
+			void* result = nullptr;
 
-            if(it != registry.end())
-            {
-                return registry[hash]->create();
-            }
-            else
-            {
-                std::cout << "[METATYPE_SYSTEM] Hash " << hash << " not found (Typename: " << typeName << ")" << std::endl;
+			if (!(result = try_create(typeName)))
+			{
+				if (!(result = try_create(className)))
+				{
+					if (!(result = try_create(structName)))
+					{
+						throw std::runtime_error("[METATYPE_SYSTEM] Type '" + typeName + "' not registered!");
+					}
+				}
+			}
 
-                for(const auto& keyValue : registry)
-                {
-                    std::cout << "[METATYPE_SYSTEM] REGISTRY DUMP: " << keyValue.first << std::endl;
-                }
-
-                throw std::runtime_error("[METATYPE_SYSTEM] Type not registered!");
-            }
+			return result;
         }
 
         template<typename T, std::size_t N>
@@ -104,13 +99,27 @@ namespace cpp
         template<typename T>
         struct MetaType : public MetaTypeBase
         {
-            static constexpr ctti::unnamed_type_id_t typeId = ctti::unnamed_type_id<T>();
-            
             void* create() const override
             {
                 return static_cast<void*>(new T{});
             }
         }; 
+
+		static void* try_create(const std::string& typeName)
+		{
+			auto hash = ctti::detail::sid_hash(typeName.size(), typeName.data());
+
+			auto it = registry.find(hash);
+
+			if (it != registry.end())
+			{
+				return it->second->create();
+			}
+			else
+			{
+				return nullptr;
+			}
+		}
     };
 
     
