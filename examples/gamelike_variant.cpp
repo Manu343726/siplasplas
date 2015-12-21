@@ -17,6 +17,11 @@ struct Particle
     {}
 
     float x, y;
+
+	friend std::ostream& operator<<(std::ostream& os, const Particle& particle)
+	{
+		return os << "(" << particle.x << ", " << particle.y << ")";
+	}
 };
 
 struct AABB
@@ -49,6 +54,11 @@ struct AABB
     {
         return y + height;
     }
+
+	friend std::ostream& operator<<(std::ostream& os, const AABB& aabb)
+	{
+		return os << "[" << aabb.x << ", " << aabb.y << ", " << aabb.width << ", " << aabb.height << "]";
+	}
 };
 
 struct Collider
@@ -59,11 +69,22 @@ struct Collider
                p.y >= box.bottom() && p.y <= box.top();
     }
 
+    static bool collide(const Particle& p, const AABB& box)
+    {
+        return collide(box, p);
+    }
+
     static bool collide(const AABB& a, const AABB& b)
     {
         return collide(AABB{a.x, a.y, a.width + b.width, a.height + b.height},
                        Particle{b.x, b.y});
     }
+
+	template<typename Lhs, typename Rhs>
+	static constexpr bool collide(const Lhs&, const Rhs&)
+	{
+		return false;
+	}
 };
 
 class MyCoolGameEngine
@@ -83,8 +104,8 @@ public:
                 _entities.emplace_back(Particle{x, y});
             else
             {
-                float width = dist(prng);
-                float height = dist(prng);
+                float width = std::abs(dist(prng));
+                float height = std::abs(dist(prng));
 
                 _entities.emplace_back(AABB{x, y, width, height});
             }
@@ -97,13 +118,14 @@ public:
         {
             for(const auto& b : _entities)
             {
-                return cpp::multi_visitor<bool>(
-                    &Collider::collide,
-                    [](const auto&, const auto&)
+                bool collide = cpp::multi_visitor<bool>(
+                    [](const auto& lhs, const auto& rhs)
                     {
-                        return false;
+                        return Collider::collide(lhs, rhs);
                     }
                 )(a, b);
+
+				std::cout << a << " vs " << b << ": " << std::boolalpha << collide << std::endl;
             }
         }
     }

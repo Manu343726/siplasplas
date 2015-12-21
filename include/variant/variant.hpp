@@ -3,7 +3,7 @@
 
 #include <type_traits>
 #include <ctti/type_id.hpp>
-#include <iostream>
+#include <ostream>
 #include <sstream>
 
 #include "variant/visitor.hpp"
@@ -453,6 +453,16 @@ namespace cpp
         {
             return !(lhs == rhs);
         }
+
+		friend std::ostream& operator<<(std::ostream& os, const Variant& variant)
+		{
+			return variant.visit<std::ostream&>(
+				[&os](const auto& value) -> std::ostream&
+				{
+					return os << value;
+				}
+			);
+		}
  
     private:
         using storage_t = typename std::aligned_union<0, Ts...>::type;

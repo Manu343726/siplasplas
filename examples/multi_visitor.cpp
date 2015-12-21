@@ -10,7 +10,6 @@ using Variant = cpp::Variant<
 >;
 
 auto visitor = cpp::multi_visitor<void>(
-    [](bool, float, const std::string&){},
     [](const auto& a, const auto& b, const auto& c)
     {
         std::cout << "Three parameters:\n"

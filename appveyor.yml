@@ -3,8 +3,8 @@ version: 1.0.{build}
 environment:
   GCCGenerator: "MinGW Makefiles"
   matrix:
-    - generator: "Visual Studio 11 2012"
-    - generator: "Visual Studio 12 2013"
+#    - generator: "Visual Studio 11 2012"
+#    - generator: "Visual Studio 12 2013"
     - generator: "Visual Studio 14 2015"
 
 configuration:
@@ -26,5 +26,6 @@ build_script:
 
 test_script:
   - cmd: ctest -C "%configuration%" . -VV
+  - cmd: cmake --build . --target run_CPP
 
 

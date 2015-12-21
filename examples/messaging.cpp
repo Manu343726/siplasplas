@@ -1,6 +1,8 @@
 
 #include "messaging/messaging.hpp"
 
+#include <iostream>
+
 using namespace ::cpp::examples;
 
 struct TransformMatrix
@@ -55,6 +57,4 @@ int main()
     myObject.receive(number);
     myObject.receive(transform);
     myObject.receive(appmsgs::LoggingMessage{"hello"s, "world"s});
-
-	std::cin.get();
 }

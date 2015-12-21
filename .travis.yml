@@ -72,3 +72,4 @@ install:
 
 script:
   - ctest . -VV
+  - make run_CPP
