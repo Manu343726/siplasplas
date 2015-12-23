@@ -28,12 +28,12 @@ struct Cat : public BaseClass
     }
 };
 
-static_assert(ctti::type_id<int>().hash() == ctti::unnamed_type_id<int>().hash(), "???");
-
 int main()
 {
     cpp::MetaTypeSystem::registerMetatype<Cat>();
     cpp::MetaTypeSystem::registerMetatype<Duck>();
+
+    std::cout << cpp::MetaTypeSystem::dump();
 
     auto cat = cpp::MetaTypeSystem::create<BaseClass>("Cat");
     auto duck = cpp::MetaTypeSystem::create<BaseClass>("Duck");
