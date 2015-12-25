@@ -10,6 +10,9 @@ namespace cpp
     {
         using value_type = T;
         using pointer = T*;
+        using const_pointer = const T*;
+        using reference = T&;
+        using const_reference = const T&;
 
         STLAllocator() = default;
 
@@ -19,6 +22,10 @@ namespace cpp
 
         STLAllocator(Allocator&& allocator) :
             Allocator{std::move(allocator)}
+        {}
+
+        STLAllocator(const Allocator& allocator) :
+            Allocator{allocator}
         {}
 
         const Allocator& raw_allocator() const
@@ -77,6 +84,12 @@ namespace cpp
             return !(lhs == rhs);
         }
     };
+
+    template<typename T, typename Allocator>
+    cpp::STLAllocator<T, std::decay_t<Allocator>> make_stl_allocator(Allocator&& alloc)
+    {
+        return { std::forward<Allocator>(alloc) };        
+    }
 }
 
 #endif // SIPLASPLAS_ALLOCATOR_STL_ALLOCATOR_HPP
