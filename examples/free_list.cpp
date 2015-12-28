@@ -20,7 +20,7 @@ void deallocate(cpp::FreeList& freeList, void* pointer)
 
 int main()
 {
-    char buffer[32];
+    char buffer[128];
     cpp::FreeList freeList{std::begin(buffer), std::end(buffer), sizeof(int), alignof(int)};
 
     std::cout << freeList.dump() << std::endl;
@@ -42,4 +42,6 @@ int main()
     deallocate(freeList, d);
     deallocate(freeList, c);
     deallocate(freeList, b);
+    deallocate(freeList, f);
+    deallocate(freeList, e);
 }

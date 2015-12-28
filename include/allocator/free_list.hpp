@@ -6,29 +6,33 @@
 #include <iostream>
 #include <algorithm>
 #include "allocator/allocator_utils.hpp"
-
+#include "allocator/intrusive_allocator.hpp"
 
 namespace cpp
 {
-    class FreeList
+    class FreeList : IntrusiveAllocator 
     {
     public:
-        FreeList(void* begin, void* end, std::size_t block_length, std::size_t alignment, std::size_t offset = 0)
+        struct FreeListNode
+        {
+            FreeListNode* next;
+        };
+        
+        FreeList(void* begin, void* end, std::size_t block_length, std::size_t alignment, std::size_t offset = 0) :
+            IntrusiveAllocator{begin, end}
         {    
-            char* begin_ = reinterpret_cast<char*>(begin);
-            char* end_ = reinterpret_cast<char*>(end);
             block_length = std::max(block_length, sizeof(void*));
 
-            char* aligned_begin = detail::aligned_ptr(begin_ + offset, alignment);
+            char* aligned_begin = detail::aligned_ptr(IntrusiveAllocator::begin() + offset, alignment);
             
-            if(aligned_begin < end_)
-                _next = reinterpret_cast<FreeList*>(aligned_begin);
+            if(aligned_begin < IntrusiveAllocator::end())
+                head = reinterpret_cast<FreeListNode*>(aligned_begin);
 
-            while(aligned_begin < end_)
+            while(aligned_begin < IntrusiveAllocator::end())
             {
                 char* next = detail::aligned_ptr(aligned_begin + offset + block_length, alignment);
 
-                if(next < end_)
+                if(next < IntrusiveAllocator::end())
                 {
                     detail::write_at(aligned_begin, next);
                 }
@@ -43,11 +47,11 @@ namespace cpp
 
         void* allocate(std::size_t size, std::size_t alignment, std::size_t offset = 0)
         {
-            if(_next)
+            if(head)
             {
-                void* user_ptr = _next;
+                void* user_ptr = head;
 
-                _next = _next->_next;
+                head = head->next;
                 return user_ptr;
             }
             else
@@ -58,23 +62,28 @@ namespace cpp
 
         void deallocate(void* pointer, std::size_t size, std::size_t offset = 0)
         {
-            FreeList* node = reinterpret_cast<FreeList*>(pointer);
-            node->_next = _next;
-            _next = node;
+            assert(belongs_to_storage(pointer) && "Pointer out of storage");
+            
+            FreeListNode* node = reinterpret_cast<FreeListNode*>(pointer);
+            node->next = head;
+            head = node;
         }
 
         std::string dump() const
         {
             std::ostringstream os;
-            const FreeList* node = _next;
+            FreeListNode* node = head;
+            
+            os << IntrusiveAllocator::dump();
 
             os << "free list dump:" << std::endl
                << "===============" << std::endl;
 
             while(node)
             {
+                assert(belongs_to_storage(node) && "Free list corrupted, one node is out of storage");
                 os << node << " -> ";
-                node = node->_next;
+                node = node->next;
             }
 
             os << "(null)";
@@ -83,7 +92,7 @@ namespace cpp
         }
 
     private:
-        FreeList* _next;
+        FreeListNode* head;
     };
 }
 

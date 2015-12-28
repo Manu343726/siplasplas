@@ -70,6 +70,4 @@ int main()
 	}
 
 	std::cout << alloc.dump();
-
-	std::cin.get();
 }

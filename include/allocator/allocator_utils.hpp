@@ -10,10 +10,17 @@ namespace cpp
     {
         char* aligned_ptr(char* pointer, std::size_t alignment)
         {
-            char* result = pointer + alignment - (reinterpret_cast<std::uintptr_t>(pointer) % alignment);
-			assert(result >= pointer && "Aligned pointer should be greater");
-			return result;
-		}
+            assert(alignment > 0 && (alignment & (alignment - 1)) == 0 && "Must align to a power of two boundary");
+            
+            auto addr = reinterpret_cast<std::uintptr_t>(pointer);
+            char* result = (addr % alignment != 0) ? 
+                pointer + alignment - (addr % alignment) :
+                pointer;
+            
+            assert(result >= pointer && "Aligned pointer should be greater");
+            
+            return result;
+        }
 
         void* aligned_ptr(void* pointer, std::size_t alignment)
         {
