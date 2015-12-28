@@ -13,7 +13,7 @@ include_directories(include)
 
 if(NOT MSVC)
     set(CPP_GLOBAL_ALL_COMPILE_OPTIONS -std=c++14 -Wall -pedantic -DCTTI_STRING_MAX_LENGTH=1024 -ftemplate-depth-1024)
-    set(CPP_GLOBAL_DEBUG_COMPILE_OPTIONS -O0 -g3 -fstack-protector-strong)
+    set(CPP_GLOBAL_DEBUG_COMPILE_OPTIONS -O0 -g3)
     set(CPP_GLOABL_RELEASE_COMPILE_OPTIONS -O3 -g0)
 else()
 	set(CPP_GLOBAL_ALL_COMPILE_OPTIONS /DCTTI_STRING_MAX_LENGTH=512)

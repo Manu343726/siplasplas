@@ -26,13 +26,17 @@ int main()
     std::cout << freeList.dump() << std::endl;
 
     int* a = allocate<int>(freeList);
+	*a = 1;
     int* b = allocate<int>(freeList);
-
+	*b = 2;
     deallocate(freeList, a);
 
     int* c = allocate<int>(freeList);
+	*c = 3;
     int* d = allocate<int>(freeList);
+	*d = 4;
     int* e = allocate<int>(freeList);
+	*e = 5;
     int* f = allocate<int>(freeList);
 
     deallocate(freeList, d);

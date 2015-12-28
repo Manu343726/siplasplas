@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include "allocator/lifo_allocator.hpp"
+#include "allocator/linear_allocator.hpp"
 #include "allocator/stl_allocator.hpp"
 
 template<typename T>
@@ -19,37 +20,56 @@ template<typename T>
 class Stack : public std::stack<T, List<T>>
 {
 public:
-    using std::stack<T, List<T>>::stack;
+	using StackBase = std::stack<T, List<T>>;
+	using StackBase::StackBase;
 
     typename List<T>::allocator_type get_allocator() const
     {
-        return std::stack<T, List<T>>::c.get_allocator();
+        return StackBase::c.get_allocator();
     }
+
+	typename List<T>::const_iterator begin() const
+	{
+		return StackBase::c.begin();
+	}
+
+	typename List<T>::const_iterator end() const
+	{
+		return StackBase::c.end();
+	}
 };
 
 int main()
 {
-    char buffer[1024];
-    cpp::LifoAllocator alloc{&buffer[0], &buffer[sizeof(buffer)]};
-    List<int> list{cpp::make_stl_allocator<int>(alloc)};
+	char buffer[1024];
 
-    Stack<int> stack{list};
+    cpp::LifoAllocator alloc{std::begin(buffer), std::end(buffer)};
+	{
+		List<int> stack{ cpp::make_stl_allocator<int>(alloc) };
 
-    for(int i : {0, 1, 2, 3, 4, 5, 6, 7, 8})
-    {
-        std::cout << "Pushing '" << i << "'" << std::endl;
-        std::cout << stack.get_allocator().dump();
+		for (int i : {1, 2, 3, 4})
+		{
+			std::cout << "Pushing '" << i << "'" << std::endl;
 
-        stack.push(i);
-    }
+			stack.push_back(i);
 
-    while(!stack.empty())
-    {
-        std::cout << "Popping '" << stack.top() << "'" << std::endl;
-        std::cout << stack.get_allocator().dump();
-        stack.pop();
-    }
+			for (auto it = stack.begin(); it != stack.end(); ++it)
+				std::cout << *it << " ";
+			std::cout << std::endl;
+		}
 
-    std::cout << "Final allocator state:" << std::endl
-              << stack.get_allocator().dump();
+		for (auto it = stack.begin(); it != stack.end(); ++it)
+			std::cout << *it << " ";
+		std::cout << std::endl;
+
+		while (!stack.empty())
+		{
+			std::cout << "Popping '" << stack.back() << "'" << std::endl;
+			stack.pop_back();
+		}
+	}
+
+	std::cout << alloc.dump();
+
+	std::cin.get();
 }
