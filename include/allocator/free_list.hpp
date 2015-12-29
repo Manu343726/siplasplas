@@ -6,11 +6,11 @@
 #include <iostream>
 #include <algorithm>
 #include "allocator/allocator_utils.hpp"
-#include "allocator/intrusive_allocator.hpp"
+#include "allocator/embedded_allocator.hpp"
 
 namespace cpp
 {
-    class FreeList : IntrusiveAllocator 
+    class FreeList : EmbeddedAllocator 
     {
     public:
         struct FreeListNode
@@ -19,20 +19,20 @@ namespace cpp
         };
         
         FreeList(void* begin, void* end, std::size_t block_length, std::size_t alignment, std::size_t offset = 0) :
-            IntrusiveAllocator{begin, end}
+            EmbeddedAllocator{begin, end}
         {    
             block_length = std::max(block_length, sizeof(void*));
 
-            char* aligned_begin = detail::aligned_ptr(IntrusiveAllocator::begin() + offset, alignment);
+            char* aligned_begin = detail::aligned_ptr(EmbeddedAllocator::begin() + offset, alignment);
             
-            if(aligned_begin < IntrusiveAllocator::end())
+            if(aligned_begin < EmbeddedAllocator::end())
                 head = reinterpret_cast<FreeListNode*>(aligned_begin);
 
-            while(aligned_begin < IntrusiveAllocator::end())
+            while(aligned_begin < EmbeddedAllocator::end())
             {
                 char* next = detail::aligned_ptr(aligned_begin + offset + block_length, alignment);
 
-                if(next < IntrusiveAllocator::end())
+                if(next < EmbeddedAllocator::end())
                 {
                     detail::write_at(aligned_begin, next);
                 }
@@ -74,7 +74,7 @@ namespace cpp
             std::ostringstream os;
             FreeListNode* node = head;
             
-            os << IntrusiveAllocator::dump();
+            os << EmbeddedAllocator::dump();
 
             os << "free list dump:" << std::endl
                << "===============" << std::endl;

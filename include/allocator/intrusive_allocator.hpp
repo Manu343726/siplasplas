@@ -2,6 +2,7 @@
 #define SIPLASPLAS_ALLOCATOR_INTRUSIVE_ALLOCATOR_HPP
 
 #include "allocator/allocator_utils.hpp"
+#include "allocator/embedded_allocator.hpp"
 
 #include <sstream>
 
@@ -20,11 +21,11 @@ namespace cpp {
      *
      */
 
-    class IntrusiveAllocator 
+    class IntrusiveAllocator : protected EmbeddedAllocator 
     {
     protected:
         IntrusiveAllocator(void* begin, void* end) :
-            _begin{reinterpret_cast<char*> (begin)}
+            EmbeddedAllocator{begin, end, sizeof(void*)}
         {
             /*
              * Pool layout:
@@ -43,38 +44,27 @@ namespace cpp {
              *
              */
 
-            detail::write_at(begin, end);
-            detail::write_at(reinterpret_cast<char*> (begin) + sizeof (void*), reinterpret_cast<char*> (begin) + sizeof (void*) * 2);
-        }
-
-        char* begin() const 
-        {
-            return _begin + sizeof (void*) + sizeof (void*);
-        }
-
-        char* end() const 
-        {
-            return detail::read_at<char*>(_begin);
+            set_top(EmbeddedAllocator::begin());
         }
 
         char* top() const 
         {
-            return detail::read_at<char*>(_begin + sizeof (void*));
+            return detail::read_at<char*>(metadata_begin());
         }
 
         void set_top(void* pointer) 
         {
-            detail::write_at(_begin + sizeof (void*), pointer);
+            detail::write_at(metadata_begin(), pointer);
         }
 
         void commit(std::size_t bytes) 
         {
-            detail::write_at(_begin + sizeof (void*), top() + bytes);
+            detail::write_at(metadata_begin(), top() + bytes);
         }
 
         void decommit(std::size_t bytes) 
         {
-            detail::write_at(_begin + sizeof (void*), top() - bytes);
+            detail::write_at(metadata_begin(), top() - bytes);
         }
 
         std::size_t bytes() const 
@@ -89,7 +79,7 @@ namespace cpp {
         
         bool belongs_to_storage(void* pointer) const
         {
-            return begin() <= pointer && pointer < end();
+            return begin() <= pointer && pointer < top();
         }
 
         bool full() const 
