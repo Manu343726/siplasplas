@@ -22,14 +22,11 @@ protected:
     using T = int;
 
     LinearAllocatorTest() :
-        buffer{ new char[TestBufferLength*sizeof(T)] },
+        buffer( TestBufferLength*sizeof(T) ),
         v{LinearAllocator{begin(), end()}}
     {}
 
-    virtual ~LinearAllocatorTest()
-    {
-        delete[] buffer;
-    }
+	virtual ~LinearAllocatorTest() = default;
 
     std::size_t max_elements() const
     {
@@ -38,7 +35,7 @@ protected:
 
     char* begin()
     {
-        return buffer;
+        return &buffer[0];
     }
 
     char* end()
@@ -46,7 +43,7 @@ protected:
         return begin() + TestBufferLength*sizeof(T);
     }
 
-    char* buffer = nullptr;
+	std::vector<char> buffer;
     Vector<T> v;
 };
 

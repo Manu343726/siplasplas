@@ -75,8 +75,6 @@ namespace cpp
         void deallocate(pointer ptr, std::size_t count)
         {
             Allocator::deallocate(ptr, sizeof(value_type)*count);
-
-			std::cout << dump();
         }
 
         template<typename... Args>
