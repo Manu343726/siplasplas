@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <sstream>
+#include <cassert>
 #include "allocator/allocator_utils.hpp"
 #include "allocator/intrusive_allocator.hpp"
 #include "utility/throw.hpp"
@@ -21,8 +22,10 @@ namespace cpp
 
         void* allocate(std::size_t size, std::size_t alignment, std::size_t offset = 0)
         {
-            offset += sizeof(offset_t);
-            size += sizeof(offset_t);
+			assert(offset == 0 && "Cannot do offsetting with this allocator, it stores metadata before user block-address");
+
+            offset = sizeof(offset_t);
+
             char* user_ptr = detail::aligned_ptr(top() + offset, alignment);
             char* block_end = user_ptr + size;
 

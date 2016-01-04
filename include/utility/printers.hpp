@@ -6,15 +6,15 @@
 #include <ostream>
 #include <iomanip>
 
+
+template<typename F>
+auto operator<<(std::ostream& os, F f) -> decltype(f(os))
+{
+    return f(os);
+}
+
 namespace cpp
 {
-    template<typename F>
-    decltype(std::declval<F>()(std::declval<std::ostream&>()))
-    operator<<(std::ostream& os, F f)
-    {
-        return f(os);
-    }
-
     auto print_memory(const char* begin, const char* end, std::size_t word = 0, char byteSeparator = 0)
     {
         return [=](std::ostream& os) -> std::ostream&
