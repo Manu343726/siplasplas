@@ -41,6 +41,18 @@ namespace cpp
         {
             return metadata_begin() + metadata_length(); 
         }
+        
+        template<typename T>
+        detail::RawReaderWriter<T> metadata(std::size_t begin)
+        {
+            return { metadata_begin() + begin };
+        }
+
+        template<typename T>
+        T metadata(std::size_t begin) const
+        {
+            return detail::read_at<T>(metadata_begin() + begin);
+        }
 
         char* begin() const
         {

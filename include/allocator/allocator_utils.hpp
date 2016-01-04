@@ -40,15 +40,15 @@ namespace cpp
         }
 
         template<typename T>
-        T read_at(char* pointer, std::intptr_t offset = 0)
+        T read_at(const char* pointer, std::intptr_t offset = 0)
         {
-            return *(reinterpret_cast<T*>(pointer + offset));
+            return *(reinterpret_cast<const T*>(pointer + offset));
         }
 
         template<typename T>
-        T read_at(void* pointer, std::intptr_t offset = 0)
+        T read_at(const void* pointer, std::intptr_t offset = 0)
         {
-            return read_at<T>(reinterpret_cast<char*>(pointer), offset);
+            return read_at<T>(reinterpret_cast<const char*>(pointer), offset);
         }
 
         template<typename T>
@@ -64,16 +64,43 @@ namespace cpp
         }
 
         template<typename T>
-        T read_before(char* pointer)
+        T read_before(const char* pointer)
         {
             return read_at<T>(pointer, - sizeof(T));
         }
 
         template<typename T>
-        T read_before(void* pointer)
+        T read_before(const void* pointer)
         {
-            return read_before<T>(reinterpret_cast<char*>(pointer));
+            return read_before<T>(reinterpret_cast<const char*>(pointer));
         }
+
+        template<typename T>
+        class RawReaderWriter
+        {
+        public:
+            RawReaderWriter(void* at) :
+                _at{reinterpret_cast<char*>(at)}
+            {}
+
+            T get() const
+            {
+                return detail::read_at<T>(_at);
+            }
+
+            operator T() const
+            {
+                return get();
+            }
+
+            T operator=(T value)
+            {
+                detail::write_at(_at, value);
+                return value;
+            }
+        private:
+            char* _at;
+        };
     }
 }
 

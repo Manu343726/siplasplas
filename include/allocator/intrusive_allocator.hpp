@@ -49,22 +49,22 @@ namespace cpp {
 
         char* top() const 
         {
-            return detail::read_at<char*>(metadata_begin());
+            return metadata<char*>(0);
         }
 
         void set_top(void* pointer) 
         {
-            detail::write_at(metadata_begin(), pointer);
+            metadata<void*>(0) = pointer;
         }
 
         void commit(std::size_t bytes) 
         {
-            detail::write_at(metadata_begin(), top() + bytes);
+            set_top(top() + bytes);
         }
 
         void decommit(std::size_t bytes) 
         {
-            detail::write_at(metadata_begin(), top() - bytes);
+            set_top(top() - bytes);
         }
 
         std::size_t bytes() const 
