@@ -1,11 +1,13 @@
 version: 1.0.{build}
 
 environment:
-  GCCGenerator: "MinGW Makefiles"
+  GCCGenerator: "Unix Makefiles"
+  MinGWURL: " http://nuwen.net/files/mingw/mingw-13.4-without-git.exe"
   matrix:
 #    - generator: "Visual Studio 11 2012"
 #    - generator: "Visual Studio 12 2013"
     - generator: "Visual Studio 14 2015"
+    - generator: "%GCCGenerator%"
 
 configuration:
   - Debug
@@ -14,7 +16,8 @@ configuration:
 install:
   - cmd: git submodule update --init
   - cmd: choco install cmake 
-  - cmd: if "%generator%" == "%GCCGenerator%" choco install mingw > nul # The mingw installer is in verbose mode, see https://chocolatey.org/packages/mingw
+  - cmd: if "%generator%" == "%GCCGenerator%" curl -o mingw.exe 
+  - cmd: if "%generator%" == "%GCCGenerator%" mingw.exe -y -gm2 -InstallPath="C:\MinGW" 
   - cmd: cmake --version
   - cmd: if "%generator%" == "%GCCGenerator%" g++ --version
 
@@ -27,5 +30,3 @@ build_script:
 test_script:
   - cmd: ctest -C "%configuration%" . -VV
   - cmd: cmake --build . --target run_CPP
-
-
