@@ -12,7 +12,7 @@ template<typename T>
 using Vector = std::vector<T, STLAllocator<T, LinearAllocator>>;
 
 static constexpr std::size_t TestBegin = 0;
-static constexpr std::size_t TestEnd = 1024;
+static constexpr std::size_t TestEnd = 128;
 static constexpr std::size_t TestLength = TestEnd - TestBegin;
 static constexpr std::size_t TestBufferLength = TestLength * 1000;
 
