@@ -3,6 +3,10 @@ cmake_minimum_required(VERSION 2.8)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/3rdParty)
 
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Debug)
+endif()
+
 add_subdirectory(3rdParty/ctti)
 include_directories(3rdParty/ctti/include)
 include_directories(3rdParty/cppasscii/snippets)

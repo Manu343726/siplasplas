@@ -11,6 +11,7 @@ exec_target(NAME linear_allocator PREFIX example RUN)
 # mode since it does extra internal allocations in non-LIFO order
 # (For ContainerProxy pointed by debug iterators)
 if(MSVC AND (CMAKE_BUILD_TYPE MATCHES "Debug"))
+	message(WARNING "Run LIFO allocator example target disabled (See notes in examples/CMakeLists.txt)")
 	exec_target(NAME lifo_allocator PREFIX example)
 else()
 	exec_target(NAME lifo_allocator PREFIX example RUN)
