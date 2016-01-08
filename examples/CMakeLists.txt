@@ -19,3 +19,4 @@ endif()
 
 exec_target(NAME free_list PREFIX example RUN)
 exec_target(NAME canary_allocator PREFIX example RUN)
+exec_target(NAME reflection PREFIX example RUN)

@@ -1,0 +1,12 @@
+#ifndef SIPLASPLAS_REFLECTION_DETAIL_DYNAMIC_CALL_HPP
+#define SIPLASPLAS_REFLECTION_DETAIL_DYNAMIC_CALL_HPP
+
+namespace cpp
+{
+	namespace detail
+	{
+		template<typename R, typename 
+	}
+}
+
+#endif // SIPLASPLAS_REFLECTION_DETAIL_DYNAMIC_CALL_HPP
