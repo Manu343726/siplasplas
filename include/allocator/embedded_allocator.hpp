@@ -9,7 +9,7 @@ namespace cpp
 {
     class EmbeddedAllocator
     {
-    protected:
+    public:
         EmbeddedAllocator(void* begin, void* end, std::size_t metadata_length = 0) :
             _begin{reinterpret_cast<char*>(begin)}
         {

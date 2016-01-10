@@ -10,7 +10,7 @@
 
 namespace cpp
 {
-    class FreeList : EmbeddedAllocator 
+    class FreeList : public EmbeddedAllocator 
     {
     public:
         struct FreeListNode
