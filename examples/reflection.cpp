@@ -5,30 +5,30 @@
 #include "reflection/detail/type_info.hpp"
 #include "reflection/detail/any.hpp"
 #include "reflection/detail/metatype.hpp"
+#include "reflection/detail/metaobject.hpp"
 
 using namespace std::string_literals;
 
+// Force 'std::string' as name. GCC uses inline namespaces as part of
+// std:: namespace for stdlibc++ ABI versioning
+CPP_REFLECTION_CUSTOM_TYPENAME_FOR(std::string, "std::string");
+
 int main()
 {
-	static_assert(cpp::TypeInfo::get<int>()(cpp::TypeTrait::is_integral), "???");
+    static_assert(cpp::TypeInfo::get<int>()(cpp::TypeTrait::is_integral), "???");
 
-	cpp::detail::Any any{ 1 };
-	cpp::detail::Any any2{ cpp::TypeInfo::get<std::string>() };
-	auto intType = cpp::MetaType::get<int>();
+    cpp::MetaObject::registerMetaObject<int>();
+    cpp::MetaObject::registerMetaObject<std::string>();
 
-	std::cout << intType.type().name() << std::endl;
+    auto intType = cpp::MetaType::get("int");
 
-	void* integer = cpp::MetaType::get("int").create();
-    cpp::MetaType::get("int").destroy(integer);
+    cpp::MetaObject integer{ intType };
+    cpp::MetaObject string{ cpp::MetaType::get("std::string") };
+    string = "hola caracola"s;
+    
+    integer = 2;
+    std::cout << integer.get<int>() << std::endl;
 
-	std::cout << cpp::MetaType::get("int").type().alignment() << std::endl;
-
-	any2 = "hello"s;
-
-	std::cout << any2.get<std::string>() << std::endl;
-
-	std::cout << sizeof(any) << std::endl;
-	std::cout << any.get<int>() << std::endl;
-
-	std::cout << cpp::TypeInfo::get<std::string>().name() << std::endl;
+    integer = string;
+    std::cout << integer.get<std::string>() << std::endl;
 }

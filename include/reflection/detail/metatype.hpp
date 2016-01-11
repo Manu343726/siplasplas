@@ -9,7 +9,26 @@
 
 namespace cpp
 {
-
+    namespace detail
+    {
+        template<typename T>
+        struct CustomTypeName
+        {
+            static constexpr ctti::unnamed_type_id_t id = ctti::unnamed_type_id<T>();
+        };
+        
+        template<typename T>
+        constexpr ctti::unnamed_type_id_t CustomTypeName<T>::id;
+        
+#define CPP_REFLECTION_CUSTOM_TYPENAME_FOR(type, name) \
+        namespace cpp { namespace detail {             \
+        template<>                                     \
+        struct CustomTypeName<type> {                  \
+            static constexpr ::ctti::unnamed_type_id_t id = ::ctti::id_from_name(name); \
+        }; \
+        constexpr ::ctti::unnamed_type_id_t CustomTypeName<type>::id; }}
+    }
+    
     class MetaType
     {
     public:
@@ -44,7 +63,8 @@ namespace cpp
         {
             auto try_get = [](const std::string typeName) -> MetaTypeLifeTimeManagerBase*
             {
-                auto it = _registry.find(ctti::id_from_name(typeName));
+                auto id = ctti::id_from_name(typeName);
+                auto it = _registry.find(id);
 
                 if(it != std::end(_registry))
                     return it->second;
@@ -163,7 +183,9 @@ namespace cpp
                         return allocate(tries + 1);
                     }
                     else
+                    {
                         cpp::Throw<std::runtime_error>() << "Cannot allocate more storage for meta-instances";
+                    }
                 }
             }
 
@@ -190,7 +212,7 @@ namespace cpp
             static std::unique_ptr<MetaTypeLifeTimeManagerBase> instance{ [&]()
             {
                 MetaTypeLifeTimeManagerBase* instance = new MetaTypeLifeTimeManager<T>();
-                _registry[ctti::unnamed_type_id<T>()] = instance;
+                _registry[cpp::detail::CustomTypeName<T>::id] = instance;
                 return instance;
             }()};
 
