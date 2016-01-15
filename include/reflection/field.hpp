@@ -1,18 +1,64 @@
 #ifndef SIPLASPLAS_REFLECTION_FIELD_HPP
 #define SIPLASPLAS_REFLECTION_FIELD_HPP
 
-#include "reflection/detail/any.hpp"
+#include "utility/preprocessor.hpp"
+#include "reflection/detail/metaobject.hpp"
+
+#include <type_traits>
+#include <string>
+#include <cstddef>
 
 namespace cpp
 {
     class Field
     {
+    public:
+        Field() = default;
+
         template<typename Class, typename T>
-        Field(const std::string& name, Class::*T member,  )
+        Field(const std::string& name, T Class::* member, std::size_t offset) :
+            _type{cpp::MetaType::get<std::decay_t<T>>()},
+            _declType{cpp::MetaType::get<T>()},
+            _name{name},
+            _offset{offset}
+        {}
+
+        bool is_reference() const
+        {
+            return _type.type()(cpp::TypeTrait::is_reference);
+        }
+
+        const std::string& name() const
+        {
+            return _name;
+        }
+
+        template<typename T>
+        cpp::MetaObject get(const T& object) const
+        {
+            return {_type, reinterpret_cast<char*>(const_cast<void*>(&object)) + _offset};   
+        }
+
+        template<typename T>
+        cpp::MetaObject get(T& object)
+        {
+            return {_type, reinterpret_cast<char*>(&object) + _offset, cpp::MetaObject::ConstructReference};
+        }
+
+        const cpp::MetaType& type() const
+        {
+            return _type;
+        }
+
     private:
-        cpp::TypeInfo _type;
+        cpp::MetaType _type;
+        cpp::MetaType _declType;
+        std::string _name;
         std::size_t _offset;
     };
+
+#define SIPLASPLAS_REFLECTION_FIELD(Class, FieldName) ::cpp::Field{ SIPLASPLAS_PP_STR(FieldName), & MyClass :: FieldName,\
+    offsetof(Class, FieldName) }
 }
 
 #endif // SIPLASPLAS_REFLECTION_FIELD_HPP

@@ -1,48 +1,64 @@
 #ifndef SIPLASPLAS_REFLECTION_METACLASS_HPP
 #define SIPLASPLAS_REFLECTION_METACLASS_HPP
 
-#include <ctti/type_id.hpp>
-#include <utility>
+#include "reflection/field.hpp"
 
-namespace detail
+#include <initializer_list>
+
+namespace cpp
 {
-    class Value
+    class MetaClassData
     {
-        template<typename T>
-        Value(T&& value) :
-            _val{ new T{ std::forward<T>(value) } },
-            _type{ ctti::type_id(value) }
-        {}
+    public:
+        MetaClassData() = default;
 
-        const ctti::type_id_t& typeId() const
+        MetaClassData(const std::initializer_list<cpp::Field>& fields)
         {
-            return _type;
+            for(const cpp::Field& field : fields)
+            {
+                _fields[field.name()] = field;
+            }
+        }
+
+        cpp::Field field(const std::string& name) const
+        {
+            return _fields.at(name);
+        }
+
+        const std::unordered_map<std::string, cpp::Field>& fields() const
+        {
+            return _fields;
         }
 
     private:
-        void* _val = nullptr;
-        ctti::type_id_t  _type;
-    };
-    template<::ctti::detail::hash_t classNameHash>
-    struct MetaClassRegistry 
-    {
+        std::unordered_map<std::string, cpp::Field> _fields;
     };
 
-    class MetaClassBase
-    {
-        
-    };
-
-    template<typename T>
     class MetaClass
     {
-        static constexpr const char* className()
+    public:
+        template<typename T>
+        static void registerClass(const std::initializer_list<cpp::Field>& fields)
         {
-            return ctti::type_id<T>.name().c_str();
+            _metaClasses[ctti::unnamed_type_id<T>()] = MetaClassData{fields};
+        }
+
+    protected:
+        using MetaClassRegistry = std::unordered_map<ctti::type_index, MetaClassData>;
+        static MetaClassRegistry _metaClasses;
+    };
+
+    MetaClass::MetaClassRegistry MetaClass::_metaClasses;
+
+    template<typename Class>
+    class MetaClassFor : public MetaClass
+    {
+    public:
+        static MetaClassData& reflection()
+        {
+            return _metaClasses.at(ctti::unnamed_type_id<Class>());
         }
     };
 }
-
-#define METACLASS(Name) class Name : public ::cpp::MetaClass<Name>
 
 #endif // SIPLASPLAS_REFLECTION_METACLASS_HPP

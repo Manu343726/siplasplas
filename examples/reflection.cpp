@@ -1,11 +1,15 @@
 
 #include <iostream>
 #include <string>
+#include <cstddef>
+#include <cassert>
 
 #include "reflection/detail/type_info.hpp"
 #include "reflection/detail/any.hpp"
 #include "reflection/detail/metatype.hpp"
 #include "reflection/detail/metaobject.hpp"
+#include "reflection/field.hpp"
+#include "reflection/metaclass.hpp"
 
 using namespace std::string_literals;
 
@@ -15,20 +19,34 @@ CPP_REFLECTION_CUSTOM_TYPENAME_FOR(std::string, "std::string");
 
 int main()
 {
-    static_assert(cpp::TypeInfo::get<int>()(cpp::TypeTrait::is_integral), "???");
+    struct MyClass : public cpp::MetaClassFor<MyClass>
+    {
+        int field = 0;
+        std::string field2;
+        char field3;
+        std::size_t field4;
+    };
 
-    cpp::MetaObject::registerMetaObject<int>();
-    cpp::MetaObject::registerMetaObject<std::string>();
+    cpp::MetaClass::registerClass<MyClass>({
+        SIPLASPLAS_REFLECTION_FIELD(MyClass, field),
+        SIPLASPLAS_REFLECTION_FIELD(MyClass, field2),
+        SIPLASPLAS_REFLECTION_FIELD(MyClass, field3),
+        SIPLASPLAS_REFLECTION_FIELD(MyClass, field4)
+    });
 
-    auto intType = cpp::MetaType::get("int");
+    MyClass myObject;
 
-    cpp::MetaObject integer{ intType };
-    cpp::MetaObject string{ cpp::MetaType::get("std::string") };
-    string = "hola caracola"s;
-    
-    integer = 2;
-    std::cout << integer.get<int>() << std::endl;
+    MyClass::reflection().field("field").get(myObject) = 12;
 
-    integer = string;
-    std::cout << integer.get<std::string>() << std::endl;
+    assert(myObject.field == 12);
+
+    for(const auto& keyValue : MyClass::reflection().fields())
+    {
+        const auto& field = keyValue.second;
+
+        std::cout << field.name() << ": Type " << field.type().type().name()
+                                  << ", sizeof " << field.type().type().sizeOf()
+                                  << ", alignment " << field.type().type().alignment()
+                  << std::endl;
+    }
 }

@@ -8,6 +8,30 @@
 
 namespace cpp
 {
+    namespace detail
+    {
+        class ObjectDeleter
+        {
+        public:
+            ObjectDeleter(const cpp::MetaType& type, bool isReference = false) :
+                _type{type},
+                _isReference{isReference}
+            {}
+
+            void operator()(void* object) const
+            {
+                if(!_isReference)
+                {
+                    _type.destroy(object);
+                }
+            }
+
+        private:
+            const cpp::MetaType _type;
+            const bool _isReference;
+        };
+    }
+
     class MetaObject
     {
     public:
@@ -17,12 +41,22 @@ namespace cpp
             cpp::MetaType::registerMetaType<T>();
         }
 
+        static constexpr bool ConstructReference = true;
+
         MetaObject(const cpp::MetaType& type) :
-            _object{type.create(), [type](void* object)
-                {
-                    type.destroy(object);
-                }},
+            _object{type.create(), detail::ObjectDeleter{type}},
             _type{type}
+        {}
+
+        MetaObject(const cpp::MetaType& type, void* fromRaw, bool isReference = false) :
+            _object{(isReference ? fromRaw : type.create(fromRaw)), detail::ObjectDeleter{type, isReference}},
+            _type{type}
+        {}
+
+        template<typename T>
+        MetaObject(const T& value) :
+            _object{cpp::MetaType::get<T>().create(&value), detail::ObjectDeleter{cpp::MetaType::get<T>()}},
+            _type{cpp::MetaType::get<T>()}
         {}
 
         template<typename T>
@@ -35,14 +69,14 @@ namespace cpp
         template<typename T>
         const T& get() const
         {
-            assert(ctti::unnamed_type_id<T>() == _type.type().type_id());
+            assert(ctti::type_id<T>() == _type.type().type_id());
             return *reinterpret_cast<const T*>(_object.get());
         }
 
         template<typename T>
         T& get()
         {
-            assert(ctti::unnamed_type_id<T>() == _type.type().type_id());
+            assert(ctti::type_id<T>() == _type.type().type_id());
             return *reinterpret_cast<T*>(_object.get());
         }
     private:

@@ -14,27 +14,43 @@ namespace cpp
         template<typename T>
         struct CustomTypeName
         {
-            static constexpr ctti::unnamed_type_id_t id = ctti::unnamed_type_id<T>();
+            static constexpr ctti::unnamed_type_id_t id() 
+            { 
+                return ctti::unnamed_type_id<T>(); 
+            }
         };
-        
-        template<typename T>
-        constexpr ctti::unnamed_type_id_t CustomTypeName<T>::id;
         
 #define CPP_REFLECTION_CUSTOM_TYPENAME_FOR(type, name) \
         namespace cpp { namespace detail {             \
         template<>                                     \
         struct CustomTypeName<type> {                  \
-            static constexpr ::ctti::unnamed_type_id_t id = ::ctti::id_from_name(name); \
-        }; \
-        constexpr ::ctti::unnamed_type_id_t CustomTypeName<type>::id; }}
-    }
+            static constexpr ::ctti::unnamed_type_id_t id() \ 
+            {                                               \
+                return ::ctti::id_from_name(name);          \
+            } \
+        }; }}
+    } 
+
+#define CPP_REFLECTION_FORCE_TYPENAME(type) CPP_REFLECTION_CUSTOM_TYPENAME_FOR(type, #type)
     
     class MetaType
     {
     public:
+        MetaType() = default;
+
         void* create() const
         {
             return _lifetimeManager->construct();
+        }
+
+        void* create( const void* object) const
+        {
+            return _lifetimeManager->construct(object);
+        }
+
+        void assign(void* object, const void* other) const
+        {
+            return _lifetimeManager->assign(object, other);
         }
 
         void destroy(void* object) const
@@ -91,6 +107,8 @@ namespace cpp
 
             virtual void* construct() = 0;
             virtual void destroy(void* object) = 0;
+            virtual void* construct(const void* object) = 0;
+            virtual void assign(void* object, const void* other) = 0;
             virtual const cpp::TypeInfo& type() const = 0;
         };
 
@@ -102,18 +120,28 @@ namespace cpp
             MetaTypeLifeTimeManager() :
                 _type{cpp::TypeInfo::get<T>()}
             {
-                _blocks.emplace_back(512 * (sizeof(T) + alignof(T)));
+                _objectsArena.emplace_back(512 * (sizeof(T) + alignof(T)));
             }
 
+            void* construct(const void* objectValue) override
+            {
+                return new(allocate_object()) T(*reinterpret_cast<const T*>(objectValue));
+            }
+            
             void* construct() override
             {
-                return new(allocate()) T();
+                return new(allocate_object()) T();
+            }
+
+            void assign(void* object, const void* other)
+            {
+               *reinterpret_cast<T*>(object) = *reinterpret_cast<const T*>(other);
             }
 
             void destroy(void* object) override
             {
                 reinterpret_cast<T*>(object)->~T();
-                deallocate(object);
+                deallocate_object(object);
             }
 
             const cpp::TypeInfo& type() const override
@@ -159,16 +187,16 @@ namespace cpp
                 cpp::FreeList _freeList;
             };
 
-            std::vector<StorageBlock> _blocks;
+            std::vector<StorageBlock> _objectsArena;
 
-            cpp::FreeList freeList()
+            void* allocate_object()
             {
-                return _blocks.back().freeList();
+                return allocate(_objectsArena, sizeof(T), alignof(T));
             }
 
-            void* allocate(int tries = 1)
+            void* allocate(std::vector<StorageBlock>& arena, std::size_t sizeOf, std::size_t alignment, int tries = 1)
             {
-                void* slot = freeList().allocate(sizeof(T), alignof(T));
+                void* slot = arena.back().freeList().allocate(sizeOf, alignment);
 
                 if(slot)
                     return slot;
@@ -177,10 +205,10 @@ namespace cpp
                     if(tries < 10)
                     {
                         // Freelist out of space, allocate new block
-                        _blocks.emplace_back(512*(sizeof(T) + alignof(T)));
+                        arena.emplace_back(512*(sizeOf + alignment));
 
                         // try again
-                        return allocate(tries + 1);
+                        return allocate(arena,sizeOf, alignment, tries + 1);
                     }
                     else
                     {
@@ -189,15 +217,20 @@ namespace cpp
                 }
             }
 
-            void deallocate(void* pointer)
+            void deallocate_object(void* pointer)
             {
-                auto blockIt = std::find_if(std::begin(_blocks), std::end(_blocks),
+                return deallocate(_objectsArena, pointer);
+            }
+
+            void deallocate(std::vector<StorageBlock>& arena, void* pointer)
+            {
+                auto blockIt = std::find_if(std::begin(arena), std::end(arena),
                 [pointer](const StorageBlock& block)
                 {
                     return block.freeList().belongs_to_storage(pointer);       
                 });
 
-                if(blockIt != std::end(_blocks))
+                if(blockIt != std::end(arena))
                 {
                     blockIt->freeList().deallocate(pointer, sizeof(T));
                 }
@@ -212,7 +245,7 @@ namespace cpp
             static std::unique_ptr<MetaTypeLifeTimeManagerBase> instance{ [&]()
             {
                 MetaTypeLifeTimeManagerBase* instance = new MetaTypeLifeTimeManager<T>();
-                _registry[cpp::detail::CustomTypeName<T>::id] = instance;
+                _registry[cpp::detail::CustomTypeName<T>::id()] = instance;
                 return instance;
             }()};
 

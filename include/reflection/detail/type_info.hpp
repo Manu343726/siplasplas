@@ -87,8 +87,7 @@ namespace cpp
 		static constexpr TypeInfo get()
 		{
 			return{
-				ctti::unnamed_type_id<T>(),
-				ctti::type_id<T>().name().c_str(),
+				ctti::type_id<T>(),
 				sizeof(T),
 				alignof(T),
 				BitsetValue{
@@ -160,10 +159,10 @@ namespace cpp
 
 		constexpr const char* name() const
 		{
-			return _typeName;
+			return _typeId.name().c_str();
 		}
 
-		constexpr const ctti::unnamed_type_id_t& type_id() const
+		constexpr const ctti::type_id_t& type_id() const
 		{
 			return _typeId;
 		}
@@ -179,19 +178,16 @@ namespace cpp
 		}
 
 	private:
-		const ctti::unnamed_type_id_t _typeId;
-		const char* _typeName;
+		const ctti::type_id_t _typeId;
 		const std::size_t _sizeOf;
 		const std::size_t _alignment;
 		const TypeTraits _typeTraits;
 
-		constexpr TypeInfo(const ctti::unnamed_type_id_t& typeId,
-						   const char* typeName,
+		constexpr TypeInfo(const ctti::type_id_t& typeId,
 						   const std::size_t sizeOf,
 						   const std::size_t alignment,
 						   const BitsetValue typeTraits) :
 			_typeId{ typeId },
-			_typeName{ typeName },
 			_sizeOf{sizeOf},
 			_alignment{ alignment },
 			_typeTraits{ typeTraits }
