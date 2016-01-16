@@ -19,12 +19,13 @@ CPP_REFLECTION_CUSTOM_TYPENAME_FOR(std::string, "std::string");
 
 int main()
 {
+    [[class]]
     struct MyClass : public cpp::MetaClassFor<MyClass>
     {
-        int field = 0;
-        std::string field2;
-        char field3;
-        std::size_t field4;
+        [[field]] int field = 0;
+        [[field]] std::string field2;
+        [[field]] char field3;
+        [[field]] std::size_t field4;
     };
 
     cpp::MetaClass::registerClass<MyClass>({

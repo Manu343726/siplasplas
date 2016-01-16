@@ -50,6 +50,11 @@ namespace cpp
             return _type;
         }
 
+        std::size_t offset() const
+        {
+            return _offset;
+        }
+
     private:
         cpp::MetaType _type;
         cpp::MetaType _declType;

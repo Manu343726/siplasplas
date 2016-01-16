@@ -24,10 +24,10 @@ namespace cpp
         namespace cpp { namespace detail {             \
         template<>                                     \
         struct CustomTypeName<type> {                  \
-            static constexpr ::ctti::unnamed_type_id_t id() \ 
+            static constexpr ::ctti::unnamed_type_id_t id() \
             {                                               \
                 return ::ctti::id_from_name(name);          \
-            } \
+            }                                               \
         }; }}
     } 
 
