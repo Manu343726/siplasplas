@@ -2,6 +2,7 @@
 #define SIPLASPLAS_REFLECTION_METACLASS_HPP
 
 #include "reflection/field.hpp"
+#include "reflection/function.hpp"
 
 #include <initializer_list>
 
@@ -12,11 +13,16 @@ namespace cpp
     public:
         MetaClassData() = default;
 
-        MetaClassData(const std::initializer_list<cpp::Field>& fields)
+        MetaClassData(const std::initializer_list<cpp::Field>& fields, const std::initializer_list<cpp::Function>& functions)
         {
             for(const cpp::Field& field : fields)
             {
                 _fields[field.name()] = field;
+            }
+
+            for (const cpp::Function& function : functions)
+            {
+                _functions[function.name()] = function;
             }
         }
 
@@ -25,22 +31,54 @@ namespace cpp
             return _fields.at(name);
         }
 
+        cpp::Function function(const std::string& name) const
+        {
+            return _functions.at(name);
+        }
+
         const std::unordered_map<std::string, cpp::Field>& fields() const
         {
             return _fields;
         }
 
+        const std::unordered_map<std::string, cpp::Function>& functions() const
+        {
+            return _functions;
+        }
+
     private:
         std::unordered_map<std::string, cpp::Field> _fields;
+        std::unordered_map<std::string, cpp::Function> _functions;
     };
 
     class MetaClass
     {
     public:
         template<typename T>
-        static void registerClass(const std::initializer_list<cpp::Field>& fields)
+        static void registerClass(const std::initializer_list<cpp::Field>& fields, const std::initializer_list<cpp::Function>& functions)
         {
-            _metaClasses[ctti::unnamed_type_id<T>()] = MetaClassData{fields};
+            _metaClasses[ctti::unnamed_type_id<T>()] = MetaClassData{fields, functions};
+        }
+
+        static MetaClassData& getClass(const ctti::unnamed_type_id_t id)
+        {
+            return _metaClasses.at(id);
+        }
+
+        template<typename Class>
+        static MetaClassData& getClass()
+        {
+            return getClass(ctti::unnamed_type_id<Class>());
+        }
+
+        static MetaClassData& getClass(const char* className)
+        {
+            return getClass(ctti::id_from_name(className));
+        }
+
+        static MetaClassData& getClass(const std::string& className)
+        {
+            return getClass(ctti::id_from_name(className));
         }
 
     protected:

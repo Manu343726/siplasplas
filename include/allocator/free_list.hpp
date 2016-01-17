@@ -17,16 +17,26 @@ namespace cpp
         {
             FreeListNode* next;
         };
+
+        cpp::detail::RawReaderWriter<FreeListNode*> head() const
+        {
+            return EmbeddedAllocator::metadata<FreeListNode*>(0);
+        }
+
+        cpp::detail::RawReaderWriter<FreeListNode*> head()
+        {
+            return EmbeddedAllocator::metadata<FreeListNode*>(0);
+        }
         
         FreeList(void* begin, void* end, std::size_t block_length, std::size_t alignment, std::size_t offset = 0) :
-            EmbeddedAllocator{begin, end}
+            EmbeddedAllocator{begin, end, sizeof(FreeListNode*)}
         {    
             block_length = std::max(block_length, sizeof(void*));
 
             char* aligned_begin = detail::aligned_ptr(EmbeddedAllocator::begin() + offset, alignment);
             
             if(aligned_begin < EmbeddedAllocator::end())
-                head = reinterpret_cast<FreeListNode*>(aligned_begin);
+                head() = reinterpret_cast<FreeListNode*>(aligned_begin);
 
             while(aligned_begin < EmbeddedAllocator::end())
             {
@@ -47,11 +57,11 @@ namespace cpp
 
         void* allocate(std::size_t size, std::size_t alignment, std::size_t offset = 0)
         {
-            if(head)
+            if(head())
             {
-                void* user_ptr = head;
+                void* user_ptr = head();
 
-                head = head->next;
+                head() = head().get()->next;
                 return user_ptr;
             }
             else
@@ -65,14 +75,14 @@ namespace cpp
             assert(belongs_to_storage(pointer) && "Pointer out of storage");
             
             FreeListNode* node = reinterpret_cast<FreeListNode*>(pointer);
-            node->next = head;
-            head = node;
+            node->next = head();
+            head() = node;
         }
 
         std::string dump() const
         {
             std::ostringstream os;
-            FreeListNode* node = head;
+            FreeListNode* node = head();
             
             os << EmbeddedAllocator::dump();
 
@@ -90,9 +100,6 @@ namespace cpp
 
             return os.str();
         }
-
-    private:
-        FreeListNode* head;
     };
 }
 
