@@ -80,6 +80,8 @@ int main()
 
     MyClass::reflection().field("field").get(myObject) = result;
 
+    std::cout << myObject.instanceReflection().function("f")(42).get<int>() << std::endl;
+
     std::cout << "Called function MyClass::f(int) const: " << result.get<int>() << std::endl;
     std::cout << myObject.field << std::endl;
 }

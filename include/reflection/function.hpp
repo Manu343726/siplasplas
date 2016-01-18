@@ -73,6 +73,39 @@ namespace cpp
             return _invoker->isConst();
         }
 
+        template<typename T>
+        class Binded
+        {
+        public:
+            Binded(const Function& function, const T& object) :
+                _function{const_cast<Function*>(&function)},
+                _object{const_cast<T*>(&object)}
+            {}
+
+            template<typename... Args>
+            cpp::MetaObject operator()(Args&&... args) const
+            {
+                return (*const_cast<const Function*>(_function))(*_object)(std::forward<Args>(args)...);
+            }
+
+            template<typename... Args>
+            cpp::MetaObject operator()(Args&&... args)
+            {
+                return (*_function)(*_object)(std::forward<Args>(args)...);
+            }
+
+        private:
+            T* _object;
+            Function* _function;
+        };
+
+        template<typename T>
+        Binded<T> bind(const T& object)
+        {
+            return { *this, object };
+        }
+
+
     private:
         class InvokerInterface
         {

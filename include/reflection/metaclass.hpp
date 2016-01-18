@@ -51,6 +51,30 @@ namespace cpp
         std::unordered_map<std::string, cpp::Function> _functions;
     };
 
+    template<typename T>
+    class BindedMetaClassData
+    {
+    public:
+        BindedMetaClassData(const T& object, const MetaClassData& data) :
+            _object{const_cast<T*>(&object)},
+            _data{&data}
+        {}
+    
+        cpp::Field::Binded<T> field(const std::string& name) const
+        {
+            return _data->field(name).bind(*_object);
+        }
+
+        cpp::Function::Binded<T> function(const std::string& name) const
+        {
+            return _data->function(name).bind(*_object);
+        }
+
+    private:
+        T* _object;
+        const MetaClassData* _data;
+    };
+
     class MetaClass
     {
     public:
@@ -95,6 +119,11 @@ namespace cpp
         static MetaClassData& reflection()
         {
             return _metaClasses.at(ctti::unnamed_type_id<Class>());
+        }
+
+        BindedMetaClassData<Class> instanceReflection() const
+        {
+            return { static_cast<const Class&>(*this), reflection() };
         }
     };
 }

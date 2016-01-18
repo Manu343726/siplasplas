@@ -54,6 +54,36 @@ namespace cpp
         {
             return _offset;
         }
+        
+        template<typename T>
+        class Binded
+        {
+        public:
+            Binded(const Field& field, const T& object) :
+                _field{&field},
+                _object{const_cast<T*>(&object)}
+            {}
+
+            cpp::MetaObject get() const
+            {
+                return _field->get(*_object);
+            }
+
+            cpp::MetaObject get()
+            {
+                return _field->get(*_object);
+            }
+
+        private:
+            T* _object;
+            const Field* _field;
+        };
+
+        template<typename T>
+        Binded<T> bind(const T& object)
+        {
+            return { *this, object };
+        }
 
     private:
         cpp::MetaType _type;
@@ -61,6 +91,8 @@ namespace cpp
         std::string _name;
         std::size_t _offset;
     };
+
+    
 
 #define SIPLASPLAS_REFLECTION_FIELD(Class, FieldName) ::cpp::Field{ SIPLASPLAS_PP_STR(FieldName), & MyClass :: FieldName,\
     offsetof(Class, FieldName) }
