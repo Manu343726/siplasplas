@@ -50,7 +50,8 @@ namespace cpp
 
         MetaObject(const cpp::MetaType& type, void* fromRaw, bool isReference = false) :
             _object{(isReference ? fromRaw : type.create(fromRaw)), detail::ObjectDeleter{type, isReference}},
-            _type{type}
+            _type{type},
+            _isReference{isReference}
         {}
 
         template<typename T>
@@ -79,9 +80,30 @@ namespace cpp
             assert(ctti::type_id<T>() == _type.type().type_id());
             return *reinterpret_cast<T*>(_object.get());
         }
+
+        cpp::MetaType type() const
+        {
+            return _type;
+        }
+
+        bool isReference() const
+        {
+            return _isReference;
+        }
+
+        MetaObject& operator=(const MetaObject& other)
+        {
+            assert(type().type().type_id() == other.type().type().type_id());
+
+            _type.assign(_object.get(), other._object.get());
+
+            return *this;
+        }
+
     private:
         std::shared_ptr<void> _object;
         MetaType _type;
+        bool _isReference = false;
     };
 }
 
