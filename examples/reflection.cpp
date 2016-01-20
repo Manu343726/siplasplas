@@ -22,6 +22,8 @@ int main()
 {
     struct MyClass : public cpp::MetaClassFor<MyClass>
     {
+        struct EnableReflection {};
+
         int field = 0;
         std::string field2;
         char field3;

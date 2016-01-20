@@ -126,6 +126,9 @@ namespace cpp
             return { static_cast<const Class&>(*this), reflection() };
         }
     };
+
+#define SIPLASPLAS_ENABLE_REFLECTION struct EnableReflection {};
+
 }
 
 #endif // SIPLASPLAS_REFLECTION_METACLASS_HPP
