@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <cassert>
 
+// change
 #include "reflection/detail/type_info.hpp"
 #include "reflection/detail/any.hpp"
 #include "reflection/detail/metatype.hpp"
@@ -18,38 +19,39 @@ using namespace std::string_literals;
 // std:: namespace for stdlibc++ ABI versioning
 CPP_REFLECTION_CUSTOM_TYPENAME_FOR(std::string, "std::string")
 
+struct MyClass
+{
+    struct EnableReflection {};
+
+    int field = 0;
+    std::string field2;
+    char field3;
+    std::size_t field4;
+
+    int f(int i) const
+    {
+        return i;
+    }
+
+    std::string appendInt(int i, std::string str) const
+    {
+        return str + std::to_string(i) + std::to_string(field);
+    }
+};
+
+class MyOtherClass
+{
+    struct EnableReflection;
+public:
+    int a, b, c, d, e, f, g;
+    
+    int f1(){ return 1; }
+    int f2() const { return 2; }
+    int f3(int, char){ return 3; }
+};
+
 int main()
 {
-    struct MyClass : public cpp::MetaClassFor<MyClass>
-    {
-        struct EnableReflection {};
-
-        int field = 0;
-        std::string field2;
-        char field3;
-        std::size_t field4;
-
-        int f(int i) const
-        {
-            return i;
-        }
-
-        std::string appendInt(int i, std::string str) const
-        {
-            return str + std::to_string(i) + std::to_string(field);
-        }
-    };
-
-    cpp::MetaClass::registerClass<MyClass>({
-        SIPLASPLAS_REFLECTION_FIELD(MyClass, field),
-        SIPLASPLAS_REFLECTION_FIELD(MyClass, field2),
-        SIPLASPLAS_REFLECTION_FIELD(MyClass, field3),
-        SIPLASPLAS_REFLECTION_FIELD(MyClass, field4)
-    }, {
-        SIPLASPLAS_REFLECTION_FUNCTION(MyClass, f),
-        SIPLASPLAS_REFLECTION_FUNCTION(MyClass, appendInt)
-    });
-
     MyClass myObject;
 
     MyClass::reflection().field("field").get(myObject) = 12;
@@ -80,10 +82,5 @@ int main()
 
     cpp::MetaObject result = MyClass::reflection().function("f")(myObject)(1);
 
-    MyClass::reflection().field("field").get(myObject) = result;
-
-    std::cout << myObject.instanceReflection().function("f")(42).get<int>() << std::endl;
-
-    std::cout << "Called function MyClass::f(int) const: " << result.get<int>() << std::endl;
     std::cout << myObject.field << std::endl;
 }

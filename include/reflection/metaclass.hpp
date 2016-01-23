@@ -55,19 +55,19 @@ namespace cpp
     class BindedMetaClassData
     {
     public:
-        BindedMetaClassData(const T& object, const MetaClassData& data) :
-            _object{const_cast<T*>(&object)},
-            _data{&data}
+        BindedMetaClassData(const T* object, const MetaClassData* data) :
+            _object{const_cast<T*>(object)},
+            _data{data}
         {}
     
         cpp::Field::Binded<T> field(const std::string& name) const
         {
-            return _data->field(name).bind(*_object);
+            return _data->field(name).bind(_object);
         }
 
         cpp::Function::Binded<T> function(const std::string& name) const
         {
-            return _data->function(name).bind(*_object);
+            return _data->function(name).bind(_object);
         }
 
     private:

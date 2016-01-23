@@ -94,7 +94,7 @@ namespace cpp
 
     
 
-#define SIPLASPLAS_REFLECTION_FIELD(Class, FieldName) ::cpp::Field{ SIPLASPLAS_PP_STR(FieldName), & MyClass :: FieldName,\
+#define SIPLASPLAS_REFLECTION_FIELD(Class, FieldName) ::cpp::Field{ SIPLASPLAS_PP_STR(FieldName), & Class :: FieldName,\
     offsetof(Class, FieldName) }
 }
 

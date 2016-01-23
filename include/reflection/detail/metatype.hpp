@@ -133,7 +133,7 @@ namespace cpp
                 return new(allocate_object()) T();
             }
 
-            void assign(void* object, const void* other)
+            void assign(void* object, const void* other) override
             {
                *reinterpret_cast<T*>(object) = *reinterpret_cast<const T*>(other);
             }

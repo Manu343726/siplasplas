@@ -1,3 +1,6 @@
+# Ignore reflection output
+*.rfl*
+
 # Ignore cmake buildtree
 build/
 

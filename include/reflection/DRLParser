@@ -1,0 +1,334 @@
+#!/usr/bin/env python2
+import clang
+import clang.cindex
+import sys
+from clang.cindex import CursorKind
+import os
+from datetime import datetime
+import json
+from colorama import Fore, Back, Style
+import argparse
+import fnmatch
+
+def percent_string(step, total):
+    percent = 100 * step / total
+
+    if percent < 10:
+        return '  {}%'.format(percent)
+    elif percent < 100:
+        return ' {}%'.format(percent)
+    else:
+        return '100%'
+
+class PathFormatter:
+    def __init__(self, sourcedir):
+        self.sourcedir = sourcedir
+
+    def format(self, path, color = Fore.WHITE, format = Style.NORMAL):
+        return '{}{}{}'.format(color, os.path.relpath(path, self.sourcedir), Fore.RESET)
+
+
+class Logger:
+    def __init__(self, color, totalsteps = 0, tab = ''):
+        self.totalsteps = totalsteps
+        self.currentstep = 1
+
+        if totalsteps > 0:
+            self.step_header = lambda step: '[{}{}{}] '.format(Fore.BLUE + Style.BRIGHT, percent_string(step, totalsteps), Fore.RESET + Style.RESET_ALL)
+        else:
+            self.step_header = lambda step: tab + color + '  -> ' + Fore.RESET
+        
+        self.start_header = tab + color + '==> ' + Fore.RESET
+        self.info_header = tab + ' - '
+
+    def start(self, message, steps = -1):
+        if message >= 0:
+            self.totalsteps = steps
+
+        self.currentstep = 1
+        
+        print ''
+        print self.start_header + message
+
+    def step(self, message):
+        print self.step_header(self.currentstep) + message
+        self.currentstep += 1
+    
+    def info(self, message):
+        print self.info_header + message
+
+
+class Field:
+    def __init__(self, cursor):
+        self.cursor = cursor
+        self.name = cursor.spelling
+
+
+class Function:
+    def __init__(self, cursor):
+        self.cursor = cursor
+        self.name = cursor.spelling
+
+
+class Class:
+    def __init__(self, cursor):
+        self.logger = Logger(Fore.WHITE, tab = '  ')
+        self.cursor = cursor
+        self.className = cursor.spelling
+        self.fields = []
+        self.functions = []
+        self.enable_reflection_tag = None
+
+        for child in cursor.get_children():
+            if child.kind == CursorKind.CXX_METHOD:
+                self.functions.append(Function(child))
+            elif child.kind == CursorKind.FIELD_DECL:
+                self.fields.append(Field(child))
+            elif child.spelling == 'EnableReflection':
+                self.logger.info('Found reflection tag for class \'{}\' (\'{}\')'.format(self.className, self.cursor.displayname))
+                self.enable_reflection_tag = child
+
+    def has_reflection(self):
+        return self.enable_reflection_tag is not None
+
+    def reflection_body(self):
+        adjust = ' '*(self.enable_reflection_tag.location.column - 4)
+        registerParamsAdjust = '                '
+
+        fields = (',\n' + adjust + registerParamsAdjust).join(['SIPLASPLAS_REFLECTION_FIELD({},{})'.format(self.className, field.name) for field in self.fields])    
+        functions = (',\n' + adjust + registerParamsAdjust).join(['SIPLASPLAS_REFLECTION_FUNCTION({},{})'.format(self.className, function.name) for function in self.functions])    
+
+        body = (
+"""
+public:
+    static ::cpp::MetaClassData& reflection() {{
+        static ::cpp::MetaClassData& data = []() -> ::cpp::MetaClassData& 
+        {{
+            ::cpp::MetaClass::registerClass<{0}>({{ 
+                {1} 
+            }}, {{ 
+                {2} 
+            }});
+
+            return ::cpp::MetaClass::getClass<{0}>();
+        }}();
+
+        return data;
+    }}
+
+    ::cpp::BindedMetaClassData<{0}> instanceReflection() const 
+    {{
+        return {{this, &reflection()}};
+    }}
+
+""")
+        body = ('\n' + adjust).join(body.splitlines())
+
+        return body.format(self.className, fields, functions)
+
+    def __str__(self):
+        return (
+"""======================
+class \'{0}\':
+======================
+ - Fields: {1}
+ - Functions: {2}
+"""                 ).format(self.className, 
+                        ', '.join([field.name for field in self.fields]),
+                        ', '.join([function.name for function in self.functions])
+                )
+  
+class TranslationUnit:
+    def __init__(self, filepath, logger):
+        self.filePath = filepath
+        self.index = clang.cindex.Index.create()
+        self.translationUnit = self.index.parse(filepath)
+        self.classes = []
+        self.tags = {}
+
+    def _process_reflection(self, node):
+        reflectionClass = None
+
+        if node.kind == CursorKind.CLASS_DECL or node.kind == CursorKind.STRUCT_DECL:
+            reflectionClass = Class(node)    
+
+        for child in node.get_children():
+            self._process_reflection(child)
+
+        if reflectionClass is not None and reflectionClass.has_reflection():
+            self.classes.append(reflectionClass)
+            self.tags[reflectionClass.cursor.location.line + 1] = reflectionClass
+
+
+    def process(self):
+        self.classes = []
+        self._process_reflection(self.translationUnit.cursor)
+
+        return self.classes
+    
+    def generate(self):
+
+        if not self.classes:
+            self.process()
+
+        if not self.classes:
+            return
+
+        outputName, ext = os.path.splitext(self.filePath)
+        outputPath = '{}.rfl{}'.format(outputName, ext)
+    
+        with open(self.filePath, 'r') as sourceFile:
+            with open(outputPath, 'w') as outputFile:
+                for lineNumber, line in enumerate(sourceFile):
+                    if lineNumber in self.tags:
+                        currentClass = self.tags[lineNumber]
+                        
+                        self.logger.info('Generating reflection code for class \'{}\''.format(currentClass.className))
+
+                        outputFile.write(currentClass.reflection_body())
+                    else:
+                        outputFile.write(line)
+
+
+class SyncManager:
+    def __init__(self, databasefile):
+        self.databasefile = os.path.abspath(databasefile)
+        self.rootpath = os.path.dirname(os.path.realpath(__file__))
+
+        if os.path.isfile(self.databasefile):
+            with open(self.databasefile, 'r') as file:
+                self.database = json.load(file)
+        else:
+            self.database = {}
+            self.database['timestamps'] = {}
+
+    def timestamps(self):
+        return self.database['timestamps']
+
+    def fullpath(self, filename):
+        return os.path.relpath(filename, self.rootpath)
+
+    def save(self):
+        with open(self.databasefile, 'w') as file:
+            json.dump(self.database, file)
+
+    def load_timestamp(self, sourcefile):
+        return self.timestamps()[self.fullpath(sourcefile)]
+
+    def get_file_timestamp(self, sourcefile):
+        return os.path.getmtime(sourcefile)
+
+    def save_timestamp(self, sourcefile):
+        self.timestamps()[self.fullpath(sourcefile)] = self.get_file_timestamp(sourcefile)
+
+    def is_synced(self, filename):
+        return self.fullpath(filename) in self.database['timestamps'] and \
+            self.get_file_timestamp(filename) <= self.load_timestamp(filename)
+
+    def sync(self, filename):
+        self.save_timestamp(filename)
+    
+
+class Compiler:
+    def __init__(self, sourcedir, files, databasefile):
+        self.syncmanager = SyncManager(databasefile)
+        self.logger = Logger(Fore.GREEN, len(files))
+        self.pathformat = PathFormatter(sourcedir)
+        self.sourcedir = sourcedir
+        self.sources = files
+
+    def process(self):
+        self.logger.start('Processing {} files:'.format(len(self.sources)))
+
+        for sourcefile in self.sources:
+            if not self.syncmanager.is_synced(sourcefile):
+                self.logger.step('({}outdated{}) {}'.format(Fore.RED, Fore.RESET, self.pathformat.format(sourcefile)))
+                tu = TranslationUnit(sourcefile, self.logger)
+                tu.process()
+                self.syncmanager.sync(sourcefile)
+            else:
+                self.logger.step('({}up-to-date{}) {}'.format(Fore.GREEN, Fore.RESET, self.pathformat.format(sourcefile)))
+
+    def save_database(self):
+        self.syncmanager.save()
+
+
+class App:
+    def file_matches(self, file):
+        for ext in self.args.extensions:
+            if fnmatch.fnmatch(file, '*' + ext):
+                if self.args.exclude:
+                    for ex in self.args.exclude:
+                        if not fnmatch.fnmatch(file, ex):
+                            return True
+                else:
+                    return True
+
+        return False
+        
+    def search_files(self, rootpath):
+        self.logger.step(rootpath)
+        files = list(os.walk(rootpath))
+        outputfiles = []
+        
+        for root, dirnames, filenames in files:
+            for file in filenames:
+                if self.file_matches(os.path.join(root, file)):
+                    outputfiles.append(os.path.join(root, file))
+
+        return outputfiles
+
+    def splashscreen(self, message):
+        print '{}==>{} {}'.format(Fore.MAGENTA, Fore.RESET, message)
+        print '    {}{}{}'.format(Fore.MAGENTA, '='*len(message), Fore.RESET)
+        print ''
+
+    def __init__(self):
+        self.splashscreen('Dynamic Reflection Library Parser')
+        self.logger = Logger(Fore.MAGENTA)
+
+        parser = argparse.ArgumentParser(description='Dynamic Reflection Library Parser')
+        parser.add_argument('-f', '--files', nargs = '+')
+        parser.add_argument('-d', '--database', default = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'drlp_database.json'))
+        parser.add_argument('-I', '--includedirs')
+        parser.add_argument('-s', '--sourcedir')
+        parser.add_argument('-x', '--exclude', default = [])
+        parser.add_argument('-e', '--extensions', default = ['.cpp', '.hpp', '.h', '.hxx', '.cxx'])
+        self.args = parser.parse_args()
+
+        if self.args.files:
+            files = self.args.files
+        else:
+            files = []
+
+        if self.args.exclude:
+            self.args.exclude = self.args.exclude.split()
+        else:
+            self.args.exclude = []
+
+        self.logger.step('Database file: {}'.format(self.args.database))
+        self.logger.step('Extensions: ' + ', '.join(self.args.extensions))
+        self.logger.step('Exclude: ' + ', '.join(self.args.exclude))
+        
+        self.logger = Logger(Fore.YELLOW)
+
+        if self.args.includedirs:
+            self.args.includedirs = self.args.includedirs.split()
+            self.logger.start('Scanning include directories:')
+
+            for include_dir in self.args.includedirs:
+                directory_files = self.search_files(include_dir)
+                files = list(set(files + directory_files))
+        else:
+            files = self.args.files
+
+        files.sort()
+
+        self.compiler = Compiler(self.args.sourcedir, files, self.args.database)
+    
+    def run(self):
+        self.compiler.process()
+        self.compiler.save_database()
+
+App().run()
+        

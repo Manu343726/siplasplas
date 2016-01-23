@@ -77,15 +77,15 @@ namespace cpp
         class Binded
         {
         public:
-            Binded(const Function& function, const T& object) :
-                _function{const_cast<Function*>(&function)},
-                _object{const_cast<T*>(&object)}
+            Binded(const Function* function, const T* object) :
+                _function{const_cast<Function*>(function)},
+                _object{const_cast<T*>(object)}
             {}
 
             template<typename... Args>
             cpp::MetaObject operator()(Args&&... args) const
             {
-                return (*const_cast<const Function*>(_function))(*_object)(std::forward<Args>(args)...);
+                return (*const_cast<const Function*>(_function))(*const_cast<const T*>(_object))(std::forward<Args>(args)...);
             }
 
             template<typename... Args>
@@ -95,14 +95,14 @@ namespace cpp
             }
 
         private:
-            T* _object;
             Function* _function;
+            T* _object;
         };
 
         template<typename T>
         Binded<T> bind(const T& object)
         {
-            return { *this, object };
+            return { this, &object };
         }
 
 
@@ -130,7 +130,7 @@ namespace cpp
         class Invoker<R (Class::*)(Args...)> : public InvokerInterface
         {
         public:
-            using FunctionType = R Class::*(Args...);
+            using FunctionType = R (Class::*)(Args...);
 
             Invoker(FunctionType function) :
                 _function{ function }
@@ -234,7 +234,7 @@ namespace cpp
         std::string _name;
     };
 
-#define SIPLASPLAS_REFLECTION_FUNCTION(Class, FunctionName) ::cpp::Function{ SIPLASPLAS_PP_STR(FunctionName), & MyClass :: FunctionName }
+#define SIPLASPLAS_REFLECTION_FUNCTION(Class, FunctionName) ::cpp::Function{ SIPLASPLAS_PP_STR(FunctionName), & Class :: FunctionName }
 }
 
 #endif // SIPLASPLAS_REFLECTION_FUNCTION_HPP
