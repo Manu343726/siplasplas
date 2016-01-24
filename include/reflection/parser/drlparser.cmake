@@ -53,13 +53,30 @@ function(reflection_target TARGET)
     string(REGEX REPLACE ";" " " SOURCES "${SOURCES}")
     string(REGEX REPLACE ";" " " INCLUDE_DIRS "${INCLUDE_DIRS}")
 
+    if(DRLPARSER_DATABASE)
+        message(STATUS "[REFLECTION] DRLParser custom database file: ${DRLPARSER_DATABASE}")
+        set(database --database ${DRLPARSER_DATABASE})
+    endif()
+
     if(DRLPARSER_IGNORE_DATABASE)
+        message(STATUS "[REFLECTION] DRLParser ignore database")
         set(ignore_database --ignore-database)
+    endif()
+
+    if(DRLPARSER_LIBCLANG)
+        message(STATUS "[REFLECTION] DRLParser custom libclang file: ${DRLPARSER_LIBCLANG}")
+        set(libclang --libclang ${DRLPARSER_LIBCLANG})
     endif()
 
     add_custom_command(
         TARGET ${TARGET}_prebuild POST_BUILD 
-        COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/${DRLPARSER_SCRIPT} -I ${INCLUDE_DIRS} 
-            -f ${sources} -s ${CMAKE_SOURCE_DIR} -x *3rdParty* ${ignore_database}
-    )    
+        COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/${DRLPARSER_SCRIPT} 
+            -I ${INCLUDE_DIRS}
+            -f ${sources}
+            -s ${CMAKE_SOURCE_DIR}
+            -x *3rdParty*
+            ${database}
+            ${libclang}
+            ${ignore_database}
+    )
 endfunction()

@@ -242,8 +242,6 @@ class Compiler:
     def process(self):
         self.logger.start('Processing {} files:'.format(len(self.tus)))
 
-        print self.ignore_database
-
         for tu in self.tus:
             if self.ignore_database or not self.syncmanager.is_synced(tu.filePath):
                 self.logger.step('({}outdated{}) {}'.format(Fore.RED, Fore.RESET, self.pathformat.format(tu.filePath)))
@@ -297,13 +295,14 @@ class App:
         self.logger = Logger(Fore.MAGENTA)
 
         parser = argparse.ArgumentParser(description='Dynamic Reflection Library Parser')
-        parser.add_argument('-f', '--files', default = [])
-        parser.add_argument('-d', '--database', default = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'drlp_database.json'))
-        parser.add_argument('-I', '--includedirs', default = [])
-        parser.add_argument('-s', '--sourcedir')
-        parser.add_argument('-x', '--exclude', default = [])
-        parser.add_argument('-e', '--extensions', default = ['.cpp', '.hpp', '.h', '.hxx', '.cxx'])
-        parser.add_argument('-i', '--ignore-database', action = 'store_true')
+        parser.add_argument('-f', '--files', default = [], help = 'List of input files to process')
+        parser.add_argument('-d', '--database', default = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'drlp_database.json'), help = 'Compilation database JSON file')
+        parser.add_argument('-I', '--includedirs', default = [], help = 'List of include directories to scan for more input files')
+        parser.add_argument('-s', '--sourcedir', help = 'Project source directory')
+        parser.add_argument('-x', '--exclude', default = [], help = 'List of GLOBs to exclude source files from include directories scan')
+        parser.add_argument('-e', '--extensions', default = ['.cpp', '.hpp', '.h', '.hxx', '.cxx'], help = 'List of file extensions used for include directory input files scan')
+        parser.add_argument('-i', '--ignore-database', action = 'store_true', help = 'Ignore database records (Ignore input file timestamps, process file always)')
+        parser.add_argument('-l', '--libclang', help = 'Full path to libclang library (libclang.so)')
         self.args = parser.parse_args()
 
         if self.args.files:
@@ -315,6 +314,10 @@ class App:
             self.args.exclude = self.args.exclude.split()
         else:
             self.args.exclude = []
+
+        if self.args.libclang:
+            self.logger.step('libclang.so: ' + self.args.libclang)
+            clang.cindex.Config.set_library_file(self.args.libclang)
 
         self.logger.step('Database file: {}'.format(self.args.database))
         self.logger.step('Extensions: ' + ', '.join(self.args.extensions))
