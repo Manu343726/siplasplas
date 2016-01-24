@@ -108,7 +108,7 @@ Por ello, para compilar y ejecutar los ejemplos de reflexión es necesario tener
 
     En linux os debería bastar con instalarlo a través del package manager de turno. En Windows podéis descargarlo desde [aquí](https://www.python.org/downloads/). Es muy importante que os aseguréis que tanto el intérprete como los scripts se añaden al `PATH`. En el caso de Windows con la configuración por defecto `C:\Python27` y `C:\Python27\scripts`.
 
-    Además es necesario instalar `pip`, el gestor de dependencias de python. El método típico descargar el script [`get-pip.py`](https://bootstrap.pypa.io/get-pip.py) y ejecutarlo:
+    Además es necesario instalar `pip`, el gestor de dependencias de python. El método típico es descargar el script [`get-pip.py`](https://bootstrap.pypa.io/get-pip.py) y ejecutarlo:
 
     ``` shell
 $ python get-pip.py
