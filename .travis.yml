@@ -68,7 +68,7 @@ install:
   - cd ${TRAVIS_BUILD_DIR}
 
   # Install reflection parser dependencies:
-  - pip install -r include/reflection/parser/requirements.txt
+  - pip install --user -r include/reflection/parser/requirements.txt
 
   # Configure and build project:
   - if [ ! -d build ]; then mkdir build; fi
