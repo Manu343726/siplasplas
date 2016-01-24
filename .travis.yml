@@ -5,6 +5,8 @@ language: cpp
 script: cmake
 
 matrix:
+  global:
+    - libclang_so = $(TRAVIS_BUILD_DIR)/build/libclang.so
   include:
     - env: BUILD_TYPE=Release CLANG_VERSION=3.7
       os: linux
@@ -68,13 +70,20 @@ install:
   - cmake --version
   - cd ${TRAVIS_BUILD_DIR}
 
+  # Build libclang:
+  - svn co --quiet http://llvm.org/svn/llvm-project/llvm/trunk llvm && cd llvm/tools/
+  - svn co --quiet http://llvm.org/svn/llvm-project/cfe/trunk clang
+  - cd .. && mkdir buildllvm-clang && cd buildllvm-clang
+  - cmake .. -DCMAKE_BUILD_TYPE=Release && cmake --build .
+  - ln -s $(find . -name libclang.so) $(TRAVIS_BUILD_DIR)/build/libclang.so
+
   # Install reflection parser dependencies:
   - pip install --user -r include/reflection/parser/requirements.txt
 
   # Configure and build project:
   - if [ ! -d build ]; then mkdir build; fi
   - cd build
-  - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DDRLPARSER_IGNORE_DATABASE=TRUE
+  - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DDRLPARSER_IGNORE_DATABASE=TRUE -DLIBCLANG_PATH="$(TRAVIS_BUILD_DIR)/build/libclang.so"
   - cmake --build .
 
 script:
