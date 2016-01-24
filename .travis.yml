@@ -27,10 +27,12 @@ matrix:
       addons: &gcc530
         apt:
           packages:
+            - clang-3.7 # We need libclang for reflection parser
             - g++-5
             - gcc-5
           sources:
             - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.7
 
     - env: BUILD_TYPE=Debug GCC_VERSION=5.3.0 GCC=gcc-5 GXX=g++-5
       os: linux
@@ -65,9 +67,13 @@ install:
   - cmake --version
   - cd ${TRAVIS_BUILD_DIR}
 
+  # Install reflection parser dependencies:
+  - pip install -r include/reflection/parser/requirements.txt
+
+  # Configure and build project:
   - if [ ! -d build ]; then mkdir build; fi
   - cd build
-  - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+  - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DDRLPARSER_IGNORE_DATABASE=TRUE
   - cmake --build .
 
 script:

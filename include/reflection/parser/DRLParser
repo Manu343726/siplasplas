@@ -231,8 +231,9 @@ class SyncManager:
     
 
 class Compiler:
-    def __init__(self, sourcedir, files, databasefile):
+    def __init__(self, sourcedir, files, databasefile, ignore_database = False):
         self.syncmanager = SyncManager(databasefile)
+        self.ignore_database = ignore_database
         self.logger = Logger(Fore.GREEN, len(files))
         self.pathformat = PathFormatter(sourcedir)
         self.sourcedir = sourcedir
@@ -241,8 +242,10 @@ class Compiler:
     def process(self):
         self.logger.start('Processing {} files:'.format(len(self.tus)))
 
+        print self.ignore_database
+
         for tu in self.tus:
-            if not self.syncmanager.is_synced(tu.filePath):
+            if self.ignore_database or not self.syncmanager.is_synced(tu.filePath):
                 self.logger.step('({}outdated{}) {}'.format(Fore.RED, Fore.RESET, self.pathformat.format(tu.filePath)))
                 tu.process()
                 tu.generate()
@@ -251,7 +254,7 @@ class Compiler:
                 self.logger.step('({}up-to-date{}) {}'.format(Fore.GREEN, Fore.RESET, self.pathformat.format(tu.filePath)))
 
     def save_database(self):
-        self.logger.start('Writting database...')
+        self.logger.start('Writing database...')
         self.syncmanager.save()
 
     def run(self):
@@ -294,16 +297,17 @@ class App:
         self.logger = Logger(Fore.MAGENTA)
 
         parser = argparse.ArgumentParser(description='Dynamic Reflection Library Parser')
-        parser.add_argument('-f', '--files', nargs = '+')
+        parser.add_argument('-f', '--files', default = [])
         parser.add_argument('-d', '--database', default = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'drlp_database.json'))
-        parser.add_argument('-I', '--includedirs')
+        parser.add_argument('-I', '--includedirs', default = [])
         parser.add_argument('-s', '--sourcedir')
         parser.add_argument('-x', '--exclude', default = [])
         parser.add_argument('-e', '--extensions', default = ['.cpp', '.hpp', '.h', '.hxx', '.cxx'])
+        parser.add_argument('-i', '--ignore-database', action = 'store_true')
         self.args = parser.parse_args()
 
         if self.args.files:
-            files = self.args.files
+            files = self.args.files.split()
         else:
             files = []
 
@@ -330,7 +334,7 @@ class App:
 
         files.sort()
 
-        self.compiler = Compiler(self.args.sourcedir, files, self.args.database)
+        self.compiler = Compiler(self.args.sourcedir, files, self.args.database, self.args.ignore_database)
     
     def run(self):
         self.compiler.run()

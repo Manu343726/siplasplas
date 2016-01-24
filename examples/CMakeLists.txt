@@ -20,7 +20,7 @@ endif()
 exec_target(NAME free_list PREFIX example RUN)
 exec_target(NAME canary_allocator PREFIX example RUN)
 
-include(${CMAKE_SOURCE_DIR}/include/reflection/drlparser.cmake)
+include(${CMAKE_SOURCE_DIR}/include/reflection/parser/drlparser.cmake)
 
 exec_target(NAME reflection PREFIX example RUN)
 reflection_target(example_reflection)

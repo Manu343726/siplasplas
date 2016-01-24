@@ -1,0 +1,2 @@
+clang>=3.5
+colorama>=0.3.6

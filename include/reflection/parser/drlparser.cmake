@@ -8,7 +8,7 @@ else()
     message(STATUS "Python interpreter found: ${PYTHON_EXECUTABLE} (${PYTHON_VERSION_STRING})")
 endif()
 
-set(DRLPARSER_SCRIPT include/reflection/DRLParser)
+set(DRLPARSER_SCRIPT include/reflection/parser/DRLParser)
 
 function(reflection_target TARGET)
     if(NOT (TARGET ${TARGET}))
@@ -53,9 +53,13 @@ function(reflection_target TARGET)
     string(REGEX REPLACE ";" " " SOURCES "${SOURCES}")
     string(REGEX REPLACE ";" " " INCLUDE_DIRS "${INCLUDE_DIRS}")
 
+    if(DRLPARSER_IGNORE_DATABASE)
+        set(ignore_database --ignore-database)
+    endif()
+
     add_custom_command(
         TARGET ${TARGET}_prebuild POST_BUILD 
         COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/${DRLPARSER_SCRIPT} -I ${INCLUDE_DIRS} 
-            -f ${sources} -s ${CMAKE_SOURCE_DIR} -x *3rdParty*
+            -f ${sources} -s ${CMAKE_SOURCE_DIR} -x *3rdParty* ${ignore_database}
     )    
 endfunction()
