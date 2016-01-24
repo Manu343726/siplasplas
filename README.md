@@ -104,26 +104,26 @@ user@siplasplas/build: $ ctest -C Debug . -VV
 El motor de reflexión mostrado durante el curso utiliza un script Python para analizar y generar automáticamente el código extra necesario para la reflexión, además dicho script utiliza la API libclang para analizar el código fuente.
 Por ello, para compilar y ejecutar los ejemplos de reflexión es necesario tener instalados Python 2.7 y libclang, así como instalar las dependencias del script:
 
-1. Instalación de Python:
+1. **Instalar Python:**
 
-En linux os debería bastar con instalarlo a través del package manager de turno. En Windows podéis descargarlo desde [aquí](https://www.python.org/downloads/). Es muy importante que os aseguréis que tanto el intérprete como los scripts se añaden al `PATH`. En el caso de Windows con la configuración por defecto `C:\Python27` y `C:\Python27\scripts`.
+    En linux os debería bastar con instalarlo a través del package manager de turno. En Windows podéis descargarlo desde [aquí](https://www.python.org/downloads/). Es muy importante que os aseguréis que tanto el intérprete como los scripts se añaden al `PATH`. En el caso de Windows con la configuración por defecto `C:\Python27` y `C:\Python27\scripts`.
 
-Además es necesario instalar `pip`, el gestor de dependencias de python. El método típico descargar el script [`get-pip.py`](https://bootstrap.pypa.io/get-pip.py) y ejecutarlo:
+    Además es necesario instalar `pip`, el gestor de dependencias de python. El método típico descargar el script [`get-pip.py`](https://bootstrap.pypa.io/get-pip.py) y ejecutarlo:
 
-``` shell
+    ``` shell
 $ python get-pip.py
 ```
 
-2. Instalar libclang:
+2. **Instalar libclang:**
 
  - Windows: La versión compilada de Clang incluye libclang, debería funcionaros sin problemas nada más instalarlo. Si no es así, probablemente sea un problema con el path de `libclang.so`. Tanto el script del parser como la interfaz CMake incluyen un flag por el que pasar la ruta a `libclang.so` por si esto ocurre. Podéis descargar Clang para windows desde [aquí](http://llvm.org/releases/download.html).
  - Linux: Dependiendo de la distro el paquete se llamará de una manera u otra. En debian por ejemplo, el que se está usando en las builds de Travis, es `libclang1-[VERSION CLANG]`. Se suele incluir como parte del paquete correspondiente a Clang.
 
-3. Instalar dependencias
+3. **Instalar dependencias:**
 
-El script incluye un archivo `requirements.txt` con las dependencias de éste:
+    El script incluye un archivo `requirements.txt` con las dependencias de éste:
 
-``` shell
+    ``` shell
 $ pip install -r include/reflection/parser/requirements.txt
 ```
 
