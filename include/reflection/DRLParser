@@ -71,8 +71,8 @@ class Function:
 
 
 class Class:
-    def __init__(self, cursor):
-        self.logger = Logger(Fore.WHITE, tab = '  ')
+    def __init__(self, cursor, logger = Logger(Fore.WHITE)):
+        self.logger = logger
         self.cursor = cursor
         self.className = cursor.spelling
         self.fields = []
@@ -85,7 +85,7 @@ class Class:
             elif child.kind == CursorKind.FIELD_DECL:
                 self.fields.append(Field(child))
             elif child.spelling == 'EnableReflection':
-                self.logger.info('Found reflection tag for class \'{}\' (\'{}\')'.format(self.className, self.cursor.displayname))
+                self.logger.info('Found reflection tag for class \'{}\''.format(self.className))
                 self.enable_reflection_tag = child
 
     def has_reflection(self):
@@ -140,6 +140,7 @@ class \'{0}\':
   
 class TranslationUnit:
     def __init__(self, filepath, logger):
+        self.logger = logger
         self.filePath = filepath
         self.index = clang.cindex.Index.create()
         self.translationUnit = self.index.parse(filepath)
@@ -235,22 +236,27 @@ class Compiler:
         self.logger = Logger(Fore.GREEN, len(files))
         self.pathformat = PathFormatter(sourcedir)
         self.sourcedir = sourcedir
-        self.sources = files
+        self.tus = [TranslationUnit(sourcefile, self.logger) for sourcefile in files]
 
     def process(self):
-        self.logger.start('Processing {} files:'.format(len(self.sources)))
+        self.logger.start('Processing {} files:'.format(len(self.tus)))
 
-        for sourcefile in self.sources:
-            if not self.syncmanager.is_synced(sourcefile):
-                self.logger.step('({}outdated{}) {}'.format(Fore.RED, Fore.RESET, self.pathformat.format(sourcefile)))
-                tu = TranslationUnit(sourcefile, self.logger)
+        for tu in self.tus:
+            if not self.syncmanager.is_synced(tu.filePath):
+                self.logger.step('({}outdated{}) {}'.format(Fore.RED, Fore.RESET, self.pathformat.format(tu.filePath)))
                 tu.process()
-                self.syncmanager.sync(sourcefile)
+                tu.generate()
+                self.syncmanager.sync(tu.filePath)
             else:
-                self.logger.step('({}up-to-date{}) {}'.format(Fore.GREEN, Fore.RESET, self.pathformat.format(sourcefile)))
+                self.logger.step('({}up-to-date{}) {}'.format(Fore.GREEN, Fore.RESET, self.pathformat.format(tu.filePath)))
 
     def save_database(self):
+        self.logger.start('Writting database...')
         self.syncmanager.save()
+
+    def run(self):
+        self.process()
+        self.save_database()
 
 
 class App:
@@ -327,8 +333,8 @@ class App:
         self.compiler = Compiler(self.args.sourcedir, files, self.args.database)
     
     def run(self):
-        self.compiler.process()
-        self.compiler.save_database()
+        self.compiler.run()
+
 
 App().run()
         
