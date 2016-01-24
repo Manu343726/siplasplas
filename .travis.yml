@@ -12,6 +12,7 @@ matrix:
         apt:
           packages:
             - clang-3.7
+            - libclang-dev # For DRLParser
             - g++-5 # We need an updated stdlibc++ for clang too
             - gcc-5
           sources:
@@ -27,7 +28,7 @@ matrix:
       addons: &gcc530
         apt:
           packages:
-            - clang-3.7 # We need libclang for reflection parser
+            - libclang-dev # We need libclang for reflection parser
             - g++-5
             - gcc-5
           sources:
