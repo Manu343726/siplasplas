@@ -16,7 +16,7 @@ La estructura es la siguiente:
 
 ## Entornos
 
-Dado que el curso cubre C++14, es necesario un compilador con soporte al menos parcial de C++14. Recomiendo utilizar un compilador cuanto más nuevo mejor. Está probada sobre lod digueintes compiladores:
+Dado que el curso cubre C++14, es necesario un compilador con soporte al menos parcial de C++14. Recomiendo utilizar un compilador cuanto más nuevo mejor. Está probada sobre los siguientes compiladores:
 
 ### GCC 5.2-5.3
 En cualquier distro linux debería estar ya disponible. En el caso de Ubuntu, notable por no actualizar los paquetes, podéis añadir los PPA de testing (`ubuntu-toolchain-r-test`) para instalarlo.  
