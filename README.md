@@ -50,6 +50,8 @@ El soporte de C++14 es parcial. Para el curso será necesario [mínimo VS2015](h
 
 ## Setup
 
+[![asciicast](https://asciinema.org/a/c13nlez3fhd86xdkicw7l6y8q.png)](https://asciinema.org/a/c13nlez3fhd86xdkicw7l6y8q)
+
 Solo hay que clonar el repo e inicializar los submódulos de las dependencias externas:
 
 ``` bash
