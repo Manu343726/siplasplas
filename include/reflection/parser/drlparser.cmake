@@ -84,6 +84,8 @@ function(reflection_target TARGET)
     if(DRLPARSER_DATABASE)
         message(STATUS "[REFLECTION] DRLParser custom database file: ${DRLPARSER_DATABASE}")
         set(database --database ${DRLPARSER_DATABASE})
+    else()
+        set(database --database ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}.json)
     endif()
 
     if(DRLPARSER_IGNORE_DATABASE)
