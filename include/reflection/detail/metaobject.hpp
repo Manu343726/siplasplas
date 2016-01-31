@@ -81,6 +81,18 @@ namespace cpp
             return *reinterpret_cast<T*>(_object.get());
         }
 
+        template<typename T>
+        operator const T&() const
+        {
+            return get<T>();
+        }
+
+        template<typename T>
+        operator T&()
+        {
+            return get<T>();
+        }
+
         cpp::MetaType type() const
         {
             return _type;

@@ -60,14 +60,14 @@ namespace cpp
             _data{data}
         {}
     
-        cpp::Field::Binded<T> field(const std::string& name) const
+        cpp::BindedField<T> field(const std::string& name) const
         {
-            return _data->field(name).bind(_object);
+            return { _data->field(name), *_object};
         }
 
-        cpp::Function::Binded<T> function(const std::string& name) const
+        cpp::BindedFunction<T> function(const std::string& name) const
         {
-            return _data->function(name).bind(_object);
+            return { _data->function(name), *_object};
         }
 
     private:

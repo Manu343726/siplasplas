@@ -50,6 +50,11 @@ public:
     int f3(int, char){ return 3; }
 };
 
+int freePlainFunction(int a, int b)
+{
+    return a + b;
+}
+
 int main()
 {
     MyClass myObject;
@@ -83,4 +88,9 @@ int main()
     cpp::MetaObject result = MyClass::reflection().function("f")(myObject)(1);
 
     std::cout << myObject.field << std::endl;
+
+    std::cout << freePlainFunction(
+            myObject.instanceReflection().function("f")(1),
+            myObject.instanceReflection().field("field")
+    ) << std::endl;
 }
