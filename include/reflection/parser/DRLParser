@@ -199,10 +199,15 @@ class TranslationUnit:
     def __init__(self, filepath, args, jinjaTemplate, logger, print_ast = False):
         self.logger = logger
         self.filePath = filepath
+        self.jinjaOutputFile = self.filePath + '.rfl'
         self.ast_file_path = filepath + '.ast'
         self.print_ast = print_ast
         self.index = clang.cindex.Index.create()
         self.jinjaTemplate = jinjaTemplate
+
+        # Touch the file so #include <user_include.rfl> doesn't fail
+        if not os.path.exists(self.jinjaOutputFile):
+            with(self.jinjaOutputFile, 'w').close() 
 
         self.translationUnit = self.index.parse(filepath, args = args)
 
@@ -259,8 +264,7 @@ class TranslationUnit:
         if self.jinjaTemplate and self.classes:
             import hashlib
 
-            jinjaOutputFile = self.filePath + '.rfl'
-            self.logger.info('Generating file... {} -> {}'.format(self.filePath, jinjaOutputFile))
+            self.logger.info('Generating file... {} -> {}'.format(self.filePath, self.jinjaOutputFile))
 
             with open(jinjaOutputFile, 'w') as outputFile:
                 outputFile.write(self.jinjaTemplate.render(tu = self, hash = hashlib.md5(jinjaOutputFile.encode()).hexdigest()))
