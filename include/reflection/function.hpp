@@ -225,8 +225,6 @@ namespace cpp
     private:
         T* _object;
     };
-
-#define SIPLASPLAS_REFLECTION_FUNCTION(Class, FunctionName) ::cpp::Function{ SIPLASPLAS_PP_STR(FunctionName), & Class :: FunctionName }
 }
 
 #endif // SIPLASPLAS_REFLECTION_FUNCTION_HPP

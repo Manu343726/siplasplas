@@ -71,60 +71,71 @@ class Function:
 
 
 class Class:
-    def __init__(self, cursor, logger = Logger(Fore.WHITE)):
-        self.logger = logger
-        self.cursor = cursor
-        self.className = cursor.spelling
-        self.fields = []
-        self.functions = []
-        self.enable_reflection_tag = None
+    def _try_match_reflection_enabler(self, node):
+        """ Try to match a Reflectable<T> CRTP instantiation, 
+            i.e. class Foo : public Reflectable<Foo>"""
 
-        for child in cursor.get_children():
+        found_crtp_template = False
+
+        if node.kind == CursorKind.CXX_BASE_SPECIFIER:
+            for c in node.get_children():
+                if c.kind == CursorKind.TEMPLATE_REF and c.spelling == 'Reflectable':
+                    found_crtp_template = True
+                    self.logger.info('Found Reflectable<T> base specifier in class ' + self.full_qualified_ref)
+
+                if found_crtp_template:
+                    self.logger.info('Looking at {} (\'{}\' {})'.format(c.spelling, c.displayname, c.kind))
+
+                    if c.kind == CursorKind.TYPE_REF and c.referenced == self.cursor:
+                        return True;
+
+        return False;
+
+    def _collect_reflection_info(self):
+        for child in self.cursor.get_children():
             if child.kind == CursorKind.CXX_METHOD:
                 self.functions.append(Function(child))
             elif child.kind == CursorKind.FIELD_DECL:
                 self.fields.append(Field(child))
-            elif child.spelling == 'EnableReflection':
-                self.logger.info('Found reflection tag for class \'{}\''.format(self.className))
-                self.enable_reflection_tag = child
+            else:
+                if not self.reflection_enabled:
+                    self.reflection_enabled = self._try_match_reflection_enabler(child)
 
-    def has_reflection(self):
-        return self.enable_reflection_tag is not None
+    def __init__(self, cursor, logger = Logger(Fore.WHITE), namespace = []):
+        self.logger = logger
+        self.cursor = cursor
+        if cursor.kind == CursorKind.CLASS_DECL:
+            self.declKind = 'class'
+        elif cursor.kind == CursorKind.STRUCT_DECL:
+            self.declKind = 'struct'
+        else:
+            self.declKind = '[unknown]'
+        self.className = cursor.spelling
+        self.possible_name_refs = [self.className, 'struct ' + self.className, 'class ' + self.className]
+        self.fields = []
+        self.functions = []
+        self.namespace = [n for n in namespace if n] # Filter annonymous (empty) namespaces
+        self.reflection_enabled = False
 
-    def reflection_body(self):
-        adjust = ' '*(self.enable_reflection_tag.location.column - 4)
-        registerParamsAdjust = '                '
+        self._collect_reflection_info()
 
-        fields = (',\n' + adjust + registerParamsAdjust).join(['SIPLASPLAS_REFLECTION_FIELD({},{})'.format(self.className, field.name) for field in self.fields])    
-        functions = (',\n' + adjust + registerParamsAdjust).join(['SIPLASPLAS_REFLECTION_FUNCTION({},{})'.format(self.className, function.name) for function in self.functions])    
+    def forward_declaration(self):
+        namespace_begin = '\n'.join(['namespace {} {{'.format(n) for n in self.namespace])
+        namespace_end = '}' * len(self.namespace)
 
-        body = (
-"""
-public:
-    static ::cpp::MetaClassData& reflection() {{
-        static ::cpp::MetaClassData& data = []() -> ::cpp::MetaClassData& 
-        {{
-            ::cpp::MetaClass::registerClass<{0}>({{ 
-                {1} 
-            }}, {{ 
-                {2} 
-            }});
+        if self.cursor.kind == CLASS_DECL:
+            decl = '    class {};'.format(self.className)
+        elif self.cursor.kind == STRUCT_DECL:
+            decl = '    struct {};'.format(self.className)
+        else:
+            raise ValueError('Unrecognized cursor kind for forward declaration: {}'.format(self.cursor.lind))
 
-            return ::cpp::MetaClass::getClass<{0}>();
-        }}();
-
-        return data;
-    }}
-
-    ::cpp::BindedMetaClassData<{0}> instanceReflection() const 
-    {{
-        return {{this, &reflection()}};
-    }}
-
-""")
-        body = ('\n' + adjust).join(body.splitlines())
-
-        return body.format(self.className, fields, functions)
+    @property
+    def full_qualified_ref(self):
+        if self.namespace:
+            return '::' + '::'.join(self.namespace) + '::' + self.className
+        else:
+            return '::' + self.className
 
     def __str__(self):
         return (
@@ -139,56 +150,73 @@ class \'{0}\':
                 )
   
 class TranslationUnit:
-    def __init__(self, filepath, logger):
+    def __init__(self, filepath, args, jinjaTemplate, logger, print_ast = False):
         self.logger = logger
         self.filePath = filepath
+        self.ast_file_path = filepath + '.ast'
+        self.print_ast = print_ast
         self.index = clang.cindex.Index.create()
-        self.translationUnit = self.index.parse(filepath)
+        self.jinjaTemplate = jinjaTemplate
+
+        self.translationUnit = self.index.parse(filepath, args = args)
+
         self.classes = []
         self.tags = {}
+        self.matching_declarations = [
+            CursorKind.CLASS_DECL,
+            CursorKind.STRUCT_DECL
+        ]
 
-    def _process_reflection(self, node):
+    def _process_reflection(self, node, depth = 0, ast_file = None):
         reflectionClass = None
 
-        if node.kind == CursorKind.CLASS_DECL or node.kind == CursorKind.STRUCT_DECL:
-            reflectionClass = Class(node)    
+        childs = list(node.get_children())
 
-        for child in node.get_children():
-            self._process_reflection(child)
+        if (node.kind == CursorKind.NAMESPACE and node.spelling == 'std') or node.kind == CursorKind.UNEXPOSED_DECL:
+            childs = []
 
-        if reflectionClass is not None and reflectionClass.has_reflection():
+        if ast_file is not None:
+            ast_file.write('({}) {}{} {} [{}, line={}, column={}]\n'.format(self.namespace, '  '*depth, '==>' if childs else '  -', node.spelling, node.kind, node.location.line, node.location.column))
+
+
+        if node.kind == CursorKind.NAMESPACE:
+            self.namespace.append(node.spelling)
+
+        if node.kind in self.matching_declarations:
+            reflectionClass = Class(node, namespace = list(self.namespace))
+
+        for child in childs:
+            self._process_reflection(child, depth + 1, ast_file)
+
+        if node.kind == CursorKind.NAMESPACE:
+            self.namespace.pop()
+
+        if reflectionClass is not None and reflectionClass.reflection_enabled:
             self.classes.append(reflectionClass)
             self.tags[reflectionClass.cursor.location.line + 1] = reflectionClass
 
 
     def process(self):
         self.classes = []
-        self._process_reflection(self.translationUnit.cursor)
+        self.namespace = []
+
+        if self.print_ast:
+            with open(self.ast_file_path, 'w') as ast_file:
+                self._process_reflection(self.translationUnit.cursor, ast_file = ast_file)
+        else:
+            self._process_reflection(self.translationUnit.cursor)
 
         return self.classes
-    
-    def generate(self):
 
-        if not self.classes:
-            self.process()
+    def run_jinja(self):
+        if self.jinjaTemplate and self.classes:
+            import hashlib
 
-        if not self.classes:
-            return
+            jinjaOutputFile = self.filePath + '.rfl'
+            self.logger.info('Generating file... {} -> {}'.format(self.filePath, jinjaOutputFile))
 
-        outputName, ext = os.path.splitext(self.filePath)
-        outputPath = '{}.rfl{}'.format(outputName, ext)
-    
-        with open(self.filePath, 'r') as sourceFile:
-            with open(outputPath, 'w') as outputFile:
-                for lineNumber, line in enumerate(sourceFile):
-                    if lineNumber in self.tags:
-                        currentClass = self.tags[lineNumber]
-                        
-                        self.logger.info('Generating reflection code for class \'{}\''.format(currentClass.className))
-
-                        outputFile.write(currentClass.reflection_body())
-                    else:
-                        outputFile.write(line)
+            with open(jinjaOutputFile, 'w') as outputFile:
+                outputFile.write(self.jinjaTemplate.render(tu = self, hash = hashlib.md5(jinjaOutputFile.encode()).hexdigest()))
 
 
 class SyncManager:
@@ -231,13 +259,23 @@ class SyncManager:
     
 
 class Compiler:
-    def __init__(self, sourcedir, files, databasefile, ignore_database = False):
+    def __init__(self, args, sourcedir, includedirs, files, databasefile, ignore_database = False, print_ast = False, jinjaTemplateFile = None):
         self.syncmanager = SyncManager(databasefile)
         self.ignore_database = ignore_database
         self.logger = Logger(Fore.GREEN, len(files))
         self.pathformat = PathFormatter(sourcedir)
         self.sourcedir = sourcedir
-        self.tus = [TranslationUnit(sourcefile, self.logger) for sourcefile in files]
+        self.includedirs = includedirs
+        self.jinjaTemplateFile = jinjaTemplateFile
+
+        import jinja2
+        from jinja2 import Template, Environment, FileSystemLoader
+
+        env = Environment(loader=FileSystemLoader(self.sourcedir),
+                     trim_blocks=True)
+        template = env.get_template(self.jinjaTemplateFile)
+
+        self.tus = [TranslationUnit(sourcefile, args, template, self.logger, print_ast = print_ast) for sourcefile in files]
 
     def process(self):
         self.logger.start('Processing {} files:'.format(len(self.tus)))
@@ -246,7 +284,7 @@ class Compiler:
             if self.ignore_database or not self.syncmanager.is_synced(tu.filePath):
                 self.logger.step('({}outdated{}) {}'.format(Fore.RED, Fore.RESET, self.pathformat.format(tu.filePath)))
                 tu.process()
-                tu.generate()
+                tu.run_jinja()
                 self.syncmanager.sync(tu.filePath)
             else:
                 self.logger.step('({}up-to-date{}) {}'.format(Fore.GREEN, Fore.RESET, self.pathformat.format(tu.filePath)))
@@ -295,29 +333,24 @@ class App:
         self.logger = Logger(Fore.MAGENTA)
 
         parser = argparse.ArgumentParser(description='Dynamic Reflection Library Parser')
-        parser.add_argument('-f', '--files', default = [], help = 'List of input files to process')
+        parser.add_argument('-f', '--files', nargs = '*', default = [], help = 'List of input files to process')
         parser.add_argument('-d', '--database', default = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'drlp_database.json'), help = 'Compilation database JSON file')
         parser.add_argument('-I', '--includedirs', default = [], help = 'List of include directories to scan for more input files')
         parser.add_argument('-s', '--sourcedir', help = 'Project source directory')
-        parser.add_argument('-x', '--exclude', default = [], help = 'List of GLOBs to exclude source files from include directories scan')
-        parser.add_argument('-e', '--extensions', default = ['.cpp', '.hpp', '.h', '.hxx', '.cxx'], help = 'List of file extensions used for include directory input files scan')
+        parser.add_argument('-x', '--exclude', nargs = '*', default = [], help = 'List of GLOBs to exclude source files from include directories scan')
+        parser.add_argument('-e', '--extensions', nargs = '*', default = ['.hpp', '.h', '.hxx'], help = 'List of file extensions used for include directory input files scan')
         parser.add_argument('-i', '--ignore-database', action = 'store_true', help = 'Ignore database records (Ignore input file timestamps, process file always)')
         parser.add_argument('-l', '--libclang', help = 'Full path to libclang library (libclang.so)')
+        parser.add_argument('-a', '--ast-dump', help = 'Dumps the AST of each translation unit to a source_file.ast file', action = 'store_true')
+        parser.add_argument('--code-template-file', help = 'Template file of reflection code generation')
         self.args = parser.parse_args()
-
-        if self.args.files:
-            files = self.args.files.split()
-        else:
-            files = []
-
-        if self.args.exclude:
-            self.args.exclude = self.args.exclude.split()
-        else:
-            self.args.exclude = []
 
         if self.args.libclang:
             self.logger.step('libclang.so: ' + self.args.libclang)
             clang.cindex.Config.set_library_file(self.args.libclang)
+        else:
+            config = clang.cindex.Config()
+            self.logger.step('libclang.so: ' + os.path.abspath(config.get_filename()))
 
         self.logger.step('Database file: {}'.format(self.args.database))
         self.logger.step('Extensions: ' + ', '.join(self.args.extensions))
@@ -331,13 +364,22 @@ class App:
 
             for include_dir in self.args.includedirs:
                 directory_files = self.search_files(include_dir)
-                files = list(set(files + directory_files))
-        else:
-            files = self.args.files
+                self.args.files = list(set(self.args.files + directory_files))
 
-        files.sort()
+        self.args.files.sort()
 
-        self.compiler = Compiler(self.args.sourcedir, files, self.args.database, self.args.ignore_database)
+        includes = ['-I{}'.format(os.path.abspath(i)) for i in self.args.includedirs]
+        includes.append('-I' + os.path.abspath(self.args.sourcedir))
+        includes.append('-I' + os.path.abspath(os.path.join(self.args.sourcedir, 'include')))
+
+        compileArgs = includes + ['-std=c++14']
+
+        self.compiler = Compiler(compileArgs,
+            self.args.sourcedir, self.args.includedirs, self.args.files,
+            self.args.database, self.args.ignore_database, 
+            self.args.ast_dump,
+            self.args.code_template_file
+        )
     
     def run(self):
         self.compiler.run()

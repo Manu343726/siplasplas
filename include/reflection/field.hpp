@@ -1,7 +1,6 @@
 #ifndef SIPLASPLAS_REFLECTION_FIELD_HPP
 #define SIPLASPLAS_REFLECTION_FIELD_HPP
 
-#include "utility/preprocessor.hpp"
 #include "reflection/detail/metaobject.hpp"
 
 #include <type_traits>
@@ -61,9 +60,12 @@ namespace cpp
         std::string _name;
         std::size_t _offset;
     };
+}
 
+namespace cpp
+{
     template<typename T>
-    class BindedField : public Field
+    class BindedField : public ::cpp::Field
     {
     public:
         BindedField(const Field& field, const T& object) :
@@ -92,11 +94,10 @@ namespace cpp
         {
             return get().template get<U>();
         }
+
+    private:
         T* _object;
     };
-
-#define SIPLASPLAS_REFLECTION_FIELD(Class, FieldName) ::cpp::Field{ SIPLASPLAS_PP_STR(FieldName), & Class :: FieldName,\
-    offsetof(Class, FieldName) }
 }
 
 #endif // SIPLASPLAS_REFLECTION_FIELD_HPP

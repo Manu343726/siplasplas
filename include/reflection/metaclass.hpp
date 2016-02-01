@@ -8,6 +8,12 @@
 
 namespace cpp
 {
+    template<typename T>
+    class Reflectable
+    {
+
+    };
+
     class MetaClassData
     {
     public:
@@ -113,22 +119,14 @@ namespace cpp
     MetaClass::MetaClassRegistry MetaClass::_metaClasses;
 
     template<typename Class>
-    class MetaClassFor : public MetaClass
+    class Reflection
     {
     public:
-        static MetaClassData& reflection()
+        static ::cpp::MetaClassData& reflection() 
         {
-            return _metaClasses.at(ctti::unnamed_type_id<Class>());
-        }
-
-        BindedMetaClassData<Class> instanceReflection() const
-        {
-            return { static_cast<const Class&>(*this), reflection() };
+            throw std::runtime_error{"Wrong Reflection<T> specialization"};
         }
     };
-
-#define SIPLASPLAS_ENABLE_REFLECTION struct EnableReflection {};
-
 }
 
 #endif // SIPLASPLAS_REFLECTION_METACLASS_HPP

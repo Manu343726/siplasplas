@@ -32,48 +32,8 @@ function(reflection_target TARGET)
 
         message(STATUS "[REFLECTION]  - ${source}")
 
-        get_filename_component(ext ${source} EXT)
-        get_filename_component(name ${source} NAME_WE)
-        get_filename_component(path ${source} PATH)
-        set(final_source "${path}/${name}.rfl${ext}")
-
-        if(NOT (EXISTS ${final_source}))
-            # Create a fake source file so target SOURCES property check doesn't fail
-            execute_process(COMMAND ${CMAKE_COMMAND} -E touch ${final_source})
-        endif()
-
-        list(APPEND final_sources ${final_source})
         list(APPEND sources ${source})
     endforeach()
-
-    if(MSVC)
-        set_source_files_properties(${sources} PROPERTIES HEADER_FILE_ONLY TRUE)
-
-        foreach(source ${sources})
-            source_file_has_custom_property(has_source_group ${source} VS_SOURCE_GROUP)
-
-            if(has_source_group)
-                get_source_file_custom_property(group ${source} VS_SOURCE_GROUP)
-                source_group("${group}\\original sources" FILES ${source})
-            else()
-                source_group("original sources" FILES ${sourece})
-            endif()
-        endforeach()
-        foreach(final ${final_sources})
-            source_file_has_custom_property(has_source_group ${final} VS_SOURCE_GROUP)
-
-            if(has_source_group)
-                get_source_file_custom_property(group ${final} VS_SOURCE_GROUP)
-                source_group("${group}\\generated sources" FILES ${final})
-            else()
-                source_group("generated sources" FILES ${final})
-            endif()
-        endforeach()
-
-        set_property(TARGET ${TARGET} PROPERTY SOURCES ${sources} ${final_sources} ${headers})
-    else()
-        set_property(TARGET ${TARGET} PROPERTY SOURCES ${final_sources} )
-    endif()
 
     message(STATUS "[REFLECTION] Setting preprocessor hook for target ${TARGET}")
     add_custom_target(${TARGET}_prebuild)
@@ -102,11 +62,11 @@ function(reflection_target TARGET)
         TARGET ${TARGET}_prebuild POST_BUILD 
         COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/${DRLPARSER_SCRIPT} 
             -I ${INCLUDE_DIRS}
-            -f ${sources}
             -s ${CMAKE_SOURCE_DIR}
             -x *3rdParty*
             ${database}
             ${libclang}
             ${ignore_database}
+            --code-template-file include/reflection/parser/templates/reflection_template.hpp
     )
 endfunction()

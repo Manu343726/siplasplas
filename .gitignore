@@ -1,5 +1,7 @@
 # Ignore reflection output
 *.rfl*
+*.ast # AST output files
+*.json # Build timestamps database
 
 # Ignore cmake buildtree
 build/
