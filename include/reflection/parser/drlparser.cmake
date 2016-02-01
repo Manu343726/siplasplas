@@ -58,6 +58,10 @@ function(reflection_target TARGET)
         set(libclang --libclang ${DRLPARSER_LIBCLANG})
     endif()
 
+    if(DRLPARSER_VERBOSE)
+        set(verbose --verbose)
+    endif()
+
     add_custom_command(
         TARGET ${TARGET}_prebuild POST_BUILD 
         COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/${DRLPARSER_SCRIPT} 
@@ -67,6 +71,7 @@ function(reflection_target TARGET)
             ${database}
             ${libclang}
             ${ignore_database}
+            ${verbose}
             --code-template-file include/reflection/parser/templates/reflection_template.hpp
     )
 endfunction()

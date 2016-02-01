@@ -57,6 +57,50 @@ class Logger:
     def info(self, message):
         print self.info_header + message
 
+class DevNullLogger:
+    def start(self, message, steps = -1):
+        return
+
+    def step(self, message):
+        return
+
+    def info(self, message):
+        return
+
+
+class GlobalLogger:
+    _okLogger = Logger(Fore.GREEN)
+    _errorLogger = Logger(Fore.RED)
+    _warnLogger = Logger(Fore.YELLOW)
+    _infoLogger = Logger(Fore.BLUE)
+    _normalLogger = Logger(Fore.WHITE)
+    _devNullLogger = DevNullLogger()
+    _enabled = False
+
+    @staticmethod
+    def enabled(enabled):
+        GlobalLogger._enabled = enabled
+
+    @staticmethod
+    def ok():
+        return GlobalLogger._okLogger if GlobalLogger._enabled else GlobalLogger._devNullLogger
+
+    @staticmethod
+    def error():
+        return GlobalLogger._errorLogger if GlobalLogger._enabled else GlobalLogger._devNullLogger
+
+    @staticmethod
+    def warning():
+        return GlobalLogger._warnLogger if GlobalLogger._enabled else GlobalLogger._devNullLogger
+
+    @staticmethod
+    def info():
+        return GlobalLogger._infoLogger if GlobalLogger._enabled else GlobalLogger._devNullLogger
+
+    @staticmethod
+    def normal():
+        return GlobalLogger._normalLogger if GlobalLogger._enabled else GlobalLogger._devNullLogger
+
 
 class Field:
     def __init__(self, cursor):
@@ -79,6 +123,8 @@ class Class:
 
         if node.kind == CursorKind.CXX_BASE_SPECIFIER:
             for c in node.get_children():
+                GlobalLogger.warning().step('base spec child: {} [{}]'.format(c.spelling, c.kind))
+
                 if c.kind == CursorKind.TEMPLATE_REF and c.spelling == 'Reflectable':
                     found_crtp_template = True
                     self.logger.info('Found Reflectable<T> base specifier in class ' + self.full_qualified_ref)
@@ -184,6 +230,7 @@ class TranslationUnit:
 
         if node.kind in self.matching_declarations:
             reflectionClass = Class(node, namespace = list(self.namespace))
+            GlobalLogger.info().step('[line {}, col {}] {}'.format(node.location.line, node.location.column, reflectionClass.full_qualified_ref))
 
         for child in childs:
             self._process_reflection(child, depth + 1, ast_file)
@@ -259,7 +306,7 @@ class SyncManager:
     
 
 class Compiler:
-    def __init__(self, args, sourcedir, includedirs, files, databasefile, ignore_database = False, print_ast = False, jinjaTemplateFile = None):
+    def __init__(self, args, sourcedir, includedirs, files, databasefile, ignore_database = False, print_ast = False, jinjaTemplateFile = None, verbose = False):
         self.syncmanager = SyncManager(databasefile)
         self.ignore_database = ignore_database
         self.logger = Logger(Fore.GREEN, len(files))
@@ -343,7 +390,10 @@ class App:
         parser.add_argument('-l', '--libclang', help = 'Full path to libclang library (libclang.so)')
         parser.add_argument('-a', '--ast-dump', help = 'Dumps the AST of each translation unit to a source_file.ast file', action = 'store_true')
         parser.add_argument('--code-template-file', help = 'Template file of reflection code generation')
+        parser.add_argument('-v', '--verbose', action = 'store_true')
         self.args = parser.parse_args()
+
+        GlobalLogger.enabled(self.args.verbose)
 
         if self.args.libclang:
             self.logger.step('libclang.so: ' + self.args.libclang)

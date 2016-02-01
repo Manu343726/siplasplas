@@ -83,7 +83,7 @@ install:
   # Configure and build project:
   - if [ ! -d build ]; then mkdir build; fi
   - cd build
-  - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DDRLPARSER_IGNORE_DATABASE=TRUE -DDRLPARSER_LIBCLANG="$LIBCLANG"
+  - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DDRLPARSER_IGNORE_DATABASE=TRUE -DDRLPARSER_LIBCLANG="$LIBCLANG" -DDRLPARSER_VERBOSE=TRUE
   - cmake --build .
 
 script:
