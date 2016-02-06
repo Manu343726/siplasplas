@@ -1,13 +1,19 @@
-#ifndef SIPLASPLAS_REFLECTION_INIT_FILE_{{hash}}_HPP
-#define SIPLASPLAS_REFLECTION_INIT_FILE_{{hash}}_HPP
+#ifndef SIPLASPLAS_REFLECTION_OUTPUT_FILE_{{hash}}_HPP
+#define SIPLASPLAS_REFLECTION_OUTPUT_FILE_{{hash}}_HPP
 
 /*
- * Reflection initialization file generated from file:
+ * Reflection file generated from:
  * {{tu.filePath}}
  *
  * Classes:
 {% for class in tu.classes %}
- * - From line {{class.cursor.location.line}}: {{class.declKind}} {{class.className}} ({{class.full_qualified_ref}})
+ * :: From line {{class.cursor.location.line}}: {{class.declKind}} {{class.className}} ({{class.full_qualified_ref}})
+{% for f in class.fields %}
+ *    -> field "{{f.name}}" 
+{% endfor %}
+{% for f in class.functions %}
+ *    -> function "{{f.name}}" 
+{% endfor %}
 {% endfor %}
  */ 
 
@@ -22,22 +28,21 @@ namespace cpp
             static ::cpp::MetaClassData& data = []() -> ::cpp::MetaClassData& 
             {
                 ::cpp::MetaClass::registerClass<{{class.full_qualified_ref}}>({
-                    {% for field in class.fields %}
-                        ::cpp::Field("{{field.name}}", &{{class.full_qualified_ref}}::{{field.name}}, offsetof({{class.full_qualified_ref}}, {{field.name}})),
-                    {% endfor %}
+{% for field in class.fields %}
+                    ::cpp::Field("{{field.name}}", &{{class.full_qualified_ref}}::{{field.name}}, offsetof({{class.full_qualified_ref}}, {{field.name}})),
+{% endfor %}
                 }, { 
-                    {% for function in class.functions %}
-                        ::cpp::Function("{{function.name}}",  &{{class.full_qualified_ref}}::{{function.name}}),
-                    {% endfor %}
+{% for function in class.functions %}
+                    ::cpp::Function("{{function.name}}",  &{{class.full_qualified_ref}}::{{function.name}}),
+{% endfor %}
                 });
 
-                return ::cpp::MetaClass::getClass<{{class.className}}>();
+                return ::cpp::MetaClass::getClass<{{class.full_qualified_ref}}>();
             }();
 
             return data;
         }
     };
-
 {% endfor %}
 }
-#endif #define SIPLASPLAS_REFLECTION_INIT_FILE_{{hash}}_HPP
+#endif // SIPLASPLAS_REFLECTION_OUTPUT_FILE_{{hash}}_HPP

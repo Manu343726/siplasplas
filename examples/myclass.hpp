@@ -1,7 +1,7 @@
 #ifndef SIPLASPLAS_EXAMPLES_REFLECTION_MYCLASS_HPP
 #define SIPLASPLAS_EXAMPLES_REFLECTION_MYCLASS_HPP
 
-#include "reflection/api.hpp"
+#include <reflection/api.hpp>
 
 class MyClass : public cpp::Reflectable<MyClass>
 {
@@ -14,6 +14,6 @@ public:
 	int field = 0;
 };
 
-#include "myclass.hpp.rfl"
+#include <reflection/examples/myclass.hpp>
 
 #endif // SIPLASPLAS_EXAMPLES_REFLECTION_MYCLASS_HPP

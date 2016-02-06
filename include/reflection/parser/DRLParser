@@ -127,10 +127,10 @@ class Class:
 
                 if c.kind == CursorKind.TEMPLATE_REF and c.spelling == 'Reflectable':
                     found_crtp_template = True
-                    self.logger.info('Found Reflectable<T> base specifier in class ' + self.full_qualified_ref)
+                    GlobalLogger.info().info('Found Reflectable<T> base specifier in class ' + self.full_qualified_ref)
 
                 if found_crtp_template:
-                    self.logger.info('Looking at {} (\'{}\' {})'.format(c.spelling, c.displayname, c.kind))
+                    GlobalLogger.info().info('Looking at {} (\'{}\' {})'.format(c.spelling, c.displayname, c.kind))
 
                     if c.kind == CursorKind.TYPE_REF and c.referenced == self.cursor:
                         return True;
@@ -199,17 +199,11 @@ class TranslationUnit:
     def __init__(self, filepath, args, jinjaTemplate, logger, print_ast = False):
         self.logger = logger
         self.filePath = filepath
-        self.jinjaOutputFile = self.filePath + '.rfl'
+        self.compileArgs = args
         self.ast_file_path = filepath + '.ast'
         self.print_ast = print_ast
         self.index = clang.cindex.Index.create()
         self.jinjaTemplate = jinjaTemplate
-
-        # Touch the file so #include <user_include.rfl> doesn't fail
-        if not os.path.exists(self.jinjaOutputFile):
-            with(self.jinjaOutputFile, 'w').close() 
-
-        self.translationUnit = self.index.parse(filepath, args = args)
 
         self.classes = []
         self.tags = {}
@@ -249,8 +243,13 @@ class TranslationUnit:
 
 
     def process(self):
+        self.logger.info('Parsing file...')
+
+        self.translationUnit = self.index.parse(self.filePath, args = self.compileArgs)
         self.classes = []
         self.namespace = []
+
+        self.logger.info('Processing AST...')
 
         if self.print_ast:
             with open(self.ast_file_path, 'w') as ast_file:
@@ -260,71 +259,85 @@ class TranslationUnit:
 
         return self.classes
 
-    def run_jinja(self):
+    def run_jinja(self, outputfile):
         if self.jinjaTemplate and self.classes:
             import hashlib
 
-            self.logger.info('Generating file... {} -> {}'.format(self.filePath, self.jinjaOutputFile))
+            self.logger.info('Generating file...')
 
-            with open(jinjaOutputFile, 'w') as outputFile:
-                outputFile.write(self.jinjaTemplate.render(tu = self, hash = hashlib.md5(jinjaOutputFile.encode()).hexdigest()))
+            with open(outputfile, 'w') as outputFile:
+                outputFile.write(self.jinjaTemplate.render(tu = self, hash = hashlib.md5(outputfile.encode()).hexdigest()))
 
 
 class SyncManager:
-    def __init__(self, databasefile):
+    def __init__(self, databasefile, sourcedir):
         self.databasefile = os.path.abspath(databasefile)
-        self.rootpath = os.path.dirname(os.path.realpath(__file__))
+        self.rootpath = sourcedir
 
         if os.path.isfile(self.databasefile):
             with open(self.databasefile, 'r') as file:
                 self.database = json.load(file)
         else:
             self.database = {}
-            self.database['timestamps'] = {}
-
-    def timestamps(self):
-        return self.database['timestamps']
 
     def fullpath(self, filename):
         return os.path.relpath(filename, self.rootpath)
 
     def save(self):
         with open(self.databasefile, 'w') as file:
-            json.dump(self.database, file)
+            json.dump(self.database, file, indent = 4)
 
     def load_timestamp(self, sourcefile):
-        return self.timestamps()[self.fullpath(sourcefile)]
+        return self.database[self.fullpath(sourcefile)]['timestamp']
 
     def get_file_timestamp(self, sourcefile):
         return os.path.getmtime(sourcefile)
 
     def save_timestamp(self, sourcefile):
-        self.timestamps()[self.fullpath(sourcefile)] = self.get_file_timestamp(sourcefile)
+        self.database[self.fullpath(sourcefile)]['timestamp'] = self.get_file_timestamp(sourcefile)
 
     def is_synced(self, filename):
-        return self.fullpath(filename) in self.database['timestamps'] and \
+        return self.fullpath(filename) in self.database and \
             self.get_file_timestamp(filename) <= self.load_timestamp(filename)
 
-    def sync(self, filename):
+    def sync(self, filename, outputfile):
+        key = self.fullpath(filename)
+
+        if not key in self.database:
+            self.database[key] = {}
+
         self.save_timestamp(filename)
+        self.database[key]['output'] = outputfile
     
 
 class Compiler:
-    def __init__(self, args, sourcedir, includedirs, files, databasefile, ignore_database = False, print_ast = False, jinjaTemplateFile = None, verbose = False):
-        self.syncmanager = SyncManager(databasefile)
+    def _output_file(self, sourcefile):
+        path, name = os.path.split(sourcefile)
+        outputpath = os.path.join(self.outputdir, os.path.relpath(path, self.sourcedir))
+
+        if not os.path.isdir(outputpath):
+            os.makedirs(outputpath)
+
+        return os.path.join(outputpath, name)
+
+    def __init__(self, args, sourcedir, includedirs, files, databasefile, output_dir, ignore_database = False, print_ast = False, jinjaTemplateFile = None, verbose = False):
+        self.syncmanager = SyncManager(databasefile, sourcedir)
         self.ignore_database = ignore_database
         self.logger = Logger(Fore.GREEN, len(files))
         self.pathformat = PathFormatter(sourcedir)
         self.sourcedir = sourcedir
+        self.outputdir = output_dir
         self.includedirs = includedirs
         self.jinjaTemplateFile = jinjaTemplateFile
 
         import jinja2
         from jinja2 import Template, Environment, FileSystemLoader
 
-        env = Environment(loader=FileSystemLoader(self.sourcedir),
+        path, file = os.path.split(self.jinjaTemplateFile)
+
+        env = Environment(loader=FileSystemLoader(path),
                      trim_blocks=True)
-        template = env.get_template(self.jinjaTemplateFile)
+        template = env.get_template(file)
 
         self.tus = [TranslationUnit(sourcefile, args, template, self.logger, print_ast = print_ast) for sourcefile in files]
 
@@ -334,9 +347,18 @@ class Compiler:
         for tu in self.tus:
             if self.ignore_database or not self.syncmanager.is_synced(tu.filePath):
                 self.logger.step('({}outdated{}) {}'.format(Fore.RED, Fore.RESET, self.pathformat.format(tu.filePath)))
+
+                outputfile = self._output_file(tu.filePath)
+                self.logger.info('Output file: {}'.format(outputfile))
+
+                # Touch the output file so #include <outputfile> doesn't fail
+                if not os.path.exists(outputfile):
+                    with open(outputfile, 'w') as f:
+                        f.close()
+
                 tu.process()
-                tu.run_jinja()
-                self.syncmanager.sync(tu.filePath)
+                tu.run_jinja(outputfile)
+                self.syncmanager.sync(tu.filePath, os.path.relpath(outputfile, self.sourcedir))
             else:
                 self.logger.step('({}up-to-date{}) {}'.format(Fore.GREEN, Fore.RESET, self.pathformat.format(tu.filePath)))
 
@@ -370,7 +392,7 @@ class App:
         for root, dirnames, filenames in files:
             for file in filenames:
                 if self.file_matches(os.path.join(root, file)):
-                    outputfiles.append(os.path.join(root, file))
+                    outputfiles.append(os.path.abspath(os.path.join(root, file)))
 
         return outputfiles
 
@@ -384,8 +406,9 @@ class App:
         self.logger = Logger(Fore.MAGENTA)
 
         parser = argparse.ArgumentParser(description='Dynamic Reflection Library Parser')
+        parser.add_argument('--compile-options', default = '', help = 'Clang compile options')
         parser.add_argument('-f', '--files', nargs = '*', default = [], help = 'List of input files to process')
-        parser.add_argument('-d', '--database', default = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'drlp_database.json'), help = 'Compilation database JSON file')
+        parser.add_argument('-d', '--database', default = '', help = 'Compilation database JSON file')
         parser.add_argument('-I', '--includedirs', default = [], help = 'List of include directories to scan for more input files')
         parser.add_argument('-s', '--sourcedir', help = 'Project source directory')
         parser.add_argument('-x', '--exclude', nargs = '*', default = [], help = 'List of GLOBs to exclude source files from include directories scan')
@@ -395,6 +418,7 @@ class App:
         parser.add_argument('-a', '--ast-dump', help = 'Dumps the AST of each translation unit to a source_file.ast file', action = 'store_true')
         parser.add_argument('--code-template-file', help = 'Template file of reflection code generation')
         parser.add_argument('-v', '--verbose', action = 'store_true')
+        parser.add_argument('-o', '--output-dir', help = 'Output root directory')
         self.args = parser.parse_args()
 
         GlobalLogger.enabled(self.args.verbose)
@@ -409,7 +433,10 @@ class App:
         self.logger.step('Database file: {}'.format(self.args.database))
         self.logger.step('Extensions: ' + ', '.join(self.args.extensions))
         self.logger.step('Exclude: ' + ', '.join(self.args.exclude))
-        
+        self.logger.step('Compile options: ' + self.args.compile_options)
+        self.logger.step('Template file: ' + self.args.code_template_file)
+        self.logger.step('Output directory: ' + self.args.output_dir)
+
         self.logger = Logger(Fore.YELLOW)
 
         if self.args.includedirs:
@@ -420,17 +447,26 @@ class App:
                 directory_files = self.search_files(include_dir)
                 self.args.files = list(set(self.args.files + directory_files))
 
+        if os.path.abspath(self.args.code_template_file) in self.args.files:
+            self.args.files.remove(os.path.abspath(self.args.code_template_file))
+        else:
+            print os.path.abspath(self.args.code_template_file)
+            print self.args.files
+
         self.args.files.sort()
 
         includes = ['-I{}'.format(os.path.abspath(i)) for i in self.args.includedirs]
         includes.append('-I' + os.path.abspath(self.args.sourcedir))
         includes.append('-I' + os.path.abspath(os.path.join(self.args.sourcedir, 'include')))
 
-        compileArgs = includes + ['-std=c++14']
+        compileArgs = includes + self.args.compile_options.split()
+
+        if not self.args.database:
+            self.args.database = os.path.join(self.args.output_dir, 'dlrparser_database.json')
 
         self.compiler = Compiler(compileArgs,
             self.args.sourcedir, self.args.includedirs, self.args.files,
-            self.args.database, self.args.ignore_database, 
+            self.args.database, self.args.output_dir, self.args.ignore_database, 
             self.args.ast_dump,
             self.args.code_template_file
         )
