@@ -87,7 +87,7 @@ class GlobalLogger:
 
     @staticmethod
     def error():
-        return GlobalLogger._errorLogger if GlobalLogger._enabled else GlobalLogger._devNullLogger
+        return GlobalLogger._errorLogger
 
     @staticmethod
     def warning():
@@ -212,17 +212,13 @@ class TranslationUnit:
             CursorKind.STRUCT_DECL
         ]
 
-    def _process_reflection(self, node, depth = 0, ast_file = None):
+    def _process_reflection(self, node, depth = 0):
         reflectionClass = None
 
         childs = list(node.get_children())
 
         if (node.kind == CursorKind.NAMESPACE and node.spelling == 'std') or node.kind == CursorKind.UNEXPOSED_DECL:
             childs = []
-
-        if ast_file is not None:
-            ast_file.write('({}) {}{} {} [{}, line={}, column={}]\n'.format(self.namespace, '  '*depth, '==>' if childs else '  -', node.spelling, node.kind, node.location.line, node.location.column))
-
 
         if node.kind == CursorKind.NAMESPACE:
             self.namespace.append(node.spelling)
@@ -232,7 +228,7 @@ class TranslationUnit:
             GlobalLogger.info().step('[line {}, col {}] {}'.format(node.location.line, node.location.column, reflectionClass.full_qualified_ref))
 
         for child in childs:
-            self._process_reflection(child, depth + 1, ast_file)
+            self._process_reflection(child, depth + 1)
 
         if node.kind == CursorKind.NAMESPACE:
             self.namespace.pop()
@@ -249,13 +245,22 @@ class TranslationUnit:
         self.classes = []
         self.namespace = []
 
+        for d in self.translationUnit.diagnostics:
+            GlobalLogger.error().step('Line {} (severity {}): {}'.format(d.location.line, d.severity, d.spelling))
+
         self.logger.info('Processing AST...')
 
         if self.print_ast:
+            GlobalLogger.info().info('Dumping AST to {}...'.format(self.ast_file_path))
             with open(self.ast_file_path, 'w') as ast_file:
-                self._process_reflection(self.translationUnit.cursor, ast_file = ast_file)
-        else:
-            self._process_reflection(self.translationUnit.cursor)
+                import asciitree
+
+                ast_file.write(asciitree.draw_tree(self.translationUnit.cursor,
+                    lambda n: list(n.get_children()),
+                    lambda n: "%s (%s)" % (n.spelling or n.displayname, str(n.kind).split(".")[1])
+                ))
+
+        self._process_reflection(self.translationUnit.cursor)
 
         return self.classes
 
@@ -429,6 +434,10 @@ class App:
         else:
             config = clang.cindex.Config()
             self.logger.step('libclang.so: ' + os.path.abspath(config.get_filename()))
+
+
+        self.args.compile_options = self.args.compile_options[1:-1]
+
 
         self.logger.step('Database file: {}'.format(self.args.database))
         self.logger.step('Extensions: ' + ', '.join(self.args.extensions))

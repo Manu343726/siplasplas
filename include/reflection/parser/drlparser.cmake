@@ -74,6 +74,10 @@ function(reflection_target TARGET)
         set(verbose --verbose)
     endif()
 
+    if(DRLPARSER_ASTDUMP)
+        set(astdump --ast-dump)
+    endif()
+
     string(REGEX REPLACE ";" " " COMPILE_OPTIONS "${COMPILE_OPTIONS}")
 
     set(options
@@ -86,6 +90,7 @@ function(reflection_target TARGET)
         ${libclang}
         ${ignore_database}
         ${verbose}
+        ${astdump}
         --code-template-file ${CMAKE_SOURCE_DIR}/include/reflection/parser/templates/reflection_template.hpp
     )
 

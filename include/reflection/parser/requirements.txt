@@ -1,3 +1,4 @@
 clang>=3.5
 colorama>=0.3.6
 jinja2
+asciitree
