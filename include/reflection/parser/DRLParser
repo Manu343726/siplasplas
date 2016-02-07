@@ -325,14 +325,13 @@ class Compiler:
 
         return os.path.join(outputpath, name)
 
-    def __init__(self, args, sourcedir, includedirs, files, databasefile, output_dir, ignore_database = False, print_ast = False, jinjaTemplateFile = None, verbose = False):
+    def __init__(self, args, sourcedir, files, databasefile, output_dir, ignore_database = False, print_ast = False, jinjaTemplateFile = None, verbose = False):
         self.syncmanager = SyncManager(databasefile, sourcedir)
         self.ignore_database = ignore_database
         self.logger = Logger(Fore.GREEN, len(files))
         self.pathformat = PathFormatter(sourcedir)
         self.sourcedir = sourcedir
         self.outputdir = output_dir
-        self.includedirs = includedirs
         self.jinjaTemplateFile = jinjaTemplateFile
 
         import jinja2
@@ -414,7 +413,8 @@ class App:
         parser.add_argument('--compile-options', default = '', help = 'Clang compile options')
         parser.add_argument('-f', '--files', nargs = '*', default = [], help = 'List of input files to process')
         parser.add_argument('-d', '--database', default = '', help = 'Compilation database JSON file')
-        parser.add_argument('-I', '--includedirs', default = [], help = 'List of include directories to scan for more input files')
+        parser.add_argument('-S', '--searchdirs', default = [], help = 'List of include directories to scan for more input files')
+        parser.add_argument('-I', '--includedirs', default = [], help = 'Extra include directories for libclang parser')
         parser.add_argument('-s', '--sourcedir', help = 'Project source directory')
         parser.add_argument('-x', '--exclude', nargs = '*', default = [], help = 'List of GLOBs to exclude source files from include directories scan')
         parser.add_argument('-e', '--extensions', nargs = '*', default = ['.hpp', '.h', '.hxx'], help = 'List of file extensions used for include directory input files scan')
@@ -448,12 +448,12 @@ class App:
 
         self.logger = Logger(Fore.YELLOW)
 
-        if self.args.includedirs:
-            self.args.includedirs = self.args.includedirs.split()
+        if self.args.searchdirs:
+            self.args.searchdirs = self.args.searchdirs.split()
             self.logger.start('Scanning include directories:')
 
-            for include_dir in self.args.includedirs:
-                directory_files = self.search_files(include_dir)
+            for search_dir in self.args.searchdirs:
+                directory_files = self.search_files(search_dir)
                 self.args.files = list(set(self.args.files + directory_files))
 
         if os.path.abspath(self.args.code_template_file) in self.args.files:
@@ -464,7 +464,7 @@ class App:
 
         self.args.files.sort()
 
-        includes = ['-I{}'.format(os.path.abspath(i)) for i in self.args.includedirs]
+        includes = ['-I{}'.format(os.path.abspath(i)) for i in (self.args.searchdirs + self.args.includedirs.split())]
         includes.append('-I' + os.path.abspath(self.args.sourcedir))
         includes.append('-I' + os.path.abspath(os.path.join(self.args.sourcedir, 'include')))
 
@@ -474,7 +474,7 @@ class App:
             self.args.database = os.path.join(self.args.output_dir, 'dlrparser_database.json')
 
         self.compiler = Compiler(compileArgs,
-            self.args.sourcedir, self.args.includedirs, self.args.files,
+            self.args.sourcedir, self.args.files,
             self.args.database, self.args.output_dir, self.args.ignore_database, 
             self.args.ast_dump,
             self.args.code_template_file
