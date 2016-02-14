@@ -25,9 +25,9 @@ matrix:
       os: linux
       addons: *clang37
 
-    - env: BUILD_TYPE=Release GCC_VERSION=5.3.0 GCC=gcc-5 GXX=g++-5
+    - env: BUILD_TYPE=Release GCC_VERSION=5.2.1 GCC=gcc-5 GXX=g++-5
       os: linux
-      addons: &gcc530
+      addons: &gcc521
         apt:
           packages:
             - libclang1-3.7 # We need libclang for reflection parser
@@ -37,13 +37,15 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.7
 
-    - env: BUILD_TYPE=Debug GCC_VERSION=5.3.0 GCC=gcc-5 GXX=g++-5
+    - env: BUILD_TYPE=Debug GCC_VERSION=5.2.1 GCC=gcc-5 GXX=g++-5
       os: linux
-      addons: *gcc530
+      addons: *gcc521
 
 before_install:
   - git submodule update --init --recursive
   - if [ -n "$GCC_VERSION" ]; then export CXX="$GXX" CC="$GCC"; fi
+  - if [ -n "$GCC_VERSION" ]; then mkdir gccaliases && export PATH=$(pwd)/gccaliases:${PATH}; fi
+  - if [ -n "$GCC_VERSION" ]; then ln -s $(which $GCC) gccaliases/gcc-${GCC_VERSION} && ln -s $(which $GXX) gccaliases/g++-${GCC_VERSION}; fi
   - if [ -n "$CLANG_VERSION" ]; then export CXX="clang++-${CLANG_VERSION}" CC="clang-${CLANG_VERSION}"; fi
   - if [ "$CLANG_VERSION" == "3.4" ]; then export CXX="/usr/local/clang-3.4/bin/clang++" CC="/usr/local/clang-3.4/bin/clang"; fi
   - which $CXX
