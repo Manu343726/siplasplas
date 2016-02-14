@@ -42,6 +42,7 @@ matrix:
       addons: *gcc530
 
 before_install:
+  - git submodule update --init --recursive
   - if [ -n "$GCC_VERSION" ]; then export CXX="$GXX" CC="$GCC"; fi
   - if [ -n "$CLANG_VERSION" ]; then export CXX="clang++-${CLANG_VERSION}" CC="clang-${CLANG_VERSION}"; fi
   - if [ "$CLANG_VERSION" == "3.4" ]; then export CXX="/usr/local/clang-3.4/bin/clang++" CC="/usr/local/clang-3.4/bin/clang"; fi
