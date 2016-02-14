@@ -21,6 +21,19 @@ exec_target(NAME free_list PREFIX example RUN)
 exec_target(NAME canary_allocator PREFIX example RUN)
 
 include(${CMAKE_SOURCE_DIR}/include/reflection/parser/drlparser.cmake)
-
 exec_target(NAME reflection PREFIX example RUN)
 reflection_target(example_reflection)
+
+exec_target(NAME coroutine PREFIX example RUN)
+include(cmake/boost)
+set(Boost_USE_STATIC_LIBS OFF)
+bii_find_boost(
+	TARGET example_coroutine 
+	VERSION 1.60.0 
+	COMPONENTS coroutine AUTOCOMPUTE_DEPS
+	REQUIRED
+)
+
+install(TARGETS example_coroutine DESTINATION siplasplas/examples/coroutine)
+
+include(CPack)
