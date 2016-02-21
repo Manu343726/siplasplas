@@ -26,12 +26,14 @@ reflection_target(example_reflection)
 
 exec_target(NAME coroutine PREFIX example RUN)
 include(cmake/boost)
-set(Boost_USE_STATIC_LIBS OFF)
+set(Boost_USE_STATIC_LIBS ON)
 bii_find_boost(
-	TARGET example_coroutine 
-	VERSION 1.60.0 
-	COMPONENTS coroutine AUTOCOMPUTE_DEPS
-	REQUIRED
+    VERSION 1.60.0
+    REQUIRED
+)
+
+target_link_libraries(example_coroutine
+    PUBLIC Boost_coroutine_TARGET
 )
 
 install(TARGETS example_coroutine DESTINATION siplasplas/examples/coroutine)
