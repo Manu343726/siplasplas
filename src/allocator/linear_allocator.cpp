@@ -3,27 +3,36 @@
 
 using namespace cpp;
 
-LinearAllocator::allocate(std::size_t size, std::size_t alignment, std::size_t offset = 0)
+LinearAllocator::LinearAllocator(char* begin, char* end) :
+    IntrusiveAllocator{ begin, end }
+{}
+
+void* LinearAllocator::allocate(std::size_t size, std::size_t alignment, std::size_t offset)
 {
-    assert(offset == 0 && "Cannot do offsetting with this allocator, it stores metadata before user block-address");
-
-    offset = sizeof(offset_t);
-
+    // Take the first address available (_top) plus the offset, then adjust
+    // it to the required boundary
     char* user_ptr = detail::aligned_ptr(top() + offset, alignment);
     char* block_end = user_ptr + size;
 
-    if (block_end <= end())
+    if(block_end <= end())
     {
-        // Store padding length between current top and returned (user) ptr 
-        detail::write_before(user_ptr, static_cast<offset_t>(user_ptr - top()));
-
         set_top(block_end);
-
         return user_ptr;
     }
     else
     {
+        // Out of space
         return nullptr;
     }
+}
+
+void LinearAllocator::deallocate(void* ptr, std::size_t count, std::size_t offset)
+{
+    // nop
+}
+
+std::string LinearAllocator::dump() const
+{
+    return IntrusiveAllocator::dump();
 }
 

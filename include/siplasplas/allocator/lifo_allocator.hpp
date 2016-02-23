@@ -58,7 +58,7 @@ namespace cpp
                     << "Block end: " << (void*)(pointer_ + size);
             }
 
-            // Restore the top to its position prior to allocation 
+            // Restore the top to its position prior to allocation
             char* old_top = pointer_ - detail::read_before<offset_t>(pointer);
 
             if (pointer_ + size != top())

@@ -2,13 +2,12 @@
 #define SIPLASPLAS_LINEAR_ALLOCATOR_HPP
 
 #include <memory>
-#include <ctti/type_id.hpp>
 #include <stdexcept>
 #include <string>
 #include <sstream>
 
 #include "allocator_utils.hpp"
-#include "allocator/intrusive_allocator.hpp"
+#include "intrusive_allocator.hpp"
 
 namespace cpp
 {

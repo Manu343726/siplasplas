@@ -1,5 +1,17 @@
 include(cmake/generate_assembly)
 
+function(add_example NAME)
+    add_siplasplas_executable(${NAME}-example
+        ${ARGN}
+        GROUP examples
+    )
+endfunction()
+
+add_example(variant
+SOURCES
+    variant.cpp
+)
+
 exec_target(NAME variant PREFIX example RUN)
 exec_target(NAME gamelike_variant PREFIX example RUN)
 exec_target(NAME messaging PREFIX example RUN)
@@ -23,6 +35,13 @@ exec_target(NAME canary_allocator PREFIX example RUN)
 include(${CMAKE_SOURCE_DIR}/include/reflection/parser/drlparser.cmake)
 exec_target(NAME reflection PREFIX example RUN)
 reflection_target(example_reflection)
+
+target_link_libraries(example_linear_allocator PRIVATE siplasplas_allocator)
+target_link_libraries(example_lifo_allocator PRIVATE siplasplas_allocator)
+target_link_libraries(example_free_list PRIVATE siplasplas_allocator)
+target_link_libraries(example_canary_allocator PRIVATE siplasplas_allocator)
+target_link_libraries(example_reflection PRIVATE siplasplas_allocator)
+
 
 exec_target(NAME coroutine PREFIX example RUN)
 include(cmake/boost)
