@@ -1,7 +1,7 @@
 #ifndef SIPLASPLAS_ALLOCATOR_EMBEDDED_ALLOCATOR_HPP
 #define SIPLASPLAS_ALLOCATOR_EMBEDDED_ALLOCATOR_HPP
 
-#include "allocator/allocator_utils.hpp"
+#include "siplasplas/allocator/allocator_utils.hpp"
 
 #include <sstream>
 
@@ -39,9 +39,9 @@ namespace cpp
 
         char* metadata_end() const
         {
-            return metadata_begin() + metadata_length(); 
+            return metadata_begin() + metadata_length();
         }
-        
+
         template<typename T>
         detail::RawReaderWriter<T> metadata(std::size_t begin)
         {
@@ -63,7 +63,7 @@ namespace cpp
         {
             return begin() <= pointer && pointer < end();
         }
-        
+
         std::string dump() const
         {
             std::ostringstream os;

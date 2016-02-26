@@ -6,18 +6,18 @@
 #include <sstream>
 #include <cassert>
 #include "allocator/allocator_utils.hpp"
-#include "allocator/intrusive_allocator.hpp"
+#include "allocator/track_top_allocator.hpp"
 #include "utility/throw.hpp"
 
 namespace cpp
 {
-    class LifoAllocator : protected IntrusiveAllocator
+    class LifoAllocator : protected TrackTopAllocator
     {
     public:
         using offset_t = std::uint8_t;
 
         LifoAllocator(void* begin, void* end) :
-            IntrusiveAllocator{begin, end}
+            TrackTopAllocator{begin, end}
         {}
 
         void* allocate(std::size_t size, std::size_t alignment, std::size_t offset = 0)

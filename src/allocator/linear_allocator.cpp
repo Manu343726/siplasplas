@@ -4,7 +4,7 @@
 using namespace cpp;
 
 LinearAllocator::LinearAllocator(char* begin, char* end) :
-    IntrusiveAllocator{ begin, end }
+    TrackTopAllocator{ begin, end }
 {}
 
 void* LinearAllocator::allocate(std::size_t size, std::size_t alignment, std::size_t offset)
@@ -33,6 +33,6 @@ void LinearAllocator::deallocate(void* ptr, std::size_t count, std::size_t offse
 
 std::string LinearAllocator::dump() const
 {
-    return IntrusiveAllocator::dump();
+    return TrackTopAllocator::dump();
 }
 
