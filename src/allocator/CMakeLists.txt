@@ -7,4 +7,5 @@ SOURCES
     lifo_allocator.cpp
     linear_allocator.cpp
     allocator_utils.cpp
+    embedded_allocator.cpp
 )
