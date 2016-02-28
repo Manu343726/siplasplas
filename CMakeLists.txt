@@ -33,6 +33,7 @@ else()
     set(CPP_GLOBAL_ALL_COMPILE_OPTIONS /DCTTI_STRING_MAX_LENGTH=512)
 endif()
 
+set(SIPLASPLAS_LIBRARIES_STATIC FALSE)
 include(cmake/deftargets.cmake)
 
 add_subdirectory(src)

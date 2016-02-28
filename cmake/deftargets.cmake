@@ -66,9 +66,90 @@ function(add_run_target NAME TARGET_TYPE)
     endif()
 endfunction()
 
+# From https://software.lanl.gov/MeshTools/trac/browser/cmake/modules/ParseLibraryList.cmake
+function(parse_library_list LIBRARIES)
+    foreach( item ${LIBRARIES} )
+        if( ${item} MATCHES debug     OR 
+            ${item} MATCHES optimized OR 
+            ${item} MATCHES general )
+
+            if( ${item} STREQUAL "debug" )
+                set( mylist "_debug_libs" )
+            elseif( ${item} STREQUAL "optimized" )
+                set( mylist "_opt_libs" )
+            elseif( ${item} STREQUAL "general" )
+                set( mylist "_gen_libs" )
+            endif()
+      else()
+          list( APPEND ${mylist} ${item} )
+      endif()
+    endforeach()
+
+    set(DEBUG_LIBS     ${_debug_libs}     PARENT_SCOPE)
+    set(OPTIMIZED_LIBS ${_optimized_libs} PARENT_SCOPE)
+    set(GENERAL_LIBS   ${_gen_libs}       PARENT_SCOPE)
+endfunction()
+
+function(handle_windows_dlls ROOT_TARGET TARGET)
+    if((NOT WIN32) OR (NOT (TARGET ${TARGET})))
+        return()
+    endif()
+    get_target_property(target_type ${TARGET} TYPE)
+    get_target_property(root_target_type ${ROOT_TARGET} TYPE)
+    if((target_type STREQUAL INTERFACE_LIBRARY) OR 
+       (NOT (root_target_type STREQUAL EXECUTABLE)))
+        return()
+    endif()
+    get_target_property(dependencies ${TARGET} LINK_LIBRARIES)
+    if(NOT dependencies)
+        return()
+    endif()
+
+    message(STATUS " => dlls of target '${TARGET}' for target '${ROOT_TARGET}'")
+
+    set(dest_directory $<TARGET_FILE_DIR:${ROOT_TARGET}>)
+
+    foreach(lib ${dependencies})
+        if(TARGET ${lib})
+            if(NOT (lib STREQUAL TARGET))
+                get_target_property(target_type ${lib} TYPE)
+                if(target_type STREQUAL SHARED_LIBRARY)
+                    set(dllfile $<TARGET_FILE_DIR:${lib}>/$<TARGET_FILE_NAME:${lib}>)
+                endif()
+            endif()
+        elseif(lib MATCHES ".+\\.dll")
+            set(dllfile "${lib}")
+        endif()
+
+        if(SIPLASPLAS_VERBOSE_CONFIG)
+            set(log COMMAND ${CMAKE_COMMAND} -E echo " - ${dllfile}")
+        endif()
+
+        if(dllfile)
+            list(APPEND copy_command
+                ${log}
+                COMMAND ${CMAKE_COMMAND} -E copy 
+                    \"${dllfile}\" 
+                    \"${dest_directory}\"
+            )
+        endif()
+    endforeach()
+
+    if(copy_command)
+        add_custom_command(TARGET ${ROOT_TARGET} POST_BUILD
+            ${copy_command}
+            COMMENT "Copying dll dependencies of target ${TARGET}..."
+        )
+    endif()
+
+    foreach(dep ${dependencies})
+        handle_windows_dlls(${ROOT_TARGET} "${dep}")
+    endforeach()
+endfunction()
+
 function(add_siplasplas_target NAME TARGET_TYPE)
     cmake_parse_arguments(ARGS
-        "EXCLUDE_FROM_RUN_ALL;STATIC;INSTALL;DEFAULT_TEST_MAIN"
+        "EXCLUDE_FROM_RUN_ALL;STATIC;SHARED;INSTALL;DEFAULT_TEST_MAIN"
         "BOOST_VERSION;NAMESPACE"
         "SOURCES;INCLUDE_DIRS;COMPILE_OPTIONS;LINK_OPTIONS;DEPENDS;BOOST_COMPONENTS;LINK_LIBS;RUN_ARGS"
         ${ARGN}
@@ -109,10 +190,34 @@ function(add_siplasplas_target NAME TARGET_TYPE)
         set_property(TARGET ${NAME} APPEND PROPERTY LINK_FLAGS ${ARGS_LINK_OPTIONS})
     endfunction()
 
-    if(TARGET_TYPE STREQUAL "LIBRARY")
-        if(ARGS_STATIC)
+    if(ARGS_BOOST_COMPONENTS)
+        if(NOT ARGS_BOOST_VERSION)
+            set(ARGS_BOOST_VERSION 1.60.0)
+        endif()
+
+        bii_find_boost(VERSION ${ARGS_BOOST_VERSION} REQUIRED)
+
+        foreach(component ${ARGS_BOOST_COMPONENTS})
+            list(APPEND boost_targets Boost_${component}_TARGET)
+        endforeach()
+    endif()
+
+    list(APPEND link_libraries ${ARGS_DEPENDS} ${boost_targets} ${ARGS_LINK_LIBS})
+
+    if(TARGET_TYPE STREQUAL "HEADER_ONLY_LIBRARY")
+        add_library(${NAME} INTERFACE)
+        set(linking INTERFACE)
+    elseif(TARGET_TYPE STREQUAL "LIBRARY")
+        if(SIPLASPLAS_LIBRARIES_STATIC)
             set(link STATIC)
         else()
+            set(link SHARED)
+        endif()
+
+        if(ARGS_STATIC)
+            set(link STATIC)
+        endif()
+        if(ARGS_SHARED)
             set(link SHARED)
         endif()
 
@@ -129,9 +234,6 @@ function(add_siplasplas_target NAME TARGET_TYPE)
 
         set_flags()
         set(linking PUBLIC)
-    elseif(TARGET_TYPE STREQUAL "HEADER_ONLY_LIBRARY")
-        add_library(${NAME} INTERFACE)
-        set(linking INTERFACE)
     else()
         # Create the executable
         add_executable(${NAME} ${ARGS_SOURCES})
@@ -155,27 +257,14 @@ function(add_siplasplas_target NAME TARGET_TYPE)
         set_flags()
         set(linking PRIVATE)
     endif()
+    
+    target_link_libraries(${NAME} ${linking} ${link_libraries})
+    handle_windows_dlls(${NAME} ${NAME})    
 
     target_include_directories(${NAME} ${linking}
         ${CMAKE_SOURCE_DIR}/include
         ${ARGS_INCLUDE_DIRS}
     )
-
-    target_link_libraries(${NAME} ${linking} ${ARGS_DEPENDS} ${ARGS_LINK_LIBS})
-
-    if(ARGS_BOOST_COMPONENTS)
-        if(NOT ARGS_BOOST_VERSION)
-            set(ARGS_BOOST_VERSION 1.60.0)
-        endif()
-
-        bii_find_boost(VERSION ${ARGS_BOOST_VERSION} REQUIRED)
-
-        foreach(component ${ARGS_BOOST_COMPONENTS})
-            target_link_libraries(${NAME} ${linking}
-                Boost_${component}_TARGET
-            )
-        endforeach()
-    endif()
 
     string(REGEX REPLACE "_" " " TARGET_TYPE "${TARGET_TYPE}")
     message(STATUS "SIPLASPLAS ${TARGET_TYPE} ${NAME}")

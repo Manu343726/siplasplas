@@ -1,5 +1,5 @@
 
-add_siplasplas_library(siplasplas-metatype STATIC
+add_siplasplas_library(siplasplas-metatype
 SOURCES
 	metatype.cpp
 DEPENDS

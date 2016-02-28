@@ -1,5 +1,5 @@
 
-add_siplasplas_library(siplasplas-allocator STATIC
+add_siplasplas_library(siplasplas-allocator
 SOURCES
     detail/track_top_allocator.cpp
     freelist_allocator.cpp
