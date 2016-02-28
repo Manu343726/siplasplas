@@ -125,7 +125,6 @@ function(add_siplasplas_target NAME TARGET_TYPE)
         set(current_includedir "${ROOT_INCLUDE_DIR}/${current_relative_path}")
 
         # Add current include dir so we can just do '#include "foo.hpp"' in foo.cpp
-        message("Library ${NAME} include dir: ${current_includedir}")
         target_include_directories(${NAME} PUBLIC "${current_includedir}")
 
         set_flags()
@@ -143,10 +142,6 @@ function(add_siplasplas_target NAME TARGET_TYPE)
             endif()
 
             install_gtestgmock(VERSION ${ARGS_GMOCK_VERSION})
-            message(STATUS "GMock target: ${GMOCK_LIB_TARGET}")
-
-            get_target_property(gmock_include_dir ${GMOCK_LIB_TARGET} INTERFACE_INCLUDE_DIRECTORIES)
-            message(STATUS "GMock include dir: ${gmock_include_dir}")
 
             # gmock is linked against tests by default,
             # gmock default main if requested in settings
@@ -182,6 +177,7 @@ function(add_siplasplas_target NAME TARGET_TYPE)
         endforeach()
     endif()
 
+    string(REGEX REPLACE "_" " " TARGET_TYPE "${TARGET_TYPE}")
     message(STATUS "SIPLASPLAS ${TARGET_TYPE} ${NAME}")
 
     function(print_args var)

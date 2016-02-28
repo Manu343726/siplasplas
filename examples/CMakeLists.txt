@@ -22,7 +22,7 @@ add_example(messaging        DEPENDS siplasplas-variant)
 add_example(multi_visitor    DEPENDS siplasplas-variant)
 
 # Metatype examples
-add_example(metatype)
+add_example(metatype DEPENDS siplasplas-metatype)
 
 # Allocator examples
 if(MSVC AND (CMAKE_BUILD_TYPE MATCHES "Debug"))
@@ -40,8 +40,10 @@ add_example(canary_allocator   DEPENDS siplasplas-allocator)
 # Reflection examples
 add_reflection_example(reflection)
 
-# Boost examples
-add_example(coroutine BOOST_COMPONENTS coroutine)
-if(MSVC)
-    set_target_properties(examples-coroutine PROPERTIES LINK_FLAGS /SAFESEH:NO)
+if(NOT MINGW) # See https://github.com/GueimUCM/siplasplas/issues/16
+    # Boost examples
+    add_example(coroutine BOOST_COMPONENTS coroutine)
+    if(MSVC)
+        set_target_properties(examples-coroutine PROPERTIES LINK_FLAGS /SAFESEH:NO)
+    endif()
 endif()
