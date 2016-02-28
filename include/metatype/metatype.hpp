@@ -9,7 +9,7 @@
 #include <sstream>
 #include <string>
 
-#include "utility/throw.hpp"
+#include <siplasplas/utility/throw.hpp>
 
 namespace cpp
 {

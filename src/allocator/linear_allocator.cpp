@@ -1,5 +1,6 @@
 
-#include "siplasplas/allocator/linear_allocator.hpp"
+#include "linear_allocator.hpp"
+#include <siplasplas/utility/memory_manip.hpp>
 
 using namespace cpp;
 

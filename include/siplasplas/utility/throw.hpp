@@ -17,7 +17,7 @@ namespace cpp
 
             ~ExceptionBuilder()
             {
-                throw Exception{os.str()};
+                throw Exception{os.str()}; // this has UB :(
             }
 
             template<typename T>

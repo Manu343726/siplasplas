@@ -1,12 +1,12 @@
-#ifndef CEPLUSPLUS_VARIANT_H
-#define CEPLUSPLUS_VARIANT_H
+#ifndef SIPLASPLAS_VARIANT_VARIANT_HPP
+#define SIPLASPLAS_VARIANT_VARIANT_HPP
 
 #include <type_traits>
 #include <ctti/type_id.hpp>
 #include <ostream>
 #include <sstream>
 
-#include "variant/visitor.hpp"
+#include "visitor.hpp"
 
 namespace cpp
 {
@@ -513,4 +513,4 @@ namespace std
         }
     };
 }
-#endif // CEPLUSPLUS_VARIANT_H
+#endif // SIPLASPLAS_VARIANT_VARIANT_HPP

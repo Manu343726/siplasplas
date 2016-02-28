@@ -1,10 +1,10 @@
 
-#ifndef CEPLUSPLUS_MULTI_VISITOR_HPP
-#define CEPLUSPLUS_MULTI_VISITOR_HPP
+#ifndef SIPLASPLAS_VARIANT_MULTI_VISITOR_HPP
+#define SIPLASPLAS_VARIANT_MULTI_VISITOR_HPP
 
 #include <tuple>
 
-#include "variant/visitor.hpp"
+#include "visitor.hpp"
 
 namespace cpp
 {
@@ -149,4 +149,4 @@ namespace cpp
     }
 }
 
-#endif // CEPLUSPLUS_MULTI_VISITOR_HPP
+#endif // SIPLASPLAS_VARIANT_MULTI_VISITOR_HPP

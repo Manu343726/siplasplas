@@ -1,8 +1,8 @@
 #ifndef CEPLUSPLUS_TESTS_TEST_UTIL_HPP
 #define CEPLUSPLUS_TESTS_TEST_UTIL_HPP
 
-#include "gtest/gtest.h"
-#include "variant/variant.hpp"
+#include <gtest/gtest.h>
+#include <siplasplas/variant/variant.hpp>
 
 #include <unordered_map>
 #include <iostream>

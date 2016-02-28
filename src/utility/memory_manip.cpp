@@ -1,4 +1,6 @@
-#include "siplasplas/allocator/allocator_utils.hpp"
+#include "memory_manip.hpp"
+
+#include <cassert>
 
 namespace cpp
 {

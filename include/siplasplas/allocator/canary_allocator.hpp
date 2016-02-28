@@ -18,10 +18,10 @@ namespace cpp
         void* allocate(std::size_t size, std::size_t alignment, std::size_t offset = 0)
         {
             char* user_ptr = reinterpret_cast<char*>(
-                Alloc::allocate(size + 4, alignment, 4)
+                Alloc::allocate(size + 4, alignment, 4 + offset)
             );
             
-            std::fill(user_ptr - 4, user_ptr, 0xf);
+            std::fill(user_ptr - offset - 4, user_ptr - offset, 0xf);
             std::fill(user_ptr, user_ptr + size, 0xc);
             std::fill(user_ptr + size, user_ptr + size + 4, 0xf);
             

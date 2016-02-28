@@ -1,7 +1,7 @@
 #ifndef SIPLASPLAS_VARIANT_VISITOR_HPP
 #define SIPLASPLAS_VARIANT_VISITOR_HPP
 
-#include "utility/function.hpp"
+#include <siplasplas/utility/function.hpp>
 
 namespace cpp
 {

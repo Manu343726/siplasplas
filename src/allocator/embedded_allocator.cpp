@@ -1,4 +1,6 @@
-#include "siplasplas/allocator/embedded_allocator.hpp"
+#include "embedded_allocator.hpp"
+
+#include <sstream>
 
 using namespace cpp;
 
@@ -32,18 +34,6 @@ char* EmbeddedAllocator::metadata_begin() const
 char* EmbeddedAllocator::metadata_end() const
 {
     return metadata_begin() + metadata_length();
-}
-
-template<typename T>
-detail::RawReaderWriter<T> EmbeddedAllocator::metadata(std::size_t begin)
-{
-    return { metadata_begin() + begin };
-}
-
-template<typename T>
-T EmbeddedAllocator::metadata(std::size_t begin) const
-{
-    return detail::read_at<T>(metadata_begin() + begin);
 }
 
 char* EmbeddedAllocator::begin() const

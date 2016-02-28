@@ -1,21 +1,11 @@
-#ifndef SIPLASPLAS_UTILITY_PRINTERS_HPP
-#define SIPLASPLAS_UTILITY_PRINTERS_HPP
+#include "printers.hpp"
 
-#include "allocator/allocator_utils.hpp"
-
-#include <ostream>
 #include <iomanip>
-
-
-template<typename F>
-auto operator<<(std::ostream& os, F f) -> decltype(f(os))
-{
-    return f(os);
-}
+#include "memory_manip.hpp"
 
 namespace cpp
 {
-    auto print_memory(const char* begin, const char* end, std::size_t word = 0, char byteSeparator = 0)
+    std::function<std::ostream&(std::ostream&)> print_memory(const char* begin, const char* end, std::size_t word, char byteSeparator)
     {
         return [=](std::ostream& os) -> std::ostream&
         {
@@ -39,5 +29,3 @@ namespace cpp
     }
 
 }
-
-#endif // SIPLASPLAS_UTILITY_PRINTERS_HPP

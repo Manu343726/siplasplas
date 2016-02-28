@@ -1,9 +1,9 @@
 
-#include "allocator/free_list.hpp"
+#include <siplasplas/allocator/freelist_allocator.hpp>
 #include <iostream>
 
 template<typename T>
-T* allocate(cpp::FreeList& freeList)
+T* allocate(cpp::FreeListAllocator& freeList)
 {
     T* result = reinterpret_cast<T*>(freeList.allocate(sizeof(T), 1));
     std::cout << "Allocated block @" << result << std::endl;
@@ -11,7 +11,7 @@ T* allocate(cpp::FreeList& freeList)
     return result;
 }
 
-void deallocate(cpp::FreeList& freeList, void* pointer)
+void deallocate(cpp::FreeListAllocator& freeList, void* pointer)
 {
     std::cout << "Deallocating block @" << pointer << std::endl;
     freeList.deallocate(pointer, 1);
@@ -21,7 +21,7 @@ void deallocate(cpp::FreeList& freeList, void* pointer)
 int main()
 {
     char buffer[128];
-    cpp::FreeList freeList{std::begin(buffer), std::end(buffer), sizeof(int), alignof(int)};
+    cpp::FreeListAllocator freeList{std::begin(buffer), std::end(buffer), sizeof(int), alignof(int)};
 
     std::cout << freeList.dump() << std::endl;
 

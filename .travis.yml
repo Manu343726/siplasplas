@@ -90,5 +90,5 @@ install:
   - cmake --build .
 
 script:
-  - ctest . -VV
-  - make run_CPP
+  - make run-tests-all
+  - make run-examples-all

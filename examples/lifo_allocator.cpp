@@ -3,9 +3,9 @@
 #include <stack>
 #include <iostream>
 
-#include "allocator/lifo_allocator.hpp"
-#include "allocator/linear_allocator.hpp"
-#include "allocator/stl_allocator.hpp"
+#include <siplasplas/allocator/lifo_allocator.hpp>
+#include <siplasplas/allocator/linear_allocator.hpp>
+#include <siplasplas/allocator/stl_allocator.hpp>
 
 template<typename T>
 using List = std::list<

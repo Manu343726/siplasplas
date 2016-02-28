@@ -1,31 +1,14 @@
-#ifndef SIPLASPLAS_ALLOCATOR_ALLOCATOR_UTILS_HPP
-#define SIPLASPLAS_ALLOCATOR_ALLOCATOR_UTILS_HPP
+#ifndef SIPLASPLAS_UTILITY_MEMORY_MANIP_HPP
+#define SIPLASPLAS_UTILITY_MEMORY_MANIP_HPP
 
 #include <memory>
-#include <cassert>
 
 namespace cpp
 {
     namespace detail
     {
-        char* aligned_ptr(char* pointer, std::size_t alignment)
-        {
-            assert(alignment > 0 && (alignment & (alignment - 1)) == 0 && "Must align to a power of two boundary");
-            
-            auto addr = reinterpret_cast<std::uintptr_t>(pointer);
-            char* result = (addr % alignment != 0) ? 
-                pointer + alignment - (addr % alignment) :
-                pointer;
-            
-            assert(result >= pointer && "Aligned pointer should be greater");
-            
-            return result;
-        }
-
-        void* aligned_ptr(void* pointer, std::size_t alignment)
-        {
-            return aligned_ptr(reinterpret_cast<char*>(pointer), alignment);
-        }
+        char* aligned_ptr(char* pointer, std::size_t alignment);
+        void* aligned_ptr(void* pointer, std::size_t alignment);
 
         template<typename T>
         void write_at(char* pointer, const T& value, std::intptr_t offset = 0)
@@ -104,5 +87,5 @@ namespace cpp
     }
 }
 
-#endif // SIPLASPLAS_ALLOCATOR_ALLOCATOR_UTILS_HPP
+#endif // SIPLASPLAS_UTILITY_MEMORY_MANIP_HPP
 

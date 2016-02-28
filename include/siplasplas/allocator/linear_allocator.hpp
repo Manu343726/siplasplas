@@ -6,7 +6,6 @@
 #include <string>
 #include <sstream>
 
-#include "siplasplas/allocator/allocator_utils.hpp"
 #include "siplasplas/allocator/detail/track_top_allocator.hpp"
 
 namespace cpp
