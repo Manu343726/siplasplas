@@ -2,8 +2,8 @@
 #include <iostream>
 #include <string>
 
-#include "variant/variant.hpp"
-#include "variant/multi_visitor.hpp"
+#include <siplasplas/variant/variant.hpp>
+#include <siplasplas/variant/multi_visitor.hpp>
 
 using Variant = cpp::Variant<
     bool, float, std::string

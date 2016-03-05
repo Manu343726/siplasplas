@@ -1,5 +1,5 @@
 
-#include "metatype/metatype.hpp"
+#include <siplasplas/metatype/metatype.hpp>
 #include <iostream>
 
 struct BaseClass

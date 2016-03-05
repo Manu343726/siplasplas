@@ -2,8 +2,8 @@
 #include <gmock/gmock.h>
 #include <vector>
 
-#include "allocator/linear_allocator.hpp"
-#include "allocator/stl_allocator.hpp"
+#include <siplasplas/allocator/linear_allocator.hpp>
+#include <siplasplas/allocator/stl_allocator.hpp>
 
 using namespace ::testing;
 using namespace ::cpp;

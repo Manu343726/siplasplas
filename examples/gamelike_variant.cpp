@@ -6,8 +6,8 @@
 #include <cassert>
 #include <random>
 
-#include "variant/variant.hpp"
-#include "variant/multi_visitor.hpp"
+#include <siplasplas/variant/variant.hpp>
+#include <siplasplas/variant/multi_visitor.hpp>
 
 struct Particle
 {

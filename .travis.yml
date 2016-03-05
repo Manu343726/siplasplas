@@ -8,7 +8,9 @@ matrix:
   global:
     - libclang_so = $(TRAVIS_BUILD_DIR)/build/libclang.so
   include:
-    - env: BUILD_TYPE=Release CLANG_VERSION=3.7
+
+  # Main matrix rows (Clang & GCC setup, release, shared libraries)
+    - env: BUILD_TYPE=Release CLANG_VERSION=3.7 SIPLASPLAS_LIBRARIES_STATIC=FALSE
       os: linux
       addons: &clang37
         apt:
@@ -21,11 +23,7 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.7
 
-    - env: BUILD_TYPE=Debug CLANG_VERSION=3.7
-      os: linux
-      addons: *clang37
-
-    - env: BUILD_TYPE=Release GCC_VERSION=5.2.1 GCC=gcc-5 GXX=g++-5
+    - env: BUILD_TYPE=Release GCC_VERSION=5.2.1 GCC=gcc-5 GXX=g++-5 SIPLASPLAS_LIBRARIES_STATIC=FALSE
       os: linux
       addons: &gcc521
         apt:
@@ -37,7 +35,30 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.7
 
-    - env: BUILD_TYPE=Debug GCC_VERSION=5.2.1 GCC=gcc-5 GXX=g++-5
+  # Debug, shared libraries
+    - env: BUILD_TYPE=Debug CLANG_VERSION=3.7 SIPLASPLAS_LIBRARIES_STATIC=FALSE
+      os: linux
+      addons: *clang37
+
+    - env: BUILD_TYPE=Debug GCC_VERSION=5.2.1 GCC=gcc-5 GXX=g++-5 SIPLASPLAS_LIBRARIES_STATIC=FALSE
+      os: linux
+      addons: *gcc521
+
+  # Release, static libraries
+    - env: BUILD_TYPE=Debug CLANG_VERSION=3.7 SIPLASPLAS_LIBRARIES_STATIC=TRUE
+      os: linux
+      addons: *clang37
+
+    - env: BUILD_TYPE=Debug GCC_VERSION=5.2.1 GCC=gcc-5 GXX=g++-5 SIPLASPLAS_LIBRARIES_STATIC=TRUE
+      os: linux
+      addons: *gcc521
+
+  # Debug, static libraries
+    - env: BUILD_TYPE=Debug CLANG_VERSION=3.7 SIPLASPLAS_LIBRARIES_STATIC=TRUE
+      os: linux
+      addons: *clang37
+
+    - env: BUILD_TYPE=Debug GCC_VERSION=5.2.1 GCC=gcc-5 GXX=g++-5 SIPLASPLAS_LIBRARIES_STATIC=TRUE
       os: linux
       addons: *gcc521
 
@@ -86,9 +107,9 @@ install:
   # Configure and build project:
   - if [ ! -d build ]; then mkdir build; fi
   - cd build
-  - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DDRLPARSER_IGNORE_DATABASE=TRUE -DDRLPARSER_LIBCLANG="$LIBCLANG" -DDRLPARSER_VERBOSE=TRUE
+  - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DDRLPARSER_IGNORE_DATABASE=TRUE -DDRLPARSER_LIBCLANG="$LIBCLANG" -DDRLPARSER_VERBOSE=TRUE -DSIPPLASPLAS_LIBRARIES_STATIC="$SIPLASPLAS_LIBRARIES_STATIC"
   - cmake --build .
 
 script:
-  - ctest . -VV
-  - make run_CPP
+  - make run-tests-all
+  - make run-examples-all

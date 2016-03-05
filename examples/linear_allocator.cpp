@@ -2,8 +2,8 @@
 #include <vector>
 #include <iostream>
 
-#include "allocator/linear_allocator.hpp"
-#include "allocator/stl_allocator.hpp"
+#include <siplasplas/allocator/linear_allocator.hpp>
+#include <siplasplas/allocator/stl_allocator.hpp>
 
 template<typename T>
 using Vector = std::vector<

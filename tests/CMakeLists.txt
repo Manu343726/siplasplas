@@ -1,7 +1,12 @@
 
-include(cmake/gmock)
+function(add_test NAME)
+    add_siplasplas_test(${NAME}
+        ${ARGN}
+        SOURCES ${NAME}.cpp
+        INCLUDE_DIRS "${CMAKE_SOURCE_DIR/tests}"
+        NAMESPACE tests
+    )
+endfunction()
 
-install_gtestgmock(VERSION 1.57.0)
-
-gmock_test_target(NAME variant)
-gmock_test_target(NAME linear_allocator)
+add_test(variant)
+add_test(linear_allocator DEPENDS siplasplas-allocator)

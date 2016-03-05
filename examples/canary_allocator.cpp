@@ -1,9 +1,8 @@
 
-#include "allocator/linear_allocator.hpp"
-#include "allocator/canary_allocator.hpp"
-#include "allocator/stl_allocator.hpp"
-#include "allocator/allocator_utils.hpp"
-#include "utility/printers.hpp"
+#include <siplasplas/allocator/linear_allocator.hpp>
+#include <siplasplas/allocator/canary_allocator.hpp>
+#include <siplasplas/allocator/stl_allocator.hpp>
+#include <siplasplas/utility/printers.hpp>
 
 #include <vector>
 #include <iostream>

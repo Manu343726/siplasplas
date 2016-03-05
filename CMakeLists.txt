@@ -33,7 +33,11 @@ else()
     set(CPP_GLOBAL_ALL_COMPILE_OPTIONS /DCTTI_STRING_MAX_LENGTH=512)
 endif()
 
+include(cmake/deftargets.cmake)
+
+add_subdirectory(src)
 add_subdirectory(examples)
 
 enable_testing()
 add_subdirectory(tests)
+

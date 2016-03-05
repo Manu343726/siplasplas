@@ -1,41 +1,49 @@
 include(cmake/generate_assembly)
-
-exec_target(NAME variant PREFIX example RUN)
-exec_target(NAME gamelike_variant PREFIX example RUN)
-exec_target(NAME messaging PREFIX example RUN)
-exec_target(NAME multi_visitor PREFIX example RUN)
-exec_target(NAME metatype PREFIX example RUN)
-exec_target(NAME linear_allocator PREFIX example RUN)
-
-# LIFO allocator cannot be used with MSVC std::list in debug
-# mode since it does extra internal allocations in non-LIFO order
-# (For ContainerProxy pointed by debug iterators)
-if(MSVC AND (CMAKE_BUILD_TYPE MATCHES "Debug"))
-	message(WARNING "Run LIFO allocator example target disabled (See notes in examples/CMakeLists.txt)")
-	exec_target(NAME lifo_allocator PREFIX example)
-else()
-	exec_target(NAME lifo_allocator PREFIX example RUN)
-endif()
-
-exec_target(NAME free_list PREFIX example RUN)
-exec_target(NAME canary_allocator PREFIX example RUN)
-
 include(${CMAKE_SOURCE_DIR}/include/reflection/parser/drlparser.cmake)
-exec_target(NAME reflection PREFIX example RUN)
-reflection_target(example_reflection)
 
-exec_target(NAME coroutine PREFIX example RUN)
-include(cmake/boost)
-set(Boost_USE_STATIC_LIBS ON)
-bii_find_boost(
-    VERSION 1.60.0
-    REQUIRED
-)
+function(add_example NAME)
+    add_siplasplas_executable(${NAME}
+        ${ARGN}
+        SOURCES ${NAME}.cpp
+        INCLUDE_DIRS "${CMAKE_SOURCE_DIR}/examples"
+        NAMESPACE examples
+    )
+endfunction()
 
-target_link_libraries(example_coroutine
-    PUBLIC Boost_coroutine_TARGET
-)
+function(add_reflection_example NAME)
+    add_example(${NAME} ${ARGN} DEPENDS siplasplas-allocator)
+    reflection_target(examples-${NAME})
+endfunction()
 
-install(TARGETS example_coroutine DESTINATION siplasplas/examples/coroutine)
+# Variant examples
+add_example(variant          DEPENDS siplasplas-variant)
+add_example(gamelike_variant DEPENDS siplasplas-variant)
+add_example(messaging        DEPENDS siplasplas-variant)
+add_example(multi_visitor    DEPENDS siplasplas-variant)
 
-include(CPack)
+# Metatype examples
+add_example(metatype DEPENDS siplasplas-metatype)
+
+# Allocator examples
+if(MSVC AND (CMAKE_BUILD_TYPE MATCHES "Debug"))
+    # LIFO allocator cannot be used with MSVC std::list in debug
+    # mode since it does extra internal allocations in non-LIFO order
+    # (For ContainerProxy pointed by debug iterators)
+	message(WARNING "Run LIFO allocator example target disabled (See notes in examples/CMakeLists.txt)")
+	set(exclude_from_run_all EXCLUDE_FROM_RUN_ALL)
+endif()
+add_example(lifo_allocator     DEPENDS siplasplas-allocator ${exclude_from_run_all})
+add_example(linear_allocator   DEPENDS siplasplas-allocator)
+add_example(freelist_allocator DEPENDS siplasplas-allocator)
+add_example(canary_allocator   DEPENDS siplasplas-allocator)
+
+# Reflection examples
+add_reflection_example(reflection)
+
+if(NOT MINGW) # See https://github.com/GueimUCM/siplasplas/issues/16
+    # Boost examples
+    add_example(coroutine BOOST_COMPONENTS coroutine)
+    if(MSVC)
+        set_target_properties(examples-coroutine PROPERTIES LINK_FLAGS /SAFESEH:NO)
+    endif()
+endif()

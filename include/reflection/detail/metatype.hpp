@@ -1,11 +1,13 @@
 #ifndef SIPLASPLAS_REFLECTION_METATYPE_HPP
 #define SIPLASPLAS_REFLECTION_METATYPE_HPP
 
-#include "reflection/detail/type_info.hpp"
-#include "allocator/free_list.hpp"
-#include "utility/throw.hpp"
+#include "type_info.hpp"
+#include <siplasplas/allocator/freelist_allocator.hpp>
+#include <siplasplas/utility/throw.hpp>
 
 #include <unordered_map>
+#include <vector>
+#include <algorithm>
 
 namespace cpp
 {
@@ -176,7 +178,7 @@ namespace cpp
                     return _bytes;
                 }
 
-                cpp::FreeList freeList() const
+                cpp::FreeListAllocator freeList() const
                 {
                     return _freeList;
                 }
@@ -184,7 +186,7 @@ namespace cpp
             private:
                 std::unique_ptr<char[]> _block;
                 std::size_t _bytes;
-                cpp::FreeList _freeList;
+                cpp::FreeListAllocator _freeList;
             };
 
             std::vector<StorageBlock> _objectsArena;

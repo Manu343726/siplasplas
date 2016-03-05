@@ -1,10 +1,9 @@
 #ifndef SIPLASPLAS_EXAMPLES_MESSAGING_MESSAGING_HPP
 #define SIPLASPLAS_EXAMPLES_MESSAGING_MESSAGING_HPP
 
-#include "variant/variant.hpp"
-#include "variant/multi_visitor.hpp"
-
-#include "utility/function.hpp"
+#include <siplasplas/variant/variant.hpp>
+#include <siplasplas/variant/multi_visitor.hpp>
+#include <siplasplas/utility/function.hpp>
 
 namespace cpp
 {

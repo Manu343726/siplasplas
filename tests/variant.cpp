@@ -1,6 +1,5 @@
-#include "gtest/gtest.h"
-#include "gmock/gmock.h"
-#include "variant/variant.hpp"
+#include <gmock/gmock.h>
+#include <siplasplas/variant/variant.hpp>
 #include "test_util.hpp"
 #include <unordered_map>
 #include <stdexcept>
