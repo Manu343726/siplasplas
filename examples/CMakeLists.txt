@@ -43,7 +43,17 @@ add_reflection_example(reflection)
 if(NOT MINGW) # See https://github.com/GueimUCM/siplasplas/issues/16
     # Boost examples
     add_example(coroutine BOOST_COMPONENTS coroutine)
+    add_example(coroutine2 BOOST_COMPONENTS context)
+
+    # Pipeline examples
+    add_example(pipeline DEPENDS siplasplas-pipeline)
+
     if(MSVC)
         set_target_properties(examples-coroutine PROPERTIES LINK_FLAGS /SAFESEH:NO)
+        set_target_properties(examples-coroutine2 PROPERTIES LINK_FLAGS /SAFESEH:NO)
+        set_target_properties(examples-pipeline PROPERTIES LINK_FLAGS /SAFESEH:NO)
     endif()
 endif()
+
+# Utility examples
+add_example(meta DEPENDS INTERFACE siplasplas-utility)

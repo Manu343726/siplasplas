@@ -105,7 +105,9 @@ function(handle_windows_dlls ROOT_TARGET TARGET)
         return()
     endif()
 
-    message(STATUS " => dlls of target '${TARGET}' for target '${ROOT_TARGET}'")
+    if(SIPLASPLAS_VERBOSE_CONFIG)
+        message(STATUS " => dlls of target '${TARGET}' for target '${ROOT_TARGET}'")
+    endif()
 
     set(dest_directory $<TARGET_FILE_DIR:${ROOT_TARGET}>)
 
