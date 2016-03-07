@@ -140,6 +140,20 @@ namespace meta
     template<typename Lhs, typename Rhs>
     using or_t = apply_t<or_, Lhs, Rhs>;
 
+    struct add_
+    {
+        template<typename Lhs, typename Rhs>
+        struct apply : assert<
+            is_integral<Lhs>,
+            is_integral<Rhs>
+        >
+        {
+            using type = std::integral_constant<decltype(Lhs::value + Rhs::value), Lhs::value + Rhs::value>;
+        };
+    };
+
+    template<typename Lhs, typename Rhs>
+    using add_t = apply_t<add_, Lhs, Rhs>;
 
 	template<typename... Ts>
 	struct list
@@ -185,35 +199,6 @@ namespace meta
 
     namespace detail
     {
-        template<std::size_t N>
-        struct make_index_sequence
-        {
-            using type = cat_t<
-                type_t<make_index_sequence<(N % 2) ? ((N-1) / 2) : N / 2>>,
-                type_t<make_index_sequence<N / 2>>
-            >;
-        };
-
-        template<>
-        struct make_index_sequence<1>
-        {
-            using type = index_sequence<0>;
-        };
-
-        template<>
-        struct make_index_sequence<0>
-        {
-            using type = index_sequence<>;
-        };
-    }
-
-    template<std::size_t N>
-    using make_index_sequence = type_t<detail::make_index_sequence<N>>;
-    template<typename... Ts>
-    using make_index_sequence_for = make_index_sequence<sizeof...(Ts)>;
-
-    namespace detail
-    {
         template<typename Left, std::size_t Index, typename Right>
         struct split;
 
@@ -221,43 +206,98 @@ namespace meta
                  typename... Left, typename Head, typename... Tail>
         struct split<Seq<Left...>, Index, Seq<Head, Tail...>>
         {
-            using left  = typename split<Seq<Left..., Head>, Index - 1, Seq<Tail...>>::left;
-            using head  = Head;
-            using right = typename split<Seq<Left..., Head>, Index - 1, Seq<Tail...>>::right;
+            using next = split<Seq<Left..., Head>, Index - 1, Seq<Tail...>>;
+
+            using before = typename next::before;
+            using left  = typename next::left;
+            using head  = typename next::head;
+            using right = typename next::right;
+            using after = typename next::after;
         };
 
         template<template<typename...> class Seq,
             typename... Left, typename Head, typename... Tail>
         struct split<Seq<Left...>, 0, Seq<Head, Tail...>>
         {
+            using before = Seq<Left...>;
             using left  = Seq<Left..., Head>;
             using head  = Head;
             using right = Seq<Tail...>;
+            using after = Seq<Tail...>;
         };
     }
 
     template<std::size_t Index, typename... Ts>
-    using split_pack = detail::split<list<>, Index, list<Ts...>>;
+    using pack_split = detail::split<list<>, Index, list<Ts...>>;
     template<std::size_t Index, typename... Ts>
-    using split_pack_left_t = typename split_pack<Index, Ts...>::left;
+    using pack_split_left_t = typename pack_split<Index, Ts...>::left;
     template<std::size_t Index, typename... Ts>
-    using pack_get = typename split_pack<Index, Ts...>::head;
+    using pack_get_t = typename pack_split<Index, Ts...>::head;
     template<std::size_t Index, typename... Ts>
-    using split_pack_right_t = typename split_pack<Index, Ts...>::right;
+    using pack_split_right_t = typename pack_split<Index, Ts...>::right;
+    template<std::size_t Index, typename... Ts>
+    using pack_split_before_t = typename pack_split<Index, Ts...>::before;
+    template<std::size_t Index, typename... Ts>
+    using pack_split_after_t = typename pack_split<Index, Ts...>::after;
 
     template<std::size_t Index, typename Seq>
     struct split;
     template<std::size_t Index, template<typename...> class Seq, typename... Ts>
     struct split<Index, Seq<Ts...>>
     {
-        using type = detail::split<Seq<>, Index, Seq<Ts...>>;
+        using splitter = detail::split<Seq<>, Index, Seq<Ts...>>;
+
+        using before = typename splitter::before;
+        using left  = typename splitter::left;
+        using head  = typename splitter::head;
+        using right = typename splitter::right;
+        using after = typename splitter::after;
     };
     template<std::size_t Index, typename Seq>
     using split_left_t = typename split<Index, Seq>::left;
     template<std::size_t Index, typename Seq>
-    using get = typename split<Index, Seq>::head;
+    using get_t = typename split<Index, Seq>::head;
     template<std::size_t Index, typename Seq>
     using split_right_t = typename split<Index, Seq>::right;
+    template<std::size_t Index, typename Seq>
+    using split_before_t = typename split<Index, Seq>::before;
+    template<std::size_t Index, typename Seq>
+    using split_after_t = typename pack_split<Index, Seq>::after;
+
+
+    template<typename T, typename... Ts>
+    using pack_prepend_t = list<T, Ts...>;
+    template<typename T, typename... Ts>
+    using pack_append_t = list<Ts..., T>;
+    template<typename T, std::size_t Index, typename... Ts>
+    using pack_insert_t = cat_t<pack_append_t<pack_split_left_t<Index, Ts...>, T>, pack_split_right_t<Index, Ts...>>;
+    template<typename T, std::size_t Index, typename... Ts>
+    using pack_remove_t = cat_t<pack_split_before_t<Index, Ts...>, pack_split_after_t<Index, Ts...>>;
+
+    template<typename T, typename Seq>
+    struct prepend;
+    template<typename T, template<typename...> class Seq, typename... Ts>
+    struct prepend<T, Seq<Ts...>>
+    {
+        using type = Seq<T, Ts...>;
+    };
+    template<typename T, typename Seq>
+    struct append;
+    template<typename T, template<typename...> class Seq, typename... Ts>
+    struct append<T, Seq<Ts...>>
+    {
+        using type = Seq<Ts..., T>;
+    };
+
+    template<typename T, typename Seq>
+    using prepend_t = type_t<prepend<T, Seq>>;
+    template<typename T, typename Seq>
+    using append_t = type_t<append<Seq, T>>;
+    template<typename T, std::size_t Index, typename Seq>
+    using insert_t = cat_t<append_t<split_left_t<Index, Seq>, T>, split_right_t<Index, Seq>>;
+    template<typename T, std::size_t Index, typename Seq>
+    using remove_t = cat_t<split_before_t<Index, Seq>, split_after_t<Index, Seq>>;
+
 
 	template<typename Key, typename Value>
 	struct pair
@@ -437,6 +477,78 @@ namespace meta
     using pack_any_of = pack_foldl<or_, false_, Bs...>;
     template<typename... Bs>
     using pack_any_of_t = pack_foldl_t<or_, false_, Bs...>;
+
+    template<typename... Seqs>
+    using join = foldl<defer<cat>, apply_functor<pack_get_t<0, Seqs...>>, apply_functor<pack_get_t<0, Seqs...>, Seqs...>>;
+    template<typename... Seqs>
+    using join_t = type_t<join<Seqs...>>;
+
+    namespace detail
+    {
+        template<template<typename...> class Seq, std::size_t N>
+        struct make_index_sequence
+        {
+            static constexpr std::size_t n = (N % 2) ? ((N - 1) / 2) : (N / 2);
+            static constexpr std::size_t m = N - n;
+            
+            struct adder
+            {
+                template<typename T>
+                struct apply
+                {
+                    using type = apply_t<add_, size_t<n>, T>;
+                };
+            };
+
+            using type = cat_t<
+                type_t<make_index_sequence<Seq, n>>,
+                fmap_t<adder, type_t<make_index_sequence<Seq, m>>>
+            >;
+        };
+
+        template<template<typename...> class Seq>
+        struct make_index_sequence<Seq, 1>
+        {
+            using type = Seq<size_t<0>>;
+        };
+
+        template<template<typename...> class Seq>
+        struct make_index_sequence<Seq, 0>
+        {
+            using type = Seq<>;
+        };
+    }
+
+    template<std::size_t N, template<typename...> class Seq = list>
+    using make_index_sequence = type_t<detail::make_index_sequence<Seq, N>>;
+    template<typename... Ts>
+    using make_index_sequence_for = make_index_sequence<sizeof...(Ts)>;
+    template<typename Seq>
+    struct to_index_sequence;
+    template<template<typename...> class Seq, typename... Ts>
+    struct to_index_sequence<Seq<Ts...>>
+    {
+        using type = make_index_sequence<sizeof...(Ts), Seq>;
+    };
+    template<typename Seq>
+    using to_index_sequence_t = type_t<to_index_sequence<Seq>>;
+
+    template<template<typename...> class Zipper, typename... Seqs>
+    struct zip
+    {
+
+    };
+
+    template<template<typename...> class Function, typename... Args>
+    struct bind
+    {
+        template<typename... Ts>
+        struct apply
+        {
+            using indices = make_index_sequence_for<Ts...>;
+
+        };
+    };
 }
 
 }
