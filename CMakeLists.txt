@@ -7,14 +7,6 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug)
 endif()
 
-add_subdirectory(3rdParty/ctti)
-include_directories(3rdParty/ctti/include)
-include_directories(3rdParty/cppasscii/snippets)
-include(3rdParty/cmake/exec_target.cmake)
-
-configure_exec_targets(PROJECT CPP)
-include_directories(include)
-
 if(NOT MSVC)
 
     # gtest needs fileno() function at file gtest/include/gtest/internal/gtest-port.h,

@@ -43,7 +43,7 @@ add_reflection_example(reflection)
 if(NOT MINGW) # See https://github.com/GueimUCM/siplasplas/issues/16
     # Boost examples
     add_example(coroutine BOOST_COMPONENTS coroutine)
-    add_example(coroutine2 BOOST_COMPONENTS context)
+    add_example(coroutine2 BOOST_COMPONENTS coroutine context)
 
     # Pipeline examples
     add_example(pipeline DEPENDS siplasplas-pipeline)

@@ -9,4 +9,5 @@ SOURCES
     embedded_allocator.cpp
 DEPENDS
 	PUBLIC siplasplas-utility
+        ctti
 )
