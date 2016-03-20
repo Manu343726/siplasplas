@@ -6,117 +6,25 @@ from clang.cindex import CursorKind
 import os
 from datetime import datetime
 import json
-from colorama import Fore, Back, Style
 import argparse
 import fnmatch
 
-def percent_string(step, total):
-    percent = 100 * step / total
+from utility.logger import Logger, GlobalLogger, PathFormatter
+from colorama import Fore, Back, Style
+from ast.node import Node
 
-    if percent < 10:
-        return '  {}%'.format(percent)
-    elif percent < 100:
-        return ' {}%'.format(percent)
-    else:
-        return '100%'
-
-class PathFormatter:
-    def __init__(self, sourcedir):
-        self.sourcedir = sourcedir
-
-    def format(self, path, color = Fore.WHITE, format = Style.NORMAL):
-        return '{}{}{}'.format(color, os.path.relpath(path, self.sourcedir), Fore.RESET)
-
-
-class Logger:
-    def __init__(self, color, totalsteps = 0, tab = ''):
-        self.totalsteps = totalsteps
-        self.currentstep = 1
-
-        if totalsteps > 0:
-            self.step_header = lambda step: '[{}{}{}] '.format(Fore.BLUE + Style.BRIGHT, percent_string(step, totalsteps), Fore.RESET + Style.RESET_ALL)
-        else:
-            self.step_header = lambda step: tab + color + '  -> ' + Fore.RESET
-        
-        self.start_header = tab + color + '==> ' + Fore.RESET
-        self.info_header = tab + ' - '
-
-    def start(self, message, steps = -1):
-        if message >= 0:
-            self.totalsteps = steps
-
-        self.currentstep = 1
-        
-        print ''
-        print self.start_header + message
-
-    def step(self, message):
-        print self.step_header(self.currentstep) + message
-        self.currentstep += 1
-    
-    def info(self, message):
-        print self.info_header + message
-
-class DevNullLogger:
-    def start(self, message, steps = -1):
-        return
-
-    def step(self, message):
-        return
-
-    def info(self, message):
-        return
-
-
-class GlobalLogger:
-    _okLogger = Logger(Fore.GREEN)
-    _errorLogger = Logger(Fore.RED)
-    _warnLogger = Logger(Fore.YELLOW)
-    _infoLogger = Logger(Fore.BLUE)
-    _normalLogger = Logger(Fore.WHITE)
-    _devNullLogger = DevNullLogger()
-    _enabled = False
-
-    @staticmethod
-    def enabled(enabled):
-        GlobalLogger._enabled = enabled
-
-    @staticmethod
-    def ok():
-        return GlobalLogger._okLogger if GlobalLogger._enabled else GlobalLogger._devNullLogger
-
-    @staticmethod
-    def error():
-        return GlobalLogger._errorLogger
-
-    @staticmethod
-    def warning():
-        return GlobalLogger._warnLogger if GlobalLogger._enabled else GlobalLogger._devNullLogger
-
-    @staticmethod
-    def info():
-        return GlobalLogger._infoLogger if GlobalLogger._enabled else GlobalLogger._devNullLogger
-
-    @staticmethod
-    def normal():
-        return GlobalLogger._normalLogger if GlobalLogger._enabled else GlobalLogger._devNullLogger
-
-
-class Field:
+class Field(Node):
     def __init__(self, cursor):
-        self.cursor = cursor
-        self.name = cursor.spelling
+        Node.__init__(self, cursor)
 
-
-class Function:
+class Function(Node):
     def __init__(self, cursor):
-        self.cursor = cursor
-        self.name = cursor.spelling
+        Node.__init__(self, cursor)
 
 
 class Class:
     def _try_match_reflection_enabler(self, node):
-        """ Try to match a Reflectable<T> CRTP instantiation, 
+        """ Try to match a Reflectable<T> CRTP instantiation,
             i.e. class Foo : public Reflectable<Foo>"""
 
         found_crtp_template = False
@@ -165,17 +73,6 @@ class Class:
 
         self._collect_reflection_info()
 
-    def forward_declaration(self):
-        namespace_begin = '\n'.join(['namespace {} {{'.format(n) for n in self.namespace])
-        namespace_end = '}' * len(self.namespace)
-
-        if self.cursor.kind == CLASS_DECL:
-            decl = '    class {};'.format(self.className)
-        elif self.cursor.kind == STRUCT_DECL:
-            decl = '    struct {};'.format(self.className)
-        else:
-            raise ValueError('Unrecognized cursor kind for forward declaration: {}'.format(self.cursor.lind))
-
     @property
     def full_qualified_ref(self):
         if self.namespace:
@@ -183,18 +80,7 @@ class Class:
         else:
             return '::' + self.className
 
-    def __str__(self):
-        return (
-"""======================
-class \'{0}\':
-======================
- - Fields: {1}
- - Functions: {2}
-"""                 ).format(self.className, 
-                        ', '.join([field.name for field in self.fields]),
-                        ', '.join([function.name for function in self.functions])
-                )
-  
+
 class TranslationUnit:
     def __init__(self, filepath, args, jinjaTemplate, logger, print_ast = False):
         self.logger = logger
@@ -206,7 +92,6 @@ class TranslationUnit:
         self.jinjaTemplate = jinjaTemplate
 
         self.classes = []
-        self.tags = {}
         self.matching_declarations = [
             CursorKind.CLASS_DECL,
             CursorKind.STRUCT_DECL
@@ -235,7 +120,6 @@ class TranslationUnit:
 
         if reflectionClass is not None and reflectionClass.reflection_enabled:
             self.classes.append(reflectionClass)
-            self.tags[reflectionClass.cursor.location.line + 1] = reflectionClass
 
 
     def process(self):
@@ -255,10 +139,9 @@ class TranslationUnit:
             with open(self.ast_file_path, 'w') as ast_file:
                 import asciitree
 
-                ast_file.write(asciitree.draw_tree(self.translationUnit.cursor,
+                ast_file.write(asciitree.draw_tree(Node(self.translationUnit.cursor),
                     lambda n: list(n.get_children()),
-                    lambda n: "%s (%s)" % (n.spelling or n.displayname, str(n.kind).split(".")[1])
-                ))
+                    lambda n: n.print_ast_node()))
 
         self._process_reflection(self.translationUnit.cursor)
 
@@ -313,7 +196,7 @@ class SyncManager:
 
         self.save_timestamp(filename)
         self.database[key]['output'] = outputfile
-    
+
 
 class Compiler:
     def _output_file(self, sourcefile):
@@ -387,12 +270,12 @@ class App:
                     return True
 
         return False
-        
+
     def search_files(self, rootpath):
         self.logger.step(rootpath)
         files = list(os.walk(rootpath))
         outputfiles = []
-        
+
         for root, dirnames, filenames in files:
             for file in filenames:
                 if self.file_matches(os.path.join(root, file)):
@@ -437,6 +320,7 @@ class App:
 
 
         self.args.compile_options = self.args.compile_options[1:-1]
+        self.args.compile_options += ' -DSIPLASPLAS_REFLECTION_RUNNING_DRLPARSER'
 
 
         self.logger.step('Database file: {}'.format(self.args.database))
@@ -475,14 +359,14 @@ class App:
 
         self.compiler = Compiler(compileArgs,
             self.args.sourcedir, self.args.files,
-            self.args.database, self.args.output_dir, self.args.ignore_database, 
+            self.args.database, self.args.output_dir, self.args.ignore_database,
             self.args.ast_dump,
             self.args.code_template_file
         )
-    
+
     def run(self):
         self.compiler.run()
 
 
 App().run()
-        
+

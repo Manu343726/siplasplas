@@ -2,6 +2,7 @@
 #define SIPLASPLAS_INCLUDE_REFLECTION_API_HPP
 
 #include "metaclass.hpp"
+#include "parser/annotations.hpp"
 
 namespace cpp
 {
@@ -15,7 +16,7 @@ namespace cpp
     ::cpp::BindedMetaClassData<Class> reflection(const Class& object)
     {
         return {&object, &reflection<Class>()};
-    } 
+    }
 }
 
 #endif // SIPLASPLAS_INCLUDE_REFLECTION_API_HPP

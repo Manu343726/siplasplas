@@ -6,12 +6,15 @@
 class MyClass : public cpp::Reflectable<MyClass>
 {
 public:
-	int f(int a, int b)
-	{
-		return a + b;
-	}
+    SIPLASPLAS_ANNOTATION(
+        ::UnknownAttributeClass("goodbye world", [1,2,3,4])
+    )
+    int f(int a, int b)
+    {
+        return a + b;
+    }
 
-	int field = 0;
+    int field = 0;
 };
 
 #include <reflection/examples/myclass.hpp>
