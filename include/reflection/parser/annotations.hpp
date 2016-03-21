@@ -8,10 +8,11 @@
 // Named variadic macros are a GNU extension, but I don't care since this is
 // only used when DRLParser is run
 #define SIPLASPLAS_ANNOTATION(x...) __attribute__((annotate(#x)))
-
+#define ANNOTATION_TEST(x...) SIPLASPLAS_ANNOTATION(x)
 #else
 
 #define SIPLASPLAS_ANNOTATION(...)
+#define ANNOTATION_TEST(...)
 
 #endif // SIPLASPLAS_REFLECTION_RUNNING_DRLPARSER
 

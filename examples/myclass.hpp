@@ -3,9 +3,11 @@
 
 #include <reflection/api.hpp>
 
+ANNOTATION_TEST("hello this is an annotation done with static_assert()")
 class MyClass : public cpp::Reflectable<MyClass>
 {
 public:
+    
     SIPLASPLAS_ANNOTATION(
         ::UnknownAttributeClass("goodbye world", [1,2,3,4])
     )
@@ -13,6 +15,7 @@ public:
     {
         return a + b;
     }
+
 
     int field = 0;
 };
