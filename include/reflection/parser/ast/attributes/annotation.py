@@ -8,12 +8,6 @@ class Annotation(object):
     (Class declaration, function, declaration, etc) through
     the clang __attribute__((annotate())) extension.
 
-    Our annotations try to mimic C++11 generalized attributes
-    syntax. An annotation has both a namespace (global by default)
-    and a body:
-
-        "namespace::body"
-
     At this level annotations are just text with no specific semantics,
     see Attribute class hierarchy for semantics.
     """
@@ -24,6 +18,7 @@ class Annotation(object):
     def __init__(self, cursor, string):
         self.cursor = cursor
         self.text = string
+        self.annotated_node = None
         matchFull = Annotation._FULL_ANNOTATION_REGEX.match(string)
 
         if matchFull:
@@ -36,10 +31,7 @@ class Annotation(object):
 
         if matchBodyParams:
             self.class_name = matchBodyParams.group(1)
-            self.ctor_args = eval('[{}]'.format(matchBodyParams.group(2)))
-
-            if self.ctor_args and self.ctor_args[0] == '':
-                self.ctor_args = []
+            self.ctor_args = matchBodyParams.group(2)
         else:
             self.class_name = self.body
             self.ctor_args = []
@@ -53,10 +45,12 @@ class Annotation(object):
     def python_module(self):
         return self.namespace.replace('::', '.')
 
+    def is_orphan(self):
+        return self.annotated_node is None
+
     @staticmethod
-    def get_cursor_annotations(cursor):
-        return [Annotation(cursor, c.displayname) for c in cursor.get_children()
-                if c.kind == CursorKind.ANNOTATE_ATTR]
+    def get_node_annotations(node):
+        return node.translation_unit.match_annotations(node)
 
     def __str__(self):
         return self.__dict__

@@ -1,204 +1,22 @@
 #!/usr/bin/env python2
-import clang
-import clang.cindex
 import sys
-from clang.cindex import CursorKind
 import os
-from datetime import datetime
-import json
 import argparse
 import fnmatch
 
+import clang.cindex
+
 from utility.logger import Logger, GlobalLogger, PathFormatter
 from colorama import Fore, Back, Style
-from ast.node import Node
-
-class Field(Node):
-    def __init__(self, cursor):
-        Node.__init__(self, cursor)
-
-class Function(Node):
-    def __init__(self, cursor):
-        Node.__init__(self, cursor)
-
-
-class Class:
-    def _try_match_reflection_enabler(self, node):
-        """ Try to match a Reflectable<T> CRTP instantiation,
-            i.e. class Foo : public Reflectable<Foo>"""
-
-        found_crtp_template = False
-
-        if node.kind == CursorKind.CXX_BASE_SPECIFIER:
-            for c in node.get_children():
-                GlobalLogger.warning().step('base spec child: {} [{}]'.format(c.spelling, c.kind))
-
-                if c.kind == CursorKind.TEMPLATE_REF and c.spelling == 'Reflectable':
-                    found_crtp_template = True
-                    GlobalLogger.info().info('Found Reflectable<T> base specifier in class ' + self.full_qualified_ref)
-
-                if found_crtp_template:
-                    GlobalLogger.info().info('Looking at {} (\'{}\' {})'.format(c.spelling, c.displayname, c.kind))
-
-                    if c.kind == CursorKind.TYPE_REF and c.referenced == self.cursor:
-                        return True;
-
-        return False;
-
-    def _collect_reflection_info(self):
-        for child in self.cursor.get_children():
-            if child.kind == CursorKind.CXX_METHOD:
-                self.functions.append(Function(child))
-            elif child.kind == CursorKind.FIELD_DECL:
-                self.fields.append(Field(child))
-            else:
-                if not self.reflection_enabled:
-                    self.reflection_enabled = self._try_match_reflection_enabler(child)
-
-    def __init__(self, cursor, logger = Logger(Fore.WHITE), namespace = []):
-        self.logger = logger
-        self.cursor = cursor
-        if cursor.kind == CursorKind.CLASS_DECL:
-            self.declKind = 'class'
-        elif cursor.kind == CursorKind.STRUCT_DECL:
-            self.declKind = 'struct'
-        else:
-            self.declKind = '[unknown]'
-        self.className = cursor.spelling
-        self.possible_name_refs = [self.className, 'struct ' + self.className, 'class ' + self.className]
-        self.fields = []
-        self.functions = []
-        self.namespace = [n for n in namespace if n] # Filter annonymous (empty) namespaces
-        self.reflection_enabled = False
-
-        self._collect_reflection_info()
-
-    @property
-    def full_qualified_ref(self):
-        if self.namespace:
-            return '::' + '::'.join(self.namespace) + '::' + self.className
-        else:
-            return '::' + self.className
-
-
-class TranslationUnit:
-    def __init__(self, filepath, args, jinjaTemplate, logger, print_ast = False):
-        self.logger = logger
-        self.filePath = filepath
-        self.compileArgs = args
-        self.ast_file_path = filepath + '.ast'
-        self.print_ast = print_ast
-        self.index = clang.cindex.Index.create()
-        self.jinjaTemplate = jinjaTemplate
-
-        self.classes = []
-        self.matching_declarations = [
-            CursorKind.CLASS_DECL,
-            CursorKind.STRUCT_DECL
-        ]
-
-    def _process_reflection(self, node, depth = 0):
-        reflectionClass = None
-
-        childs = list(node.get_children())
-
-        if (node.kind == CursorKind.NAMESPACE and node.spelling == 'std') or node.kind == CursorKind.UNEXPOSED_DECL:
-            childs = []
-
-        if node.kind == CursorKind.NAMESPACE:
-            self.namespace.append(node.spelling)
-
-        if node.kind in self.matching_declarations:
-            reflectionClass = Class(node, namespace = list(self.namespace))
-            GlobalLogger.info().step('[line {}, col {}] {}'.format(node.location.line, node.location.column, reflectionClass.full_qualified_ref))
-
-        for child in childs:
-            self._process_reflection(child, depth + 1)
-
-        if node.kind == CursorKind.NAMESPACE:
-            self.namespace.pop()
-
-        if reflectionClass is not None and reflectionClass.reflection_enabled:
-            self.classes.append(reflectionClass)
-
-
-    def process(self):
-        self.logger.info('Parsing file...')
-
-        self.translationUnit = self.index.parse(self.filePath, args = self.compileArgs)
-        self.classes = []
-        self.namespace = []
-
-        for d in self.translationUnit.diagnostics:
-            GlobalLogger.error().step('Line {} (severity {}): {}'.format(d.location.line, d.severity, d.spelling))
-
-        self.logger.info('Processing AST...')
-
-        if self.print_ast:
-            GlobalLogger.info().info('Dumping AST to {}...'.format(self.ast_file_path))
-            with open(self.ast_file_path, 'w') as ast_file:
-                import asciitree
-
-                ast_file.write(asciitree.draw_tree(Node(self.translationUnit.cursor),
-                    lambda n: list(n.get_children()),
-                    lambda n: n.print_ast_node()))
-
-        self._process_reflection(self.translationUnit.cursor)
-
-        return self.classes
-
-    def run_jinja(self, outputfile):
-        if self.jinjaTemplate and self.classes:
-            import hashlib
-
-            self.logger.info('Generating file...')
-
-            with open(outputfile, 'w') as outputFile:
-                outputFile.write(self.jinjaTemplate.render(tu = self, hash = hashlib.md5(outputfile.encode()).hexdigest()))
-
-
-class SyncManager:
-    def __init__(self, databasefile, sourcedir):
-        self.databasefile = os.path.abspath(databasefile)
-        self.rootpath = sourcedir
-
-        if os.path.isfile(self.databasefile):
-            with open(self.databasefile, 'r') as file:
-                self.database = json.load(file)
-        else:
-            self.database = {}
-
-    def fullpath(self, filename):
-        return os.path.relpath(filename, self.rootpath)
-
-    def save(self):
-        with open(self.databasefile, 'w') as file:
-            json.dump(self.database, file, indent = 4)
-
-    def load_timestamp(self, sourcefile):
-        return self.database[self.fullpath(sourcefile)]['timestamp']
-
-    def get_file_timestamp(self, sourcefile):
-        return os.path.getmtime(sourcefile)
-
-    def save_timestamp(self, sourcefile):
-        self.database[self.fullpath(sourcefile)]['timestamp'] = self.get_file_timestamp(sourcefile)
-
-    def is_synced(self, filename):
-        return self.fullpath(filename) in self.database and \
-            self.get_file_timestamp(filename) <= self.load_timestamp(filename)
-
-    def sync(self, filename, outputfile):
-        key = self.fullpath(filename)
-
-        if not key in self.database:
-            self.database[key] = {}
-
-        self.save_timestamp(filename)
-        self.database[key]['output'] = outputfile
+from translationunitprocessor import TranslationUnitProcessor
+from syncmanager import SyncManager
 
 
 class Compiler:
+    """ A compiler takes all processing settings and sources,
+        then generates and processes all the translation units
+    """
+
     def _output_file(self, sourcefile):
         path, name = os.path.split(sourcefile)
         outputpath = os.path.join(self.outputdir, os.path.relpath(path, self.sourcedir))
@@ -226,12 +44,13 @@ class Compiler:
                      trim_blocks=True)
         template = env.get_template(file)
 
-        self.tus = [TranslationUnit(sourcefile, args, template, self.logger, print_ast = print_ast) for sourcefile in files]
+        self.tus = [TranslationUnitProcessor(sourcefile, args, template, self.logger, print_ast = print_ast) for sourcefile in files]
 
     def process(self):
         self.logger.start('Processing {} files:'.format(len(self.tus)))
 
         for tu in self.tus:
+            # Only process a translation unit if its source file has changed
             if self.ignore_database or not self.syncmanager.is_synced(tu.filePath):
                 self.logger.step('({}outdated{}) {}'.format(Fore.RED, Fore.RESET, self.pathformat.format(tu.filePath)))
 
@@ -259,6 +78,10 @@ class Compiler:
 
 
 class App:
+    """ Main parser application class. Collects
+        all settings and runs the compiler
+    """
+
     def file_matches(self, file):
         for ext in self.args.extensions:
             if fnmatch.fnmatch(file, '*' + ext):
@@ -304,7 +127,7 @@ class App:
         parser.add_argument('-i', '--ignore-database', action = 'store_true', help = 'Ignore database records (Ignore input file timestamps, process file always)')
         parser.add_argument('-l', '--libclang', help = 'Full path to libclang library (libclang.so)')
         parser.add_argument('-a', '--ast-dump', help = 'Dumps the AST of each translation unit to a source_file.ast file', action = 'store_true')
-        parser.add_argument('--code-template-file', help = 'Template file of reflection code generation')
+        parser.add_argument('--code-template-file', help = 'Template file for reflection code generation')
         parser.add_argument('-v', '--verbose', action = 'store_true')
         parser.add_argument('-o', '--output-dir', help = 'Output root directory')
         self.args = parser.parse_args()

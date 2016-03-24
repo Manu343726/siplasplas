@@ -5,45 +5,42 @@ import importlib, inspect
 import sys
 
 class Attribute(object):
+    """ Implements a node attribute
+
+        On the C++ side, an attribute is any class that implements
+        the cpp::attributes::Attribute interface.
+        The parser takes an annotation and interprets its text as an
+        instantiation of the above interface.
+
+        For example:
+
+            class MyAttribute : public cpp::attributes::Attribute
+            {
+                ...
+            };
+
+            $(std::make_shared<cpp::attributes::Attribute>(new MyAttribute()))
+            void function();
+
+        Check out the code generation template to see how that code is being used
+        by different entities.
+    """
+
     def __init__(self, annotation):
         self.annotation = annotation
 
     @staticmethod
-    def create(annotation):
-        def error_exit():
-            GlobalLogger.error().step('Cannot load \'{}\' attribute class from module \'{}\'. Attribute will be ignored.'.format(annotation.class_name, annotation.python_module()))
-            return None
+    def get_node_attributes(node):
+        """ Asks the translation untit for the set of annotations
+            applied to a node, then interprets them as attributes
+        """
 
-        try:
-            if not annotation.at_global_namespace:
-                module = importlib.import_module(annotation.python_module())
-                class_ = getattr(module, annotation.class_name)
-            else:
-                imported_classes = inspect.getmembers(sys.modules[__name__], inspect.isclass)
-                for name, class_ in imported_classes:
-                    if name == annotation.class_name:
-                        break;
-                    else:
-                        class_ = None
+        return [attr for attr in [Attribute(x)
+            for x in Annotation.get_node_annotations(node)] if attr is not None]
 
-        except AttributeError, ImportError:
-            return error_exit()
-
-        if inspect.isclass(class_):
-            return class_(annotation, *annotation.ctor_args)
-        else:
-            return error_exit()
-
-    @staticmethod
-    def get_cursor_attributes(cursor):
-        return [attr for attr in [Attribute.create(x)
-            for x in Annotation.get_cursor_annotations(cursor)] if attr is not None]
+    @property
+    def code(self):
+        return self.annotation.text
 
     def description(self):
-        return 'Line {} (On \'{}\' {}) Attribute \'{}\'. Params: {}'.format(self.annotation.cursor.location.line, self.annotation.cursor.displayname, self.annotation.cursor.kind, self.annotation.class_name, self.annotation.ctor_args)
-
-
-class ExampleAttributeClass(Attribute):
-    def __init__(self, annotation, message, number):
-        Attribute.__init__(self, annotation)
-        GlobalLogger.info().info(message)
+        return '(On \'{}\') (attribute) \'{}\''.format(self.annotation.annotated_node.displayname, self.code)
