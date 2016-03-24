@@ -36,14 +36,14 @@ int main()
 
         std::cout << " -- " << function.name() << ": Return type " << function.returnType().type().name()
             << ", parameter types [";
-        
+
         for (const auto& type : function.parameterTypes())
             std::cout << "'" << type.type().name() << "', ";
 
         std::cout << "], const: " << std::boolalpha << function.isConst() << std::endl;
     }
 
-    cpp::MetaObject result = cpp::reflection<MyClass>().function("f")(myObject)(1, 2);
+    cpp::MetaObject result = cpp::reflection<MyClass>().function("f")(myObject)(-1, 2);
 
     std::cout << myObject.field << std::endl;
 
