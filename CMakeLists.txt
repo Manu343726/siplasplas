@@ -28,7 +28,7 @@ if(NOT MSVC)
     
     set(CPP_GLOBAL_ALL_COMPILE_OPTIONS -std=${STD_CXX} -Wall -pedantic -DCTTI_STRING_MAX_LENGTH=1024 -ftemplate-depth-1024)
     set(CPP_GLOBAL_DEBUG_COMPILE_OPTIONS -O0 -g3)
-    set(CPP_GLOABL_RELEASE_COMPILE_OPTIONS -O3 -g0)
+    set(CPP_GLOABL_RELEASE_COMPILE_OPTIONS -O3 -g0 -fno-inline -fno-elide-constructors)
 else()
     set(CPP_GLOBAL_ALL_COMPILE_OPTIONS /DCTTI_STRING_MAX_LENGTH=512)
 endif()
