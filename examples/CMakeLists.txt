@@ -47,3 +47,6 @@ if(NOT MINGW) # See https://github.com/GueimUCM/siplasplas/issues/16
         set_target_properties(examples-coroutine PROPERTIES LINK_FLAGS /SAFESEH:NO)
     endif()
 endif()
+
+# Meta examples
+add_example(meta DEPENDS INTERFACE siplasplas-utility)
