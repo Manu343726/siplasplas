@@ -32,12 +32,22 @@ namespace cpp
             }
         }
 
-        cpp::Field field(const std::string& name) const
+        const cpp::Field& field(const std::string& name) const
         {
             return _fields.at(name);
         }
 
-        cpp::Function function(const std::string& name) const
+        const cpp::Function& function(const std::string& name) const
+        {
+            return _functions.at(name);
+        }
+
+        cpp::Field& field(const std::string& name)
+        {
+            return _fields.at(name);
+        }
+
+        cpp::Function& function(const std::string& name)
         {
             return _functions.at(name);
         }

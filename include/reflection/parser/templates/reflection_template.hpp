@@ -2,42 +2,46 @@
 #define SIPLASPLAS_REFLECTION_OUTPUT_FILE_{{hash}}_HPP
 
 /*
- * Reflection file generated from:
- * {{tu.filePath}}
- *
  * Classes:
-{% for class in tu.classes %}
- * :: From line {{class.cursor.location.line}}: {{class.declKind}} {{class.className}} ({{class.full_qualified_ref}})
-{% for f in class.fields %}
- *    -> field "{{f.name}}" 
+{% for class in classes %}
+ * :: From line {{class.cursor.location.line}}: {{class.declarationKind}} {{class.className}} ({{class.fullname}})
+{% for name, f in class.children['field'].iteritems() %}>
+ *    -> field "{{f.displayname}}"
 {% endfor %}
-{% for f in class.functions %}
- *    -> function "{{f.name}}" 
+{% for name, f in class.children['method'].iteritems() %}
+ *    -> method "{{f.displayname}}"
+{% for attr in f.attributes %}
+ *       @ Attribute: {{attr.code}}
 {% endfor %}
 {% endfor %}
- */ 
+{% endfor %}
+ */
 
 namespace cpp
 {
-{% for class in tu.classes %}
+{% for class in classes %}
     template<>
-    class Reflection<{{class.full_qualified_ref}}>
+    class Reflection<{{class.fullname}}>
     {
     public:
         static ::cpp::MetaClassData& reflection() {
-            static ::cpp::MetaClassData& data = []() -> ::cpp::MetaClassData& 
+            static ::cpp::MetaClassData& data = []() -> ::cpp::MetaClassData&
             {
-                ::cpp::MetaClass::registerClass<{{class.full_qualified_ref}}>({
-{% for field in class.fields %}
-                    ::cpp::Field("{{field.name}}", &{{class.full_qualified_ref}}::{{field.name}}, offsetof({{class.full_qualified_ref}}, {{field.name}})),
+                ::cpp::MetaClass::registerClass<{{class.fullname}}>({
+{% for name, field in class.children['field'].iteritems() %}
+                    ::cpp::Field("{{field.spelling}}", &{{class.fullname}}::{{field.spelling}}, offsetof({{class.fullname}}, {{field.spelling}})),
 {% endfor %}
-                }, { 
-{% for function in class.functions %}
-                    ::cpp::Function("{{function.name}}",  &{{class.full_qualified_ref}}::{{function.name}}),
+                }, {
+{% for name, method in class.children['method'].iteritems() %}
+{% if method.attribute is none %}
+                    ::cpp::Function("{{method.spelling}}",  &{{class.fullname}}::{{method.spelling}}),
+{% else %}
+                    ::cpp::Function("{{method.spelling}}",  &{{class.fullname}}::{{method.spelling}}, {{method.attribute.code}}),
+{% endif %}
 {% endfor %}
                 });
 
-                return ::cpp::MetaClass::getClass<{{class.full_qualified_ref}}>();
+                return ::cpp::MetaClass::getClass<{{class.fullname}}>();
             }();
 
             return data;
