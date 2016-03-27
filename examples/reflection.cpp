@@ -43,7 +43,7 @@ int main()
         std::cout << "], const: " << std::boolalpha << function.isConst() << std::endl;
     }
 
-    cpp::MetaObject result = cpp::reflection<MyClass>().function("f")(myObject)(-1, 2);
+    cpp::MetaObject result = cpp::reflection<MyClass>().function("f")(myObject)(1, 2);
 
     std::cout << myObject.field << std::endl;
 
@@ -51,4 +51,6 @@ int main()
             cpp::reflection(myObject).function("f")(1, 10),
             cpp::reflection(myObject).field("field")
     ) << std::endl;
+
+    std::cout << cpp::reflection(myObject).function("g")(1, 3).get<int>() << std::endl;
 }
