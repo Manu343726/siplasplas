@@ -265,7 +265,6 @@ namespace cpp
         static MetaTypeRegistry _registry;
     };
 
-    MetaType::MetaTypeRegistry MetaType::_registry;
 }
 
 #endif // SIPLASPLAS_REFLECTION_METATYPE_HPP
