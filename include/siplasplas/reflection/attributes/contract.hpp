@@ -33,7 +33,7 @@ public:
         if(!_precond(args...))
         {
             throw std::logic_error{_precondMsg};
-        }
+        }            
         else
         {
             return std::make_tuple(args...);

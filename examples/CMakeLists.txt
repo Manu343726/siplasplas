@@ -1,5 +1,5 @@
 include(cmake/generate_assembly)
-include(${CMAKE_SOURCE_DIR}/include/reflection/parser/drlparser.cmake)
+include(${CMAKE_SOURCE_DIR}/include/siplasplas/reflection/parser/drlparser.cmake)
 
 function(add_example NAME)
     add_siplasplas_executable(${NAME}
@@ -11,7 +11,7 @@ function(add_example NAME)
 endfunction()
 
 function(add_reflection_example NAME)
-    add_example(${NAME} ${ARGN} DEPENDS siplasplas-allocator)
+    add_example(${NAME} ${ARGN} DEPENDS siplasplas-reflection)
     reflection_target(examples-${NAME})
 endfunction()
 

@@ -17,11 +17,13 @@
 {% endfor %}
  */
 
+#include <ctti/type_id.hpp>
+
 namespace cpp
 {
 {% for class in classes %}
     template<>
-    class Reflection<{{class.fullname}}>
+    class Reflection<ctti::type_id<{{class.fullname}}>().hash()>
     {
     public:
         static ::cpp::MetaClassData& reflection() {

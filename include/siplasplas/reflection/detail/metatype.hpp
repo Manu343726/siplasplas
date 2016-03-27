@@ -79,7 +79,7 @@ namespace cpp
 
         static MetaType get(const std::string& typeName)
         {
-            auto try_get = [](const std::string typeName) -> MetaTypeLifeTimeManagerBase*
+            auto try_get = [](const std::string typeName) -> std::shared_ptr<MetaTypeLifeTimeManagerBase>
             {
                 auto id = ctti::id_from_name(typeName);
                 auto it = _registry.find(id);
@@ -90,7 +90,7 @@ namespace cpp
                     return nullptr;
             };
 
-            MetaTypeLifeTimeManagerBase* manager = nullptr;
+            std::shared_ptr<MetaTypeLifeTimeManagerBase> manager = nullptr;
 
             if(!(manager = try_get(typeName)) && 
                !(manager = try_get("class " + typeName)) &&
@@ -242,25 +242,25 @@ namespace cpp
         };
 
         template<typename T>
-        static MetaTypeLifeTimeManagerBase* getLifetimeManager()
+        static const std::shared_ptr<MetaTypeLifeTimeManagerBase>& getLifetimeManager()
         {
-            static std::unique_ptr<MetaTypeLifeTimeManagerBase> instance{ [&]()
+            static std::shared_ptr<MetaTypeLifeTimeManagerBase> instance{ [&]()
             {
-                MetaTypeLifeTimeManagerBase* instance = new MetaTypeLifeTimeManager<T>();
+                std::shared_ptr<MetaTypeLifeTimeManagerBase> instance{new MetaTypeLifeTimeManager<T>()};
                 _registry[cpp::detail::CustomTypeName<T>::id()] = instance;
                 return instance;
             }()};
 
-            return instance.get();
+            return instance;
         }
 
-        MetaType(MetaTypeLifeTimeManagerBase* lifetimeManager) :
+        MetaType(const std::shared_ptr<MetaTypeLifeTimeManagerBase>& lifetimeManager) :
             _lifetimeManager{lifetimeManager}
         {}
 
-        MetaTypeLifeTimeManagerBase* _lifetimeManager;
+        std::shared_ptr<MetaTypeLifeTimeManagerBase> _lifetimeManager;
 
-        using MetaTypeRegistry = std::unordered_map<ctti::type_index, MetaTypeLifeTimeManagerBase*>;
+        using MetaTypeRegistry = std::unordered_map<ctti::type_index, std::shared_ptr<MetaTypeLifeTimeManagerBase>>;
 
         static MetaTypeRegistry _registry;
     };

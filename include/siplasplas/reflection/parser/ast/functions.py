@@ -26,5 +26,5 @@ class MethodFamily(Node):
                 parent.children['methodfamily'][cursor.spelling] = {}
                 parent.children['methodfamily'][cursor.spelling][cursor.displayname] = OverloadedMethod.create_node(cursor, parent)
             else:
-                if parent.children['methodfamily']
+                if parent.children['methodfamily']:
                     parent.children['method'][cursor.spelling] = Method.create_node(cursor, parent)

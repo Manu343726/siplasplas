@@ -8,7 +8,7 @@ else()
     message(STATUS "Python interpreter found: ${PYTHON_EXECUTABLE} (${PYTHON_VERSION_STRING})")
 endif()
 
-set(DRLPARSER_SCRIPT include/reflection/parser/DRLParser)
+set(DRLPARSER_SCRIPT include/siplasplas/reflection/parser/DRLParser)
 set(OUTPUT_DIR ${CMAKE_BINARY_DIR}/ouput/reflection)
 set(INCLUDE_OUTPUT_DIR ${CMAKE_BINARY_DIR}/ouput/)
 
@@ -251,7 +251,7 @@ function(reflection_target TARGET)
         ${ignore_database}
         ${verbose}
         ${astdump}
-        --code-template-file ${CMAKE_SOURCE_DIR}/include/reflection/parser/templates/reflection_template.hpp
+        --code-template-file ${CMAKE_SOURCE_DIR}/include/siplasplas/reflection/parser/templates/reflection_template.hpp
     )
 
     add_custom_command(

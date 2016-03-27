@@ -155,11 +155,11 @@ namespace meta
     template<typename Lhs, typename Rhs>
     using add_t = apply_t<add_, Lhs, Rhs>;
 
-	template<typename... Ts>
-	struct list
-	{
-		static constexpr std::size_t size = sizeof...(Ts);
-	};
+    template<typename... Ts>
+    struct list
+    {
+        static constexpr std::size_t size = sizeof...(Ts);
+    };
 
 
     template<typename Seq>

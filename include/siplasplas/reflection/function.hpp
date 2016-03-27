@@ -1,10 +1,10 @@
 #ifndef SIPLASPLAS_REFLECTION_FUNCTION_HPP
 #define SIPLASPLAS_REFLECTION_FUNCTION_HPP
 
-#include "reflection/detail/metatype.hpp"
-#include "reflection/detail/metaobject.hpp"
-#include "reflection/detail/metaobject_manip.hpp"
-#include "reflection/attributes/attribute.hpp"
+#include "detail/metatype.hpp"
+#include "detail/metaobject.hpp"
+#include "detail/metaobject_manip.hpp"
+#include "attributes/attribute.hpp"
 
 #include <ctti/type_id.hpp>
 

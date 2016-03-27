@@ -1,8 +1,8 @@
 #ifndef SIPLASPLAS_REFLECTION_METACLASS_HPP
 #define SIPLASPLAS_REFLECTION_METACLASS_HPP
 
-#include "reflection/field.hpp"
-#include "reflection/function.hpp"
+#include "field.hpp"
+#include "function.hpp"
 
 #include <initializer_list>
 
@@ -128,7 +128,7 @@ namespace cpp
 
     MetaClass::MetaClassRegistry MetaClass::_metaClasses;
 
-    template<typename Class>
+    template<std::size_t ClassId>
     class Reflection
     {
     public:

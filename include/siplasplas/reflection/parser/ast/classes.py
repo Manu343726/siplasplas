@@ -4,7 +4,8 @@ from ast.functions import Method
 from ast.fields import Field
 from ast.macroinstance import MacroInstance
 from ast.unknown import Unkwnown
-from ast.thisclass import ThisClass
+
+
 class Class(Node):
 
     @staticmethod
