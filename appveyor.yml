@@ -12,7 +12,7 @@ configuration:
   - Release
 
 install:
-  - cmd: git submodule update --init
+  - cmd: git submodule update --init --recursive
   - cmd: choco install cmake 
   - cmd: if "%generator%" == "%GCCGenerator%" choco install mingw > nul # The mingw installer is in verbose mode, see https://chocolatey.org/packages/mingw
   - cmd: cmake --version
