@@ -5,11 +5,12 @@
 #include <string>
 #include <sstream>
 #include <cassert>
-#include "siplasplas/allocator/detail/track_top_allocator.hpp"
+#include <siplasplas/allocator/detail/track_top_allocator.hpp>
+#include <siplasplas/allocator/export.hpp>
 
 namespace cpp
 {
-    class LifoAllocator : protected TrackTopAllocator
+    class SIPLASPLAS_ALLOCATOR_EXPORT LifoAllocator : protected TrackTopAllocator
     {
     public:
         using offset_t = std::uint8_t;

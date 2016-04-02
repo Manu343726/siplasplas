@@ -1,4 +1,5 @@
 include(CMakeParseArguments)
+include(GenerateExportHeader)
 
 include(cmake/boost)
 include(cmake/list_dependencies)
@@ -234,6 +235,11 @@ function(add_siplasplas_target NAME TARGET_TYPE)
 
         set_flags()
         set(linking PUBLIC)
+
+        generate_export_header(${NAME}
+            EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/siplasplas/${current_relative_path}/export.hpp
+        )
+        target_include_directories(${NAME} PUBLIC ${CMAKE_BINARY_DIR}/exports)
     else()
         # Create the executable
         add_executable(${NAME} ${ARGS_SOURCES})

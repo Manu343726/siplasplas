@@ -4,6 +4,7 @@
 #include "type_info.hpp"
 #include <siplasplas/allocator/freelist_allocator.hpp>
 #include <siplasplas/utility/throw.hpp>
+#include <siplasplas/reflection/export.hpp>
 
 #include <unordered_map>
 #include <vector>
@@ -35,7 +36,7 @@ namespace cpp
 
 #define CPP_REFLECTION_FORCE_TYPENAME(type) CPP_REFLECTION_CUSTOM_TYPENAME_FOR(type, #type)
     
-    class MetaType
+    class SIPLASPLAS_REFLECTION_EXPORT MetaType
     {
     public:
         MetaType() = default;
@@ -102,7 +103,7 @@ namespace cpp
                 return { manager };
         }
 
-        class MetaTypeLifeTimeManagerBase
+        class SIPLASPLAS_REFLECTION_EXPORT MetaTypeLifeTimeManagerBase
         {
         public:
             virtual ~MetaTypeLifeTimeManagerBase() = default;

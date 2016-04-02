@@ -171,7 +171,7 @@ class App:
 
         self.args.files.sort()
 
-        includes = ['-I{}'.format(os.path.abspath(i)) for i in (self.args.searchdirs + self.args.includedirs.split())]
+        includes = ['-I{}'.format(os.path.abspath(i)) for i in (self.args.searchdirs + self.args.includedirs)]
         includes.append('-I' + os.path.abspath(self.args.sourcedir))
         includes.append('-I' + os.path.abspath(os.path.join(self.args.sourcedir, 'include')))
 

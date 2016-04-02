@@ -5,6 +5,7 @@
 #include "../detail/metaobject.hpp"
 #include "../detail/metaobject_manip.hpp"
 #include <siplasplas/utility/type_variables.hpp>
+#include <siplasplas/reflection/export.hpp>
 
 namespace cpp
 {
@@ -12,7 +13,7 @@ namespace cpp
 namespace attributes
 {
 
-class Attribute
+class SIPLASPLAS_REFLECTION_EXPORT Attribute
 {
 public:
     virtual std::vector<cpp::MetaObject> processArguments(const std::vector<cpp::MetaObject>& args);

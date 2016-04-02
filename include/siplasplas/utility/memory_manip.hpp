@@ -2,13 +2,14 @@
 #define SIPLASPLAS_UTILITY_MEMORY_MANIP_HPP
 
 #include <memory>
+#include <siplasplas/utility/export.hpp>
 
 namespace cpp
 {
     namespace detail
     {
-        char* aligned_ptr(char* pointer, std::size_t alignment);
-        void* aligned_ptr(void* pointer, std::size_t alignment);
+        SIPLASPLAS_UTILITY_EXPORT char* aligned_ptr(char* pointer, std::size_t alignment);
+        SIPLASPLAS_UTILITY_EXPORT void* aligned_ptr(void* pointer, std::size_t alignment);
 
         template<typename T>
         void write_at(char* pointer, const T& value, std::intptr_t offset = 0)

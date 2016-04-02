@@ -6,11 +6,12 @@
 #include <string>
 #include <sstream>
 
-#include "siplasplas/allocator/detail/track_top_allocator.hpp"
+#include <siplasplas/allocator/detail/track_top_allocator.hpp>
+#include <siplasplas/allocator/export.hpp>
 
 namespace cpp
 {
-    class LinearAllocator : TrackTopAllocator
+    class SIPLASPLAS_ALLOCATOR_EXPORT LinearAllocator : TrackTopAllocator
     {
     public:
         LinearAllocator() = default;
