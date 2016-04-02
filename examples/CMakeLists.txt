@@ -49,4 +49,4 @@ if(NOT MINGW) # See https://github.com/GueimUCM/siplasplas/issues/16
 endif()
 
 # Meta examples
-add_example(meta DEPENDS INTERFACE siplasplas-utility)
+add_example(meta DEPENDS siplasplas-utility)

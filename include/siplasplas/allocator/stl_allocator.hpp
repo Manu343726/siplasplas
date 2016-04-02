@@ -17,11 +17,11 @@ namespace cpp
         using reference = T&;
         using const_reference = const T&;
 
-	using propagate_on_container_move_assignment = std::true_type;
+        using propagate_on_container_move_assignment = std::true_type;
 
         STLAllocator() = default;
-	STLAllocator(const STLAllocator&) = default;
-	STLAllocator(STLAllocator&&) = default;
+        STLAllocator(const STLAllocator&) = default;
+        STLAllocator(STLAllocator&&) = default;
 
         STLAllocator(char* begin, char* end, std::size_t fence = 0, unsigned char cannary = 0xff) :
             Allocator{begin, end}
@@ -35,17 +35,17 @@ namespace cpp
             Allocator{allocator}
         {}
 
-	// Rebind-aware ctors
+        // Rebind-aware ctors
 
-	template<typename U>
-	STLAllocator(const STLAllocator<U, Allocator>& alloc) :
-		Allocator{ static_cast<const Allocator&>(alloc) }
-	{}
+        template<typename U>
+        STLAllocator(const STLAllocator<U, Allocator>& alloc) :
+            Allocator{ static_cast<const Allocator&>(alloc) }
+        {}
 
-	template<typename U>
-	STLAllocator(STLAllocator<U, Allocator>&& alloc) :
-		Allocator{ std::move( static_cast<const Allocator&>(alloc) ) }
-	{}
+        template<typename U>
+        STLAllocator(STLAllocator<U, Allocator>&& alloc) :
+            Allocator{ std::move( static_cast<const Allocator&>(alloc) ) }
+        {}
 
         const Allocator& raw_allocator() const
         {
@@ -59,7 +59,7 @@ namespace cpp
 
         pointer allocate(std::size_t count)
         {
-	    const std::size_t blockSize = sizeof(value_type)*count;
+            const std::size_t blockSize = sizeof(value_type)*count;
             char* user_ptr = reinterpret_cast<char*>(Allocator::allocate(blockSize, alignof(value_type)));
 
             if(user_ptr)
@@ -104,15 +104,15 @@ namespace cpp
             return !(lhs == rhs);
         }
 
-	std::string dump() const
-	{
-	    std::ostringstream os;
+        std::string dump() const
+        {
+            std::ostringstream os;
 
-	    os << "STLAllocator adapter for " << ctti::type_id<Allocator>().name() << ": \n"
-		  " - Type: " << ctti::type_id<T>().name() << " (" << sizeof(T) << " bytes, alignment: " << alignof(T) << ")\n"
-	       << Allocator::dump();
+            os << "STLAllocator adapter for " << ctti::type_id<Allocator>().name() << ": \n"
+              " - Type: " << ctti::type_id<T>().name() << " (" << sizeof(T) << " bytes, alignment: " << alignof(T) << ")\n"
+               << Allocator::dump();
 
-	    return os.str();
+            return os.str();
         }
     };
 

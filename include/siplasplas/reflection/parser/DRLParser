@@ -111,25 +111,32 @@ class App:
         print '    {}{}{}'.format(Fore.MAGENTA, '='*len(message), Fore.RESET)
         print ''
 
+    def split_argument(self, arg):
+        if arg:
+            return [x.strip() for x in arg[1:-1].split(self.args.list_separator)]
+        else:
+            return []
+
     def __init__(self):
         self.splashscreen('Dynamic Reflection Library Parser')
         self.logger = Logger(Fore.MAGENTA)
 
         parser = argparse.ArgumentParser(description='Dynamic Reflection Library Parser')
-        parser.add_argument('--compile-options', default = '', help = 'Clang compile options')
-        parser.add_argument('-f', '--files', nargs = '*', default = [], help = 'List of input files to process')
-        parser.add_argument('-d', '--database', default = '', help = 'Compilation database JSON file')
-        parser.add_argument('-S', '--searchdirs', default = [], help = 'List of include directories to scan for more input files')
-        parser.add_argument('-I', '--includedirs', default = [], help = 'Extra include directories for libclang parser')
-        parser.add_argument('-s', '--sourcedir', help = 'Project source directory')
-        parser.add_argument('-x', '--exclude', nargs = '*', default = [], help = 'List of GLOBs to exclude source files from include directories scan')
-        parser.add_argument('-e', '--extensions', nargs = '*', default = ['.hpp', '.h', '.hxx'], help = 'List of file extensions used for include directory input files scan')
+        parser.add_argument('--compile-options',   default = '', help = 'Clang compile options')
+        parser.add_argument('-f', '--files',       default = '', help = 'List of input files to process')
+        parser.add_argument('-d', '--database',    default = '', help = 'Compilation database JSON file')
+        parser.add_argument('-S', '--searchdirs',  default = '', help = 'List of include directories to scan for more input files')
+        parser.add_argument('-I', '--includedirs', default = '', help = 'Extra include directories for libclang parser')
+        parser.add_argument('-s', '--sourcedir',                              help = 'Project source directory')
+        parser.add_argument('-x', '--exclude',     nargs = '*', default = [], help = 'List of GLOBs to exclude source files from include directories scan')
+        parser.add_argument('-e', '--extensions',  nargs = '*', default = ['.hpp', '.h', '.hxx'], help = 'List of file extensions used for include directory input files scan')
         parser.add_argument('-i', '--ignore-database', action = 'store_true', help = 'Ignore database records (Ignore input file timestamps, process file always)')
-        parser.add_argument('-l', '--libclang', help = 'Full path to libclang library (libclang.so)')
-        parser.add_argument('-a', '--ast-dump', help = 'Dumps the AST of each translation unit to a source_file.ast file', action = 'store_true')
-        parser.add_argument('--code-template-file', help = 'Template file for reflection code generation')
+        parser.add_argument('-l', '--libclang',                               help = 'Full path to libclang library (libclang.so)')
+        parser.add_argument('-a', '--ast-dump',                               help = 'Dumps the AST of each translation unit to a source_file.ast file', action = 'store_true')
+        parser.add_argument('--code-template-file',                           help = 'Template file for reflection code generation')
         parser.add_argument('-v', '--verbose', action = 'store_true')
-        parser.add_argument('-o', '--output-dir', help = 'Output root directory')
+        parser.add_argument('-o', '--output-dir',                             help = 'Output root directory')
+        parser.add_argument('--list-separator', default = ',', help = 'Separator character used to split arguments into lists')
         self.args = parser.parse_args()
 
         GlobalLogger.enabled(self.args.verbose)
@@ -142,22 +149,23 @@ class App:
             self.logger.step('libclang.so: ' + os.path.abspath(config.get_filename()))
 
 
-        self.args.compile_options = self.args.compile_options[1:-1]
-        self.args.compile_options += ' -DSIPLASPLAS_REFLECTION_RUNNING_DRLPARSER'
-
+        self.args.compile_options = self.split_argument(self.args.compile_options)
+        self.args.compile_options.append('-DSIPLASPLAS_REFLECTION_RUNNING_DRLPARSER')
+        self.args.files       = self.split_argument(self.args.files)
+        self.args.searchdirs  = self.split_argument(self.args.searchdirs)
+        self.args.includedirs = self.split_argument(self.args.includedirs)
 
         self.logger.step('Database file: {}'.format(self.args.database))
         self.logger.step('Extensions: ' + ', '.join(self.args.extensions))
         self.logger.step('Exclude: ' + ', '.join(self.args.exclude))
-        self.logger.step('Compile options: ' + self.args.compile_options)
+        self.logger.step('Compile options: ' + ' '.join(self.args.compile_options))
         self.logger.step('Template file: ' + self.args.code_template_file)
         self.logger.step('Output directory: ' + self.args.output_dir)
 
         self.logger = Logger(Fore.YELLOW)
 
         if self.args.searchdirs:
-            self.args.searchdirs = self.args.searchdirs.split()
-            self.logger.start('Scanning include directories:')
+            self.logger.start('Scanning search directories:')
 
             for search_dir in self.args.searchdirs:
                 directory_files = self.search_files(search_dir)
@@ -171,11 +179,16 @@ class App:
 
         self.args.files.sort()
 
+        self.logger.start('Extra include directories:')
+
+        for dir in self.args.includedirs:
+            self.logger.step(dir)
+
         includes = ['-I{}'.format(os.path.abspath(i)) for i in (self.args.searchdirs + self.args.includedirs)]
         includes.append('-I' + os.path.abspath(self.args.sourcedir))
         includes.append('-I' + os.path.abspath(os.path.join(self.args.sourcedir, 'include')))
 
-        compileArgs = includes + self.args.compile_options.split()
+        compileArgs = includes + self.args.compile_options
 
         if not self.args.database:
             self.args.database = os.path.join(self.args.output_dir, 'dlrparser_database.json')

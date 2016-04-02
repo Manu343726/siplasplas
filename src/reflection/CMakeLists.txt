@@ -6,4 +6,5 @@ SOURCES
 DEPENDS
     siplasplas-allocator
     siplasplas-utility
+    ctti
 )

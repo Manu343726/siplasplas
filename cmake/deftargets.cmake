@@ -7,10 +7,12 @@ include(cmake/gmock)
 
 add_library(ctti INTERFACE)
 target_include_directories(ctti INTERFACE ${CMAKE_SOURCE_DIR}/3rdParty/ctti/include)
-target_compile_definitions(ctti INTERFACE
-    $<$<CXX_COMPILER_ID:MSVC>: -DCTTI_STRING_MAX_LENGTH=512>
-    $<$<OR:$<CXX_COMPILER_ID:gcc>,$<CXX_COMPILER_ID:clang>>: -DCTTI_STRING_MAX_LENGTH=1024>
-)
+
+if(MSVC)
+    target_compile_definitions(ctti INTERFACE -DCTTI_STRING_MAX_LENGTH=512)
+else()
+    target_compile_definitions(ctti INTERFACE -DCTTI_STRING_MAX_LENGTH=1024)
+endif()
 
 set(NAMESPACE_SEPARATOR "-")
 
@@ -176,7 +178,7 @@ function(add_siplasplas_target NAME TARGET_TYPE)
                 set(STD_CXX c++14)
             endif()
 
-            set(common_options -std=${STD_CXX} -Wall -pedantic -DCTTI_STRING_MAX_LENGTH=1024 -ftemplate-depth-1024)
+            set(common_options -std=${STD_CXX} -Wall -pedantic -ftemplate-depth-1024)
             set(debug_options -O0 -g3)
             set(release_options -O3 -g0)
         endif()

@@ -148,6 +148,30 @@ function(libclang_include_dir _ret)
     set(${_ret} "${CLANG_PATH}/../lib/clang/${CLANG_VERSION}" PARENT_SCOPE)
 endfunction()
 
+function(get_target_include_directories TARGET RESULT)
+    get_target_property(type ${TARGET} TYPE)
+
+    if(type STREQUAL "INTERFACE_LIBRARY")
+        get_target_property(deps     ${TARGET} INTERFACE_LINK_LIBRARIES)
+        get_target_property(includes ${TARGET} INTERFACE_INCLUDE_DIRECTORIES)
+    else()
+        get_target_property(deps     ${TARGET} LINK_LIBRARIES)
+        get_target_property(includes ${TARGET} INCLUDE_DIRECTORIES)
+    endif()
+
+    if(deps)
+        foreach(dep ${deps})
+            get_target_include_directories(${dep} dep_includes)
+            list(APPEND includes ${dep_includes})
+        endforeach()
+    endif()
+
+    if(includes)
+        list(REMOVE_DUPLICATES includes)
+    endif()
+    set(${RESULT} ${includes} PARENT_SCOPE)
+endfunction()
+
 function(reflection_target TARGET)
     function(log MESSAGE)
         if(SIPLASPLAS_VERBOSE_CONFIG)
@@ -160,9 +184,8 @@ function(reflection_target TARGET)
     endif()
 
     get_target_property(SOURCES ${TARGET} SOURCES)
-    get_target_property(INCLUDE_DIRS ${TARGET} INCLUDE_DIRECTORIES)
-    get_target_property(INTERFACE_INCLUDE_DIRS ${TARGET} INTERFACE_INCLUDE_DIRECTORIES)
     get_target_property(COMPILE_OPTIONS ${TARGET} COMPILE_OPTIONS)
+    get_target_include_directories(${TARGET} INCLUDE_DIRS)
 
     if(UNIX OR MINGW)
         clangxx_stdlibcpp_includes(STDLIBCPP_INCLUDES)
@@ -185,7 +208,7 @@ function(reflection_target TARGET)
     )
 
     list(APPEND INCLUDE_DIRS ${INTERFACE_INCLUDE_DIRS})
-    
+
     log("Processing target ${TARGET}:")
 
     foreach(source ${SOURCES})
@@ -204,12 +227,12 @@ function(reflection_target TARGET)
     log("Setting preprocessor hook for target ${TARGET}")
     add_custom_target(${TARGET}_prebuild)
     add_dependencies(${TARGET} ${TARGET}_prebuild)
-    string(REGEX REPLACE ";" " " SOURCES "${SOURCES}")
-    string(REGEX REPLACE ";" " " INCLUDE_DIRS "${INCLUDE_DIRS}")
+    string(REGEX REPLACE ";" "," SOURCES "${SOURCES}")
+    string(REGEX REPLACE ";" "," INCLUDE_DIRS "${INCLUDE_DIRS}")
 
     if(EXTRA_LIBCLANG_INCLUDES)
-        string(REGEX REPLACE ";" " " EXTRA_LIBCLANG_INCLUDES "${EXTRA_LIBCLANG_INCLUDES}")
-        set(includedirs --includedirs ${EXTRA_LIBCLANG_INCLUDES})
+        string(REGEX REPLACE ";" "," EXTRA_LIBCLANG_INCLUDES "${EXTRA_LIBCLANG_INCLUDES}")
+        set(includedirs --includedirs "\"${EXTRA_LIBCLANG_INCLUDES}\"")
     endif()
 
     if(DRLPARSER_DATABASE)
@@ -237,11 +260,11 @@ function(reflection_target TARGET)
         set(astdump --ast-dump)
     endif()
 
-    string(REGEX REPLACE ";" " " COMPILE_OPTIONS "${COMPILE_OPTIONS}")
+    string(REGEX REPLACE ";" "," COMPILE_OPTIONS "${COMPILE_OPTIONS}")
 
     set(options
-        --compile-options \"${COMPILE_OPTIONS}\"
-        --searchdirs ${INCLUDE_DIRS}
+        --compile-options "\"${COMPILE_OPTIONS}\""
+        --searchdirs "\"${INCLUDE_DIRS}\""
         ${includedirs}
         -s ${CMAKE_SOURCE_DIR}
         -o ${OUTPUT_DIR}
@@ -256,7 +279,8 @@ function(reflection_target TARGET)
 
     add_custom_command(
         TARGET ${TARGET}_prebuild POST_BUILD
-        COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/${DRLPARSER_SCRIPT} ${options}
+        COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/${DRLPARSER_SCRIPT}
+            ${options}
         VERBATIM
     )
 endfunction()

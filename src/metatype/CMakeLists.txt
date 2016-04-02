@@ -1,8 +1,8 @@
 
 add_siplasplas_library(siplasplas-metatype
 SOURCES
-	metatype.cpp
+    metatype.cpp
 DEPENDS
-	ctti
-	siplasplas-utility
+    ctti
+    siplasplas-utility
 )
