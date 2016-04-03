@@ -1,5 +1,3 @@
-include(cmake/custom_properties)
-
 find_package(PythonInterp 2.7 REQUIRED)
 
 if(NOT PYTHONINTERP_FOUND)
@@ -8,7 +6,8 @@ else()
     message(STATUS "Python interpreter found: ${PYTHON_EXECUTABLE} (${PYTHON_VERSION_STRING})")
 endif()
 
-set(DRLPARSER_SCRIPT include/siplasplas/reflection/parser/DRLParser)
+set(DRLPARSER_SCRIPT ${CMAKE_CURRENT_LIST_DIR}/DRLParser)
+set(DRLPARSER_CODEGEN_TEMPLATE ${CMAKE_CURRENT_LIST_DIR}/templates/reflection_template.hpp)
 set(OUTPUT_DIR ${CMAKE_BINARY_DIR}/ouput/reflection)
 set(INCLUDE_OUTPUT_DIR ${CMAKE_BINARY_DIR}/ouput/)
 
@@ -159,6 +158,10 @@ function(get_target_include_directories TARGET RESULT)
         get_target_property(includes ${TARGET} INCLUDE_DIRECTORIES)
     endif()
 
+    if(NOT includes)
+        set(includes)
+    endif()
+
     if(deps)
         foreach(dep ${deps})
             get_target_include_directories(${dep} dep_includes)
@@ -199,31 +202,11 @@ function(reflection_target TARGET)
         list(APPEND EXTRA_LIBCLANG_INCLUDES ${STDLIBCPP_INCLUDES} ${LIBCLANG_INCLUDE_DIR})
     endif()
 
-    if(NOT INTERFACE_INCLUDE_DIRS)
-        set(INTERFACE_INCLUDE_DIRS)
-    endif()
-
     target_include_directories(${TARGET}
         PUBLIC ${INCLUDE_OUTPUT_DIR}
     )
 
-    list(APPEND INCLUDE_DIRS ${INTERFACE_INCLUDE_DIRS})
-
     log("Processing target ${TARGET}:")
-
-    foreach(source ${SOURCES})
-        if(MSVC)
-            source_file_has_custom_property(is_sourcegroups_header "${source}" VS_SOURCEGROUPS_HEADER)
-
-            if(is_sourcegroups_header)
-                list(APPEND headers ${source})
-                continue()
-            endif()
-        endif()
-
-        log("  - ${source}")
-    endforeach()
-
     log("Setting preprocessor hook for target ${TARGET}")
     add_custom_target(${TARGET}_prebuild)
     add_dependencies(${TARGET} ${TARGET}_prebuild)
@@ -274,12 +257,12 @@ function(reflection_target TARGET)
         ${ignore_database}
         ${verbose}
         ${astdump}
-        --code-template-file ${CMAKE_SOURCE_DIR}/include/siplasplas/reflection/parser/templates/reflection_template.hpp
+        --code-template-file ${DRLPARSER_CODEGEN_TEMPLATE}
     )
 
     add_custom_command(
         TARGET ${TARGET}_prebuild POST_BUILD
-        COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/${DRLPARSER_SCRIPT}
+        COMMAND ${PYTHON_EXECUTABLE} ${DRLPARSER_SCRIPT}
             ${options}
         VERBATIM
     )

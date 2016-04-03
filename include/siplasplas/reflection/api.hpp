@@ -2,7 +2,7 @@
 #define SIPLASPLAS_INCLUDE_REFLECTION_API_HPP
 
 #include "metaclass.hpp"
-#include "parser/annotations.hpp"
+#include "annotations.hpp"
 
 #include <ctti/type_id.hpp>
 

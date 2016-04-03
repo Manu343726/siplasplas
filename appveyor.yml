@@ -27,5 +27,6 @@ build_script:
 test_script:
   - cmd: ctest -C "%configuration%" . -VV
   - cmd: cmake --build . --target run-examples-all
+  - cmd: cmake --build . --target package # TODO: Deploy to gihtub
 
 

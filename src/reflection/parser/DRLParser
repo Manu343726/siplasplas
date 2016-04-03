@@ -173,9 +173,6 @@ class App:
 
         if os.path.abspath(self.args.code_template_file) in self.args.files:
             self.args.files.remove(os.path.abspath(self.args.code_template_file))
-        else:
-            print os.path.abspath(self.args.code_template_file)
-            print self.args.files
 
         self.args.files.sort()
 

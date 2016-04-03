@@ -8,3 +8,8 @@ DEPENDS
     siplasplas-utility
     ctti
 )
+
+install(DIRECTORY parser DESTINATION bin/reflection-parser
+    COMPONENT tools
+    PATTERN *.pyc EXCLUDE
+)
