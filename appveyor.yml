@@ -13,7 +13,7 @@ configuration:
 
 install:
   - cmd: git submodule update --init
-  - cmd: choco install cmake 
+  - cmd: choco install cmake
   - cmd: if "%generator%" == "%GCCGenerator%" choco install mingw > nul # The mingw installer is in verbose mode, see https://chocolatey.org/packages/mingw
   - cmd: cmake --version
   - cmd: if "%generator%" == "%GCCGenerator%" g++ --version
@@ -26,6 +26,6 @@ build_script:
 
 test_script:
   - cmd: ctest -C "%configuration%" . -VV
-  - cmd: cmake --build . --target run_CPP
+  - cmd: cmake --build . --target run-examples-all
 
 
