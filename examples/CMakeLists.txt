@@ -11,6 +11,14 @@ function(add_example NAME)
 endfunction()
 
 function(add_reflection_example NAME)
+    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+        # GCC segfaults when instancing the generated
+        # cpp::Reflection<> specialization.
+        # See https://github.com/Manu343726/ctti/issues/12
+        message(WARNING "Reflection examples were excluded from run-examples-all target. See examples/CMakeLists.txt notes")
+        return()
+    endif()
+
     add_example(${NAME} ${ARGN} DEPENDS siplasplas-reflection)
     reflection_target(examples-${NAME})
 endfunction()
