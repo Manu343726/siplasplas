@@ -1,8 +1,10 @@
 #ifndef SIPLASPLAS_REFLECTION_FUNCTION_HPP
 #define SIPLASPLAS_REFLECTION_FUNCTION_HPP
 
-#include "reflection/detail/metatype.hpp"
-#include "reflection/detail/metaobject.hpp"
+#include "detail/metatype.hpp"
+#include "detail/metaobject.hpp"
+#include "detail/metaobject_manip.hpp"
+#include "attributes/attribute.hpp"
 
 #include <ctti/type_id.hpp>
 
@@ -10,6 +12,8 @@
 #include <type_traits>
 #include <unordered_map>
 #include <stdexcept>
+
+#include <siplasplas/utility/tuple.hpp>
 
 namespace cpp
 {
@@ -19,8 +23,10 @@ namespace cpp
         Function() = default;
 
         template<typename F>
-        Function(const std::string& name, F function) :
+        Function(const std::string& name, F function,
+                 const std::shared_ptr<cpp::attributes::Attribute>& attribute = nullptr) :
             _invoker{ new Invoker<F>{function} },
+            _attribute{attribute},
             _name{ name }
         {}
 
@@ -33,11 +39,11 @@ namespace cpp
 
                 if (this->isConst())
                 {
-                    return _invoker->invoke(const_cast<const void*>(reinterpret_cast<void*>(&object)), typeErasedArgs);
+                    return _invoker->invoke(const_cast<const void*>(reinterpret_cast<void*>(&object)), typeErasedArgs, _attribute.get());
                 }
                 else
                 {
-                    return _invoker->invoke(&object, typeErasedArgs);
+                    return _invoker->invoke(&object, typeErasedArgs, _attribute.get());
                 }
             };
         }
@@ -73,6 +79,16 @@ namespace cpp
             return _invoker->isConst();
         }
 
+        const std::shared_ptr<cpp::attributes::Attribute>& attribute() const
+        {
+            return _attribute;
+        }
+
+        std::shared_ptr<cpp::attributes::Attribute>& attribute()
+        {
+            return _attribute;
+        }
+
     private:
         class InvokerInterface
         {
@@ -81,8 +97,8 @@ namespace cpp
             virtual const std::vector<cpp::MetaType>& parameterTypes() const = 0;
             virtual bool isConst() const = 0;
 
-            virtual cpp::MetaObject invoke(void* object, const std::vector<cpp::MetaObject>& args) const = 0;
-            virtual cpp::MetaObject invoke(const void* object, const std::vector<cpp::MetaObject>& args) const = 0;
+            virtual cpp::MetaObject invoke(void* object, const std::vector<cpp::MetaObject>& args, cpp::attributes::Attribute* attribute = nullptr) const = 0;
+            virtual cpp::MetaObject invoke(const void* object, const std::vector<cpp::MetaObject>& args, cpp::attributes::Attribute* attribute = nullptr) const = 0;
         };
 
         template<typename Function>
@@ -90,7 +106,7 @@ namespace cpp
         {
             static_assert(sizeof(Function) != sizeof(Function), "Invalid member function type");
 
-            Invoker(Function) {}
+            Invoker(Function) {};
         };
 
         template<typename R, typename Class, typename... Args>
@@ -103,12 +119,22 @@ namespace cpp
                 _function{ function }
             {}
 
-            cpp::MetaObject invoke(void* object, const std::vector<cpp::MetaObject>& args) const override
+            cpp::MetaObject invoke(void* object, const std::vector<cpp::MetaObject>& args, cpp::attributes::Attribute* attribute) const override
             {
-                return _invoke(object, args, std::index_sequence_for<Args...>{});
+                if(attribute)
+                {
+                    auto args_ = attribute->processArguments(args);
+                    auto return_value = cpp::vector_call(_function, *static_cast<Class*>(object), args_);
+
+                    return attribute->processReturnValue(return_value);
+                }
+                else
+                {
+                    return cpp::vector_call(_function, *static_cast<Class*>(object), args);
+                }
             }
 
-            cpp::MetaObject invoke(const void* object, const std::vector<cpp::MetaObject>& args) const override
+            cpp::MetaObject invoke(const void* object, const std::vector<cpp::MetaObject>& args, cpp::attributes::Attribute*) const override
             {
                 throw std::runtime_error{ "Wrong invoker, this calls a non-const member function" };
             }
@@ -130,12 +156,7 @@ namespace cpp
 
         private:
             R (Class::*_function)(Args...);
-
-            template<std::size_t... Is>
-            cpp::MetaObject _invoke(void* object, const std::vector<cpp::MetaObject>& args, std::index_sequence<Is...>) const
-            {
-                return ((*reinterpret_cast<Class*>(object)).*_function)(args[Is].get<Args>()...);
-            }
+            std::shared_ptr<cpp::attributes::Attribute> _attribute;
 
             static const std::vector<cpp::MetaType>& getParamTypes()
             {
@@ -151,18 +172,28 @@ namespace cpp
         public:
             typedef R(Class::*FunctionType)(Args...) const;
 
-            Invoker(FunctionType function) :
+            Invoker(FunctionType function, const std::shared_ptr<cpp::attributes::Attribute>& attribute = nullptr) :
                 _function{ function }
             {}
 
-            cpp::MetaObject invoke(void* object, const std::vector<cpp::MetaObject>& args) const override
+            cpp::MetaObject invoke(void* object, const std::vector<cpp::MetaObject>& args, cpp::attributes::Attribute*) const override
             {
                 throw std::runtime_error{ "Wrong invoker, this calls a const member function" };
             }
 
-            cpp::MetaObject invoke(const void* object, const std::vector<cpp::MetaObject>& args) const override
+            cpp::MetaObject invoke(const void* object, const std::vector<cpp::MetaObject>& args, cpp::attributes::Attribute* attribute) const override
             {
-                return _invoke(object, args, std::index_sequence_for<Args...>{});
+                if(_attribute)
+                {
+                    auto args_ = _attribute->processArguments(args);
+                    auto return_value = cpp::vector_call(_function, *static_cast<const Class*>(object), args_);
+
+                    return _attribute->processReturnValue(return_value);
+                }
+                else
+                {
+                    return cpp::vector_call(_function, *static_cast<const Class*>(object), args);
+                }
             }
 
             bool isConst() const override
@@ -182,12 +213,7 @@ namespace cpp
 
         private:
             FunctionType _function;
-
-            template<std::size_t... Is>
-            cpp::MetaObject _invoke(const void* object, const std::vector<cpp::MetaObject>& args, std::index_sequence<Is...>) const
-            {
-                return (*(reinterpret_cast<const Class*>(object)).*_function)(args[Is].get<Args>()...);
-            }
+            std::shared_ptr<cpp::attributes::Attribute> _attribute;
 
             static const std::vector<cpp::MetaType>& getParamTypes()
             {
@@ -198,6 +224,7 @@ namespace cpp
         };
 
         std::shared_ptr<InvokerInterface> _invoker;
+        std::shared_ptr<cpp::attributes::Attribute> _attribute;
         std::string _name;
     };
 

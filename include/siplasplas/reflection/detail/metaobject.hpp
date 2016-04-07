@@ -1,7 +1,7 @@
 #ifndef SIPLASPLAS_REFLECTION_DETAIL_METAOBJECT_HPP
 #define SIPLASPLAS_REFLECTION_DETAIL_METAOBJECT_HPP
 
-#include "reflection/detail/metatype.hpp"
+#include "metatype.hpp"
 
 #include <memory>
 #include <cassert>

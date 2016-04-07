@@ -1,0 +1,41 @@
+
+set(PACKAGE_VARIANT "${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}-${CMAKE_BUILD_TYPE}")
+
+if(SIPLASPLAS_LIBRARIES_STATIC)
+    set(PACKAGE_VARIANT "${PACKAGE_VARIANT}-static")
+else()
+    set(PACKAGE_VARIANT "${PACKAGE_VARIANT}-dynamic")
+endif()
+
+if(CYGWIN)
+    set(PACKAGE_VARIANT "${PACKAGE_VARIANT}-cygwin")
+elseif(MINGW)
+    set(PACKAGE_VARIANT "${PACKAGE_VARIANT}-mingw")
+endif()
+
+find_package(Git REQUIRED)
+
+execute_process(
+    COMMAND ${GIT_EXECUTABLE} rev-parse --abbrev-ref HEAD
+    OUTPUT_VARIABLE branch
+)
+string(REGEX REPLACE "\n" "" branch "${branch}")
+string(REGEX REPLACE " " "-" branch "${branch}")
+
+set(CPACK_PACKAGE_FILE_NAME "siplasplas-${branch}-${PACKAGE_VARIANT}")
+set(CPACK_PACKAGE_VENDOR "Manu Sánchez")
+set(CPACK_PACKAGE_DESCRIPTION "Examples and utilities for the Advanced C++ course for the GUEIM association, Complutense University of Madrid")
+set(CPACK_PACKAGE_VERSION_MAJOR ${SIPLASPLAS_VERSION_MAJOR})
+set(CPACK_PACKAGE_VERSION_MINOR ${SIPLASPLAS_VERSION_MINOR})
+set(CPACK_PACKAGE_VERSION_PATCH ${SIPLASPLAS_VERSION_PATCH})
+set(CPACK_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}")
+set(CPACK_INSTALL_DIRECTORY "siplasplas/v${CPACK_PACKAGE_VERSION}")
+set(CPACK_COMPONENTS_ALL libraries headers examples tools)
+
+if(WIN32)
+    set(CPACK_GENERATOR NSIS ZIP)
+else()
+    set(CPACK_GENERATOR TGZ STGZ ZIP)
+endif()
+
+include(CPack)

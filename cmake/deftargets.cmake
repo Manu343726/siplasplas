@@ -1,15 +1,13 @@
 include(CMakeParseArguments)
+include(GenerateExportHeader)
 
 include(cmake/boost)
 include(cmake/list_dependencies)
 include(cmake/gmock)
+include(cmake/utils.cmake)
+include(cmake/ctti.cmake)
+include(cmake/install.cmake)
 
-add_library(ctti INTERFACE)
-target_include_directories(ctti INTERFACE ${CMAKE_SOURCE_DIR}/3rdParty/ctti/include)
-target_compile_definitions(ctti INTERFACE
-    $<$<CXX_COMPILER_ID:MSVC>: -DCTTI_STRING_MAX_LENGTH=512>
-    $<$<OR:$<CXX_COMPILER_ID:gcc>,$<CXX_COMPILER_ID:clang>>: -DCTTI_STRING_MAX_LENGTH=1024>
-)
 
 set(NAMESPACE_SEPARATOR "-")
 
@@ -66,86 +64,7 @@ function(add_run_target NAME TARGET_TYPE)
     endif()
 endfunction()
 
-# From https://software.lanl.gov/MeshTools/trac/browser/cmake/modules/ParseLibraryList.cmake
-function(parse_library_list LIBRARIES)
-    foreach( item ${LIBRARIES} )
-        if( ${item} MATCHES debug     OR 
-            ${item} MATCHES optimized OR 
-            ${item} MATCHES general )
 
-            if( ${item} STREQUAL "debug" )
-                set( mylist "_debug_libs" )
-            elseif( ${item} STREQUAL "optimized" )
-                set( mylist "_opt_libs" )
-            elseif( ${item} STREQUAL "general" )
-                set( mylist "_gen_libs" )
-            endif()
-      else()
-          list( APPEND ${mylist} ${item} )
-      endif()
-    endforeach()
-
-    set(DEBUG_LIBS     ${_debug_libs}     PARENT_SCOPE)
-    set(OPTIMIZED_LIBS ${_optimized_libs} PARENT_SCOPE)
-    set(GENERAL_LIBS   ${_gen_libs}       PARENT_SCOPE)
-endfunction()
-
-function(handle_windows_dlls ROOT_TARGET TARGET)
-    if((NOT WIN32) OR (NOT (TARGET ${TARGET})))
-        return()
-    endif()
-    get_target_property(target_type ${TARGET} TYPE)
-    get_target_property(root_target_type ${ROOT_TARGET} TYPE)
-    if((target_type STREQUAL INTERFACE_LIBRARY) OR 
-       (NOT (root_target_type STREQUAL EXECUTABLE)))
-        return()
-    endif()
-    get_target_property(dependencies ${TARGET} LINK_LIBRARIES)
-    if(NOT dependencies)
-        return()
-    endif()
-
-    message(STATUS " => dlls of target '${TARGET}' for target '${ROOT_TARGET}'")
-
-    set(dest_directory $<TARGET_FILE_DIR:${ROOT_TARGET}>)
-
-    foreach(lib ${dependencies})
-        if(TARGET ${lib})
-            if(NOT (lib STREQUAL TARGET))
-                get_target_property(target_type ${lib} TYPE)
-                if(target_type STREQUAL SHARED_LIBRARY)
-                    set(dllfile $<TARGET_FILE_DIR:${lib}>/$<TARGET_FILE_NAME:${lib}>)
-                endif()
-            endif()
-        elseif(lib MATCHES ".+\\.dll")
-            set(dllfile "${lib}")
-        endif()
-
-        if(SIPLASPLAS_VERBOSE_CONFIG)
-            set(log COMMAND ${CMAKE_COMMAND} -E echo " - ${dllfile}")
-        endif()
-
-        if(dllfile)
-            list(APPEND copy_command
-                ${log}
-                COMMAND ${CMAKE_COMMAND} -E copy 
-                    \"${dllfile}\" 
-                    \"${dest_directory}\"
-            )
-        endif()
-    endforeach()
-
-    if(copy_command)
-        add_custom_command(TARGET ${ROOT_TARGET} POST_BUILD
-            ${copy_command}
-            COMMENT "Copying dll dependencies of target ${TARGET}..."
-        )
-    endif()
-
-    foreach(dep ${dependencies})
-        handle_windows_dlls(${ROOT_TARGET} "${dep}")
-    endforeach()
-endfunction()
 
 function(add_siplasplas_target NAME TARGET_TYPE)
     cmake_parse_arguments(ARGS
@@ -175,7 +94,7 @@ function(add_siplasplas_target NAME TARGET_TYPE)
                 set(STD_CXX c++14)
             endif()
 
-            set(common_options -std=${STD_CXX} -Wall -pedantic -DCTTI_STRING_MAX_LENGTH=1024 -ftemplate-depth-1024)
+            set(common_options -std=${STD_CXX} -Wall -pedantic -ftemplate-depth-1024)
             set(debug_options -O0 -g3)
             set(release_options -O3 -g0)
         endif()
@@ -206,6 +125,11 @@ function(add_siplasplas_target NAME TARGET_TYPE)
 
     if(TARGET_TYPE STREQUAL "HEADER_ONLY_LIBRARY")
         add_library(${NAME} INTERFACE)
+        # Compute the include directory of the given target
+        headerdir_from_sourcetree(current_includedir)
+        # Add current include dir so we can just do '#include "foo.hpp"' in foo.cpp
+        target_include_directories(${NAME} INTERFACE "${current_includedir}")
+        install_siplasplas_headeronly_library(${NAME})
         set(linking INTERFACE)
     elseif(TARGET_TYPE STREQUAL "LIBRARY")
         if(SIPLASPLAS_LIBRARIES_STATIC)
@@ -224,21 +148,26 @@ function(add_siplasplas_target NAME TARGET_TYPE)
         add_library(${NAME} ${link} ${ARGS_SOURCES})
 
         # Compute the include directory of the given target
-        set(ROOT_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/include/siplasplas")
-        set(ROOT_SRC_DIR "${CMAKE_SOURCE_DIR}/src")
-        file(RELATIVE_PATH current_relative_path "${ROOT_SRC_DIR}" "${CMAKE_CURRENT_LIST_DIR}")
-        set(current_includedir "${ROOT_INCLUDE_DIR}/${current_relative_path}")
-
+        headerdir_from_sourcetree(current_includedir)
         # Add current include dir so we can just do '#include "foo.hpp"' in foo.cpp
         target_include_directories(${NAME} PUBLIC "${current_includedir}")
 
         set_flags()
         set(linking PUBLIC)
+
+        sourcetree_relative(current_relative_path)
+        generate_export_header(${NAME}
+            EXPORT_FILE_NAME ${CMAKE_BINARY_DIR}/exports/siplasplas/${current_relative_path}/export.hpp
+        )
+        target_include_directories(${NAME} PUBLIC ${CMAKE_BINARY_DIR}/exports)
+
+        install_siplasplas_library(${NAME})
     else()
         # Create the executable
         add_executable(${NAME} ${ARGS_SOURCES})
 
         if(TARGET_TYPE STREQUAL "UNIT_TEST")
+            set_target_properties(${NAME} PROPERTIES EXCLUDE_FROM_ALL TRUE)
             if(NOT ARGS_GMOCK_VERSION)
                 set(ARGS_GMOCK_VERSION 1.57.0)
             endif()
@@ -257,9 +186,9 @@ function(add_siplasplas_target NAME TARGET_TYPE)
         set_flags()
         set(linking PRIVATE)
     endif()
-    
+
     target_link_libraries(${NAME} ${linking} ${link_libraries})
-    handle_windows_dlls(${NAME} ${NAME})    
+    copy_dll_dependencies(${NAME})
 
     target_include_directories(${NAME} ${linking}
         ${CMAKE_SOURCE_DIR}/include

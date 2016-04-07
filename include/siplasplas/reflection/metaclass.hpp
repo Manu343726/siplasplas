@@ -1,8 +1,8 @@
 #ifndef SIPLASPLAS_REFLECTION_METACLASS_HPP
 #define SIPLASPLAS_REFLECTION_METACLASS_HPP
 
-#include "reflection/field.hpp"
-#include "reflection/function.hpp"
+#include "field.hpp"
+#include "function.hpp"
 
 #include <initializer_list>
 
@@ -32,12 +32,22 @@ namespace cpp
             }
         }
 
-        cpp::Field field(const std::string& name) const
+        const cpp::Field& field(const std::string& name) const
         {
             return _fields.at(name);
         }
 
-        cpp::Function function(const std::string& name) const
+        const cpp::Function& function(const std::string& name) const
+        {
+            return _functions.at(name);
+        }
+
+        cpp::Field& field(const std::string& name)
+        {
+            return _fields.at(name);
+        }
+
+        cpp::Function& function(const std::string& name)
         {
             return _functions.at(name);
         }
@@ -118,7 +128,7 @@ namespace cpp
 
     MetaClass::MetaClassRegistry MetaClass::_metaClasses;
 
-    template<typename Class>
+    template<std::size_t ClassId>
     class Reflection
     {
     public:

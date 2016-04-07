@@ -7,10 +7,11 @@
 
 #include <ctti/type_id.hpp>
 #include <string>
+#include <siplasplas/metatype/export.hpp>
 
 namespace cpp
 {
-    class MetaTypeSystem
+    class SIPLASPLAS_METATYPE_EXPORT MetaTypeSystem
     {
     public:
         template<typename T>

@@ -1,6 +1,8 @@
 
 add_siplasplas_library(siplasplas-utility
 SOURCES
-	memory_manip.cpp
-	printers.cpp
+    memory_manip.cpp
+    printers.cpp
+DEPENDS
+    ctti
 )

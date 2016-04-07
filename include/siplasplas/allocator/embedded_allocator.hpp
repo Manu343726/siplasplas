@@ -2,11 +2,12 @@
 #define SIPLASPLAS_ALLOCATOR_EMBEDDED_ALLOCATOR_HPP
 
 #include <siplasplas/utility/memory_manip.hpp>
+#include <siplasplas/allocator/export.hpp>
 #include <string>
 
 namespace cpp
 {
-    class EmbeddedAllocator
+    class SIPLASPLAS_ALLOCATOR_EXPORT EmbeddedAllocator
     {
     public:
         EmbeddedAllocator(void* begin, void* end, std::size_t metadata_length = 0);

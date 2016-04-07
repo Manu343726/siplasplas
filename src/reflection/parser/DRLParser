@@ -1,0 +1,205 @@
+#!/usr/bin/env python2
+import sys
+import os
+import argparse
+import fnmatch
+
+import clang.cindex
+
+from utility.logger import Logger, GlobalLogger, PathFormatter
+from colorama import Fore, Back, Style
+from translationunitprocessor import TranslationUnitProcessor
+from syncmanager import SyncManager
+
+
+class Compiler:
+    """ A compiler takes all processing settings and sources,
+        then generates and processes all the translation units
+    """
+
+    def _output_file(self, sourcefile):
+        path, name = os.path.split(sourcefile)
+        outputpath = os.path.join(self.outputdir, os.path.relpath(path, self.sourcedir))
+
+        if not os.path.isdir(outputpath):
+            os.makedirs(outputpath)
+
+        return os.path.join(outputpath, name)
+
+    def __init__(self, args, sourcedir, files, databasefile, output_dir, ignore_database = False, print_ast = False, jinjaTemplateFile = None, verbose = False):
+        self.syncmanager = SyncManager(databasefile, sourcedir)
+        self.ignore_database = ignore_database
+        self.logger = Logger(Fore.GREEN, len(files))
+        self.pathformat = PathFormatter(sourcedir)
+        self.sourcedir = sourcedir
+        self.outputdir = output_dir
+        self.jinjaTemplateFile = jinjaTemplateFile
+
+        import jinja2
+        from jinja2 import Template, Environment, FileSystemLoader
+
+        path, file = os.path.split(self.jinjaTemplateFile)
+
+        env = Environment(loader=FileSystemLoader(path),
+                     trim_blocks=True)
+        template = env.get_template(file)
+
+        self.tus = [TranslationUnitProcessor(sourcefile, args, template, self.logger, print_ast = print_ast) for sourcefile in files]
+
+    def process(self):
+        self.logger.start('Processing {} files:'.format(len(self.tus)))
+
+        for tu in self.tus:
+            # Only process a translation unit if its source file has changed
+            if self.ignore_database or not self.syncmanager.is_synced(tu.filePath):
+                self.logger.step('({}outdated{}) {}'.format(Fore.RED, Fore.RESET, self.pathformat.format(tu.filePath)))
+
+                outputfile = self._output_file(tu.filePath)
+                self.logger.info('Output file: {}'.format(outputfile))
+
+                # Touch the output file so #include <outputfile> doesn't fail
+                if not os.path.exists(outputfile):
+                    with open(outputfile, 'w') as f:
+                        f.close()
+
+                tu.process()
+                tu.run_jinja(outputfile)
+                self.syncmanager.sync(tu.filePath, os.path.relpath(outputfile, self.sourcedir))
+            else:
+                self.logger.step('({}up-to-date{}) {}'.format(Fore.GREEN, Fore.RESET, self.pathformat.format(tu.filePath)))
+
+    def save_database(self):
+        self.logger.start('Writing database...')
+        self.syncmanager.save()
+
+    def run(self):
+        self.process()
+        self.save_database()
+
+
+class App:
+    """ Main parser application class. Collects
+        all settings and runs the compiler
+    """
+
+    def file_matches(self, file):
+        for ext in self.args.extensions:
+            if fnmatch.fnmatch(file, '*' + ext):
+                if self.args.exclude:
+                    for ex in self.args.exclude:
+                        if not fnmatch.fnmatch(file, ex):
+                            return True
+                else:
+                    return True
+
+        return False
+
+    def search_files(self, rootpath):
+        self.logger.step(rootpath)
+        files = list(os.walk(rootpath))
+        outputfiles = []
+
+        for root, dirnames, filenames in files:
+            for file in filenames:
+                if self.file_matches(os.path.join(root, file)):
+                    outputfiles.append(os.path.abspath(os.path.join(root, file)))
+
+        return outputfiles
+
+    def splashscreen(self, message):
+        print '{}==>{} {}'.format(Fore.MAGENTA, Fore.RESET, message)
+        print '    {}{}{}'.format(Fore.MAGENTA, '='*len(message), Fore.RESET)
+        print ''
+
+    def split_argument(self, arg):
+        if arg:
+            return [x.strip() for x in arg[1:-1].split(self.args.list_separator)]
+        else:
+            return []
+
+    def __init__(self):
+        self.splashscreen('Dynamic Reflection Library Parser')
+        self.logger = Logger(Fore.MAGENTA)
+
+        parser = argparse.ArgumentParser(description='Dynamic Reflection Library Parser')
+        parser.add_argument('--compile-options',   default = '', help = 'Clang compile options')
+        parser.add_argument('-f', '--files',       default = '', help = 'List of input files to process')
+        parser.add_argument('-d', '--database',    default = '', help = 'Compilation database JSON file')
+        parser.add_argument('-S', '--searchdirs',  default = '', help = 'List of include directories to scan for more input files')
+        parser.add_argument('-I', '--includedirs', default = '', help = 'Extra include directories for libclang parser')
+        parser.add_argument('-s', '--sourcedir',                              help = 'Project source directory')
+        parser.add_argument('-x', '--exclude',     nargs = '*', default = [], help = 'List of GLOBs to exclude source files from include directories scan')
+        parser.add_argument('-e', '--extensions',  nargs = '*', default = ['.hpp', '.h', '.hxx'], help = 'List of file extensions used for include directory input files scan')
+        parser.add_argument('-i', '--ignore-database', action = 'store_true', help = 'Ignore database records (Ignore input file timestamps, process file always)')
+        parser.add_argument('-l', '--libclang',                               help = 'Full path to libclang library (libclang.so)')
+        parser.add_argument('-a', '--ast-dump',                               help = 'Dumps the AST of each translation unit to a source_file.ast file', action = 'store_true')
+        parser.add_argument('--code-template-file',                           help = 'Template file for reflection code generation')
+        parser.add_argument('-v', '--verbose', action = 'store_true')
+        parser.add_argument('-o', '--output-dir',                             help = 'Output root directory')
+        parser.add_argument('--list-separator', default = ',', help = 'Separator character used to split arguments into lists')
+        self.args = parser.parse_args()
+
+        GlobalLogger.enabled(self.args.verbose)
+
+        if self.args.libclang:
+            self.logger.step('libclang.so: ' + self.args.libclang)
+            clang.cindex.Config.set_library_file(self.args.libclang)
+        else:
+            config = clang.cindex.Config()
+            self.logger.step('libclang.so: ' + os.path.abspath(config.get_filename()))
+
+
+        self.args.compile_options = self.split_argument(self.args.compile_options)
+        self.args.compile_options.append('-DSIPLASPLAS_REFLECTION_RUNNING_DRLPARSER')
+        self.args.files       = self.split_argument(self.args.files)
+        self.args.searchdirs  = self.split_argument(self.args.searchdirs)
+        self.args.includedirs = self.split_argument(self.args.includedirs)
+
+        self.logger.step('Database file: {}'.format(self.args.database))
+        self.logger.step('Extensions: ' + ', '.join(self.args.extensions))
+        self.logger.step('Exclude: ' + ', '.join(self.args.exclude))
+        self.logger.step('Compile options: ' + ' '.join(self.args.compile_options))
+        self.logger.step('Template file: ' + self.args.code_template_file)
+        self.logger.step('Output directory: ' + self.args.output_dir)
+
+        self.logger = Logger(Fore.YELLOW)
+
+        if self.args.searchdirs:
+            self.logger.start('Scanning search directories:')
+
+            for search_dir in self.args.searchdirs:
+                directory_files = self.search_files(search_dir)
+                self.args.files = list(set(self.args.files + directory_files))
+
+        if os.path.abspath(self.args.code_template_file) in self.args.files:
+            self.args.files.remove(os.path.abspath(self.args.code_template_file))
+
+        self.args.files.sort()
+
+        self.logger.start('Extra include directories:')
+
+        for dir in self.args.includedirs:
+            self.logger.step(dir)
+
+        includes = ['-I{}'.format(os.path.abspath(i)) for i in (self.args.searchdirs + self.args.includedirs)]
+        includes.append('-I' + os.path.abspath(self.args.sourcedir))
+        includes.append('-I' + os.path.abspath(os.path.join(self.args.sourcedir, 'include')))
+
+        compileArgs = includes + self.args.compile_options
+
+        if not self.args.database:
+            self.args.database = os.path.join(self.args.output_dir, 'dlrparser_database.json')
+
+        self.compiler = Compiler(compileArgs,
+            self.args.sourcedir, self.args.files,
+            self.args.database, self.args.output_dir, self.args.ignore_database,
+            self.args.ast_dump,
+            self.args.code_template_file
+        )
+
+    def run(self):
+        self.compiler.run()
+
+
+App().run()
+

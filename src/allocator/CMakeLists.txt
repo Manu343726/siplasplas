@@ -8,5 +8,6 @@ SOURCES
     linear_allocator.cpp
     embedded_allocator.cpp
 DEPENDS
-	PUBLIC siplasplas-utility
+    siplasplas-utility
+    ctti
 )

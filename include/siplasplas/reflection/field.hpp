@@ -1,7 +1,7 @@
 #ifndef SIPLASPLAS_REFLECTION_FIELD_HPP
 #define SIPLASPLAS_REFLECTION_FIELD_HPP
 
-#include "reflection/detail/metaobject.hpp"
+#include "detail/metaobject.hpp"
 
 #include <type_traits>
 #include <string>

@@ -4,6 +4,7 @@
 #include "type_info.hpp"
 #include <siplasplas/allocator/freelist_allocator.hpp>
 #include <siplasplas/utility/throw.hpp>
+#include <siplasplas/reflection/export.hpp>
 
 #include <unordered_map>
 #include <vector>
@@ -35,7 +36,7 @@ namespace cpp
 
 #define CPP_REFLECTION_FORCE_TYPENAME(type) CPP_REFLECTION_CUSTOM_TYPENAME_FOR(type, #type)
     
-    class MetaType
+    class SIPLASPLAS_REFLECTION_EXPORT MetaType
     {
     public:
         MetaType() = default;
@@ -79,7 +80,7 @@ namespace cpp
 
         static MetaType get(const std::string& typeName)
         {
-            auto try_get = [](const std::string typeName) -> MetaTypeLifeTimeManagerBase*
+            auto try_get = [](const std::string typeName) -> std::shared_ptr<MetaTypeLifeTimeManagerBase>
             {
                 auto id = ctti::id_from_name(typeName);
                 auto it = _registry.find(id);
@@ -90,7 +91,7 @@ namespace cpp
                     return nullptr;
             };
 
-            MetaTypeLifeTimeManagerBase* manager = nullptr;
+            std::shared_ptr<MetaTypeLifeTimeManagerBase> manager = nullptr;
 
             if(!(manager = try_get(typeName)) && 
                !(manager = try_get("class " + typeName)) &&
@@ -102,7 +103,7 @@ namespace cpp
                 return { manager };
         }
 
-        class MetaTypeLifeTimeManagerBase
+        class SIPLASPLAS_REFLECTION_EXPORT MetaTypeLifeTimeManagerBase
         {
         public:
             virtual ~MetaTypeLifeTimeManagerBase() = default;
@@ -242,30 +243,29 @@ namespace cpp
         };
 
         template<typename T>
-        static MetaTypeLifeTimeManagerBase* getLifetimeManager()
+        static const std::shared_ptr<MetaTypeLifeTimeManagerBase>& getLifetimeManager()
         {
-            static std::unique_ptr<MetaTypeLifeTimeManagerBase> instance{ [&]()
+            static std::shared_ptr<MetaTypeLifeTimeManagerBase> instance{ [&]()
             {
-                MetaTypeLifeTimeManagerBase* instance = new MetaTypeLifeTimeManager<T>();
+                std::shared_ptr<MetaTypeLifeTimeManagerBase> instance{new MetaTypeLifeTimeManager<T>()};
                 _registry[cpp::detail::CustomTypeName<T>::id()] = instance;
                 return instance;
             }()};
 
-            return instance.get();
+            return instance;
         }
 
-        MetaType(MetaTypeLifeTimeManagerBase* lifetimeManager) :
+        MetaType(const std::shared_ptr<MetaTypeLifeTimeManagerBase>& lifetimeManager) :
             _lifetimeManager{lifetimeManager}
         {}
 
-        MetaTypeLifeTimeManagerBase* _lifetimeManager;
+        std::shared_ptr<MetaTypeLifeTimeManagerBase> _lifetimeManager;
 
-        using MetaTypeRegistry = std::unordered_map<ctti::type_index, MetaTypeLifeTimeManagerBase*>;
+        using MetaTypeRegistry = std::unordered_map<ctti::type_index, std::shared_ptr<MetaTypeLifeTimeManagerBase>>;
 
         static MetaTypeRegistry _registry;
     };
 
-    MetaType::MetaTypeRegistry MetaType::_registry;
 }
 
 #endif // SIPLASPLAS_REFLECTION_METATYPE_HPP

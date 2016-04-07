@@ -8,5 +8,5 @@ function(add_test NAME)
     )
 endfunction()
 
-add_test(variant)
+add_test(variant          DEPENDS siplasplas-variant)
 add_test(linear_allocator DEPENDS siplasplas-allocator)

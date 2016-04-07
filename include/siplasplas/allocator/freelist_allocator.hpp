@@ -3,11 +3,12 @@
 
 #include <string>
 
-#include "siplasplas/allocator/embedded_allocator.hpp"
+#include <siplasplas/allocator/embedded_allocator.hpp>
+#include <siplasplas/allocator/export.hpp>
 
 namespace cpp
 {
-    class FreeListAllocator : public EmbeddedAllocator 
+    class SIPLASPLAS_ALLOCATOR_EXPORT FreeListAllocator : public EmbeddedAllocator 
     {
     public:
         struct FreeListNode

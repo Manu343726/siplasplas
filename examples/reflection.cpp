@@ -36,7 +36,7 @@ int main()
 
         std::cout << " -- " << function.name() << ": Return type " << function.returnType().type().name()
             << ", parameter types [";
-        
+
         for (const auto& type : function.parameterTypes())
             std::cout << "'" << type.type().name() << "', ";
 
@@ -51,4 +51,6 @@ int main()
             cpp::reflection(myObject).function("f")(1, 10),
             cpp::reflection(myObject).field("field")
     ) << std::endl;
+
+    std::cout << cpp::reflection(myObject).function("g")(1, 3).get<int>() << std::endl;
 }
