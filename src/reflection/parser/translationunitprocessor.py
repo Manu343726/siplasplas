@@ -38,9 +38,15 @@ class TranslationUnitProcessor:
         ast_options = clang.cindex.TranslationUnit.PARSE_DETAILED_PROCESSING_RECORD
         self.clang_tu = self.index.parse(self.filePath, args = self.compileArgs, options = ast_options)
 
+        for d in self.clang_tu.diagnostics:
+            GlobalLogger.error().step('Line {} (severity {}): {}'.format(d.location.line, d.severity, d.spelling))
+
+        self.logger.info('Processing AST...')
+
         self.classes = []
         self.namespace = []
         self.translation_unit = TranslationUnit(self.clang_tu.cursor)
+        print '\r' + ' '*100 + '\r', # Clean progress
 
         # Check suitable classes for reflection. The parser only exports classes,
         # since reflection runtime implements class reflection only.
@@ -56,14 +62,9 @@ class TranslationUnitProcessor:
         # it gives an iterable on the translation unit AST
         self.root = self.translation_unit.root
 
-        for d in self.clang_tu.diagnostics:
-            GlobalLogger.error().step('Line {} (severity {}): {}'.format(d.location.line, d.severity, d.spelling))
-
-        self.logger.info('Processing AST...')
-
         # Print the processed AST and the full AST given by libclang.
         if self.print_ast:
-            GlobalLogger.info().info('Dumping AST to {}...'.format(self.ast_file_path))
+            self.logger.info('Dumping AST to {}...'.format(self.ast_file_path))
             with open(self.ast_file_path, 'w') as ast_file:
                 import asciitree
 

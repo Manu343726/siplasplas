@@ -23,15 +23,7 @@ function(add_example NAME)
 endfunction()
 
 function(add_reflection_example NAME)
-    if(CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-        # GCC segfaults when instancing the generated
-        # cpp::Reflection<> specialization.
-        # See https://github.com/Manu343726/ctti/issues/12
-        message(WARNING "Reflection examples were excluded from run-examples-all target. See examples/CMakeLists.txt notes")
-        return()
-    endif()
-
-    add_example(${NAME} DEPENDS siplasplas-reflection ${ARGN})
+    add_example(${NAME} DEPENDS siplasplas-serialization ${ARGN})
     reflection_target(examples-${NAME})
 endfunction()
 
@@ -58,7 +50,7 @@ add_example(freelist_allocator DEPENDS siplasplas-allocator)
 add_example(canary_allocator   DEPENDS siplasplas-allocator)
 
 # Reflection examples
-add_reflection_example(reflection INSTALL_SOURCES myclass.hpp)
+add_reflection_example(reflection DEPENDS json4moderncpp INSTALL_SOURCES myclass.hpp)
 
 if(NOT MINGW) # See https://github.com/GueimUCM/siplasplas/issues/16
     # Boost examples

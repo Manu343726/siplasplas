@@ -1,6 +1,6 @@
 from clang.cindex import CursorKind
 from ast.node import Node
-from ast.functions import Method
+from ast.functions import Method, FunctionFamily
 from ast.fields import Field
 from ast.macroinstance import MacroInstance
 from ast.unknown import Unkwnown
@@ -22,6 +22,21 @@ class Class(Node):
 
     def __init__(self, **kwargs):
         Node.__init__(self, **kwargs)
+
+    def process(self):
+        """ Merge common Method nodes into
+            MethodFamilies
+        """
+        self.children['methodfamilies'] = {}
+
+        if not self.reflection_enabled:
+            return
+
+        for _, node in self.children['method'].iteritems():
+            if node.spelling in self.children['methodfamilies']:
+                self.children['methodfamilies'][node.spelling].append(node)
+            else:
+                self.children['methodfamilies'][node.spelling] = FunctionFamily(node)
 
     def reflection_enabled(self):
         """ Checks whether this class has reflection support enabled

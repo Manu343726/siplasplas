@@ -177,6 +177,16 @@ namespace cpp
 			return _alignment;
 		}
 
+                friend constexpr bool operator==(const TypeInfo& lhs, const TypeInfo& rhs)
+                {
+                    return lhs.type_id() == rhs.type_id();
+                }
+
+                friend constexpr bool operator!=(const TypeInfo& lhs, const TypeInfo& rhs)
+                {
+                    return !(lhs == rhs);
+                }
+
 	private:
 		const ctti::type_id_t _typeId;
 		const std::size_t _sizeOf;

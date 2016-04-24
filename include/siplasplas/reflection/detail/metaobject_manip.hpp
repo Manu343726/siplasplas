@@ -74,6 +74,27 @@ R vector_call(R (Class::* function)(Args...), Class& object, const std::vector<c
     vector);
 }
 
+template<typename Class, typename R, typename... Args>
+R vector_call(R (Class::* function)(Args...) const, const std::vector<cpp::MetaObject>& args)
+{
+    auto fargs = args;
+    fargs.erase(fargs.begin());
+    const Class& object = args[0].get<Class>();
+
+    return vector_call(function, object, fargs);
+}
+
+template<typename Class, typename R, typename... Args>
+R vector_call(R (Class::* function)(Args...), const std::vector<cpp::MetaObject>& args)
+{
+    auto fargs = args;
+    fargs.erase(fargs.begin());
+    Class& object = args[0].get<Class>();
+
+    return vector_call(function, object, fargs);
+}
+
+
 }
 
 #endif // SIPLASPLAS_REFLECTION_DETAIL_METAOBJECT_MANIP_HPP

@@ -5,7 +5,7 @@
  * Classes:
 {% for class in classes %}
  * :: From line {{class.cursor.location.line}}: {{class.declarationKind}} {{class.className}} ({{class.fullname}})
-{% for name, f in class.children['field'].iteritems() %}>
+{% for name, f in class.children['field'].iteritems() %}
  *    -> field "{{f.displayname}}"
 {% endfor %}
 {% for name, f in class.children['method'].iteritems() %}
@@ -18,18 +18,19 @@
  */
 
 #include <ctti/type_id.hpp>
+#include <siplasplas/reflection/api.hpp>
 
 namespace cpp
 {
 {% for class in classes %}
     template<>
-    class Reflection<ctti::type_id<{{class.fullname}}>().hash()>
+    class Reflection<{{class.fullname}}>
     {
     public:
-        static ::cpp::MetaClassData& reflection() {
+        static ::cpp::MetaClassData& registerReflection() {
             static ::cpp::MetaClassData& data = []() -> ::cpp::MetaClassData&
             {
-                ::cpp::MetaClass::registerClass<{{class.fullname}}>({
+                ::cpp::MetaClass::registerClass<{{class.fullname}}>(::cpp::MetaType::get<{{class.fullname}}>(), {
 {% for name, field in class.children['field'].iteritems() %}
                     ::cpp::Field("{{field.spelling}}", &{{class.fullname}}::{{field.spelling}}, offsetof({{class.fullname}}, {{field.spelling}})),
 {% endfor %}
@@ -48,7 +49,17 @@ namespace cpp
 
             return data;
         }
+
+        static ::cpp::MetaClassData& reflection()
+        {
+            return _reflectionData;
+        }
+
+    private:
+        static ::cpp::MetaClassData& _reflectionData;
     };
+
+    ::cpp::MetaClassData& Reflection<{{class.fullname}}>::_reflectionData = Reflection<{{class.fullname}}>::registerReflection();
 {% endfor %}
 }
 #endif // SIPLASPLAS_REFLECTION_OUTPUT_FILE_{{hash}}_HPP

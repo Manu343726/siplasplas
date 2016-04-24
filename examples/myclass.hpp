@@ -67,13 +67,22 @@ public:
         return a + b;
     }
 
-    $(attr::bind(_1, 2, _2, 4))
     int g(int a, int b, int c, int d)
     {
         return a + b + c + d;
     }
 
+    $(enable_reflection)
+    class InnerClass
+    {
+    public:
+        int innerMember = 0;
+    };
+
     int field = 0;
+    bool otherField;
+    InnerClass objectOfInnerClass;
+    std::string strField = "hello";
 };
 
 #include <reflection/examples/myclass.hpp>

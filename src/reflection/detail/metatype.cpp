@@ -2,4 +2,8 @@
 
 using namespace cpp;
 
-MetaType::MetaTypeRegistry MetaType::_registry;
+MetaType::MetaTypeRegistry& MetaType::metaTypes()
+{
+    static MetaType::MetaTypeRegistry types;
+    return types;
+}

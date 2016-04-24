@@ -3,6 +3,7 @@
 
 #include "metaclass.hpp"
 #include "annotations.hpp"
+#include <siplasplas/reflection/export.hpp>
 
 #include <ctti/type_id.hpp>
 
@@ -11,13 +12,7 @@ namespace cpp
     template<typename Class>
     constexpr ::cpp::MetaClassData& reflection()
     {
-        return ::cpp::Reflection<ctti::type_id<Class>().hash()>::reflection();
-    }
-
-    template<std::size_t N>
-    constexpr ::cpp::MetaClassData& reflection(const char (&typeName)[N])
-    {
-        return ::cpp::Reflection<ctti::id_from_name(typeName).hash()>::reflection();
+        return ::cpp::Reflection<Class>::reflection();
     }
 
     template<typename Class>
@@ -25,6 +20,7 @@ namespace cpp
     {
         return {&object, &reflection<Class>()};
     }
-}
 
+    SIPLASPLAS_REFLECTION_EXPORT ::cpp::MetaClassData& reflection(const cpp::MetaType& type);
+}
 #endif // SIPLASPLAS_INCLUDE_REFLECTION_API_HPP

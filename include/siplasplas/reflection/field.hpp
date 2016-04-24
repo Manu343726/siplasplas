@@ -20,7 +20,9 @@ namespace cpp
             _declType{cpp::MetaType::get<T>()},
             _name{name},
             _offset{offset}
-        {}
+        {
+            MetaType::registerMetaType<T>();
+        }
 
         bool is_reference() const
         {
@@ -32,16 +34,40 @@ namespace cpp
             return _name;
         }
 
-        template<typename T>
+        template<typename T, typename std::enable_if_t<
+            !std::is_same<void*, T>::value && !std::is_same<cpp::MetaObject, T>::value
+        >>
         cpp::MetaObject get(const T& object) const
         {
-            return {_type, reinterpret_cast<char*>(const_cast<void*>(&object)) + _offset};   
+            return get(&object);
         }
 
-        template<typename T>
+        template<typename T, typename = std::enable_if_t<
+            !std::is_same<void*, T>::value && !std::is_same<cpp::MetaObject, T>::value
+        >>
         cpp::MetaObject get(T& object)
         {
-            return {_type, reinterpret_cast<char*>(&object) + _offset, cpp::MetaObject::ConstructReference};
+            return get(&object);
+        }
+
+        cpp::MetaObject get(const void* object) const
+        {
+            return {_type, reinterpret_cast<char*>(const_cast<void*>(object)) + _offset};
+        }
+
+        cpp::MetaObject get(void* object)
+        {
+            return {_type, reinterpret_cast<char*>(object) + _offset, cpp::MetaObject::ConstructReference};
+        }
+
+        cpp::MetaObject get(const cpp::MetaObject& object) const
+        {
+            return get(object.raw());
+        }
+
+        cpp::MetaObject get(cpp::MetaObject& object)
+        {
+            return get(object.raw());
         }
 
         const cpp::MetaType& type() const

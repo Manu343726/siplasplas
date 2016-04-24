@@ -12,19 +12,18 @@ class OverloadedMethod(Method):
         Method.__init__(self, **kwargs)
 
 
-class MethodFamily(Node):
+class FunctionFamily(Node):
 
-    def __init__(self, **kwargs):
-        cursor = kwargs['cursor']
-        parent = kwargs['parent']
+    def __init__(self, function):
+        self.cursor = function.cursor
+        self.functions = [function]
+        self.children = {}
 
-        if cursor.spelling in parent.children['methodfamily']:
-            family = parent.children['methodfamily'][cursor.spelling]
-            family[cursor.displayname] = OverloadedMethod.create_node(cursor, parent)
-        else:
-            if cursor.spelling in parent.children['method']:
-                parent.children['methodfamily'][cursor.spelling] = {}
-                parent.children['methodfamily'][cursor.spelling][cursor.displayname] = OverloadedMethod.create_node(cursor, parent)
-            else:
-                if parent.children['methodfamily']:
-                    parent.children['method'][cursor.spelling] = Method.create_node(cursor, parent)
+    def append(self, function):
+        self.functions.append(function)
+
+    def print_ast_node(self):
+        return '(function family) {}{}'.format(
+            self.spelling,
+            '\n - '.join([''] + [f.displayname for f in self.functions])
+        )

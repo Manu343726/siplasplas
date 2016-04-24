@@ -103,6 +103,16 @@ namespace cpp
             return _isReference;
         }
 
+        const void* raw() const
+        {
+            return _object.get();
+        }
+
+        void* raw()
+        {
+            return _object.get();
+        }
+
         MetaObject& operator=(const MetaObject& other)
         {
             assert(type().type().type_id() == other.type().type().type_id());
@@ -110,6 +120,17 @@ namespace cpp
             _type.assign(_object.get(), other._object.get());
 
             return *this;
+        }
+
+        std::string toString() const
+        {
+            return _type.toString(_object.get());
+        }
+
+        static MetaObject fromString(const std::string& typeName, const std::string& value)
+        {
+            auto type = MetaType::get(typeName);
+            return MetaObject{type, type.fromString(value)};
         }
 
     private:

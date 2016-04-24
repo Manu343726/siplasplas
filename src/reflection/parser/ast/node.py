@@ -110,9 +110,16 @@ class Node(object):
         """ Creates a node and initializes its children and attributes"""
 
         node = nodeClass(**kwargs)
+        nodeInfo = '\r{}'.format(node.cursor.displayname or node.cursor.spelling)
+        print (nodeInfo[:90] + '...') if len(nodeInfo) > 87 else nodeInfo,
         nodeClass.initialize_children(node)
         node.attributes = Attribute.get_node_attributes(node)
+        node.process()
         return node
+
+    def process(self):
+        """ Processes node data after creation"""
+        pass
 
     @classmethod
     def initialize_children(nodeClass, node):
@@ -138,7 +145,7 @@ class Node(object):
             if c.kind in mapping:
                 child = nodeClass.create_child(cursor = c, parent = node)
                 if child is not None:
-                    node.children[child.node_class_kind()][child.spelling] = child
+                    node.children[child.node_class_kind()][child.displayname] = child
 
     @property
     def spelling(self):

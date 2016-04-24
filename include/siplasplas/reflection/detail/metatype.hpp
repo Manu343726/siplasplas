@@ -4,6 +4,8 @@
 #include "type_info.hpp"
 #include <siplasplas/allocator/freelist_allocator.hpp>
 #include <siplasplas/utility/throw.hpp>
+#include <siplasplas/utility/lexical_cast.hpp>
+#include <siplasplas/utility/meta.hpp>
 #include <siplasplas/reflection/export.hpp>
 
 #include <unordered_map>
@@ -17,12 +19,12 @@ namespace cpp
         template<typename T>
         struct CustomTypeName
         {
-            static constexpr ctti::unnamed_type_id_t id() 
-            { 
-                return ctti::unnamed_type_id<T>(); 
+            static constexpr ctti::unnamed_type_id_t id()
+            {
+                return ctti::unnamed_type_id<T>();
             }
         };
-        
+
 #define CPP_REFLECTION_CUSTOM_TYPENAME_FOR(type, name) \
         namespace cpp { namespace detail {             \
         template<>                                     \
@@ -32,10 +34,10 @@ namespace cpp
                 return ::ctti::id_from_name(name);          \
             }                                               \
         }; }}
-    } 
+    }
 
 #define CPP_REFLECTION_FORCE_TYPENAME(type) CPP_REFLECTION_CUSTOM_TYPENAME_FOR(type, #type)
-    
+
     class SIPLASPLAS_REFLECTION_EXPORT MetaType
     {
     public:
@@ -61,15 +63,41 @@ namespace cpp
             return _lifetimeManager->destroy(object);
         }
 
+        std::string toString(void* object) const
+        {
+            return _lifetimeManager->toString(object);
+        }
+
+        void* fromString(const std::string& value) const
+        {
+            return _lifetimeManager->fromString(value);
+        }
+
         const cpp::TypeInfo& type() const
         {
             return _lifetimeManager->type();
+        }
+
+        const cpp::TypeInfo& typeInfo() const
+        {
+            return type();
+        }
+
+        const char* typeName() const
+        {
+            return typeInfo().name();
         }
 
         template<typename T>
         static void registerMetaType()
         {
             getLifetimeManager<T>();
+        }
+
+        template<typename... Ts>
+        static void registerMetaTypes()
+        {
+            TypeRegistration<meta::list<Ts...>>::apply();
         }
 
         template<typename T>
@@ -83,9 +111,9 @@ namespace cpp
             auto try_get = [](const std::string typeName) -> std::shared_ptr<MetaTypeLifeTimeManagerBase>
             {
                 auto id = ctti::id_from_name(typeName);
-                auto it = _registry.find(id);
+                auto it = metaTypes().find(id);
 
-                if(it != std::end(_registry))
+                if(it != std::end(metaTypes()))
                     return it->second;
                 else
                     return nullptr;
@@ -93,7 +121,7 @@ namespace cpp
 
             std::shared_ptr<MetaTypeLifeTimeManagerBase> manager = nullptr;
 
-            if(!(manager = try_get(typeName)) && 
+            if(!(manager = try_get(typeName)) &&
                !(manager = try_get("class " + typeName)) &&
                !(manager = try_get("struct " + typeName)))
             {
@@ -101,6 +129,16 @@ namespace cpp
             }
             else
                 return { manager };
+        }
+
+        friend bool operator==(const MetaType& lhs, const MetaType& rhs)
+        {
+            return lhs.typeInfo() == rhs.typeInfo();
+        }
+
+        friend bool operator!=(const MetaType& lhs, const MetaType& rhs)
+        {
+            return !(lhs == rhs);
         }
 
         class SIPLASPLAS_REFLECTION_EXPORT MetaTypeLifeTimeManagerBase
@@ -112,10 +150,39 @@ namespace cpp
             virtual void destroy(void* object) = 0;
             virtual void* construct(const void* object) = 0;
             virtual void assign(void* object, const void* other) = 0;
+            virtual std::string toString(void* object) = 0;
+            virtual void* fromString(const std::string& value) = 0;
             virtual const cpp::TypeInfo& type() const = 0;
         };
 
     private:
+        template<typename Ts, typename = void>
+        class TypeRegistration;
+
+        template<typename Head, typename... Tail>
+        class TypeRegistration<meta::list<Head, Tail...>, void>
+        {
+        public:
+            static void apply()
+            {
+                MetaType::registerMetaType<Head>();
+                TypeRegistration<meta::list<Tail...>>::apply();
+            }
+        };
+
+        template<typename... Ts>
+        class TypeRegistration<meta::list<meta::list<Ts...>>, void> :
+            public TypeRegistration<meta::list<Ts...>>
+        {};
+
+        template<typename void_>
+        class TypeRegistration<meta::list<>, void_>
+        {
+        public:
+            static void apply()
+            {}
+        };
+
         template<typename T>
         class MetaTypeLifeTimeManager : public MetaTypeLifeTimeManagerBase
         {
@@ -130,7 +197,7 @@ namespace cpp
             {
                 return new(allocate_object()) T(*reinterpret_cast<const T*>(objectValue));
             }
-            
+
             void* construct() override
             {
                 return new(allocate_object()) T();
@@ -147,6 +214,17 @@ namespace cpp
                 deallocate_object(object);
             }
 
+            std::string toString(void* object) override
+            {
+                return ToString<T>::apply(*static_cast<T*>(object));
+            }
+
+            void* fromString(const std::string& value) override
+            {
+                auto object = FromString<T>::apply(value);
+                return construct(&object); // Copy returned object
+            }
+
             const cpp::TypeInfo& type() const override
             {
                 return _type;
@@ -154,6 +232,54 @@ namespace cpp
 
         private:
             cpp::TypeInfo _type;
+
+            template<typename U, typename = void>
+            class ToString
+            {
+            public:
+                static std::string apply(const U& value)
+                {
+                    std::ostringstream os;
+
+                    os << "'" << ctti::type_id<U>().name() << "' instance "
+                       << "@" << static_cast<const void*>(&value);
+
+                    return os.str();
+                }
+            };
+
+            template<typename U, typename = void>
+            class FromString
+            {
+            public:
+                static U apply(const std::string& value)
+                {
+                    throw std::runtime_error{
+                        "lexical_cast not supported for type i'" + std::string(ctti::type_id<U>().name().c_str()) + 
+                        "', you must overload operator>>"
+                    };
+                }
+            };
+
+            template<typename U>
+            class ToString<U, meta::void_t<decltype(std::declval<std::ostream&>() << std::declval<const U&>())>>
+            {
+            public:
+                static std::string apply(const U& value)
+                {
+                    return cpp::lexical_cast(value);
+                }
+            };
+
+            template<typename U>
+            class FromString<U, meta::void_t<decltype(std::declval<std::istream&>() >> std::declval<U&>())>>
+            {
+            public:
+                static U apply(const std::string& value)
+                {
+                    return cpp::lexical_cast<U>(value);
+                }
+            };
 
             class StorageBlock
             {
@@ -230,7 +356,7 @@ namespace cpp
                 auto blockIt = std::find_if(std::begin(arena), std::end(arena),
                 [pointer](const StorageBlock& block)
                 {
-                    return block.freeList().belongs_to_storage(pointer);       
+                    return block.freeList().belongs_to_storage(pointer);
                 });
 
                 if(blockIt != std::end(arena))
@@ -248,7 +374,7 @@ namespace cpp
             static std::shared_ptr<MetaTypeLifeTimeManagerBase> instance{ [&]()
             {
                 std::shared_ptr<MetaTypeLifeTimeManagerBase> instance{new MetaTypeLifeTimeManager<T>()};
-                _registry[cpp::detail::CustomTypeName<T>::id()] = instance;
+                metaTypes()[cpp::detail::CustomTypeName<T>::id()] = instance;
                 return instance;
             }()};
 
@@ -263,9 +389,8 @@ namespace cpp
 
         using MetaTypeRegistry = std::unordered_map<ctti::type_index, std::shared_ptr<MetaTypeLifeTimeManagerBase>>;
 
-        static MetaTypeRegistry _registry;
+        static MetaTypeRegistry& metaTypes();
     };
-
 }
 
 #endif // SIPLASPLAS_REFLECTION_METATYPE_HPP

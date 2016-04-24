@@ -5,6 +5,7 @@
 #include <cassert>
 
 #include "myclass.hpp"
+#include <siplasplas/serialization/serialization.hpp>
 
 using namespace std::string_literals;
 
@@ -16,6 +17,13 @@ int freePlainFunction(int a, int b)
 int main()
 {
     MyClass myObject;
+    myObject.field = 42;
+    auto json = cpp::serialize(myObject);
+
+    std::cout << std::setw(2) << json << std::endl;
+    auto fromJson = cpp::deserialize(json).get<MyClass>();
+    assert(fromJson.field == 42);
+    std::cout << std::setw(4) << cpp::serialize(myObject) << std::endl;
 
     cpp::reflection<MyClass>().field("field").get(myObject) = 12;
     assert(myObject.field == 12);
@@ -51,6 +59,4 @@ int main()
             cpp::reflection(myObject).function("f")(1, 10),
             cpp::reflection(myObject).field("field")
     ) << std::endl;
-
-    std::cout << cpp::reflection(myObject).function("g")(1, 3).get<int>() << std::endl;
 }

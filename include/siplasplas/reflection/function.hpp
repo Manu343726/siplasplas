@@ -17,6 +17,16 @@
 
 namespace cpp
 {
+    template<typename Function>
+    void registerFunctionTypes()
+    {
+        using args = cpp::function_arguments<Function>;
+        using return_type = cpp::function_return_type<Function>;
+
+        MetaType::registerMetaTypes<args>();
+        MetaType::registerMetaType<return_type>();
+    }
+
     class Function
     {
     public:
@@ -28,7 +38,9 @@ namespace cpp
             _invoker{ new Invoker<F>{function} },
             _attribute{attribute},
             _name{ name }
-        {}
+        {
+            registerFunctionTypes<F>();
+        }
 
         template<typename Class>
         auto operator()(Class& object)

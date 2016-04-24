@@ -13,6 +13,7 @@ set(SIPLASPLAS_VERSION_PATCH 0)
 
 include(cmake/deftargets.cmake)
 include(cmake/install.cmake)
+add_subdirectory(3rdParty/json4moderncpp)
 add_subdirectory(src)
 add_subdirectory(examples)
 enable_testing()
