@@ -73,6 +73,7 @@ before_install:
   - which $CC
   - $CXX --version
   - $CC --version
+  - if [ -z "$GCC_VERSION" ]; then which clang++ || true; fi
 
 install:
 
@@ -108,7 +109,7 @@ install:
   # Configure and build project:
   - if [ ! -d build ]; then mkdir build; fi
   - cd build
-  - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DDRLPARSER_LIBCLANG="$LIBCLANG" -DSIPLASPLAS_LIBRARIES_STATIC="$SIPLASPLAS_LIBRARIES_STATIC"
+  - cmake .. -DSIPLASPLAS_VERBOSE_CONFIG=ON -DBII_BOOST_VERBOSE=ON -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DDRLPARSER_LIBCLANG="$LIBCLANG" -DSIPLASPLAS_LIBRARIES_STATIC="$SIPLASPLAS_LIBRARIES_STATIC"
   - cmake --build .
 
 script:
