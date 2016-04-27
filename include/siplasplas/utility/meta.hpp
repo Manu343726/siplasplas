@@ -75,6 +75,9 @@ namespace meta
     using true_ = bool_<true>;
     using false_ = bool_<false>;
 
+    template<char C>
+    using char_ = std::integral_constant<char, C>;
+
     template<typename T, typename = void>
     struct is_integral : false_ {};
     template<typename T>
@@ -114,7 +117,7 @@ namespace meta
     {
         template<typename Lhs, typename Rhs>
         struct apply : assert<
-            is_integral<Lhs>, 
+            is_integral<Lhs>,
             is_integral<Rhs>
         >
         {
@@ -161,6 +164,9 @@ namespace meta
         static constexpr std::size_t size = sizeof...(Ts);
     };
 
+    template<char... Chars>
+    using string = list<char_<Chars>...>;
+
 
     template<typename Seq>
     struct functor;
@@ -180,7 +186,7 @@ namespace meta
 
     template<typename Lhs, typename Rhs>
     struct cat;
-    
+
     template<template<typename...> class Seq,
              typename... Lhs, typename... Rhs>
     struct cat<Seq<Lhs...>, Seq<Rhs...>>
@@ -393,7 +399,7 @@ namespace meta
     template<typename Function, typename Seed, typename Seq>
     struct foldl;
 
-    template<typename Function, typename Seed, 
+    template<typename Function, typename Seed,
              template<typename...> class Seq, typename Head, typename... Tail>
     struct foldl<Function, Seed, Seq<Head, Tail...>>
     {
@@ -490,7 +496,7 @@ namespace meta
         {
             static constexpr std::size_t n = (N % 2) ? ((N - 1) / 2) : (N / 2);
             static constexpr std::size_t m = N - n;
-            
+
             struct adder
             {
                 template<typename T>

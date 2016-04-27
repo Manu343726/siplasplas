@@ -55,6 +55,42 @@ namespace cpp
             return _reflectionData;
         }
 
+        using Methods = ::cpp::meta::list<
+{% for name, method in class.children['method'].iteritems() %}
+            ::cpp::static_reflection::Function<
+                ::cpp::static_reflection::AstInfo<
+                    ::cpp::meta::string<{{method.spelling_as_charpack}}>,
+                    ::cpp::meta::string<{{method.displayname_as_charpack}}>,
+                    ::cpp::meta::string<{{method.file_as_charpack}}>,
+                    {{method.cursor.location.line}}
+                >,
+                decltype(&{{class.fullname}}::{{method.spelling}}),
+                         &{{class.fullname}}::{{method.spelling}}
+            >
+{% if not loop.last %}
+            ,
+{% endif %}
+{% endfor %}
+        >;
+
+        using Fields = ::cpp::meta::list<
+{% for name, field in class.children['field'].iteritems() %}
+            ::cpp::static_reflection::Field<
+                ::cpp::static_reflection::AstInfo<
+                    ::cpp::meta::string<{{field.spelling_as_charpack}}>,
+                    ::cpp::meta::string<{{field.displayname_as_charpack}}>,
+                    ::cpp::meta::string<{{field.file_as_charpack}}>,
+                    {{field.cursor.location.line}}
+                >,
+                decltype(&{{class.fullname}}::{{field.spelling}}),
+                         &{{class.fullname}}::{{field.spelling}}
+            >
+{% if not loop.last %}
+            ,
+{% endif %}
+{% endfor %}
+        >;
+
     private:
         static ::cpp::MetaClassData& _reflectionData;
     };

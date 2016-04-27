@@ -2,6 +2,7 @@ from clang.cindex import Cursor, CursorKind, TokenGroup
 from ast.attributes.attribute import Attribute
 from ast.attributes.annotation import Annotation
 from utility.namespace import Namespace
+from utility.code_generation import string_to_char_pack
 
 from utility.logger import GlobalLogger
 import pprint
@@ -154,6 +155,25 @@ class Node(object):
     @property
     def displayname(self):
         return self.cursor.displayname
+
+    @property
+    def spelling_as_charpack(self):
+        return string_to_char_pack(self.spelling)
+
+    @property
+    def displayname_as_charpack(self):
+        return string_to_char_pack(self.displayname)
+
+    @property
+    def file(self):
+        print '>>> FILE <<<'
+        return self.cursor.location.file.name
+
+    @property
+    def file_as_charpack(self):
+        print '>>> FILE AS CHARPACK <<<'
+        print self.file
+        return string_to_char_pack(self.file)
 
     @property
     def name(self):

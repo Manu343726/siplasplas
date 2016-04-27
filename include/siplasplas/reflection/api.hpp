@@ -3,8 +3,8 @@
 
 #include "metaclass.hpp"
 #include "annotations.hpp"
+#include "static/api.hpp"
 #include <siplasplas/reflection/export.hpp>
-
 #include <ctti/type_id.hpp>
 
 namespace cpp

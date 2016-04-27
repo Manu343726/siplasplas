@@ -4,6 +4,8 @@
 #include "field.hpp"
 #include "function.hpp"
 
+#include <siplasplas/utility/meta.hpp>
+
 #include <initializer_list>
 
 namespace cpp
@@ -180,7 +182,7 @@ namespace cpp
         static MetaClassRegistry& metaClasses();
     };
 
-    
+
     template<typename T>
     class Reflection
     {
@@ -196,6 +198,9 @@ namespace cpp
 
             return data;
         }
+
+        using Methods = meta::list<>;
+        using Fields  = meta::list<>;
     };
 }
 
