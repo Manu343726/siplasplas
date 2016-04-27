@@ -1,0 +1,2 @@
+add_subdirectory(chaiscript)
+add_subdirectory(json4moderncpp)

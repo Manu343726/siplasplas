@@ -13,10 +13,16 @@ set(SIPLASPLAS_VERSION_PATCH 0)
 
 include(cmake/deftargets.cmake)
 include(cmake/install.cmake)
-add_subdirectory(3rdParty/json4moderncpp)
+
+add_subdirectory(3rdParty)
 add_subdirectory(src)
 add_subdirectory(examples)
-enable_testing()
-add_subdirectory(tests)
+
+option(SIPLASPLAS_TESTS_ENABLED TRUE "Enable/Disable unit tests")
+
+if(SIPLASPLAS_TESTS_ENABLED)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
 
 include(cmake/cpack.cmake)

@@ -51,6 +51,7 @@ add_example(canary_allocator   DEPENDS siplasplas-allocator)
 
 # Reflection examples
 add_reflection_example(reflection DEPENDS json4moderncpp INSTALL_SOURCES myclass.hpp)
+add_reflection_example(chaiscript DEPENDS chaiscript INSTALL_SOURCES myclass.hpp)
 
 if(NOT MINGW) # See https://github.com/GueimUCM/siplasplas/issues/16
     # Boost examples
@@ -62,3 +63,4 @@ endif()
 
 # Meta examples
 add_example(meta DEPENDS siplasplas-utility)
+add_example(fusion DEPENDS siplasplas-utility)
