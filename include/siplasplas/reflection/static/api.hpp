@@ -1,8 +1,16 @@
-#ifndef SIPLASPLAS_REFLECTION_STATIC_STATIC_REFLECTION_HPP
-#define SIPLASPLAS_REFLECTION_STATIC_STATIC_REFLECTION_HPP
+#ifndef SIPLASPLAS_REFLECTION_STATIC_API_HPP
+#define SIPLASPLAS_REFLECTION_STATIC_API_HPP
 
 #include "astinfo.hpp"
 #include "function.hpp"
 #include "field.hpp"
+#include "class.hpp"
 
-#endif // SIPLASPLAS_REFLECTION_STATIC_STATIC_REFLECTION_HPP
+namespace cpp
+{
+
+namespace srfl = static_reflection;
+
+}
+
+#endif // SIPLASPLAS_REFLECTION_STATIC_API_HPP

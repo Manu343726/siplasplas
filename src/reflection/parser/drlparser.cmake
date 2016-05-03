@@ -148,6 +148,11 @@ function(libclang_include_dir _ret)
 endfunction()
 
 function(get_target_include_directories TARGET RESULT)
+    if(NOT TARGET ${TARGET})
+        set(${RESULT} PARENT_SCOPE)
+        return()
+    endif()
+
     get_target_property(type ${TARGET} TYPE)
 
     if(type STREQUAL "INTERFACE_LIBRARY")

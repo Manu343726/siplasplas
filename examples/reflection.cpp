@@ -19,6 +19,9 @@ int main()
 {
     MyClass myObject;
     myObject.field = 42;
+
+    cpp::dynamic_reflection::Class::get<MyClass>();
+
     auto json = cpp::serialize(myObject);
 
     std::cout << std::setw(2) << json << std::endl;
@@ -26,10 +29,7 @@ int main()
     assert(fromJson.field == 42);
     std::cout << std::setw(4) << cpp::serialize(myObject) << std::endl;
 
-    cpp::reflection<MyClass>().field("field").get(myObject) = 12;
-    assert(myObject.field == 12);
-
-    cpp::foreach<cpp::Reflection<MyClass>::Methods>([](auto method)
+    cpp::foreach<cpp::static_reflection::Class<MyClass>::Methods>([](auto method)
     {
         using Method = cpp::meta::type_t<decltype(method)>;
 
@@ -41,7 +41,7 @@ int main()
                   << " - Type: " << ctti::type_id<typename Method::type>().name() << std::endl << std::endl;
     });
 
-    cpp::foreach<cpp::Reflection<MyClass>::Fields>([](auto field)
+    cpp::foreach<cpp::static_reflection::Class<MyClass>::Fields>([](auto field)
     {
         using Field = cpp::meta::type_t<decltype(field)>;
 
@@ -52,40 +52,5 @@ int main()
                   << " - Type: " << ctti::type_id<typename Field::type>().name() << std::endl
                   << " - Value type: " << ctti::type_id<typename Field::value_type>().name() << std::endl
                   << " - Class: " << ctti::type_id<typename Field::class_type>().name() << std::endl << std::endl;
-
-
     });
-
-
-    for(const auto& keyValue : cpp::reflection<MyClass>().fields())
-    {
-        const auto& field = keyValue.second;
-
-        std::cout << " -- " << field.name() << ": Type " << field.type().type().name()
-                            << ", sizeof " << field.type().type().sizeOf()
-                            << ", alignment " << field.type().type().alignment()
-                  << std::endl;
-    }
-
-    for (const auto& keyValue : cpp::reflection<MyClass>().functions())
-    {
-        const auto& function = keyValue.second;
-
-        std::cout << " -- " << function.name() << ": Return type " << function.returnType().type().name()
-            << ", parameter types [";
-
-        for (const auto& type : function.parameterTypes())
-            std::cout << "'" << type.type().name() << "', ";
-
-        std::cout << "], const: " << std::boolalpha << function.isConst() << std::endl;
-    }
-
-    cpp::MetaObject result = cpp::reflection<MyClass>().function("f")(myObject)(1, 2);
-
-    std::cout << myObject.field << std::endl;
-
-    std::cout << freePlainFunction(
-            cpp::reflection(myObject).function("f")(1, 10),
-            cpp::reflection(myObject).field("field")
-    ) << std::endl;
 }

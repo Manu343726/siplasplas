@@ -47,29 +47,78 @@ auto foreach(Args&&... args)
 namespace
 {
     template<typename Ts>
-    class CallForeach;
+    class TypesCall;
 
     template<typename... Ts>
-    class CallForeach<meta::list<Ts...>>
+    class TypesCall<cpp::meta::list<Ts...>>
     {
     public:
         template<typename Function>
-        static void apply(Function function)
+        static void apply_void(Function function)
         {
             ::cpp::foreach(detail::defaultConstructible<Ts>...)(function);
+        }
+
+        template<typename T, typename Function>
+        static std::vector<T> apply(Function function)
+        {
+            return { function(detail::DefaultConstructible<Ts>())... };
+        }
+
+        template<typename Function>
+        static auto apply(Function function)
+        {
+            return std::make_tuple(function(detail::DefaultConstructible<Ts>())...);
         }
     };
 
     template<typename... Ts>
-    class CallForeach<meta::list<meta::list<Ts...>>> :
-        public CallForeach<meta::list<Ts...>>
+    class TypesCall<cpp::meta::list<cpp::meta::list<Ts...>>> :
+        public TypesCall<meta::list<Ts...>>
     {};
+}
+
+template<typename T, typename... Ts, typename Function>
+std::vector<T> types_call(Function function)
+{
+    return TypesCall<cpp::meta::list<Ts...>>::template apply<T>(function);
 }
 
 template<typename... Ts, typename Function>
 void foreach(Function function)
 {
-    CallForeach<meta::list<Ts...>>::apply(function);
+    TypesCall<cpp::meta::list<Ts...>>::apply_void(function);
+}
+
+template<typename Function, typename Previous>
+auto fold(Function function, Previous&& previous)
+{
+    return std::forward<Previous>(previous);
+}
+
+template<typename Function, typename Previous, typename Head, typename... Tail>
+auto fold(Function function, Previous&& previous, Head&& head, Tail&&... tail)
+{
+    return fold(
+        function,
+        function(
+            std::forward<Previous>(previous),
+            std::forward<Head>(head)
+        ),
+        std::forward<Tail>(tail)...
+    );
+}
+
+template<typename T, typename Function, typename... Args>
+std::vector<T> fmap(Function function, Args&&... args)
+{
+    return {function(std::forward<Args>(args))...};
+}
+
+template<typename T, typename... Ts, typename Function>
+std::vector<T> fmap(Function function)
+{
+    return types_call<T, Ts...>(function);
 }
 
 template<typename Types>

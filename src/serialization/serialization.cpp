@@ -1,13 +1,15 @@
 #include "serialization.hpp"
 
-#include <siplasplas/reflection/api.hpp>
+using cpp::dynamic_reflection::Type;
+using cpp::dynamic_reflection::Class;
+using cpp::dynamic_reflection::Object;
 
 namespace cpp
 {
 
-cpp::json serialize(const cpp::MetaObject& object)
+cpp::json serialize(const Object& object)
 {
-    const auto& class_ = cpp::reflection(object.type());
+    const auto& class_ = Class::get(object.type());
     cpp::json jsonObject;
 
     jsonObject["type"] = object.type().typeName();
@@ -32,21 +34,21 @@ cpp::json serialize(const cpp::MetaObject& object)
     return jsonObject;
 }
 
-cpp::MetaObject deserialize(const cpp::json& json)
+Object deserialize(const cpp::json& json)
 {
-    const auto& type = cpp::MetaType::get(json["type"].get<std::string>());
-    auto& class_ = cpp::reflection(type);
+    const auto& type = Type::get(json["type"].get<std::string>());
+    auto& class_     = Class::get(type);
 
     if(class_.fields().empty())
     {
         const std::string& type = json["type"];
         const std::string& value = json["value"];
 
-        return cpp::MetaObject::fromString(type, value);
+        return Object::fromString(type, value);
     }
     else
     {
-        cpp::MetaObject object{type};
+        Object object{type};
 
         for(auto& keyValue : class_.fields())
         {

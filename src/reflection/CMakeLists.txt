@@ -1,10 +1,9 @@
 
 add_siplasplas_library(siplasplas-reflection
 SOURCES
-    detail/metatype.cpp
-    attributes/attribute.cpp
-    metaclass.cpp
-    api.cpp
+    dynamic/type.cpp
+    dynamic/attributes/attribute.cpp
+    dynamic/class.cpp
 DEPENDS
     siplasplas-allocator
     siplasplas-utility

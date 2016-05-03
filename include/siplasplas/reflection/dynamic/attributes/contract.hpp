@@ -6,6 +6,9 @@
 namespace cpp
 {
 
+namespace dynamic_reflection
+{
+
 namespace attributes
 {
 
@@ -33,7 +36,7 @@ public:
         if(!_precond(args...))
         {
             throw std::logic_error{_precondMsg};
-        }            
+        }
         else
         {
             return std::make_tuple(args...);
@@ -60,12 +63,14 @@ private:
 };
 
 template<typename Precond, typename Postcond>
-std::shared_ptr<cpp::attributes::Attribute> contract(Precond precond, const std::string& precondMsg,
+std::shared_ptr<cpp::dynamic_reflection::attributes::Attribute> contract(Precond precond, const std::string& precondMsg,
          Postcond postcond, const std::string& postcondMsg)
 {
     return std::make_shared<
         Contract<cpp::function_argument<0, Postcond>, cpp::function_arguments<Precond>>
     >(precond, precondMsg, postcond, postcondMsg);
+}
+
 }
 
 }

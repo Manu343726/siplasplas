@@ -3,17 +3,18 @@
 
 #include <siplasplas/reflection/api.hpp>
 #include <siplasplas/serialization/json.hpp>
+#include <siplasplas/serialization/export.hpp>
 
 namespace cpp
 {
 
-cpp::json serialize(const cpp::MetaObject& object);
-cpp::MetaObject deserialize(const cpp::json& json);
+SIPLASPLAS_SERIALIZATION_EXPORT cpp::json serialize(const cpp::dynamic_reflection::Object& object);
+SIPLASPLAS_SERIALIZATION_EXPORT cpp::dynamic_reflection::Object deserialize(const cpp::json& json);
 
 template<typename T>
 cpp::json serialize(const T& object)
 {
-    return serialize(cpp::MetaObject{object});
+    return serialize(cpp::dynamic_reflection::Object{object});
 }
 
 template<typename T>

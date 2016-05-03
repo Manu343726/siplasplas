@@ -2,13 +2,13 @@
 #define SIPLASPLAS_EXAMPLES_REFLECTION_MYCLASS_HPP
 
 #include <siplasplas/reflection/api.hpp>
-#include <siplasplas/reflection/attributes/contract.hpp>
+#include <siplasplas/reflection/dynamic/attributes/contract.hpp>
 
 #include <siplasplas/utility/meta.hpp>
 
 namespace meta = cpp::meta;
 
-class Bind : public cpp::attributes::Attribute
+class Bind : public cpp::dynamic_reflection::attributes::Attribute
 {
 public:
     template<typename... Args>
@@ -16,11 +16,11 @@ public:
         _bindedArgs{std::make_pair(std::is_placeholder<std::decay_t<Args>>::value, std::forward<Args>(args))...}
     {}
 
-    std::vector<cpp::MetaObject> processArguments(const std::vector<cpp::MetaObject>& args)
+    std::vector<cpp::dynamic_reflection::Object> processArguments(const std::vector<cpp::dynamic_reflection::Object>& args)
     {
         const std::size_t function_arity = _bindedArgs.size();
 
-        std::vector<cpp::MetaObject> finalArgs;
+        std::vector<cpp::dynamic_reflection::Object> finalArgs;
         finalArgs.reserve(function_arity);
 
         for(auto&& arg : _bindedArgs)
@@ -39,7 +39,7 @@ public:
     }
 
 private:
-    std::vector<std::pair<int, cpp::MetaObject>> _bindedArgs;
+    std::vector<std::pair<int, cpp::dynamic_reflection::Object>> _bindedArgs;
 };
 
 namespace attr
@@ -58,7 +58,7 @@ $(enable_reflection)
 class MyClass
 {
 public:
-    $(cpp::attributes::contract(
+    $(cpp::drfl::attributes::contract(
         [](int a, int b){ return a > 0; }, "a must be greater than zero",
         [](int r){ return true; },         "this must pass always"
     ))

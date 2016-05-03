@@ -7,11 +7,14 @@ namespace cpp
 namespace static_reflection
 {
 
-template<typename AstInfo, typename F, F field>
+namespace meta
+{
+
+template<typename AstInfo, typename F, F field, std::size_t offset = 0>
 class Field;
 
-template<typename AstInfo, typename Class, typename T, T Class::*field>
-class Field<AstInfo, T Class::*, field> : public AstInfo
+template<typename AstInfo, typename Class, typename T, T Class::*field, std::size_t Offset>
+class Field<AstInfo, T Class::*, field, Offset> : public AstInfo
 {
 public:
     using type = T Class::*;
@@ -20,6 +23,11 @@ public:
     using decay_t = std::decay_t<value_type>;
 
     constexpr Field() = default;
+
+    static constexpr type get()
+    {
+        return _field;
+    }
 
     static constexpr const decay_t& get(const Class& object)
     {
@@ -41,12 +49,36 @@ public:
         return get(object);
     }
 
+    static constexpr std::size_t offset()
+    {
+        return Offset;
+    }
+
 private:
     static constexpr type _field = field;
 };
 
 }
 
+namespace codegen
+{
+
+template<typename FieldType, FieldType field>
+class Field :
+    public static_reflection::meta::Field<
+        EmptyAstInfo<Field<FieldType, field>>,
+        FieldType,
+        field
+    >
+{};
+
 }
 
+template<typename FieldType, FieldType field>
+class Field : public codegen::Field<FieldType, field>
+{};
+
+}
+
+}
 #endif // SIPLASPLAS_REFLECTION_STATIC_FIELD_HPP

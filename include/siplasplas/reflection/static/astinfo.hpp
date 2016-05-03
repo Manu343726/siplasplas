@@ -56,6 +56,14 @@ public:
     }
 };
 
+template<typename T>
+using EmptyAstInfo = AstInfo<
+    ::cpp::meta::string<>,
+    ::cpp::meta::string<>,
+    ::cpp::meta::string<>,
+    0
+>;
+
 }
 
 }

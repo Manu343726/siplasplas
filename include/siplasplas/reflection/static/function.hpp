@@ -5,6 +5,8 @@ namespace cpp
 {
 namespace static_reflection
 {
+namespace meta
+{
 
 template<typename AstInfo, typename FunctionType, FunctionType function>
 class Function;
@@ -113,6 +115,22 @@ public:
     using OverloadedFunction<Second, Tail...>::operator();
 };
 
+} // namespace meta
+
+namespace codegen
+{
+
+template<typename FunctionType, FunctionType function>
+class Function :
+    public static_reflection::meta::Function<
+        EmptyAstInfo<Function<FunctionType, function>>,
+        FunctionType,
+        function
+    >
+{};
+
 }
-}
+
+} // namespace static_reflection
+} // namespace cpp
 #endif // SIPLASPLAS_REFLECTION_STATIC_FUNCTION_HPP

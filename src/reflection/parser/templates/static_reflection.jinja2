@@ -1,0 +1,136 @@
+
+# Utilities
+
+{% macro member_pointer(class, node) -%}
+&{{class.fullname}}::{{node.spelling}}
+{%- endmacro %}
+
+{% macro member_type(class, node) -%}
+decltype({{member_pointer(class, node)}})
+{%- endmacro %}
+
+# Metadata generation
+
+{% macro generate_astinfo(node) -%}
+::cpp::static_reflection::AstInfo<
+    ::cpp::meta::string<{{node.spelling_as_charpack}}>,
+    ::cpp::meta::string<{{node.displayname_as_charpack}}>,
+    ::cpp::meta::string<{{node.file_as_charpack}}>,
+    {{node.cursor.location.line}}
+>
+{%- endmacro %}
+
+{% macro generate_method(class, node) -%}
+::cpp::static_reflection::meta::Function<
+    {{generate_astinfo(node)      | indent(4)}},
+    {{member_type(class, node)    | indent(4)}},
+    {{member_pointer(class, node) | indent(4)}}
+>
+{%- endmacro %}
+
+{% macro generate_field(class, node) -%}
+::cpp::static_reflection::meta::Field<
+    {{generate_astinfo(node)      | indent(4)}},
+    {{member_type(class, node)    | indent(4)}},
+    {{member_pointer(class, node) | indent(4)}},
+    offsetof({{class.fullname}}, {{node.spelling}})
+>
+{%- endmacro %}
+
+{% macro generate_class(node) -%}
+::cpp::static_reflection::meta::Class<
+    {{generate_astinfo(node) | indent(4)}},
+    {{node.fullname}},  // Class
+    ::cpp::meta::list< // Methods
+{% for method in node.children['method'].itervalues() %}
+        {{instance_method(node, method) | indent(8)}}
+{% if not loop.last %}
+        ,
+{% endif %}
+{% endfor %}
+    >,
+    ::cpp::meta::list< // Fields
+{% for field in node.children['field'].itervalues() %}
+        {{instance_field(node, field) | indent(8)}}
+{% if not loop.last %}
+        ,
+{% endif %}
+{% endfor %}
+    >
+>
+{%- endmacro %}
+
+# Codegen instances
+
+{% macro instance_field(class, node) -%}
+::cpp::static_reflection::codegen::Field<
+    {{member_type(class, node)}}, {{member_pointer(class, node)}}
+>
+{%- endmacro %}
+
+{% macro instance_method(class, node) -%}
+::cpp::static_reflection::codegen::Function<
+    {{member_type(class, node)}}, {{member_pointer(class, node)}}
+>
+{%- endmacro %}
+
+{% macro instance_class(node) -%}
+::cpp::static_reflection::codegen::Class<
+    {{node.fullname}}
+>
+{%- endmacro %}
+
+
+# Code generation
+
+{% macro codegen_field(class, node) -%}
+namespace cpp               {
+namespace static_reflection {
+namespace codegen           {
+    template<>
+    class Field<{{member_type(class, node)}}, {{member_pointer(class, node)}}> :
+        public {{generate_field(class, node) | indent(8)}}
+    {};
+} // namespace codegen
+} // namespace static_reflection
+} // namespace cpp
+{%- endmacro %}
+
+{% macro codegen_method(class, node) -%}
+namespace cpp               {
+namespace static_reflection {
+namespace codegen           {
+    template<>
+    class Function<{{member_type(class, node)}}, {{member_pointer(class, node)}}> :
+        public {{generate_method(class, node) | indent(8)}}
+    {};
+} // namespace codegen
+} // namespace static_reflection
+} // namespace cpp
+{%- endmacro %}
+
+
+{% macro codegen_class(node) -%}
+
+{% for field in node.children['field'].itervalues() %}
+{{codegen_field(node, field)}}
+{% endfor %}
+
+{% for method in node.children['method'].itervalues() %}
+{{codegen_method(node, method)}}
+{% endfor %}
+
+namespace cpp               {
+namespace static_reflection {
+namespace codegen           {
+    template<>
+    class Class<{{node.fullname}}> :
+        public {{generate_class(node) | indent(8)}}
+    {};
+} // codegen
+} // static_reflection
+} // cpp
+
+/* END OF CLASS '{{node.fullname}}' */
+
+{%- endmacro %}
