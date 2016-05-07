@@ -79,6 +79,12 @@ public:
         int innerMember = 0;
     };
 
+    enum class Enum
+    {
+        ENUM_VALUE_1 = 1,
+        ENUM_VALUE_2 = 2
+    };
+
     int field = 0;
     bool otherField;
     InnerClass objectOfInnerClass;

@@ -48,16 +48,6 @@ class TranslationUnitProcessor:
         self.translation_unit = TranslationUnit(self.clang_tu.cursor)
         print '\r' + ' '*100 + '\r', # Clean progress
 
-        # Check suitable classes for reflection. The parser only exports classes,
-        # since reflection runtime implements class reflection only.
-        def valid_class(node):
-            if node.node_class_kind() == 'class' and node.spelling:
-                   return node.reflection_enabled()
-            else:
-                return False
-
-        self.classes = [c for c in self.translation_unit.nodes() if valid_class(c)]
-
         # This is the root of the AST. For easy visitation, check TranslationUnit.nodes() method,
         # it gives an iterable on the translation unit AST
         self.root = self.translation_unit.root
@@ -84,12 +74,12 @@ class TranslationUnitProcessor:
     def run_jinja(self, outputfile):
         """ Generate reflection code for the translation unit"""
 
-        if self.jinjaTemplate and self.classes:
+        if self.jinjaTemplate:
             import hashlib
 
             self.logger.info('Generating file...')
 
             with open(outputfile, 'w') as outputFile:
-                outputFile.write(self.jinjaTemplate.render(classes = self.classes, hash = hashlib.md5(outputfile.encode()).hexdigest()))
+                outputFile.write(self.jinjaTemplate.render(global_namespace = self.translation_unit.root, hash = hashlib.md5(outputfile.encode()).hexdigest()))
 
 

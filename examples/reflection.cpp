@@ -53,4 +53,10 @@ int main()
                   << " - Value type: " << ctti::type_id<typename Field::value_type>().name() << std::endl
                   << " - Class: " << ctti::type_id<typename Field::class_type>().name() << std::endl << std::endl;
     });
+
+    for(const auto& name : cpp::srlf::Enum<MyClass::Enum>::names())
+    {
+        MyClass::Enum value = cpp::srfl::Enum<MyClass::Enum>::fromString(name);
+        std::cout << name << ": " << (int)value << std::endl;
+    }
 }

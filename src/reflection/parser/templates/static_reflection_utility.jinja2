@@ -1,0 +1,10 @@
+# Utilities
+
+{% macro member_pointer(class, node) -%}
+&{{class.fullname}}::{{node.spelling}}
+{%- endmacro %}
+
+{% macro member_type(class, node) -%}
+decltype({{member_pointer(class, node)}})
+{%- endmacro %}
+

@@ -167,6 +167,31 @@ namespace meta
     template<char... Chars>
     using string = list<char_<Chars>...>;
 
+    template<typename String>
+    class StringToArray;
+
+    template<char... Chars>
+    class StringToArray<string<Chars...>>
+    {
+    public:
+        using type = const char[sizeof...(Chars)];
+
+        static constexpr const type& get()
+        {
+            return array;
+        }
+
+        static constexpr const char* c_str()
+        {
+            return get();
+        }
+
+    private:
+        static constexpr type array = {Chars...};
+    };
+
+    template<char... Chars>
+    constexpr const char StringToArray<string<Chars...>>::array[];
 
     template<typename Seq>
     struct functor;

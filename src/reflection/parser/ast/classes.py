@@ -1,5 +1,6 @@
 from clang.cindex import CursorKind
 from ast.node import Node
+from ast.enums import Enum
 from ast.functions import Method, FunctionFamily
 from ast.fields import Field
 from ast.macroinstance import MacroInstance
@@ -13,6 +14,7 @@ class Class(Node):
         return {
             CursorKind.CLASS_DECL: Class,
             CursorKind.STRUCT_DECL: Class,
+            CursorKind.ENUM_DECL: Enum,
             CursorKind.CXX_BASE_SPECIFIER: BaseClass,
             CursorKind.CXX_METHOD: Method,
             CursorKind.FIELD_DECL: Field,
@@ -50,6 +52,7 @@ class Class(Node):
                ...
             };
         """
+        return True
 
         for attr in self.attributes:
             if attr.code == 'enable_reflection':

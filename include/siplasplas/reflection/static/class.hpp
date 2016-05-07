@@ -13,7 +13,13 @@ namespace static_reflection
 namespace meta
 {
 
-template<typename AstInfo, typename Class_, typename Methods_, typename Fields_>
+template<typename AstInfo, typename Class_,
+    typename Methods_,
+    typename Fields_,
+    typename Constructors_,
+    typename Classes_,
+    typename Enums_
+>
 class Class : public AstInfo
 {
 public:
@@ -22,6 +28,9 @@ public:
 
     using Methods = Methods_;
     using Fields = Fields_;
+    using Constructors = Constructors_;
+    using Classes = Classes_;
+    using Enums = Enums_;
 };
 
 }
@@ -31,8 +40,11 @@ namespace codegen
     template<typename T>
     class Class :
         public static_reflection::meta::Class<
-            EmptyAstInfo<T>,
+            static_reflection::meta::EmptyAstInfo<T>,
             T,
+            ::cpp::meta::list<>,
+            ::cpp::meta::list<>,
+            ::cpp::meta::list<>,
             ::cpp::meta::list<>,
             ::cpp::meta::list<>
         >

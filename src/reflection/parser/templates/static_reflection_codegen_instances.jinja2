@@ -1,0 +1,34 @@
+# Codegen instances
+
+{% import 'static_reflection_utility.jinja2' as utility %}
+
+{% macro field(class, node) -%}
+::cpp::static_reflection::codegen::Field<
+    {{utility.member_type(class, node)}}, {{utility.member_pointer(class, node)}}
+>
+{%- endmacro %}
+
+{% macro method(class, node) -%}
+::cpp::static_reflection::codegen::Function<
+    {{utility.member_type(class, node)}}, {{utility.member_pointer(class, node)}}
+>
+{%- endmacro %}
+
+{% macro class(node) -%}
+::cpp::static_reflection::codegen::Class<
+    {{node.fullname}}
+>
+{%- endmacro %}
+
+{% macro namespace(node) -%}
+::cpp::static_reflection::codegen::Namespace<
+    {{node.fullname}}
+>
+{%- endmacro %}
+
+{% macro enum(node) -%}
+::cpp::static_reflection::codegen::Enum<
+    {{node.fullname}}
+>
+{%- endmacro %}
+

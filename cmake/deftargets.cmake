@@ -312,10 +312,12 @@ function(add_siplasplas_thirdparty NAME)
     if(THIRDPARTY_GIT_REPOSITORY)
         set(downloaddir "${CMAKE_CURRENT_BINARY_DIR}/THIRDPARTY/${NAME}/src/${external}")
     else()
-        set(downloaddir "${CMAKE_CURRENT_BINARY_DIR}/THIRDPARTY/${NAME}/src/${NAME}")
+        set(downloaddir "${CMAKE_CURRENT_BINARY_DIR}/THIRDPARTY/${NAME}/src/${external}")
     endif()
     set(repodir "${CMAKE_CURRENT_BINARY_DIR}/THIRDPARTY/${NAME}/src/${NAME}")
 
+    message(STATUS "Downloaddir: ${downloaddir}")
+    message(STATUS "Repodir:     ${repodir}")
     # This is where your realise that CMake sucks. Cannot pass a <ARGUMENT> ""
     # like INSTALL_COMMAND "" from a list. Instead, we write the four
     # cases manually.
@@ -326,7 +328,6 @@ function(add_siplasplas_thirdparty NAME)
             ${externalProjectArgs}
             # Move the download destination directory to a directory named as the
             # third party, so we can include third party contents as #include <thirdpartyname/header.h>
-            UPDATE_COMMAND ${CMAKE_COMMAND} -E copy_directory "${downloaddir}" "${repodir}"
             CONFIGURE_COMMAND ""
             BUILD_COMMAND ""
             INSTALL_COMMAND ""
@@ -335,7 +336,6 @@ function(add_siplasplas_thirdparty NAME)
         ExternalProject_Add(${external}
             PREFIX THIRDPARTY/${NAME}
             ${externalProjectArgs}
-            UPDATE_COMMAND ${CMAKE_COMMAND} -E rename "${downloaddir}" "${repodir}"
             CONFIGURE_COMMAND ""
             INSTALL_COMMAND ""
         )
@@ -343,7 +343,6 @@ function(add_siplasplas_thirdparty NAME)
         ExternalProject_Add(${external}
             PREFIX THIRDPARTY/${NAME}
             ${externalProjectArgs}
-            UPDATE_COMMAND ${CMAKE_COMMAND} -E rename "${downloaddir}" "${repodir}"
             BUILD_COMMAND ""
             INSTALL_COMMAND ""
         )
@@ -351,7 +350,6 @@ function(add_siplasplas_thirdparty NAME)
         ExternalProject_Add(${external}
             PREFIX THIRDPARTY/${NAME}
             ${externalProjectArgs}
-            UPDATE_COMMAND ${CMAKE_COMMAND} -E rename "${downloaddir}" "${repodir}"
             INSTALL_COMMAND ""
         )
     endif()
@@ -359,13 +357,23 @@ function(add_siplasplas_thirdparty NAME)
     ExternalProject_Get_Property(${external} source_dir binary_dir)
 
     add_library(${NAME} INTERFACE)
-    add_dependencies(${NAME} ${external})
+
+    if(NOT ("${repodir}" STREQUAL "${downloaddir}"))
+        add_custom_target(${NAME}-rename-sources
+            COMMAND ${CMAKE_COMMAND} -E copy_directory "${downloaddir}" "${repodir}"
+            COMMENT "Copying ${NAME} download dir (${downloaddir}) to source dir ${repodir}"
+        )
+        add_dependencies(${NAME}-rename-sources ${external})
+        add_dependencies(${NAME} ${NAME}-rename-sources)
+    else()
+        add_dependencies(${NAME} ${external})
+    endif()
 
     set(includedirs)
     foreach(includedir ${THIRDPARTY_INCLUDE_DIRS})
         list(APPEND includedirs "${repodir}/${includedir}")
     endforeach()
-    target_include_directories(${NAME} INTERFACE "${repodir}/.." ${includedirs})
+    target_include_directories(${NAME} INTERFACE "${repodir}" "${repodir}/.." ${includedirs})
 
     foreach(binary ${THIRDPARTY_OUTPUT_BINARIES})
         if(SIPLASPLAS_VERBOSE_CONFIG)

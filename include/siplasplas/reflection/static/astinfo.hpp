@@ -10,6 +10,9 @@ namespace cpp
 namespace static_reflection
 {
 
+namespace meta
+{
+
 template<
     typename Spelling,
     typename DisplayName,
@@ -25,9 +28,9 @@ template<
     std::size_t Line
 >
 class AstInfo<
-    meta::string<Spelling...>,
-    meta::string<DisplayName...>,
-    meta::string<File...>,
+    ::cpp::meta::string<Spelling...>,
+    ::cpp::meta::string<DisplayName...>,
+    ::cpp::meta::string<File...>,
     Line
 >
 {
@@ -63,6 +66,8 @@ using EmptyAstInfo = AstInfo<
     ::cpp::meta::string<>,
     0
 >;
+
+}
 
 }
 

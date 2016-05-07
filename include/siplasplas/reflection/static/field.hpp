@@ -66,7 +66,7 @@ namespace codegen
 template<typename FieldType, FieldType field>
 class Field :
     public static_reflection::meta::Field<
-        EmptyAstInfo<Field<FieldType, field>>,
+        static_reflection::meta::EmptyAstInfo<Field<FieldType, field>>,
         FieldType,
         field
     >

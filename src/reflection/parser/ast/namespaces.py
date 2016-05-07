@@ -1,5 +1,6 @@
 from clang.cindex import CursorKind
 from ast.classes import Class
+from ast.enums import Enum
 from ast.node import Node
 import utility.namespace
 
@@ -10,7 +11,8 @@ class Namespace(Node):
         return {
             CursorKind.NAMESPACE: Namespace,
             CursorKind.CLASS_DECL: Class,
-            CursorKind.STRUCT_DECL: Class
+            CursorKind.STRUCT_DECL: Class,
+            CursorKind.ENUM_DECL: Enum
         }
 
     def __init__(self, **kwargs):

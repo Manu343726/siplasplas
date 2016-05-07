@@ -123,13 +123,17 @@ namespace codegen
 template<typename FunctionType, FunctionType function>
 class Function :
     public static_reflection::meta::Function<
-        EmptyAstInfo<Function<FunctionType, function>>,
+        static_reflection::meta::EmptyAstInfo<Function<FunctionType, function>>,
         FunctionType,
         function
     >
 {};
 
 }
+
+template<typename FunctionType, FunctionType function>
+class Function : public codegen::Function<FunctionType, function>
+{};
 
 } // namespace static_reflection
 } // namespace cpp

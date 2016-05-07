@@ -1,0 +1,145 @@
+# Code generation (codegen)
+#
+# Given a to-be-reflected entity E of kind (class, enum,
+# namespace, etc) K, mapping between the entity and its
+# metadata is done through an specialization of its codegen
+# template (::cpp::static_reflection::codegen::K<E>).
+# Metadata collection is usually done by inheriting from the
+# metadata instance. For example, given a class 'MyClass',
+# codegen works as follows:
+#
+#     namespace cpp               {
+#     namespace static_reflection {
+#     namespace codegen           {
+#
+#     template<>
+#     class Class<MyClass> : public
+#         ::cpp::static_reflection::meta::Class<
+#             /* generated metadata goes here */
+#         >
+#     {};
+#
+#     } // codegen namespace
+#     } // static_reflection namespace
+#     } // cpp namespace
+#
+# Note metadata may access codegen to get the data. For example,
+# the metadata of a method "f" of "MyClass" should be generated first
+# (i.e. registered in the codegen namespace), then accessed by class
+# metadata.
+# It's done this way to provide global access to metadata of any entity.
+# You don't need to traverse the namespace and class hierarchy to get the
+# metadata of "f", just invoke codegen::Method<decltype(&MyClass::f), &MyClass::f>.
+
+
+{% import 'static_reflection_utility.jinja2' as utility %}
+{% import 'static_reflection_metadata.jinja2' as metadata %}
+
+
+{% macro field(class, node) -%}
+namespace cpp               {
+namespace static_reflection {
+namespace codegen           {
+    template<>
+    class Field<{{utility.member_type(class, node)}}, {{utility.member_pointer(class, node)}}> :
+        public {{metadata.field(class, node) | indent(8)}}
+    {};
+} // namespace codegen
+} // namespace static_reflection
+} // namespace cpp
+{%- endmacro %}
+
+{% macro method(class, node) -%}
+namespace cpp               {
+namespace static_reflection {
+namespace codegen           {
+    template<>
+    class Function<{{utility.member_type(class, node)}}, {{utility.member_pointer(class, node)}}> :
+        public {{metadata.method(class, node) | indent(8)}}
+    {};
+} // namespace codegen
+} // namespace static_reflection
+} // namespace cpp
+{%- endmacro %}
+
+{% macro enum(node) -%}
+{% if node.fullname %}
+namespace cpp               {
+namespace static_reflection {
+namespace codegen           {
+    template<>
+    class Enum<{{node.fullname}}> :
+        public {{metadata.enum(node) | indent(8)}}
+    {};
+} // namespace codegen
+} // namespace static_reflection
+} // namespace cpp
+{% endif %}
+{%- endmacro %}
+
+{% macro class(node) -%}
+{% if node.fullname %}
+
+// Recursivelly generate code for children first
+
+{% for child in node.children['field'].itervalues() %}
+{{field(node, child)}}
+{% endfor %}
+
+{% for child in node.children['method'].itervalues() %}
+{{method(node, child)}}
+{% endfor %}
+
+{% for child in node.children['class'].itervalues() %}
+{{class(child)}}
+{% endfor %}
+
+{% for child in node.children['enum'].itervalues() %}
+{{enum(child)}}
+{% endfor %}
+
+namespace cpp               {
+namespace static_reflection {
+namespace codegen           {
+    template<>
+    class Class<{{node.fullname}}> :
+        public {{metadata.class(node) | indent(8)}}
+    {};
+} // codegen
+} // static_reflection
+} // cpp
+
+/* END OF CLASS '{{node.fullname}}' */
+
+{% endif %}
+{%- endmacro %}
+
+{% macro namespace(node) -%}
+
+// Recursivelly generate code for children first
+
+{% for child in node.children['class'].itervalues() %}
+{{class(child)}}
+{% endfor %}
+
+{% for child in node.children['enum'].itervalues() %}
+{{enum(child)}}
+{% endfor %}
+
+/*
+namespace cpp               {
+namespace static_reflection {
+namespace codegen           {
+    template<>
+    class Namespace<{{node.fullname}}> :
+        public {{metadata.namespace(node) | indent(8)}}
+    {};
+} // codegen
+} // static_reflection
+} // cpp
+*/
+/* END OF NAMESPACE '{{node.fullname}}' */
+
+{%- endmacro %}
+
+

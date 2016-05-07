@@ -1,4 +1,4 @@
-from clang.cindex import Cursor, CursorKind, TokenGroup
+from clang.cindex import Cursor, CursorKind, TokenGroup, AccessSpecifier
 from ast.attributes.attribute import Attribute
 from ast.attributes.annotation import Annotation
 from utility.namespace import Namespace
@@ -145,7 +145,7 @@ class Node(object):
         for c in node.cursor.get_children():
             if c.kind in mapping:
                 child = nodeClass.create_child(cursor = c, parent = node)
-                if child is not None:
+                if child is not None and child.is_public:
                     node.children[child.node_class_kind()][child.displayname] = child
 
     @property
@@ -166,13 +166,10 @@ class Node(object):
 
     @property
     def file(self):
-        print '>>> FILE <<<'
         return self.cursor.location.file.name
 
     @property
     def file_as_charpack(self):
-        print '>>> FILE AS CHARPACK <<<'
-        print self.file
         return string_to_char_pack(self.file)
 
     @property
@@ -180,7 +177,11 @@ class Node(object):
         if self.spelling:
             return self.spelling
         else:
-            return '[unknown spelling] (displayname: \'{}\')'.format(self.displayname)
+            return ''
+
+    @property
+    def is_public(self):
+        return self.cursor.access_specifier in [AccessSpecifier.PUBLIC, AccessSpecifier.NONE, AccessSpecifier.INVALID]
 
     @property
     def kind(self):
@@ -196,7 +197,7 @@ class Node(object):
     def fullname(self):
         """ Returns the full qualified name of the entity pointed by the node """
 
-        if self.parent is None:
+        if self.parent is None or not self.name:
             return ''
         else:
             return Namespace.SCOPE_OPERATOR.join([self.parent.fullname, self.name])

@@ -1,0 +1,102 @@
+# Metadata generation
+
+# Metadata are instances of cpp::static_reflection::meta
+# namespace templates which hold metadata for different
+# kind of entities (Functions, classes, namespaces, enums, etc)
+# Each reflected entity has its metadata writen as an instance
+# of a cpp::static_reflection::meta template.
+
+# That metadata is instanced as part of codegen
+
+{% import 'static_reflection_utility.jinja2' as utility %}
+{% import 'static_reflection_codegen_instances.jinja2' as instances %}
+
+
+# An utility to ease the pain of filling typelists
+# with children metadata
+{% macro generate_children(parent, kind, instance_needs_parent = False) -%}
+::cpp::meta::list< // {{kind}}s
+{% for child in parent.children[kind].itervalues() %}
+{% if instance_needs_parent %}
+    {{instances[kind](parent, child) | indent(4)}}
+{% else %}
+    {{instances[kind](child) | indent(4)}}
+{% endif %}
+{% if not loop.last %}
+    ,
+{% endif %}
+{% endfor %}
+>
+{%- endmacro %}
+
+
+{% macro astinfo(node) -%}
+::cpp::static_reflection::meta::AstInfo<
+    ::cpp::meta::string<{{node.spelling_as_charpack}}>,
+    ::cpp::meta::string<{{node.displayname_as_charpack}}>,
+    ::cpp::meta::string<{{node.file_as_charpack}}>,
+    {{node.cursor.location.line}}
+>
+{%- endmacro %}
+
+{% macro method(class, node) -%}
+::cpp::static_reflection::meta::Function<
+    {{astinfo(node)      | indent(4)}},
+    {{utility.member_type(class, node)    | indent(4)}},
+    {{utility.member_pointer(class, node) | indent(4)}}
+>
+{%- endmacro %}
+
+{% macro field(class, node) -%}
+::cpp::static_reflection::meta::Field<
+    {{astinfo(node)                       | indent(4)}},
+    {{utility.member_type(class, node)    | indent(4)}},
+    {{utility.member_pointer(class, node) | indent(4)}},
+    offsetof({{class.fullname}}, {{node.spelling}})
+>
+{%- endmacro %}
+
+{% macro class(node) -%}
+::cpp::static_reflection::meta::Class<
+    {{astinfo(node) | indent(4)}},
+    {{node.fullname}}, // Class
+    {{generate_children(node, 'method', True) | indent(4)}},
+    {{generate_children(node, 'field' , True) | indent(4)}},
+    ::cpp::meta::list<>, // TODO: constructors
+    {{generate_children(node, 'class', False) | indent(4)}},
+    {{generate_children(node, 'enum' , False) | indent(4)}}
+>
+{%- endmacro %}
+
+{% macro enum(node) -%}
+::cpp::static_reflection::meta::Enum<
+    {{astinfo(node) | indent(4)}},
+    {{node.fullname}}, // Enum type
+    ::cpp::meta::list< // Enum constants
+{% for constant in node.constants %}
+       std::integral_constant<{{node.fullname}}, {{node.fullname}}::{{constant}}>
+{% if not loop.last %}
+        ,
+{% endif %}
+{% endfor %}
+    >,
+    ::cpp::meta::list< // Enum constant strings
+{% for constant in node.constants_as_charpacks %}
+        ::cpp::meta::string<{{constant}}>
+{% if not loop.last %}
+        ,
+{% endif %}
+{% endfor %}
+    >
+>
+{%- endmacro %}
+
+{% macro namespace(node) -%}
+::cpp::static_reflection::meta::Namespace<
+    {{astinfo(node) | indent(4)}},
+    {{generate_children(node, 'namespace') | indent(4)}},
+    {{generate_children(node, 'class')     | indent(4)}},
+    {{generate_children(node, 'enum')      | indent(4)}}
+>
+{%- endmacro %}
+
