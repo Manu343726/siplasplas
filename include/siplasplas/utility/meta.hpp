@@ -174,7 +174,7 @@ namespace meta
     class StringToArray<string<Chars...>>
     {
     public:
-        using type = const char[sizeof...(Chars)];
+        using type = const char[sizeof...(Chars) + 1];
 
         static constexpr const type& get()
         {
@@ -187,7 +187,7 @@ namespace meta
         }
 
     private:
-        static constexpr type array = {Chars...};
+        static constexpr type array = {Chars..., '\0'};
     };
 
     template<char... Chars>
