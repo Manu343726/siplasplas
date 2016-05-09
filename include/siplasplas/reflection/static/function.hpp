@@ -44,6 +44,7 @@ class Function<AstInfo, R(Class::*)(Args...) const, method> : public AstInfo
 {
 public:
     using type = R(Class::*)(Args...) const;
+    using class_type = Class;
 
     constexpr Function() = default;
 
@@ -71,19 +72,20 @@ class Function<AstInfo, R(Class::*)(Args...), method> : public AstInfo
 {
 public:
     using type = R(Class::*)(Args...);
+    using class_type = Class;
 
     constexpr Function() = default;
 
     template<typename... Args_>
     static constexpr R invoke(Class& object, Args_&&... args)
     {
-        return object.*method(std::forward<Args_>(args)...);
+        return (object.*method)(std::forward<Args_>(args)...);
     }
 
     template<typename... Args_>
     static constexpr R invoke(const Class& object, Args_&&... args)
     {
-        return object.*method(std::forward<Args_>(args)...);
+        return (object.*method)(std::forward<Args_>(args)...);
     }
 
     template<typename... Args_>
@@ -134,6 +136,44 @@ class Function :
 template<typename FunctionType, FunctionType function>
 class Function : public codegen::Function<FunctionType, function>
 {};
+
+
+template<typename Method>
+class BindedMethod
+{
+public:
+    BindedMethod(typename Method::class_type& object) :
+        _object{&object}
+    {}
+
+    template<typename... Args>
+    auto operator()(Args&&... args)
+    {
+        return Method::invoke(*_object, std::forward<Args>(args)...);
+    }
+
+private:
+    typename Method::class_type* _object;
+};
+
+template<typename Method>
+class ConstBindedMethod
+{
+public:
+    ConstBindedMethod(const typename Method::class_type& object) :
+        _object{&object}
+    {}
+
+    template<typename... Args>
+    auto operator()(Args&&... args)
+    {
+        return Method::invoke(*_object, std::forward<Args>(args)...);
+    }
+
+private:
+    const typename Method::class_type* _object;
+};
+
 
 } // namespace static_reflection
 } // namespace cpp

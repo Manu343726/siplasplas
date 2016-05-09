@@ -54,9 +54,11 @@ int main()
                   << " - Class: " << ctti::type_id<typename Field::class_type>().name() << std::endl << std::endl;
     });
 
-    for(const auto& name : cpp::srlf::Enum<MyClass::Enum>::names())
+    for(const auto& name : cpp::srfl::Enum<MyClass::Enum>::names())
     {
         MyClass::Enum value = cpp::srfl::Enum<MyClass::Enum>::fromString(name);
         std::cout << name << ": " << (int)value << std::endl;
     }
+
+    int result = cpp::static_reflection::Class<MyClass>::binded_methods::f(myObject)(42, 42);
 }

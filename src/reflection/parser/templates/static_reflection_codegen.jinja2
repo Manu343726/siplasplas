@@ -34,7 +34,7 @@
 
 {% import 'static_reflection_utility.jinja2' as utility %}
 {% import 'static_reflection_metadata.jinja2' as metadata %}
-
+{% import 'static_reflection_codegen_instances.jinja2' as instances %}
 
 {% macro field(class, node) -%}
 namespace cpp               {
@@ -104,7 +104,39 @@ namespace codegen           {
     template<>
     class Class<{{node.fullname}}> :
         public {{metadata.class(node) | indent(8)}}
-    {};
+    {
+    public:
+        struct binded_methods
+        {
+{% for child in node.children['method'].itervalues() %}
+            static ::cpp::static_reflection::BindedMethod<{{instances.method(node, child) | indent(12)}}> {{child.spelling}}({{node.fullname}}& object)
+            {
+                return {object};
+            }
+
+            static ::cpp::static_reflection::ConstBindedMethod<{{instances.method(node, child) | indent(12)}}> {{child.spelling}}(const {{node.fullname}}& object)
+            {
+                return {object};
+            }
+
+{% endfor %}
+        };
+
+{% for child in node.children['method'].itervalues() %}
+        template<typename... Args>
+        static auto {{child.spelling}}(const {{node.fullname}}& object, Args&&... args)
+        {
+            return binded_methods::{{child.spelling}}(object)(std::forward<Args>(args)...);
+        }
+
+        template<typename... Args>
+        static auto {{child.spelling}}({{node.fullname}}& object, Args&&... args)
+        {
+            return binded_methods::{{child.spelling}}(object)(std::forward<Args>(args)...);
+        }
+
+{% endfor %}
+    };
 } // codegen
 } // static_reflection
 } // cpp

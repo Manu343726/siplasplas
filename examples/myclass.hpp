@@ -82,7 +82,10 @@ public:
     enum class Enum
     {
         ENUM_VALUE_1 = 1,
-        ENUM_VALUE_2 = 2
+        ENUM_VALUE_2 = 2,
+        FOO,
+        BAR,
+        QUUX
     };
 
     int field = 0;
