@@ -360,8 +360,7 @@ function(add_siplasplas_thirdparty NAME)
 
     if(NOT ("${repodir}" STREQUAL "${downloaddir}"))
         add_custom_target(${NAME}-rename-sources
-            COMMAND ${CMAKE_COMMAND} -E copy_directory "${downloaddir}" "${repodir}"
-            COMMENT "Copying ${NAME} download dir (${downloaddir}) to source dir ${repodir}"
+            COMMAND ${CMAKE_COMMAND} -DSOURCE="${downloaddir}" -DDEST="${repodir}" -P ${CMAKE_SOURCE_DIR}/cmake/renamedir.cmake
         )
         add_dependencies(${NAME}-rename-sources ${external})
         add_dependencies(${NAME} ${NAME}-rename-sources)
