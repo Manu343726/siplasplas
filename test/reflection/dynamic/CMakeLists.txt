@@ -1,0 +1,9 @@
+add_siplasplas_test(dynamic-reflection-test
+SOURCES
+    type_test.cpp
+    scope_test.cpp
+    entity_test.cpp
+DEPENDS
+    siplasplas-reflection-dynamic
+DEFAULT_TEST_MAIN
+)

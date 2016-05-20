@@ -1,4 +1,4 @@
-#include "dynamic/attributes/attribute.hpp"
+#include "attributes/attribute.hpp"
 
 using namespace cpp::dynamic_reflection::attributes;
 

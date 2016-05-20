@@ -1,4 +1,3 @@
-
 function(add_test NAME)
     add_siplasplas_test(${NAME}
         ${ARGN}
@@ -8,5 +7,8 @@ function(add_test NAME)
     )
 endfunction()
 
-add_test(variant          DEPENDS siplasplas-variant)
-add_test(linear_allocator DEPENDS siplasplas-allocator)
+message(STATUS "Configuring tests...")
+
+add_subdirectory(allocator)
+add_subdirectory(variant)
+add_subdirectory(reflection)

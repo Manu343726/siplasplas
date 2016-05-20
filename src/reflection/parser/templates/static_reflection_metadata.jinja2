@@ -30,8 +30,10 @@
 {%- endmacro %}
 
 
-{% macro astinfo(node) -%}
-::cpp::static_reflection::meta::AstInfo<
+{% macro sourceinfo(node, kind) -%}
+::cpp::static_reflection::meta::SourceInfo<
+    ::cpp::static_reflection::Kind::{{kind}},
+    ::cpp::meta::string<{{node.fullname_as_charpack}}>,
     ::cpp::meta::string<{{node.spelling_as_charpack}}>,
     ::cpp::meta::string<{{node.displayname_as_charpack}}>,
     ::cpp::meta::string<{{node.file_as_charpack}}>,
@@ -41,7 +43,7 @@
 
 {% macro method(class, node) -%}
 ::cpp::static_reflection::meta::Function<
-    {{astinfo(node)      | indent(4)}},
+    {{sourceinfo(node, 'FUNCTION')      | indent(4)}},
     {{utility.member_type(class, node)    | indent(4)}},
     {{utility.member_pointer(class, node) | indent(4)}}
 >
@@ -49,7 +51,7 @@
 
 {% macro field(class, node) -%}
 ::cpp::static_reflection::meta::Field<
-    {{astinfo(node)                       | indent(4)}},
+    {{sourceinfo(node, 'FIELD')                       | indent(4)}},
     {{utility.member_type(class, node)    | indent(4)}},
     {{utility.member_pointer(class, node) | indent(4)}},
     offsetof({{class.fullname}}, {{node.spelling}})
@@ -58,7 +60,7 @@
 
 {% macro class(node) -%}
 ::cpp::static_reflection::meta::Class<
-    {{astinfo(node) | indent(4)}},
+    {{sourceinfo(node, 'CLASS') | indent(4)}},
     {{node.fullname}}, // Class
     {{generate_children(node, 'method', True) | indent(4)}},
     {{generate_children(node, 'field' , True) | indent(4)}},
@@ -70,7 +72,7 @@
 
 {% macro enum(node) -%}
 ::cpp::static_reflection::meta::Enum<
-    {{astinfo(node) | indent(4)}},
+    {{sourceinfo(node, 'ENUM') | indent(4)}},
     {{node.fullname}}, // Enum type
     ::cpp::meta::list< // Enum constants
 {% for constant in node.constants %}
@@ -93,7 +95,7 @@
 
 {% macro namespace(node) -%}
 ::cpp::static_reflection::meta::Namespace<
-    {{astinfo(node) | indent(4)}},
+    {{sourceinfo(node, 'NAMESPACE') | indent(4)}},
     {{generate_children(node, 'namespace') | indent(4)}},
     {{generate_children(node, 'class')     | indent(4)}},
     {{generate_children(node, 'enum')      | indent(4)}}

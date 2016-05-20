@@ -18,11 +18,11 @@ add_subdirectory(3rdParty)
 add_subdirectory(src)
 add_subdirectory(examples)
 
-option(SIPLASPLAS_TESTS_ENABLED TRUE "Enable/Disable unit tests")
+option(SIPLASPLAS_TESTS_ENABLED "Enable/Disable unit tests" ON)
 
 if(SIPLASPLAS_TESTS_ENABLED)
     enable_testing()
-    add_subdirectory(tests)
+    add_subdirectory(test)
 endif()
 
 include(cmake/cpack.cmake)

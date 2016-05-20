@@ -1,13 +1,14 @@
+add_subdirectory(common)
+add_subdirectory(static)
+add_subdirectory(dynamic)
 
 add_siplasplas_library(siplasplas-reflection
 SOURCES
-    dynamic/type.cpp
-    dynamic/attributes/attribute.cpp
-    dynamic/class.cpp
+    .dummy.cpp
 DEPENDS
-    siplasplas-allocator
-    siplasplas-utility
-    ctti
+    siplasplas-reflection-common
+    siplasplas-reflection-static
+    siplasplas-reflection-dynamic
 )
 
 install(DIRECTORY parser DESTINATION bin/reflection-parser
