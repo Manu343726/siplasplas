@@ -1,6 +1,6 @@
-#include "siplasplas/allocator/lifo_allocator.hpp"
+#include "lifo_allocator.hpp"
 
-#include <siplasplas/utility/throw.hpp>
+#include <siplasplas/utility/exception.hpp>
 #include <siplasplas/utility/memory_manip.hpp>
 
 using namespace cpp;
@@ -39,12 +39,17 @@ void LifoAllocator::deallocate(void* pointer, std::size_t size)
 
     if (pointer_ < begin() || pointer_ + size > end())
     {
-        cpp::Throw<std::runtime_error>()
-            << "Cannot deallocate, allocated buffer does not belong to storage" << std::endl
-            << dump()
-            << "Pointer: " << (void*)pointer_ << std::endl
-            << "Block size: " << size << " bytes" << std::endl
-            << "Block end: " << (void*)(pointer_ + size);
+        cpp::Throw<std::runtime_error>(
+            "Cannot deallocate, allocated buffer does not belong to storage\n"
+            "{}\n"
+            "Pointer: {}\n"
+            "Block size: {} bytes\n"
+            "Block end: {}\n",
+            dump(),
+            (void*)pointer_,
+            size,
+            (void*)(pointer_ + size)
+        );
     }
 
     // Restore the top to its position prior to allocation
@@ -52,13 +57,19 @@ void LifoAllocator::deallocate(void* pointer, std::size_t size)
 
     if (pointer_ + size != top())
     {
-        cpp::Throw<std::runtime_error>()
-            << "Cannot deallocate in non-LIFO order!\n"
-            << dump()
-            << "Pointer: " << (void*)pointer_ << std::endl
-            << "Block size: " << size << " bytes" << std::endl
-            << "Old top: " << (void*)old_top << std::endl
-            << "Block end: " << (void*)(pointer_ + size);
+        cpp::Throw<std::runtime_error>(
+            "Cannot deallocate in non-LIFO order!\n"
+            "{}\n"
+            "Pointer: {}\n"
+            "Block size: {} bytes\n"
+            "Old top: {}\n"
+            "Block end: {}\n",
+            dump(),
+            (void*)pointer_,
+            size,
+            (void*)old_top,
+            (void*)(pointer_ + size)
+        );
     }
 
     set_top(old_top);

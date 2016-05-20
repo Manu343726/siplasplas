@@ -1,7 +1,7 @@
-#ifndef SIPLASPLAS_ALLOCATOR_TRACK_TOP_ALLOCATOR_HPP
-#define SIPLASPLAS_ALLOCATOR_TRACK_TOP_ALLOCATOR_HPP
+#ifndef SIPLASPLAS_ALLOCATOR_DETAIL_TRACK_TOP_ALLOCATOR_HPP
+#define SIPLASPLAS_ALLOCATOR_DETAIL_TRACK_TOP_ALLOCATOR_HPP
 
-#include <siplasplas/allocator/embedded_allocator.hpp>
+#include "embedded_allocator.hpp"
 #include <siplasplas/allocator/export.hpp>
 
 #include <sstream>

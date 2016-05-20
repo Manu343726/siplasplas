@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include <siplasplas/allocator/embedded_allocator.hpp>
+#include "detail/embedded_allocator.hpp"
 #include <siplasplas/allocator/export.hpp>
 
 namespace cpp
