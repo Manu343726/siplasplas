@@ -61,6 +61,6 @@ if(NOT MINGW) # See https://github.com/GueimUCM/siplasplas/issues/16
     endif()
 endif()
 
-# Meta examples
-add_example(meta DEPENDS siplasplas-utility)
-add_example(fusion DEPENDS siplasplas-utility)
+# Utility examples
+add_example(meta           DEPENDS siplasplas-utility)
+add_example(fusion         DEPENDS siplasplas-utility)

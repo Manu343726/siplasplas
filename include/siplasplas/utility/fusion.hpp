@@ -6,6 +6,7 @@
 
 #include <bitset>
 #include <sstream>
+#include <vector>
 
 #include <ctti/type_id.hpp>
 
