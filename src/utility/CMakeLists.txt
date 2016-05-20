@@ -5,4 +5,5 @@ SOURCES
     printers.cpp
 DEPENDS
     ctti
+    fmt
 )
