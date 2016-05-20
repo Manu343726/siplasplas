@@ -97,6 +97,10 @@ function(add_siplasplas_target NAME TARGET_TYPE)
             set(common_options -std=${STD_CXX} -Wall -pedantic -ftemplate-depth-1024)
             set(debug_options -O0 -g3)
             set(release_options -O3 -g0)
+
+            if(TARGET_TYPE STREQUAL "LIBRARY" AND ARGS_SHARED)
+                list(APPEND commonoptions -fPIC)
+            endif()
         endif()
 
         target_compile_options(${NAME} PRIVATE
@@ -168,17 +172,16 @@ function(add_siplasplas_target NAME TARGET_TYPE)
 
         if(TARGET_TYPE STREQUAL "UNIT_TEST")
             set_target_properties(${NAME} PROPERTIES EXCLUDE_FROM_ALL TRUE)
-            if(NOT ARGS_GMOCK_VERSION)
-                set(ARGS_GMOCK_VERSION 1.57.0)
-            endif()
 
-            install_gtestgmock(VERSION ${ARGS_GMOCK_VERSION})
+            if(NOT TARGET googletest)
+                message(FATAL_ERROR "GoogleTest third party should be configured first")
+            endif()
 
             # gmock is linked against tests by default,
             # gmock default main if requested in settings
             target_link_libraries(${NAME} PRIVATE
-                ${GMOCK_LIB_TARGET}
-                $<$<BOOL:ARGS_DEFAULT_TEST_MAIN>:${GMOCK_MAIN_TARGET}>
+                googletest-gmock
+                $<$<BOOL:ARGS_DEFAULT_TEST_MAIN>:googletest-gmock-main>
             )
         endif()
 
@@ -245,10 +248,15 @@ endfunction()
 
 include(ExternalProject)
 
+
+function(libraryfile name type result)
+    set(${result} "${CMAKE_${type}_LIBRARY_PREFIX}${name}${CMAKE_${type}_LIBRARY_SUFFIX}" PARENT_SCOPE)
+endfunction()
+
 function(add_siplasplas_thirdparty NAME)
     set(options HEADER_ONLY SKIP_CONFIGURE_STEP SKIP_BUILD_STEP)
-    set(oneValueArgs URL GIT_REPOSITORY CONFIGURE_COMMAND CMAKE_ARGS EXTRA_CMAKE_ARGS BUILD_COMMAND)
-    set(multiValueArgs INCLUDE_DIRS OUTPUT_BINARIES COMPILE_OPTIONS COMPILE_DEFINITIONS EXTERNAL_PROJECT_EXTRA_ARGS)
+    set(oneValueArgs URL GIT_REPOSITORY CONFIGURE_COMMAND BUILD_COMMAND)
+    set(multiValueArgs INCLUDE_DIRS BINARIES COMPILE_OPTIONS COMPILE_DEFINITIONS EXTERNAL_PROJECT_EXTRA_ARGS CMAKE_ARGS CMAKE_EXTRA_ARGS)
     cmake_parse_arguments(THIRDPARTY
         "${options}"
         "${oneValueArgs}"
@@ -272,20 +280,24 @@ function(add_siplasplas_thirdparty NAME)
         else()
             if(THIRDPARTY_CONFIGURE_COMMAND)
                 list(APPEND externalProjectArgs CONFIGURE_COMMAND ${THIRDPARTY_CONFIGURE_COMMAND})
-            elseif(THIRDPARTY_CMAKE_ARGS OR THIRDPARTY_CMAKE_EXTRA_ARGS)
+            elseif(THIRDPARTY_CMAKE_ARGS OR THIRDPARTY_CMAKE_EXTRA_ARGS OR THIRDPARTY_COMPILE_OPTIONS)
                 if(THIRDPARTY_CMAKE_ARGS)
                     # Default bypassed args are overrided by user args
                     list(APPEND externalProjectArgs CMAKE_ARGS ${THIRDPARTY_CMAKE_ARGS})
                 else()
+                    string(REGEX REPLACE " " ";" THIRDPARTY_COMPILE_OPTIONS "${THIRDPARTY_COMPILE_OPTIONS}")
+                    list(APPEND THIRDPARTY_COMPILE_OPTIONS ${CMAKE_CXX_FLAGS})
                     # Project ompiler and build settings are bypassed to external
                     # project
                     list(APPEND externalProjectArgs CMAKE_ARGS
-                        -DCMAKE_BUILD_TYPE=\"${CMAKE_BUILD_TYPE}\"
-                        -DCMAKE_C_COMPILER=\"${CMAKE_C_COMPILER}\"
-                        -DCMAKE_CXX_COMPILER=\"${CMAKE_CXX_COMPILER}\"
-                        -DCMAKE_CXX_FLAGS=\"${CMAKE_CXX_FLAGS};${THIRDPARTY_COMPILE_OPTIONS}\"
+                        -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
+                        -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
+                        -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+                        -DCMAKE_CXX_FLAGS="${THIRDPARTY_COMPILE_OPTIONS}"
                         ${THIRDPARTY_CMAKE_EXTRA_ARGS}
                     )
+
+                    message(STATUS "Configuring cmake command for ${NAME}...")
                 endif()
             endif()
         endif()
@@ -316,8 +328,6 @@ function(add_siplasplas_thirdparty NAME)
     endif()
     set(repodir "${CMAKE_CURRENT_BINARY_DIR}/THIRDPARTY/${NAME}/src/${NAME}")
 
-    message(STATUS "Downloaddir: ${downloaddir}")
-    message(STATUS "Repodir:     ${repodir}")
     # This is where your realise that CMake sucks. Cannot pass a <ARGUMENT> ""
     # like INSTALL_COMMAND "" from a list. Instead, we write the four
     # cases manually.
@@ -326,8 +336,7 @@ function(add_siplasplas_thirdparty NAME)
         ExternalProject_Add(${external}
             PREFIX THIRDPARTY/${NAME}
             ${externalProjectArgs}
-            # Move the download destination directory to a directory named as the
-            # third party, so we can include third party contents as #include <thirdpartyname/header.h>
+            UPDATE_COMMAND ""
             CONFIGURE_COMMAND ""
             BUILD_COMMAND ""
             INSTALL_COMMAND ""
@@ -336,6 +345,7 @@ function(add_siplasplas_thirdparty NAME)
         ExternalProject_Add(${external}
             PREFIX THIRDPARTY/${NAME}
             ${externalProjectArgs}
+            UPDATE_COMMAND ""
             CONFIGURE_COMMAND ""
             INSTALL_COMMAND ""
         )
@@ -343,6 +353,7 @@ function(add_siplasplas_thirdparty NAME)
         ExternalProject_Add(${external}
             PREFIX THIRDPARTY/${NAME}
             ${externalProjectArgs}
+            UPDATE_COMMAND ""
             BUILD_COMMAND ""
             INSTALL_COMMAND ""
         )
@@ -350,6 +361,7 @@ function(add_siplasplas_thirdparty NAME)
         ExternalProject_Add(${external}
             PREFIX THIRDPARTY/${NAME}
             ${externalProjectArgs}
+            UPDATE_COMMAND ""
             INSTALL_COMMAND ""
         )
     endif()
@@ -358,12 +370,13 @@ function(add_siplasplas_thirdparty NAME)
 
     add_library(${NAME} INTERFACE)
 
-    if(NOT ("${repodir}" STREQUAL "${downloaddir}"))
+    if(NOT ("${repodir}" STREQUAL "${downloaddir}") AND (NOT EXISTS "${repodir}"))
         add_custom_target(${NAME}-rename-sources
-            COMMAND ${CMAKE_COMMAND} -DSOURCE="${downloaddir}" -DDEST="${repodir}" -P ${CMAKE_SOURCE_DIR}/cmake/renamedir.cmake
+            COMMAND ${CMAKE_COMMAND} -E copy_directory "${downloaddir}" "${repodir}"
         )
-        add_dependencies(${NAME}-rename-sources ${external})
+
         add_dependencies(${NAME} ${NAME}-rename-sources)
+        add_dependencies(${NAME}-rename-sources ${external})
     else()
         add_dependencies(${NAME} ${external})
     endif()
@@ -373,21 +386,6 @@ function(add_siplasplas_thirdparty NAME)
         list(APPEND includedirs "${repodir}/${includedir}")
     endforeach()
     target_include_directories(${NAME} INTERFACE "${repodir}" "${repodir}/.." ${includedirs})
-
-    foreach(binary ${THIRDPARTY_OUTPUT_BINARIES})
-        if(SIPLASPLAS_VERBOSE_CONFIG)
-            message(STATUS "Binary ${binary} for third party ${NAME}...")
-        endif()
-
-        set(importedlib ${NAME}-${binary}-imported-lib)
-        add_library(${importedlib} IMPORTED)
-
-        set_target_properties(${importedlib} PROPERTIES
-            IMPORTED_LOCATION "${binary_dir}/${binary}"
-        )
-
-        target_link_libraries(${NAME} INTERFACE ${importedlib})
-    endforeach()
 
     function(print_args var)
         string(REGEX REPLACE "THIRDPARTY_(.+)" "\\1" varname "${var}")
@@ -410,6 +408,86 @@ function(add_siplasplas_thirdparty NAME)
         foreach(var ${options} ${oneValueArgs} ${multiValueArgs})
             print_args(THIRDPARTY_${var})
         endforeach()
+    endif()
+endfunction()
+
+function(add_siplasplas_thirdparty_component NAME)
+
+    cmake_parse_arguments(COMPONENT
+        "DEFAULT;SHARED"
+        "THIRD_PARTY;BINARY;BINARY_DIR"
+        "INCLUDE_DIRS;DEPENDS;LINK_LIBS"
+        ${ARGN}
+    )
+
+    if(NOT COMPONENT_THIRD_PARTY)
+        message(FATAL_ERROR "No parent third party project given for component '${NAME}'")
+    else()
+        if(NOT TARGET "${COMPONENT_THIRD_PARTY}")
+            message(FATAL_ERROR "Unknown third party library '${COMPONENT_THIRD_PARTY}'")
+        else()
+            set(external ${COMPONENT_THIRD_PARTY}-external-project)
+            set(rename ${COMPONENT_THIRD_PARTY}-rename-sources)
+            ExternalProject_Get_Property(${external} source_dir binary_dir)
+            set(repodir "${CMAKE_CURRENT_BINARY_DIR}/THIRDPARTY/${COMPONENT_THIRD_PARTY}/src/${COMPONENT_THIRD_PARTY}")
+        endif()
+    endif()
+    if(NOT COMPONENT_BINARY)
+        if(COMPONENT_SHARED)
+            libraryfile(${NAME} SHARED libfile)
+        else()
+            libraryfile(${NAME} STATIC libfile)
+        endif()
+
+        if(COMPONENT_BINARY_DIR)
+            set(COMPONENT_BINARY "${COMPONENT_BINARY_DIR}/${libfile}")
+        else()
+            set(COMPONENT_BINARY "${libfile}")
+        endif()
+    endif()
+
+    message(STATUS "SIPLASPLAS THIRD PARTY COMPONENT '${NAME}' FROM '${COMPONENT_THIRD_PARTY}'")
+
+    set(importedlib ${COMPONENT_THIRD_PARTY}-${NAME}-imported-lib)
+    set(interfacelib ${COMPONENT_THIRD_PARTY}-${NAME})
+
+    if(COMPONENT_SHARED)
+        set(libtype SHARED)
+    else()
+        set(libtype STATIC)
+    endif()
+
+    add_library(${importedlib} IMPORTED ${libtype})
+
+    foreach(includedir ${COMPONENT_INCLUDE_DIRS})
+        list(APPEND includedirs "${repodir}/${includedir}")
+    endforeach()
+
+    set_target_properties(${importedlib} PROPERTIES
+        IMPORTED_LOCATION "${binary_dir}/${COMPONENT_BINARY}"
+    )
+
+    add_library(${interfacelib} INTERFACE)
+    target_include_directories(${interfacelib} INTERFACE ${includedirs})
+    target_link_libraries(${interfacelib} INTERFACE ${importedlib})
+
+    foreach(dependency ${COMPONENT_DEPENDS})
+        target_link_libraries(${interfacelib} INTERFACE ${COMPONENT_THIRD_PARTY}-${dependency})
+    endforeach()
+    foreach(lib ${COMPONENT_LINK_LIBS})
+        target_link_libraries(${interfacelib} INTERFACE ${lib})
+    endforeach()
+
+    if(COMPONENT_DEFAULT)
+        target_link_libraries(${COMPONENT_THIRD_PARTY} INTERFACE ${interfacelib})
+    else()
+        # The target is independent, so we have to wire dependencies to
+        # the external project and the rename hook
+        if(TARGET ${rename})
+            add_dependencies(${interfacelib} ${rename})
+        else()
+            add_dependencies(${interfacelib} ${external})
+        endif()
     endif()
 endfunction()
 
