@@ -23,7 +23,7 @@ function(add_example NAME)
 endfunction()
 
 function(add_reflection_example NAME)
-    add_example(${NAME} DEPENDS siplasplas-serialization ${ARGN})
+    add_example(${NAME} DEPENDS siplasplas-reflection ${ARGN})
     reflection_target(examples-${NAME})
 endfunction()
 
