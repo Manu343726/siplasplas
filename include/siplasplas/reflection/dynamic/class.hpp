@@ -4,6 +4,7 @@
 #include "field.hpp"
 #include "function.hpp"
 #include "entity.hpp"
+#include "type.hpp"
 
 namespace cpp
 {
@@ -14,15 +15,19 @@ namespace dynamic_reflection
 class Class : public Entity
 {
 public:
-    static std::shared_ptr<Class> create(const SourceInfo& sourceInfo);
+    static std::shared_ptr<Class> create(const SourceInfo& sourceInfo, const Type& type);
     static Class& fromEntity(const std::shared_ptr<Entity>& entity);
 
     Class& class_(const std::string& name);
     Field& field_(const std::string& name);
     Function& function_(const std::string& name);
 
+    const Type& type() const;
+
 private:
-    using Entity::Entity;
+    Class(const SourceInfo& sourceInfo, const Type& type);
+
+    Type _type;
 };
 
 } // dynamic_reflection

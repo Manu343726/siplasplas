@@ -23,7 +23,6 @@ private:
     cpp::dynamic_reflection::Runtime _runtime;
 
     cpp::DynamicLibrary::Symbol& getRuntimeLoader();
-    cpp::DynamicLibrary::Symbol& getTypeLoader();
 };
 
 }

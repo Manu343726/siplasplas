@@ -4,9 +4,14 @@
 using namespace cpp;
 using namespace cpp::dynamic_reflection;
 
-std::shared_ptr<Class> Class::create(const SourceInfo& sourceInfo)
+Class::Class(const SourceInfo& sourceInfo, const Type& type) :
+    Entity{sourceInfo},
+    _type{type}
+{}
+
+std::shared_ptr<Class> Class::create(const SourceInfo& sourceInfo, const Type& type)
 {
-    return std::shared_ptr<Class>{ new Class{sourceInfo} };
+    return std::shared_ptr<Class>{ new Class{sourceInfo, type} };
 }
 
 Class& Class::fromEntity(const std::shared_ptr<Entity>& entity)
@@ -37,4 +42,9 @@ Field& Class::field_(const std::string& name)
 Function& Class::function_(const std::string& name)
 {
     return Function::fromEntity(getChildByName(name).pointer());
+}
+
+const Type& Class::type() const
+{
+    return _type;
 }

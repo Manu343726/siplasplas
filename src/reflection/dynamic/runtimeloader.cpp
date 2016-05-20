@@ -11,6 +11,11 @@ RuntimeLoader::RuntimeLoader(const DynamicLibrary& library) :
     getRuntimeLoader().get<void(*)(void*)>()(&_runtime);
 }
 
+Runtime& RuntimeLoader::runtime()
+{
+    return _runtime;
+}
+
 DynamicLibrary::Symbol& RuntimeLoader::getRuntimeLoader()
 {
     return _library.getSymbol("SIPLASPLAS_REFLECTION_LOAD_RUNTIME");
