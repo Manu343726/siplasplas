@@ -5,7 +5,6 @@
 #include <cassert>
 
 #include "myclass.hpp"
-#include <siplasplas/serialization/serialization.hpp>
 #include <siplasplas/utility/fusion.hpp>
 
 using namespace std::string_literals;
@@ -20,7 +19,8 @@ template<typename Class>
 void loadClass(Runtime& runtime)
 {
     auto class_ = cpp::drfl::Class::create(
-        SourceInfo::fromStaticSourceInfo<cpp::srfl::Class<Class>>()
+        SourceInfo::fromStaticSourceInfo<cpp::srfl::Class<Class>>(),
+        Type::get<Class>()
     );
 
     runtime.addEntity(class_);

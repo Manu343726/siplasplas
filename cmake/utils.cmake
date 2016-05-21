@@ -134,3 +134,59 @@ function(parse_library_list LIBRARIES)
     set(GENERAL_LIBS   ${_gen_libs}       PARENT_SCOPE)
 endfunction()
 
+# Gets the set of target include directories, recusivelly scanning
+# dependencies and checking kind of target
+function(get_target_include_directories TARGET RESULT)
+    cmake_parse_arguments(INCLUDE_DIRS
+        ""
+        ""
+        "ALREADY_PROCESSED_DEPS"
+        ${ARGN}
+    )
+
+    if(NOT TARGET ${TARGET})
+        set(${RESULT} PARENT_SCOPE)
+        return()
+    endif()
+
+    get_target_property(type ${TARGET} TYPE)
+
+    if(type STREQUAL "INTERFACE_LIBRARY")
+        get_target_property(dependencies ${TARGET} INTERFACE_LINK_LIBRARIES)
+        get_target_property(includes     ${TARGET} INTERFACE_INCLUDE_DIRECTORIES)
+    else()
+        get_target_property(depencencies            "${TARGET}" LINK_LIBRARIES)
+        get_target_property(includes                "${TARGET}" INCLUDE_DIRECTORIES)
+    endif()
+
+    if(NOT includes)
+        set(includes)
+    endif()
+
+    set(deps_copy ${depencencies})
+    set(dependencies)
+    foreach(dep ${deps_copy})
+        if(INCLUDE_DIRS_ALREADY_PROCESSED_DEPS)
+            list(FIND INCLUDE_DIRS_ALREADY_PROCESSED_DEPS "${dep}" INDEX)
+
+            if(INDEX GREATER -1)
+                set(already_processed TRUE)
+            endif()
+        endif()
+        if(NOT already_processed AND (NOT (dep STREQUAL "${TARGET}")))
+            list(APPEND dependencies "${dep}")
+        endif()
+    endforeach()
+
+    list(APPEND INCLUDE_DIRS_ALREADY_PROCESSED_DEPS ${depencencies})
+    foreach(dep ${dependencies})
+        get_target_include_directories(${dep} dep_includes ALREADY_PROCESSED_DEPS ${INCLUDE_DIRS_ALREADY_PROCESSED_DEPS})
+        list(APPEND includes ${dep_includes})
+    endforeach()
+
+    if(includes)
+        list(REMOVE_DUPLICATES includes)
+    endif()
+    set(${RESULT} ${includes} PARENT_SCOPE)
+endfunction()
+

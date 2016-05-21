@@ -1,7 +1,7 @@
 project(siplasplas)
 cmake_minimum_required(VERSION 2.8)
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/3rdParty)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/3rdParty ${CMAKE_SOURCE_DIR}/cmake)
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug)
