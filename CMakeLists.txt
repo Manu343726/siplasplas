@@ -26,3 +26,8 @@ if(SIPLASPLAS_TESTS_ENABLED)
 endif()
 
 include(cmake/cpack.cmake)
+
+configure_file(
+    ${CMAKE_SOURCE_DIR}/.ycm_extra_conf.py.in
+    ${CMAKE_SOURCE_DIR}/.ycm_extra_conf.py
+)
