@@ -3,9 +3,7 @@ include(GenerateExportHeader)
 
 include(cmake/boost)
 include(cmake/list_dependencies)
-include(cmake/gmock)
 include(cmake/utils.cmake)
-include(cmake/ctti.cmake)
 include(cmake/install.cmake)
 
 

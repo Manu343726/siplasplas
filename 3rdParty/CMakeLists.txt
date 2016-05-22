@@ -1,5 +1,6 @@
 include(thirdparty)
 
+add_subdirectory(ctti)
 add_subdirectory(chaiscript)
 add_subdirectory(json4moderncpp)
 add_subdirectory(spdlog)
