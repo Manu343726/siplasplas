@@ -117,6 +117,13 @@ class App:
         else:
             return []
 
+    def blacklisted_dir(self, directory):
+        for dir in self.args.blacklist:
+            if os.path.commonprefix([dir, directory]) == dir:
+                return True
+
+        return False
+
     def __init__(self):
         self.splashscreen('Dynamic Reflection Library Parser')
         self.logger = Logger(Fore.MAGENTA)
@@ -129,6 +136,7 @@ class App:
         parser.add_argument('-I', '--includedirs', default = '', help = 'Extra include directories for libclang parser')
         parser.add_argument('-s', '--sourcedir',                              help = 'Project source directory')
         parser.add_argument('-x', '--exclude',     nargs = '*', default = [], help = 'List of GLOBs to exclude source files from include directories scan')
+        parser.add_argument('--blacklist', nargs ='*', default = [], help = 'Subset of searchdirs to ignore')
         parser.add_argument('-e', '--extensions',  nargs = '*', default = ['.hpp', '.h', '.hxx'], help = 'List of file extensions used for include directory input files scan')
         parser.add_argument('-i', '--ignore-database', action = 'store_true', help = 'Ignore database records (Ignore input file timestamps, process file always)')
         parser.add_argument('-l', '--libclang',                               help = 'Full path to libclang library (libclang.so)')
@@ -168,8 +176,9 @@ class App:
             self.logger.start('Scanning search directories:')
 
             for search_dir in self.args.searchdirs:
-                directory_files = self.search_files(search_dir)
-                self.args.files = list(set(self.args.files + directory_files))
+                if not self.blacklisted_dir(search_dir):
+                    directory_files = self.search_files(search_dir)
+                    self.args.files = list(set(self.args.files + directory_files))
 
         if os.path.abspath(self.args.code_template_file) in self.args.files:
             self.args.files.remove(os.path.abspath(self.args.code_template_file))

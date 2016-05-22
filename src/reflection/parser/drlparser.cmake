@@ -53,10 +53,9 @@ function(reflection_target TARGET)
     string(REGEX REPLACE ";" "," SOURCES "${SOURCES}")
     string(REGEX REPLACE ";" "," INCLUDE_DIRS "${INCLUDE_DIRS}")
 
-    if(EXTRA_LIBCLANG_INCLUDES)
-        string(REGEX REPLACE ";" "," EXTRA_LIBCLANG_INCLUDES "${EXTRA_LIBCLANG_INCLUDES}")
-        set(includedirs --includedirs "\"${EXTRA_LIBCLANG_INCLUDES}\"")
-    endif()
+    set(includes ${INCLUDE_DIRS} ${EXTRA_LIBCLANG_INCLUDES})
+    string(REGEX REPLACE ";" "," includes  "${includes}")
+    set(includedirs --includedirs "\"${includes}\"")
 
     if(DRLPARSER_DATABASE)
         log("DRLParser custom database file: ${DRLPARSER_DATABASE}")
@@ -91,7 +90,7 @@ function(reflection_target TARGET)
         ${includedirs}
         -s ${CMAKE_SOURCE_DIR}
         -o ${OUTPUT_DIR}
-        -x *3rdParty*
+        --blacklist "${CMAKE_BINARY_DIR}"
         ${database}
         ${libclang}
         ${ignore_database}
