@@ -55,13 +55,13 @@ private:
     template<typename Function>
     class FunctionAccess;
 
-    template<typename C, typename R, typename... Args>
-    class FunctionAccess<R(C::*)(Args...)> : public FunctionAccessInterface
+    template<typename Type, bool ReturnsVoid = std::is_same<void, cpp::function_return_type<Type>>::value>
+    class FunctionAccessCommon : public FunctionAccessInterface
     {
     public:
-        using type = R(C::*)(Args...);
+        using type = Type;
 
-        FunctionAccess(type ptr) :
+        FunctionAccessCommon(type ptr) :
             _ptr{ptr}
         {}
 
@@ -72,7 +72,33 @@ private:
 
         Object invoke(const std::vector<Object>& args) override
         {
-           return vector_call(_ptr, args);
+            return vector_call(_ptr, args);
+        }
+
+    private:
+        type _ptr;
+    };
+
+    template<typename Type>
+    class FunctionAccessCommon<Type, true> : public FunctionAccessInterface
+    {
+    public:
+        using type = Type;
+
+        FunctionAccessCommon(type ptr) :
+            _ptr{ptr}
+        {}
+
+        Object invoke(const std::vector<Object>& args) const override
+        {
+            vector_call(_ptr, args);
+            return Object();
+        }
+
+        Object invoke(const std::vector<Object>& args) override
+        {
+            vector_call(_ptr, args);
+            return Object();
         }
 
     private:
@@ -80,51 +106,24 @@ private:
     };
 
     template<typename C, typename R, typename... Args>
-    class FunctionAccess<R(C::*)(Args...) const> : public FunctionAccessInterface
+    class FunctionAccess<R(C::*)(Args...)> : public FunctionAccessCommon<R(C::*)(Args...)>
     {
     public:
-        using type = R(C::*)(Args...) const;
+        using FunctionAccessCommon<R(C::*)(Args...)>::FunctionAccessCommon;
+    };
 
-        FunctionAccess(type ptr) :
-            _ptr{ptr}
-        {}
-
-        Object invoke(const std::vector<Object>& args) const override
-        {
-            return vector_call(_ptr, args);
-        }
-
-        Object invoke(const std::vector<Object>& args) override
-        {
-            throw std::logic_error{"Cannot invoke const method with non-const caller"};
-        }
-
-    private:
-        type _ptr;
+    template<typename C, typename R, typename... Args>
+    class FunctionAccess<R(C::*)(Args...) const> : public FunctionAccessCommon<R(C::*)(Args...) const>
+    {
+    public:
+        using FunctionAccessCommon<R(C::*)(Args...) const>::FunctionAccessCommon;
     };
 
     template<typename R, typename... Args>
-    class FunctionAccess<R(Args...)> : public FunctionAccessInterface
+    class FunctionAccess<R(Args...)> : public FunctionAccessCommon<R(*)(Args...)>
     {
     public:
-        using type = R(*)(Args...);
-
-        FunctionAccess(type ptr) :
-            _ptr{ptr}
-        {}
-
-        Object invoke(const std::vector<Object>& args) const override
-        {
-            return vector_call(_ptr, args);
-        }
-
-        Object invoke(const std::vector<Object>& args) override
-        {
-            return vector_call(_ptr, args);
-        }
-
-    private:
-        type _ptr;
+        using FunctionAccessCommon<R(*)(Args...)>::FunctionAccessCommon;
     };
 };
 

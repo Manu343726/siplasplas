@@ -21,7 +21,13 @@ public:
         cpp::dynamic_reflection::Type::registerType<T>();
     }
 
+    struct Empty {};
+
     static constexpr bool ConstructReference = true;
+
+    Object() :
+        Object{Type::get<Empty>()}
+    {}
 
     Object(const cpp::dynamic_reflection::Type& type) :
         _type{type},
