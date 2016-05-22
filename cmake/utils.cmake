@@ -137,13 +137,6 @@ endfunction()
 # Gets the set of target include directories, recusivelly scanning
 # dependencies and checking kind of target
 function(get_target_include_directories TARGET RESULT)
-    cmake_parse_arguments(INCLUDE_DIRS
-        ""
-        ""
-        "ALREADY_PROCESSED_DEPS"
-        ${ARGN}
-    )
-
     if(NOT TARGET ${TARGET})
         set(${RESULT} PARENT_SCOPE)
         return()
@@ -155,7 +148,7 @@ function(get_target_include_directories TARGET RESULT)
         get_target_property(dependencies ${TARGET} INTERFACE_LINK_LIBRARIES)
         get_target_property(includes     ${TARGET} INTERFACE_INCLUDE_DIRECTORIES)
     else()
-        get_target_property(depencencies            "${TARGET}" LINK_LIBRARIES)
+        get_target_property(dependencies            "${TARGET}" LINK_LIBRARIES)
         get_target_property(includes                "${TARGET}" INCLUDE_DIRECTORIES)
     endif()
 
@@ -163,26 +156,20 @@ function(get_target_include_directories TARGET RESULT)
         set(includes)
     endif()
 
-    set(deps_copy ${depencencies})
-    set(dependencies)
-    foreach(dep ${deps_copy})
-        if(INCLUDE_DIRS_ALREADY_PROCESSED_DEPS)
-            list(FIND INCLUDE_DIRS_ALREADY_PROCESSED_DEPS "${dep}" INDEX)
-
-            if(INDEX GREATER -1)
-                set(already_processed TRUE)
+    if(dependencies)
+        set(deps_copy ${dependencies})
+        set(dependencies)
+        foreach(dep ${deps_copy})
+            if(NOT (dep STREQUAL "${TARGET}"))
+                list(APPEND dependencies "${dep}")
             endif()
-        endif()
-        if(NOT already_processed AND (NOT (dep STREQUAL "${TARGET}")))
-            list(APPEND dependencies "${dep}")
-        endif()
-    endforeach()
+        endforeach()
 
-    list(APPEND INCLUDE_DIRS_ALREADY_PROCESSED_DEPS ${depencencies})
-    foreach(dep ${dependencies})
-        get_target_include_directories(${dep} dep_includes ALREADY_PROCESSED_DEPS ${INCLUDE_DIRS_ALREADY_PROCESSED_DEPS})
-        list(APPEND includes ${dep_includes})
-    endforeach()
+        foreach(dep ${dependencies})
+            get_target_include_directories(${dep} dep_includes)
+            list(APPEND includes ${dep_includes})
+        endforeach()
+    endif()
 
     if(includes)
         list(REMOVE_DUPLICATES includes)

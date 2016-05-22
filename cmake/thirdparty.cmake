@@ -233,13 +233,7 @@ function(add_siplasplas_thirdparty_component NAME)
     if(COMPONENT_DEFAULT)
         target_link_libraries(${COMPONENT_THIRD_PARTY} INTERFACE ${interfacelib})
     else()
-        # The target is independent, so we have to wire dependencies to
-        # the external project and the rename hook
-        if(TARGET ${rename})
-            add_dependencies(${interfacelib} ${rename})
-        else()
-            add_dependencies(${interfacelib} ${external})
-        endif()
+        target_link_libraries(${interfacelib} INTERFACE ${COMPONENT_THIRD_PARTY})
     endif()
 endfunction()
 
