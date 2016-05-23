@@ -1,6 +1,3 @@
 [submodule "3rdParty/cmake"]
 	path = 3rdParty/cmake
 	url = https://github.com/Manu343726/cmake
-[submodule "3rdParty/optparse"]
-	path = 3rdParty/optparse
-	url = https://github.com/nk412/optparse
