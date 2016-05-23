@@ -7,6 +7,7 @@ SOURCES
     runtime.cpp
     namespace.cpp
     type.cpp
+    object.cpp
     attributes/attribute.cpp
     field.cpp
     function.cpp
