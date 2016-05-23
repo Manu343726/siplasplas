@@ -1,7 +1,7 @@
 #ifndef SIPLASPLAS_EXAMPLES_PLUGIN_REFLECTIONRUNTIMELOADER_HPP
 #define SIPLASPLAS_EXAMPLES_PLUGIN_REFLECTIONRUNTIMELOADER_HPP
 
-#include <examples/plugin/export.hpp>
+#include <examples/reflection/plugin/export.hpp>
 
 extern "C" void PLUGINEXAMPLE_EXPORT SIPLASPLAS_REFLECTION_LOAD_RUNTIME(void* runtimePtr);
 

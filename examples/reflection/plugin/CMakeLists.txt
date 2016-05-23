@@ -8,7 +8,7 @@ DEPENDS
     siplasplas-reflection
     plugininterface
 INCLUDE_DIRS
-    ${CMAKE_SOURCE_DIR}/examples
+    ${CMAKE_SOURCE_DIR}/examples/reflection
 )
 
 reflection_target(pluginexample)

@@ -94,6 +94,6 @@ public:
     std::string strField = "hello";
 };
 
-#include <reflection/examples/myclass.hpp>
+#include <reflection/examples/reflection/myclass.hpp>
 
 #endif // SIPLASPLAS_EXAMPLES_REFLECTION_MYCLASS_HPP

@@ -9,6 +9,6 @@ public:
     void run() override;
 };
 
-#include <reflection/examples/plugin/plugin.hpp>
+#include <reflection/examples/reflection/plugin/plugin.hpp>
 
 #endif // SIPLASPLAS_EXAMPLES_PLUGIN_PLUGIN_HPP
