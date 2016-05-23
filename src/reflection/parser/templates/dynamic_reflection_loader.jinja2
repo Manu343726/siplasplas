@@ -1,0 +1,7 @@
+# Any library using the reflection engine includes a
+# SIPLASPLAS_REFLECTION_LOAD() function as part of its
+# API. This function is a callback called by applications
+# after loading the library. The callback contains code to
+# register library types in the reflection runtime.
+
+{% import 'static_reflection_codegen_instances.jinja2' as instances %}

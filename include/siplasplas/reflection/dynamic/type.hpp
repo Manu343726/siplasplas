@@ -1,9 +1,9 @@
 #ifndef SIPLASPLAS_REFLECTION_DYNAMIC_TYPE_HPP
 #define SIPLASPLAS_REFLECTION_DYNAMIC_TYPE_HPP
 
-#include "common/type_info.hpp"
+#include <siplasplas/reflection/common/type_info.hpp>
 #include <siplasplas/allocator/freelist_allocator.hpp>
-#include <siplasplas/utility/throw.hpp>
+#include <siplasplas/utility/exception.hpp>
 #include <siplasplas/utility/lexical_cast.hpp>
 #include <siplasplas/utility/meta.hpp>
 #include <siplasplas/reflection/export.hpp>
@@ -47,39 +47,49 @@ class SIPLASPLAS_REFLECTION_EXPORT Type
 public:
     Type() = default;
 
-    void* create() const
+    void* construct() const
     {
-        return _lifetimeManager->construct();
+        return _behavior->construct();
     }
 
-    void* create( const void* object) const
+    void* copy_construct( const void* object) const
     {
-        return _lifetimeManager->construct(object);
+        return _behavior->copy_construct(object);
     }
 
-    void assign(void* object, const void* other) const
+    void* move_construct(void* object) const
     {
-        return _lifetimeManager->assign(object, other);
+        return _behavior->move_construct(object);
+    }
+
+    void copy_assign(void* object, const void* other) const
+    {
+        _behavior->copy_assign(object, other);
+    }
+
+    void move_assign(void* object, void* other) const
+    {
+        _behavior->move_assign(object, other);
     }
 
     void destroy(void* object) const
     {
-        return _lifetimeManager->destroy(object);
+        _behavior->destroy(object);
     }
 
     std::string toString(void* object) const
     {
-        return _lifetimeManager->toString(object);
+        return _behavior->toString(object);
     }
 
     void* fromString(const std::string& value) const
     {
-        return _lifetimeManager->fromString(value);
+        return _behavior->fromString(value);
     }
 
     const cpp::TypeInfo& type() const
     {
-        return _lifetimeManager->type();
+        return _behavior->type();
     }
 
     const cpp::TypeInfo& typeInfo() const
@@ -95,7 +105,7 @@ public:
     template<typename T>
     static void registerType()
     {
-        getLifetimeManager<T>();
+        getType<T>();
     }
 
     template<typename... Ts>
@@ -105,34 +115,36 @@ public:
     }
 
     template<typename T>
-    static Type get()
+    static Type& get()
     {
-        return { getLifetimeManager<T>() };
+        return getType<T>();
     }
 
-    static Type get(const std::string& typeName)
+    static Type& get(const std::string& typeName)
     {
-        auto try_get = [](const std::string typeName) -> std::shared_ptr<TypeLifeTimeManagerBase>
+        auto try_get = [](const std::string typeName) -> Type*
         {
             auto id = ctti::id_from_name(typeName);
             auto it = types().find(id);
 
             if(it != std::end(types()))
-                return it->second;
+                return &it->second;
             else
                 return nullptr;
         };
 
-        std::shared_ptr<TypeLifeTimeManagerBase> manager = nullptr;
+        Type* type = nullptr;
 
-        if(!(manager = try_get(typeName)) &&
-           !(manager = try_get("class " + typeName)) &&
-           !(manager = try_get("struct " + typeName)))
+        if(!(type = try_get(typeName)) &&
+           !(type = try_get("class " + typeName)) &&
+           !(type = try_get("struct " + typeName)))
         {
-            cpp::Throw<std::runtime_error>() << "Type '" << typeName << "' not registered";
+            throw std::runtime_error{"Type '" + typeName + "' not registered"};
         }
         else
-            return { manager };
+        {
+            return *type;
+        }
     }
 
     friend bool operator==(const Type& lhs, const Type& rhs)
@@ -145,15 +157,17 @@ public:
         return !(lhs == rhs);
     }
 
-    class SIPLASPLAS_REFLECTION_EXPORT TypeLifeTimeManagerBase
+    class SIPLASPLAS_REFLECTION_EXPORT TypeBehavior
     {
     public:
-        virtual ~TypeLifeTimeManagerBase() = default;
+        virtual ~TypeBehavior() = default;
 
         virtual void* construct() = 0;
         virtual void destroy(void* object) = 0;
-        virtual void* construct(const void* object) = 0;
-        virtual void assign(void* object, const void* other) = 0;
+        virtual void* copy_construct(const void* object) = 0;
+        virtual void* move_construct(void* object) = 0;
+        virtual void copy_assign(void* object, const void* other) = 0;
+        virtual void move_assign(void* object, void* other) = 0;
         virtual std::string toString(void* object) = 0;
         virtual void* fromString(const std::string& value) = 0;
         virtual const cpp::TypeInfo& type() const = 0;
@@ -188,18 +202,13 @@ private:
     };
 
     template<typename T>
-    class TypeLifeTimeManager : public TypeLifeTimeManagerBase
+    class TypeBehaiorOf : public TypeBehavior
     {
     public:
-        TypeLifeTimeManager() :
+        TypeBehaiorOf() :
             _type{cpp::TypeInfo::get<T>()}
         {
             _objectsArena.emplace_back(512 * (sizeof(T) + alignof(T)));
-        }
-
-        void* construct(const void* objectValue) override
-        {
-            return new(allocate_object()) T(*reinterpret_cast<const T*>(objectValue));
         }
 
         void* construct() override
@@ -207,9 +216,24 @@ private:
             return new(allocate_object()) T();
         }
 
-        void assign(void* object, const void* other) override
+        void* copy_construct(const void* object) override
         {
-           *reinterpret_cast<T*>(object) = *reinterpret_cast<const T*>(other);
+            return new(allocate_object()) T(*reinterpret_cast<const T*>(object));
+        }
+
+        void* move_construct(void* object) override
+        {
+            return new(allocate_object()) T(std::move(*reinterpret_cast<T*>(object)));
+        }
+
+        void copy_assign(void* object, const void* other) override
+        {
+            *reinterpret_cast<T*>(object) = *reinterpret_cast<const T*>(other);
+        }
+
+        void move_assign(void* object, void* other) override
+        {
+            *reinterpret_cast<T*>(object) = std::move(*reinterpret_cast<T*>(other));
         }
 
         void destroy(void* object) override
@@ -226,7 +250,7 @@ private:
         void* fromString(const std::string& value) override
         {
             auto object = FromString<T>::apply(value);
-            return construct(&object); // Copy returned object
+            return copy_construct(&object); // Copy returned object
         }
 
         const cpp::TypeInfo& type() const override
@@ -259,7 +283,7 @@ private:
             static U apply(const std::string& value)
             {
                 throw std::runtime_error{
-                    "lexical_cast not supported for type i'" + std::string(ctti::type_id<U>().name().c_str()) + 
+                    "lexical_cast not supported for type i'" + std::string(ctti::type_id<U>().name().c_str()) +
                     "', you must overload operator>>"
                 };
             }
@@ -345,7 +369,8 @@ private:
                 }
                 else
                 {
-                    cpp::Throw<std::runtime_error>() << "Cannot allocate more storage for meta-instances";
+                    cpp::Throw<std::runtime_error>("Cannot allocate more storage for meta-instances");
+                    return nullptr;
                 }
             }
         }
@@ -368,30 +393,30 @@ private:
                 blockIt->freeList().deallocate(pointer, sizeof(T));
             }
             else
-                cpp::Throw<std::runtime_error>() << "Cannot deallocate object @" << pointer;
+            {
+                cpp::Throw<std::runtime_error>("Cannot deallocate object @{}", pointer);
+            }
         }
     };
 
     template<typename T>
-    static const std::shared_ptr<TypeLifeTimeManagerBase>& getLifetimeManager()
+    static Type& getType()
     {
-        static std::shared_ptr<TypeLifeTimeManagerBase> instance{ [&]()
+        static Type& type{ [&]() -> Type&
         {
-            std::shared_ptr<TypeLifeTimeManagerBase> instance{new TypeLifeTimeManager<T>()};
-            types()[detail::CustomTypeName<T>::id()] = instance;
-            return instance;
+            return types()[detail::CustomTypeName<T>::id()] = Type{new TypeBehaiorOf<T>()};
         }()};
 
-        return instance;
+        return type;
     }
 
-    Type(const std::shared_ptr<TypeLifeTimeManagerBase>& lifetimeManager) :
-        _lifetimeManager{lifetimeManager}
+    Type(TypeBehavior* behavior) :
+        _behavior{behavior}
     {}
 
-    std::shared_ptr<TypeLifeTimeManagerBase> _lifetimeManager;
+    std::shared_ptr<TypeBehavior> _behavior;
 
-    using Types = std::unordered_map<ctti::type_index, std::shared_ptr<TypeLifeTimeManagerBase>>;
+    using Types = std::unordered_map<ctti::type_index, Type>;
 
     static Types& types();
 };

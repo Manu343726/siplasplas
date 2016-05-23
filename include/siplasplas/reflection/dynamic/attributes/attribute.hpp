@@ -2,8 +2,8 @@
 #define SIPLASPLAS_REFLECTION_ATTRIBUTES_ATTRIBUTE_HPP
 
 #include <vector>
-#include "dynamic/object.hpp"
-#include "dynamic/object_manip.hpp"
+#include <siplasplas/reflection/dynamic/object.hpp>
+#include <siplasplas/reflection/dynamic/object_manip.hpp>
 #include <siplasplas/utility/type_variables.hpp>
 #include <siplasplas/reflection/export.hpp>
 

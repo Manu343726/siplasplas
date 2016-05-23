@@ -10,11 +10,11 @@ namespace static_reflection
 namespace meta
 {
 
-template<typename AstInfo, typename F, F field, std::size_t offset = 0>
+template<typename SourceInfo, typename F, F field, std::size_t offset = 0>
 class Field;
 
-template<typename AstInfo, typename Class, typename T, T Class::*field, std::size_t Offset>
-class Field<AstInfo, T Class::*, field, Offset> : public AstInfo
+template<typename SourceInfo, typename Class, typename T, T Class::*field, std::size_t Offset>
+class Field<SourceInfo, T Class::*, field, Offset> : public SourceInfo
 {
 public:
     using type = T Class::*;
@@ -66,7 +66,7 @@ namespace codegen
 template<typename FieldType, FieldType field>
 class Field :
     public static_reflection::meta::Field<
-        static_reflection::meta::EmptyAstInfo<Field<FieldType, field>>,
+        static_reflection::meta::EmptySourceInfo<Field<FieldType, field>>,
         FieldType,
         field
     >

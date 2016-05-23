@@ -7,8 +7,10 @@
 #include "field.hpp"
 #include "function.hpp"
 #include "class.hpp"
+#include "namespace.hpp"
+#include "runtime.hpp"
 
-#include "common/annotations.hpp"
+#include <siplasplas/reflection/common/annotations.hpp>
 
 namespace cpp
 {

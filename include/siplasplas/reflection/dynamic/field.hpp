@@ -1,7 +1,8 @@
-#ifndef SIPLASPLAS_REFLECTION_FIELD_HPP
-#define SIPLASPLAS_REFLECTION_FIELD_HPP
+#ifndef SIPLASPLAS_REFLECTION_DYNAMIC_FIELD_HPP
+#define SIPLASPLAS_REFLECTION_DYNAMIC_FIELD_HPP
 
 #include "object.hpp"
+#include "entity.hpp"
 
 #include <type_traits>
 #include <string>
@@ -13,120 +14,111 @@ namespace cpp
 namespace dynamic_reflection
 {
 
-class Field
+class Field : public Entity
 {
 public:
-    Field() = default;
 
-    template<typename Class, typename T>
-    Field(const std::string& name, T Class::* member, std::size_t offset) :
-        _type{cpp::dynamic_reflection::Type::get<std::decay_t<T>>()},
-        _declType{cpp::dynamic_reflection::Type::get<T>()},
-        _name{name},
-        _offset{offset}
-    {
-        Type::registerType<T>();
-    }
+    Object get(const void* object) const;
+    Object get(void* object);
 
-    bool is_reference() const
-    {
-        return _type.type()(cpp::TypeTrait::is_reference);
-    }
-
-    const std::string& name() const
-    {
-        return _name;
-    }
-
-    template<typename T, typename std::enable_if_t<
+    template<typename T, typename = std::enable_if_t<
         !std::is_same<void*, T>::value && !std::is_same<cpp::dynamic_reflection::Object, T>::value
     >>
-    cpp::dynamic_reflection::Object get(const T& object) const
+    Object get(const T& object) const
     {
-        return get(&object);
+        return get(static_cast<const void*>(&object));
     }
 
     template<typename T, typename = std::enable_if_t<
         !std::is_same<void*, T>::value && !std::is_same<cpp::dynamic_reflection::Object, T>::value
     >>
-    cpp::dynamic_reflection::Object get(T& object)
+    Object get(T& object)
     {
-        return get(&object);
+        return get(static_cast<void*>(&object));
     }
 
-    cpp::dynamic_reflection::Object get(const void* object) const
+    Object get(const Object& object);
+    Object get(Object& object);
+
+    const Type& type() const;
+    const Type& declType() const;
+    bool isReference() const;
+
+    template<typename Class, typename T>
+    static std::shared_ptr<Field> create(const SourceInfo& sourceInfo, T Class::* field)
     {
-        return {_type, reinterpret_cast<char*>(const_cast<void*>(object)) + _offset};
+        return std::shared_ptr<Field>{ new Field{sourceInfo, field} };
     }
 
-    cpp::dynamic_reflection::Object get(void* object)
-    {
-        return {_type, reinterpret_cast<char*>(object) + _offset, cpp::dynamic_reflection::Object::ConstructReference};
-    }
-
-    cpp::dynamic_reflection::Object get(const cpp::dynamic_reflection::Object& object) const
-    {
-        return get(object.raw());
-    }
-
-    cpp::dynamic_reflection::Object get(cpp::dynamic_reflection::Object& object)
-    {
-        return get(object.raw());
-    }
-
-    const cpp::dynamic_reflection::Type& type() const
-    {
-        return _type;
-    }
-
-    std::size_t offset() const
-    {
-        return _offset;
-    }
+    static Field& fromEntity(const std::shared_ptr<Entity>& entity);
 
 private:
-    cpp::dynamic_reflection::Type _type;
-    cpp::dynamic_reflection::Type _declType;
-    std::string _name;
-    std::size_t _offset;
-};
-
-template<typename T>
-class BindedField : public ::cpp::dynamic_reflection::Field
-{
-public:
-    BindedField(const Field& field, const T& object) :
-        Field{field},
-        _object{const_cast<T*>(&object)}
+    template<typename Class, typename T>
+    Field(const SourceInfo& sourceInfo, T Class::* field) :
+        Entity{sourceInfo},
+        _fieldAccess{new FieldAccess<T Class::*>{field}}
     {}
 
-    cpp::dynamic_reflection::Object get() const
+    class FieldAccessInterface
     {
-        return Field::get(*_object);
-    }
+    public:
+        virtual ~FieldAccessInterface() = default;
 
-    cpp::dynamic_reflection::Object get()
+        virtual Object get(void* object) = 0;
+        virtual Object get(const void*) const = 0;
+        virtual const Type& type() const = 0;
+        virtual const Type& declType() const = 0;
+        virtual bool isReference() const = 0;
+    };
+
+    std::unique_ptr<FieldAccessInterface> _fieldAccess;
+
+    template<typename FieldType>
+    class FieldAccess;
+
+    template<typename Class, typename T>
+    class FieldAccess<T Class::*> : public FieldAccessInterface
     {
-        return Field::get(*_object);
-    }
+    public:
+        FieldAccess(T Class::* field) :
+            _field{field},
+            _type{Type::get<std::decay_t<T>>()},
+            _declType{Type::get<T>()}
+        {}
 
-    template<typename U>
-    operator const U&() const
-    {
-        return get().template get<U>();
-    }
+        bool isReference() const override
+        {
+            return std::is_reference<T>();
+        }
 
-    template<typename U>
-    operator U&()
-    {
-        return get().template get<U>();
-    }
+        Object get(void* object) override
+        {
+            return {type(), &(reinterpret_cast<Class*>(object)->*_field), Object::ConstructReference};
+        }
 
-private:
-    T* _object;
+        Object get(const void* object) const override
+        {
+            return {type(), const_cast<T*>(&(reinterpret_cast<const Class*>(object)->*_field))};
+        }
+
+        const Type& type() const override
+        {
+            return _type;
+        }
+
+        const Type& declType() const override
+        {
+            return _declType;
+        }
+
+    private:
+        T Class::* _field;
+        Type _type;
+        Type _declType;
+    };
 };
 
 }
 }
 
-#endif // SIPLASPLAS_REFLECTION_FIELD_HPP
+#endif // SIPLASPLAS_REFLECTION_DYNAMIC_FIELD_HPP

@@ -23,7 +23,7 @@ function(add_example NAME)
 endfunction()
 
 function(add_reflection_example NAME)
-    add_example(${NAME} DEPENDS siplasplas-serialization ${ARGN})
+    add_example(${NAME} DEPENDS siplasplas-reflection ${ARGN})
     reflection_target(examples-${NAME})
 endfunction()
 
@@ -52,8 +52,11 @@ add_example(canary_allocator   DEPENDS siplasplas-allocator)
 # Reflection examples
 add_reflection_example(reflection DEPENDS json4moderncpp INSTALL_SOURCES myclass.hpp)
 add_reflection_example(chaiscript DEPENDS chaiscript INSTALL_SOURCES myclass.hpp)
+add_subdirectory(plugininterface)
+add_subdirectory(plugin)
+add_example(plugin DEPENDS plugininterface siplasplas-reflection)
 
-if(NOT MINGW) # See https://github.com/GueimUCM/siplasplas/issues/16
+if(NOT MINGW AND SIPLASPLAS_BOOST_EXAMPLES) # See https://github.com/GueimUCM/siplasplas/issues/16
     # Boost examples
     add_example(coroutine BOOST_COMPONENTS coroutine)
     if(MSVC)
@@ -61,6 +64,7 @@ if(NOT MINGW) # See https://github.com/GueimUCM/siplasplas/issues/16
     endif()
 endif()
 
-# Meta examples
-add_example(meta DEPENDS siplasplas-utility)
-add_example(fusion DEPENDS siplasplas-utility)
+# Utility examples
+add_example(meta           DEPENDS siplasplas-utility)
+add_example(fusion         DEPENDS siplasplas-utility)
+add_example(dynamiclibrary DEPENDS siplasplas-utility)

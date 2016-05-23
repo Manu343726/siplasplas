@@ -5,60 +5,71 @@
 #include <cassert>
 
 #include "myclass.hpp"
-#include <siplasplas/serialization/serialization.hpp>
 #include <siplasplas/utility/fusion.hpp>
 
 using namespace std::string_literals;
+using namespace cpp::dynamic_reflection;
 
 int freePlainFunction(int a, int b)
 {
     return a + b;
 }
 
-int main()
+template<typename Class>
+void loadClass(Runtime& runtime)
 {
-    MyClass myObject;
-    myObject.field = 42;
+    auto class_ = cpp::drfl::Class::create(
+        SourceInfo::fromStaticSourceInfo<cpp::srfl::Class<Class>>(),
+        Type::get<Class>()
+    );
 
-    cpp::dynamic_reflection::Class::get<MyClass>();
+    runtime.addEntity(class_);
 
-    auto json = cpp::serialize(myObject);
-
-    std::cout << std::setw(2) << json << std::endl;
-    auto fromJson = cpp::deserialize(json).get<MyClass>();
-    assert(fromJson.field == 42);
-    std::cout << std::setw(4) << cpp::serialize(myObject) << std::endl;
-
-    cpp::foreach<cpp::static_reflection::Class<MyClass>::Methods>([](auto method)
-    {
-        using Method = cpp::meta::type_t<decltype(method)>;
-
-        std::cout << "Method \"" << Method::spelling() << "\"" << std::endl
-                  << " - Displayname: " << Method::displayName() << std::endl
-                  << " - Source file: " << Method::file() << std::endl
-                  << " - Line: " << Method::line() << std::endl
-                  << " - Params: " << cpp::printTypeList<cpp::function_arguments<typename Method::type>>() << std::endl
-                  << " - Type: " << ctti::type_id<typename Method::type>().name() << std::endl << std::endl;
-    });
-
-    cpp::foreach<cpp::static_reflection::Class<MyClass>::Fields>([](auto field)
+    cpp::foreach<typename cpp::srfl::Class<Class>::Fields>([&](auto field)
     {
         using Field = cpp::meta::type_t<decltype(field)>;
 
-        std::cout << "Field \"" << Field::spelling() << "\"" << std::endl
-                  << " - Displayname: " << Field::displayName() << std::endl
-                  << " - Source file: " << Field::file() << std::endl
-                  << " - Line: " << Field::line() << std::endl
-                  << " - Type: " << ctti::type_id<typename Field::type>().name() << std::endl
-                  << " - Value type: " << ctti::type_id<typename Field::value_type>().name() << std::endl
-                  << " - Class: " << ctti::type_id<typename Field::class_type>().name() << std::endl << std::endl;
+        runtime.addEntity(
+            cpp::drfl::Field::create(
+                SourceInfo::fromStaticSourceInfo<Field>(),
+                Field::get()
+            )
+        );
     });
 
-    for(const auto& name : cpp::srfl::Enum<MyClass::Enum>::names())
+    cpp::foreach<typename cpp::srfl::Class<Class>::Methods>([&](auto function)
     {
-        MyClass::Enum value = cpp::srfl::Enum<MyClass::Enum>::fromString(name);
-        std::cout << name << ": " << (int)value << std::endl;
-    }
+        using Function = cpp::meta::type_t<decltype(function)>;
 
-    int result = cpp::static_reflection::Class<MyClass>::binded_methods::f(myObject)(42, 42);
+        runtime.addEntity(
+            cpp::drfl::Function::create(
+                SourceInfo::fromStaticSourceInfo<Function>(),
+                Function::get()
+            )
+        );
+    });
+
+}
+
+int main()
+{
+    Runtime runtime{"reflection example"};
+
+    loadClass<MyClass>(runtime);
+
+    auto& field = runtime.namespace_().class_("MyClass").field_("field");
+    auto& function = runtime.namespace_().class_("MyClass").function_("f");
+    MyClass myObject, myOtherObject;
+
+    field.get(myObject) = 3;
+    field.get(myOtherObject) = 4;
+    assert(myObject.field == 3);
+    assert(myOtherObject.field == 4);
+
+    field.get(myObject) = field.get(myOtherObject);
+    assert(myObject.field == 4);
+
+    std::cout << "Result of invoking f: "
+              << function(myObject, 1, 2).get<int>()
+              << std::endl;
 }

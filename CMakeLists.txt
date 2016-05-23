@@ -1,7 +1,7 @@
 project(siplasplas)
 cmake_minimum_required(VERSION 2.8)
 
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/3rdParty)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/3rdParty ${CMAKE_SOURCE_DIR}/cmake)
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Debug)
@@ -18,11 +18,16 @@ add_subdirectory(3rdParty)
 add_subdirectory(src)
 add_subdirectory(examples)
 
-option(SIPLASPLAS_TESTS_ENABLED TRUE "Enable/Disable unit tests")
+option(SIPLASPLAS_TESTS_ENABLED "Enable/Disable unit tests" ON)
 
 if(SIPLASPLAS_TESTS_ENABLED)
     enable_testing()
-    add_subdirectory(tests)
+    add_subdirectory(test)
 endif()
 
 include(cmake/cpack.cmake)
+
+configure_file(
+    ${CMAKE_SOURCE_DIR}/.ycm_extra_conf.py.in
+    ${CMAKE_SOURCE_DIR}/.ycm_extra_conf.py
+)

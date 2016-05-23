@@ -1,19 +1,9 @@
-#ifndef SIPLASPLAS_REFLECTION_FUNCTION_HPP
-#define SIPLASPLAS_REFLECTION_FUNCTION_HPP
+#ifndef SIPLASPLAS_REFLECTION_DYNAMIC_FUNCTION_HPP
+#define SIPLASPLAS_REFLECTION_DYNAMIC_FUNCTION_HPP
 
-#include "type.hpp"
 #include "object.hpp"
 #include "object_manip.hpp"
-#include "attributes/attribute.hpp"
-
-#include <ctti/type_id.hpp>
-
-#include <vector>
-#include <type_traits>
-#include <unordered_map>
-#include <stdexcept>
-
-#include <siplasplas/utility/tuple.hpp>
+#include "entity.hpp"
 
 namespace cpp
 {
@@ -21,257 +11,124 @@ namespace cpp
 namespace dynamic_reflection
 {
 
-template<typename Function>
-void registerFunctionTypes()
-{
-    using args = cpp::function_arguments<Function>;
-    using return_type = cpp::function_return_type<Function>;
-
-    Type::registerTypes<args>();
-    Type::registerType<return_type>();
-}
-
-class Function
+class Function : public Entity
 {
 public:
-    Function() = default;
-
-    template<typename F>
-    Function(const std::string& name, F function,
-             const std::shared_ptr<cpp::dynamic_reflection::attributes::Attribute>& attribute = nullptr) :
-        _invoker{ new Invoker<F>{function} },
-        _attribute{attribute},
-        _name{ name }
+    template<typename... Args>
+    Object operator()(Args&&... args) const
     {
-        registerFunctionTypes<F>();
+        return _functionAccess->invoke(pack_to_vector(std::forward<Args>(args)...));
     }
 
-    template<typename Class>
-    auto operator()(Class& object)
+    template<typename... Args>
+    Object operator()(Args&&... args)
     {
-        return [this, &object = object](auto... args)
-        {
-            std::vector<cpp::dynamic_reflection::Object> typeErasedArgs{ cpp::dynamic_reflection::Object{args}... };
-
-            if (this->isConst())
-            {
-                return _invoker->invoke(const_cast<const void*>(reinterpret_cast<void*>(&object)), typeErasedArgs, _attribute.get());
-            }
-            else
-            {
-                return _invoker->invoke(&object, typeErasedArgs, _attribute.get());
-            }
-        };
+        return _functionAccess->invoke(pack_to_vector(std::forward<Args>(args)...));
     }
 
-    template<typename Class>
-    auto operator()(const Class& object) const
+    template<typename FunctionPointer>
+    static std::shared_ptr<Function> create(const SourceInfo& sourceInfo, FunctionPointer function)
     {
-        return [this, &object = object](auto... args)
-        {
-            std::vector<cpp::dynamic_reflection::Object> typeErasedArgs{ cpp::dynamic_reflection::Object{ args }... };
-
-            return _invoker->invoke(&object, typeErasedArgs);
-        };
+        return std::shared_ptr<Function>{ new Function{sourceInfo, function} };
     }
 
-    const std::string& name() const
-    {
-        return _name;
-    }
-
-    cpp::dynamic_reflection::Type returnType() const
-    {
-        return _invoker->returnType();
-    }
-
-    const std::vector <cpp::dynamic_reflection::Type> &parameterTypes() const
-    {
-        return _invoker->parameterTypes();
-    }
-
-    bool isConst() const
-    {
-        return _invoker->isConst();
-    }
-
-    const std::shared_ptr<cpp::dynamic_reflection::attributes::Attribute>& attribute() const
-    {
-        return _attribute;
-    }
-
-    std::shared_ptr<cpp::dynamic_reflection::attributes::Attribute>& attribute()
-    {
-        return _attribute;
-    }
+    static Function& fromEntity(const std::shared_ptr<Entity>& entity);
 
 private:
-    class InvokerInterface
-    {
-    public:
-        virtual cpp::dynamic_reflection::Type returnType() const = 0;
-        virtual const std::vector<cpp::dynamic_reflection::Type>& parameterTypes() const = 0;
-        virtual bool isConst() const = 0;
-
-        virtual cpp::dynamic_reflection::Object invoke(void* object, const std::vector<cpp::dynamic_reflection::Object>& args, cpp::dynamic_reflection::attributes::Attribute* attribute = nullptr) const = 0;
-        virtual cpp::dynamic_reflection::Object invoke(const void* object, const std::vector<cpp::dynamic_reflection::Object>& args, cpp::dynamic_reflection::attributes::Attribute* attribute = nullptr) const = 0;
-    };
-
-    template<typename Function>
-    class Invoker
-    {
-        static_assert(sizeof(Function) != sizeof(Function), "Invalid member function type");
-
-        Invoker(Function) {};
-    };
-
-    template<typename R, typename Class, typename... Args>
-    class Invoker<R (Class::*)(Args...)> : public InvokerInterface
-    {
-    public:
-        using FunctionType = R (Class::*)(Args...);
-
-        Invoker(FunctionType function) :
-            _function{ function }
-        {}
-
-        cpp::dynamic_reflection::Object invoke(void* object, const std::vector<cpp::dynamic_reflection::Object>& args, cpp::dynamic_reflection::attributes::Attribute* attribute) const override
-        {
-            if(attribute)
-            {
-                auto args_ = attribute->processArguments(args);
-                auto return_value = cpp::dynamic_reflection::vector_call(_function, *static_cast<Class*>(object), args_);
-
-                return attribute->processReturnValue(return_value);
-            }
-            else
-            {
-                return cpp::dynamic_reflection::vector_call(_function, *static_cast<Class*>(object), args);
-            }
-        }
-
-        cpp::dynamic_reflection::Object invoke(const void* object, const std::vector<cpp::dynamic_reflection::Object>& args, cpp::dynamic_reflection::attributes::Attribute*) const override
-        {
-            throw std::runtime_error{ "Wrong invoker, this calls a non-const member function" };
-        }
-
-        bool isConst() const override
-        {
-            return false;
-        }
-
-        cpp::dynamic_reflection::Type returnType() const override
-        {
-            return cpp::dynamic_reflection::Type::get<R>();
-        }
-
-        const std::vector<cpp::dynamic_reflection::Type>& parameterTypes() const override
-        {
-            return getParamTypes();
-        }
-
-    private:
-        R (Class::*_function)(Args...);
-        std::shared_ptr<cpp::dynamic_reflection::attributes::Attribute> _attribute;
-
-        static const std::vector<cpp::dynamic_reflection::Type>& getParamTypes()
-        {
-            static std::vector<cpp::dynamic_reflection::Type> paramTypes{ cpp::dynamic_reflection::Type::get<Args>()... };
-
-            return paramTypes;
-        }
-    };
-
-    template<typename R, typename Class, typename... Args>
-    class Invoker<R(Class::*)(Args...) const> : public InvokerInterface
-    {
-    public:
-        typedef R(Class::*FunctionType)(Args...) const;
-
-        Invoker(FunctionType function, const std::shared_ptr<cpp::dynamic_reflection::attributes::Attribute>& attribute = nullptr) :
-            _function{ function }
-        {}
-
-        cpp::dynamic_reflection::Object invoke(void* object, const std::vector<cpp::dynamic_reflection::Object>& args, cpp::dynamic_reflection::attributes::Attribute*) const override
-        {
-            throw std::runtime_error{ "Wrong invoker, this calls a const member function" };
-        }
-
-        cpp::dynamic_reflection::Object invoke(const void* object, const std::vector<cpp::dynamic_reflection::Object>& args, cpp::dynamic_reflection::attributes::Attribute* attribute) const override
-        {
-            if(_attribute)
-            {
-                auto args_ = _attribute->processArguments(args);
-                auto return_value = cpp::dynamic_reflection::vector_call(_function, *static_cast<const Class*>(object), args_);
-
-                return _attribute->processReturnValue(return_value);
-            }
-            else
-            {
-                return cpp::dynamic_reflection::vector_call(_function, *static_cast<const Class*>(object), args);
-            }
-        }
-
-        bool isConst() const override
-        {
-            return true;
-        }
-
-        cpp::dynamic_reflection::Type returnType() const override
-        {
-            return cpp::dynamic_reflection::Type::get<R>();
-        }
-
-        const std::vector<cpp::dynamic_reflection::Type>& parameterTypes() const override
-        {
-            return getParamTypes();
-        }
-
-    private:
-        FunctionType _function;
-        std::shared_ptr<cpp::dynamic_reflection::attributes::Attribute> _attribute;
-
-        static const std::vector<cpp::dynamic_reflection::Type>& getParamTypes()
-        {
-            static std::vector<cpp::dynamic_reflection::Type> paramTypes{ cpp::dynamic_reflection::Type::get<Args>()... };
-
-            return paramTypes;
-        }
-    };
-
-    std::shared_ptr<InvokerInterface> _invoker;
-    std::shared_ptr<cpp::dynamic_reflection::attributes::Attribute> _attribute;
-    std::string _name;
-};
-
-template<typename T>
-class BindedFunction : public Function
-{
-public:
-    BindedFunction(const Function& function, const T& object) :
-        Function{function},
-        _object{const_cast<T*>(&object)}
+    template<typename FunctionPointer>
+    Function(const SourceInfo& sourceInfo, FunctionPointer function) :
+        Entity{sourceInfo},
+        _functionAccess{ new FunctionAccess<FunctionPointer>{function} }
     {}
 
-    template<typename... Args>
-    cpp::dynamic_reflection::Object operator()(Args&&... args) const
+    class FunctionAccessInterface
     {
-        return Function::operator()(*const_cast<const T*>(_object))(std::forward<Args>(args)...);
-    }
+    public:
+        virtual ~FunctionAccessInterface() = default;
 
-    template<typename... Args>
-    cpp::dynamic_reflection::Object operator()(Args&&... args)
+        virtual Object invoke(const std::vector<Object>& args) const = 0;
+        virtual Object invoke(const std::vector<Object>& args) = 0;
+    };
+
+    std::unique_ptr<FunctionAccessInterface> _functionAccess;
+
+    template<typename Function>
+    class FunctionAccess;
+
+    template<typename Type, bool ReturnsVoid = std::is_same<void, cpp::function_return_type<Type>>::value>
+    class FunctionAccessCommon : public FunctionAccessInterface
     {
-        return Function::operator()(*_object)(std::forward<Args>(args)...);
-    }
+    public:
+        using type = Type;
 
-private:
-    T* _object;
+        FunctionAccessCommon(type ptr) :
+            _ptr{ptr}
+        {}
+
+        Object invoke(const std::vector<Object>& args) const override
+        {
+            return vector_call(_ptr, args);
+        }
+
+        Object invoke(const std::vector<Object>& args) override
+        {
+            return vector_call(_ptr, args);
+        }
+
+    private:
+        type _ptr;
+    };
+
+    template<typename Type>
+    class FunctionAccessCommon<Type, true> : public FunctionAccessInterface
+    {
+    public:
+        using type = Type;
+
+        FunctionAccessCommon(type ptr) :
+            _ptr{ptr}
+        {}
+
+        Object invoke(const std::vector<Object>& args) const override
+        {
+            vector_call(_ptr, args);
+            return Object();
+        }
+
+        Object invoke(const std::vector<Object>& args) override
+        {
+            vector_call(_ptr, args);
+            return Object();
+        }
+
+    private:
+        type _ptr;
+    };
+
+    template<typename C, typename R, typename... Args>
+    class FunctionAccess<R(C::*)(Args...)> : public FunctionAccessCommon<R(C::*)(Args...)>
+    {
+    public:
+        using FunctionAccessCommon<R(C::*)(Args...)>::FunctionAccessCommon;
+    };
+
+    template<typename C, typename R, typename... Args>
+    class FunctionAccess<R(C::*)(Args...) const> : public FunctionAccessCommon<R(C::*)(Args...) const>
+    {
+    public:
+        using FunctionAccessCommon<R(C::*)(Args...) const>::FunctionAccessCommon;
+    };
+
+    template<typename R, typename... Args>
+    class FunctionAccess<R(Args...)> : public FunctionAccessCommon<R(*)(Args...)>
+    {
+    public:
+        using FunctionAccessCommon<R(*)(Args...)>::FunctionAccessCommon;
+    };
 };
 
-using Method = Function;
-
-}
 }
 
-#endif // SIPLASPLAS_REFLECTION_FUNCTION_HPP
+}
+
+#endif // SIPLASPLAS_REFLECTION_DYNAMIC_FUNCTION_HPP

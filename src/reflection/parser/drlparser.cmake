@@ -1,3 +1,5 @@
+include(libclang)
+
 find_package(PythonInterp 2.7 REQUIRED)
 
 if(NOT PYTHONINTERP_FOUND)
@@ -11,174 +13,7 @@ set(DRLPARSER_CODEGEN_TEMPLATE ${CMAKE_CURRENT_LIST_DIR}/templates/reflection_te
 set(OUTPUT_DIR ${CMAKE_BINARY_DIR}/ouput/reflection)
 set(INCLUDE_OUTPUT_DIR ${CMAKE_BINARY_DIR}/ouput/)
 
-function(clangxx_executable _ret)
-    if(CMAKE_CXX_COMPILER_ID  MATCHES "Clang")
-        set(${_ret} "${CMAKE_CXX_COMPILER}" PARENT_SCOPE)
-    else()
-        if(NOT clangxx)
-            find_program(clangxx clang++)
 
-            if(clangxx)
-                message(STATUS "Found clang++ program: ${clangxx}")
-                set(${_ret} "${clangxx}" PARENT_SCOPE)
-            else()
-                message(FATAL_ERROR "clang++ not found")
-            endif()
-        else()
-            set(${_ret} "${clangxx}" PARENT_SCOPE)
-        endif()
-    endif()
-endfunction()
-
-function(gxx_executable _ret)
-    if(CMAKE_COMPILER_IS_GNUCXX)
-        set(${_ret} "${CMAKE_CXX_COMPILER}" PARENT_SCOPE)
-    else()
-        if(NOT gxx)
-            find_program(gxx g++)
-
-            if(gxx)
-                message(STATUS "Found g++ program: ${gxx}")
-                set(${_ret} "${gxx}" PARENT_SCOPE)
-            else()
-                message(FATAL_ERROR "g++ not found")
-            endif()
-        else()
-            set(${_ret} "${gxx}" PARENT_SCOPE)
-        endif()
-    endif()
-endfunction()
-
-function(windows_path PATH RESULT_PATH)
-    if(WIN32)
-        if(MINGW)
-            execute_process(
-                    COMMAND ${CMAKE_COMMAND} -E echo ${PATH}
-                    COMMAND xargs cmd //c echo # WTF cannot believe this worked the very first time
-                    OUTPUT_VARIABLE path
-            )
-        elseif(CYGWIN)
-            execute_process(
-                    COMMAND ${CMAKE_COMMAND} -E echo ${PATH}
-                    COMMAND xargs cygpath.exe --windows
-                    OUTPUT_VARIABLE path
-            )
-        else()
-            set(path "${PATH}")
-        endif()
-
-        set(${RESULT_PATH} "${path}" PARENT_SCOPE)
-    else()
-        message(FATAL_ERROR "No Windows platform!")
-    endif()
-endfunction()
-
-function(clangxx_stdlibcpp_includes INCLUDES)
-    clangxx_executable(clangxx)
-
-    execute_process(
-        COMMAND ${CMAKE_COMMAND} -E echo ""
-        COMMAND ${clangxx} -std=c++11 -stdlib=libc++ -v -x c++ -E -
-        OUTPUT_VARIABLE out
-        ERROR_VARIABLE err
-    )
-
-    string(REGEX MATCH "
-#include \"...\" search starts here:
-#include <...> search starts here:
-(.+)
-End of search list."
-            includes "${err}")
-
-    string(REGEX REPLACE "\n" ";" includes "${CMAKE_MATCH_1}")
-    list(REMOVE_DUPLICATES includes)
-
-    foreach(includedir ${includes})
-        if(WIN32)
-            windows_path("${includedir}" includedir)
-        endif()
-
-        string(REGEX REPLACE "\ +$" "" includedir "${includedir}")
-        string(REGEX REPLACE "\"(.*)\"" "\\1" includedir "${includedir}")
-        string(REGEX REPLACE "\n" "" includedir "${includedir}")
-
-        list(APPEND includedirs ${includedir})
-    endforeach()
-
-    if(NOT includedirs)
-        message(FATAL_ERROR "No stdlibc++ include directory found")
-    else()
-        set(${INCLUDES} "${includedirs}" PARENT_SCOPE)
-    endif()
-endfunction()
-
-# Adapted from https://github.com/biicode/boost
-function(clangxx_version _ret)
-    clangxx_executable(clangxx)
-
-    execute_process( COMMAND ${clangxx} --version OUTPUT_VARIABLE version_string_full )
-    string (REGEX REPLACE ".*clang version ([0-9]+\\.[0-9]+).*" "\\1" version_string ${version_string_full})
-
-    set(${_ret} ${version_string} PARENT_SCOPE)
-endfunction()
-
-function(gxx_version _ret)
-    gxx_executable(gxx)
-
-    execute_process( COMMAND ${gxx} -dumpversion OUTPUT_VARIABLE version_string)
-    string (REGEX REPLACE "([0-9])\\.([0-9])\\.([0-9])" "\\1.\\2.\\3" version_string ${version_string})
-    string(STRIP ${version_string} version_string) #Remove extra newline character
-
-    set(${_ret} "${version_string}" PARENT_SCOPE)
-endfunction()
-
-# Needed to solve this issue http://clang.llvm.org/docs/LibTooling.html#builtin-includes
-function(libclang_include_dir _ret)
-    clangxx_version(CLANG_VERSION)
-    clangxx_executable(clangxx)
-
-    if(WIN32)
-        windows_path("${CLANG_EXEC}" CLANG_EXEC)
-    endif()
-
-    get_filename_component(CLANG_PATH "${CLANG_EXEC}" DIRECTORY)
-    get_filename_component(CLANG_PATH "${CLANG_PATH}" REALPATH)
-
-    set(${_ret} "${CLANG_PATH}/../lib/clang/${CLANG_VERSION}" PARENT_SCOPE)
-endfunction()
-
-function(get_target_include_directories TARGET RESULT)
-    if(NOT TARGET ${TARGET})
-        set(${RESULT} PARENT_SCOPE)
-        return()
-    endif()
-
-    get_target_property(type ${TARGET} TYPE)
-
-    if(type STREQUAL "INTERFACE_LIBRARY")
-        get_target_property(deps     ${TARGET} INTERFACE_LINK_LIBRARIES)
-        get_target_property(includes ${TARGET} INTERFACE_INCLUDE_DIRECTORIES)
-    else()
-        get_target_property(deps     ${TARGET} LINK_LIBRARIES)
-        get_target_property(includes ${TARGET} INCLUDE_DIRECTORIES)
-    endif()
-
-    if(NOT includes)
-        set(includes)
-    endif()
-
-    if(deps)
-        foreach(dep ${deps})
-            get_target_include_directories(${dep} dep_includes)
-            list(APPEND includes ${dep_includes})
-        endforeach()
-    endif()
-
-    if(includes)
-        list(REMOVE_DUPLICATES includes)
-    endif()
-    set(${RESULT} ${includes} PARENT_SCOPE)
-endfunction()
 
 function(reflection_target TARGET)
     function(log MESSAGE)
@@ -196,15 +31,15 @@ function(reflection_target TARGET)
     get_target_include_directories(${TARGET} INCLUDE_DIRS)
 
     if(UNIX OR MINGW)
-        clangxx_stdlibcpp_includes(STDLIBCPP_INCLUDES)
-        libclang_include_dir(LIBCLANG_INCLUDE_DIR)
+        clangxx_stdlib_includes(libstdc++ STDLIBCPP_INCLUDES)
+        libclang_system_include_dir(LIBCLANG_SYSTEM_INCLUDE_DIR)
 
-            foreach(include ${STDLIBCPP_INCLUDES})
-                log("Extra stdlibc++ include: ${include}")
-            endforeach()
-            log("libclang include dir: ${LIBCLANG_INCLUDE_DIR}")
+        foreach(include ${STDLIBCPP_INCLUDES})
+            log("Extra stdlibc++ include: ${include}")
+        endforeach()
+        log("libclang include dir: ${LIBCLANG_INCLUDE_DIR}")
 
-        list(APPEND EXTRA_LIBCLANG_INCLUDES ${STDLIBCPP_INCLUDES} ${LIBCLANG_INCLUDE_DIR})
+        list(APPEND EXTRA_LIBCLANG_INCLUDES ${STDLIBCPP_INCLUDES} ${LIBCLANG_SYSTEM_INCLUDE_DIR})
     endif()
 
     target_include_directories(${TARGET}
@@ -218,10 +53,9 @@ function(reflection_target TARGET)
     string(REGEX REPLACE ";" "," SOURCES "${SOURCES}")
     string(REGEX REPLACE ";" "," INCLUDE_DIRS "${INCLUDE_DIRS}")
 
-    if(EXTRA_LIBCLANG_INCLUDES)
-        string(REGEX REPLACE ";" "," EXTRA_LIBCLANG_INCLUDES "${EXTRA_LIBCLANG_INCLUDES}")
-        set(includedirs --includedirs "\"${EXTRA_LIBCLANG_INCLUDES}\"")
-    endif()
+    set(includes ${INCLUDE_DIRS} ${EXTRA_LIBCLANG_INCLUDES})
+    string(REGEX REPLACE ";" "," includes  "${includes}")
+    set(includedirs --includedirs "\"${includes}\"")
 
     if(DRLPARSER_DATABASE)
         log("DRLParser custom database file: ${DRLPARSER_DATABASE}")
@@ -256,7 +90,7 @@ function(reflection_target TARGET)
         ${includedirs}
         -s ${CMAKE_SOURCE_DIR}
         -o ${OUTPUT_DIR}
-        -x *3rdParty*
+        --blacklist "${CMAKE_BINARY_DIR}"
         ${database}
         ${libclang}
         ${ignore_database}

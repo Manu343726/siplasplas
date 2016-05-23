@@ -29,4 +29,4 @@ class Namespace(Node):
             namespace of a given translation unit
         """
 
-        return Namespace.create_node(cursor = translation_unit.cursor, translation_unit = translation_unit)
+        return Namespace.create_node(cursor = translation_unit.cursor, translation_unit = translation_unit, file = translation_unit.file)

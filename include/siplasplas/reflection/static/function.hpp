@@ -8,12 +8,12 @@ namespace static_reflection
 namespace meta
 {
 
-template<typename AstInfo, typename FunctionType, FunctionType function>
+template<typename SourceInfo, typename FunctionType, FunctionType function>
 class Function;
 
-template<typename AstInfo, typename R, typename... Args,
+template<typename SourceInfo, typename R, typename... Args,
     R(*function)(Args...)>
-class Function<AstInfo, R(*)(Args...), function> : public AstInfo
+class Function<SourceInfo, R(*)(Args...), function> : public SourceInfo
 {
 public:
     using type = R(*)(Args...);
@@ -38,9 +38,9 @@ public:
     }
 };
 
-template<typename AstInfo, typename R, typename Class, typename... Args,
+template<typename SourceInfo, typename R, typename Class, typename... Args,
     R(Class::*method)(Args...) const>
-class Function<AstInfo, R(Class::*)(Args...) const, method> : public AstInfo
+class Function<SourceInfo, R(Class::*)(Args...) const, method> : public SourceInfo
 {
 public:
     using type = R(Class::*)(Args...) const;
@@ -66,9 +66,9 @@ public:
     }
 };
 
-template<typename AstInfo, typename R, typename Class, typename... Args,
+template<typename SourceInfo, typename R, typename Class, typename... Args,
     R(Class::*method)(Args...)>
-class Function<AstInfo, R(Class::*)(Args...), method> : public AstInfo
+class Function<SourceInfo, R(Class::*)(Args...), method> : public SourceInfo
 {
 public:
     using type = R(Class::*)(Args...);
@@ -125,7 +125,7 @@ namespace codegen
 template<typename FunctionType, FunctionType function>
 class Function :
     public static_reflection::meta::Function<
-        static_reflection::meta::EmptyAstInfo<Function<FunctionType, function>>,
+        static_reflection::meta::EmptySourceInfo<Function<FunctionType, function>>,
         FunctionType,
         function
     >

@@ -48,7 +48,7 @@ class Node(object):
     child nodes.
     """
 
-    def __init__(self, cursor, parent = None, translation_unit = None):
+    def __init__(self, cursor, parent = None, translation_unit = None, file = None):
         """ Initializes a node, given its libclang AST cursor and the parent node
 
             NEVER create nodes calling plain class constructor, use create_node()
@@ -65,6 +65,11 @@ class Node(object):
         else:
             self.translation_unit = translation_unit
 
+        if file is not None:
+            self.file = file
+        else:
+            self.file = str(self.cursor.location.file)
+
         assert(self.translation_unit is not None)
 
 
@@ -72,9 +77,9 @@ class Node(object):
         """ Yields an string representation of the node, suitable for AST printing"""
 
         if self.cursor.kind == CursorKind.UNEXPOSED_DECL:
-            short = '(Unexposed decl) \'{}\''.format(text_in_cursor(self.cursor))
+            short = '{}: (Unexposed decl) \'{}\''.format(self.file, text_in_cursor(self.cursor))
         else:
-            short = "({}) {}".format(str(self.node_class_kind()), self.fullname)
+            short = "{}: ({}) {}".format(self.file, str(self.node_class_kind()), self.fullname)
 
         if self.attributes:
             return short + '\n' + '\n =>'.join([a.description() for a in self.attributes])
@@ -145,7 +150,7 @@ class Node(object):
         for c in node.cursor.get_children():
             if c.kind in mapping:
                 child = nodeClass.create_child(cursor = c, parent = node)
-                if child is not None and child.is_public:
+                if child is not None and child.is_public and child.file == node.file:
                     node.children[child.node_class_kind()][child.displayname] = child
 
     @property
@@ -163,10 +168,6 @@ class Node(object):
     @property
     def displayname_as_charpack(self):
         return string_to_char_pack(self.displayname)
-
-    @property
-    def file(self):
-        return self.cursor.location.file.name
 
     @property
     def file_as_charpack(self):
@@ -201,6 +202,10 @@ class Node(object):
             return ''
         else:
             return Namespace.SCOPE_OPERATOR.join([self.parent.fullname, self.name])
+
+    @property
+    def fullname_as_charpack(self):
+        return string_to_char_pack(self.fullname)
 
     def __str__(self):
         return self.print_ast_node()

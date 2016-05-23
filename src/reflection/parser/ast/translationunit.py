@@ -10,8 +10,9 @@ class TranslationUnit(object):
         namespace.
     """
 
-    def __init__(self, cursor):
+    def __init__(self, cursor, file):
         self.cursor = cursor
+        self.file = str(file)
         self.annotations = []
 
         # Maybe the most tricky part of the parser:

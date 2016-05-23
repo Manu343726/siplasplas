@@ -9,7 +9,7 @@ namespace meta
 {
 
 template<
-    typename AstInfo,
+    typename SourceInfo,
     typename EnumType,
     typename Constants,
     typename ConstantsNames
@@ -17,13 +17,13 @@ template<
 class Enum;
 
 template<
-    typename AstInfo,
+    typename SourceInfo,
     typename EnumType,
     EnumType... Constants,
     typename... ConstantsNames
 >
 class Enum<
-    AstInfo,
+    SourceInfo,
     EnumType,
     ::cpp::meta::list<std::integral_constant<EnumType, Constants>...>,
     ::cpp::meta::list<ConstantsNames...>
@@ -91,26 +91,26 @@ private:
 };
 
 template<
-    typename AstInfo,
+    typename SourceInfo,
     typename EnumType,
     EnumType... Constants,
     typename... ConstantsNames
 >
 constexpr const char* Enum<
-    AstInfo,
+    SourceInfo,
     EnumType,
     ::cpp::meta::list<std::integral_constant<EnumType, Constants>...>,
     ::cpp::meta::list<ConstantsNames...>
 >::_names[];
 
 template<
-    typename AstInfo,
+    typename SourceInfo,
     typename EnumType,
     EnumType... Constants,
     typename... ConstantsNames
 >
 constexpr EnumType Enum<
-    AstInfo,
+    SourceInfo,
     EnumType,
     ::cpp::meta::list<std::integral_constant<EnumType, Constants>...>,
     ::cpp::meta::list<ConstantsNames...>
@@ -124,7 +124,7 @@ namespace codegen
 
 template<typename EnumType>
 class Enum : public static_reflection::meta::Enum<
-    static_reflection::meta::EmptyAstInfo<Enum<EnumType>>,
+    static_reflection::meta::EmptySourceInfo<Enum<EnumType>>,
     EnumType,
     ::cpp::meta::list<
         std::integral_constant<EnumType, static_cast<EnumType>(0)>

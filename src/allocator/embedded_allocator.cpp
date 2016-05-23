@@ -1,4 +1,4 @@
-#include "embedded_allocator.hpp"
+#include "detail/embedded_allocator.hpp"
 
 #include <sstream>
 

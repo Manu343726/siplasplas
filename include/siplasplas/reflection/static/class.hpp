@@ -1,7 +1,7 @@
 #ifndef SIPLASPLAS_REFLECTION_STATIC_CLASS_HPP
 #define SIPLASPLAS_REFLECTION_STATIC_CLASS_HPP
 
-#include <siplasplas/reflection/static/astinfo.hpp>
+#include "sourceinfo.hpp"
 #include <siplasplas/utility/meta.hpp>
 
 namespace cpp
@@ -13,14 +13,14 @@ namespace static_reflection
 namespace meta
 {
 
-template<typename AstInfo, typename Class_,
+template<typename SourceInfo, typename Class_,
     typename Methods_,
     typename Fields_,
     typename Constructors_,
     typename Classes_,
     typename Enums_
 >
-class Class : public AstInfo
+class Class : public SourceInfo
 {
 public:
     using class_type = Class_;
@@ -40,7 +40,7 @@ namespace codegen
     template<typename T>
     class Class :
         public static_reflection::meta::Class<
-            static_reflection::meta::EmptyAstInfo<T>,
+            static_reflection::meta::EmptySourceInfo<T>,
             T,
             ::cpp::meta::list<>,
             ::cpp::meta::list<>,

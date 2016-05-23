@@ -1,7 +1,7 @@
 #include "metatype.hpp"
 
 #include <sstream>
-#include <siplasplas/utility/throw.hpp>
+#include <siplasplas/utility/exception.hpp>
 
 using namespace cpp;
 
@@ -21,12 +21,7 @@ void* MetaTypeSystem::create(const std::string& typeName)
         {
             if (!(result = try_create(structName)))
             {
-    cpp::Throw<std::runtime_error>()
-	<< "[METATYPE_SYSTEM] Type '" << typeName << "' not registered!\n"
-	   " - As plain type (" << typeName << "): Hash " << ctti::id_from_name(typeName).hash() << "\n"
-       " - As class type (" << className << "): Hash " << ctti::id_from_name(className).hash() <<  "\n"
-       " - As struct type (" << structName << "): Hash " << ctti::id_from_name(structName).hash() + "\n"
-    << dump();
+                throw std::runtime_error{"No type found"};
             }
         }
     }

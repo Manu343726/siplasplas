@@ -1,4 +1,4 @@
-#include "dynamic/type.hpp"
+#include "type.hpp"
 
 using namespace cpp::dynamic_reflection;
 

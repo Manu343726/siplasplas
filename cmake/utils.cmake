@@ -134,3 +134,46 @@ function(parse_library_list LIBRARIES)
     set(GENERAL_LIBS   ${_gen_libs}       PARENT_SCOPE)
 endfunction()
 
+# Gets the set of target include directories, recusivelly scanning
+# dependencies and checking kind of target
+function(get_target_include_directories TARGET RESULT)
+    if(NOT TARGET ${TARGET})
+        set(${RESULT} PARENT_SCOPE)
+        return()
+    endif()
+
+    get_target_property(type ${TARGET} TYPE)
+
+    if(type STREQUAL "INTERFACE_LIBRARY")
+        get_target_property(dependencies ${TARGET} INTERFACE_LINK_LIBRARIES)
+        get_target_property(includes     ${TARGET} INTERFACE_INCLUDE_DIRECTORIES)
+    else()
+        get_target_property(dependencies            "${TARGET}" LINK_LIBRARIES)
+        get_target_property(includes                "${TARGET}" INCLUDE_DIRECTORIES)
+    endif()
+
+    if(NOT includes)
+        set(includes)
+    endif()
+
+    if(dependencies)
+        set(deps_copy ${dependencies})
+        set(dependencies)
+        foreach(dep ${deps_copy})
+            if(NOT (dep STREQUAL "${TARGET}"))
+                list(APPEND dependencies "${dep}")
+            endif()
+        endforeach()
+
+        foreach(dep ${dependencies})
+            get_target_include_directories(${dep} dep_includes)
+            list(APPEND includes ${dep_includes})
+        endforeach()
+    endif()
+
+    if(includes)
+        list(REMOVE_DUPLICATES includes)
+    endif()
+    set(${RESULT} ${includes} PARENT_SCOPE)
+endfunction()
+

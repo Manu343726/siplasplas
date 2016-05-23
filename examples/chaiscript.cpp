@@ -8,7 +8,7 @@ int main()
 {
     chaiscript::ChaiScript chai{chaiscript::Std_Lib::library()};
 
-    cpp::foreach<cpp::Reflection<MyClass>::Methods>([&](auto method)
+    cpp::foreach<cpp::srfl::Class<MyClass>::Methods>([&](auto method)
     {
         using Method = cpp::meta::type_t<decltype(method)>;
 

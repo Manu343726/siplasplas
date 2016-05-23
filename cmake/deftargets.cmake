@@ -3,9 +3,7 @@ include(GenerateExportHeader)
 
 include(cmake/boost)
 include(cmake/list_dependencies)
-include(cmake/gmock)
 include(cmake/utils.cmake)
-include(cmake/ctti.cmake)
 include(cmake/install.cmake)
 
 
@@ -97,6 +95,10 @@ function(add_siplasplas_target NAME TARGET_TYPE)
             set(common_options -std=${STD_CXX} -Wall -pedantic -ftemplate-depth-1024)
             set(debug_options -O0 -g3)
             set(release_options -O3 -g0)
+
+            if(TARGET_TYPE STREQUAL "LIBRARY" AND ARGS_SHARED)
+                list(APPEND commonoptions -fPIC)
+            endif()
         endif()
 
         target_compile_options(${NAME} PRIVATE
@@ -130,6 +132,7 @@ function(add_siplasplas_target NAME TARGET_TYPE)
         # Add current include dir so we can just do '#include "foo.hpp"' in foo.cpp
         target_include_directories(${NAME} INTERFACE "${current_includedir}")
         install_siplasplas_headeronly_library(${NAME})
+
         set(linking INTERFACE)
     elseif(TARGET_TYPE STREQUAL "LIBRARY")
         if(SIPLASPLAS_LIBRARIES_STATIC)
@@ -168,17 +171,16 @@ function(add_siplasplas_target NAME TARGET_TYPE)
 
         if(TARGET_TYPE STREQUAL "UNIT_TEST")
             set_target_properties(${NAME} PROPERTIES EXCLUDE_FROM_ALL TRUE)
-            if(NOT ARGS_GMOCK_VERSION)
-                set(ARGS_GMOCK_VERSION 1.57.0)
-            endif()
 
-            install_gtestgmock(VERSION ${ARGS_GMOCK_VERSION})
+            if(NOT TARGET googletest)
+                message(FATAL_ERROR "GoogleTest third party should be configured first")
+            endif()
 
             # gmock is linked against tests by default,
             # gmock default main if requested in settings
             target_link_libraries(${NAME} PRIVATE
-                ${GMOCK_LIB_TARGET}
-                $<$<BOOL:ARGS_DEFAULT_TEST_MAIN>:${GMOCK_MAIN_TARGET}>
+                googletest-gmock
+                $<$<BOOL:ARGS_DEFAULT_TEST_MAIN>:googletest-gmock-main>
             )
         endif()
 
@@ -194,6 +196,10 @@ function(add_siplasplas_target NAME TARGET_TYPE)
         ${CMAKE_SOURCE_DIR}/include
         ${ARGS_INCLUDE_DIRS}
     )
+
+    if(TARGET_TYPE MATCHES ".*LIBRARY")
+        configure_standardese(TARGET ${NAME} ROOT_DIR "${current_includedir}")
+    endif()
 
     string(REGEX REPLACE "_" " " TARGET_TYPE "${TARGET_TYPE}")
     message(STATUS "SIPLASPLAS ${TARGET_TYPE} ${NAME}")
@@ -242,174 +248,3 @@ endfunction()
 function(add_siplasplas_test NAME)
     add_siplasplas_target("${NAME}" UNIT_TEST ${ARGN})
 endfunction()
-
-include(ExternalProject)
-
-function(add_siplasplas_thirdparty NAME)
-    set(options HEADER_ONLY SKIP_CONFIGURE_STEP SKIP_BUILD_STEP)
-    set(oneValueArgs URL GIT_REPOSITORY CONFIGURE_COMMAND CMAKE_ARGS EXTRA_CMAKE_ARGS BUILD_COMMAND)
-    set(multiValueArgs INCLUDE_DIRS OUTPUT_BINARIES COMPILE_OPTIONS COMPILE_DEFINITIONS EXTERNAL_PROJECT_EXTRA_ARGS)
-    cmake_parse_arguments(THIRDPARTY
-        "${options}"
-        "${oneValueArgs}"
-        "${multiValueArgs}"
-        ${ARGN}
-    )
-
-    set(externalProjectArgs)
-
-    if(THIRDPARTY_URL)
-        list(APPEND externalProjectArgs URL "${THIRDPARTY_URL}")
-    elseif(THIRDPARTY_GIT_REPOSITORY)
-        list(APPEND externalProjectArgs GIT_REPOSITORY "${THIRDPARTY_GIT_REPOSITORY}")
-    else()
-        message(FATAL_ERROR "No download command for '${NAME}' third party component")
-    endif()
-
-    if(NOT THIRDPARTY_HEADER_ONLY)
-        if(THIRDPARTY_SKIP_CONFIGURE_STEP)
-            set(NO_CONFIG TRUE)
-        else()
-            if(THIRDPARTY_CONFIGURE_COMMAND)
-                list(APPEND externalProjectArgs CONFIGURE_COMMAND ${THIRDPARTY_CONFIGURE_COMMAND})
-            elseif(THIRDPARTY_CMAKE_ARGS OR THIRDPARTY_CMAKE_EXTRA_ARGS)
-                if(THIRDPARTY_CMAKE_ARGS)
-                    # Default bypassed args are overrided by user args
-                    list(APPEND externalProjectArgs CMAKE_ARGS ${THIRDPARTY_CMAKE_ARGS})
-                else()
-                    # Project ompiler and build settings are bypassed to external
-                    # project
-                    list(APPEND externalProjectArgs CMAKE_ARGS
-                        -DCMAKE_BUILD_TYPE=\"${CMAKE_BUILD_TYPE}\"
-                        -DCMAKE_C_COMPILER=\"${CMAKE_C_COMPILER}\"
-                        -DCMAKE_CXX_COMPILER=\"${CMAKE_CXX_COMPILER}\"
-                        -DCMAKE_CXX_FLAGS=\"${CMAKE_CXX_FLAGS};${THIRDPARTY_COMPILE_OPTIONS}\"
-                        ${THIRDPARTY_CMAKE_EXTRA_ARGS}
-                    )
-                endif()
-            endif()
-        endif()
-
-        if(THIRDPARTY_SKIP_BUILD_STEP)
-            set(NO_BUILD TRUE)
-        else()
-            if(THIRDPARTY_BUILD_COMMAND)
-                list(APPEND externalProjectArgs BUILD_COMMAND ${THIRDPARTY_BUILD_COMMAND})
-            else()
-                if(THIRDPARTY_CONFIGURE_COMMAND)
-                    message(FATAL_ERROR "No build command for '${NAME}' third party with custom configure step")
-                endif()
-            endif()
-        endif()
-    else()
-        set(NO_CONFIG TRUE)
-        set(NO_BUILD TRUE)
-    endif()
-
-    list(APPEND externalProjectArgs ${THIRDPARTY_EXTERNAL_PROJECT_EXTRA_ARGS})
-    set(external ${NAME}-external-project)
-
-    if(THIRDPARTY_GIT_REPOSITORY)
-        set(downloaddir "${CMAKE_CURRENT_BINARY_DIR}/THIRDPARTY/${NAME}/src/${external}")
-    else()
-        set(downloaddir "${CMAKE_CURRENT_BINARY_DIR}/THIRDPARTY/${NAME}/src/${external}")
-    endif()
-    set(repodir "${CMAKE_CURRENT_BINARY_DIR}/THIRDPARTY/${NAME}/src/${NAME}")
-
-    message(STATUS "Downloaddir: ${downloaddir}")
-    message(STATUS "Repodir:     ${repodir}")
-    # This is where your realise that CMake sucks. Cannot pass a <ARGUMENT> ""
-    # like INSTALL_COMMAND "" from a list. Instead, we write the four
-    # cases manually.
-
-    if(NO_CONFIG AND NO_BUILD)
-        ExternalProject_Add(${external}
-            PREFIX THIRDPARTY/${NAME}
-            ${externalProjectArgs}
-            # Move the download destination directory to a directory named as the
-            # third party, so we can include third party contents as #include <thirdpartyname/header.h>
-            CONFIGURE_COMMAND ""
-            BUILD_COMMAND ""
-            INSTALL_COMMAND ""
-        )
-    elseif(NO_CONFIG)
-        ExternalProject_Add(${external}
-            PREFIX THIRDPARTY/${NAME}
-            ${externalProjectArgs}
-            CONFIGURE_COMMAND ""
-            INSTALL_COMMAND ""
-        )
-    elseif(NO_BUILD)
-        ExternalProject_Add(${external}
-            PREFIX THIRDPARTY/${NAME}
-            ${externalProjectArgs}
-            BUILD_COMMAND ""
-            INSTALL_COMMAND ""
-        )
-    else()
-        ExternalProject_Add(${external}
-            PREFIX THIRDPARTY/${NAME}
-            ${externalProjectArgs}
-            INSTALL_COMMAND ""
-        )
-    endif()
-
-    ExternalProject_Get_Property(${external} source_dir binary_dir)
-
-    add_library(${NAME} INTERFACE)
-
-    if(NOT ("${repodir}" STREQUAL "${downloaddir}"))
-        add_custom_target(${NAME}-rename-sources
-            COMMAND ${CMAKE_COMMAND} -DSOURCE="${downloaddir}" -DDEST="${repodir}" -P ${CMAKE_SOURCE_DIR}/cmake/renamedir.cmake
-        )
-        add_dependencies(${NAME}-rename-sources ${external})
-        add_dependencies(${NAME} ${NAME}-rename-sources)
-    else()
-        add_dependencies(${NAME} ${external})
-    endif()
-
-    set(includedirs)
-    foreach(includedir ${THIRDPARTY_INCLUDE_DIRS})
-        list(APPEND includedirs "${repodir}/${includedir}")
-    endforeach()
-    target_include_directories(${NAME} INTERFACE "${repodir}" "${repodir}/.." ${includedirs})
-
-    foreach(binary ${THIRDPARTY_OUTPUT_BINARIES})
-        if(SIPLASPLAS_VERBOSE_CONFIG)
-            message(STATUS "Binary ${binary} for third party ${NAME}...")
-        endif()
-
-        set(importedlib ${NAME}-${binary}-imported-lib)
-        add_library(${importedlib} IMPORTED)
-
-        set_target_properties(${importedlib} PROPERTIES
-            IMPORTED_LOCATION "${binary_dir}/${binary}"
-        )
-
-        target_link_libraries(${NAME} INTERFACE ${importedlib})
-    endforeach()
-
-    function(print_args var)
-        string(REGEX REPLACE "THIRDPARTY_(.+)" "\\1" varname "${var}")
-        string(TOLOWER "${varname}" varname)
-        string(REGEX REPLACE "_" " " varname "${varname}")
-
-        if(${var})
-            message(":: ${varname}:")
-
-            foreach(elem ${${var}})
-                message("  - ${elem}")
-            endforeach()
-        else()
-            message(":: No ${varname}")
-        endif()
-    endfunction()
-
-    message(STATUS "SIPLASPLAS THIRD PARTY LIBRARY ${NAME}")
-    if(SIPLASPLAS_VERBOSE_CONFIG)
-        foreach(var ${options} ${oneValueArgs} ${multiValueArgs})
-            print_args(THIRDPARTY_${var})
-        endforeach()
-    endif()
-endfunction()
-
