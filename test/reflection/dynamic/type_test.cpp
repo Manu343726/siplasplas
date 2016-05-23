@@ -1,126 +1,35 @@
 #include <gmock/gmock.h>
 #include <siplasplas/reflection/dynamic/type.hpp>
-#include <iostream>
+#include <sstream>
+
+#include "mockspecialfunctions.hpp"
 
 using namespace ::testing;
 using namespace ::cpp;
 using namespace ::cpp::dynamic_reflection;
 
 
-class SpecialFunctionsBase
-{
-public:
-    MOCK_METHOD1(destructor, void(const void*));
-    MOCK_METHOD1(default_constructor, void(const void*));
-    MOCK_METHOD2(copy_constructor, void(const void*, const void*));
-    MOCK_METHOD2(move_constructor, void(const void*, const void*));
-    MOCK_METHOD2(copy_assignment, void(const void*, const void*));
-    MOCK_METHOD2(move_assignment, void(const void*, const void*));
-};
-
-class SpecialFunctions : public SpecialFunctionsBase
-{};
-
-class MockSpecialFunctions
-{
-public:
-    MockSpecialFunctions()
-    {
-        specialFunctions().default_constructor(this);
-    }
-
-    MockSpecialFunctions(const MockSpecialFunctions& other) :
-        value{other.value}
-    {
-        specialFunctions().copy_constructor(this, &other);
-    }
-
-    MockSpecialFunctions(MockSpecialFunctions&& other) :
-        value{other.value}
-    {
-        specialFunctions().move_constructor(this, &other);
-        other.value = "";
-    }
-
-    MockSpecialFunctions& operator=(const MockSpecialFunctions& other)
-    {
-        specialFunctions().copy_assignment(this, &other);
-        value = other.value;
-        return *this;
-    }
-
-    MockSpecialFunctions& operator=(MockSpecialFunctions&& other)
-    {
-        value = other.value;
-        other.value = "";
-        specialFunctions().move_assignment(this, &other);
-        return *this;
-    }
-
-    ~MockSpecialFunctions()
-    {
-        specialFunctions().destructor(this);
-    }
-
-    static void reset(SpecialFunctions* functions)
-    {
-        *MockSpecialFunctions::functions() = functions;
-    }
-
-    static SpecialFunctions& specialFunctions()
-    {
-        return **functions();
-    }
-
-    std::string value = "hello, world!";
-
-public:
-    static SpecialFunctions& defaultFunctions()
-    {
-        static SpecialFunctions defaultFunctions;
-        return defaultFunctions;
-    }
-
-    static SpecialFunctions** functions()
-    {
-        static SpecialFunctions* functions = &defaultFunctions();
-        return &functions;
-    }
-};
-
-class TypeTestBase
-{
-protected:
-    TypeTestBase(void* object, void* other)
-    {
-        MockSpecialFunctions::reset(&functions);
-        EXPECT_CALL(functions, default_constructor(object));
-        EXPECT_CALL(functions, default_constructor(other));
-        EXPECT_CALL(functions, destructor(object));
-        EXPECT_CALL(functions, destructor(other));
-    }
-
-    Type type = Type::get<MockSpecialFunctions>();
-    SpecialFunctions functions;
-};
-
-class TypeTest : public TypeTestBase, public Test
+class TypeTest : public MockSpecialFunctionsTest, public Test
 {
 public:
     TypeTest() :
-        TypeTestBase{&object, &other}
+        MockSpecialFunctionsTest{{&object, &other}, cpp::meta::identity<MockType>()}
     {
+        MockType::reset(&functions);
         other.value = "42";
     }
 
+protected:
     void cleanup(void* testObject)
     {
         EXPECT_CALL(functions, destructor(testObject));
         type.destroy(testObject);
     }
 
-protected:
-    MockSpecialFunctions object, other;
+    using MockType = MockSpecialFunctions<TypeTest>;
+
+    Type type = Type::get<MockType>();
+    MockType object, other;
 };
 
 TEST_F(TypeTest, constructInvokesDefaultConstructor)
@@ -135,7 +44,7 @@ TEST_F(TypeTest, copyConstructInvokesCopyConstructor)
 {
     EXPECT_CALL(functions, copy_constructor(_, &other));
     void* object = type.copy_construct(&other);
-    EXPECT_EQ(reinterpret_cast<MockSpecialFunctions*>(object)->value, "42");
+    EXPECT_EQ(reinterpret_cast<MockType*>(object)->value, "42");
     EXPECT_EQ(other.value, "42");
 
     cleanup(object);
@@ -145,7 +54,7 @@ TEST_F(TypeTest, moveConstructInvokesMoveConstructor)
 {
     EXPECT_CALL(functions, move_constructor(_, &other));
     void* object = type.move_construct(&other);
-    EXPECT_EQ(reinterpret_cast<MockSpecialFunctions*>(object)->value, "42");
+    EXPECT_EQ(reinterpret_cast<MockType*>(object)->value, "42");
     EXPECT_EQ(other.value, "");
 
     cleanup(object);

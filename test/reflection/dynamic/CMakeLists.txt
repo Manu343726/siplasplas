@@ -1,6 +1,7 @@
 add_siplasplas_test(dynamic-reflection-test
 SOURCES
     type_test.cpp
+    object_test.cpp
     scope_test.cpp
     entity_test.cpp
 DEPENDS
