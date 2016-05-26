@@ -26,7 +26,7 @@ endfunction()
 
 get_ram_mb(RAMMB)
 if(RAMMB GREATER 1024)
-    add_reflection_example(chaiscript DEPENDS chaiscript INSTALL_SOURCES myclass.hpp)
+    #add_reflection_example(chaiscript DEPENDS chaiscript INSTALL_SOURCES myclass.hpp)
 endif()
 
 add_reflection_example(reflection DEPENDS json4moderncpp INSTALL_SOURCES myclass.hpp)
