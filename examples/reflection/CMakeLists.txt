@@ -50,4 +50,5 @@ if(NOT SIPLASPLAS_CI_BUILD)
     # Force pluginexample to be built first, else the shared library
     # could not be loaded
     add_dependencies(examples-plugin pluginexample)
+    target_compile_definitions(examples-plugin PRIVATE PLUGIN_LIBRARY="$<TARGET_FILE:pluginexample>")
 endif()
