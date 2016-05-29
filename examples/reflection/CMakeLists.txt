@@ -9,7 +9,7 @@ function(add_reflection_example NAME)
         ${ARGN}
     )
 
-    list(APPEND ARGS_DEPENDS siplasplas-reflection ctti)
+    list(APPEND ARGS_DEPENDS siplasplas-reflection)
 
     if(ARGS_INSTALL_SOURCES)
         set(install_sources INSTALL_SOURCES ${ARGS_INSTALL_SOURCES})
@@ -43,4 +43,4 @@ if(RAMMB GREATER 1024)
 endif()
 
 add_reflection_example(reflection DEPENDS json4moderncpp INSTALL_SOURCES myclass.hpp)
-add_example(plugin DEPENDS plugininterface siplasplas-reflection)
+#add_example(plugin DEPENDS plugininterface siplasplas-reflection)
