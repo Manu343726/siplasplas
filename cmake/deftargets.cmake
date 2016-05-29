@@ -66,7 +66,7 @@ endfunction()
 
 function(add_siplasplas_target NAME TARGET_TYPE)
     cmake_parse_arguments(ARGS
-        "EXCLUDE_FROM_RUN_ALL;STATIC;SHARED;INSTALL;DEFAULT_TEST_MAIN"
+        "EXCLUDE_FROM_RUN_ALL;STATIC;SHARED;NO_INSTALL;DEFAULT_TEST_MAIN"
         "BOOST_VERSION;NAMESPACE"
         "SOURCES;INCLUDE_DIRS;COMPILE_OPTIONS;LINK_OPTIONS;DEPENDS;BOOST_COMPONENTS;LINK_LIBS;RUN_ARGS"
         ${ARGN}
@@ -131,8 +131,10 @@ function(add_siplasplas_target NAME TARGET_TYPE)
         headerdir_from_sourcetree(current_includedir)
         # Add current include dir so we can just do '#include "foo.hpp"' in foo.cpp
         target_include_directories(${NAME} INTERFACE "${current_includedir}")
-        install_siplasplas_headeronly_library(${NAME})
 
+        if(NOT ARGS_NO_INSTALL)
+            install_siplasplas_headeronly_library(${NAME})
+        endif()
         set(linking INTERFACE)
     elseif(TARGET_TYPE STREQUAL "LIBRARY")
         if(SIPLASPLAS_LIBRARIES_STATIC)
@@ -164,7 +166,9 @@ function(add_siplasplas_target NAME TARGET_TYPE)
         )
         target_include_directories(${NAME} PUBLIC ${CMAKE_BINARY_DIR}/exports)
 
-        install_siplasplas_library(${NAME})
+        if(NOT ARGS_NO_INSTALL)
+            install_siplasplas_library(${NAME})
+        endif()
     else()
         # Create the executable
         add_executable(${NAME} ${ARGS_SOURCES})

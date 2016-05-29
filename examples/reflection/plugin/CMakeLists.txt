@@ -1,6 +1,6 @@
 include(${CMAKE_SOURCE_DIR}/src/reflection/parser/drlparser.cmake)
 
-add_siplasplas_library(pluginexample
+add_siplasplas_library(pluginexample NO_INSTALL
 SOURCES
     plugin.cpp
     reflectionruntimeloader.cpp
