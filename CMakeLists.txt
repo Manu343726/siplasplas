@@ -19,6 +19,7 @@ add_subdirectory(src)
 add_subdirectory(examples)
 
 option(SIPLASPLAS_TESTS_ENABLED "Enable/Disable unit tests" ON)
+option(SIPLASPLAS_CI_BUILD "siplasplas running on continuous integrationi build" FALSE)
 
 if(SIPLASPLAS_TESTS_ENABLED)
     enable_testing()

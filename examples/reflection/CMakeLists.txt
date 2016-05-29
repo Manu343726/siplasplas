@@ -43,4 +43,11 @@ if(RAMMB GREATER 1024)
 endif()
 
 add_reflection_example(reflection DEPENDS json4moderncpp INSTALL_SOURCES myclass.hpp)
-#add_example(plugin DEPENDS plugininterface siplasplas-reflection)
+
+# See issue #26
+if(NOT SIPLASPLAS_CI_BUILD)
+    add_example(plugin DEPENDS plugininterface siplasplas-reflection)
+    # Force pluginexample to be built first, else the shared library
+    # could not be loaded
+    add_dependencies(examples-plugin pluginexample)
+endif()
