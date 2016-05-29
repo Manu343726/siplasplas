@@ -29,7 +29,7 @@ function(generate_external_project NAME NO_CONFIG NO_BUILD EXTERNAL_PROJECT_ARGS
 endfunction()
 
 function(add_siplasplas_thirdparty NAME)
-    set(options HEADER_ONLY SKIP_CONFIGURE_STEP SKIP_BUILD_STEP)
+    set(options HEADER_ONLY SKIP_CONFIGURE_STEP SKIP_BUILD_STEP RENAME)
     set(oneValueArgs URL GIT_REPOSITORY GIT_TAG CONFIGURE_COMMAND BUILD_COMMAND)
     set(multiValueArgs INCLUDE_DIRS BINARIES COMPILE_OPTIONS COMPILE_DEFINITIONS EXTERNAL_PROJECT_EXTRA_ARGS CMAKE_ARGS CMAKE_EXTRA_ARGS)
     cmake_parse_arguments(THIRDPARTY
@@ -121,7 +121,7 @@ function(add_siplasplas_thirdparty NAME)
 
     add_library(${NAME} INTERFACE)
 
-    if(NOT ("${repodir}" STREQUAL "${downloaddir}") AND NOT (EXISTS "${repodir}"))
+    if(THIRDPARTY_RENAME AND (NOT ("${repodir}" STREQUAL "${downloaddir}") AND NOT (EXISTS "${repodir}")))
         add_custom_target(${NAME}-rename-sources
             COMMAND ${CMAKE_COMMAND} -E copy_directory "${downloaddir}" "${repodir}"
             COMMENT "Copying ${NAME} sources to ${repodir}"
@@ -135,9 +135,12 @@ function(add_siplasplas_thirdparty NAME)
 
     set(includedirs)
     foreach(includedir ${THIRDPARTY_INCLUDE_DIRS})
-        list(APPEND includedirs "${repodir}/${includedir}")
+        list(APPEND includedirs
+            "${repodir}/${includedir}"
+            "${source_dir}/${includedir}"
+        )
     endforeach()
-    target_include_directories(${NAME} INTERFACE "${repodir}" "${repodir}/.." ${includedirs})
+    target_include_directories(${NAME} INTERFACE "${source_dir}" "${repodir}" "${repodir}/.." ${includedirs})
 
     function(print_args var)
         string(REGEX REPLACE "THIRDPARTY_(.+)" "\\1" varname "${var}")
@@ -212,7 +215,10 @@ function(add_siplasplas_thirdparty_component NAME)
     add_library(${importedlib} IMPORTED ${libtype})
 
     foreach(includedir ${COMPONENT_INCLUDE_DIRS})
-        list(APPEND includedirs "${repodir}/${includedir}")
+        list(APPEND includedirs
+            "${repodir}/${includedir}"
+            "${source_dir}/${includedir}"
+        )
     endforeach()
 
     set_target_properties(${importedlib} PROPERTIES

@@ -2,7 +2,20 @@ add_subdirectory(plugininterface)
 add_subdirectory(plugin)
 
 function(add_reflection_example NAME)
-    add_example(${NAME} DEPENDS siplasplas-reflection ${ARGN})
+    cmake_parse_arguments(ARGS
+        ""
+        ""
+        "DEPENDS;INSTALL_SOURCES"
+        ${ARGN}
+    )
+
+    list(APPEND ARGS_DEPENDS siplasplas-reflection)
+
+    if(ARGS_INSTALL_SOURCES)
+        set(install_sources INSTALL_SOURCES ${ARGS_INSTALL_SOURCES})
+    endif()
+
+    add_example(${NAME} DEPENDS ${ARGS_DEPENDS} ${install_sources} ${ARGS_UNPARSED_ARGUMENTS})
     reflection_target(examples-${NAME})
 endfunction()
 
@@ -30,4 +43,12 @@ if(RAMMB GREATER 1024)
 endif()
 
 add_reflection_example(reflection DEPENDS json4moderncpp INSTALL_SOURCES myclass.hpp)
-add_example(plugin DEPENDS plugininterface siplasplas-reflection)
+
+# See issue #26
+if(NOT SIPLASPLAS_CI_BUILD)
+    add_example(plugin DEPENDS plugininterface siplasplas-reflection)
+    # Force pluginexample to be built first, else the shared library
+    # could not be loaded
+    add_dependencies(examples-plugin pluginexample)
+    target_compile_definitions(examples-plugin PRIVATE PLUGIN_LIBRARY="$<TARGET_FILE:pluginexample>")
+endif()
