@@ -128,3 +128,4 @@ deploy:
   skip-cleanup: true
   on:
     repo: GueimUCM/siplasplas
+    tag: true
