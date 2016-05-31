@@ -203,6 +203,10 @@ function(add_siplasplas_thirdparty_component NAME)
         get_filename_component(fileext  "${libfile}" EXT)
         set(libfile "${filename}${COMPONENT_LIBRARY_SUFFIX}${fileext}")
 
+        if(MSVC)
+            set(libfile "${CMAKE_BUILD_TYPE}/${libfile}")
+        endif()
+
         if(COMPONENT_BINARY_DIR)
             set(COMPONENT_BINARY "${COMPONENT_BINARY_DIR}/${libfile}")
         else()
