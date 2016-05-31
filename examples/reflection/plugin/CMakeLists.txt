@@ -5,7 +5,7 @@ SOURCES
     plugin.cpp
     reflectionruntimeloader.cpp
 DEPENDS
-    siplasplas-reflection
+    siplasplas-reflection-dynamic
     plugininterface
 INCLUDE_DIRS
     ${CMAKE_SOURCE_DIR}/examples/reflection
