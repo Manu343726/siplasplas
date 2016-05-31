@@ -1,8 +1,6 @@
 include(CMakeParseArguments)
 include(GenerateExportHeader)
 
-include(cmake/boost)
-include(cmake/list_dependencies)
 include(cmake/utils.cmake)
 include(cmake/install.cmake)
 
@@ -202,10 +200,6 @@ function(add_siplasplas_target NAME TARGET_TYPE)
         ${CMAKE_SOURCE_DIR}/include
         ${ARGS_INCLUDE_DIRS}
     )
-
-    if(TARGET_TYPE MATCHES ".*LIBRARY")
-        configure_standardese(TARGET ${NAME} ROOT_DIR "${current_includedir}")
-    endif()
 
     string(REGEX REPLACE "_" " " TARGET_TYPE "${TARGET_TYPE}")
     message(STATUS "SIPLASPLAS ${TARGET_TYPE} ${NAME}")
