@@ -25,9 +25,6 @@ public:
     using type = T;
 };
 
-template<typename T>
-constexpr DefaultConstructible<T> defaultConstructible = DefaultConstructible<T>();
-
 template<typename Function, typename... Args>
 void foreach(Function function, Args&&... args)
 {
@@ -57,7 +54,7 @@ namespace
         template<typename Function>
         static void apply_void(Function function)
         {
-            ::cpp::foreach(detail::defaultConstructible<Ts>...)(function);
+            ::cpp::foreach(detail::DefaultConstructible<Ts>()...)(function);
         }
 
         template<typename T, typename Function>
