@@ -5,7 +5,7 @@
 #include <siplasplas/reflection/dynamic/object.hpp>
 #include <siplasplas/reflection/dynamic/object_manip.hpp>
 #include <siplasplas/utility/type_variables.hpp>
-#include <siplasplas/reflection/export.hpp>
+#include <siplasplas/reflection/dynamic/export.hpp>
 
 namespace cpp
 {
@@ -16,7 +16,7 @@ namespace dynamic_reflection
 namespace attributes
 {
 
-class SIPLASPLAS_REFLECTION_EXPORT Attribute
+class SIPLASPLAS_REFLECTION_DYNAMIC_EXPORT Attribute
 {
 public:
     virtual std::vector<cpp::dynamic_reflection::Object> processArguments(const std::vector<cpp::dynamic_reflection::Object>& args);

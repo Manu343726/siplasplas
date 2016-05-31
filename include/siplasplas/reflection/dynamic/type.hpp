@@ -6,7 +6,7 @@
 #include <siplasplas/utility/exception.hpp>
 #include <siplasplas/utility/lexical_cast.hpp>
 #include <siplasplas/utility/meta.hpp>
-#include <siplasplas/reflection/export.hpp>
+#include <siplasplas/reflection/dynamic/export.hpp>
 
 #include <unordered_map>
 #include <vector>
@@ -42,7 +42,7 @@ namespace detail
 
 #define CPP_REFLECTION_FORCE_TYPENAME(type) CPP_REFLECTION_CUSTOM_TYPENAME_FOR(type, #type)
 
-class SIPLASPLAS_REFLECTION_EXPORT Type
+class SIPLASPLAS_REFLECTION_DYNAMIC_EXPORT Type
 {
 public:
     Type() = default;
@@ -157,7 +157,7 @@ public:
         return !(lhs == rhs);
     }
 
-    class SIPLASPLAS_REFLECTION_EXPORT TypeBehavior
+    class SIPLASPLAS_REFLECTION_DYNAMIC_EXPORT TypeBehavior
     {
     public:
         virtual ~TypeBehavior() = default;
@@ -202,7 +202,7 @@ private:
     };
 
     template<typename T>
-    class TypeBehaiorOf : public TypeBehavior
+    class TypeBehaiorOf: public TypeBehavior
     {
     public:
         TypeBehaiorOf() :

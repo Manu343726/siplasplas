@@ -12,7 +12,7 @@ namespace cpp
 namespace dynamic_reflection
 {
 
-class Class : public Entity
+class SIPLASPLAS_REFLECTION_DYNAMIC_EXPORT Class : public Entity
 {
 public:
     static std::shared_ptr<Class> create(const SourceInfo& sourceInfo, const Type& type);

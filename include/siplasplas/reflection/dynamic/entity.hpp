@@ -3,6 +3,7 @@
 
 #include "sourceinfo.hpp"
 #include "detail/runtime_forward.hpp"
+#include <siplasplas/reflection/dynamic/export.hpp>
 
 #include <memory>
 #include <unordered_set>
@@ -13,7 +14,7 @@ namespace cpp
 namespace dynamic_reflection
 {
 
-class Entity : public std::enable_shared_from_this<Entity>
+class SIPLASPLAS_REFLECTION_DYNAMIC_EXPORT Entity : public std::enable_shared_from_this<Entity>
 {
 public:
     virtual ~Entity() = default;
