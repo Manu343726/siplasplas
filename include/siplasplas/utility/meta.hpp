@@ -165,13 +165,13 @@ namespace meta
     };
 
     template<char... Chars>
-    using string = list<char_<Chars>...>;
+    using string = list<std::integral_constant<char, Chars>...>;
 
     template<typename String>
     class StringToArray;
 
     template<char... Chars>
-    class StringToArray<string<Chars...>>
+    class StringToArray<list<std::integral_constant<char, Chars>...>>
     {
     public:
         using type = const char[sizeof...(Chars) + 1];
@@ -191,7 +191,7 @@ namespace meta
     };
 
     template<char... Chars>
-    constexpr const char StringToArray<string<Chars...>>::array[];
+    constexpr const char StringToArray<list<std::integral_constant<char, Chars>...>>::array[sizeof...(Chars) + 1];
 
     template<typename Seq>
     struct functor;
