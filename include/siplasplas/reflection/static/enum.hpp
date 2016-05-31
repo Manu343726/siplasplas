@@ -17,13 +17,13 @@ template<
 class Enum;
 
 template<
-    typename SourceInfo,
+    typename SourceInfo_,
     typename EnumType,
     EnumType... Constants,
     typename... ConstantsNames
 >
 class Enum<
-    SourceInfo,
+    SourceInfo_,
     EnumType,
     ::cpp::meta::list<std::integral_constant<EnumType, Constants>...>,
     ::cpp::meta::list<ConstantsNames...>
@@ -32,16 +32,15 @@ class Enum<
 private:
     // An extra slot is needed just for the case no constants were
     // reflected (by default).
-    static constexpr const char* _names[] = {
-        ::cpp::meta::StringToArray<ConstantsNames>::c_str()...
-    };
+    static const char* _names[sizeof...(ConstantsNames)];
 
-    static constexpr EnumType _values[] = {
+    static constexpr EnumType _values[sizeof...(Constants)] = {
         Constants...
     };
 
 public:
     using type = EnumType;
+    using SourceInfo = SourceInfo_;
     using names_array_t  = decltype(_names);
     using values_array_t = decltype(_values);
 
@@ -96,12 +95,14 @@ template<
     EnumType... Constants,
     typename... ConstantsNames
 >
-constexpr const char* Enum<
+const char* Enum<
     SourceInfo,
     EnumType,
     ::cpp::meta::list<std::integral_constant<EnumType, Constants>...>,
     ::cpp::meta::list<ConstantsNames...>
->::_names[];
+>::_names[] = {
+    ::cpp::meta::StringToArray<ConstantsNames>::c_str()...
+};
 
 template<
     typename SourceInfo,

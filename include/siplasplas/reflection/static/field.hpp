@@ -13,14 +13,15 @@ namespace meta
 template<typename SourceInfo, typename F, F field, std::size_t offset = 0>
 class Field;
 
-template<typename SourceInfo, typename Class, typename T, T Class::*field, std::size_t Offset>
-class Field<SourceInfo, T Class::*, field, Offset> : public SourceInfo
+template<typename SourceInfo_, typename Class, typename T, T Class::*field, std::size_t Offset>
+class Field<SourceInfo_, T Class::*, field, Offset>
 {
 public:
     using type = T Class::*;
     using value_type = T;
     using class_type = Class;
     using decay_t = std::decay_t<value_type>;
+    using SourceInfo = SourceInfo_;
 
     constexpr Field() = default;
 
