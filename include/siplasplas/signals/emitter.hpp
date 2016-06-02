@@ -27,15 +27,15 @@ public:
     {}
 
     template<typename... Args>
-    void invoke(const Args&... args)
+    void invoke(Args&&... args)
     {
         if(_callee == nullptr)
         {
-            _sink(args...);
+            _sink(std::forward<Args>(args)...);
         }
         else
         {
-            _sink(*_callee, args...);
+            _sink(*_callee, std::forward<Args>(args)...);
         }
 
     }
@@ -70,10 +70,10 @@ public:
         callee.registerCaller(caller);
     }
 
-    template<typename Class, typename R, typename... Args>
-    static void emit(Class& emitter, R(Class::*function)(Args...), const Args&... args)
+    template<typename Class, typename R, typename... FArgs, typename... Args>
+    static void emit(Class& emitter, R(Class::*function)(FArgs...), Args&&... args)
     {
-        emitter.invoke(function, args...);
+        emitter.invoke(function, std::forward<Args>(args)...);
     }
 
 
@@ -87,7 +87,7 @@ public:
 
 protected:
     template<typename Function, typename... Args>
-    void invoke(Function function, const Args&... args)
+    void invoke(Function function, Args&&... args)
     {
         auto fptr = reinterpret_cast<void*>(function);
         auto it = _signals.find(fptr);
@@ -99,7 +99,7 @@ protected:
             for(auto& connection : connections)
             {
                 connection.invoke(
-                    args...
+                    std::forward<Args>(args)...
                 );
             }
         }

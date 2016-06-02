@@ -8,6 +8,12 @@ class Foo : public cpp::SignalEmitter
 {
 public:
     void signal(int i){}
+    void signal2(const std::string& str, int integer){}
+
+    void slot(const std::string& str, int integer)
+    {
+        std::cout << __PRETTY_FUNCTION__ << ": '" << str << "', " << integer << "\n";
+    }
 };
 
 class Bar : public cpp::SignalEmitter

@@ -11,26 +11,26 @@ Object::Object() :
 
 Object::Object(const cpp::dynamic_reflection::Type& type) :
     _type{type},
-    _object{_type.construct()},
-    _isReference{false}
+    _isReference{false},
+    _object{_type.construct()}
 {}
 
 Object::Object(const cpp::dynamic_reflection::Type& type, void* fromRaw, bool isReference) :
     _type{type},
-    _object{isReference ? fromRaw : _type.copy_construct(fromRaw)},
-    _isReference{isReference}
+    _isReference{isReference},
+    _object{isReference ? fromRaw : _type.copy_construct(fromRaw)}
 {}
 
 Object::Object(const Object& other) :
     _type{other._type},
-    _object{other._isReference ? other._object : _type.copy_construct(other._object)},
-    _isReference{other._isReference}
+    _isReference{other._isReference},
+    _object{other._isReference ? other._object : _type.copy_construct(other._object)}
 {}
 
 Object::Object(Object&& other) :
     _type{other._type},
-    _object{other._isReference ? other._object : _type.move_construct(other._object)},
-    _isReference{other._isReference}
+    _isReference{other._isReference},
+    _object{other._isReference ? other._object : _type.move_construct(other._object)}
 {}
 
 Object& Object::operator=(const Object& other)
