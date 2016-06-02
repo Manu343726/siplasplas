@@ -1,0 +1,1 @@
+add_reflection_example(signals DEPENDS siplasplas-signals)

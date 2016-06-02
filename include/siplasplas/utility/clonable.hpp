@@ -17,6 +17,11 @@ template<typename Class, typename ClonableInterface = Clonable>
 class DefaultClone : public ClonableInterface
 {
 public:
+    template<typename... Args>
+    DefaultClone(Args&&... args) :
+        ClonableInterface{std::forward<Args>(args)...}
+    {}
+
     ClonableInterface* clone() const override
     {
         return new Class(*static_cast<const Class*>(this));

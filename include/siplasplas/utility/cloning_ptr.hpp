@@ -96,7 +96,10 @@ private:
 
     void deallocate(T* object)
     {
-        delete object;
+        if(object != nullptr)
+        {
+            delete object;
+        }
     }
 
     T* clone()
