@@ -5,70 +5,52 @@
 #include <siplasplas/reflection/dynamic/function_pointer.hpp>
 #include <siplasplas/utility/hash.hpp>
 #include <siplasplas/reflection/api.hpp>
+#include "syncsink.hpp"
+#include "asyncsink.hpp"
+
+#include <memory>
+#include <mutex>
 
 namespace cpp
 {
 
-class SignalEmitter;
-
-class Slot
-{
-public:
-    template<typename Sink>
-    Slot(Sink sink) :
-        _callee{nullptr},
-        _sink{sink}
-    {}
-
-    template<typename Sink>
-    Slot(SignalEmitter& callee, Sink sink) :
-        _callee{&callee},
-        _sink{sink}
-    {}
-
-    template<typename... Args>
-    void invoke(Args&&... args)
-    {
-        if(_callee == nullptr)
-        {
-            _sink(std::forward<Args>(args)...);
-        }
-        else
-        {
-            _sink(*_callee, std::forward<Args>(args)...);
-        }
-
-    }
-
-    SignalEmitter* callee() const
-    {
-        return _callee;
-    }
-
-private:
-    SignalEmitter* _callee = nullptr;
-    cpp::dynamic_reflection::FunctionPointer _sink;
-};
-
 class SignalEmitter
 {
 public:
-    template<typename Sink, typename R, typename Class, typename... Args>
-    static void connect(SignalEmitter& caller, R(Class::*source)(Args...), Sink sink)
+    template<typename Function, typename R, typename Class, typename... Args>
+    static void connect(SignalEmitter& caller, R(Class::*source)(Args...), Function function)
     {
-        auto fptr = reinterpret_cast<void*>(source);
+        std::shared_ptr<SignalSink> sink{ new SyncSink{caller, function} };
 
-        caller._signals[fptr].push_back(Slot{sink});
+        caller.registerConnection(source, sink);
     }
 
-    template<typename Sink, typename R, typename Class, typename... Args>
-    static void connect(SignalEmitter& caller, R(Class::*source)(Args...), SignalEmitter& callee, Sink sink)
+    template<typename Function, typename R, typename Class, typename... Args>
+    static void connect(SignalEmitter& caller, R(Class::*source)(Args...), SignalEmitter& callee, Function function)
     {
-        auto fptr = reinterpret_cast<void*>(source);
+        std::shared_ptr<SignalSink> sink{ new SyncSink{caller, callee, function} };
 
-        caller._signals[fptr].emplace_back(callee, sink);
-        callee.registerCaller(caller);
+        caller.registerConnection(source, sink);
+        callee.registerIncommingConnection(sink);
     }
+
+    template<typename Function, typename R, typename Class, typename... Args>
+    static void connect_async(SignalEmitter& caller, R(Class::*source)(Args...), Function function)
+    {
+        std::shared_ptr<SignalSink> sink{ new AsyncSink{caller, function} };
+
+        caller.registerConnection(source, sink);
+    }
+
+    template<typename Function, typename R, typename Class, typename... Args>
+    static void connect_async(SignalEmitter& caller, R(Class::*source)(Args...), SignalEmitter& callee, Function function)
+    {
+        std::shared_ptr<SignalSink> sink{ new AsyncSink{caller, callee, function} };
+
+        caller.registerConnection(source, sink);
+        callee.registerIncommingConnection(sink);
+    }
+
 
     template<typename Class, typename R, typename... FArgs, typename... Args>
     static void emit(Class& emitter, R(Class::*function)(FArgs...), Args&&... args)
@@ -79,9 +61,17 @@ public:
 
     ~SignalEmitter()
     {
-        for(auto* caller : _callers)
+        for(auto& sink : _incomingConnections)
         {
-            caller->disconnectCallee(this);
+            sink->caller()->disconnectCallee(this);
+        }
+    }
+
+    void poll()
+    {
+        for(auto& sink : _incomingConnections)
+        {
+            sink->pull();
         }
     }
 
@@ -90,15 +80,15 @@ protected:
     void invoke(Function function, Args&&... args)
     {
         auto fptr = reinterpret_cast<void*>(function);
-        auto it = _signals.find(fptr);
+        auto it = _connections.find(fptr);
 
-        if(it != _signals.end())
+        if(it != _connections.end())
         {
-            auto& connections = it->second;
+            auto& sinks = it->second;
 
-            for(auto& connection : connections)
+            for(auto& sink : sinks)
             {
-                connection.invoke(
+                (*sink)(
                     std::forward<Args>(args)...
                 );
             }
@@ -106,28 +96,39 @@ protected:
     }
 
 private:
-    std::vector<SignalEmitter*> _callers;
-    cpp::HashTable<void*, std::vector<Slot>> _signals;
+    cpp::HashSet<std::shared_ptr<SignalSink>> _incomingConnections;
+    cpp::HashTable<void*, std::vector<std::shared_ptr<SignalSink>>> _connections;
+    std::mutex _lockConnections;
+    std::mutex _lockIncommingConnections;
 
     void disconnectCallee(SignalEmitter* callee)
     {
-        for(auto& keyValue : _signals)
-        {
-            auto& slots = keyValue.second;
+        std::lock_guard<std::mutex> guard{_lockConnections};
 
-            slots.erase(std::remove_if(slots.begin(), slots.end(), [callee](const Slot& slot)
+        for(auto& keyValue : _connections)
+        {
+            auto& sinks = keyValue.second;
+
+            sinks.erase(std::remove_if(sinks.begin(), sinks.end(), [callee](const std::shared_ptr<SignalSink>& sink)
             {
-                return slot.callee() == callee;
-            }), slots.end());
+                return sink->callee() == callee;
+            }), sinks.end());
         }
     }
 
-    void registerCaller(SignalEmitter& caller)
+    template<typename Function>
+    void registerConnection(Function function, const std::shared_ptr<SignalSink>& sink)
     {
-        if(std::find(_callers.begin(), _callers.end(), &caller) == _callers.end())
-        {
-            _callers.push_back(&caller);
-        }
+        std::lock_guard<std::mutex> guard{_lockConnections};
+        auto fptr = reinterpret_cast<void*>(function);
+
+        _connections[fptr].push_back(sink);
+    }
+
+    void registerIncommingConnection(const std::shared_ptr<SignalSink>& sink)
+    {
+        std::lock_guard<std::mutex> guard{_lockIncommingConnections};
+        _incomingConnections.insert(sink);
     }
 };
 

@@ -1,27 +1,37 @@
 #include "foobar.hpp"
 
+#include <future>
+
 using namespace cpp;
+
+void producer(Foo& foo)
+{
+    for(std::size_t i = 0; true; ++i) 
+    {
+        emit(foo).signal(i);
+    }
+}
+
+void consumer(Bar& bar)
+{
+    while(true)
+    {
+        bar.poll();
+    }
+}
+
 
 int main()
 {
     Foo foo;
-    SignalEmitter::connect(foo, &Foo::signal, [](int i)
-    {
-        std::cout << "Hello from lambda! (i=" << i << ")\n";
-    });
-    SignalEmitter::connect(foo, &Foo::signal2, [](const std::string& str, int integer)
-    {
-        std::cout << "signal2: '" << str << "', " << integer << "\n";
-    });
-    SignalEmitter::connect(foo, &Foo::signal2, foo, &Foo::slot);
+    Bar bar;
 
-    {
-        Bar bar;
+    SignalEmitter::connect_async(foo, &Foo::signal, bar, &Bar::slot);
 
-        SignalEmitter::connect(foo, &Foo::signal, bar, &Bar::slot);
-        emit(foo).signal(42);
-    }
+    auto producerTask = std::async(std::launch::async, producer, std::ref(foo));
+    auto consumerTask = std::async(std::launch::async, consumer, std::ref(bar));
 
-    emit(foo).signal(3141592);
-    emit(foo).signal2(std::string("hello"), 42);
+    producerTask.get();
+    consumerTask.get();
 }
+

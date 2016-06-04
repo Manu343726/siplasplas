@@ -26,9 +26,9 @@ public:
         !std::is_same<std::decay_t<T>, Object>::value
     >>
     Object(T&& value) :
-        _type{cpp::dynamic_reflection::Type::get<std::remove_reference_t<T>>()},
+        _type{cpp::dynamic_reflection::Type::get<std::decay_t<T>>()},
         _isReference{false},
-        _object{_isReference ? &value : _type.copy_construct(&value)}
+        _object{_isReference ? const_cast<std::decay_t<T>*>(&value) : _type.copy_construct(&value)}
     {}
     Object(const Object& other);
     Object(Object&& other);

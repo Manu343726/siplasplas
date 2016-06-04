@@ -348,7 +348,7 @@ private:
 
         void* allocate_object()
         {
-            return allocate(_objectsArena, sizeof(T), alignof(T));
+            return std::malloc(sizeof(T));
         }
 
         void* allocate(std::vector<StorageBlock>& arena, std::size_t sizeOf, std::size_t alignment, int tries = 1)
@@ -377,7 +377,7 @@ private:
 
         void deallocate_object(void* pointer)
         {
-            return deallocate(_objectsArena, pointer);
+            return std::free(pointer);
         }
 
         void deallocate(std::vector<StorageBlock>& arena, void* pointer)

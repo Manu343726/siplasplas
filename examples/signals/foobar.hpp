@@ -8,11 +8,11 @@ class Foo : public cpp::SignalEmitter
 {
 public:
     void signal(int i){}
-    void signal2(const std::string& str, int integer){}
+    void signal2(int integer){}
 
-    void slot(const std::string& str, int integer)
+    void slot(int integer)
     {
-        std::cout << __PRETTY_FUNCTION__ << ": '" << str << "', " << integer << "\n";
+        std::cout << __PRETTY_FUNCTION__ << ": " << integer << " (this=@" << this << ")\n";
     }
 };
 
@@ -21,7 +21,7 @@ class Bar : public cpp::SignalEmitter
 public:
     void slot(int i)
     {
-        std::cout << "Hello from Bar! (i=" << i << ")\n";
+        std::cout << "Hello from Bar! (this=@" << this << ", i=" << i << ")\n";
     }
 };
 
