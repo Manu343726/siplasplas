@@ -115,11 +115,12 @@ Object Object::fromString(const std::string& typeName, const std::string& value)
 
 void Object::destroy()
 {
-    if(_kind == Object::Kind::VALUE)
+    if(!empty() && _kind == Object::Kind::VALUE)
     {
         _type.destroy(_object);
     }
 
+    _object = nullptr;
     _type = Type::get<EmptyObject>();
 }
 
