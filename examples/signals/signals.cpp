@@ -1,20 +1,26 @@
 #include "foobar.hpp"
 
 #include <future>
+#include <chrono>
 
 using namespace cpp;
 
 void producer(Foo& foo)
 {
-    for(std::size_t i = 0; true; ++i) 
+    std::size_t i = 0;
+    auto start = std::chrono::system_clock::now();
+
+    while(std::chrono::system_clock::now() - start < std::chrono::seconds(1))
     {
-        emit(foo).signal(i);
+        emit(foo).signal(i++);
     }
 }
 
 void consumer(Bar& bar)
 {
-    while(true)
+    auto start = std::chrono::system_clock::now();
+
+    while(std::chrono::system_clock::now() - start < std::chrono::seconds(3))
     {
         bar.poll();
     }

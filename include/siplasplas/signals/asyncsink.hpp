@@ -2,6 +2,7 @@
 #define SIPLASPLAS_SIGNALS_ASYNCSINK_HPP
 
 #include "sink.hpp"
+#include <siplasplas/reflection/dynamic/function_pointer.hpp>
 #include <readerwriterqueue/readerwriterqueue.h>
 
 namespace cpp
@@ -10,33 +11,22 @@ namespace cpp
 class AsyncSink : public SignalSink
 {
 public:
-    template<typename Function>
-    AsyncSink(SignalEmitter& caller, Function function) :
-        SignalSink{&caller, nullptr},
+    template<typename Caller, typename Function>
+    AsyncSink(Caller& caller, Function function) :
+        SignalSink{caller},
         _fptr{function}
     {}
 
-    template<typename Function>
-    AsyncSink(SignalEmitter& caller, SignalEmitter& callee, Function function) :
-        SignalSink{&caller, &callee},
+    template<typename Caller, typename Callee, typename Function>
+    AsyncSink(Caller& caller, Callee& callee, Function function) :
+        SignalSink{caller, callee},
         _fptr{function}
     {}
 
-    void pull() override
-    {
-        std::vector<cpp::dynamic_reflection::Object> args;
-
-        while(_queue.try_dequeue(args))
-        {
-            _fptr.invoke(args);
-        }
-    }
+    bool pull() override;
 
 protected:
-    void invoke(const std::vector<cpp::dynamic_reflection::Object>& args) override
-    {
-        _queue.enqueue(args);
-    }
+    void invoke(const std::vector<cpp::dynamic_reflection::Object>& args) override;
 
 private:
     moodycamel::ReaderWriterQueue<std::vector<cpp::dynamic_reflection::Object>> _queue;

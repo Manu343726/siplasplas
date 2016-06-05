@@ -6,5 +6,7 @@ SOURCES
     entity_test.cpp
 DEPENDS
     siplasplas-reflection-dynamic
+NAMESPACE
+    tests
 DEFAULT_TEST_MAIN
 )

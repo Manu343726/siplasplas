@@ -17,38 +17,46 @@ namespace cpp
 class SignalEmitter
 {
 public:
-    template<typename Function, typename R, typename Class, typename... Args>
-    static void connect(SignalEmitter& caller, R(Class::*source)(Args...), Function function)
+    template<typename Caller, typename Function, typename R, typename Class, typename... Args>
+    static std::shared_ptr<const SignalSink> connect(Caller& caller, R(Class::*source)(Args...), Function function)
     {
         std::shared_ptr<SignalSink> sink{ new SyncSink{caller, function} };
 
         caller.registerConnection(source, sink);
+
+        return sink;
     }
 
-    template<typename Function, typename R, typename Class, typename... Args>
-    static void connect(SignalEmitter& caller, R(Class::*source)(Args...), SignalEmitter& callee, Function function)
+    template<typename Caller, typename Callee, typename Function, typename R, typename Class, typename... Args>
+    static std::shared_ptr<const SignalSink> connect(Caller& caller, R(Class::*source)(Args...), Callee& callee, Function function)
     {
         std::shared_ptr<SignalSink> sink{ new SyncSink{caller, callee, function} };
 
         caller.registerConnection(source, sink);
         callee.registerIncommingConnection(sink);
+
+        return sink;
     }
 
-    template<typename Function, typename R, typename Class, typename... Args>
-    static void connect_async(SignalEmitter& caller, R(Class::*source)(Args...), Function function)
+    template<typename Caller, typename Function, typename R, typename Class, typename... Args>
+    static std::shared_ptr<const SignalSink> connect_async(Caller& caller, R(Class::*source)(Args...), Function function)
     {
         std::shared_ptr<SignalSink> sink{ new AsyncSink{caller, function} };
 
         caller.registerConnection(source, sink);
+
+        return sink;
     }
 
-    template<typename Function, typename R, typename Class, typename... Args>
-    static void connect_async(SignalEmitter& caller, R(Class::*source)(Args...), SignalEmitter& callee, Function function)
+    template<typename Caller, typename Callee, typename Function, typename R, typename Class, typename... Args>
+    static std::shared_ptr<const SignalSink> connect_async(Caller& caller, R(Class::*source)(Args...), Callee& callee, Function function)
     {
         std::shared_ptr<SignalSink> sink{ new AsyncSink{caller, callee, function} };
 
         caller.registerConnection(source, sink);
         callee.registerIncommingConnection(sink);
+
+        return sink;
     }
 
 
@@ -59,21 +67,9 @@ public:
     }
 
 
-    ~SignalEmitter()
-    {
-        for(auto& sink : _incomingConnections)
-        {
-            sink->caller()->disconnectCallee(this);
-        }
-    }
+    ~SignalEmitter();
 
-    void poll()
-    {
-        for(auto& sink : _incomingConnections)
-        {
-            sink->pull();
-        }
-    }
+    void poll();
 
 protected:
     template<typename Function, typename... Args>
@@ -101,20 +97,7 @@ private:
     std::mutex _lockConnections;
     std::mutex _lockIncommingConnections;
 
-    void disconnectCallee(SignalEmitter* callee)
-    {
-        std::lock_guard<std::mutex> guard{_lockConnections};
-
-        for(auto& keyValue : _connections)
-        {
-            auto& sinks = keyValue.second;
-
-            sinks.erase(std::remove_if(sinks.begin(), sinks.end(), [callee](const std::shared_ptr<SignalSink>& sink)
-            {
-                return sink->callee() == callee;
-            }), sinks.end());
-        }
-    }
+    void disconnectCallee(SignalEmitter* callee);
 
     template<typename Function>
     void registerConnection(Function function, const std::shared_ptr<SignalSink>& sink)
@@ -125,11 +108,7 @@ private:
         _connections[fptr].push_back(sink);
     }
 
-    void registerIncommingConnection(const std::shared_ptr<SignalSink>& sink)
-    {
-        std::lock_guard<std::mutex> guard{_lockIncommingConnections};
-        _incomingConnections.insert(sink);
-    }
+    void registerIncommingConnection(const std::shared_ptr<SignalSink>& sink);
 };
 
 template<typename Class>

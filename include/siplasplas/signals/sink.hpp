@@ -12,9 +12,16 @@ class SignalEmitter;
 class SignalSink
 {
 public:
-    SignalSink(SignalEmitter* caller, SignalEmitter* callee = nullptr) :
-        _caller{caller},
-        _callee{callee}
+    template<typename Caller, typename Callee>
+    SignalSink(Caller& caller, Callee& callee) :
+        _caller{&caller},
+        _callee{&callee}
+    {}
+
+    template<typename Caller>
+    SignalSink(Caller& caller) :
+        _caller{&caller},
+        _callee{}
     {}
 
     virtual ~SignalSink() = default;
@@ -22,7 +29,7 @@ public:
     template<typename... Args>
     void operator()(Args&&... args)
     {
-        if(_callee == nullptr)
+        if(_callee.empty())
         {
             invoke(
                 cpp::dynamic_reflection::pack_to_vector(
@@ -42,22 +49,21 @@ public:
 
     SignalEmitter* callee() const
     {
-        return _callee;
+        return _callee.get<SignalEmitter*>();
     }
 
     SignalEmitter* caller() const
     {
-        return _caller;
+        return _caller.get<SignalEmitter*>();
     }
 
-    virtual void pull() = 0;
+    virtual bool pull() = 0;
 
 protected:
     virtual void invoke(const std::vector<cpp::dynamic_reflection::Object>& args) = 0;
 
 private:
-    SignalEmitter* _caller;
-    SignalEmitter* _callee = nullptr;
+    cpp::dynamic_reflection::Object _caller, _callee;
 };
 
 }

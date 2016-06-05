@@ -18,18 +18,33 @@ class Object
 public:
     static constexpr bool ConstructReference = true;
 
+    enum class Kind
+    {
+        VALUE,
+        REFERENCE,
+        POINTER
+    };
+
     Object();
     Object(const cpp::dynamic_reflection::Type& type);
     Object(const cpp::dynamic_reflection::Type& type, void* fromRaw, bool isReference = false);
     template<typename T, typename = std::enable_if_t<
         !std::is_same<std::decay_t<T>, cpp::dynamic_reflection::Type>::value &&
-        !std::is_same<std::decay_t<T>, Object>::value
+        !std::is_same<std::decay_t<T>, Object>::value &&
+        !std::is_pointer<std::decay_t<T>>::value
     >>
     Object(T&& value) :
         _type{cpp::dynamic_reflection::Type::get<std::decay_t<T>>()},
-        _isReference{false},
-        _object{_isReference ? const_cast<std::decay_t<T>*>(&value) : _type.copy_construct(&value)}
+        _kind{Kind::VALUE},
+        _object{_type.copy_construct(&value)}
     {}
+    template<typename T>
+    Object(const T* pointer) :
+        _type{cpp::dynamic_reflection::Type::get<T*>()},
+        _kind{Kind::POINTER},
+        _object{const_cast<T*>(pointer)}
+    {}
+
     Object(const Object& other);
     Object(Object&& other);
     Object& operator=(const Object& other);
@@ -44,33 +59,20 @@ public:
     }
 
     template<typename T>
-    const T& get() const
+    T& get() const
     {
-        //assert(ctti::type_id<T>() == _type.type().type_id());
-        return *reinterpret_cast<const std::decay_t<T>*>(_object);
+        return *reinterpret_cast<std::remove_reference_t<T>*>(_object);
     }
 
     template<typename T>
-    T& get()
-    {
-        //assert(ctti::type_id<T>() == _type.type().type_id());
-        return *reinterpret_cast<std::decay_t<T>*>(_object);
-    }
-
-    template<typename T>
-    operator const T&() const
-    {
-        return get<T>();
-    }
-
-    template<typename T>
-    operator T&()
+    operator T&() const
     {
         return get<T>();
     }
 
     cpp::dynamic_reflection::Type type() const;
     bool isReference() const;
+    Kind kind() const;
     bool empty() const;
 
     const void* raw() const;
@@ -81,7 +83,7 @@ public:
 
 private:
     cpp::dynamic_reflection::Type _type;
-    bool _isReference = false;
+    Kind _kind;
     void* _object;
 
     void destroy();

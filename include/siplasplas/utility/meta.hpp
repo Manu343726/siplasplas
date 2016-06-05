@@ -204,10 +204,19 @@ namespace meta
         {
             using type = Seq<Us...>;
         };
+
+        template<template<typename...> class Seq2, typename... Us>
+        struct apply<Seq2<Us...>>
+        {
+            using type = Seq<Us...>;
+        };
     };
 
     template<typename Seq, typename... Ts>
     using apply_functor = apply_t<functor<Seq>, Ts...>;
+
+    template<typename Seq, typename... Ts>
+    using functor_t = apply_functor<Seq, Ts...>;
 
     template<typename Lhs, typename Rhs>
     struct cat;
