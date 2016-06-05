@@ -6,7 +6,7 @@ endfunction()
 
 function(generate_external_project NAME NO_CONFIG NO_BUILD EXTERNAL_PROJECT_ARGS)
     if(NO_CONFIG)
-        set(configueCommand "CONFIGURE_COMMAND \"\"")
+        set(configureCommand "CONFIGURE_COMMAND \"\"")
     endif()
     if(NO_BUILD)
         set(buildCommand "BUILD_COMMAND \"\"")
@@ -30,7 +30,7 @@ endfunction()
 
 function(add_siplasplas_thirdparty NAME)
     set(options HEADER_ONLY SKIP_CONFIGURE_STEP SKIP_BUILD_STEP RENAME)
-    set(oneValueArgs URL GIT_REPOSITORY GIT_TAG CONFIGURE_COMMAND BUILD_COMMAND)
+    set(oneValueArgs URL HG_REPOSITORY HG_TAG GIT_REPOSITORY GIT_TAG CONFIGURE_COMMAND BUILD_COMMAND)
     set(multiValueArgs INCLUDE_DIRS BINARIES COMPILE_OPTIONS COMPILE_DEFINITIONS EXTERNAL_PROJECT_EXTRA_ARGS CMAKE_ARGS CMAKE_EXTRA_ARGS)
     cmake_parse_arguments(THIRDPARTY
         "${options}"
@@ -50,6 +50,12 @@ function(add_siplasplas_thirdparty NAME)
 
         if(THIRDPARTY_GIT_TAG)
             list(APPEND externalProjectArgs GIT_TAG "${THIRDPARTY_GIT_TAG}")
+        endif()
+    elseif(THIRDPARTY_HG_REPOSITORY)
+        list(APPEND externalProjectArgs HG_REPOSITORY "${THIRDPARTY_HG_REPOSITORY}")
+
+        if(THIRDPARTY_HG_TAG)
+            list(APPEND externalProjectArgs HG_TAG "${THIRDPARTY_HG_TAGS}")
         endif()
     else()
         message(FATAL_ERROR "No download command for '${NAME}' third party component")

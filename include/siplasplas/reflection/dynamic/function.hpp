@@ -4,6 +4,7 @@
 #include "object.hpp"
 #include "object_manip.hpp"
 #include "entity.hpp"
+#include "function_pointer.hpp"
 
 namespace cpp
 {
@@ -17,13 +18,13 @@ public:
     template<typename... Args>
     Object operator()(Args&&... args) const
     {
-        return _functionAccess->invoke(pack_to_vector(std::forward<Args>(args)...));
+        return _functionPointer(std::forward<Args>(args)...);
     }
 
     template<typename... Args>
     Object operator()(Args&&... args)
     {
-        return _functionAccess->invoke(pack_to_vector(std::forward<Args>(args)...));
+        return _functionPointer(std::forward<Args>(args)...);
     }
 
     template<typename FunctionPointer>
@@ -36,95 +37,12 @@ public:
 
 private:
     template<typename FunctionPointer>
-    Function(const SourceInfo& sourceInfo, FunctionPointer function) :
+    Function(const SourceInfo& sourceInfo, FunctionPointer functionPointer) :
         Entity{sourceInfo},
-        _functionAccess{ new FunctionAccess<FunctionPointer>{function} }
+        _functionPointer{functionPointer}
     {}
 
-    class FunctionAccessInterface
-    {
-    public:
-        virtual ~FunctionAccessInterface() = default;
-
-        virtual Object invoke(const std::vector<Object>& args) const = 0;
-        virtual Object invoke(const std::vector<Object>& args) = 0;
-    };
-
-    std::unique_ptr<FunctionAccessInterface> _functionAccess;
-
-    template<typename Function>
-    class FunctionAccess;
-
-    template<typename Type, bool ReturnsVoid = std::is_same<void, cpp::function_return_type<Type>>::value>
-    class FunctionAccessCommon : public FunctionAccessInterface
-    {
-    public:
-        using type = Type;
-
-        FunctionAccessCommon(type ptr) :
-            _ptr{ptr}
-        {}
-
-        Object invoke(const std::vector<Object>& args) const override
-        {
-            return vector_call(_ptr, args);
-        }
-
-        Object invoke(const std::vector<Object>& args) override
-        {
-            return vector_call(_ptr, args);
-        }
-
-    private:
-        type _ptr;
-    };
-
-    template<typename Type>
-    class FunctionAccessCommon<Type, true> : public FunctionAccessInterface
-    {
-    public:
-        using type = Type;
-
-        FunctionAccessCommon(type ptr) :
-            _ptr{ptr}
-        {}
-
-        Object invoke(const std::vector<Object>& args) const override
-        {
-            vector_call(_ptr, args);
-            return Object();
-        }
-
-        Object invoke(const std::vector<Object>& args) override
-        {
-            vector_call(_ptr, args);
-            return Object();
-        }
-
-    private:
-        type _ptr;
-    };
-
-    template<typename C, typename R, typename... Args>
-    class FunctionAccess<R(C::*)(Args...)> : public FunctionAccessCommon<R(C::*)(Args...)>
-    {
-    public:
-        using FunctionAccessCommon<R(C::*)(Args...)>::FunctionAccessCommon;
-    };
-
-    template<typename C, typename R, typename... Args>
-    class FunctionAccess<R(C::*)(Args...) const> : public FunctionAccessCommon<R(C::*)(Args...) const>
-    {
-    public:
-        using FunctionAccessCommon<R(C::*)(Args...) const>::FunctionAccessCommon;
-    };
-
-    template<typename R, typename... Args>
-    class FunctionAccess<R(Args...)> : public FunctionAccessCommon<R(*)(Args...)>
-    {
-    public:
-        using FunctionAccessCommon<R(*)(Args...)>::FunctionAccessCommon;
-    };
+    FunctionPointer _functionPointer;
 };
 
 }

@@ -1,24 +1,6 @@
 add_subdirectory(plugininterface)
 add_subdirectory(plugin)
 
-function(add_reflection_example NAME)
-    cmake_parse_arguments(ARGS
-        ""
-        ""
-        "DEPENDS;INSTALL_SOURCES"
-        ${ARGN}
-    )
-
-    list(APPEND ARGS_DEPENDS siplasplas-reflection)
-
-    if(ARGS_INSTALL_SOURCES)
-        set(install_sources INSTALL_SOURCES ${ARGS_INSTALL_SOURCES})
-    endif()
-
-    add_example(${NAME} DEPENDS ${ARGS_DEPENDS} ${install_sources} ${ARGS_UNPARSED_ARGUMENTS})
-    reflection_target(examples-${NAME})
-endfunction()
-
 function(get_ram_mb RESULT)
     if(UNIX)
         execute_process(

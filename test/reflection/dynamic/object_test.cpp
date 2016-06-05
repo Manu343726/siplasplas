@@ -3,6 +3,8 @@
 
 #include "mockspecialfunctions.hpp"
 
+#include <iostream>
+
 using namespace ::testing;
 using namespace ::cpp;
 using namespace ::cpp::dynamic_reflection;
@@ -33,6 +35,8 @@ public:
 
     void SetUp()
     {
+        std::cout << "EMPTY OBJECT TYPE: " << emptyObject.type().typeName() << std::endl;
+        std::cout << "NON EMPTY OBJECT TYPE: " << nonEmptyObject.type().typeName() << std::endl;
         ASSERT_TRUE(emptyObject.empty());
         ASSERT_FALSE(nonEmptyObject.empty());
     }
@@ -57,6 +61,7 @@ TEST_F(ObjectTest, constructFromType_notEmpty)
 {
     Object object{Type::get<int>()}; // Default constructs int
     EXPECT_FALSE(object.empty());
+    std::cout << object.type().typeName() << std::endl;
 }
 
 TEST_F(ObjectTest, constructFromValue_notEmpty)
@@ -69,6 +74,7 @@ TEST_F(ObjectTest, copyConstructFromEmptyObject_empty)
 {
     Object other{emptyObject};
     EXPECT_TRUE(other.empty());
+    std::cout << other.type().typeName() << std::endl;
 }
 
 TEST_F(ObjectTest, moveConstructFromEmptyObject_empty)

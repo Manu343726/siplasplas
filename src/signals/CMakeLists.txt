@@ -1,0 +1,9 @@
+add_siplasplas_library(siplasplas-signals
+SOURCES
+    asyncsink.cpp
+    emitter.cpp
+    syncsink.cpp
+DEPENDS
+    siplasplas-reflection-dynamic
+    readerwriterqueue
+)

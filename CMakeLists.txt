@@ -16,16 +16,18 @@ include(cmake/install.cmake)
 
 add_subdirectory(3rdParty)
 add_subdirectory(src)
-add_subdirectory(examples)
 
-option(SIPLASPLAS_TESTS_ENABLED "Enable/Disable unit tests" ON)
+option(SIPLASPLAS_BUILD_TESTS    "Build tests"    OFF)
+option(SIPLASPLAS_BUILD_EXAMPLES "Build examples" OFF)
 option(SIPLASPLAS_CI_BUILD "siplasplas running on continuous integrationi build" FALSE)
 
-if(SIPLASPLAS_TESTS_ENABLED)
+if(SIPLASPLAS_BUILD_TESTS)
     enable_testing()
     add_subdirectory(test)
 endif()
-
+if(SIPLASPLAS_BUILD_EXAMPLES)
+    add_subdirectory(examples)
+endif()
 include(cmake/cpack.cmake)
 
 configure_file(

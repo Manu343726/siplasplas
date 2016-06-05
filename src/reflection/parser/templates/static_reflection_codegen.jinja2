@@ -122,6 +122,69 @@ namespace codegen           {
 {% endfor %}
         };
 
+        template<typename Callback>
+        struct FakeObject
+        {
+        public:
+            FakeObject({{node.fullname}}& object, Callback callback) :
+                _object{&object},
+                _callback{callback}
+            {}
+
+{% for child in node.children['method'].itervalues() %}
+            template<typename... Args>
+            auto {{child.spelling}}(Args&&... args)
+            {
+                return _callback(*_object, &{{node.fullname}}::{{child.spelling}}, std::forward<Args>(args)...);
+            }
+
+            template<typename... Args>
+            auto {{child.spelling}}(Args&&... args) const
+            {
+                return _callback(*_object, &{{node.fullname}}::{{child.spelling}}, std::forward<Args>(args)...);
+            }
+
+
+{% endfor %}
+        private:
+            {{node.fullname}}* _object;
+            Callback _callback;
+        };
+
+        template<typename Callback>
+        struct ConstFakeObject
+        {
+        public:
+            ConstFakeObject(const {{node.fullname}}& object, Callback callback) :
+                _object{&object},
+                _callback{callback}
+            {}
+
+{% for child in node.children['method'].itervalues() %}
+            template<typename... Args>
+            auto {{child.spelling}}(Args&&... args) const
+            {
+                return _callback(*_object, &{{node.fullname}}::{{child.spelling}}, std::forward<Args>(args)...);
+            }
+
+{% endfor %}
+        private:
+            const {{node.fullname}}* _object;
+            Callback _callback;
+        };
+
+        template<typename Callback>
+        static FakeObject<Callback> fakeObject({{node.fullname}}& object, Callback callback)
+        {
+            return {object, callback};
+        }
+
+        template<typename Callback>
+        static ConstFakeObject<Callback> fakeObject(const {{node.fullname}}& object, Callback callback)
+        {
+            return {object, callback};
+        }
+
 {% for child in node.children['method'].itervalues() %}
         template<typename... Args>
         static auto {{child.spelling}}(const {{node.fullname}}& object, Args&&... args)

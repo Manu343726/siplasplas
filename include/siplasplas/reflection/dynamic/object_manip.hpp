@@ -83,16 +83,16 @@ R vector_call(R (Class::* function)(Args...) const, const std::vector<cpp::dynam
     auto fargs = args;
     const auto& firstArg = args[0];
     fargs.erase(fargs.begin());
-    const Class& object = firstArg.get<Class>();
+    const Class& object = firstArg.get<const Class>();
 
-    return vector_call(function, object, fargs);
+    return vector_call(function, *object, fargs);
 }
 
 template<typename Class, typename R, typename... Args>
 R vector_call(R (Class::* function)(Args...), const std::vector<cpp::dynamic_reflection::Object>& args)
 {
     auto fargs = args;
-    Object firstArg = fargs[0];
+    const Object& firstArg = args[0];
     Class& object = firstArg.get<Class>();
     fargs.erase(fargs.begin());
 

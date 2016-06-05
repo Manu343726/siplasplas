@@ -1,0 +1,10 @@
+add_siplasplas_test(signals-test
+SOURCES
+    syncsink_test.cpp
+    asyncsink_test.cpp
+DEPENDS
+    siplasplas-signals
+NAMESPACE
+    tests
+DEFAULT_TEST_MAIN
+)
