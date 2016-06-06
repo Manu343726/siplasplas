@@ -4,6 +4,8 @@ GIT_REPOSITORY
 CMAKE_EXTRA_ARGS
     -DSFML_BUILD_DOCS=OFF
     -DSFML_BUILD_EXAMPLES=OFF
+INCLUDE_DIRS
+    include/
 )
 
 set(sfml-components
