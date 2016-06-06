@@ -176,7 +176,7 @@ function(add_siplasplas_thirdparty_component NAME)
 
     cmake_parse_arguments(COMPONENT
         "DEFAULT;SHARED"
-        "THIRD_PARTY;BINARY;BINARY_DIR"
+        "THIRD_PARTY;BINARY;BINARY_DIR;LIBRARY_SUFFIX"
         "INCLUDE_DIRS;DEPENDS;LINK_LIBS"
         ${ARGN}
     )
@@ -200,10 +200,18 @@ function(add_siplasplas_thirdparty_component NAME)
             libraryfile(${NAME} STATIC libfile)
         endif()
 
+        get_filename_component(filename "${libfile}" NAME_WE)
+        get_filename_component(fileext  "${libfile}" EXT)
+        set(libfile "${filename}${COMPONENT_LIBRARY_SUFFIX}${fileext}")
+
         if(COMPONENT_BINARY_DIR)
             set(COMPONENT_BINARY "${COMPONENT_BINARY_DIR}/${libfile}")
         else()
             set(COMPONENT_BINARY "${libfile}")
+        endif()
+
+        if(SIPLASPLAS_VERBOSE_CONFIG)
+            message(STATUS "${COMPONENT_THIRD_PARTY}-${NAME} binary: ${COMPONENT_BINARY}")
         endif()
     endif()
 
