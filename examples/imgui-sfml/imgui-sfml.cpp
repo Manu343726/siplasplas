@@ -1,3 +1,5 @@
+// Example code taken from https://eliasdaler.wordpress.com/2016/05/31/imgui-sfml-tutorial-part-1/
+
 #include <imgui-sfml/imgui.h>
 #include <imgui-sfml/imgui-SFML.h>
 
@@ -19,7 +21,6 @@ int main()
     char windowTitle[255] = "ImGui + SFML = <3";
 
     window.setTitle(windowTitle);
-    ImGui::ShowTestWindow();
 
     while (window.isOpen()) {
         sf::Event event;
