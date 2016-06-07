@@ -1,0 +1,1 @@
+add_example(libexecstream DEPENDS libexecstream)
