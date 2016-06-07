@@ -14,7 +14,7 @@ public:
     void signalFileAction( efsw::WatchID watchid, std::string dir, std::string filename, efsw::Action action, std::string oldFilename){}
 };
 
-#include <reflection/examples/efsw/updatelistener.hpp>
+#include <reflection/examples/3rdParty/efsw/updatelistener.hpp>
 
 void UpdateListener::handleFileAction( efsw::WatchID watchid, const std::string& dir, const std::string& filename, efsw::Action action, std::string oldFilename)
 {
