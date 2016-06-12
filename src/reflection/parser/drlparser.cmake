@@ -15,7 +15,7 @@ set(INCLUDE_OUTPUT_DIR ${CMAKE_BINARY_DIR}/ouput/)
 
 
 
-function(reflection_target TARGET)
+function(configure_siplasplas_reflection TARGET)
     function(log MESSAGE)
         if(SIPLASPLAS_VERBOSE_CONFIG)
             message(STATUS "[REFLECTION LOG] ${MESSAGE}")

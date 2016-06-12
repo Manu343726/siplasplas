@@ -4,5 +4,7 @@ SOURCES
     target.cpp
 DEPENDS
     libexecstream
-    siplasplas-signals
+    siplasplas-fswatch
 )
+
+configure_siplasplas_reflection(siplasplas-cmake)

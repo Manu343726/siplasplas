@@ -213,6 +213,10 @@ namespace codegen           {
 
 // Recursivelly generate code for children first
 
+{% for child in node.children['namespace'].itervalues() %}
+{{namespace(child)}}
+{% endfor %}
+
 {% for child in node.children['class'].itervalues() %}
 {{class(child)}}
 {% endfor %}
