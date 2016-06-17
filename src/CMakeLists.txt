@@ -1,3 +1,4 @@
+add_subdirectory(logger)
 add_subdirectory(utility)
 add_subdirectory(variant)
 add_subdirectory(allocator)
