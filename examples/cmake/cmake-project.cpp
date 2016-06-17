@@ -34,7 +34,7 @@ int main()
     CMakeProject project(CMAKE_SOURCE_DIR, CMAKE_BINARY_DIR);
     CMakeProgress cmakeProgress;
 
-    project.watchTarget("examples-reflection", CMAKE_SOURCE_DIR "/examples/reflection");
+    project.watchTarget("run-examples-reflection", CMAKE_SOURCE_DIR "/examples/reflection");
 
     SignalEmitter::connect_async(project, &CMakeProject::buildStarted, cmakeProgress, &CMakeProgress::onBuildStarted);
     SignalEmitter::connect_async(project, &CMakeProject::buildFinished, cmakeProgress, &CMakeProgress::onBuildFinished);
