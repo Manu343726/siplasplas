@@ -1,4 +1,5 @@
 #include "project.hpp"
+#include "logger.hpp"
 #include <libexecstream/exec-stream.h>
 #include <fmt/format.h>
 #include <iostream>
@@ -36,6 +37,8 @@ void CMakeProject::watchTarget(const std::string& name, const std::string& sourc
 {
     auto srcWatchId = _fileWatcher.addWatch(sourceDir, &_fileListener, false);
     _targetMap[srcWatchId] = name;
+
+    cpp::cmake::log().info("Watching CMake target \"{}\" (src dir: {}, include dir: {}", name, sourceDir, includeDir);
 
     if(includeDir != "")
     {

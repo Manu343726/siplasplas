@@ -9,9 +9,19 @@ std::shared_ptr<spdlog::sinks::rotating_file_sink_mt> Logger::createSink(const s
     return std::make_shared<spdlog::sinks::rotating_file_sink_mt>(name, name + ".log", LOGGER_BUFFER_LENGTH, LOGGER_FILES_MAX);
 }
 
-std::shared_ptr<spdlog::sinks::rotating_file_sink_mt>& Logger::commonSink()
+std::shared_ptr<spdlog::sinks::dist_sink_mt>& Logger::commonSink()
 {
-    static auto commonSink = createSink("siplasplas");
+    static auto commonSink = []
+    {
+        auto distSink = std::make_shared<spdlog::sinks::dist_sink_mt>();
+
+#ifndef WIN32
+        distSink->add_sink(std::make_shared<spdlog::sinks::syslog_sink>());
+#endif
+        distSink->add_sink(createSink("siplasplas"));
+        return distSink;
+    }();
+
     return commonSink;
 }
 
@@ -25,16 +35,3 @@ std::shared_ptr<spdlog::logger> Logger::addLogger(const std::string& name)
     spdlog::register_logger(logger);
     return logger;
 }
-
-namespace cpp
-{
-
-spdlog::logger& log(const char* module)
-{
-    
-}
-
-}
-
-
-

@@ -8,6 +8,7 @@ SOURCES
 DEPENDS
     ctti
     fmt
+    siplasplas-logger
 LINK_LIBS
     dl
 )

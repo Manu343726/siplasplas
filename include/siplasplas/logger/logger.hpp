@@ -16,11 +16,9 @@ public:
     static std::shared_ptr<spdlog::logger> addLogger(const std::string& name);
 
 private:
-    static std::shared_ptr<spdlog::sinks::rotating_file_sink_mt>& commonSink();
+    static std::shared_ptr<spdlog::sinks::dist_sink_mt>& commonSink();
     static std::shared_ptr<spdlog::sinks::rotating_file_sink_mt> createSink(const std::string& name);
 };
-
-SIPLASPLAS_LOGGER_EXPORT spdlog::logger& log(const char* module);
 
 }
 
