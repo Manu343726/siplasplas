@@ -38,7 +38,7 @@ void CMakeProject::watchTarget(const std::string& name, const std::string& sourc
     auto srcWatchId = _fileWatcher.addWatch(sourceDir, &_fileListener, false);
     _targetMap[srcWatchId] = name;
 
-    cpp::cmake::log().info("Watching CMake target \"{}\" (src dir: {}, include dir: {}", name, sourceDir, includeDir);
+    cpp::cmake::log().info("Watching CMake target \"{}\" (src dir: {}, include dir: {})", name, sourceDir, includeDir);
 
     if(includeDir != "")
     {
@@ -50,7 +50,11 @@ void CMakeProject::watchTarget(const std::string& name, const std::string& sourc
 
 void CMakeProject::onFileChanged(efsw::WatchID watchId, const std::string& dir, const std::string& fileName)
 {
-    buildTarget(_targetMap[watchId]);
+    const std::string& target = _targetMap[watchId];
+
+    cpp::cmake::log().info("File '{}{}' changed, rebuilding target '{}'...", dir, fileName, target);
+    buildTarget(target);
+    cpp::cmake::log().info("Finished building target '{}'", target);
 }
 
 void CMakeProject::startWatch()
