@@ -23,7 +23,7 @@ public:
         }
     }
 
-    void stdoutLineFromBuildJob(const std::string& line)
+    void stdoutLineFromBuildJob(const std::string& target, const std::string& line)
     {
         std::cout << line << "\n";
     }
@@ -31,14 +31,20 @@ public:
 
 int main()
 {
+    const std::string& targetName = "pluginexample";
     CMakeProject project(CMAKE_SOURCE_DIR, CMAKE_BINARY_DIR);
     CMakeProgress cmakeProgress;
 
-    project.watchTarget("run-examples-reflection", CMAKE_SOURCE_DIR "/examples/reflection");
+    auto& target = project.addTarget(targetName);
 
     SignalEmitter::connect_async(project, &CMakeProject::buildStarted, cmakeProgress, &CMakeProgress::onBuildStarted);
     SignalEmitter::connect_async(project, &CMakeProject::buildFinished, cmakeProgress, &CMakeProgress::onBuildFinished);
     SignalEmitter::connect_async(project, &CMakeProject::stdoutLine, cmakeProgress, &CMakeProgress::stdoutLineFromBuildJob);
+
+    SignalEmitter::connect_async(target, &CMakeTarget::buildFinished, cmakeProgress, [&](bool successful)
+    {
+        std::cout << targetName << " build finished!!! (successful=" << std::boolalpha << successful << ")\n";
+    });
 
     project.startWatch();
 

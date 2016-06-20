@@ -1,3 +1,5 @@
+include(export_target)
+
 add_subdirectory(plugininterface)
 add_subdirectory(plugin)
 
@@ -25,6 +27,7 @@ if(RAMMB GREATER 1024)
 endif()
 
 add_reflection_example(reflection DEPENDS json4moderncpp INSTALL_SOURCES myclass.hpp)
+export_target_properties(examples-reflection)
 
 # See issue #26
 if(NOT SIPLASPLAS_CI_BUILD)

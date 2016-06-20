@@ -4,6 +4,7 @@
 #include <string>
 #include <siplasplas/signals/emitter.hpp>
 #include <siplasplas/fswatch/fslistener.hpp>
+#include "target.hpp"
 
 namespace cpp
 {
@@ -16,21 +17,27 @@ public:
     void configure();
     void buildTarget(const std::string& targetName);
 
-    void watchTarget(const std::string& name, const std::string& sourceDir, const std::string& includeDir = "");
+    CMakeTarget& addTarget(const std::string& name);
+    CMakeTarget& addTarget(const CMakeTarget::Metadata& metadata);
+    efsw::WatchID addSourceDirWatch(const std::string& sourceDir);
+    efsw::WatchID addIncludeDirWatch(const std::string& includeDir);
+    efsw::WatchID addBinaryDirWatch(const std::string& binaryDir);
     void startWatch();
 
     void configureFinished(bool successful) {}
     void buildStarted(const std::string& target) {}
     void buildFinished(const std::string& target, bool successful) {}
-    void stdoutLine(const std::string& line) {}
+    void stdoutLine(const std::string& targetName, const std::string& line) {}
+
+    cpp::FileSystemListener& fileSystemListener();
+    const std::string& sourceDir() const;
+    const std::string& binaryDir() const;
 
 private:
     std::string _sourceDir, _binaryDir;
     efsw::FileWatcher _fileWatcher;
     cpp::FileSystemListener _fileListener;
-    std::unordered_map<efsw::WatchID, std::string> _targetMap;
-
-    void onFileChanged(efsw::WatchID watchId, const std::string& dir, const std::string& fileName);
+    std::vector<std::unique_ptr<CMakeTarget>> _targets;
 };
 
 }

@@ -1,3 +1,5 @@
+include(export_target)
+
 add_siplasplas_library(pluginexample NO_INSTALL
 SOURCES
     plugin.cpp
@@ -10,3 +12,4 @@ INCLUDE_DIRS
 )
 
 configure_siplasplas_reflection(pluginexample)
+export_target_properties(pluginexample)
