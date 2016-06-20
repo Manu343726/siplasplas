@@ -60,6 +60,23 @@ public:
         return sink;
     }
 
+    template<typename Caller, typename Callee, typename R, typename... Args>
+    static std::shared_ptr<const SignalSink> bypass(Caller& caller, R(Caller::*source)(Args...), Callee& callee, R(Callee::*dest)(Args...))
+    {
+        return connect(caller, source, callee, [&callee, dest](Args... args)
+        {
+            emit(callee, dest, args...);
+        });
+    }
+
+    template<typename Caller, typename Callee, typename R, typename... Args>
+    static std::shared_ptr<const SignalSink> bypass_async(Caller& caller, R(Caller::*source)(Args...), Callee& callee, R(Callee::*dest)(Args...))
+    {
+        return connect_async(caller, source, callee, [&callee, dest](Args... args)
+        {
+            emit(callee, dest, args...);
+        });
+    }
 
     template<typename Class, typename R, typename... FArgs, typename... Args>
     static void emit(Class& emitter, R(Class::*function)(FArgs...), Args&&... args)
