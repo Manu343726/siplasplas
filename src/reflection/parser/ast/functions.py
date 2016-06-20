@@ -5,6 +5,9 @@ class Method(Node):
     def __init__(self, **kwargs):
         Node.__init__(self, **kwargs)
 
+    @property
+    def argument_types(self):
+        return ', '.join([t.spelling for t in self.cursor.type.argument_types()])
 
 class OverloadedMethod(Method):
 
@@ -21,6 +24,9 @@ class FunctionFamily(Node):
 
     def append(self, function):
         self.functions.append(function)
+
+    def __getitem__(self, index):
+        return self.functions[index]
 
     def print_ast_node(self):
         return '(function family) {}{}'.format(

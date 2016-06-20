@@ -45,7 +45,7 @@
 ::cpp::static_reflection::meta::Function<
     {{sourceinfo(node, 'FUNCTION')      | indent(4)}},
     {{utility.member_type(class, node)    | indent(4)}},
-    {{utility.member_pointer(class, node) | indent(4)}}
+    {{utility.untyped_member_pointer(class, node) | indent(4)}}
 >
 {%- endmacro %}
 

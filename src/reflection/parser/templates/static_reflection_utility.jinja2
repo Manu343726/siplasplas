@@ -1,7 +1,18 @@
 # Utilities
 
-{% macro member_pointer(class, node) -%}
+# NOTE: Methods should be casted to the right type to disambiguate
+# overloads
+
+{% macro untyped_member_pointer(class, node) -%}
 &{{class.fullname}}::{{node.spelling}}
+{%- endmacro %}
+
+{% macro member_pointer(class, node) -%}
+{% if node.kindstring != 'method' %}
+{{untyped_member_pointer(class, node)}}
+{% else %}
+::cpp::Overload<{{node.argument_types}}>::get({{untyped_member_pointer(class, node)}}) /**/
+{% endif %}
 {%- endmacro %}
 
 {% macro member_type(class, node) -%}
