@@ -1,6 +1,7 @@
 
 add_siplasplas_library(siplasplas-utility
 SOURCES
+    assert.cpp
     memory_manip.cpp
     printers.cpp
     dynamiclibrary.cpp

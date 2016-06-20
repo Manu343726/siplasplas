@@ -4,6 +4,7 @@
 #include "object.hpp"
 #include <siplasplas/utility/meta.hpp>
 #include <siplasplas/utility/function_traits.hpp>
+#include <siplasplas/utility/assert.hpp>
 #include <vector>
 
 namespace cpp
@@ -35,6 +36,8 @@ namespace
     template<typename Function, std::size_t... Is>
     auto vector_call(Function function, const std::vector<cpp::dynamic_reflection::Object>& args, meta::index_sequence<Is...>)
     {
+        SIPLASPLAS_ASSERT_EQ(args.size(), sizeof...(Is));
+
         return function(args[Is].get<cpp::function_argument<Is, Function>>()...);
     }
 }
