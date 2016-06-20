@@ -75,8 +75,7 @@ protected:
     template<typename Function, typename... Args>
     void invoke(Function function, Args&&... args)
     {
-        auto fptr = reinterpret_cast<void*>(function);
-        auto it = _connections.find(fptr);
+        auto it = _connections.find(::cpp::hash(function));
 
         if(it != _connections.end())
         {
@@ -93,7 +92,7 @@ protected:
 
 private:
     cpp::HashSet<std::shared_ptr<SignalSink>> _incomingConnections;
-    cpp::HashTable<void*, std::vector<std::shared_ptr<SignalSink>>> _connections;
+    cpp::HashTable<std::size_t, std::vector<std::shared_ptr<SignalSink>>> _connections;
     std::mutex _lockConnections;
     std::mutex _lockIncommingConnections;
 
@@ -103,9 +102,7 @@ private:
     void registerConnection(Function function, const std::shared_ptr<SignalSink>& sink)
     {
         std::lock_guard<std::mutex> guard{_lockConnections};
-        auto fptr = reinterpret_cast<void*>(function);
-
-        _connections[fptr].push_back(sink);
+        _connections[::cpp::hash(function)].push_back(sink);
     }
 
     void registerIncommingConnection(const std::shared_ptr<SignalSink>& sink);
