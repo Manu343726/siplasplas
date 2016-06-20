@@ -7,6 +7,7 @@
 #include <siplasplas/reflection/api.hpp>
 #include "syncsink.hpp"
 #include "asyncsink.hpp"
+#include "logger.hpp"
 
 #include <memory>
 #include <mutex>
@@ -80,6 +81,9 @@ protected:
         if(it != _connections.end())
         {
             auto& sinks = it->second;
+            std::size_t i = 0;
+
+            signals::log().debug("Emitting signal from @{}. Args (count={})", static_cast<void*>(this), sizeof...(args));
 
             for(auto& sink : sinks)
             {
