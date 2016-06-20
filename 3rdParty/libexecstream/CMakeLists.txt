@@ -3,8 +3,6 @@ GIT_REPOSITORY
     "https://github.com/Manu343726/libexecstream"
 INCLUDE_DIRS
     include/
-COMPILE_OPTIONS
-    -fPIC
 )
 
 add_siplasplas_thirdparty_component(libexecstream DEFAULT

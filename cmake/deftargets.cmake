@@ -92,7 +92,7 @@ function(add_siplasplas_target NAME TARGET_TYPE)
                 set(STD_CXX c++14)
             endif()
 
-            set(common_options -std=${STD_CXX} -Wall -pedantic -ftemplate-depth-1024)
+            set(common_options -std=${STD_CXX} -Wall -pedantic -ftemplate-depth-1024 -fPIC)
             set(debug_options -O0 -g3)
             set(release_options -O3 -g0)
 
