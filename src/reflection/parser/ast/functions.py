@@ -7,7 +7,12 @@ class Method(Node):
 
     @property
     def argument_types(self):
-        return ', '.join([t.spelling for t in self.cursor.type.argument_types()])
+        return self.displayname[(len(self.spelling) + 1):-1]
+
+    def process(self):
+        if self.cursor.is_static_method():
+            self.set_skip()
+
 
 class OverloadedMethod(Method):
 
