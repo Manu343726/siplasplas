@@ -46,6 +46,11 @@ public:
         return _ptr->hashCode();
     }
 
+    FunctionKind kind() const
+    {
+        return _ptr->kind();
+    }
+
     friend bool operator==(const FunctionPointer& lhs, const FunctionPointer& rhs)
     {
         return lhs.hashCode() == rhs.hashCode();
@@ -63,6 +68,7 @@ private:
         virtual Object invoke(const std::vector<Object>& args) const = 0;
         virtual Object invoke(const std::vector<Object>& args) = 0;
         virtual std::size_t hashCode() const = 0;
+        virtual FunctionKind kind() const = 0;
     };
 
     template<typename Type, bool ReturnsVoid = std::is_same<void, cpp::function_return_type<Type>>::value>
@@ -88,6 +94,11 @@ private:
         std::size_t hashCode() const override
         {
             return ::cpp::hash(_ptr);
+        }
+
+        FunctionKind kind() const override
+        {
+            return function_kind(_ptr);
         }
 
     protected:
@@ -119,6 +130,11 @@ private:
         std::size_t hashCode() const override
         {
             return ::cpp::hash(_ptr);
+        }
+
+        FunctionKind kind() const override
+        {
+            return function_kind(_ptr);
         }
 
     protected:

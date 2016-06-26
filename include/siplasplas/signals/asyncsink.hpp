@@ -27,6 +27,7 @@ public:
 
 protected:
     void invoke(const std::vector<cpp::dynamic_reflection::Object>& args) override;
+    bool invokeWithoutCallee() const override;
 
 private:
     moodycamel::ReaderWriterQueue<std::vector<cpp::dynamic_reflection::Object>> _queue;
