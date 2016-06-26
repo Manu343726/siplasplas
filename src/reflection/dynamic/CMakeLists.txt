@@ -13,6 +13,7 @@ SOURCES
     function.cpp
     class.cpp
     runtimeloader.cpp
+    logger.cpp
 DEPENDS
     siplasplas-reflection-common
     siplasplas-reflection-static
@@ -20,5 +21,3 @@ DEPENDS
     siplasplas-utility
     ctti
 )
-
-

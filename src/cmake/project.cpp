@@ -31,9 +31,9 @@ void CMakeProject::buildTarget(const std::string& targetName)
     cpp::emit(*this).buildFinished(targetName, process.exit_code() == 0);
 }
 
-CMakeTarget& CMakeProject::addTarget(const std::string& name, const std::string& sourceDir)
+CMakeTarget& CMakeProject::addTarget(const std::string& targetName)
 {
-    return addTarget(CMakeTarget::Metadata{name, sourceDir, {}, ""});
+    return addTarget(CMakeTarget::Metadata::loadFromFile(*this, targetName));
 }
 
 CMakeTarget& CMakeProject::addTarget(const CMakeTarget::Metadata& metadata)
@@ -45,7 +45,7 @@ CMakeTarget& CMakeProject::addTarget(const CMakeTarget::Metadata& metadata)
 
     if(it == _targets.end())
     {
-        cmake::log().debug("Adding target '{}' to CMake project '{}'", metadata.name, _sourceDir);
+        cmake::log().debug("Adding target {} to project {}", metadata.name, _sourceDir);
 
         _targets.emplace_back( new CMakeTarget{*this, metadata});
         return *_targets.back();
@@ -53,7 +53,7 @@ CMakeTarget& CMakeProject::addTarget(const CMakeTarget::Metadata& metadata)
     else
     {
         throw cpp::exception<std::logic_error>(
-            "A target named '{}' already exists in CMake project '{}'",
+            "A target named {} already exists in CMake project {}",
             metadata.name, _sourceDir
         );
     }
@@ -61,22 +61,53 @@ CMakeTarget& CMakeProject::addTarget(const CMakeTarget::Metadata& metadata)
 
 efsw::WatchID CMakeProject::addSourceDirWatch(const std::string& sourceDir)
 {
-    const std::string path = fmt::format("{}/{}", _sourceDir, sourceDir);
-    cmake::log().debug("Added source dir watch: {}", path);
+    const auto watchId = _fileWatcher.addWatch(sourceDir, &_fileListener, true);
 
-    return _fileWatcher.addWatch(path, &_fileListener, true);
+    if(watchId >= 0)
+    {
+        cmake::log().debug("Added source dir watch: {} (ID: {})", sourceDir, watchId);
+    }
+
+    return watchId;
 }
 
 efsw::WatchID CMakeProject::addIncludeDirWatch(const std::string& includeDir)
 {
-    cmake::log().debug("Added include dir watch: {}", includeDir);
+    const auto watchId = _fileWatcher.addWatch(includeDir, &_fileListener, true);
 
-    return _fileWatcher.addWatch(includeDir, &_fileListener, true);
+    if(watchId >= 0)
+    {
+        cmake::log().debug("Added include dir watch: {} (ID: {})", includeDir, watchId);
+    }
+
+    return watchId;
+}
+
+efsw::WatchID CMakeProject::addBinaryDirWatch(const std::string& binaryDir)
+{
+    const auto watchId = _fileWatcher.addWatch(binaryDir, &_fileListener, true);
+
+    if(watchId >= 0)
+    {
+        cmake::log().debug("Added binary dir watch: {} (ID: {})", binaryDir, watchId);
+    }
+
+    return watchId;
 }
 
 cpp::FileSystemListener& CMakeProject::fileSystemListener()
 {
     return _fileListener;
+}
+
+const std::string& CMakeProject::sourceDir() const
+{
+    return _sourceDir;
+}
+
+const std::string& CMakeProject::binaryDir() const
+{
+    return _binaryDir;
 }
 
 void CMakeProject::startWatch()

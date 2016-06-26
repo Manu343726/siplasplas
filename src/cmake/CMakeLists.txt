@@ -5,6 +5,7 @@ SOURCES
     logger.cpp
 DEPENDS
     libexecstream
+    json4moderncpp
     siplasplas-fswatch
 )
 

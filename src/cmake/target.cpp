@@ -2,29 +2,28 @@
 #include "project.hpp"
 #include "logger.hpp"
 
+#include <json4moderncpp/src/json.hpp>
+
 using namespace cpp;
-
-
-CMakeTarget::CMakeTarget(CMakeProject& project, const std::string& name, const std::string& sourceDir) :
-    CMakeTarget{
-        project,
-        CMakeTarget::Metadata{name, sourceDir, {},""}
-    }
-{}
 
 CMakeTarget::CMakeTarget(CMakeProject& project, const CMakeTarget::Metadata& metadata) :
     _metadata{metadata},
-    _project{project}
+    _project{project},
+    _building{false}
 {
+    _inputWatches.push_back(
+        _project.addSourceDirWatch(_metadata.sourceDir)
+    );
+
     for(const std::string& includeDir : _metadata.includeDirs)
     {
-        _watchIds.push_back(
+        _inputWatches.push_back(
             _project.addIncludeDirWatch(includeDir)
         );
     }
 
-    _watchIds.push_back(
-        _project.addSourceDirWatch(_metadata.sourceDir)
+    _outputWatches.push_back(
+        _project.addBinaryDirWatch(_metadata.binaryDir)
     );
 
     SignalEmitter::connect(_project.fileSystemListener(), &FileSystemListener::fileModified, *this, &CMakeTarget::onFileChanged);
@@ -32,6 +31,8 @@ CMakeTarget::CMakeTarget(CMakeProject& project, const CMakeTarget::Metadata& met
     {
         if(targetName == name())
         {
+            _building = true;
+            cpp::cmake::log().debug("(target {}) build started", targetName);
             cpp::emit(*this).buildStarted();
         }
     });
@@ -46,9 +47,59 @@ CMakeTarget::CMakeTarget(CMakeProject& project, const CMakeTarget::Metadata& met
     {
         if(targetName == name())
         {
+            _building = false;
+            cpp::cmake::log().debug("(target {}) build finished (successful={})", targetName, successful);
             cpp::emit(*this).buildFinished(successful);
         }
     });
+
+    // Remove errored watches (watchId < 0)
+    filterErroredWatches(_inputWatches);
+    filterErroredWatches(_outputWatches);
+}
+
+CMakeTarget::Metadata CMakeTarget::Metadata::loadFromFile(const CMakeProject& project, const std::string& file)
+{
+    const std::string path = project.binaryDir() + "/" + file + ".json";
+    std::ifstream fileStream(path);
+
+    if(fileStream)
+    {
+        auto json = nlohmann::json::parse(fileStream);
+        CMakeTarget::Metadata metadata;
+
+        metadata.name = json["NAME"];
+        metadata.sourceDir = json["SOURCE_DIR"];
+        metadata.binaryDir = json["BINARY_DIR"];
+
+        for(const auto& elem : json["SOURCES"])
+        {
+            metadata.sources.push_back(elem);
+        }
+        for(const auto& elem : json["INCLUDE_DIRECTORIES"])
+        {
+            metadata.includeDirs.push_back(elem);
+        }
+        for(const auto& elem : json["INTERFACE_INCLUDE_DIRECTORIES"])
+        {
+            metadata.includeDirs.push_back(elem);
+        }
+
+        metadata.binary = json["LOCATION"];
+        metadata.binaryDebug = json["DEBUG_LOCATION"];
+        metadata.binaryRelease = json["RELEASE_LOCATION"];
+
+        return metadata;
+    }
+    else
+    {
+        throw cpp::exception<std::runtime_error>("Cannot open target file {}", path);
+    }
+}
+
+CMakeTarget CMakeTarget::loadFromFile(CMakeProject& project, const std::string& targetName)
+{
+    return {project, Metadata::loadFromFile(project, targetName)};
 }
 
 void CMakeTarget::build()
@@ -68,12 +119,29 @@ const std::string& CMakeTarget::name() const
 
 void CMakeTarget::onFileChanged(efsw::WatchID watchId, const std::string& dir, const std::string& fileName)
 {
-    if(std::find(_watchIds.begin(), _watchIds.end(), watchId) != _watchIds.end())
+    if(std::find(_inputWatches.begin(), _inputWatches.end(), watchId) != _inputWatches.end())
     {
         cpp::cmake::log().debug(
-            "(cmake target '{}') file {}{} changed, ID {} found. Starting build...",
+            "(target {}) file {}{} changed, ID {} found. Starting build...",
             name(), dir, fileName, watchId
         );
         build();
     }
+    else if(std::find(_outputWatches.begin(), _outputWatches.end(), watchId) != _outputWatches.end())
+    {
+        cpp::cmake::log().debug(
+            "(target {}) File {}{} changed, ID {} found. Reload binary file",
+            name(), dir, fileName, watchId
+        );
+
+        cpp::emit(*this).reloadBinary(dir + fileName);
+    }
+}
+
+void CMakeTarget::filterErroredWatches(std::vector<efsw::WatchID>& watches)
+{
+    watches.erase(std::remove_if(watches.begin(), watches.end(), [](efsw::WatchID watchId)
+    {
+        return watchId < 0;
+    }), watches.end());
 }
