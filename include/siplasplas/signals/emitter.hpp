@@ -107,10 +107,25 @@ protected:
         if(it != _connections.end())
         {
             auto& sinks = it->second;
-            std::size_t i = 0;
 
-            signals::log().debug("Emitting signal from @{}. Args (count={})", static_cast<void*>(this), sizeof...(args));
+#ifdef SIPLASPLAS_LOG_SIGNALS
+            {
+                static ctti::type_id_t argsTypes[] = {ctti::type_id<decltype(std::forward<Args>(args))>()..., ctti::type_id<void>()};
+                cpp::dynamic_reflection::Object objectArgs[] = {std::forward<Args>(args)..., cpp::dynamic_reflection::Object()};
 
+                signals::log().debug("Emitting signal from @{}. Args (count={})", static_cast<void*>(this), sizeof...(args));
+
+                for(std::size_t i = 0; i < sizeof...(Args); ++i)
+                {
+                    signals::log().debug(
+                        "  Arg({}): value '{}', type '{}'",
+                        i,
+                        objectArgs[i].toString(),
+                        argsTypes[i].name()
+                    );
+                }
+            }
+#endif
             for(auto& sink : sinks)
             {
                 (*sink)(
