@@ -22,6 +22,7 @@ public:
     template<typename Caller, typename Function, typename R, typename Class, typename... Args>
     static std::shared_ptr<const SignalSink> connect(Caller& caller, R(Class::*source)(Args...), Function function)
     {
+        static_assert(equal_signature<decltype(source), Function>::value, "Signal vs slot signatures don't match");
         std::shared_ptr<SignalSink> sink{ new SyncSink{caller, function} };
 
         caller.registerConnection(source, sink);
@@ -32,6 +33,7 @@ public:
     template<typename Caller, typename Callee, typename Function, typename R, typename Class, typename... Args>
     static std::shared_ptr<const SignalSink> connect(Caller& caller, R(Class::*source)(Args...), Callee& callee, Function function)
     {
+        static_assert(equal_signature<decltype(source), Function>::value, "Signal vs slot signatures don't match");
         std::shared_ptr<SignalSink> sink{ new SyncSink{caller, callee, function} };
 
         caller.registerConnection(source, sink);
@@ -43,6 +45,7 @@ public:
     template<typename Caller, typename Function, typename R, typename Class, typename... Args>
     static std::shared_ptr<const SignalSink> connect_async(Caller& caller, R(Class::*source)(Args...), Function function)
     {
+        static_assert(equal_signature<decltype(source), Function>::value, "Signal vs slot signatures don't match");
         std::shared_ptr<SignalSink> sink{ new AsyncSink{caller, function} };
 
         caller.registerConnection(source, sink);
@@ -53,6 +56,7 @@ public:
     template<typename Caller, typename Callee, typename Function, typename R, typename Class, typename... Args>
     static std::shared_ptr<const SignalSink> connect_async(Caller& caller, R(Class::*source)(Args...), Callee& callee, Function function)
     {
+        static_assert(equal_signature<decltype(source), Function>::value, "Signal vs slot signatures don't match");
         std::shared_ptr<SignalSink> sink{ new AsyncSink{caller, callee, function} };
 
         caller.registerConnection(source, sink);
@@ -64,6 +68,7 @@ public:
     template<typename Caller, typename Callee, typename R, typename... Args>
     static std::shared_ptr<const SignalSink> bypass(Caller& caller, R(Caller::*source)(Args...), Callee& callee, R(Callee::*dest)(Args...))
     {
+        static_assert(equal_signature<decltype(source), decltype(dest)>::value, "Signal vs slot signatures don't match");
         return connect(caller, source, callee, [&callee, dest](Args... args)
         {
             emit(callee, dest, args...);
@@ -73,6 +78,7 @@ public:
     template<typename Caller, typename Callee, typename R, typename... Args>
     static std::shared_ptr<const SignalSink> bypass_async(Caller& caller, R(Caller::*source)(Args...), Callee& callee, R(Callee::*dest)(Args...))
     {
+        static_assert(equal_signature<decltype(source), decltype(dest)>::value, "Signal vs slot signatures don't match");
         return connect_async(caller, source, callee, [&callee, dest](Args... args)
         {
             emit(callee, dest, args...);
@@ -85,7 +91,9 @@ public:
         emitter.invoke(function, std::forward<Args>(args)...);
     }
 
-
+    SignalEmitter() = default;
+    SignalEmitter(SignalEmitter&&) = default;
+    SignalEmitter& operator=(SignalEmitter&&) = default;
     ~SignalEmitter();
 
     void poll();

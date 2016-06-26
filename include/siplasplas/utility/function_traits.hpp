@@ -47,6 +47,7 @@ namespace detail
     {
         static constexpr FunctionKind kind = FunctionKind::CONST_MEMBER_FUNCTION;
     };
+
 }
 
 template<typename Function, typename = void>
@@ -81,6 +82,11 @@ constexpr FunctionKind function_kind(Function)
 {
     return function_kind<Function>();
 }
+
+template<typename A, typename B>
+struct equal_signature : std::is_same<
+    function_arguments<A>, function_arguments<B>
+>{};
 
 }
 
