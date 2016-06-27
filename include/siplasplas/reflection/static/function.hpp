@@ -100,23 +100,6 @@ public:
     }
 };
 
-template<typename... Fs>
-class OverloadedFunction;
-
-template<typename Head>
-class OverloadedFunction<Head> : public Head
-{};
-
-template<typename Head, typename Second, typename... Tail>
-class OverloadedFunction<Head, Second, Tail...> : public Head, public OverloadedFunction<Second, Tail...>
-{
-public:
-    using Head::invoke;
-    using Head::operator();
-    using OverloadedFunction<Second, Tail...>::invoke;
-    using OverloadedFunction<Second, Tail...>::operator();
-};
-
 } // namespace meta
 
 namespace codegen
@@ -131,12 +114,23 @@ class Function :
     >
 {};
 
-}
+template<typename... Fs>
+class OverloadedFunction;
 
-template<typename FunctionType, FunctionType function>
-class Function : public codegen::Function<FunctionType, function>
+template<typename Head>
+class OverloadedFunction<Head> : public Head
 {};
 
+template<typename Head, typename Second, typename... Tail>
+class OverloadedFunction<Head, Second, Tail...> : public Head, public OverloadedFunction<Second, Tail...>
+{
+public:
+    using class_type = typename Head::class_type;
+    using Head::invoke;
+    using Head::operator();
+    using OverloadedFunction<Second, Tail...>::invoke;
+    using OverloadedFunction<Second, Tail...>::operator();
+};
 
 template<typename Method>
 class BindedMethod
@@ -174,6 +168,11 @@ private:
     const typename Method::class_type* _object;
 };
 
+} // namespace codegen
+
+template<typename FunctionType, FunctionType function>
+class Function : public codegen::Function<FunctionType, function>
+{};
 
 } // namespace static_reflection
 } // namespace cpp

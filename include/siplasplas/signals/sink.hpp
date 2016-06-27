@@ -29,7 +29,7 @@ public:
     template<typename... Args>
     void operator()(Args&&... args)
     {
-        if(_callee.empty())
+        if(invokeWithoutCallee())
         {
             invoke(
                 cpp::dynamic_reflection::pack_to_vector(
@@ -61,6 +61,7 @@ public:
 
 protected:
     virtual void invoke(const std::vector<cpp::dynamic_reflection::Object>& args) = 0;
+    virtual bool invokeWithoutCallee() const = 0;
 
 private:
     cpp::dynamic_reflection::Object _caller, _callee;

@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include <siplasplas/utility/export.hpp>
+#include <memory>
 
 namespace cpp
 {
@@ -12,8 +13,6 @@ class SIPLASPLAS_UTILITY_EXPORT DynamicLibrary
 {
 public:
     static DynamicLibrary load(const std::string& libraryPath);
-
-    ~DynamicLibrary();
 
     class SIPLASPLAS_UTILITY_EXPORT Symbol
     {
@@ -59,8 +58,8 @@ public:
     const std::string& path() const;
 
 private:
-    void* _libraryHandle;
-    const std::string _libraryPath;
+    std::shared_ptr<void> _libraryHandle;
+    std::string _libraryPath;
 
     std::unordered_map<std::string, Symbol> _loadedSymbols;
 

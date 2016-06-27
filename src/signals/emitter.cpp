@@ -27,9 +27,9 @@ void SignalEmitter::disconnectCallee(SignalEmitter* callee)
         auto& sinks = keyValue.second;
 
         sinks.erase(std::remove_if(sinks.begin(), sinks.end(), [callee](const std::shared_ptr<SignalSink>& sink)
-                    {
-                    return sink->callee() == callee;
-                    }), sinks.end());
+        {
+            return sink->callee() == callee;
+        }), sinks.end());
     }
 }
 

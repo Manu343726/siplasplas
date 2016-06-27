@@ -10,7 +10,7 @@
 
 {% macro method(class, node) -%}
 ::cpp::static_reflection::codegen::Function<
-    {{utility.member_type(class, node)}}, {{utility.member_pointer(class, node)}}
+    {{utility.member_type(class, node)}}, {{utility.untyped_member_pointer(class, node)}}
 >
 {%- endmacro %}
 
@@ -32,3 +32,25 @@
 >
 {%- endmacro %}
 
+{% macro overloaded_method(class, method_family) -%}
+::cpp::static_reflection::codegen::OverloadedFunction<
+{% for method_ in method_family %}
+    {{method(class, method_) | indent(4)}}
+{% if not loop.last %}
+    ,
+{% endif %}
+{% endfor %}
+>
+{%- endmacro %}
+
+{% macro binded_method(class, method_family) -%}
+::cpp::static_reflection::codegen::BindedMethod<
+    {{overloaded_method(class, method_family) | indent(4)}}
+>
+{%- endmacro %}
+
+{% macro const_binded_method(class, method_family) -%}
+::cpp::static_reflection::codegen::ConstBindedMethod<
+    {{overloaded_method(class, method_family) | indent(4)}}
+>
+{%- endmacro %}

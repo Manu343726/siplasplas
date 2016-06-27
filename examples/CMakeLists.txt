@@ -1,4 +1,4 @@
-include(${CMAKE_SOURCE_DIR}/src/reflection/parser/drlparser.cmake)
+include(${SIPLASPLAS_REFLECTION_MODULE})
 
 function(add_example NAME)
     cmake_parse_arguments(
@@ -38,7 +38,7 @@ function(add_reflection_example NAME)
     endif()
 
     add_example(${NAME} DEPENDS ${ARGS_DEPENDS} ${install_sources} ${ARGS_UNPARSED_ARGUMENTS})
-    reflection_target(examples-${NAME})
+    configure_siplasplas_reflection(examples-${NAME})
 endfunction()
 
 add_subdirectory(3rdParty)
@@ -48,3 +48,4 @@ add_subdirectory(reflection)
 add_subdirectory(variant)
 add_subdirectory(metatype)
 add_subdirectory(signals)
+add_subdirectory(cmake)

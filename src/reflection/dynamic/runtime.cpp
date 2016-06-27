@@ -1,19 +1,37 @@
 #include "runtime.hpp"
+#include "logger.hpp"
+
 #include <siplasplas/utility/exception.hpp>
 #include <stdexcept>
 
 using namespace cpp;
 using namespace cpp::dynamic_reflection;
 
-Runtime::Runtime(const std::string& name) :
-    _name{name}
+Runtime::Runtime() :
+    Runtime{"unnamed"}
+{}
+
+Runtime::Runtime(const std::string& name)
 {
+    reset(name);
+}
+
+void Runtime::clear()
+{
+    _entities.clear();
+
     // Add global namespace
     addEntity(
         Namespace::create(
             SourceInfo("", SourceInfo::Kind::NAMESPACE)
         )
     );
+}
+
+void Runtime::reset(const std::string& name)
+{
+    _name = name;
+    clear();
 }
 
 const std::string& Runtime::name() const
@@ -68,6 +86,7 @@ void Runtime::addEntity(const std::shared_ptr<Entity>& entity)
                 parent.addChild(entity);
                 // Register the entity if succeeded
                 _entities[entity->fullName()] = entity;
+                reflection::dynamic::log().debug("[reflection runtime '{}'] Registered entity '{}'", name(), entity->fullName());
             }
             else
             {

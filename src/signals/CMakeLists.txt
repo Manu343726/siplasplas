@@ -3,6 +3,7 @@ SOURCES
     asyncsink.cpp
     emitter.cpp
     syncsink.cpp
+    logger.cpp
 DEPENDS
     siplasplas-reflection-dynamic
     readerwriterqueue

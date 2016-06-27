@@ -54,7 +54,7 @@ namespace cpp               {
 namespace static_reflection {
 namespace codegen           {
     template<>
-    class Function<{{utility.member_type(class, node)}}, {{utility.member_pointer(class, node)}}> :
+    class Function<{{utility.member_type(class, node)}}, {{utility.untyped_member_pointer(class, node)}}> :
         public {{metadata.method(class, node) | indent(8)}}
     {};
 } // namespace codegen
@@ -105,16 +105,37 @@ namespace codegen           {
     class Class<{{node.fullname}}> :
         public {{metadata.class(node) | indent(8)}}
     {
+    private:
+{% for family in node.children['methodfamily'].itervalues() %}
+        template<typename... Args>
+        static auto resolve_{{family.spelling}}_call(Args&&... args)
+        {
+            auto resolver = ::cpp::make_function(
+{% for method_ in family %}
+                []({{method_.argument_types}})
+                {
+                    return {{utility.member_pointer(node, method_)}};
+                }
+{% if not loop.last %}
+                ,
+{% endif %}
+{% endfor %}
+            );
+
+            return resolver(std::forward<Args>(args)...);
+        }
+
+{% endfor %}
     public:
         struct binded_methods
         {
-{% for child in node.children['method'].itervalues() %}
-            static ::cpp::static_reflection::BindedMethod<{{instances.method(node, child) | indent(12)}}> {{child.spelling}}({{node.fullname}}& object)
+{% for family in node.children['methodfamily'].itervalues() %}
+            static {{instances.binded_method(node, family) | indent(12)}} {{family.spelling}}({{node.fullname}}& object)
             {
                 return {object};
             }
 
-            static ::cpp::static_reflection::ConstBindedMethod<{{instances.method(node, child) | indent(12)}}> {{child.spelling}}(const {{node.fullname}}& object)
+            static {{instances.const_binded_method(node, family) | indent(12)}} {{family.spelling}}(const {{node.fullname}}& object)
             {
                 return {object};
             }
@@ -131,21 +152,14 @@ namespace codegen           {
                 _callback{callback}
             {}
 
-{% for child in node.children['method'].itervalues() %}
+{% for family in node.children['methodfamily'].itervalues() %}
             template<typename... Args>
-            auto {{child.spelling}}(Args&&... args)
+            auto {{family.spelling}}(Args&&... args)
             {
-                return _callback(*_object, &{{node.fullname}}::{{child.spelling}}, std::forward<Args>(args)...);
+                return _callback(*_object, Class::resolve_{{family.spelling}}_call(std::forward<Args>(args)...), std::forward<Args>(args)...);
             }
-
-            template<typename... Args>
-            auto {{child.spelling}}(Args&&... args) const
-            {
-                return _callback(*_object, &{{node.fullname}}::{{child.spelling}}, std::forward<Args>(args)...);
-            }
-
-
 {% endfor %}
+
         private:
             {{node.fullname}}* _object;
             Callback _callback;
@@ -160,13 +174,12 @@ namespace codegen           {
                 _callback{callback}
             {}
 
-{% for child in node.children['method'].itervalues() %}
+{% for family in node.children['methodfamily'].itervalues() %}
             template<typename... Args>
-            auto {{child.spelling}}(Args&&... args) const
+            auto {{family.spelling}}(Args&&... args) const
             {
-                return _callback(*_object, &{{node.fullname}}::{{child.spelling}}, std::forward<Args>(args)...);
+                return _callback(*_object, Class::resolve_{{family.spelling}}_call(std::forward<Args>(args)...), std::forward<Args>(args)...);
             }
-
 {% endfor %}
         private:
             const {{node.fullname}}* _object;
@@ -185,17 +198,17 @@ namespace codegen           {
             return {object, callback};
         }
 
-{% for child in node.children['method'].itervalues() %}
+{% for family in node.children['methodfamily'].itervalues() %}
         template<typename... Args>
-        static auto {{child.spelling}}(const {{node.fullname}}& object, Args&&... args)
+        static auto {{family.spelling}}(const {{node.fullname}}& object, Args&&... args)
         {
-            return binded_methods::{{child.spelling}}(object)(std::forward<Args>(args)...);
+            return binded_methods::{{family.spelling}}(object)(std::forward<Args>(args)...);
         }
 
         template<typename... Args>
-        static auto {{child.spelling}}({{node.fullname}}& object, Args&&... args)
+        static auto {{family.spelling}}({{node.fullname}}& object, Args&&... args)
         {
-            return binded_methods::{{child.spelling}}(object)(std::forward<Args>(args)...);
+            return binded_methods::{{family.spelling}}(object)(std::forward<Args>(args)...);
         }
 
 {% endfor %}
@@ -212,6 +225,10 @@ namespace codegen           {
 {% macro namespace(node) -%}
 
 // Recursivelly generate code for children first
+
+{% for child in node.children['namespace'].itervalues() %}
+{{namespace(child)}}
+{% endfor %}
 
 {% for child in node.children['class'].itervalues() %}
 {{class(child)}}

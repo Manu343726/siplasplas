@@ -59,6 +59,7 @@ class Node(object):
         self.parent = parent
         self.children = {}
         self.attributes = []
+        self._skip_node = False
 
         if parent is not None:
             self.translation_unit = parent.translation_unit
@@ -72,6 +73,11 @@ class Node(object):
 
         assert(self.translation_unit is not None)
 
+    def skip(self):
+        return self._skip_node
+
+    def set_skip(self):
+        self._skip_node = True
 
     def print_ast_node(self):
         """ Yields an string representation of the node, suitable for AST printing"""
@@ -79,7 +85,7 @@ class Node(object):
         if self.cursor.kind == CursorKind.UNEXPOSED_DECL:
             short = '{}: (Unexposed decl) \'{}\''.format(self.file, text_in_cursor(self.cursor))
         else:
-            short = "{}: ({}) {}".format(self.file, str(self.node_class_kind()), self.fullname)
+            short = "{}: ({}, Type kind: {}) {}".format(self.file, str(self.node_class_kind()), str(self.cursor.type.kind), self.fullname)
 
         if self.attributes:
             return short + '\n' + '\n =>'.join([a.description() for a in self.attributes])
@@ -121,7 +127,11 @@ class Node(object):
         nodeClass.initialize_children(node)
         node.attributes = Attribute.get_node_attributes(node)
         node.process()
-        return node
+
+        if node.skip():
+            return None
+        else:
+            return node
 
     def process(self):
         """ Processes node data after creation"""
@@ -187,6 +197,12 @@ class Node(object):
     @property
     def kind(self):
         return self.cursor.kind
+
+    @property
+    def kindstring(self):
+        """ Returns the string representation of the kind of this node"""
+
+        return type(self).__name__.lower()
 
     @classmethod
     def node_class_kind(nodeClass):

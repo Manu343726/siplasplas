@@ -26,6 +26,7 @@ public:
 
 protected:
     void invoke(const std::vector<cpp::dynamic_reflection::Object>& args) override;
+    bool invokeWithoutCallee() const override;
 
 private:
     cpp::dynamic_reflection::FunctionPointer _fptr;

@@ -3,6 +3,8 @@
 
 #include <ctti/type_id.hpp>
 #include <siplasplas/reflection/api.hpp>
+#include <siplasplas/utility/function.hpp>
+#include <siplasplas/utility/overload.hpp>
 
 {% import 'static_reflection_codegen.jinja2' as codegen %}
 

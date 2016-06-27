@@ -1,7 +1,12 @@
+add_subdirectory(logger)
 add_subdirectory(utility)
 add_subdirectory(variant)
 add_subdirectory(allocator)
 add_subdirectory(metatype)
 add_subdirectory(reflection)
+
+include(${SIPLASPLAS_REFLECTION_MODULE})
 #add_subdirectory(serialization)
 add_subdirectory(signals)
+add_subdirectory(fswatch)
+add_subdirectory(cmake)

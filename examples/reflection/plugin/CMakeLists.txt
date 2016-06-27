@@ -1,4 +1,4 @@
-include(${CMAKE_SOURCE_DIR}/src/reflection/parser/drlparser.cmake)
+include(export_target)
 
 add_siplasplas_library(pluginexample NO_INSTALL
 SOURCES
@@ -11,4 +11,5 @@ INCLUDE_DIRS
     ${CMAKE_SOURCE_DIR}/examples/reflection
 )
 
-reflection_target(pluginexample)
+configure_siplasplas_reflection(pluginexample)
+export_target_properties(pluginexample)

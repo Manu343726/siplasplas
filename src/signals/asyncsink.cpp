@@ -21,3 +21,9 @@ void AsyncSink::invoke(const std::vector<Object>& args)
 {
     _queue.enqueue(args);
 }
+
+bool AsyncSink::invokeWithoutCallee() const
+{
+    return _fptr.kind() != FunctionKind::MEMBER_FUNCTION &&
+           _fptr.kind() != FunctionKind::CONST_MEMBER_FUNCTION;
+}

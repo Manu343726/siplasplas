@@ -4,15 +4,19 @@
 
 using namespace cpp;
 
+class DynamicLibraryDeleter
+{
+public:
+    void operator()(void* handle)
+    {
+        dlclose(handle);
+    }
+};
+
 DynamicLibrary::DynamicLibrary(void* libraryHandle, const std::string& libraryPath) :
-    _libraryHandle{libraryHandle},
+    _libraryHandle{libraryHandle, DynamicLibraryDeleter()},
     _libraryPath{libraryPath}
 {}
-
-DynamicLibrary::~DynamicLibrary()
-{
-    dlclose(_libraryHandle);
-}
 
 DynamicLibrary DynamicLibrary::load(const std::string& libraryPath)
 {
@@ -40,7 +44,7 @@ DynamicLibrary DynamicLibrary::load(const std::string& libraryPath)
 
 void* DynamicLibrary::handle() const
 {
-    return _libraryHandle;
+    return _libraryHandle.get();
 }
 
 const std::string& DynamicLibrary::path() const

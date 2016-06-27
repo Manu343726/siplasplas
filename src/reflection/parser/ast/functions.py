@@ -5,6 +5,14 @@ class Method(Node):
     def __init__(self, **kwargs):
         Node.__init__(self, **kwargs)
 
+    @property
+    def argument_types(self):
+        return self.displayname[(len(self.spelling) + 1):-1]
+
+    def process(self):
+        if self.cursor.is_static_method():
+            self.set_skip()
+
 
 class OverloadedMethod(Method):
 
@@ -21,6 +29,9 @@ class FunctionFamily(Node):
 
     def append(self, function):
         self.functions.append(function)
+
+    def __getitem__(self, index):
+        return self.functions[index]
 
     def print_ast_node(self):
         return '(function family) {}{}'.format(
