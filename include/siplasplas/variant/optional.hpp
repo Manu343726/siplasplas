@@ -96,7 +96,7 @@ public:
 
     explicit operator bool() const
     {
-        return !empty;
+        return !empty();
     }
 
 private:
