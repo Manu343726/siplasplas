@@ -1,4 +1,5 @@
 #include <siplasplas/cmake/project.hpp>
+#include <siplasplas/reflection/dynamic/runtimeloader.hpp>
 #include <iostream>
 
 using namespace cpp;
@@ -27,6 +28,15 @@ public:
     {
         std::cout << line << "\n";
     }
+
+    void reloadBinary(const std::string& binary)
+    {
+        std::cout << "Reloading " << binary << " symbols...\n";
+        _runtimeLoader.load(DynamicLibrary::load(binary));
+    }
+
+private:
+    cpp::dynamic_reflection::RuntimeLoader _runtimeLoader;
 };
 
 int main()
@@ -40,6 +50,7 @@ int main()
     SignalEmitter::connect_async(project, &CMakeProject::buildStarted, cmakeProgress, &CMakeProgress::onBuildStarted);
     SignalEmitter::connect_async(project, &CMakeProject::buildFinished, cmakeProgress, &CMakeProgress::onBuildFinished);
     SignalEmitter::connect_async(project, &CMakeProject::stdoutLine, cmakeProgress, &CMakeProgress::stdoutLineFromBuildJob);
+    SignalEmitter::connect_async(target, &CMakeTarget::reloadBinary, cmakeProgress, &CMakeProgress::reloadBinary);
 
     SignalEmitter::connect_async(target, &CMakeTarget::buildFinished, cmakeProgress, [&](bool successful)
     {

@@ -12,7 +12,11 @@ namespace dynamic_reflection
 class Runtime
 {
 public:
+    Runtime();
     Runtime(const std::string& name);
+
+    void clear();
+    void reset(const std::string& name);
 
     Namespace& namespace_();
     Namespace& namespace_(const std::string& fullName);
