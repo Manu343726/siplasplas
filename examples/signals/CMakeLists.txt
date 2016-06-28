@@ -1,14 +1,13 @@
 find_package(Threads REQUIRED)
 
-add_reflection_example(signals DEPENDS siplasplas-signals ${CMAKE_THREAD_LIBS_INIT})
-
 if(SIPLASPLAS_CI_BUILD)
-    set(PRODUCER_MILLISECONDS 300)
-    set(CONSUMER_MILLISECONDS 100)
-else()
-    set(PRODUCER_MILLISECONDS 3000)
-    set(CONSUMER_MILLISECONDS 1000)
+    set(EXCLUDE_FROM_RUN_ALL EXCLUDE_FROM_RUN_ALL)
 endif()
+
+add_reflection_example(signals ${EXCLUDE_FROM_RUN_ALL} DEPENDS siplasplas-signals ${CMAKE_THREAD_LIBS_INIT})
+
+set(PRODUCER_MILLISECONDS 3000)
+set(CONSUMER_MILLISECONDS 1000)
 
 target_compile_definitions(examples-signals PRIVATE
     -DSIPLASPLAS_EXAMPLES_SIGNALS_PRODUCER_MS=${PRODUCER_MILLISECONDS}
