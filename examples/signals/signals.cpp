@@ -10,7 +10,7 @@ void producer(Foo& foo)
     std::size_t i = 0;
     auto start = std::chrono::system_clock::now();
 
-    while(std::chrono::system_clock::now() - start < std::chrono::seconds(1))
+    while(std::chrono::system_clock::now() - start < std::chrono::milliseconds(SIPLASPLAS_EXAMPLES_SIGNALS_PRODUCER_MS))
     {
         emit(foo).signal(i++);
     }
@@ -20,7 +20,7 @@ void consumer(Bar& bar)
 {
     auto start = std::chrono::system_clock::now();
 
-    while(std::chrono::system_clock::now() - start < std::chrono::seconds(3))
+    while(std::chrono::system_clock::now() - start < std::chrono::milliseconds(SIPLASPLAS_EXAMPLES_SIGNALS_CONSUMER_MS))
     {
         bar.poll();
     }

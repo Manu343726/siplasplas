@@ -48,8 +48,6 @@ function(configure_siplasplas_reflection TARGET)
 
     log("Processing target ${TARGET}:")
     log("Setting preprocessor hook for target ${TARGET}")
-    add_custom_target(${TARGET}_prebuild)
-    add_dependencies(${TARGET} ${TARGET}_prebuild)
     string(REGEX REPLACE ";" "," SOURCES "${SOURCES}")
     string(REGEX REPLACE ";" "," INCLUDE_DIRS "${INCLUDE_DIRS}")
 
@@ -99,8 +97,9 @@ function(configure_siplasplas_reflection TARGET)
         --code-template-file ${DRLPARSER_CODEGEN_TEMPLATE}
     )
 
-    add_custom_command(
-        TARGET ${TARGET}_prebuild POST_BUILD
+    add_prebuild_command(
+        NAME ${TARGET}_drlparser
+        TARGET ${TARGET}
         COMMAND ${PYTHON_EXECUTABLE} ${DRLPARSER_SCRIPT}
             ${options}
         VERBATIM

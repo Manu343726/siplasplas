@@ -96,7 +96,7 @@ public:
 
     explicit operator bool() const
     {
-        return !empty;
+        return !empty();
     }
 
 private:
@@ -119,7 +119,7 @@ Optional<std::decay_t<T>> just(T&& value)
     return {value};
 }
 
-Nothing nothing()
+inline Nothing nothing()
 {
     return {};
 }

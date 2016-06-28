@@ -35,8 +35,6 @@ public:
 
     void SetUp()
     {
-        std::cout << "EMPTY OBJECT TYPE: " << emptyObject.type().typeName() << std::endl;
-        std::cout << "NON EMPTY OBJECT TYPE: " << nonEmptyObject.type().typeName() << std::endl;
         ASSERT_TRUE(emptyObject.empty());
         ASSERT_FALSE(nonEmptyObject.empty());
     }
@@ -61,7 +59,6 @@ TEST_F(ObjectTest, constructFromType_notEmpty)
 {
     Object object{Type::get<int>()}; // Default constructs int
     EXPECT_FALSE(object.empty());
-    std::cout << object.type().typeName() << std::endl;
 }
 
 TEST_F(ObjectTest, constructFromValue_notEmpty)
@@ -74,7 +71,6 @@ TEST_F(ObjectTest, copyConstructFromEmptyObject_empty)
 {
     Object other{emptyObject};
     EXPECT_TRUE(other.empty());
-    std::cout << other.type().typeName() << std::endl;
 }
 
 TEST_F(ObjectTest, moveConstructFromEmptyObject_empty)
@@ -164,14 +160,16 @@ TEST_F(ObjectTest, moveAssignFromSameTypeObject_invoquesMoveAssignmentOperator)
     type1a = std::move(type1b);
 }
 
-TEST_F(ObjectTest, copyAssignFromDifferentTypeObject_destroysPreviousValueAndCopyConstructsNew)
+// The two following tests are disabled, see https://github.com/GueimUCM/siplasplas/issues/33
+
+TEST_F(ObjectTest, DISABLED_copyAssignFromDifferentTypeObject_destroysPreviousValueAndCopyConstructsNew)
 {
     EXPECT_CALL(functions, destructor(type1a.raw()));
     EXPECT_CALL(functions, copy_constructor(_, type2a.raw()));
     type1a = type2a;
 }
 
-TEST_F(ObjectTest, moveAssignFromDifferentTypeObject_destroysPreviousValueAndMoveConstructsNew)
+TEST_F(ObjectTest, DISABLED_moveAssignFromDifferentTypeObject_destroysPreviousValueAndMoveConstructsNew)
 {
     EXPECT_CALL(functions, destructor(type1a.raw()));
     EXPECT_CALL(functions, move_constructor(_, type2a.raw()));

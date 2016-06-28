@@ -177,3 +177,71 @@ function(get_target_include_directories TARGET RESULT)
     set(${RESULT} ${includes} PARENT_SCOPE)
 endfunction()
 
+# Gets a list of target dependencies
+function(get_target_dependencies TARGET RESULT)
+    if(NOT TARGET ${TARGET})
+        set(${RESULT} PARENT_SCOPE)
+        return()
+    endif()
+
+    get_target_property(type ${TARGET} TYPE)
+
+    if(type STREQUAL "INTERFACE_LIBRARY")
+        get_target_property(dependencies ${TARGET} INTERFACE_LINK_LIBRARIES)
+    else()
+        get_target_property(dependencies            "${TARGET}" LINK_LIBRARIES)
+    endif()
+
+    if(dependencies)
+        set(deps_copy ${dependencies})
+        set(dependencies)
+        foreach(dep ${deps_copy})
+            if(NOT (dep STREQUAL "${TARGET}") AND TARGET "${dep}")
+                list(APPEND dependencies "${dep}")
+            endif()
+        endforeach()
+
+        foreach(dep ${dependencies})
+            get_target_dependencies(${dep} deps)
+            list(APPEND dependencies ${deps})
+        endforeach()
+    endif()
+
+    if(dependencies)
+        list(REMOVE_DUPLICATES dependencies)
+    else()
+        # clear variable (May be evaluated to false by -NOTFOUND value)
+        set(dependencies)
+    endif()
+    set(${RESULT} ${dependencies} PARENT_SCOPE)
+endfunction()
+
+function(add_prebuild_command)
+    set(options)
+    set(oneValueArgs NAME TARGET)
+    set(multiValueArgs)
+    cmake_parse_arguments(PC
+        "${options}"
+        "${oneValueArgs}"
+        "${multiValueArgs}"
+        ${ARGN}
+    )
+
+    if(NOT PC_TARGET)
+        message(FATAL_ERROR "No target specified for pre build command")
+    endif()
+
+    if(NOT PC_NAME)
+        set(PC_NAME "${PC_TARGET}_prebuild")
+    endif()
+
+    # First create a dummy target to link the command as POST_BUILD
+    add_custom_target(${PC_NAME})
+    add_custom_command(TARGET ${PC_NAME} POST_BUILD ${PC_UNPARSED_ARGUMENTS})
+
+    # Here we force the command target to be the uppermost dependency of the TARGET, so
+    # the command is run only after building all other TARGET dependencies
+    get_target_dependencies(${PC_TARGET} deps)
+    add_dependencies(${PC_NAME} ${deps})
+    add_dependencies(${PC_TARGET} ${PC_NAME})
+endfunction()

@@ -59,6 +59,8 @@ function(add_run_target NAME TARGET_TYPE)
         if(NOT (all-target STREQUAL global))
             add_dependencies(${global} ${all-target})
         endif()
+    else()
+        message(STATUS "  Executable ${NAME} excluded from ${all-target}")
     endif()
 endfunction()
 
