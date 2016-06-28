@@ -17,6 +17,7 @@ function(generate_external_project NAME NO_CONFIG NO_BUILD EXTERNAL_PROJECT_ARGS
 
     file(WRITE "${CMAKE_BINARY_DIR}/${outputFile}"
 "ExternalProject_Add(${NAME}-external-project
+    SOURCE_DIR ${CMAKE_BINARY_DIR}/THIRDPARTY/${NAME}/src/${NAME}
     PREFIX ${CMAKE_BINARY_DIR}/THIRDPARTY/${NAME}
     ${EXTERNAL_PROJECT_ARGS}
     ${configureCommand}
@@ -126,18 +127,7 @@ function(add_siplasplas_thirdparty NAME)
     set(${FORMATTED_NAME}_BINARY_DIR "${binary_dir}" PARENT_SCOPE)
 
     add_library(${NAME} INTERFACE)
-
-    if(THIRDPARTY_RENAME AND (NOT ("${repodir}" STREQUAL "${downloaddir}") AND NOT (EXISTS "${repodir}")))
-        add_custom_target(${NAME}-rename-sources
-            COMMAND ${CMAKE_COMMAND} -E copy_directory "${downloaddir}" "${repodir}"
-            COMMENT "Copying ${NAME} sources to ${repodir}"
-        )
-
-        add_dependencies(${NAME} ${NAME}-rename-sources)
-        add_dependencies(${NAME}-rename-sources ${external})
-    else()
-        add_dependencies(${NAME} ${external})
-    endif()
+    add_dependencies(${NAME} ${external})
 
     set(includedirs)
     foreach(includedir ${THIRDPARTY_INCLUDE_DIRS})
