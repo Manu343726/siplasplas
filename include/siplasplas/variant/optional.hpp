@@ -119,7 +119,7 @@ Optional<std::decay_t<T>> just(T&& value)
     return {value};
 }
 
-Nothing nothing()
+inline Nothing nothing()
 {
     return {};
 }
