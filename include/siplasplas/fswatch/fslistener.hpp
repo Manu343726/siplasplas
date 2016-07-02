@@ -3,6 +3,7 @@
 
 #include <efsw/efsw.hpp>
 #include <siplasplas/signals/emitter.hpp>
+#include <siplasplas/fswatch/export.hpp>
 
 /**
  * \defgroup fswatch
@@ -37,7 +38,7 @@ namespace cpp
  * The class implements the efsw::FileWatchListener interface, and can be passed as listener for
  * efsw watchers. The signals are raised from the background thread the filesystem watcher is running.
  */
-class FileSystemListener : public efsw::FileWatchListener, public cpp::SignalEmitter
+class SIPLASPLAS_FSWATCH_EXPORT FileSystemListener : public efsw::FileWatchListener, public cpp::SignalEmitter
 {
 public:
     /**

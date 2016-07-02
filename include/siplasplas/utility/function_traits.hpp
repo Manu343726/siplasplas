@@ -19,6 +19,21 @@ enum class FunctionKind
 
 namespace detail
 {
+    /*
+     * With VS2015 we still cannot use expression sfinae to check for operator(),
+     * so here we define a trait in the old way
+     */
+    template<typename T>
+    struct IsFunctorClass
+    {
+        template<typename U>
+        static std::true_type check(decltype(&U::operator(), nullptr));
+        template<typename U>
+        static std::false_type check(...);
+
+        static constexpr bool value = decltype(check<T>(nullptr))::value;
+    };
+
     template<typename Function>
     struct get_function_signature
     {
@@ -50,13 +65,13 @@ namespace detail
 
 }
 
-template<typename Function, typename = void>
-struct function_signature :
+template<typename Function, bool IsFunctor = detail::IsFunctorClass<Function>::value>
+struct function_signature : public
     detail::get_function_signature<Function>
 {};
 
 template<typename Functor>
-struct function_signature<Functor, meta::void_t<decltype(&Functor::operator())>> :
+struct function_signature<Functor, true> :
     detail::get_function_signature<decltype(&Functor::operator())>
 {
     static constexpr FunctionKind kind = FunctionKind::FUNCTOR;

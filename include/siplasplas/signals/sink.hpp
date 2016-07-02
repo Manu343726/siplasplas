@@ -2,6 +2,7 @@
 #define SIPLASPLAS_SIGNALS_SINK_HPP
 
 #include <siplasplas/reflection/dynamic/object_manip.hpp>
+#include <siplasplas/signals/export.hpp>
 #include <type_traits>
 
 namespace cpp
@@ -35,7 +36,7 @@ class SignalEmitter;
  * functions above.
  *
  */
-class SignalSink
+class SIPLASPLAS_SIGNALS_EXPORT SignalSink
 {
 public:
 
@@ -70,7 +71,7 @@ public:
         _callee{}
     {}
 
-    virtual ~SignalSink() = default;
+    virtual ~SignalSink();
 
     /**
      * \brief Invokes the sink with the given arguments.

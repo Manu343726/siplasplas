@@ -5,6 +5,7 @@
 #include <functional>
 #include "preprocessor.hpp"
 #include "exception.hpp"
+#include <siplasplas/utility/export.hpp>
 
 namespace cpp
 {
@@ -22,7 +23,7 @@ namespace cpp
  * An AssertException is thrown whenever a siplasplas assertion fails (See AssertExpression).
  * AssertException::what() returns a detailed message about the assertion failure.
  */
-class AssertException : public std::logic_error
+class SIPLASPLAS_UTILITY_EXPORT AssertException : public std::logic_error
 {
 public:
     using std::logic_error::logic_error;
@@ -39,7 +40,7 @@ public:
  * the assertion failed (i.e. **the value of the result was false**) the AssertExpression
  * destructor throws an AssertException exception.
  */
-class AssertExpression
+class SIPLASPLAS_UTILITY_EXPORT AssertExpression
 {
 public:
     /**
@@ -112,7 +113,7 @@ private:
  * When siplasplas assertions are disabled DummyAssertExpression objects are instanced instead,
  * and the expression does nothing.
  */
-class DummyAssertExpression
+class SIPLASPLAS_UTILITY_EXPORT DummyAssertExpression
 {
 public:
     /**

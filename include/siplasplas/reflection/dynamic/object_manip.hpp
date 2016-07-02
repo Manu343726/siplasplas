@@ -85,24 +85,61 @@ auto vector_call(Function function, const std::vector<cpp::dynamic_reflection::O
     return vector_call(function, vector, meta::to_index_sequence_t<typename cpp::function_signature<Function>::args>{});
 }
 
+namespace detail
+{
+    template<typename R, typename Class, typename... Args>
+    class ConstInvokeVectorCallOnMember
+    {
+    public:
+        using MemberPtr = R(Class::*)(Args...) const;
+
+        ConstInvokeVectorCallOnMember(const Class& object, MemberPtr memberPtr) :
+            _objectPtr{&object},
+            _memberPtr{memberPtr}
+        {}
+
+        R operator()(Args... args) const
+        {
+            return (_objectPtr->*_memberPtr)(args...);
+        }
+
+    private:
+        const Class* _objectPtr;
+        MemberPtr _memberPtr;
+    };
+
+    template<typename R, typename Class, typename... Args>
+    class InvokeVectorCallOnMember
+    {
+    public:
+        using MemberPtr = R(Class::*)(Args...);
+
+        InvokeVectorCallOnMember(Class& object, MemberPtr memberPtr) :
+            _objectPtr{&object},
+            _memberPtr{memberPtr}
+        {}
+
+        R operator()(Args... args) const
+        {
+            return (_objectPtr->*_memberPtr)(args...);
+        }
+
+    private:
+        Class* _objectPtr;
+        MemberPtr _memberPtr;
+    };
+}
+
 template<typename Class, typename R, typename... Args>
 R vector_call(R (Class::* function)(Args...) const, const Class& object, const std::vector<cpp::dynamic_reflection::Object>& vector)
 {
-    return vector_call([function,&object](Args... args)
-    {
-        return (object.*function)(args...);
-    },
-    vector);
+    return vector_call(detail::ConstInvokeVectorCallOnMember<R, Class, Args...>(object, function), vector);
 }
 
 template<typename Class, typename R, typename... Args>
 R vector_call(R (Class::* function)(Args...), Class& object, const std::vector<cpp::dynamic_reflection::Object>& vector)
 {
-    return vector_call([function,&object](Args... args)
-    {
-        return (object.*function)(args...);
-    },
-    vector);
+    return vector_call(detail::InvokeVectorCallOnMember<R, Class, Args...>(object, function), vector);
 }
 
 template<typename Class, typename R, typename... Args>
