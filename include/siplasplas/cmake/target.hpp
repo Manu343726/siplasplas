@@ -3,6 +3,7 @@
 
 #include <siplasplas/signals/emitter.hpp>
 #include <siplasplas/fswatch/fslistener.hpp>
+#include <siplasplas/cmake/export.hpp>
 #include <memory>
 
 namespace cpp
@@ -28,7 +29,7 @@ class CMakeProject;
  * actually error-prone since targets are not registred in projects during their
  * construction, registration is handled by CMakeProject::addTarget() functions).
  */
-class CMakeTarget : public cpp::SignalEmitter
+class SIPLASPLAS_CMAKE_EXPORT CMakeTarget : public cpp::SignalEmitter
 {
 public:
     /**

@@ -2,8 +2,9 @@
 #define SIPLASPLAS_EXAMPLES_PLUGIN_PLUGIN_HPP
 
 #include <plugininterface/plugininterface.hpp>
+#include <examples/reflection/plugin/export.hpp>
 
-class Plugin : public PluginInterface
+class PLUGINEXAMPLE_EXPORT Plugin : public PluginInterface
 {
 public:
     void run() override;
