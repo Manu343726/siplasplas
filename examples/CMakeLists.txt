@@ -31,7 +31,7 @@ function(add_reflection_example NAME)
         ${ARGN}
     )
 
-    list(APPEND ARGS_DEPENDS siplasplas-reflection)
+    list(APPEND ARGS_DEPENDS siplasplas-reflection-dynamic)
 
     if(ARGS_INSTALL_SOURCES)
         set(install_sources INSTALL_SOURCES ${ARGS_INSTALL_SOURCES})
