@@ -38,7 +38,18 @@ function(configure_siplasplas_reflection TARGET)
     get_target_property(COMPILE_OPTIONS ${TARGET} COMPILE_OPTIONS)
     get_target_include_directories(${TARGET} INCLUDE_DIRS)
 
-    if(UNIX OR MINGW)
+    # Filter MSVC compile options and use default C++11 options for libclang
+    if(MSVC)
+        foreach(option ${COMPILE_OPTIONS})
+            log("Filtering MSVC compile options: ${option}")
+
+            # TODO: Actual filtering...
+        endforeach()
+
+        list(APPEND COMPILE_OPTIONS ${LIBCLANG_EXTRA_COMPILE_OPTIONS})
+    endif()
+
+    if(UNIX OR MINGW OR MSVC)
         clangxx_stdlib_includes(libstdc++ STDLIBCPP_INCLUDES)
         libclang_system_include_dir(LIBCLANG_SYSTEM_INCLUDE_DIR)
 
@@ -55,7 +66,7 @@ function(configure_siplasplas_reflection TARGET)
     )
 
     log("Processing target ${TARGET}:")
-    log("Setting preprocessor hook for target ${TARGET}")
+    log("Setting dlrparser hook for target ${TARGET}")
     string(REGEX REPLACE ";" "," SOURCES "${SOURCES}")
     string(REGEX REPLACE ";" "," INCLUDE_DIRS "${INCLUDE_DIRS}")
 
@@ -89,6 +100,7 @@ function(configure_siplasplas_reflection TARGET)
     endif()
 
     string(REGEX REPLACE ";" "," COMPILE_OPTIONS "${COMPILE_OPTIONS}")
+    log("libclang compile options: ${COMPILE_OPTIONS}")
 
     set(options
         --compile-options "\"${COMPILE_OPTIONS}\""

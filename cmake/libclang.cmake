@@ -127,6 +127,16 @@ function(gxx_executable _ret)
     endif()
 endfunction()
 
+function(gxx_version _ret)
+    gxx_executable(gxx)
+
+    execute_process( COMMAND ${gxx} -dumpversion OUTPUT_VARIABLE version_string)
+    string (REGEX REPLACE "([0-9])\\.([0-9])\\.([0-9])" "\\1.\\2.\\3" version_string ${version_string})
+    string(STRIP ${version_string} version_string) #Remove extra newline character
+
+    set(${_ret} "${version_string}" PARENT_SCOPE)
+endfunction()
+
 function(windows_path PATH RESULT_PATH)
     if(WIN32)
         if(MINGW)
@@ -153,53 +163,58 @@ endfunction()
 
 function(clangxx_stdlib_includes stdlib INCLUDES)
     clangxx_executable(clangxx)
+    gxx_executable(gxx)
 
-    execute_process(
-        COMMAND ${CMAKE_COMMAND} -E echo ""
-        COMMAND ${clangxx} -std=c++11 -stdlib=${stdlib} -v -x c++ -E -
-        OUTPUT_VARIABLE out
-        ERROR_VARIABLE err
-    )
+    set(compilers clangxx gxx)
 
-    string(REGEX MATCH "
+    foreach(compiler_exec ${compilers})
+        message(STATUS "Asking for ${${compiler_exec}} include dirs...")
+        execute_process(
+            COMMAND ${CMAKE_COMMAND} -E echo ""
+            COMMAND ${${compiler_exec}} -std=c++11 -stdlib=${stdlib} -v -x c++ -E -
+            OUTPUT_VARIABLE out
+            ERROR_VARIABLE err
+        )
+
+        string(REGEX MATCH "
 #include \"...\" search starts here:
 #include <...> search starts here:
 (.+)
 End of search list."
-            includes "${err}")
+                includes "${err}\n STDOUT: ${out}")
 
-    string(REGEX REPLACE "\n" ";" includes "${CMAKE_MATCH_1}")
-    list(REMOVE_DUPLICATES includes)
+        string(REGEX REPLACE "\n" ";" includes "${CMAKE_MATCH_1}")
+        list(REMOVE_DUPLICATES includes)
 
-    foreach(includedir ${includes})
-        if(WIN32)
-            windows_path("${includedir}" includedir)
-        endif()
+        foreach(includedir ${includes})
+            if(WIN32)
+                windows_path("${includedir}" includedir)
+            endif()
 
-        string(REGEX REPLACE "\ +$" "" includedir "${includedir}")
-        string(REGEX REPLACE "\"(.*)\"" "\\1" includedir "${includedir}")
-        string(REGEX REPLACE "\n" "" includedir "${includedir}")
-        string(STRIP "${includedir}" includedir)
+            string(REGEX REPLACE "\ +$" "" includedir "${includedir}")
+            string(REGEX REPLACE "\"(.*)\"" "\\1" includedir "${includedir}")
+            string(REGEX REPLACE "\n" "" includedir "${includedir}")
+            string(STRIP "${includedir}" includedir)
 
-        list(APPEND includedirs ${includedir})
+            list(APPEND includedirs ${includedir})
+        endforeach()
     endforeach()
+
+    if(WIN32)
+        # Explicitly add MinGW libstdc++ include dir
+        gxx_version(gxx_version)
+        list(APPEND includedirs 
+            "C:/MinGW/include/c++/${gxx_version}"
+            "C:/MinGW/include/c++/${gxx_version}/x86_64-w64-mingw32"
+        )
+    endif()
 
     if(NOT includedirs)
         message(FATAL_ERROR "No ${stdlib} include directory found")
     else()
+        list(REMOVE_DUPLICATES includedirs)
         set(${INCLUDES} "${includedirs}" PARENT_SCOPE)
     endif()
-endfunction()
-
-
-function(gxx_version _ret)
-    gxx_executable(gxx)
-
-    execute_process( COMMAND ${gxx} -dumpversion OUTPUT_VARIABLE version_string)
-    string (REGEX REPLACE "([0-9])\\.([0-9])\\.([0-9])" "\\1.\\2.\\3" version_string ${version_string})
-    string(STRIP ${version_string} version_string) #Remove extra newline character
-
-    set(${_ret} "${version_string}" PARENT_SCOPE)
 endfunction()
 
 function(libclang_include_dir _ret)
@@ -282,3 +297,5 @@ function(libclang_library _ret)
         set(${_ret} "${LIBCLANG_LIBRARIES}" PARENT_SCOPE)
     endif()
 endfunction()
+
+set(LIBCLANG_EXTRA_COMPILE_OPTIONS -std=c++11 -stdlib=libstdc++)
