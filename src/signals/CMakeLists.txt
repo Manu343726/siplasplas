@@ -1,6 +1,5 @@
 add_siplasplas_library(siplasplas-signals
 SOURCES
-	sink.cpp
     asyncsink.cpp
     emitter.cpp
     syncsink.cpp

@@ -71,7 +71,7 @@ public:
         _callee{}
     {}
 
-    virtual ~SignalSink();
+    virtual ~SignalSink() = default;
 
     /**
      * \brief Invokes the sink with the given arguments.

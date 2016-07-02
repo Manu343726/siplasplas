@@ -62,6 +62,8 @@ public:
      */
     bool pull() override;
 
+    virtual ~SyncSink() = default;
+
 protected:
     void invoke(const std::vector<cpp::dynamic_reflection::Object>& args) override;
     bool invokeWithoutCallee() const override;
