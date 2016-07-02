@@ -43,7 +43,7 @@ if(SIPLASPLAS_BUILD_DOCS)
 else()
     message(STATUS "Docs build disabled")
 endif()
-include(cmake/cpack.cmake)
+include(cmake/cpacksettings.cmake)
 
 configure_file(
     ${CMAKE_SOURCE_DIR}/.ycm_extra_conf.py.in
