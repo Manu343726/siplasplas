@@ -43,11 +43,8 @@
 namespace cpp
 {
 
-<<<<<<< df0bb528cce1f9810d2ec89d271c649d7e2185b2
 /**
  * \ingroup cmake
- *
- *
  * \brief Configures and builds an existing CMake project.
  *
  * CMakeProject class handles an existing CMake project given
