@@ -148,14 +148,11 @@ class HashDispatch<T, cpp::FunctionKind::FUNCTOR>
 public:
     static constexpr std::size_t apply(const T& value)
     {
-        if(std::is_empty<T>::value)
-        {
-            return ::cpp::hash(&T::operator());
-        }
-        else
-        {
-            return ::cpp::hash(::cpp::raw_hash(value), &T::operator());
-        }
+        return std::is_empty<T>::value ?
+            ::cpp::hash(&T::operator())
+        :
+            ::cpp::hash(&value, &T::operator())
+        ;
     }
 };
 
