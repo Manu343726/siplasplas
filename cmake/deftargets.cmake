@@ -194,7 +194,10 @@ function(add_siplasplas_target NAME TARGET_TYPE)
     endif()
 
     target_link_libraries(${NAME} ${linking} ${link_libraries})
-    copy_dll_dependencies(${NAME})
+
+    if(SIPLASPLAS_COPY_DLL_DEPENDENCIES)
+        copy_dll_dependencies(${NAME})
+    endif()
 
     target_include_directories(${NAME} ${linking}
         ${CMAKE_SOURCE_DIR}/include

@@ -30,6 +30,7 @@ option(SIPLASPLAS_CI_BUILD                        "siplasplas running on continu
 option(SIPLASPLAS_STANDARDESE_BUILD_TARGETS_FIRST "Build target before running standardese on that target. This ensures all deps are available" OFF)
 option(SIPLASPLAS_INSTALL_DRLPARSER_DEPENDENCIES  "Automatically install DRLParser dependencies" ON)
 option(SIPLASPLAS_DOWNLOAD_LIBCLANG               "Download libclang from llvm mirror instead of using system LLVM installation" OFF)
+option(SIPLASPLAS_COPY_DLL_DEPENDENCIES "Copy dll dependencies to the dependant target binary dir" ON)
 
 if(SIPLASPLAS_BUILD_TESTS)
     enable_testing()
