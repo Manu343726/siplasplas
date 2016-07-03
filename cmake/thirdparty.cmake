@@ -171,11 +171,31 @@ function(add_siplasplas_thirdparty NAME)
     endif()
 endfunction()
 
+function(compute_binary_file NAME TYPE LIBRARY_SUFFIX BINARY_DIR RESULT)
+    libraryfile(${NAME} ${TYPE} file)
+
+    get_filename_component(filename "${file}" NAME_WE)
+    get_filename_component(fileext  "${file}" EXT)
+    set(file "${filename}${LIBRARY_SUFFIX}${fileext}")
+
+    if(MSVC)
+        set(file "${CMAKE_BUILD_TYPE}/${file}")
+    endif()
+
+    message(STATUS "Component ${NAME} binary file: ${file}")
+
+    if(BINARY_DIR)
+        set(${RESULT} "${BINARY_DIR}/${file}" PARENT_SCOPE)
+    else()
+        set(${RESULT} "${file}" PARENT_SCOPE)
+    endif()
+endfunction()
+
 function(add_siplasplas_thirdparty_component NAME)
 
     cmake_parse_arguments(COMPONENT
         "DEFAULT;SHARED"
-        "THIRD_PARTY;BINARY;BINARY_DIR;LIBRARY_SUFFIX"
+        "THIRD_PARTY;BINARY;BINARY_DIR;BINARY_NAME;LIBRARY_SUFFIX;SHARED_LIBRARY_SUFFIX"
         "INCLUDE_DIRS;DEPENDS;LINK_LIBS"
         ${ARGN}
     )
@@ -192,30 +212,25 @@ function(add_siplasplas_thirdparty_component NAME)
             set(repodir "${CMAKE_BINARY_DIR}/THIRDPARTY/${COMPONENT_THIRD_PARTY}/src/${COMPONENT_THIRD_PARTY}")
         endif()
     endif()
+
     if(NOT COMPONENT_BINARY)
+        if(NOT COMPONENT_BINARY_NAME)
+            set(COMPONENT_BINARY_NAME ${NAME})
+        endif()
+
         if(COMPONENT_SHARED)
-            libraryfile(${NAME} SHARED libfile)
+            compute_binary_file(${COMPONENT_BINARY_NAME} SHARED "${COMPONENT_LIBRARY_SUFFIX}${COMPONENT_SHARED_LIBRARY_SUFFIX}" "${COMPONENT_BINARY_DIR}" libfile)
+
+            # We should import the location of the import lib (.lib) too to link with the dll
+            # (In dll platforms you link against the import lib, not the dynamic library)
+            if(WIN32)
+                compute_binary_file(${COMPONENT_BINARY_NAME} IMPORT "${COMPONENT_LIBRARY_SUFFIX}" "${COMPONENT_BINARY_DIR}" importedlibfile)
+            endif()
         else()
-            libraryfile(${NAME} STATIC libfile)
+            compute_binary_file(${COMPONENT_BINARY_NAME} STATIC "${COMPONENT_LIBRARY_SUFFIX}" "${COMPONENT_BINARY_DIR}" libfile)
         endif()
 
-        get_filename_component(filename "${libfile}" NAME_WE)
-        get_filename_component(fileext  "${libfile}" EXT)
-        set(libfile "${filename}${COMPONENT_LIBRARY_SUFFIX}${fileext}")
-
-        if(MSVC)
-            set(libfile "${CMAKE_BUILD_TYPE}/${libfile}")
-        endif()
-
-        if(COMPONENT_BINARY_DIR)
-            set(COMPONENT_BINARY "${COMPONENT_BINARY_DIR}/${libfile}")
-        else()
-            set(COMPONENT_BINARY "${libfile}")
-        endif()
-
-        if(SIPLASPLAS_VERBOSE_CONFIG)
-            message(STATUS "${COMPONENT_THIRD_PARTY}-${NAME} binary: ${COMPONENT_BINARY}")
-        endif()
+        set(COMPONENT_BINARY "${libfile}")
     endif()
 
     message(STATUS "SIPLASPLAS THIRD PARTY COMPONENT '${NAME}' FROM '${COMPONENT_THIRD_PARTY}'")
@@ -241,6 +256,13 @@ function(add_siplasplas_thirdparty_component NAME)
     set_target_properties(${importedlib} PROPERTIES
         IMPORTED_LOCATION "${binary_dir}/${COMPONENT_BINARY}"
     )
+
+    if(importedlibfile)
+        message(STATUS "Adding implementation lib (${importedlibfile}) for component ${NAME} of thirdparty ${COMPONENT_THIRD_PARTY}")
+        set_target_properties(${importedlib} PROPERTIES
+            IMPORTED_IMPLIB "${binary_dir}/${importedlibfile}"
+        )
+    endif()
 
     add_library(${interfacelib} INTERFACE)
     target_include_directories(${interfacelib} INTERFACE ${includedirs})
