@@ -27,12 +27,7 @@ matrix:
             - llvm-toolchain-precise-3.7
             - boost-latest
 
-  # Main matrix rows (Clang & GCC setup, release, shared libraries)
-    - env: BUILD_TYPE=Release CLANG_VERSION=3.7 SIPLASPLAS_LIBRARIES_STATIC=FALSE
-      os: linux
-      addons: *clang37
-
-    - env: BUILD_TYPE=Release CLANG_VERSION=3.7 GCC_VERSION=5.2.1 GCC=gcc-5 GXX=g++-5 SIPLASPLAS_LIBRARIES_STATIC=FALSE
+    - env: BUILD_TYPE=Release CLANG_VERSION=3.7 GCC_VERSION=5.2.1 SIPLASPLAS_LIBRARIES_STATIC=FALSE
       os: linux
       addons: *clang37
 
@@ -41,7 +36,7 @@ matrix:
       os: linux
       addons: *clang37
 
-    - env: BUILD_TYPE=Debug CLANG_VERSION=3.7 GCC_VERSION=5.2.1 GCC=gcc-5 GXX=g++-5 SIPLASPLAS_LIBRARIES_STATIC=FALSE
+    - env: BUILD_TYPE=Debug CLANG_VERSION=3.7 GCC_VERSION=5.2.1 SIPLASPLAS_LIBRARIES_STATIC=FALSE
       os: linux
       addons: *clang37
 
@@ -50,7 +45,7 @@ matrix:
       os: linux
       addons: *clang37
 
-    - env: BUILD_TYPE=Debug CLANG_VERSION=3.7 GCC_VERSION=5.2.1 GCC=gcc-5 GXX=g++-5 SIPLASPLAS_LIBRARIES_STATIC=TRUE
+    - env: BUILD_TYPE=Debug CLANG_VERSION=3.7 GCC_VERSION=5.2.1 SIPLASPLAS_LIBRARIES_STATIC=TRUE
       os: linux
       addons: *clang37
 
@@ -59,7 +54,7 @@ matrix:
       os: linux
       addons: *clang37
 
-    - env: BUILD_TYPE=Debug CLANG_VERSION=3.7 GCC_VERSION=5.2.1 GCC=gcc-5 GXX=g++-5 SIPLASPLAS_LIBRARIES_STATIC=TRUE
+    - env: BUILD_TYPE=Debug CLANG_VERSION=3.7 GCC_VERSION=5.2.1 SIPLASPLAS_LIBRARIES_STATIC=TRUE
       os: linux
       addons: *clang37
 
@@ -67,11 +62,8 @@ matrix:
 before_install:
   - if [ "$DEPLOY_DOCS" == "true" ]; then git config --global user.name "siplasplas travis build docs job bot"; fi
   - git submodule update --init --recursive
-  - if [ -n "$GCC_VERSION" ]; then export CXX="$GXX" CC="$GCC"; fi
-  - if [ -n "$GCC_VERSION" ]; then mkdir gccaliases && export PATH=$(pwd)/gccaliases:${PATH}; fi
-  - if [ -n "$GCC_VERSION" ]; then ln -s $(which $GCC) gccaliases/gcc-${GCC_VERSION} && ln -s $(which $GXX) gccaliases/g++-${GCC_VERSION}; fi
+  - if [ -n "$GCC_VERSION" ]; then export CXX="g++-5" CC="gcc-5"; fi
   - if [ -z "$GCC_VERSION" ]; then export CXX="clang++-${CLANG_VERSION}" CC="clang-${CLANG_VERSION}"; fi
-  - if [ -z "$GCC_VERSION" -a "$CLANG_VERSION" == "3.4" ]; then export CXX="/usr/local/clang-3.4/bin/clang++" CC="/usr/local/clang-3.4/bin/clang"; fi
   - which $CXX
   - which $CC
   - $CXX --version
@@ -120,6 +112,7 @@ install:
   # Configure and build project:
   - if [ ! -d build ]; then mkdir build; fi
   - cd build
+<<<<<<< HEAD
   - cmake .. -DSIPLASPLAS_BUILD_TESTS=ON
              -DSIPLASPLAS_BUILD_EXAMPLES=ON
              -DSIPLASPLAS_VERBOSE_CONFIG=ON
@@ -140,6 +133,10 @@ install:
              -DSIPLASPLAS_GITHUB_USER_TOKEN="$SIPLASPLAS_GITHUB_USER_TOKEN"
 
   - if [ "$DEPLOY_DOCS" != "true" ]; then cmake --build .; fi
+=======
+  - cmake .. -DSIPLASPLAS_BUILD_TESTS=ON -DSIPLASPLAS_BUILD_EXAMPLES=ON -DSIPLASPLAS_CI_BUILD=ON -DBII_BOOST_VERBOSE=ON -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DSIPLASPLAS_GXX="$(which g++-5)" -DDRLPARSER_LIBCLANG="$LIBCLANG" -DSIPLASPLAS_LIBRARIES_STATIC="$SIPLASPLAS_LIBRARIES_STATIC"
+  - cmake --build .
+>>>>>>> 8507d00... Use C++14-aware GCC for libclang
 
 script:
   - if [ "$DEPLOY_DOCS" != "true" ]; then make run-tests-all; fi

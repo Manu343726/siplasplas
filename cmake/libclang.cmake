@@ -109,20 +109,24 @@ if(SIPLASPLAS_DOWNLOAD_LIBCLANG)
 endif()
 
 function(gxx_executable _ret)
-    if(CMAKE_COMPILER_IS_GNUCXX)
-        set(${_ret} "${CMAKE_CXX_COMPILER}" PARENT_SCOPE)
+    if(SIPLASPLAS_GXX)
+        set(${_ret} "${SIPLASPLAS_GXX}" PARENT_SCOPE)
     else()
-        if(NOT gxx)
-            find_program(gxx g++)
-
-            if(gxx)
-                message(STATUS "Found g++ program: ${gxx}")
-                set(${_ret} "${gxx}" PARENT_SCOPE)
-            else()
-                message(FATAL_ERROR "g++ not found")
-            endif()
+        if(CMAKE_COMPILER_IS_GNUCXX)
+            set(${_ret} "${CMAKE_CXX_COMPILER}" PARENT_SCOPE)
         else()
-            set(${_ret} "${gxx}" PARENT_SCOPE)
+            if(NOT gxx)
+                find_program(gxx g++)
+
+                if(gxx)
+                    message(STATUS "Found g++ program: ${gxx}")
+                    set(${_ret} "${gxx}" PARENT_SCOPE)
+                else()
+                    message(FATAL_ERROR "g++ not found")
+                endif()
+            else()
+                set(${_ret} "${gxx}" PARENT_SCOPE)
+            endif()
         endif()
     endif()
 endfunction()
@@ -203,7 +207,7 @@ End of search list."
     if(WIN32)
         # Explicitly add MinGW libstdc++ include dir
         gxx_version(gxx_version)
-        list(APPEND includedirs 
+        list(APPEND includedirs
             "C:/MinGW/include/c++/${gxx_version}"
             "C:/MinGW/include/c++/${gxx_version}/x86_64-w64-mingw32"
         )
@@ -298,4 +302,4 @@ function(libclang_library _ret)
     endif()
 endfunction()
 
-set(LIBCLANG_EXTRA_COMPILE_OPTIONS -std=c++11 -stdlib=libstdc++)
+set(LIBCLANG_EXTRA_COMPILE_OPTIONS -std=c++14 -stdlib=libstdc++)
