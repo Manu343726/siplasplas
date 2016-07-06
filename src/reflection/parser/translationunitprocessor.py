@@ -46,7 +46,6 @@ class TranslationUnitProcessor:
         self.classes = []
         self.namespace = []
         self.translation_unit = TranslationUnit(self.clang_tu.cursor, self.filePath)
-        print '\r' + ' '*100 + '\r', # Clean progress
 
         # This is the root of the AST. For easy visitation, check TranslationUnit.nodes() method,
         # it gives an iterable on the translation unit AST
