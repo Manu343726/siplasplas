@@ -31,76 +31,6 @@ function(headerdir_from_sourcetree RESULT)
     set(${RESULT}  "${includedir}" PARENT_SCOPE)
 endfunction()
 
-function(_copy_dll_dependencies ROOT_TARGET TARGET)
-    if((NOT WIN32) OR (NOT (TARGET ${TARGET})))
-        return()
-    endif()
-    get_target_property(target_type ${TARGET} TYPE)
-    get_target_property(root_target_type ${ROOT_TARGET} TYPE)
-    if((target_type STREQUAL INTERFACE_LIBRARY) OR
-       (NOT (root_target_type STREQUAL EXECUTABLE)))
-        return()
-    endif()
-    get_target_property(dependencies ${TARGET} LINK_LIBRARIES)
-    if(NOT dependencies)
-        return()
-    endif()
-
-    message(STATUS " => dlls of target '${TARGET}' for target '${ROOT_TARGET}'")
-
-    set(dest_directory $<TARGET_FILE_DIR:${ROOT_TARGET}>)
-
-    foreach(lib ${dependencies})
-        if(TARGET ${lib})
-            if(NOT (lib STREQUAL TARGET))
-                get_target_property(target_type ${lib} TYPE)
-                if(target_type STREQUAL SHARED_LIBRARY)
-                    set(dllfile $<TARGET_FILE_DIR:${lib}>/$<TARGET_FILE_NAME:${lib}>)
-                endif()
-            endif()
-        elseif(lib MATCHES ".+\\.dll")
-            set(dllfile "${lib}")
-        endif()
-
-        if(SIPLASPLAS_VERBOSE_CONFIG)
-            set(log COMMAND ${CMAKE_COMMAND} -E echo " - ${dllfile}")
-        endif()
-
-        if(dllfile)
-            list(APPEND copy_command
-                ${log}
-                COMMAND ${CMAKE_COMMAND} -E copy
-                    \"${dllfile}\"
-                    \"${dest_directory}\"
-            )
-        endif()
-    endforeach()
-
-    if(copy_command)
-        add_custom_command(TARGET ${ROOT_TARGET} POST_BUILD
-            ${copy_command}
-            COMMENT "Copying dll dependencies of target ${TARGET}..."
-        )
-    endif()
-
-    foreach(dep ${dependencies})
-       _copy_dll_dependencies(${ROOT_TARGET} "${dep}")
-    endforeach()
-endfunction()
-
-
-# Copies dll dependencies of a target to its runtime
-# directory.
-#
-# Recursivelly scans for dll dependencies, so all needed
-# dlls are placed within the target output binary (usually
-# an executable). This helps to run/debug executables directly
-# in the buildtree, without installing them.
-#
-function(copy_dll_dependencies TARGET)
-    _copy_dll_dependencies(${TARGET} ${TARGET})
-endfunction()
-
 # Unzips a library list so libraries tagged as
 # 'debug', 'optimized', or 'general' are arranged into
 # isolated lists.
@@ -134,9 +64,7 @@ function(parse_library_list LIBRARIES)
     set(GENERAL_LIBS   ${_gen_libs}       PARENT_SCOPE)
 endfunction()
 
-# Gets the set of target include directories, recusivelly scanning
-# dependencies and checking kind of target
-function(get_target_include_directories TARGET RESULT)
+function(get_target_common_property RESULT TARGET PROPERTY)
     if(NOT TARGET ${TARGET})
         set(${RESULT} PARENT_SCOPE)
         return()
@@ -145,31 +73,43 @@ function(get_target_include_directories TARGET RESULT)
     get_target_property(type ${TARGET} TYPE)
 
     if(type STREQUAL "INTERFACE_LIBRARY")
-        get_target_property(dependencies ${TARGET} INTERFACE_LINK_LIBRARIES)
-        get_target_property(includes     ${TARGET} INTERFACE_INCLUDE_DIRECTORIES)
+        get_target_property(value ${TARGET} INTERFACE_${PROPERTY})
     else()
-        get_target_property(dependencies            "${TARGET}" LINK_LIBRARIES)
-        get_target_property(includes                "${TARGET}" INCLUDE_DIRECTORIES)
-    endif()
+        get_target_property(interface-value ${TARGET} INTERFACE_${PROPERTY})
+        get_target_property(value ${TARGET} ${PROPERTY})
 
-    if(NOT includes)
-        set(includes)
-    endif()
-
-    if(dependencies)
-        set(deps_copy ${dependencies})
-        set(dependencies)
-        foreach(dep ${deps_copy})
-            if(NOT (dep STREQUAL "${TARGET}"))
-                list(APPEND dependencies "${dep}")
+        if(interface-value)
+            if(value)
+                set(value ${value} ${interface-value})
+            else()
+                set(value ${interface-value})
             endif()
-        endforeach()
-
-        foreach(dep ${dependencies})
-            get_target_include_directories(${dep} dep_includes)
-            list(APPEND includes ${dep_includes})
-        endforeach()
+        endif()
     endif()
+
+    if(NOT value)
+        set(value) # clear -NOTFOUND entries
+    else()
+        list(REMOVE_DUPLICATES value)
+    endif()
+
+    set(${RESULT} ${value} PARENT_SCOPE)
+endfunction() 
+
+# Gets the set of target include directories, recusivelly scanning
+# dependencies and checking kind of target
+function(get_target_include_directories TARGET RESULT)
+    if(NOT TARGET ${TARGET})
+        set(${RESULT} PARENT_SCOPE)
+        return()
+    endif()
+
+    get_target_dependencies(${TARGET} dependencies)
+
+    foreach(dep ${dependencies})
+        get_target_common_property(dep_includes ${dep} INCLUDE_DIRECTORIES)
+        list(APPEND includes ${dep_includes})
+    endforeach()
 
     if(includes)
         list(REMOVE_DUPLICATES includes)
@@ -184,19 +124,13 @@ function(get_target_dependencies TARGET RESULT)
         return()
     endif()
 
-    get_target_property(type ${TARGET} TYPE)
+    get_target_common_property(link_libraries ${TARGET} LINK_LIBRARIES)
 
-    if(type STREQUAL "INTERFACE_LIBRARY")
-        get_target_property(dependencies ${TARGET} INTERFACE_LINK_LIBRARIES)
-    else()
-        get_target_property(dependencies            "${TARGET}" LINK_LIBRARIES)
-    endif()
-
-    if(dependencies)
-        set(deps_copy ${dependencies})
+    if(link_libraries)
+        set(deps_copy ${link_libraries})
         set(dependencies)
         foreach(dep ${deps_copy})
-            if(NOT (dep STREQUAL "${TARGET}") AND TARGET "${dep}")
+            if(NOT (dep STREQUAL "${TARGET}"))
                 list(APPEND dependencies "${dep}")
             endif()
         endforeach()
@@ -214,6 +148,38 @@ function(get_target_dependencies TARGET RESULT)
         set(dependencies)
     endif()
     set(${RESULT} ${dependencies} PARENT_SCOPE)
+endfunction()
+
+function(get_target_binary TARGET RESULT)
+    if(NOT TARGET ${TARGET})
+        message(FATAL_ERROR "${TARGET} is not a CMake target")
+    endif()
+
+    get_target_property(type ${TARGET} TYPE)
+
+    if(type MATCHES INTERFACE_LIBRARY)
+        message(FATAL_ERROR "Interface libraries have no binary output (Library: ${TARGET})")
+    else()
+        set(binary "$<TARGET_FILE_DIR:${TARGET}>/$<TARGET_FILE_NAME:${TARGET}>")
+    endif()
+
+    if(binary)
+        set(${RESULT} "${binary}" PARENT_SCOPE)
+    else()
+        message(FATAL_ERROR "Failed getting binary of target ${TARGET}")
+    endif()
+endfunction()
+
+function(get_target_dependencies_targets_only TARGET RESULT)
+    get_target_dependencies(${TARGET} dependencies)
+
+    foreach(dep ${dependencies})
+        if(TARGET ${dep})
+            list(APPEND target_dependencies ${dep})
+        endif()
+    endforeach()
+
+    set(${RESULT} ${target_dependencies} PARENT_SCOPE)
 endfunction()
 
 function(add_prebuild_command)
@@ -241,7 +207,55 @@ function(add_prebuild_command)
 
     # Here we force the command target to be the uppermost dependency of the TARGET, so
     # the command is run only after building all other TARGET dependencies
-    get_target_dependencies(${PC_TARGET} deps)
+    get_target_dependencies_targets_only(${PC_TARGET} deps)
     add_dependencies(${PC_NAME} ${deps})
     add_dependencies(${PC_TARGET} ${PC_NAME})
+endfunction()
+
+# Copies dll dependencies of a target to its runtime
+# directory.
+#
+# Recursivelly scans for dll dependencies, so all needed
+# dlls are placed within the target output binary (usually
+# an executable). This helps to run/debug executables directly
+# in the buildtree, without installing them.
+#
+function(copy_dll_dependencies TARGET)
+    get_target_dependencies(${TARGET} dependencies)
+
+    set(dest_directory $<TARGET_FILE_DIR:${ROOT_TARGET}>)
+    foreach(dep ${dependencies})
+        if(TARGET ${dep})
+            get_target_property(type ${dep} TYPE)
+
+            if(NOT type MATCHES INTERFACE_LIBRARY)
+                get_target_binary(${dep} lib)
+                set(dllfile "${lib}")
+            else()
+                set(dllfile)
+            endif()
+        else()
+            set(dllfile)
+        endif()
+
+        if(SIPLASPLAS_VERBOSE_CONFIG)
+            set(log COMMAND ${CMAKE_COMMAND} -E echo " - ${dllfile}")
+        endif()
+
+        if(dllfile)
+            list(APPEND copy_command
+                ${log}
+                COMMAND ${CMAKE_COMMAND} -E copy
+                    \"${dllfile}\"
+                    \"${dest_directory}\"
+            )
+        endif()
+    endforeach()
+
+    if(copy_command)
+        add_custom_target(copy-${TARGET}-dlls
+            ${copy_command}
+            COMMENT "Copying dll dependencies of target ${TARGET}..."
+        )
+    endif()
 endfunction()
