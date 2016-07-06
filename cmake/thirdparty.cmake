@@ -223,7 +223,7 @@ function(add_siplasplas_thirdparty_component NAME)
 
             # We should import the location of the import lib (.lib) too to link with the dll
             # (In dll platforms you link against the import lib, not the dynamic library)
-            if(WIN32)
+            if(MSVC)
                 compute_binary_file(${COMPONENT_BINARY_NAME} IMPORT "${COMPONENT_LIBRARY_SUFFIX}" "${COMPONENT_BINARY_DIR}" importedlibfile)
             endif()
         else()
@@ -244,7 +244,7 @@ function(add_siplasplas_thirdparty_component NAME)
         set(libtype STATIC)
     endif()
 
-    add_library(${importedlib} IMPORTED ${libtype})
+    add_library(${importedlib} IMPORTED GLOBAL ${libtype})
 
     foreach(includedir ${COMPONENT_INCLUDE_DIRS})
         list(APPEND includedirs
