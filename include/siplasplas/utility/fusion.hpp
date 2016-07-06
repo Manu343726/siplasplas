@@ -25,21 +25,42 @@ public:
     using type = T;
 };
 
-template<typename Function, typename... Args>
-void foreach(Function function, Args&&... args)
+template<typename Function, typename Arg, typename... Args>
+void foreach(Function function, Arg&& arg, Args&&... args)
 {
-    [](...){}((function(std::forward<Args>(args)), 0)...);
+    [](...){}(
+        (function(std::forward<Arg>(arg)), 0), 
+        (function(std::forward<Args>(args)), 0)...
+    );
 }
+
+template<typename Function>
+void foreach(Function)
+{}
 
 }
 
-template<typename... Args>
-auto foreach(Args&&... args)
+template<typename Arg>
+auto foreach(Arg&& arg)
 {
-    return [args...](auto function)
+    return [arg](auto function)
     {
-        ::cpp::detail::foreach(function, args...);
+        return function(arg);
     };
+}
+
+template<typename Arg, typename Arg2, typename... Args>
+auto foreach(Arg&& arg, Arg2&& arg2, Args&&... args)
+{
+    return [arg, arg2, args...](auto function)
+    {
+        ::cpp::detail::foreach(function, arg, arg2, args...);
+    };
+}
+
+auto foreach()
+{
+    return [](auto){};
 }
 
 namespace
@@ -47,26 +68,56 @@ namespace
     template<typename Ts>
     class TypesCall;
 
-    template<typename... Ts>
-    class TypesCall<cpp::meta::list<Ts...>>
+    template<typename T, typename... Ts>
+    class TypesCall<cpp::meta::list<T, Ts...>>
     {
     public:
         template<typename Function>
         static void apply_void(Function function)
         {
-            ::cpp::foreach(detail::DefaultConstructible<Ts>()...)(function);
+            ::cpp::foreach(
+                detail::DefaultConstructible<T>(),
+                detail::DefaultConstructible<Ts>()...
+            )(function);
         }
 
         template<typename T, typename Function>
         static std::vector<T> apply(Function function)
         {
-            return { function(detail::DefaultConstructible<Ts>())... };
+            return {
+                function(detail::DefualtConstructible<T>()), 
+                function(detail::DefaultConstructible<Ts>())... 
+            };
         }
 
         template<typename Function>
         static auto apply(Function function)
         {
-            return std::make_tuple(function(detail::DefaultConstructible<Ts>())...);
+            return std::make_tuple(
+                function(detail::DefaultConstructible<T>()),
+                function(detail::DefaultConstructible<Ts>())...
+            );
+        }
+    };
+
+    template<>
+    class TypesCall<cpp::meta::list<>>
+    {
+    public:
+        template<typename Function>
+        static void apply_void(Function function)
+        {}
+
+        template<typename T, typename Function>
+        static std::vector<T> apply(Function function)
+        {
+            return {};
+        }
+
+        template<typename Function>
+        static auto apply(Function function)
+        {
+            return std::make_tuple();
         }
     };
 
@@ -83,7 +134,7 @@ std::vector<T> types_call(Function function)
 }
 
 template<typename... Ts, typename Function>
-void foreach(Function function)
+void foreach_type(Function function)
 {
     TypesCall<cpp::meta::list<Ts...>>::apply_void(function);
 }

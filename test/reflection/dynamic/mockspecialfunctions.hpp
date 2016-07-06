@@ -92,7 +92,7 @@ protected:
     template<typename... Ts>
     MockSpecialFunctionsTest(const std::vector<void*>&  objects, Ts...)
     {
-        cpp::foreach<Ts...>([this](auto type)
+        cpp::foreach_type<Ts...>([this](auto type)
         {
             using Type = cpp::meta::type_t<cpp::meta::type_t<decltype(type)>>;
 

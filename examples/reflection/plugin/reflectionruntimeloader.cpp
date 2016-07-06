@@ -19,7 +19,7 @@ void SIPLASPLAS_REFLECTION_LOAD_RUNTIME(void* runtimePtr)
         )
     );
 
-    cpp::foreach<cpp::static_reflection::Class<Plugin>::Methods>([&](auto method)
+    cpp::foreach_type<cpp::static_reflection::Class<Plugin>::Methods>([&](auto method)
     {
         using Method = typename decltype(method)::type;
 

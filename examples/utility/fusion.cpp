@@ -5,7 +5,7 @@
 
 int main()
 {
-    cpp::foreach<int, char, bool>([&](auto type)
+    cpp::foreach_type<int, char, bool>([&](auto type)
     {
         using Type = cpp::meta::type_t<decltype(type)>;
 

@@ -14,14 +14,50 @@ namespace cpp
 namespace dynamic_reflection
 {
 
-template<typename... Args>
-std::vector<cpp::dynamic_reflection::Object> pack_to_vector(Args&&... args)
-{
-    return {cpp::dynamic_reflection::Object{args}...};
-}
+namespace detail
+{   
+    template<typename R, typename Class, typename... Args>
+    class ConstInvokeVectorCallOnMember
+    {
+    public:
+        using MemberPtr = R(Class::*)(Args...) const;
 
-namespace
-{
+        ConstInvokeVectorCallOnMember(const Class& object, MemberPtr memberPtr) :
+            _objectPtr{&object},
+            _memberPtr{memberPtr}
+        {}
+
+        R operator()(Args... args) const
+        {
+            return (_objectPtr->*_memberPtr)(args...);
+        }
+
+    private:
+        const Class* _objectPtr;
+        MemberPtr _memberPtr;
+    };
+
+    template<typename R, typename Class, typename... Args>
+    class InvokeVectorCallOnMember
+    {
+    public:
+        using MemberPtr = R(Class::*)(Args...);
+
+        InvokeVectorCallOnMember(Class& object, MemberPtr memberPtr) :
+            _objectPtr{&object},
+            _memberPtr{memberPtr}
+        {}
+
+        R operator()(Args... args) const
+        {
+            return (_objectPtr->*_memberPtr)(args...);
+        }
+
+    private:
+        Class* _objectPtr;
+        MemberPtr _memberPtr;
+    };
+
     template<typename... Args, std::size_t... Is>
     std::tuple<Args...> vector_to_tuple(const std::vector<cpp::dynamic_reflection::Object>& vector, meta::index_sequence<Is...>)
     {
@@ -65,69 +101,60 @@ namespace
 
         return function(args[Is].get<cpp::function_argument<Is, Function>>()...);
     }
+
+    /*
+     * Visual Studio sucks at levels I had never imagined: This is another of such cases we have to
+     * add special handling of variadic templates base case for MSVC only, because you know, inferring
+     * <std::size_t... Is>(index_sequence<Is...>) from index_sequence<> is too hard.
+     */
+    template<typename Function>
+    auto vector_call(Function function, const std::vector<cpp::dynamic_reflection::Object>& args, meta::index_sequence<>)
+    {
+        auto logCall = [&]
+        {
+            ::cpp::reflection::dynamic::log().debug("Vector call to {} (Args count={}, Signature args count=0)", ctti::type_id<Function>().name(), args.size());
+        };
+
+#ifdef SIPLASPLAS_LOG_VECTORCALL
+        logCall();
+#endif
+
+        SIPLASPLAS_ASSERT_EQ(args.size(), 0).onFailure([&]
+        {
+            logCall();
+        });
+
+        return function();
+    }
+}
+
+template<typename... Args>
+std::vector<cpp::dynamic_reflection::Object> pack_to_vector(Args&&... args)
+{
+    return {cpp::dynamic_reflection::Object{args}...};
 }
 
 template<typename... Args>
 std::tuple<Args...> vector_to_tuple(const std::vector<cpp::dynamic_reflection::Object>& vector)
 {
-    return vector_to_tuple<Args...>(vector, meta::make_index_sequence_for<Args...>{});
+    return detail::vector_to_tuple<Args...>(vector, meta::make_index_sequence_for<Args...>{});
 }
 
 template<typename... Args>
 std::vector<cpp::dynamic_reflection::Object> tuple_to_vector(const std::tuple<Args...>& tuple)
 {
-    return tuple_to_vector(tuple, meta::make_index_sequence_for<Args...>{});
+    return detail::tuple_to_vector(tuple, meta::make_index_sequence_for<Args...>{});
 }
 
 template<typename Function>
 auto vector_call(Function function, const std::vector<cpp::dynamic_reflection::Object>& vector)
 {
-    return vector_call(function, vector, meta::to_index_sequence_t<typename cpp::function_signature<Function>::args>{});
+    return detail::vector_call(function, vector, meta::to_index_sequence_t<typename cpp::function_signature<Function>::args>{});
 }
 
 namespace detail
 {
-    template<typename R, typename Class, typename... Args>
-    class ConstInvokeVectorCallOnMember
-    {
-    public:
-        using MemberPtr = R(Class::*)(Args...) const;
-
-        ConstInvokeVectorCallOnMember(const Class& object, MemberPtr memberPtr) :
-            _objectPtr{&object},
-            _memberPtr{memberPtr}
-        {}
-
-        R operator()(Args... args) const
-        {
-            return (_objectPtr->*_memberPtr)(args...);
-        }
-
-    private:
-        const Class* _objectPtr;
-        MemberPtr _memberPtr;
-    };
-
-    template<typename R, typename Class, typename... Args>
-    class InvokeVectorCallOnMember
-    {
-    public:
-        using MemberPtr = R(Class::*)(Args...);
-
-        InvokeVectorCallOnMember(Class& object, MemberPtr memberPtr) :
-            _objectPtr{&object},
-            _memberPtr{memberPtr}
-        {}
-
-        R operator()(Args... args) const
-        {
-            return (_objectPtr->*_memberPtr)(args...);
-        }
-
-    private:
-        Class* _objectPtr;
-        MemberPtr _memberPtr;
-    };
+    
 }
 
 template<typename Class, typename R, typename... Args>
