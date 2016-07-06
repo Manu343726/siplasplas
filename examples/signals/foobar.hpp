@@ -12,7 +12,7 @@ public:
 
     void slot(int integer)
     {
-        std::cout << __PRETTY_FUNCTION__ << ": " << integer << " (this=@" << this << ")\n";
+        std::cout << CTTI_TYPE_ID_PRETTY_FUNCTION << ": " << integer << " (this=@" << this << ")\n";
     }
 };
 
