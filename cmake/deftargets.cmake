@@ -195,7 +195,7 @@ function(add_siplasplas_target NAME TARGET_TYPE)
 
     target_link_libraries(${NAME} ${linking} ${link_libraries})
 
-    if(SIPLASPLAS_COPY_DLL_DEPENDENCIES)
+    if(SIPLASPLAS_COPY_DLL_DEPENDENCIES AND (TARGET_TYPE STREQUAL "UNIT_TEST" OR TARGET_TYPE STREQUAL "EXECUTABLE"))
         copy_dll_dependencies(${NAME})
     endif()
 
