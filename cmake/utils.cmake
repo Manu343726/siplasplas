@@ -104,6 +104,7 @@ function(get_target_include_directories TARGET RESULT)
         return()
     endif()
 
+    get_target_common_property(includes ${TARGET} INCLUDE_DIRECTORIES)
     get_target_dependencies(${TARGET} dependencies)
 
     foreach(dep ${dependencies})
