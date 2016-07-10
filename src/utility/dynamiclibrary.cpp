@@ -16,21 +16,43 @@ public:
 
 
 #ifdef WIN32
+#define NOMINMAX
+#include <Windows.h>
+#include "exception.hpp"
+
 using namespace cpp;
 
 static std::pair<void*, std::string> loadLibrary(const std::string& libraryPath)
 {
-    throw std::runtime_error{ "Cannot load shared library " + std::string{ libraryPath } };
+    void* handle = LoadLibrary(libraryPath.c_str());
+
+    if (handle)
+    {
+        return{ handle, libraryPath };
+    }
+    else
+    {
+        throw cpp::exception<std::runtime_error>("Cannot load shared library {}", libraryPath);
+    }
 }
 
 static std::pair<void*, std::string> loadSymbol(DynamicLibrary& library, const std::string& symbolName)
 {
-    throw std::runtime_error{ "Cannot load symbol '" + symbolName + "' from library " + library.path() };
+    void* handle = GetProcAddress(reinterpret_cast<HMODULE>(library.handle()), symbolName.c_str());
+
+    if (handle)
+    {
+        return{ handle, symbolName };
+    }
+    else
+    {
+        throw cpp::exception<std::runtime_error>("Cannot load function '{}' from shared library {}", symbolName, library.path());
+    }
 }
 
 static void closeLibrary(void* libraryHandle)
 {
-    throw std::runtime_error{ "Cannot close shared library" };
+    FreeLibrary(reinterpret_cast<HMODULE>(libraryHandle));
 }
 #else
 #include <link.h>
@@ -47,6 +69,8 @@ static std::pair<void*, std::string> loadLibrary(const std::string& libraryPath)
     {
         link_map* info;
 
+        // Load binary path information from dlinfo() API if available, else
+        // use the user provided path
         if (dlinfo(handle, RTLD_DI_LINKMAP, &info) || !info->l_name)
         {
             return{ handle, libraryPath };
