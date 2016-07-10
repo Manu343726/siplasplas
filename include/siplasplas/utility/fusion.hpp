@@ -29,7 +29,7 @@ template<typename Function, typename Arg, typename... Args>
 void foreach(Function function, Arg&& arg, Args&&... args)
 {
     [](...){}(
-        (function(std::forward<Arg>(arg)), 0), 
+        (function(std::forward<Arg>(arg)), 0),
         (function(std::forward<Args>(args)), 0)...
     );
 }
@@ -58,7 +58,7 @@ auto foreach(Arg&& arg, Arg2&& arg2, Args&&... args)
     };
 }
 
-auto foreach()
+inline auto foreach()
 {
     return [](auto){};
 }
@@ -86,7 +86,7 @@ namespace
         {
             return {
                 function(detail::DefaultConstructible<T>()),
-                function(detail::DefaultConstructible<Ts>())... 
+                function(detail::DefaultConstructible<Ts>())...
             };
         }
 
