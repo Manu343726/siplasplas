@@ -81,11 +81,11 @@ namespace
             )(function);
         }
 
-        template<typename T, typename Function>
-        static std::vector<T> apply(Function function)
+        template<typename U, typename Function>
+        static std::vector<U> apply(Function function)
         {
             return {
-                function(detail::DefualtConstructible<T>()), 
+                function(detail::DefaultConstructible<T>()),
                 function(detail::DefaultConstructible<Ts>())... 
             };
         }
