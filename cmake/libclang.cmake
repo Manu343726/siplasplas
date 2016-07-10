@@ -20,7 +20,8 @@ function(clangxx_executable _ret)
                 message(STATUS "Found clang++ program: ${clangxx}")
                 set(${_ret} "${clangxx}" PARENT_SCOPE)
             else()
-                message(FATAL_ERROR "clang++ not found")
+                message(WARNING "clang++ not found")
+                set(${_ret} PARENT_SCOPE)
             endif()
         else()
             set(${_ret} "${clangxx}" PARENT_SCOPE)
@@ -122,7 +123,8 @@ function(gxx_executable _ret)
                     message(STATUS "Found g++ program: ${gxx}")
                     set(${_ret} "${gxx}" PARENT_SCOPE)
                 else()
-                    message(FATAL_ERROR "g++ not found")
+                    message(WARNING "g++ not found")
+                    set(${_ret} PARENT_SCOPE)
                 endif()
             else()
                 set(${_ret} "${gxx}" PARENT_SCOPE)
@@ -172,6 +174,13 @@ function(clangxx_stdlib_includes stdlib INCLUDES)
     set(compilers clangxx gxx)
 
     foreach(compiler_exec ${compilers})
+        # We want DRLParser to work even if MinGW is not available on Windows,
+        # but note that would add some innaccuracies when parsing with libclang
+        # (Missing standard library headers, etc)
+        if(NOT ${compiler_exec})
+            continue()
+        endif()
+
         message(STATUS "Asking for ${${compiler_exec}} include dirs...")
         execute_process(
             COMMAND ${CMAKE_COMMAND} -E echo ""
