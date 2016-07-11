@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Siplasplas by GueimUCM</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Siplasplas</h1>
+      <h2 class="project-tagline">Examples and utilities for the Advanced C++ course for the GUEIM association, Complutense University of Madrid</h2>
+      <a href="https://github.com/GueimUCM/siplasplas" class="btn">View on GitHub</a>
+      <a href="https://github.com/GueimUCM/siplasplas/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/GueimUCM/siplasplas/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="siplasplas--" class="anchor" href="#siplasplas--" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>siplasplas <a href="https://travis-ci.org/GueimUCM/siplasplas"><img src="https://travis-ci.org/GueimUCM/siplasplas.svg?branch=master" alt="Build Status"></a> <a href="https://ci.appveyor.com/project/AlvarBer/siplasplas"><img src="https://ci.appveyor.com/api/projects/status/d395bonrvrduwl6a?svg=true" alt="Build status"></a>
+</h1>
+
+<p>Examples and utilities for the Advanced C++ course for the GUEIM association, Complutense University of Madrid.</p>
+
+<h2>
+<a id="contents" class="anchor" href="#contents" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Contents</h2>
+
+<p>The repository is organized as a small library with the different data structures, examples, and other utilities that will be studied in the course. In addition to hosting the course's contents, it is modeled to demonstrate how a typical Open Source C++ proyect is organized (Build system, testing, CI, etc).</p>
+
+<p>The repo is structured as follows:</p>
+
+<ul>
+<li>
+<strong><code>include/</code></strong>: Headers of the different utilities and examples.</li>
+<li>
+<strong><code>src/</code></strong>: Implementations.</li>
+<li>
+<strong><code>examples/</code></strong>: Examples of usage.</li>
+<li>
+<strong><code>tests/</code></strong>: Unit tests.</li>
+<li>
+<strong><code>3rdParty/</code></strong>: External dependencies.</li>
+</ul>
+
+<h2>
+<a id="environments" class="anchor" href="#environments" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Environments</h2>
+
+<p>Since the course covers C++14, it is mandatory that the used compiler has at least partial support of C++14. I recommend using the newest compiler available to you. The contents have been tested for the following compilers:</p>
+
+<h3>
+<a id="gcc-52-53" class="anchor" href="#gcc-52-53" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>GCC 5.2-5.3</h3>
+
+<p>Should already be available in any Linux distro. In the case of Ubuntu, you may add the testing PPAs (<code>ubuntu-toolchain-r-test</code>) to install it.
+You can see the installation process for Debian in the Travis CI build.</p>
+
+<p>It is available for Windows trough the <a href="http://nuwen.net/mingw.html">nuwen MinGW distro</a>.</p>
+
+<p>In case it is not available (in Cygwin, for example), you may try to compile GCC by hand. It's really simple:</p>
+
+<div class="highlight highlight-source-shell"><pre>$ git clone https://github.com/gcc-mirror/gcc gcc <span class="pl-k">&amp;&amp;</span> <span class="pl-c1">cd</span> gcc
+$ git checkout tag/gcc_5_3_0_release
+$ <span class="pl-c1">cd</span> ..
+$ mkdir gcc-buildtree <span class="pl-k">&amp;&amp;</span> <span class="pl-c1">cd</span> gcc-buildtree
+$ ../gcc/configure --program-suffix=-5.3 --enable_languages=c++ --enable-version-specific-runtime-libs
+$ make -j8
+$ make check
+$ make install</pre></div>
+
+<p><a href="http://eli.thegreenplace.net/2014/01/16/building-gcc-4-8-from-source-on-ubunu-12-04/">Here</a> is a good guide for Ubuntu.</p>
+
+<h3>
+<a id="clang-36-forward" class="anchor" href="#clang-36-forward" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Clang 3.6 forward</h3>
+
+<p>Just like GCC, you may download it or compile it by hand. As an example, the Travis build installs Clang 3.7 in Ubuntu using the testing PPA. In the comments, you can find the instructions to compile LLVM and Clang by hand.</p>
+
+<h3>
+<a id="visual-studio-2015" class="anchor" href="#visual-studio-2015" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Visual Studio 2015</h3>
+
+<p>Microsoft has (almost) completed the implementation of C++11 since Visual Studio 2015 Update 1.
+C++14 is partially supported. For the course, you need <a href="https://ci.appveyor.com/project/Manu343726/siplasplas/build/1.0.9">at least VS2015</a>.</p>
+
+<h2>
+<a id="setup" class="anchor" href="#setup" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Setup</h2>
+
+<p><a href="https://asciinema.org/a/c13nlez3fhd86xdkicw7l6y8q"><img src="https://asciinema.org/a/c13nlez3fhd86xdkicw7l6y8q.png" alt="asciicast"></a></p>
+
+<p>Just clone the repo and initialize the submodules of the external dependencies:</p>
+
+<div class="highlight highlight-source-shell"><pre>$ git clone https://github.com/GueimUCM/siplasplas
+$ <span class="pl-c1">cd</span> siplasplas
+$ git submodule update --init</pre></div>
+
+<p>or, just in one step:</p>
+
+<div class="highlight highlight-source-shell"><pre>$ git clone --recursive https://github.com/GueimUCM/siplasplas</pre></div>
+
+<p>To compile the examples and the unit tests, use the typical out-of-source compilation method of cmake:</p>
+
+<div class="highlight highlight-source-shell"><pre>user@siplasplas: $ mkdir build <span class="pl-k">&amp;&amp;</span> <span class="pl-c1">cd</span> build
+user@siplasplas/build: $ cmake ..
+user@siplasplas/build: $ cmake --build <span class="pl-c1">.</span></pre></div>
+
+<p><em>If you are working with more than one environment at a time, it is recommended that you have a build folder for each environment. For example, if you're working under Windows you might want to try everything with Visual Studio, MinGW (GCC), and Cygwin (GCC and Clang), with a build folder for each one:</em></p>
+
+<div class="highlight highlight-source-shell"><pre>user@siplasplas: $ mkdir buildVS <span class="pl-k">&amp;&amp;</span> <span class="pl-c1">cd</span> buildVS
+user@siplasplas/buildVS: $ cmake ..
+user@siplasplas: $ mkdir buildMinGW <span class="pl-k">&amp;&amp;</span> <span class="pl-c1">cd</span> buildMinGW
+user@siplasplas/buildMinGW: $ cmake ..
+cygwin@siplasplas: $ mkdir buildCygwin <span class="pl-k">&amp;&amp;</span> <span class="pl-c1">cd</span> buildCygwin
+cygwin@siplasplas/buildCygwin: $ cmake ..</pre></div>
+
+<p><em>You may also configure a project to act as an "umbrella", such that it configures all the projects you need automatically. An example is available <a href="https://github.com/Manu343726/cpp-dod-tests">here</a>.</em></p>
+
+<p>Even though you can run the unit tests directly by running the executables, they are added to the project's <a href="https://cmake.org/Wiki/CMake/Testing_With_CTest">ctest</a> configuration:</p>
+
+<div class="highlight highlight-source-shell"><pre>user@siplasplas/build: $ ctest <span class="pl-c1">.</span> -VV</pre></div>
+
+<p><em>The generator of Visual Studio is multi-configuration, so you will have to tell CTest which configuration (Release or Debug) is it that you want to test:</em></p>
+
+<div class="highlight highlight-source-shell"><pre>user@siplasplas/build: $ ctest -C Debug <span class="pl-c1">.</span> -VV</pre></div>
+
+<p><em>You must take into accout that GTest and GMock are built for a specific configuration at compile time (that is, the <code>${CMAKE_BUILD_TYPE}</code> variable), so make sure that you have configured the project in the corresponding mode before launching the test, since it won't link otherwise.</em></p>
+
+<h3>
+<a id="reflection" class="anchor" href="#reflection" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Reflection</h3>
+
+<p>The reflection engine demonstrated in the course uses a Python script to analyze and generate the exta code necessary for refletion. In addition, said script uses the libclang API to analyze source code.
+For that reason, in order to compile and run the reflection examples, you must have Python 2.7 and libclang installed, as well as the script dependencies:</p>
+
+<ol>
+<li><strong>Install Python:</strong></li>
+</ol>
+
+<p>In Linux, it should be enough to install it via your package manager. In Windows, you can download it from <a href="https://www.python.org/downloads/">here</a>. It's really important that you make sura that both the interpreter and the scripts are added to the <code>PATH</code>. Under Windows, the default configuration is <code>C:\Python27</code> and <code>C:\Python27\scripts</code>.</p>
+
+<p>Besides, it is necessary to install <code>pip</code>, the Python dependency manager. The typical method is to download and execute the <a href="https://bootstrap.pypa.io/get-pip.py"><code>get-pip.py</code></a> script:</p>
+
+<div class="highlight highlight-source-shell"><pre>$ python get-pip.py</pre></div>
+
+<ol>
+<li>
+<p><strong>Install libclang:</strong></p>
+
+<ul>
+<li>Windows: The precompiled version of Clang includes libclang, it should work out of the box. If it doesn't the problem probably lies in the path of <code>libclang.so</code>. Both the parser script and the CMake interface include a flag to pass the route of <code>libclang.so</code>, in case that happens. You may download Clang for Windows <a href="http://llvm.org/releases/download.html">here</a>.</li>
+<li>Linux: The name of the package may change from one distro to another. In Debian, for example, the one being used in the Travis builds is <code>libclang1-[VERSION CLANG]</code>. It is usually included as part of the clang package.</li>
+</ul>
+</li>
+<li><p><strong>Install dependencies:</strong></p></li>
+</ol>
+
+<p>The script includes a file <code>requirements.txt</code> with it's dependencies: </p>
+
+<div class="highlight highlight-source-shell"><pre>$ pip install -r include/reflection/parser/requirements.txt</pre></div>
+
+<h3>
+<a id="3rdpartycmake" class="anchor" href="#3rdpartycmake" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3rdParty/cmake</h3>
+
+<p>Is a small repo where I have been uploading utilities to help using CMake. At the moment, it contains:</p>
+
+<ul>
+<li>
+<p><code>exec-targets.cmake</code>: Defines a function <code>exec_target(NAME &lt;name&gt; PREFIX &lt;prefix&gt; [COMPILE_OPTIONS &lt;compiler options&gt;])</code> which creates an executable target <code>&lt;prefix&gt;_&lt;name&gt;</code> from the file <code>&lt;prefix&gt;s/&lt;name&gt;.cpp</code>. For example:</p>
+
+<div class="highlight highlight-source-cmake"><pre>exec_target(<span class="pl-k">NAME</span> potato PREFIX example)</pre></div>
+
+<p>creates an executable <code>example_potato</code> from the file <code>examples/potato.cpp</code>. 
+To be able to use that function, you must call <code>setup_exec_targets([PROJECT &lt;project name&gt;] ...)</code> with the configuration that you want to use (Source folder, include directory, tests directory, etc). In any case, it is designed for projects with the organization mentioned above, so a call without parameters should work.</p>
+</li>
+<li><p><code>gmock.cmake</code>: Downloads and configures Google's mocking and unit testing framework (<a href="https://github.com/google/googletest">Google Test Framework</a>), so that it's really simple to write our own tests. It contains two functions <code>install_gtestgmock([VERSION &lt;version&gt;] ...)</code> (Downloads and configures the framework for our project) and <code>gmock_test_target(NAME &lt;name&gt;)</code> (A wrapper for <code>exec_target()</code> that configures a test executable  and links it to GTest/GMock).</p></li>
+<li>
+<code>vs_source_groups.cmake</code>: The Visual Studio generator doesn't take the folder structure of a target's sources/includes into account when generating the corresponding project. This is really bothersome, since it means that usually only the <code>.cpp</code>s appear, without maintaining the folder structure. The function <code>generate_vs_source_groups(&lt;group name&gt; &lt;top directory&gt;)</code> configures the project to follow the original folder structure. It is called automatically from <code>exec_target()</code> if you are using Visual Studio.</li>
+<li>
+<a href="https://github.com/toeb/cmakepp"><code>cmakepp.cmake</code></a>: A framework that extends CMake with lots of utilities. Although it's complex and lacks documentation, the creator usually answers questions in detail. <em>I have copied the compiled version of cmakepp so that I can modify some things, that's why it's not a submodule.</em>
+</li>
+<li>
+<code>custom_properties.cmake</code>: Both the targets and the sources of a CMake project have a series of properties associated to them, that we can query, modify, etc. However, the property set is fixed, we cannot add our own. This module implements a series of functions similar to the CMake property interface to defin our own properties for files and targets.</li>
+</ul>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h2>
+
+<p>All contents shared here are published under the MIT License</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/GueimUCM/siplasplas">Siplasplas</a> is maintained by <a href="https://github.com/GueimUCM">GueimUCM</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
