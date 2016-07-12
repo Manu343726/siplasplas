@@ -19,6 +19,7 @@ add_subdirectory(src)
 
 option(SIPLASPLAS_BUILD_TESTS    "Build tests"    OFF)
 option(SIPLASPLAS_BUILD_EXAMPLES "Build examples" OFF)
+option(SIPLASPLAS_BUILD_DOCS     "Build doxygen documentation" OFF)
 option(SIPLASPLAS_CI_BUILD "siplasplas running on continuous integrationi build" FALSE)
 
 if(SIPLASPLAS_BUILD_TESTS)
@@ -27,6 +28,9 @@ if(SIPLASPLAS_BUILD_TESTS)
 endif()
 if(SIPLASPLAS_BUILD_EXAMPLES)
     add_subdirectory(examples)
+endif()
+if(SIPLASPLAS_BUILD_DOCS)
+    add_subdirectory(doc)
 endif()
 include(cmake/cpack.cmake)
 
