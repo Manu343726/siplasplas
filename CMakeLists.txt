@@ -13,6 +13,7 @@ set(SIPLASPLAS_VERSION_PATCH 0)
 
 include(cmake/deftargets.cmake)
 include(cmake/install.cmake)
+include(cmake/git.cmake)
 
 add_subdirectory(3rdParty)
 add_subdirectory(src)
