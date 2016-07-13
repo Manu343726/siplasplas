@@ -17,7 +17,7 @@ namespace cpp
  *
  * The AsyncSink class implements a sink that by default enqueues signal emissions
  * in a thread safe queue. The destination function is invoked only when the user asks
- * for incomming signals by pulling the sink. \See AsyncSInk::pull().
+ * for incomming signals by pulling the sink. See AsyncSInk::pull().
  */
 class AsyncSink : public SignalSink
 {
@@ -26,7 +26,7 @@ public:
      * \brief Creates an asynchronous sink given a caller and a
      * destination function.
      *
-     * \See SignalEmitter::connect_async()
+     * See SignalEmitter::connect_async()
      *
      * \param caller Caller object.
      * \param function Function to be invoked when the signal is handled.
@@ -41,7 +41,7 @@ public:
      * \brief Creates an asynchronous sink given a caller, a callee, and a
      * destination function.
      *
-     * \See SignalEmitter::connect_async()
+     * See SignalEmitter::connect_async()
      *
      * \param caller Caller object.
      * \param callee Callee object.

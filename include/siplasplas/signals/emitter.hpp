@@ -42,6 +42,8 @@
  *
  *  - **Explicit usage**: There are no implicit polling loops, the user is in charge of polling
  *    non-direct connections (Such as async connections between threads) for incoming signals.
+ *
+ *  \example signals/signals.cpp
  */
 
 namespace cpp
@@ -129,7 +131,7 @@ public:
      * \brief Creates an asynchronous connection between a signal and a function
      *
      * Asynchronous connections are connections that don't directly invoke the destination function when the signal is invoked
-     * but delay the invocation until the user explicitly polls the connection. \See SignalEmitter::poll() and SignalSink::poll().
+     * but delay the invocation until the user explicitly polls the connection. See SignalEmitter::poll() and SignalSink::poll().
      * Async connections are implemented by means of the AsyncSink class, which enqueues invocations on a thread-safe queue and deques
      * and invokes the destination function when the connection is polled. **Async connections are designed for inter-thread communication**,
      * where one thread acts as producer (invokes/emits the signal) and thread other consumes the connection (explicitly polls the connection).

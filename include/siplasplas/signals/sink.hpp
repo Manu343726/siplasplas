@@ -76,7 +76,7 @@ public:
      * \brief Invokes the sink with the given arguments.
      *
      * This function invokes the sink by type erasing the call arguments
-     * and passing them to SignalSink::invoke(). If neccesary (\See SignalSink::invokeWithoutCallee())
+     * and passing them to SignalSink::invoke(). If neccesary (See SignalSink::invokeWithoutCallee())
      * it also passes a reference to the callee object first.
      *
      * \param args call arguments.

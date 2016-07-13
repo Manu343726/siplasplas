@@ -14,7 +14,7 @@ namespace cpp
  * \brief Implements a direct connection to the destination function
  *
  * Synchronous sinks have no special policy for function invocation but
- * just invoke the function directly when a signal arrives. \See SignalEmitter::connect().
+ * just invoke the function directly when a signal arrives. See SignalEmitter::connect().
  */
 class SyncSink : public SignalSink
 {
@@ -23,7 +23,7 @@ public:
      * \brief Creates a synchronous sink given a caller and a
      * destination function.
      *
-     * \See SignalEmitter::connect_async()
+     * See SignalEmitter::connect_async()
      *
      * \param caller Caller object.
      * \param function Function to be invoked when the signal is handled.
@@ -38,7 +38,7 @@ public:
      * \brief Creates a synchronous sink given a caller, a callee, and a
      * destination function.
      *
-     * \See SignalEmitter::connect_async()
+     * See SignalEmitter::connect_async()
      *
      * \param caller Caller object.
      * \param callee Callee object.
