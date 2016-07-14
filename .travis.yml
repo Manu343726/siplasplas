@@ -2,15 +2,17 @@
 # https://github.com/ericniebler/range-v3/blob/master/.travis.yml
 
 language: cpp
-script: cmake
+
+env:
+  global:
+    - SIPLASPLAS_GITHUB_USER="Manu343726"
+    - secure: "wshOJnwLiAH7JcJeF1CHww1Szg0XOtKj60qSGmLaoDjI23nBi5Bnra8WZGGqp//8hAhxGsavCxF+2Zwu2PHRMC/KZLmGKRcmJ9RZVLDM3K6pChEyZ11Bpmrhz0bd3TihV6houPGldjdLSnWOsPevQ8LaQUPJe4c92CBqDQAl+REsM/QjMqcTTnawcX589Z63bPD5oaJt1sXt4qOW73XwcFTrsxHZFbMulNN6Wui2jhcEoWla4PS5nfMpmE80jbnXH2l2iStJWb74OZfkgVzKuhI6Ahf6BBpoy/leqj5FLgbRQex0zILQ8GJq+vrZqVQ6M+dlHt4gGor/gp/oXt1o25JmE2mKtT3IfgS/u4TWQNwJpXwW+kjn/zKQyrs5A8XQs4kfSP//1Tm004YQ17JC+5crQ8SRl9/xVhrIFtKD6r6OfnqYOrxRKig5j2ExyGn+W8xwSfvgdIRq76mbRCsLSC5ekE/Anf+LCU7aSQLO+MZiAtnXFpnAqHyTw/oK/AUPuTufIVdDodzOG4bEx2FNlBTisO7VrEE/SwLuJ4WV4H9u5qCFigA06rExzH3YRBxBnCzIN08n43ciZ54VxXg41r/bjtFZKIpTHKtI3VkCjBKPieX8T1y+Axi9JkYB1KCpAKDm7tyUYpTVUX4VPopU6XWP8WLB67egunI0ch3Igro="
 
 matrix:
-  global:
-    - libclang_so = $(TRAVIS_BUILD_DIR)/build/libclang.so
   include:
 
-  # Main matrix rows (Clang & GCC setup, release, shared libraries)
-    - env: BUILD_TYPE=Release CLANG_VERSION=3.7 SIPLASPLAS_LIBRARIES_STATIC=FALSE
+  # Build docs
+    - env: BUILD_TYPE=Release DEPLOY_DOCS=true CLANG_VERSION=3.7 SIPLASPLAS_BUILD_DOCS=ON SIPLASPLAS_DEPLOY_DOCS=ON
       os: linux
       addons: &clang37
         apt:
@@ -22,6 +24,11 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.7
+
+  # Main matrix rows (Clang & GCC setup, release, shared libraries)
+    - env: BUILD_TYPE=Release CLANG_VERSION=3.7 SIPLASPLAS_LIBRARIES_STATIC=FALSE
+      os: linux
+      addons: *clang37
 
     - env: BUILD_TYPE=Release CLANG_VERSION=3.7 GCC_VERSION=5.2.1 GCC=gcc-5 GXX=g++-5 SIPLASPLAS_LIBRARIES_STATIC=FALSE
       os: linux
@@ -62,7 +69,9 @@ matrix:
       os: linux
       addons: *gcc521
 
+
 before_install:
+  - if [ "$DEPLOY_DOCS" == "true" ]; then git config --global user.name "siplasplas travis build docs job bot"; fi
   - git submodule update --init --recursive
   - if [ -n "$GCC_VERSION" ]; then export CXX="$GXX" CC="$GCC"; fi
   - if [ -n "$GCC_VERSION" ]; then mkdir gccaliases && export PATH=$(pwd)/gccaliases:${PATH}; fi
@@ -74,6 +83,12 @@ before_install:
   - $CXX --version
   - $CC --version
   - if [ -z "$GCC_VERSION" ]; then which clang++ || true; fi
+  - |
+      if [ "$DEPLOY_DOCS" == "true" ]; then
+        export SIPLASPLAS_BUILD_DOCS=ON SIPLASPLAS_DEPLOY_DOCS=ON
+      else
+        export SIPLASPLAS_BUILD_DOCS=OFF SIPLASPLAS_DEPLOY_DOCS=OFF
+      fi
 
 install:
 
@@ -86,6 +101,16 @@ install:
   - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
 
 ############################################################################
+# Install a recent Doxygen
+############################################################################
+  - |
+    if [ "$DEPLOY_DOCS" == "true" ]; then
+        DOXYGEN_URL="http://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.11.linux.bin.tar.gz"
+        mkdir doxygen && travis_retry wget --quiet -O - ${DOXYGEN_URL} | tar --strip-components=1 -xz -C doxygen
+        export PATH=${DEPS_DIR}/doxygen/bin:${PATH}
+    fi
+
+############################################################################
 # Install a recent CMake
 ############################################################################
   - CMAKE_URL="http://www.cmake.org/files/v3.3/cmake-3.3.2-Linux-x86_64.tar.gz"
@@ -95,11 +120,7 @@ install:
   - cmake --version
   - cd ${TRAVIS_BUILD_DIR}
 
-  # Build libclang:
-  #- svn co --quiet http://llvm.org/svn/llvm-project/llvm/trunk llvm && cd llvm/tools/
-  #- svn co --quiet http://llvm.org/svn/llvm-project/cfe/trunk clang
-  #- cd .. && mkdir buildllvm-clang && cd buildllvm-clang
-  #- cmake .. -DCMAKE_BUILD_TYPE=Release && cmake --build .
+  # Get libclang:
   - export LIBCLANG=$(dpkg -L libclang1-${CLANG_VERSION} | grep libclang.so)
 
   # Install reflection parser dependencies:
@@ -109,9 +130,26 @@ install:
   # Configure and build project:
   - if [ ! -d build ]; then mkdir build; fi
   - cd build
-  - cmake .. -DSIPLASPLAS_BUILD_TESTS=ON -DSIPLASPLAS_BUILD_EXAMPLES=ON -DSIPLASPLAS_VERBOSE_CONFIG=ON  -DSIPLASPLAS_CI_BUILD=ON -DCMAKE_VERBOSE_MAKEFILE=OFF -DBII_BOOST_VERBOSE=ON -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DDRLPARSER_LIBCLANG="$LIBCLANG" -DSIPLASPLAS_LIBRARIES_STATIC="$SIPLASPLAS_LIBRARIES_STATIC"
-  - cmake --build .
+  - cmake .. -DSIPLASPLAS_BUILD_TESTS=ON
+             -DSIPLASPLAS_BUILD_EXAMPLES=ON
+             -DSIPLASPLAS_VERBOSE_CONFIG=OFF
+             -DSIPLASPLAS_CI_BUILD=ON
+             -DCMAKE_VERBOSE_MAKEFILE=OFF
+             -DBII_BOOST_VERBOSE=ON
+             -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+             -DDRLPARSER_LIBCLANG="$LIBCLANG"
+             -DSIPLASPLAS_BUILD_DOCS="$SIPLASPLAS_BUILD_DOCS"
+             -DSIPLASPLAS_DEPLOY_DOCS="$SIPLASPLAS_DEPLOY_DOCS"
+             -DSIPLASPLAS_LIBRARIES_STATIC="$SIPLASPLAS_LIBRARIES_STATIC"
+             -DSIPLASPLAS_GIT_BRANCH="$TRAVIS_BRANCH"
+             -DSIPLASPLAS_GITHUB_USER="$SIPLASPLAS_GITHUB_USER"
+             -DSIPLASPLAS_GITHUB_USER_TOKEN="$SIPLASPLAS_GITHUB_USER_TOKEN"
+
+  - if [ "$DEPLOY_DOCS" != "true" ]; then cmake --build .; fi
 
 script:
-  - make run-tests-all
-  - make run-examples-all
+  - if [ "$DEPLOY_DOCS" != "true" ]; then make run-tests-all; fi
+  - if [ "$DEPLOY_DOCS" != "true" ]; then make run-examples-all; fi
+
+after_script:
+  - if [ "$DEPLOY_DOCS" == "true" -a "${TRAVIS_PULL_REQUEST}" == "false" ]; then cmake --build . --target deploy-docs; fi

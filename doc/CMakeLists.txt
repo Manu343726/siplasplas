@@ -62,6 +62,8 @@ if(SIPLASPLAS_DEPLOY_DOCS)
 else()
     set(SIPLASPLAS_DOXYGEN_QUIET NO)
     set(SIPLASPLAS_DOXYGEN_WARNINGS YES)
+
+    message(STATUS "Docs deployment targets disabled")
 endif()
 
 configure_file(Doxyfile.in Doxyfile)

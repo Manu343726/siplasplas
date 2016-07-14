@@ -32,6 +32,8 @@ if(SIPLASPLAS_BUILD_EXAMPLES)
 endif()
 if(SIPLASPLAS_BUILD_DOCS)
     add_subdirectory(doc)
+else()
+    message(STATUS "Docs build disabled")
 endif()
 include(cmake/cpack.cmake)
 
