@@ -4,7 +4,7 @@ var group__signals =
       [ "AsyncSink", "classcpp_1_1_async_sink.html#a56ed191f5431410389b6c256f557c4c0", null ],
       [ "AsyncSink", "classcpp_1_1_async_sink.html#aaf85acf83bfba5d4464e906e17271d1f", null ],
       [ "invoke", "classcpp_1_1_async_sink.html#aff2aecdc75541577931a680e72604d45", null ],
-      [ "invokeWithoutCallee", "classcpp_1_1_async_sink.html#a43d9c9ab597fa32261ce0915cee2067a", null ],
+      [ "invokeWithoutCallee", "classcpp_1_1_async_sink.html#ab9465f83859f68a759c6c8547c01628f", null ],
       [ "pull", "classcpp_1_1_async_sink.html#a33cfaadc824347626105304df44fd930", null ]
     ] ],
     [ "SignalEmitter", "classcpp_1_1_signal_emitter.html", [
@@ -22,7 +22,7 @@ var group__signals =
       [ "callee", "classcpp_1_1_signal_sink.html#a42d0092ebdf35ebf9c3a2fea21cb8798", null ],
       [ "caller", "classcpp_1_1_signal_sink.html#a63f40e31909da73b43110119c8830604", null ],
       [ "invoke", "classcpp_1_1_signal_sink.html#a67ae82fe218f7c2982a77ed168fba391", null ],
-      [ "invokeWithoutCallee", "classcpp_1_1_signal_sink.html#a06ef994a068c118a4e9b96d52d8cbdc5", null ],
+      [ "invokeWithoutCallee", "classcpp_1_1_signal_sink.html#a1e3ed4892c1745508e0f17d973e576a7", null ],
       [ "operator()", "classcpp_1_1_signal_sink.html#a971b0f8056fa4a6b3e67f5281c856631", null ],
       [ "pull", "classcpp_1_1_signal_sink.html#aac1884f71786c6a500868ffe109224b6", null ]
     ] ],
@@ -30,7 +30,7 @@ var group__signals =
       [ "SyncSink", "classcpp_1_1_sync_sink.html#a87c58a6a826c13765db34e722435127a", null ],
       [ "SyncSink", "classcpp_1_1_sync_sink.html#ac016584f59da637a8e99b1e146fb8a3b", null ],
       [ "invoke", "classcpp_1_1_sync_sink.html#adfc8349129076ebbce725ba496c75c9e", null ],
-      [ "invokeWithoutCallee", "classcpp_1_1_sync_sink.html#a3f8924fbbd0bf889991ad2ebd7321502", null ],
+      [ "invokeWithoutCallee", "classcpp_1_1_sync_sink.html#ada560a89de149e7a339734828930a52f", null ],
       [ "pull", "classcpp_1_1_sync_sink.html#a4d7d65c33dcc02792e35b9f99f64432c", null ]
     ] ],
     [ "emit", "group__signals.html#ga0a443c4401b89282691bf6f4b4d6bc53", null ],
