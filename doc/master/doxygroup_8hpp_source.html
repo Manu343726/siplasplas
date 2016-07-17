@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>siplasplas: Todo List</title>
+<title>siplasplas: include/siplasplas/utility/doxygroup.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -47,7 +47,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
-      <li class="current"><a href="pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="examples.html"><span>Examples</span></a></li>
@@ -81,7 +81,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('todo.html','');});
+$(document).ready(function(){initNavTree('doxygroup_8hpp_source.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -100,36 +100,15 @@ $(document).ready(function(){initNavTree('todo.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">Todo List </div>  </div>
+<div class="title">doxygroup.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><dl class="reflist">
-<dt><a class="anchor" id="_todo000001"></a>Member <a class="el" href="classcpp_1_1_c_make_project.html#aceaea90bf1d90509c04914275ab7ba3d">cpp::CMakeProject::stdoutLine</a>  (const std::string &amp;targetName, const std::string &amp;line)</dt>
-<dd>Rename to "buildProcessStdout() or something similar.&lt;/dd&gt; &lt;dt&gt;\anchor _todo000002
-\_setscope cpp::CMakeTarget Class \_internalref classcpp_1_1_c_make_target "<a class="el" href="classcpp_1_1_c_make_target.html" title="Represents a CMake target being watched by a project. ">cpp::CMakeTarget</a>"  This class is highly coupled with the <a class="el" href="classcpp_1_1_c_make_project.html" title="Configures and builds an existing CMake project. ">CMakeProject</a> one. Maybe it should be an implementation detail of <a class="el" href="classcpp_1_1_c_make_target.html" title="Represents a CMake target being watched by a project. ">CMakeTarget</a> class instead, or at least a member class. Creating targets isolated from projects has no sense (And is actually error-prone since targets are not registred in projects during their construction, registration is handled by <a class="el" href="classcpp_1_1_c_make_project.html#ae48bfbd89724d5f2a52e71284d7e4f7a" title="Adds a target to the set of project watched targets. ">CMakeProject::addTarget()</a> functions).  </dd>
-<dt><a class="anchor" id="_todo000005"></a>Member <a class="el" href="classcpp_1_1_c_make_target.html#a675880341d04b3a51686fbbe65d87f34">cpp::CMakeTarget::metadata</a>  () const </dt>
-<dd>Rename to "properties". </dd>
-<dt><a class="anchor" id="_todo000003"></a>Class <a class="el" href="structcpp_1_1_c_make_target_1_1_metadata.html">cpp::CMakeTarget::Metadata</a>  </dt>
-<dd>Rename to "Properties". </dd>
-<dt><a class="anchor" id="_todo000006"></a>Member <a class="el" href="structcpp_1_1_c_make_target_1_1_metadata.html#a8d19d4654072ee8ae4190e38e26b9a73">cpp::CMakeTarget::Metadata::binaryRelease</a>  </dt>
-<dd>remove when merging fixing-windows-support  </dd>
-<dt><a class="anchor" id="_todo000007"></a>Member <a class="el" href="structcpp_1_1_c_make_target_1_1_metadata.html#a23c44a52e46f2555162e80a12a782415">cpp::CMakeTarget::Metadata::loadFromFile</a>  (const <a class="el" href="classcpp_1_1_c_make_project.html" title="Configures and builds an existing CMake project. ">CMakeProject</a> &amp;project, const std::string &amp;targetName)</dt>
-<dd><p class="startdd">remove when merging fixing-windows-support </p>
-<p>Throw an exception instead of UB?</p>
-<p class="enddd">Document <code>export_target.cmake</code> and the JSON file format.  </p>
-</dd>
-<dt><a class="anchor" id="_todo000004"></a>Member <a class="el" href="classcpp_1_1_c_make_target.html#aedcf2f2da4510d1b81169107e6a6374e">cpp::CMakeTarget::stdoutLine</a>  (const std::string &amp;line)</dt>
-<dd><p class="startdd">Rename to "buildProcessStdout() or something similar.&lt;/dd&gt; &lt;dt&gt;\anchor _todo000009
-Module \_internalref group__utility "utility"  Move <a class="el" href="meta_8hpp_source.html">meta.hpp</a>, <a class="el" href="function__traits_8hpp_source.html">function_traits.hpp</a>, <a class="el" href="tuple_8hpp_source.html">tuple.hpp</a>, and <a class="el" href="fusion_8hpp_source.html">fusion.hpp</a> to a siplasplas-meta module. </p>
-<p>Move <a class="el" href="error__logger_8hpp_source.html">error_logger.hpp</a> and <a class="el" href="exception_8hpp_source.html">exception.hpp</a> to a siplasplas-exception module? </p>
-<p class="enddd">Move cpp::Overload&lt;&gt; to <a class="el" href="function__traits_8hpp_source.html">function_traits.hpp</a></p>
-</dd>
-</dl>
-</div></div><!-- contents -->
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div></div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_b536e9ea0bc53b11715c87c87fe98792.html">siplasplas</a></li><li class="navelem"><a class="el" href="dir_21d87ecc3dab0d14fdef08e422b0467c.html">utility</a></li><li class="navelem"><b>doxygroup.hpp</b></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
