@@ -47,6 +47,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="examples.html"><span>Examples</span></a></li>
@@ -126,7 +127,9 @@ Inheritance diagram for cpp::SignalEmitter:</div>
  <div class="center">
   <img src="classcpp_1_1_signal_emitter.png" usemap="#cpp::SignalEmitter_map" alt=""/>
   <map id="cpp::SignalEmitter_map" name="cpp::SignalEmitter_map">
-<area href="classcpp_1_1_file_system_listener.html" title="File system listener class that notifies filesystem changed through signals. " alt="cpp::FileSystemListener" shape="rect" coords="0,56,145,80"/>
+<area href="classcpp_1_1_c_make_project.html" title="Configures and builds an existing CMake project. " alt="cpp::CMakeProject" shape="rect" coords="0,56,145,80"/>
+<area href="classcpp_1_1_c_make_target.html" title="Represents a CMake target being watched by a project. " alt="cpp::CMakeTarget" shape="rect" coords="155,56,300,80"/>
+<area href="classcpp_1_1_file_system_listener.html" title="File system listener class that notifies filesystem changed through signals. " alt="cpp::FileSystemListener" shape="rect" coords="310,56,455,80"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -184,7 +187,8 @@ template&lt;typename Function , typename... Args&gt; </td></tr>
 <div class="textblock"><p>Class that can send and receive signals from other emitters. </p>
 <p>This class manages mapping from signals to sinks (i.e. outgoing connectiong from this object) as well as incomming connections. All connections are closed when the caller (source object) or the callee (destination object, if there is) are destroyed.</p>
 <p>For details </p><dl class="section see"><dt>See also</dt><dd><a class="el" href="group__signals.html" title="A simple multi-threaded message passing system. ">Signals</a> </dd></dl>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="cmake_2cmake-project_8cpp-example.html#_a0">cmake/cmake-project.cpp</a>.</dd>
+</dl></div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a21d269a77bf062806761307531625f52"></a>
 <div class="memitem">
 <div class="memproto">
@@ -475,7 +479,7 @@ template&lt;typename Caller , typename Function , typename R , typename Class , 
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A shared pointer to the connection sink. </dd></dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="signals_2signals_8cpp-example.html#a1">signals/signals.cpp</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="cmake_2cmake-project_8cpp-example.html#a3">cmake/cmake-project.cpp</a>, and <a class="el" href="signals_2signals_8cpp-example.html#a1">signals/signals.cpp</a>.</dd>
 </dl>
 </div>
 </div>
