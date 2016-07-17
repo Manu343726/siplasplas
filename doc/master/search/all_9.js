@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['poll',['poll',['../classcpp_1_1_signal_emitter.html#a2c933986daab2d4ce95b3f92adfe0970',1,'cpp::SignalEmitter']]],
-  ['pull',['pull',['../classcpp_1_1_async_sink.html#a33cfaadc824347626105304df44fd930',1,'cpp::AsyncSink::pull()'],['../classcpp_1_1_sync_sink.html#a4d7d65c33dcc02792e35b9f99f64432c',1,'cpp::SyncSink::pull()']]]
+  ['onfailure',['onFailure',['../classcpp_1_1_assert_expression.html#aa31218125f0b03ad8d380908e1d3e268',1,'cpp::AssertExpression::onFailure()'],['../classcpp_1_1_dummy_assert_expression.html#adcee6bf8b3e9fdb9e2650d24a4e10abf',1,'cpp::DummyAssertExpression::onFailure()']]],
+  ['operator_28_29',['operator()',['../classcpp_1_1_signal_sink.html#a971b0f8056fa4a6b3e67f5281c856631',1,'cpp::SignalSink']]]
 ];

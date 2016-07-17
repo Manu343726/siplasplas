@@ -1,10 +1,4 @@
 var searchData=
 [
-  ['filecreated',['fileCreated',['../classcpp_1_1_file_system_listener.html#a48d783e57d72f54e112d2a0bf1362f06',1,'cpp::FileSystemListener']]],
-  ['filedeleted',['fileDeleted',['../classcpp_1_1_file_system_listener.html#a937acd4026a7a7a0b30b0537db391c73',1,'cpp::FileSystemListener']]],
-  ['filemodified',['fileModified',['../classcpp_1_1_file_system_listener.html#a8ed36cd2debef8e0afa5874e07857a51',1,'cpp::FileSystemListener']]],
-  ['filemoved',['fileMoved',['../classcpp_1_1_file_system_listener.html#ae31de4919da6a11c1f61bc3b6d16f6fb',1,'cpp::FileSystemListener']]],
-  ['filesystemlistener',['FileSystemListener',['../classcpp_1_1_file_system_listener.html',1,'cpp']]],
-  ['filesystemlistener',['fileSystemListener',['../classcpp_1_1_c_make_project.html#ad9810850951aaf42a31ffb39b1bdf2db',1,'cpp::CMakeProject']]],
-  ['fswatch',['Fswatch',['../group__fswatch.html',1,'']]]
+  ['emit',['emit',['../classcpp_1_1_signal_emitter.html#a037c3bfe62b4cb68df612fd413321e98',1,'cpp::SignalEmitter::emit()'],['../group__signals.html#ga0a443c4401b89282691bf6f4b4d6bc53',1,'cpp::emit(const Class &amp;object)'],['../group__signals.html#ga8d9a8b3f6b9789f7d0ecc7e66e10988a',1,'cpp::emit(Class &amp;object)']]]
 ];
