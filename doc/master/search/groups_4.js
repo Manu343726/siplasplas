@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['utility',['Utility',['../group__utility.html',1,'']]]
+  ['signals',['Signals',['../group__signals.html',1,'']]]
 ];

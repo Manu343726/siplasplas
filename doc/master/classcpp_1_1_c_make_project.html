@@ -232,7 +232,7 @@ template&lt;typename Function , typename... Args&gt; </td></tr>
 <div class="textblock"><p>Configures and builds an existing CMake project. </p>
 <p><a class="el" href="classcpp_1_1_c_make_project.html" title="Configures and builds an existing CMake project. ">CMakeProject</a> class handles an existing CMake project given its source and build directories. The project can be configured and built manually (See <a class="el" href="classcpp_1_1_c_make_project.html#adea3b2864a6634bab447eb005a3f8bab" title="Configures the cmake project. ">CMakeProject::configure()</a> and <a class="el" href="classcpp_1_1_c_make_project.html#acf2641b8b6d0823aa103ee64a73fa8a7" title="Builds the given target. ">CMakeProject::buildTarget()</a> functions) or targets can be registered to be watched and rebuilt on source changes.</p>
 <p>The class notifies project events through signals, such as when the configuration finished, a target build started, etc. </p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="cmake_2cmake-project_8cpp-example.html#_a1">cmake/cmake-project.cpp</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="cmake_2cmake-project_8cpp-example.html#_a2">cmake/cmake-project.cpp</a>.</dd>
 </dl></div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a2c5c7b0287a2703aea4a887147f7c268"></a>
 <div class="memitem">
@@ -372,7 +372,7 @@ template&lt;typename Function , typename... Args&gt; </td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="classcpp_1_1_c_make_target.html" title="Represents a CMake target being watched by a project. ">CMakeTarget</a> reference representing the target to watch. </dd></dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="cmake_2cmake-project_8cpp-example.html#a2">cmake/cmake-project.cpp</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="cmake_2cmake-project_8cpp-example.html#a3">cmake/cmake-project.cpp</a>.</dd>
 </dl>
 </div>
 </div>
@@ -460,7 +460,7 @@ template&lt;typename Function , typename... Args&gt; </td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="cmake_2cmake-project_8cpp-example.html#a5">cmake/cmake-project.cpp</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="cmake_2cmake-project_8cpp-example.html#a6">cmake/cmake-project.cpp</a>.</dd>
 </dl>
 </div>
 </div>
@@ -493,7 +493,7 @@ template&lt;typename Function , typename... Args&gt; </td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="cmake_2cmake-project_8cpp-example.html#a4">cmake/cmake-project.cpp</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="cmake_2cmake-project_8cpp-example.html#a5">cmake/cmake-project.cpp</a>.</dd>
 </dl>
 </div>
 </div>
@@ -625,7 +625,7 @@ template&lt;typename Function , typename... Args&gt; </td></tr>
 
 <p>Starts target watching. </p>
 <p>This function starts the internal filesystem watcher. Whenever a file event occurs, the internal filesystem watcher notifies registered targets, and them filter and react to events accordingly. Targets are directly-connected to the fs watcher (See <a class="el" href="classcpp_1_1_signal_emitter.html#a066ef1c17fd4550eed4bb11436af3e33" title="Creates a direct connection from the given emitter object to the given function. ">SignalEmitter::connect()</a>) so all target events (And their resulting actions) are processed and signaled from the watcher background thread. </p>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="cmake_2cmake-project_8cpp-example.html#a9">cmake/cmake-project.cpp</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="cmake_2cmake-project_8cpp-example.html#a10">cmake/cmake-project.cpp</a>.</dd>
 </dl>
 </div>
 </div>
@@ -671,7 +671,7 @@ template&lt;typename Function , typename... Args&gt; </td></tr>
   </table>
   </dd>
 </dl>
-<dl><dt><b>Examples: </b></dt><dd><a class="el" href="cmake_2cmake-project_8cpp-example.html#a6">cmake/cmake-project.cpp</a>.</dd>
+<dl><dt><b>Examples: </b></dt><dd><a class="el" href="cmake_2cmake-project_8cpp-example.html#a7">cmake/cmake-project.cpp</a>.</dd>
 </dl>
 </div>
 </div>

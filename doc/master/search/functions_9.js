@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['poll',['poll',['../classcpp_1_1_signal_emitter.html#a2c933986daab2d4ce95b3f92adfe0970',1,'cpp::SignalEmitter']]],
-  ['pull',['pull',['../classcpp_1_1_async_sink.html#a33cfaadc824347626105304df44fd930',1,'cpp::AsyncSink::pull()'],['../classcpp_1_1_sync_sink.html#a4d7d65c33dcc02792e35b9f99f64432c',1,'cpp::SyncSink::pull()']]]
+  ['name',['name',['../classcpp_1_1_c_make_target.html#abe5ccc6e13203fc7b455939967ab7ba7',1,'cpp::CMakeTarget::name()'],['../classcpp_1_1_dynamic_library_1_1_symbol.html#ae1102e4995d32584e0aa4c3fcdaf1429',1,'cpp::DynamicLibrary::Symbol::name()']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['metadata',['metadata',['../classcpp_1_1_c_make_target.html#a675880341d04b3a51686fbbe65d87f34',1,'cpp::CMakeTarget']]]
+  ['handle',['handle',['../classcpp_1_1_dynamic_library_1_1_symbol.html#a4f9510808656f7ed06d66a73847a486f',1,'cpp::DynamicLibrary::Symbol::handle()'],['../classcpp_1_1_dynamic_library_1_1_symbol.html#a9ed92ba3d61715ed011c043e6b7663aa',1,'cpp::DynamicLibrary::Symbol::handle() const '],['../classcpp_1_1_dynamic_library.html#aa17c29968c18ecd354b4196bf5d0f72a',1,'cpp::DynamicLibrary::handle()']]]
 ];
