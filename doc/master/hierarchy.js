@@ -4,6 +4,7 @@ var hierarchy =
     [ "cpp::AssertExpression", "classcpp_1_1_assert_expression.html", null ],
     [ "cpp::DummyAssertExpression", "classcpp_1_1_dummy_assert_expression.html", null ],
     [ "cpp::DynamicLibrary", "classcpp_1_1_dynamic_library.html", null ],
+    [ "cpp::Exception< Ex, Base >", "classcpp_1_1_exception.html", null ],
     [ "cpp::CMakeTarget::Metadata", "structcpp_1_1_c_make_target_1_1_metadata.html", null ],
     [ "cpp::SignalEmitter", "classcpp_1_1_signal_emitter.html", [
       [ "cpp::CMakeProject", "classcpp_1_1_c_make_project.html", null ],

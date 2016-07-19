@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['fswatch',['Fswatch',['../group__fswatch.html',1,'']]]
+  ['error_2dhandling',['Error-handling',['../group__error-handling.html',1,'']]]
 ];
