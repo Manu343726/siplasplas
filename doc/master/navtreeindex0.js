@@ -116,6 +116,8 @@ var NAVTREEINDEX0 =
 "group__signals.html#ga0a443c4401b89282691bf6f4b4d6bc53":[1,2,4],
 "group__signals.html#ga8d9a8b3f6b9789f7d0ecc7e66e10988a":[1,2,5],
 "group__utility.html":[1,3],
+"group__utility.html#ga808e1d5b24e934c1f7638db8a46bb6b7":[1,3,3],
+"group__utility.html#ga867a648ffab91b5b8948bc80fbac0340":[1,3,4],
 "hierarchy.html":[2,2],
 "index.html":[],
 "modules.html":[1],

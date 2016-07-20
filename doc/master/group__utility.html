@@ -100,7 +100,8 @@ $(document).ready(function(){initNavTree('group__utility.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#groups">Modules</a>  </div>
+<a href="#groups">Modules</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Utility</div>  </div>
 </div><!--header-->
@@ -120,6 +121,17 @@ Modules</h2></td></tr>
 <tr class="memitem:group__error-handling"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__error-handling.html">Error-handling</a></td></tr>
 <tr class="memdesc:group__error-handling"><td class="mdescLeft">&#160;</td><td class="mdescRight">Error handling tools. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ga808e1d5b24e934c1f7638db8a46bb6b7"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga808e1d5b24e934c1f7638db8a46bb6b7"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__utility.html#ga808e1d5b24e934c1f7638db8a46bb6b7">cpp::lexical_cast</a> (const T &amp;value)</td></tr>
+<tr class="memdesc:ga808e1d5b24e934c1f7638db8a46bb6b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an string representation of a value.  <a href="group__utility.html#ga808e1d5b24e934c1f7638db8a46bb6b7">More...</a><br /></td></tr>
+<tr class="separator:ga808e1d5b24e934c1f7638db8a46bb6b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga867a648ffab91b5b8948bc80fbac0340"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga867a648ffab91b5b8948bc80fbac0340"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__utility.html#ga867a648ffab91b5b8948bc80fbac0340">cpp::lexical_cast</a> (const std::string &amp;value)</td></tr>
+<tr class="memdesc:ga867a648ffab91b5b8948bc80fbac0340"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an string representation of a value.  <a href="group__utility.html#ga867a648ffab91b5b8948bc80fbac0340">More...</a><br /></td></tr>
+<tr class="separator:ga867a648ffab91b5b8948bc80fbac0340"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Some random utilities needed by other siplasplas modules. </p>
@@ -144,6 +156,77 @@ Modules</h2></td></tr>
 <li><b>Raw memory manipulation</b>: Tools for raw memory manipulation such as functions to compute aligned addresses, functions to read/write values directly into raw memory, etc. See <a class="el" href="memory__manip_8hpp_source.html">memory_manip.hpp</a>.</li>
 <li><b>Tuple manipulation tools</b>: See <a class="el" href="tuple_8hpp_source.html">tuple.hpp</a>. </li>
 </ul>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="ga808e1d5b24e934c1f7638db8a46bb6b7"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string cpp::lexical_cast </td>
+          <td>(</td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns an string representation of a value. </p>
+<p>This function invokes <code>operator&lt;&lt;(std::ostream&amp;, const T&amp;)</code> to get an string representation of a given value.</p>
+<p>It's a simplified version of the <a href="http://www.boost.org/doc/libs/1_55_0/doc/html/boost_lexical_cast.html">Boost.Lexical_Cast library</a>.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>value type. Must have a valid <code>operator&lt;&lt;(std::ostream&amp;, T)</code> overload. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>Value which is translated to a string.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A string representation of the given value. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga867a648ffab91b5b8948bc80fbac0340"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">T cpp::lexical_cast </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns an string representation of a value. </p>
+<p>This function invokes <code>operator&gt;&gt;(std::istream&amp;, T&amp;)</code> to assign a T value from an string representation of it.</p>
+<p>It's a simplified version of the <a href="http://www.boost.org/doc/libs/1_55_0/doc/html/boost_lexical_cast.html">Boost.Lexical_Cast library</a>.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Required output value type. Must have a valid <code>operator&gt;&gt;(std::istream&amp;, T&amp;)</code> overload. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>String representation of the value.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A value of type <code>T</code> equivalent to the <code>value</code> string representation argument. </dd></dl>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
