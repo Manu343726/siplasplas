@@ -10,5 +10,6 @@ var group__hash =
     [ "HashTable", "group__hash.html#gacd5cae7eac6a765000ff92a6e1040108", null ],
     [ "hash", "group__hash.html#ga8b00a3ff97782ab4de57bb04a9c9f6d6", null ],
     [ "hash", "group__hash.html#ga93028c245bdc0ced1b4485e6e4ef2bd7", null ],
+    [ "hash_combine", "group__hash.html#gab301455e7efcfbf6eae66d3ab649a00e", null ],
     [ "raw_hash", "group__hash.html#ga55b7d5137362b3b0958e377eafb15d21", null ]
 ];
