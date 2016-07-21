@@ -154,7 +154,7 @@ public:
         }
         else
         {
-            return ::cpp::hash(&value, &T::operator());
+            return ::cpp::hash(::cpp::raw_hash(value), &T::operator());
         }
     }
 };
