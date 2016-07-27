@@ -2,7 +2,6 @@
 #define SIPLASPLAS_UTILITY_EXCEPTION_HPP
 
 #include "error_logger.hpp"
-#include <fmt/format.h>
 #include <ctti/type_id.hpp>
 #include <stdexcept>
 

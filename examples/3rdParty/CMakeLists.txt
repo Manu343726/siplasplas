@@ -1,3 +1,4 @@
+add_subdirectory(fmt)
 add_subdirectory(backward-cpp)
 add_subdirectory(boost)
 add_subdirectory(efsw)
