@@ -4,7 +4,5 @@ SOURCES
     asyncsink_test.cpp
 DEPENDS
     siplasplas-signals
-NAMESPACE
-    tests
 DEFAULT_TEST_MAIN
 )

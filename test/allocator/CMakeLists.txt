@@ -1,1 +1,1 @@
-add_test(linear_allocator DEPENDS siplasplas-allocator)
+add_siplasplas_test_simple(linear_allocator DEPENDS siplasplas-allocator)

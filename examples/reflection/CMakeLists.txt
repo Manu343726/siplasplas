@@ -23,15 +23,15 @@ endfunction()
 
 get_ram_mb(RAMMB)
 if(RAMMB GREATER 1024)
-    add_reflection_example(chaiscript DEPENDS chaiscript INSTALL_SOURCES myclass.hpp)
+    add_siplasplas_example_simple(chaiscript DEPENDS chaiscript siplasplas-reflection-static INSTALL_SOURCES myclass.hpp)
 endif()
 
-add_reflection_example(reflection DEPENDS json4moderncpp INSTALL_SOURCES myclass.hpp)
+add_siplasplas_example_simple(reflection DEPENDS siplasplas-reflection-dynamic json4moderncpp)
 export_target_properties(examples-reflection)
 
 # See issue #26
 if(NOT SIPLASPLAS_CI_BUILD)
-    add_example(plugin DEPENDS plugininterface siplasplas-reflection-dynamic)
+    add_siplasplas_example_simple(plugin DEPENDS plugininterface siplasplas-reflection-dynamic)
     # Force pluginexample to be built first, else the shared library
     # could not be loaded
     add_dependencies(examples-plugin pluginexample)

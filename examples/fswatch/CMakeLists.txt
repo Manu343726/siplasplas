@@ -1,1 +1,1 @@
-add_example(fswatch EXCLUDE_FROM_RUN_ALL DEPENDS siplasplas-fswatch)
+add_siplasplas_example_simple(fswatch EXCLUDE_FROM_RUN_ALL DEPENDS siplasplas-fswatch)

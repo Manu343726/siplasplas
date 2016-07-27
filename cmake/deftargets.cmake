@@ -191,6 +191,8 @@ function(add_siplasplas_target NAME TARGET_TYPE)
             )
         endif()
 
+        # Examples and tests may have headers right alongside them:
+        target_include_directories(${NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
         add_run_target(${NAME} ${TARGET_TYPE})
         set_flags()
         set(linking PRIVATE)
@@ -237,20 +239,39 @@ function(add_siplasplas_target NAME TARGET_TYPE)
             message(":: Link: ${link}")
         endif()
     endif()
+
+    # Save useful info for the user
+    set(${NAME}_SOURCES ${ARGS_SOURCES} PARENT_SCOPE)
 endfunction()
 
-function(add_siplasplas_executable NAME)
+macro(add_siplasplas_executable NAME)
     add_siplasplas_target("${NAME}" EXECUTABLE ${ARGN})
-endfunction()
+endmacro()
 
-function(add_siplasplas_library NAME)
+macro(add_siplasplas_library NAME)
     add_siplasplas_target("${NAME}" LIBRARY ${ARGN})
-endfunction()
+endmacro()
 
-function(add_siplasplas_header_only_library NAME)
+macro(add_siplasplas_header_only_library NAME)
     add_siplasplas_target("${NAME}" HEADER_ONLY_LIBRARY ${ARGN})
-endfunction()
+endmacro()
 
-function(add_siplasplas_test NAME)
-    add_siplasplas_target("${NAME}" UNIT_TEST ${ARGN})
-endfunction()
+macro(add_siplasplas_test NAME)
+    add_siplasplas_target("${NAME}" UNIT_TEST NAMESPACE tests ${ARGN})
+endmacro()
+
+macro(add_siplasplas_example NAME)
+    add_siplasplas_executable("${NAME}" NAMESPACE examples ${ARGN})
+
+    install_siplasplas_example(
+        examples-${NAME} SOURCES ${examples-${NAME}_SOURCES}
+    )
+endmacro()
+
+macro(add_siplasplas_test_simple NAME)
+    add_siplasplas_test("${NAME}" SOURCES ${NAME}_test.cpp ${ARGN})
+endmacro()
+
+macro(add_siplasplas_example_simple NAME)
+    add_siplasplas_example("${NAME}" SOURCES ${NAME}.cpp ${ARGN})
+endmacro()

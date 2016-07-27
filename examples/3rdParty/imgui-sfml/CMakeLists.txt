@@ -1,2 +1,2 @@
-add_example(imgui-sfml            EXCLUDE_FROM_RUN_ALL DEPENDS imgui-sfml EXCLUDE_FROM_RUN_ALL)
-add_example(imgui-nodegrapheditor EXCLUDE_FROM_RUN_ALL DEPENDS imgui-sfml EXCLUDE_FROM_RUN_ALL)
+add_siplasplas_example_simple(imgui-sfml            EXCLUDE_FROM_RUN_ALL DEPENDS imgui-sfml)
+add_siplasplas_example_simple(imgui-nodegrapheditor EXCLUDE_FROM_RUN_ALL DEPENDS imgui-sfml)

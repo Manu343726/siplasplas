@@ -1,2 +1,2 @@
-add_example(efsw EXCLUDE_FROM_RUN_ALL DEPENDS efsw siplasplas-signals INSTALL_SOURCES updatelistener.hpp) 
+add_siplasplas_example_simple(efsw EXCLUDE_FROM_RUN_ALL DEPENDS efsw siplasplas-signals)
 configure_siplasplas_reflection(examples-efsw)
