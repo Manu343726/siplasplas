@@ -31,8 +31,8 @@ endfunction()
 
 function(add_siplasplas_thirdparty NAME)
     set(options HEADER_ONLY SKIP_CONFIGURE_STEP SKIP_BUILD_STEP RENAME)
-    set(oneValueArgs URL HG_REPOSITORY HG_TAG GIT_REPOSITORY GIT_TAG CONFIGURE_COMMAND BUILD_COMMAND)
-    set(multiValueArgs INCLUDE_DIRS BINARIES COMPILE_OPTIONS COMPILE_DEFINITIONS EXTERNAL_PROJECT_EXTRA_ARGS CMAKE_ARGS CMAKE_EXTRA_ARGS)
+    set(oneValueArgs URL HG_REPOSITORY HG_TAG GIT_REPOSITORY GIT_TAG CONFIGURE_COMMAND BUILD_COMMAND OUTPUT_SOURCE_DIR OUTPUT_BINARY_DIR)
+    set(multiValueArgs DEPENDS INCLUDE_DIRS BINARIES COMPILE_OPTIONS COMPILE_DEFINITIONS EXTERNAL_PROJECT_EXTRA_ARGS CMAKE_ARGS CMAKE_EXTRA_ARGS)
     cmake_parse_arguments(THIRDPARTY
         "${options}"
         "${oneValueArgs}"
@@ -118,6 +118,14 @@ function(add_siplasplas_thirdparty NAME)
     generate_external_project(${NAME} ${NO_CONFIG} ${NO_BUILD} "${externalProjectArgs}")
 
     ExternalProject_Get_Property(${external} source_dir binary_dir)
+
+    if(THIRDPARTY_OUTPUT_SOURCE_DIR)
+        set(${THIRDPARTY_OUTPUT_SOURCE_DIR} "${source_dir}" PARENT_SCOPE)
+    endif()
+    if(THIRDPARTY_OUTPUT_BINARY_DIR)
+        set(${THIRDPARTY_OUTPUT_BINARY_DIR} "${binary_dir}" PARENT_SCOPE)
+    endif()
+
     set_target_properties(${external} PROPERTIES EXCLUDE_FROM_ALL TRUE)
 
     string(REGEX REPLACE "-" "_" FORMATTED_NAME "${NAME}")
@@ -137,6 +145,7 @@ function(add_siplasplas_thirdparty NAME)
         )
     endforeach()
     target_include_directories(${NAME} INTERFACE "${source_dir}" "${repodir}" "${repodir}/.." ${includedirs})
+    target_link_libraries(${NAME} INTERFACE ${THIRDPARTY_DEPENDS})
 
     function(print_args var)
         string(REGEX REPLACE "THIRDPARTY_(.+)" "\\1" varname "${var}")
