@@ -3,6 +3,7 @@ add_subdirectory(utility)
 add_subdirectory(variant)
 add_subdirectory(allocator)
 add_subdirectory(metatype)
+add_subdirectory(typeerasure)
 add_subdirectory(reflection)
 
 include(${SIPLASPLAS_REFLECTION_MODULE})

@@ -16,15 +16,11 @@ namespace concepts
  * \brief Checks whether a vaue of type T can be written to an stream.
  *
  * This concept trait checks if values of a given type T can be
- * written to an stream class using `operator<<()`. The trait doesn't
- * impose any constraint on the stream operand (First operand is not required
- * to be a reference to an `std::ostream`) so, technically, this trait checks
- * for valid overloads of `operator<<()` with T as second operand.
+ * written to an stream class using `operator<<(std:ostream&, T)`.
  *
  * \tparam T Type to check.
  * \returns True if the type T has a `operator<<(Stream, T)` overload declared
- * in this translation unit. False otherwise. *The check doesn't impose any cv
- * qualifiers nor references to both the stream and the T parameters*.
+ * in this translation unit. False otherwise.
  *
  * ``` cpp
  *
