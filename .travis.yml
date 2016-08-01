@@ -6,6 +6,7 @@ language: cpp
 env:
   global:
     - SIPLASPLAS_GITHUB_USER="Manu343726"
+    - SIPLASPLAS_STANDARDESE_BUILD_TARGETS_FIRST=FALSE
     - secure: "wshOJnwLiAH7JcJeF1CHww1Szg0XOtKj60qSGmLaoDjI23nBi5Bnra8WZGGqp//8hAhxGsavCxF+2Zwu2PHRMC/KZLmGKRcmJ9RZVLDM3K6pChEyZ11Bpmrhz0bd3TihV6houPGldjdLSnWOsPevQ8LaQUPJe4c92CBqDQAl+REsM/QjMqcTTnawcX589Z63bPD5oaJt1sXt4qOW73XwcFTrsxHZFbMulNN6Wui2jhcEoWla4PS5nfMpmE80jbnXH2l2iStJWb74OZfkgVzKuhI6Ahf6BBpoy/leqj5FLgbRQex0zILQ8GJq+vrZqVQ6M+dlHt4gGor/gp/oXt1o25JmE2mKtT3IfgS/u4TWQNwJpXwW+kjn/zKQyrs5A8XQs4kfSP//1Tm004YQ17JC+5crQ8SRl9/xVhrIFtKD6r6OfnqYOrxRKig5j2ExyGn+W8xwSfvgdIRq76mbRCsLSC5ekE/Anf+LCU7aSQLO+MZiAtnXFpnAqHyTw/oK/AUPuTufIVdDodzOG4bEx2FNlBTisO7VrEE/SwLuJ4WV4H9u5qCFigA06rExzH3YRBxBnCzIN08n43ciZ54VxXg41r/bjtFZKIpTHKtI3VkCjBKPieX8T1y+Axi9JkYB1KCpAKDm7tyUYpTVUX4VPopU6XWP8WLB67egunI0ch3Igro="
 
 matrix:
@@ -21,9 +22,11 @@ matrix:
             - libclang1-3.7 # For DRLParser
             - g++-5 # We need an updated stdlibc++ for clang too
             - gcc-5
+            - libboost1.55-all-dev # For Standardese
           sources:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.7
+            - boost-latest
 
   # Main matrix rows (Clang & GCC setup, release, shared libraries)
     - env: BUILD_TYPE=Release CLANG_VERSION=3.7 SIPLASPLAS_LIBRARIES_STATIC=FALSE
@@ -38,9 +41,11 @@ matrix:
             - libclang1-3.7 # We need libclang for reflection parser
             - g++-5
             - gcc-5
+            - libboost1.55-all-dev # For Standardese
           sources:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.7
+            - boost-latest
 
   # Debug, shared libraries
     - env: BUILD_TYPE=Debug CLANG_VERSION=3.7 SIPLASPLAS_LIBRARIES_STATIC=FALSE
@@ -139,7 +144,9 @@ install:
              -DCMAKE_BUILD_TYPE=$BUILD_TYPE
              -DDRLPARSER_LIBCLANG="$LIBCLANG"
              -DSIPLASPLAS_BUILD_DOCS="$SIPLASPLAS_BUILD_DOCS"
+             -DSIPLASPLAS_STANDARDESE_BUILD_TARGETS_FIRST="$SIPLASPLAS_STANDARDESE_BUILD_TARGETS_FIRST"
              -DSIPLASPLAS_DEPLOY_DOCS="$SIPLASPLAS_DEPLOY_DOCS"
+             -DSIPLASPLAS_DEPLOY_STANDARDESE_DOCS=ON
              -DSIPLASPLAS_LIBRARIES_STATIC="$SIPLASPLAS_LIBRARIES_STATIC"
              -DSIPLASPLAS_GIT_BRANCH="$TRAVIS_BRANCH"
              -DSIPLASPLAS_GITHUB_USER="$SIPLASPLAS_GITHUB_USER"

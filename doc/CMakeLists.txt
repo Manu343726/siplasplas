@@ -35,6 +35,7 @@ if(SIPLASPLAS_DEPLOY_DOCS)
     set(SIPLASPLAS_REPO_URL "https://${SIPLASPLAS_GITHUB_USER}:${SIPLASPLAS_GITHUB_USER_TOKEN}@github.com/Manu343726/siplasplas")
     set(SIPLASPLAS_WEBSITE_PATH "${CMAKE_BINARY_DIR}/siplasplas_website")
 
+
     add_custom_target(deploy-docs_clone_website
         COMMAND ${CMAKE_COMMAND} -E remove_directory "${SIPLASPLAS_WEBSITE_PATH}"
         COMMAND ${GIT_EXECUTABLE} clone ${SIPLASPLAS_REPO_URL} "${SIPLASPLAS_WEBSITE_PATH}" -b gh-pages --depth 1
@@ -46,9 +47,23 @@ if(SIPLASPLAS_DEPLOY_DOCS)
     # Automatically generate docs before cloning website
     add_dependencies(deploy-docs_clone_website doc)
 
+    if(SIPLASPLAS_DEPLOY_STANDARDESE_DOCS)
+        # Automatically generate standardese docs before cloning website
+        add_dependencies(deploy-docs_clone_website standardese-doc)
+
+        set(standardese_clean
+            COMMAND ${CMAKE_COMMAND} -E remove_directory "${SIPLASPLAS_WEBSITE_PATH}/doc/standardese"
+        )
+        set(standardese_copy
+            COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/doc/standardese" "${SIPLASPLAS_WEBSITE_PATH}/doc/standardese/${SIPLASPLAS_GIT_BRANCH}"
+        )
+    endif()
+
     add_custom_target(deploy-docs
         COMMAND ${CMAKE_COMMAND} -E remove_directory "${SIPLASPLAS_WEBSITE_PATH}/doc/html"
-        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/doc/html" "${SIPLASPLAS_WEBSITE_PATH}/doc/${SIPLASPLAS_GIT_BRANCH}"
+        ${standardese_clean}
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/doc/html" "${SIPLASPLAS_WEBSITE_PATH}/doc/doxygen/${SIPLASPLAS_GIT_BRANCH}"
+        ${standardese_copy}
         COMMAND ${GIT_EXECUTABLE} add --all doc
         COMMAND ${GIT_EXECUTABLE} commit --allow-empty -m "Updated docs for ${COMMIT_BRIEF}"
         COMMAND ${GIT_EXECUTABLE} push origin gh-pages --quiet # Push quietly to not leak the access token

@@ -61,9 +61,34 @@ function(configure_standardese)
         list(APPEND options -I "${include_dir}")
     endforeach()
 
-    add_custom_target(${RUNTOOL_TARGET}-docs
-        COMMAND ${STANDARDESE_TOOL} ${options} ${headers}
-        DEPENDS standardese
-        COMMENT "Running Standardese on ${RUNTOOL_TARGET} headers..."
-    )
+    if(headers)
+        set(OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/doc/standardese/${RUNTOOL_TARGET}")
+
+        if(NOT EXISTS "${OUTPUT_DIRECTORY}")
+            file(MAKE_DIRECTORY "${OUTPUT_DIRECTORY}")
+        endif()
+
+        set(dependencies standardese)
+        if(SIPLASPLAS_STANDARDESE_BUILD_TARGETS_FIRST)
+            list(APPEND dependencies ${RUNTOOL_TARGET})
+        endif()
+
+        add_custom_target(standardese-${RUNTOOL_TARGET}-doc
+            COMMAND ${STANDARDESE_TOOL} ${options} ${headers} ||
+                ${CMAKE_COMMAND} -E echo Standardese ${RUNTOOL_TARGET} failed
+            COMMAND ${CMAKE_COMMAND} -DSOURCE_DIR="${CMAKE_CURRENT_BINARY_DIR}"
+                                     -DOUTPUT_DIR="${OUTPUT_DIRECTORY}"
+                                     -P ${CMAKE_SOURCE_DIR}/3rdParty/standardese/copy_output.cmake
+            DEPENDS ${dependencies}
+            COMMENT "Running Standardese on ${RUNTOOL_TARGET} headers..."
+        )
+
+        if(NOT TARGET standardese-doc)
+            add_custom_target(standardese-doc
+                COMMENT "Building Standadese docs..."
+            )
+        endif()
+
+        add_dependencies(standardese-doc standardese-${RUNTOOL_TARGET}-doc)
+    endif()
 endfunction()
