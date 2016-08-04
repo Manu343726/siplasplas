@@ -16,10 +16,11 @@ endif()
 
 add_siplasplas_thirdparty(standardese
 GIT_REPOSITORY
-    "https://github.com/foonathan/standardese"
+"https://github.com/Manu343726/standardese"
 GIT_TAG
     develop
 CMAKE_EXTRA_ARGS
+    -DSTANDARDESE_VERBOSE_CONFIG=ON
     -DLIBCLANG_LIBRARY=${LIBCLANG_LIBRARY}
     -DLIBCLANG_INCLUDE_DIR=${LIBCLANG_INCLUDE_DIR}
     -DLIBCLANG_SYSTEM_INCLUDE_DIR=${LIBCLANG_SYSTEM_INCLUDE_DIR}
