@@ -120,18 +120,36 @@ function(gxx_version _ret)
     set(${_ret} "${version_string}" PARENT_SCOPE)
 endfunction()
 
+function(libclang_include_dir _ret)
+    if(SIPLASPLAS_LIBCLANG_INCLUDE_DIR)
+        set(${_ret} "${SIPLASPLAS_LIBCLANG_INCLUDE_DIR}" PARENT_SCOPE)
+    else()
+        find_path(libclang_include_dir clang-c/Index.h)
+
+        if(libclang_include_dir)
+            set(${_ret} "${libclang_include_dir}" PARENT_SCOPE)
+        else()
+            message(FATAL_ERROR "Cannot find libclang include dir (Location of clang-c/Index.h). Make sure libclang is installed")
+        endif()
+    endif()
+endfunction()
+
 # Needed to solve this issue http://clang.llvm.org/docs/LibTooling.html#builtin-includes
 function(libclang_system_include_dir _ret)
-    clangxx_version(CLANG_VERSION)
-    clangxx_executable(clangxx)
+    if(SIPLASPLAS_LIBCLANG_SYSTEM_INCLUDE_DIR)
+        set(${_ret} "${SIPLASPLAS_LIBCLANG_SYSTEM_INCLUDE_DIR}" PARENT_SCOPE)
+    else()
+        clangxx_version(CLANG_VERSION)
+        clangxx_executable(CLANG_EXEC)
 
-    if(WIN32)
-        windows_path("${CLANG_EXEC}" CLANG_EXEC)
+        if(WIN32)
+            windows_path("${CLANG_EXEC}" CLANG_EXEC)
+        endif()
+
+        get_filename_component(CLANG_PATH "${CLANG_EXEC}" DIRECTORY)
+        get_filename_component(CLANG_PATH "${CLANG_PATH}" REALPATH)
+
+        set(${_ret} "${CLANG_PATH}/../lib/clang/${CLANG_VERSION}" PARENT_SCOPE)
     endif()
-
-    get_filename_component(CLANG_PATH "${CLANG_EXEC}" DIRECTORY)
-    get_filename_component(CLANG_PATH "${CLANG_PATH}" REALPATH)
-
-    set(${_ret} "${CLANG_PATH}/../lib/clang/${CLANG_VERSION}" PARENT_SCOPE)
 endfunction()
 

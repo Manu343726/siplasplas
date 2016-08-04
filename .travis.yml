@@ -126,7 +126,8 @@ install:
   - cd ${TRAVIS_BUILD_DIR}
 
   # Get libclang:
-  - export LIBCLANG=$(dpkg -L libclang1-${CLANG_VERSION} | grep libclang.so)
+  - export LIBCLANG_LIBRARY=$(dpkg -L libclang1-${CLANG_VERSION} | grep libclang.so)
+  - export LIBCLANG_INCLUDE_DIR=$(dpkg -L libclang1-${CLANG_VERSION} | grep clang-c/Index.h | xargs dirname | xargs dirname)
 
   # Install reflection parser dependencies:
   - pip install --user -r src/reflection/parser/requirements.txt
@@ -137,12 +138,13 @@ install:
   - cd build
   - cmake .. -DSIPLASPLAS_BUILD_TESTS=ON
              -DSIPLASPLAS_BUILD_EXAMPLES=ON
-             -DSIPLASPLAS_VERBOSE_CONFIG=OFF
+             -DSIPLASPLAS_VERBOSE_CONFIG=ON
              -DSIPLASPLAS_CI_BUILD=ON
              -DCMAKE_VERBOSE_MAKEFILE=OFF
              -DBII_BOOST_VERBOSE=ON
              -DCMAKE_BUILD_TYPE=$BUILD_TYPE
-             -DDRLPARSER_LIBCLANG="$LIBCLANG"
+             -DDRLPARSER_LIBCLANG="$LIBCLANG_LIBRARY"
+             -DSIPLASPLAS_LIBCLANG_SYSTEM_INCLUDE_DIR="$LIBCLANG_SYSTEM_INCLUDE_DIR"
              -DSIPLASPLAS_BUILD_DOCS="$SIPLASPLAS_BUILD_DOCS"
              -DSIPLASPLAS_STANDARDESE_BUILD_TARGETS_FIRST="$SIPLASPLAS_STANDARDESE_BUILD_TARGETS_FIRST"
              -DSIPLASPLAS_DEPLOY_DOCS="$SIPLASPLAS_DEPLOY_DOCS"

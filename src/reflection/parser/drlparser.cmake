@@ -37,7 +37,7 @@ function(configure_siplasplas_reflection TARGET)
         foreach(include ${STDLIBCPP_INCLUDES})
             log("Extra stdlibc++ include: ${include}")
         endforeach()
-        log("libclang include dir: ${LIBCLANG_INCLUDE_DIR}")
+        log("libclang system include dir: ${LIBCLANG_SYSTEM_INCLUDE_DIR}")
 
         list(APPEND EXTRA_LIBCLANG_INCLUDES ${STDLIBCPP_INCLUDES} ${LIBCLANG_SYSTEM_INCLUDE_DIR})
     endif()

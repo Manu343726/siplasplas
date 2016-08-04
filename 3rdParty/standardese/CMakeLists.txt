@@ -4,7 +4,17 @@ endif()
 
 include(libclang)
 
-libclang_system_include_dir(LIBCLANG_SYSTEM_INCLUDE_DIR)
+if(NOT LIBCLANG_INCLUDE_DIR)
+    libclang_include_dir(LIBCLANG_INCLUDE_DIR)
+endif()
+if(NOT LIBCLANG_SYSTEM_INCLUDE_DIR)
+    libclang_system_include_dir(LIBCLANG_SYSTEM_INCLUDE_DIR)
+endif()
+
+if(SIPLASPLAS_VERBOSE_CONFIG)
+    message(STATUS "libclang include dir: ${LIBCLANG_INCLUDE_DIR}")
+    message(STATUS "libclang system include dir: ${LIBCLANG_SYSTEM_INCLUDE_DIR}")
+endif()
 
 add_siplasplas_thirdparty(standardese
 GIT_REPOSITORY
@@ -12,7 +22,8 @@ GIT_REPOSITORY
 GIT_TAG
     develop
 CMAKE_EXTRA_ARGS
-    -DLIBCLANG_SYSTEM_INCLUDE_DIR="\"${LIBCLANG_SYSTEM_INCLUDE_DIR}\""
+    -DLIBCLANG_INCLUDE_DIR=${LIBCLANG_INCLUDE_DIR}
+    -DLIBCLANG_SYSTEM_INCLUDE_DIR=${LIBCLANG_SYSTEM_INCLUDE_DIR}
 )
 
 set(STANDARDESE_TOOL "${STANDARDESE_BINARY_DIR}/tool/standardese" CACHE INTERNAL "Path to Standardese tool")
@@ -38,7 +49,6 @@ function(configure_standardese)
     )
 
     get_target_include_directories(${RUNTOOL_TARGET} include_dirs)
-    libclang_system_include_dir(LIBCLANG_SYSTEM_INCLUDE_DIR)
     clangxx_stdlib_includes(libstdc++ STDLIB_INCLUDES)
     list(APPEND include_dirs ${LIBCLANG_SYSTEM_INCLUDE_DIR} ${STDLIB_INCLUDES})
 
