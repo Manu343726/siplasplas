@@ -34,15 +34,7 @@ matrix:
 
     - env: BUILD_TYPE=Release CLANG_VERSION=3.7 GCC_VERSION=5.2.1 GCC=gcc-5 GXX=g++-5 SIPLASPLAS_LIBRARIES_STATIC=FALSE
       os: linux
-      addons: &gcc521
-        apt:
-          packages:
-            - g++-5
-            - gcc-5
-            - libboost1.55-all-dev # For Standardese
-          sources:
-            - ubuntu-toolchain-r-test
-            - boost-latest
+      addons: *clang37
 
   # Debug, shared libraries
     - env: BUILD_TYPE=Debug CLANG_VERSION=3.7 SIPLASPLAS_LIBRARIES_STATIC=FALSE
@@ -51,7 +43,7 @@ matrix:
 
     - env: BUILD_TYPE=Debug CLANG_VERSION=3.7 GCC_VERSION=5.2.1 GCC=gcc-5 GXX=g++-5 SIPLASPLAS_LIBRARIES_STATIC=FALSE
       os: linux
-      addons: *gcc521
+      addons: *clang37
 
   # Release, static libraries
     - env: BUILD_TYPE=Debug CLANG_VERSION=3.7 SIPLASPLAS_LIBRARIES_STATIC=TRUE
@@ -60,7 +52,7 @@ matrix:
 
     - env: BUILD_TYPE=Debug CLANG_VERSION=3.7 GCC_VERSION=5.2.1 GCC=gcc-5 GXX=g++-5 SIPLASPLAS_LIBRARIES_STATIC=TRUE
       os: linux
-      addons: *gcc521
+      addons: *clang37
 
   # Debug, static libraries
     - env: BUILD_TYPE=Debug CLANG_VERSION=3.7 SIPLASPLAS_LIBRARIES_STATIC=TRUE
@@ -69,7 +61,7 @@ matrix:
 
     - env: BUILD_TYPE=Debug CLANG_VERSION=3.7 GCC_VERSION=5.2.1 GCC=gcc-5 GXX=g++-5 SIPLASPLAS_LIBRARIES_STATIC=TRUE
       os: linux
-      addons: *gcc521
+      addons: *clang37
 
 
 before_install:
@@ -120,20 +112,10 @@ install:
   - export PATH=${DEPS_DIR}/cmake/bin:${PATH}
 
   - cmake --version
+
+
+  # Finished building deps
   - cd ${TRAVIS_BUILD_DIR}
-
-  # Get libclang:
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then wget --no-check-certificate http://llvm.org/releases/3.8.0/clang+llvm-3.8.0-x86_64-linux-gnu-ubuntu-14.04.tar.xz; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then tar -xJf clang+llvm-3.8.0-x86_64-linux-gnu-ubuntu-14.04.tar.xz; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then mv clang+llvm-3.8.0-x86_64-linux-gnu-ubuntu-14.04 llvm-3.8; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export LIBCLANG_LIBRARY=$TRAVIS_BUILD_DIR/../llvm-3.8/lib/libclang.so.3.8; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export LIBCLANG_INCLUDE_DIR=$TRAVIS_BUILD_DIR/../llvm-3.8/include/; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export LIBCLANG_SYSTEM_INCLUDE_DIR=$TRAVIS_BUILD_DIR/../llvm-3.8/lib/clang/3.8.0/include; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export LD_LIBRARY_PATH=$TRAVIS_BUILD_DIR/../llvm-3.8/lib; fi
-
-  # Install reflection parser dependencies:
-  - pip install --user -r src/reflection/parser/requirements.txt
-  - pip install --user clang==${CLANG_VERSION}
 
   # Configure and build project:
   - if [ ! -d build ]; then mkdir build; fi
@@ -145,9 +127,9 @@ install:
              -DCMAKE_VERBOSE_MAKEFILE=OFF
              -DBII_BOOST_VERBOSE=ON
              -DCMAKE_BUILD_TYPE=$BUILD_TYPE
-             -DDRLPARSER_LIBCLANG="$LIBCLANG_LIBRARY"
-             -DSIPLASPLAS_LIBCLANG_INCLUDE_DIR="$LIBCLANG_INCLUDE_DIR"
-             -DSIPLASPLAS_LIBCLANG_SYSTEM_INCLUDE_DIR="$LIBCLANG_SYSTEM_INCLUDE_DIR"
+             -DSIPLASPLAS_LIBCLANG_VERSION="${CLANG_VERSION}.0"
+             -DSIPLASPLAS_DOWNLOAD_LIBCLANG=TRUE
+             -DSIPLASPLAS_CHECK_LIBCLANG_HEADERS=ON
              -DSIPLASPLAS_BUILD_DOCS="$SIPLASPLAS_BUILD_DOCS"
              -DSIPLASPLAS_STANDARDESE_BUILD_TARGETS_FIRST="$SIPLASPLAS_STANDARDESE_BUILD_TARGETS_FIRST"
              -DSIPLASPLAS_DEPLOY_DOCS="$SIPLASPLAS_DEPLOY_DOCS"

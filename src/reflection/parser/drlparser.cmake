@@ -1,19 +1,27 @@
 include(libclang)
+include(pip)
 
 find_package(PythonInterp 2.7 REQUIRED)
-
-if(NOT PYTHONINTERP_FOUND)
-    message(FATAL_ERROR "Python interpreter not found")
-else()
-    message(STATUS "Python interpreter found: ${PYTHON_EXECUTABLE} (${PYTHON_VERSION_STRING})")
-endif()
 
 set(DRLPARSER_SCRIPT ${CMAKE_CURRENT_LIST_DIR}/DRLParser)
 set(DRLPARSER_CODEGEN_TEMPLATE ${CMAKE_CURRENT_LIST_DIR}/templates/reflection_template.hpp)
 set(OUTPUT_DIR ${CMAKE_BINARY_DIR}/ouput/reflection)
 set(INCLUDE_OUTPUT_DIR ${CMAKE_BINARY_DIR}/ouput/)
 
+if(SIPLASPLAS_INSTALL_DRLPARSER_DEPENDENCIES)
+    pip_install_requirements("${CMAKE_SOURCE_DIR}/src/reflection/parser")
+    pip_package_version(clang libclang_bindings_version)
 
+    if(libclang_bindings_version)
+        if(NOT libclang_bindings_version VERSION_EQUAL SIPLASPLAS_LIBCLANG_VERSION)
+            message(FATAL_ERROR "libclang python bindings (clang==${libclang_bindings_version}) do not match required libclang version (${SIPLASPLAS_LIBCLANG_VERSION})")
+        endif()
+    else()
+        message(STATUS "Python bindings (package \"clang\") not found. Installing...")
+
+        pip_install_package(clang ${SIPLASPLAS_LIBCLANG_VERSION})
+    endif()
+endif()
 
 function(configure_siplasplas_reflection TARGET)
     function(log MESSAGE)
@@ -67,9 +75,9 @@ function(configure_siplasplas_reflection TARGET)
         set(ignore_database --ignore-database)
     endif()
 
-    if(DRLPARSER_LIBCLANG)
-        log("DRLParser custom libclang file: ${DRLPARSER_LIBCLANG}")
-        set(libclang --libclang ${DRLPARSER_LIBCLANG})
+    if(SIPLASPLAS_LIBCLANG_LIBRARY)
+        log("DRLParser custom libclang file: ${SIPLASPLAS_LIBCLANG_LIBRARY}")
+        set(libclang --libclang ${SIPLASPLAS_LIBCLANG_LIBRARY})
     endif()
 
     if(DRLPARSER_VERBOSE)

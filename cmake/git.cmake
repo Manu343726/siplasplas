@@ -22,7 +22,7 @@ function(get_git_commit_hash RESULT)
 endfunction()
 
 function(get_git_commit_message RESULT)
-    git(log -1 --pretty=%B)
+    git(log -1 --pretty=%s)
     set(${RESULT} ${GIT_OUTPUT} PARENT_SCOPE)
 endfunction()
 

@@ -4,24 +4,24 @@ endif()
 
 include(libclang)
 
-if(NOT LIBCLANG_INCLUDE_DIR)
-    libclang_include_dir(LIBCLANG_INCLUDE_DIR)
-endif()
-if(NOT LIBCLANG_SYSTEM_INCLUDE_DIR)
-    libclang_system_include_dir(LIBCLANG_SYSTEM_INCLUDE_DIR)
-endif()
+libclang_library(LIBCLANG_LIBRARY)
+libclang_include_dir(LIBCLANG_INCLUDE_DIR)
+libclang_system_include_dir(LIBCLANG_SYSTEM_INCLUDE_DIR)
 
 if(SIPLASPLAS_VERBOSE_CONFIG)
+    message(STATUS "libclang library: ${LIBCLANG_LIBRARY}")
     message(STATUS "libclang include dir: ${LIBCLANG_INCLUDE_DIR}")
     message(STATUS "libclang system include dir: ${LIBCLANG_SYSTEM_INCLUDE_DIR}")
 endif()
 
 add_siplasplas_thirdparty(standardese
 GIT_REPOSITORY
-    "https://github.com/foonathan/standardese"
+    "https://github.com/Manu343726/standardese"
 GIT_TAG
     develop
 CMAKE_EXTRA_ARGS
+    -DSTANDARDESE_VERBOSE_CONFIG=ON
+    -DLIBCLANG_LIBRARY=${LIBCLANG_LIBRARY}
     -DLIBCLANG_INCLUDE_DIR=${LIBCLANG_INCLUDE_DIR}
     -DLIBCLANG_SYSTEM_INCLUDE_DIR=${LIBCLANG_SYSTEM_INCLUDE_DIR}
 )
