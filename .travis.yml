@@ -120,16 +120,21 @@ install:
   - export PATH=${DEPS_DIR}/cmake/bin:${PATH}
 
   - cmake --version
-  - cd ${TRAVIS_BUILD_DIR}
 
-  # Get libclang:
+############################################################################
+# Install libclang
+############################################################################
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then wget --no-check-certificate http://llvm.org/releases/3.8.0/clang+llvm-3.8.0-x86_64-linux-gnu-ubuntu-14.04.tar.xz; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then tar -xJf clang+llvm-3.8.0-x86_64-linux-gnu-ubuntu-14.04.tar.xz; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then mv clang+llvm-3.8.0-x86_64-linux-gnu-ubuntu-14.04 llvm-3.8; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export LIBCLANG_LIBRARY=$TRAVIS_BUILD_DIR/../llvm-3.8/lib/libclang.so.3.8; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export LIBCLANG_INCLUDE_DIR=$TRAVIS_BUILD_DIR/../llvm-3.8/include/; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export LIBCLANG_SYSTEM_INCLUDE_DIR=$TRAVIS_BUILD_DIR/../llvm-3.8/lib/clang/3.8.0/include; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export LD_LIBRARY_PATH=$TRAVIS_BUILD_DIR/../llvm-3.8/lib; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export LIBCLANG_LIBRARY=$DEPS_DIR/llvm-3.8/lib/libclang.so.3.8; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export LIBCLANG_INCLUDE_DIR=$DEPS_DIR/llvm-3.8/include; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export LIBCLANG_SYSTEM_INCLUDE_DIR=$DEPS_DIR/llvm-3.8/lib/clang/3.8.0/include; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export LD_LIBRARY_PATH=$DEPS_DIR/llvm-3.8/lib; fi
+
+  # Finished building deps
+  - cd ${TRAVIS_BUILD_DIR}
+
 
   # Install reflection parser dependencies:
   - pip install --user -r src/reflection/parser/requirements.txt
@@ -145,7 +150,8 @@ install:
              -DCMAKE_VERBOSE_MAKEFILE=OFF
              -DBII_BOOST_VERBOSE=ON
              -DCMAKE_BUILD_TYPE=$BUILD_TYPE
-             -DDRLPARSER_LIBCLANG="$LIBCLANG_LIBRARY"
+             -DSIPLASPLAS_LIBCLANG_LIBRARY="$LIBCLANG_LIBRARY"
+             -DSIPLASPLAS_CHECK_LIBCLANG_HEADERS=ON
              -DSIPLASPLAS_LIBCLANG_INCLUDE_DIR="$LIBCLANG_INCLUDE_DIR"
              -DSIPLASPLAS_LIBCLANG_SYSTEM_INCLUDE_DIR="$LIBCLANG_SYSTEM_INCLUDE_DIR"
              -DSIPLASPLAS_BUILD_DOCS="$SIPLASPLAS_BUILD_DOCS"

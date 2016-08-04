@@ -122,14 +122,52 @@ endfunction()
 
 function(libclang_include_dir _ret)
     if(SIPLASPLAS_LIBCLANG_INCLUDE_DIR)
-        set(${_ret} "${SIPLASPLAS_LIBCLANG_INCLUDE_DIR}" PARENT_SCOPE)
+        set(dir "${SIPLASPLAS_LIBCLANG_INCLUDE_DIR}")
     else()
         find_path(libclang_include_dir clang-c/Index.h)
 
         if(libclang_include_dir)
-            set(${_ret} "${libclang_include_dir}" PARENT_SCOPE)
+            set(dir "${libclang_include_dir}")
         else()
             message(FATAL_ERROR "Cannot find libclang include dir (Location of clang-c/Index.h). Make sure libclang is installed")
+        endif()
+    endif()
+
+    set(${_ret} "${dir}" PARENT_SCOPE)
+    set(clangc "${dir}/clang-c")
+
+    if(SIPLASPLAS_CHECK_LIBCLANG_HEADERS)
+        set(headers
+            BuildSystem.h
+            CXCompilationDatabase.h
+            CXErrorCode.h
+            CXString.h
+            Documentation.h
+            Index.h
+            Platform.h
+        )
+
+        message(STATUS "Checking libclang headers in ${clangc}:")
+
+        foreach(header ${headers})
+            set(fullpath "${clangc}/${header}")
+
+            if(EXISTS "${fullpath}")
+                message(STATUS " - ${header} found")
+            else()
+                message(STATUS " - ${header} NOT FOUND!")
+                set(error TRUE)
+            endif()
+        endforeach()
+
+        if(error)
+            execute_process(COMMAND ls -l "${dir}" OUTPUT_VARIABLE ls)
+            message(STATUS "Contents of ${dir}:")
+            message("${ls}")
+            execute_process(COMMAND ls -l "${clangc}" OUTPUT_VARIABLE ls)
+            message(STATUS "Contents of ${clangc}:")
+            message("${ls}")
+            message(FATAL_ERROR "One or more libclang headers not found")
         endif()
     endif()
 endfunction()
@@ -153,3 +191,12 @@ function(libclang_system_include_dir _ret)
     endif()
 endfunction()
 
+function(libclang_library _ret)
+    if(SIPLASPLAS_LIBCLANG_LIBRARY)
+        set(${_ret} "${SIPLASPLAS_LIBCLANG_LIBRARY}" PARENT_SCOPE)
+    else()
+        find_package(LibClang REQUIRED)
+
+        set(${_ret} "${LIBCLANG_LIBRARIES}" PARENT_SCOPE)
+    endif()
+endfunction()

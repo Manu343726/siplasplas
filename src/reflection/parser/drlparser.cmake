@@ -67,9 +67,9 @@ function(configure_siplasplas_reflection TARGET)
         set(ignore_database --ignore-database)
     endif()
 
-    if(DRLPARSER_LIBCLANG)
-        log("DRLParser custom libclang file: ${DRLPARSER_LIBCLANG}")
-        set(libclang --libclang ${DRLPARSER_LIBCLANG})
+    if(SIPLASPLAS_LIBCLANG_LIBRARY)
+        log("DRLParser custom libclang file: ${SIPLASPLAS_LIBCLANG_LIBRARY}")
+        set(libclang --libclang ${SIPLASPLAS_LIBCLANG_LIBRARY})
     endif()
 
     if(DRLPARSER_VERBOSE)
