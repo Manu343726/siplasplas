@@ -11,6 +11,8 @@ set(SIPLASPLAS_VERSION_MAJOR 0)
 set(SIPLASPLAS_VERSION_MINOR 0)
 set(SIPLASPLAS_VERSION_PATCH 0)
 
+set(SIPLASPLAS_DRLPARSER_PYTHON_VERSION 2.7)
+
 include(cmake/deftargets.cmake)
 include(cmake/install.cmake)
 include(cmake/git.cmake)

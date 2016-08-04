@@ -1,3 +1,103 @@
+if(SIPLASPLAS_DOWNLOAD_LIBCLANG)
+    if(NOT SIPLASPLAS_LIBCLANG_VERSION)
+        set(SIPLASPLAS_LIBCLANG_VERSION 3.8.0)
+    endif()
+
+    if(NOT SIPLASPLAS_LIBCLANG_PACKAGE)
+        # Get the name of the llvm package for this platform:
+
+        if(CMAKE_SYSTEM_NAME MATCHES "Linux")
+            # We're using the ubuntu package for all linux distros.
+            # This may fail in ArchLinux due to missing curses library.
+            # See https://github.com/Valloric/YouCompleteMe/issues/778
+            #
+            # TL;DR: Install ncurses5-compat-libs package from AUR
+
+            set(platform "linux-gnu-ubuntu-14.04")
+            set(ext ".tar.xz")
+        elseif(CMAKE_SYSTEM_NAME MATCHES "Darwin")
+            set(platform "apple-darwin")
+            set(ext ".tar.xz")
+        else()
+            message(FATAL_ERROR "Platform not supported. Cannot infer libclang package")
+        endif()
+
+        set(SIPLASPLAS_LIBCLANG_PACKAGE "clang+llvm-${SIPLASPLAS_LIBCLANG_VERSION}-x86_64-${platform}${ext}")
+    endif()
+
+    set(package_path "${CMAKE_BINARY_DIR}/llvmbundle")
+    set(url "http://llvm.org/releases/${SIPLASPLAS_LIBCLANG_VERSION}/${SIPLASPLAS_LIBCLANG_PACKAGE}")
+
+    if(NOT EXISTS "${package_path}")
+        message(STATUS "Downloading libclang ${SIPLASPLAS_LIBCLANG_VERSION} from \"${url}\"...")
+        file(DOWNLOAD "${url}" "${package_path}" SHOW_PROGRESS)
+    endif()
+
+    if(NOT EXISTS "${CMAKE_BINARY_DIR}/llvm")
+        file(MAKE_DIRECTORY "${CMAKE_BINARY_DIR}/llvm/")
+
+        message(STATUS "Extracting llvm...")
+
+        execute_process(
+            COMMAND ${CMAKE_COMMAND} -E tar xvf ${package_path}
+            WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/llvm
+        )
+    endif()
+
+    # This is the most trickie part: Since get_filename_component(NAME_WE) gets
+    # the wrong name (the name is split at the first dot, i.e. "clang+llvm-3.8-foo,tar.gz"
+    # becomes "clang+llvm-3") we instead extract llvm in a known llvm/ directory and then
+    # glob its contents, which should be a unique "clang+llvm..." directory:
+
+    file(GLOB llvm_contents RELATIVE "${CMAKE_BINARY_DIR}/llvm" "${CMAKE_BINARY_DIR}/llvm/*")
+    list(LENGTH llvm_contents length)
+
+    if(length EQUAL 1)
+        if(IS_DIRECTORY "${CMAKE_BINARY_DIR}/llvm/${llvm_contents}")
+            set(llvm_root "${CMAKE_BINARY_DIR}/llvm/${llvm_contents}")
+        else()
+            message(FATAL_ERROR "Extracted llvm directory \"${llvm_contents}\" is not a directory")
+        endif()
+    else()
+        foreach(file ${llvm_contents})
+            message(STATUS "  (llvm content found) ${CMAKE_BINARY_DIR}/llvm/${file}")
+        endforeach()
+        message(FATAL_ERROR "LLVM package contents not recognized, only a root directory was expected")
+    endif()
+
+    find_library(libclang_library NAMES clang libclang HINTS "${llvm_root}/lib")
+
+    # Write output variables:
+    if(libclang_library)
+        set(SIPLASPLAS_LIBCLANG_LIBRARY "${libclang_library}")
+    else()
+        message(FATAL_ERROR "Could not find libclang library at ${llvm_root}/lib")
+    endif()
+    set(SIPLASPLAS_LIBCLANG_INCLUDE_DIR "${llvm_root}/include")
+    set(SIPLASPLAS_LIBCLANG_SYSTEM_INCLUDE_DIR "${llvm_root}/lib/clang/${SIPLASPLAS_LIBCLANG_VERSION}/include")
+endif()
+
+if(SIPLASPLAS_INSTALL_PYTHON_LIBCLANG)
+    find_program(pip NAMES pip2 pip)
+
+    if(pip)
+        execute_process(COMMAND ${pip} --version OUTPUT_VARIABLE pip_version)
+        string(REGEX REPLACE ".*\\(python ([0-9]+)\\.[0-9]+.*\\)" "\\1" pip_python_version_major "${pip_version}")
+        string(REGEX REPLACE ".*\\(python [0-9]+\\.([0-9])+.*\\)" "\\1" pip_python_version_minor "${pip_version}")
+        string(STRIP "${pip_python_version_major}" pip_python_version_major)
+        string(STRIP "${pip_python_version_minor}" pip_python_version_minor)
+        set(PIP_PYTHON_VERSION "${pip_python_version_major}.${pip_python_version_minor}")
+
+        if(PIP_PYTHON_VERSION VERSION_EQUAL SIPLASPLAS_DRLPARSER_PYTHON_VERSION)
+            message(STATUS "pip found: ${pip}, python ${pip_python_version_major}.${pip_python_version_minor}")
+        else()
+            message(FATAL_ERROR "Found pip ${pip} version (${PIP_PYTHON_VERSION}) does not match python version required by DRLParser (${SIPLASPLAS_DRLPARSER_PYTHON_VERSION})")
+        endif()
+    else()
+        message(FATAL_ERROR "pip not found")
+    endif()
+endif()
+
 function(clangxx_executable _ret)
     if(CMAKE_CXX_COMPILER_ID  MATCHES "Clang")
         set(${_ret} "${CMAKE_CXX_COMPILER}" PARENT_SCOPE)
