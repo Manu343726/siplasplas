@@ -7,11 +7,7 @@
 
 namespace cpp
 {
-    namespace 
-    {
-        template <typename>
-        using void_t = void;
-    }
+    namespace {}
     
     template <typename R>
     struct VariantVisitorTraits;
