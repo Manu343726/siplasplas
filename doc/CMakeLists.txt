@@ -35,6 +35,10 @@ if(SIPLASPLAS_DEPLOY_DOCS)
     set(SIPLASPLAS_REPO_URL "https://${SIPLASPLAS_GITHUB_USER}:${SIPLASPLAS_GITHUB_USER_TOKEN}@github.com/Manu343726/siplasplas")
     set(SIPLASPLAS_WEBSITE_PATH "${CMAKE_BINARY_DIR}/siplasplas_website")
 
+    # Avoid creating extra directories for a branch that uses slashes like the feature
+    # branches of gitflow
+    string(REGEX REPLACE "/" "__slash__" sanitized_branch "${SIPLASPLAS_GIT_BRANCH}")
+
 
     add_custom_target(deploy-docs_clone_website
         COMMAND ${CMAKE_COMMAND} -E remove_directory "${SIPLASPLAS_WEBSITE_PATH}"
@@ -48,19 +52,22 @@ if(SIPLASPLAS_DEPLOY_DOCS)
     add_dependencies(deploy-docs_clone_website doc)
 
     set(standardese_docs_src  "${CMAKE_BINARY_DIR}/doc/standardese")
-    set(standardese_docs_dest "${SIPLASPLAS_WEBSITE_PATH}/doc/standardese/${SIPLASPLAS_GIT_BRANCH}")
+    set(standardese_docs_dest "${SIPLASPLAS_WEBSITE_PATH}/doc/standardese/${sanitized_branch}")
     set(doxygen_docs_src  "${CMAKE_BINARY_DIR}/doc/html")
-    set(doxygen_docs_dest "${SIPLASPLAS_WEBSITE_PATH}/doc/doxygen/${SIPLASPLAS_GIT_BRANCH}")
+    set(doxygen_docs_dest "${SIPLASPLAS_WEBSITE_PATH}/doc/doxygen/${sanitized_branch}")
 
     if(SIPLASPLAS_DEPLOY_STANDARDESE_DOCS)
         # Automatically generate standardese docs before cloning website
-        add_dependencies(deploy-docs_clone_website standardese-doc)
+        if(NOT SIPLASPLAS_DEPLOY_STANDARDESE_DOCS_POSTPROCESS_ONLY)
+            add_dependencies(deploy-docs_clone_website standardese-doc)
+        endif()
 
         set(standardese_clean
             COMMAND ${CMAKE_COMMAND} -E remove_directory "${standardese_docs_dest}"
         )
         set(standardese_copy
             COMMAND ${CMAKE_COMMAND} -E copy_directory "${standardese_docs_src}" "${standardese_docs_dest}"
+            COMMAND ${CMAKE_COMMAND} -DROOT_DIR=${SIPLASPLAS_WEBSITE_PATH}/doc/standardese/ -DBRANCH=${SIPLASPLAS_GIT_BRANCH} -DSANITIZED_BRANCH=${sanitized_branch} -DBRANCH_DIR=${standardese_docs_dest} -P ${CMAKE_SOURCE_DIR}/doc/process_standardese_output.cmake
         )
     endif()
 
