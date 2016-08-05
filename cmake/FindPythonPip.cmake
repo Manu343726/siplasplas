@@ -20,11 +20,14 @@ macro(_find_and_check_pip NAME)
         message(STATUS "Trying to find \"${NAME}\" program...")
     endif()
 
-    find_program(pip NAMES ${NAME})
+    find_program(pip_program
+        NAMES ${NAME}
+        PATHS /bin
+    )
 
-    if(pip)
+    if(pip_program)
         # get found pip version:
-        execute_process(COMMAND ${pip} --version OUTPUT_VARIABLE pip_version)
+        execute_process(COMMAND ${pip_program} --version OUTPUT_VARIABLE pip_version)
         string(STRIP "${pip_version}" pip_version)
 
         # Parse the python version number:
@@ -37,11 +40,11 @@ macro(_find_and_check_pip NAME)
         string(STRIP "${pip_python_version_minor}" _PYTHON_PIP_PYTHON_VERSION_MINOR)
         set(_PYTHON_PIP_PYTHON_VERSION_STRING "${_PYTHON_PIP_PYTHON_VERSION_MAJOR}.${_PYTHON_PIP_PYTHON_VERSION_MINOR}")
 
-        set(_PYTHON_PIP_EXECUTABLE "${pip}")
+        set(_PYTHON_PIP_EXECUTABLE "${pip_program}")
 
         if(PythonPip_DEBUG)
             message(STATUS "Found:")
-            message(STATUS "  Executable: ${pip}")
+            message(STATUS "  Executable: ${pip_program}")
             message(STATUS "  Version (full):   ${pip_version}")
             message(STATUS "  Version (string): ${_PYTHON_PIP_PYTHON_VERSION_STRING}")
             message(STATUS "  Version (major):  ${_PYTHON_PIP_PYTHON_VERSION_MAJOR}")
