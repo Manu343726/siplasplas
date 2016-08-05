@@ -47,22 +47,27 @@ if(SIPLASPLAS_DEPLOY_DOCS)
     # Automatically generate docs before cloning website
     add_dependencies(deploy-docs_clone_website doc)
 
+    set(standardese_docs_src  "${CMAKE_BINARY_DIR}/doc/standardese")
+    set(standardese_docs_dest "${SIPLASPLAS_WEBSITE_PATH}/doc/standardese/${SIPLASPLAS_GIT_BRANCH}")
+    set(doxygen_docs_src  "${CMAKE_BINARY_DIR}/doc/html")
+    set(doxygen_docs_dest "${SIPLASPLAS_WEBSITE_PATH}/doc/doxygen/${SIPLASPLAS_GIT_BRANCH}")
+
     if(SIPLASPLAS_DEPLOY_STANDARDESE_DOCS)
         # Automatically generate standardese docs before cloning website
         add_dependencies(deploy-docs_clone_website standardese-doc)
 
         set(standardese_clean
-            COMMAND ${CMAKE_COMMAND} -E remove_directory "${SIPLASPLAS_WEBSITE_PATH}/doc/standardese"
+            COMMAND ${CMAKE_COMMAND} -E remove_directory "${standardese_docs_dest}"
         )
         set(standardese_copy
-            COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/doc/standardese" "${SIPLASPLAS_WEBSITE_PATH}/doc/standardese/${SIPLASPLAS_GIT_BRANCH}"
+            COMMAND ${CMAKE_COMMAND} -E copy_directory "${standardese_docs_src}" "${standardese_docs_dest}"
         )
     endif()
 
     add_custom_target(deploy-docs
-        COMMAND ${CMAKE_COMMAND} -E remove_directory "${SIPLASPLAS_WEBSITE_PATH}/doc/html"
+        COMMAND ${CMAKE_COMMAND} -E remove_directory "${doxygen_docs_dest}"
         ${standardese_clean}
-        COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_BINARY_DIR}/doc/html" "${SIPLASPLAS_WEBSITE_PATH}/doc/doxygen/${SIPLASPLAS_GIT_BRANCH}"
+        COMMAND ${CMAKE_COMMAND} -E copy_directory "${doxygen_docs_src}" "${doxygen_docs_dest}"
         ${standardese_copy}
         COMMAND ${GIT_EXECUTABLE} add --all doc
         COMMAND ${GIT_EXECUTABLE} commit --allow-empty -m "Updated docs for ${COMMIT_BRIEF}"
