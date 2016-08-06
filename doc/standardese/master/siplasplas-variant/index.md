@@ -7,8 +7,8 @@ layout: standardese-doc
 # `siplasplas-variant` module files
 
 
- - [`optional.hpp`]({{site.url}}/doc/standardese/master/siplasplas-variant/optional.html)
  - [`multi_visitor.hpp`]({{site.url}}/doc/standardese/master/siplasplas-variant/multi_visitor.html)
+ - [`optional.hpp`]({{site.url}}/doc/standardese/master/siplasplas-variant/optional.html)
  - [`variant.hpp`]({{site.url}}/doc/standardese/master/siplasplas-variant/variant.html)
  - [`visitor.hpp`]({{site.url}}/doc/standardese/master/siplasplas-variant/visitor.html)
  - [`files.hpp`]({{site.url}}/doc/standardese/master/siplasplas-variant/files.html)
