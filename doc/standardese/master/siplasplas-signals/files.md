@@ -1,3 +1,8 @@
+
+---
+layout: standardese-doc
+---
+
   - [asyncsink.hpp](asyncsink.md "asyncsink.hpp")
 
   - [emitter.hpp](emitter.md "emitter.hpp")

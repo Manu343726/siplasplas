@@ -1,3 +1,8 @@
+
+---
+layout: standardese-doc
+---
+
   - `cpp`
     
       - [AsyncSink](asyncsink.md#cpp::AsyncSink "cpp::AsyncSink") - Implements an asynchronous signal sink suited for communication between different threads.

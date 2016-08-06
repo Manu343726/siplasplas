@@ -1,3 +1,8 @@
+
+---
+layout: standardese-doc
+---
+
 # Header file `stl_allocator.hpp`
 
 ``` cpp

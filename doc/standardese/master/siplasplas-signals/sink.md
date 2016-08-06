@@ -1,3 +1,8 @@
+
+---
+layout: standardese-doc
+---
+
 # Header file `sink.hpp`
 
 ``` cpp

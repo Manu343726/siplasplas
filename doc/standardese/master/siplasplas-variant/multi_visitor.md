@@ -1,3 +1,8 @@
+
+---
+layout: standardese-doc
+---
+
 # Header file `multi_visitor.hpp`
 
 ``` cpp

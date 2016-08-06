@@ -1,3 +1,8 @@
+
+---
+layout: standardese-doc
+---
+
 # Header file `class.hpp`
 
 ``` cpp

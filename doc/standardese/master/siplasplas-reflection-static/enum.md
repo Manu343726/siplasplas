@@ -1,3 +1,8 @@
+
+---
+layout: standardese-doc
+---
+
 # Header file `enum.hpp`
 
 ``` cpp

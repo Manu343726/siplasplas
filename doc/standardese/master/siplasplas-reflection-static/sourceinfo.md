@@ -1,3 +1,8 @@
+
+---
+layout: standardese-doc
+---
+
 # Header file `sourceinfo.hpp`
 
 ``` cpp

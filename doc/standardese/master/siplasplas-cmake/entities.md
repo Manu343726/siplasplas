@@ -1,3 +1,8 @@
+
+---
+layout: standardese-doc
+---
+
   - `cpp`
     
       - [CMakeProject](project.md#cpp::CMakeProject "cpp::CMakeProject") - Configures and builds an existing CMake project.

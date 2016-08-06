@@ -1,3 +1,8 @@
+
+---
+layout: standardese-doc
+---
+
   - [canary\_allocator.hpp](canary_allocator.md "canary_allocator.hpp")
 
   - [embedded\_allocator.hpp](embedded_allocator.md "embedded_allocator.hpp")

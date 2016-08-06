@@ -1,3 +1,8 @@
+
+---
+layout: standardese-doc
+---
+
 # Header file `function.hpp`
 
 ``` cpp

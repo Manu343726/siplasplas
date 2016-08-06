@@ -1,3 +1,8 @@
+
+---
+layout: standardese-doc
+---
+
   - [api.hpp](api.md "api.hpp")
 
   - [class.hpp](class.md "class.hpp")
