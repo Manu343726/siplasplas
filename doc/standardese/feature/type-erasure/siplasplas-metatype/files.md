@@ -1,1 +1,0 @@
-  - [metatype.hpp](metatype.md "metatype.hpp")

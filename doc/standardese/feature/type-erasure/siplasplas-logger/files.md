@@ -1,1 +1,0 @@
-  - [logger.hpp](logger.md "logger.hpp")
