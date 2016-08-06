@@ -35,12 +35,13 @@ function(generate_doc_index)
     foreach(branch ${branches})
         if(IS_DIRECTORY "${ROOT_DIR}/${branch}")
             # Get back the branch name from the encoded directory name:
+            set(sanitized_branch "${branch}")
             string(REGEX REPLACE "__slash__" "/" branch "${branch}")
 
             message(STATUS " - branch '${branch}'")
 
             set(index "${index}
- - [`${branch}` branch documentation](${standardese_doc_url}/${branch}/)")
+ - [`${branch}` branch documentation](${standardese_doc_url}/${sanitized_branch}/)")
         endif()
     endforeach()
 
