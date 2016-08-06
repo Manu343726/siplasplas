@@ -10,8 +10,7 @@ message(STATUS "Branch dir: ${BRANCH_DIR}")
 set(doc_url "{{site.url}}{{site.baseurl}}/doc")
 set(standardese_doc_url "${doc_url}/standardese")
 set(branch_doc_url "${standardese_doc_url}/${SANITIZED_BRANCH}")
-set(standardese_doc_front_matter "
----
+set(standardese_doc_front_matter "---
 layout: standardese-doc
 ---
 
