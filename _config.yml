@@ -7,7 +7,14 @@ paginate:     1
 # About/contact
 author:
   name:       Manu Sánchez
-  url:        https://manu343726.github.io/siplasplas
+  url:        https://manu343726.github.io
+
+# project data
+project:
+  name: siplasplas
+  desc: A library for C++ relection and introspection
+  url: https://github.com/Manu343726/siplasplas
+  website: https://manu343726/github.io/siplasplas
 
 # Gems
 gems:
