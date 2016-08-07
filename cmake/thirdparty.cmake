@@ -182,7 +182,9 @@ function(compute_binary_file NAME TYPE LIBRARY_SUFFIX BINARY_DIR RESULT)
         set(file "${CMAKE_BUILD_TYPE}/${file}")
     endif()
 
-    message(STATUS "Component ${NAME} binary file: ${file}")
+    if(SIPLASPLAS_VERBOSE_CONFIG)
+        message(STATUS "Component ${NAME} binary file: ${file}")
+    endif()
 
     if(BINARY_DIR)
         set(${RESULT} "${BINARY_DIR}/${file}" PARENT_SCOPE)
@@ -258,7 +260,10 @@ function(add_siplasplas_thirdparty_component NAME)
     )
 
     if(importedlibfile)
-        message(STATUS "Adding implementation lib (${importedlibfile}) for component ${NAME} of thirdparty ${COMPONENT_THIRD_PARTY}")
+        if(SIPLASPLAS_VERBOSE_CONFIG)
+            message(STATUS "Adding implementation lib (${importedlibfile}) for component ${NAME} of thirdparty ${COMPONENT_THIRD_PARTY}")
+        endif()
+
         set_target_properties(${importedlib} PROPERTIES
             IMPORTED_IMPLIB "${binary_dir}/${importedlibfile}"
         )

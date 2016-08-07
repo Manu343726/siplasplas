@@ -243,7 +243,10 @@ function(clangxx_stdlib_includes stdlib INCLUDES)
             continue()
         endif()
 
-        message(STATUS "Asking for ${${compiler_exec}} include dirs...")
+        if(SIPLASPLAS_VERBOSE_CONFIG)
+            message(STATUS "Asking for ${${compiler_exec}} include dirs...")
+        endif()
+
         execute_process(
             COMMAND ${CMAKE_COMMAND} -E echo ""
             COMMAND ${${compiler_exec}} -std=c++11 -stdlib=${stdlib} -v -x c++ -E -
