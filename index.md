@@ -3,13 +3,24 @@ layout: default
 title: {{ site.name }}
 ---
 
-# siplasplas
+# siplasplas [![Build Status](https://travis-ci.org/Manu343726/siplasplas.svg?branch=master)](https://travis-ci.org/Manu343726/siplasplas) [![Build status](https://ci.appveyor.com/api/projects/status/d395bonrvrduwl6a?svg=true)](https://ci.appveyor.com/project/AlvarBer/siplasplas)
 
 A library for C++ reflection and introspection
 
 ## Features
 
-TODO
+TODO: Examples, more detailed list, etc
+
+ - static reflection of C++ classes, enums, and functions
+ - dynamic reflection of C++ namespaces, classes, enums, and functions
+ - Multithread message passing
+ - Signals and slots
+ - cmake access API
+ - Runtime C++ compilation (wip)
+
+## Supported compilers
+
+siplasplas has been tested in GCC 5.1/5.2/6.1, Clang 3.6/3.7/3.8, and Visual Studio 2015.
 
 ## Documentation
 
