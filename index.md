@@ -205,7 +205,7 @@ configuration can be modified using some options and variables:
 Many thanks to:
 
  - Jonathan "foonathan" Müller, [as always](https://github.com/foonathan/standardese#acknowledgements)
- - George "Concepticide" Makridakis, for feedback, debates, and "Guys, what the fuck is gitter?"
+ - George "Concepticide" Makrydakis, for feedback, debates, and "Guys, what the fuck is gitter?"
  - Diego Rodriguez Losada, for feedback, palmeritas, and blue boxes
  - To all my [ByThech
    WM&IP](http://www.by.com.es/watch-mochi/watch-mochi-ip-video-intercomunicacion-digital-con-tecnologia-ip/)
