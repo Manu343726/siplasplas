@@ -112,7 +112,7 @@ install:
   # Configure and build project:
   - if [ ! -d build ]; then mkdir build; fi
   - cd build
-<<<<<<< HEAD
+
   - cmake .. -DSIPLASPLAS_BUILD_TESTS=ON
              -DSIPLASPLAS_BUILD_EXAMPLES=ON
              -DSIPLASPLAS_VERBOSE_CONFIG=ON
@@ -120,6 +120,7 @@ install:
              -DCMAKE_VERBOSE_MAKEFILE=OFF
              -DBII_BOOST_VERBOSE=ON
              -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+             -DSIPLASPLAS_CLANGXX="$(which clang++-${CLANG_VERSION})"
              -DSIPLASPLAS_LIBCLANG_VERSION="${CLANG_VERSION}.0"
              -DSIPLASPLAS_DOWNLOAD_LIBCLANG=TRUE
              -DSIPLASPLAS_CHECK_LIBCLANG_HEADERS=ON
@@ -133,14 +134,8 @@ install:
              -DSIPLASPLAS_GITHUB_USER_TOKEN="$SIPLASPLAS_GITHUB_USER_TOKEN"
 
   - if [ "$DEPLOY_DOCS" != "true" ]; then cmake --build .; fi
-=======
-  - cmake .. -DSIPLASPLAS_BUILD_TESTS=ON -DSIPLASPLAS_BUILD_EXAMPLES=ON -DSIPLASPLAS_CI_BUILD=ON -DBII_BOOST_VERBOSE=ON -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DSIPLASPLAS_GXX="$(which g++-5)" -DDRLPARSER_LIBCLANG="$LIBCLANG" -DSIPLASPLAS_LIBRARIES_STATIC="$SIPLASPLAS_LIBRARIES_STATIC"
-  - cmake --build .
->>>>>>> 8507d00... Use C++14-aware GCC for libclang
 
 script:
   - if [ "$DEPLOY_DOCS" != "true" ]; then make run-tests-all; fi
   - if [ "$DEPLOY_DOCS" != "true" ]; then make run-examples-all; fi
-
-after_script:
   - if [ "$DEPLOY_DOCS" == "true" -a "${TRAVIS_PULL_REQUEST}" == "false" ]; then cmake --build . --target deploy-docs; fi

@@ -1,5 +1,7 @@
 function(clangxx_executable _ret)
-    if(CMAKE_CXX_COMPILER_ID  MATCHES "Clang")
+    if(SIPLASPLAS_CLANGXX)
+        set(${_ret} "${SIPLASPLAS_CLANGXX}" PARENT_SCOPE)
+    elseif(CMAKE_CXX_COMPILER_ID  MATCHES "Clang")
         set(${_ret} "${CMAKE_CXX_COMPILER}" PARENT_SCOPE)
     else()
         if(NOT clangxx)
