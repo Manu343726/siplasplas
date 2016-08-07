@@ -224,7 +224,7 @@ endfunction()
 function(copy_dll_dependencies TARGET)
     get_target_dependencies(${TARGET} dependencies)
 
-    set(dest_directory $<TARGET_FILE_DIR:${ROOT_TARGET}>)
+    set(dest_directory $<TARGET_FILE_DIR:${TARGET}>)
     foreach(dep ${dependencies})
         if(TARGET ${dep})
             get_target_property(type ${dep} TYPE)
