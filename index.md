@@ -13,8 +13,7 @@ TODO: Examples, more detailed list, etc
 
  - static reflection of C++ classes, enums, and functions
  - dynamic reflection of C++ namespaces, classes, enums, and functions
- - Multithread message passing
- - Signals and slots
+ - Multithread message passing (signals and slots)
  - cmake access API
  - Runtime C++ compilation (wip)
 
@@ -207,6 +206,7 @@ Many thanks to:
  - Jonathan "foonathan" Müller, [as always](https://github.com/foonathan/standardese#acknowledgements)
  - George "Concepticide" Makrydakis, for feedback, debates, and "Guys, what the fuck is gitter?"
  - Diego Rodriguez Losada, for feedback, palmeritas, and blue boxes
+ - Asier González, for holding on for six months in my C++ course, which eventually became this project
  - To all my [ByThech
    WM&IP](http://www.by.com.es/watch-mochi/watch-mochi-ip-video-intercomunicacion-digital-con-tecnologia-ip/)
    team mates, for having to suffer me saying "this with reflection would
