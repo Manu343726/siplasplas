@@ -13,13 +13,17 @@ if(SIPLASPLAS_INSTALL_DRLPARSER_DEPENDENCIES)
     pip_package_version(clang libclang_bindings_version)
 
     if(libclang_bindings_version)
-        if(NOT libclang_bindings_version VERSION_EQUAL SIPLASPLAS_LIBCLANG_VERSION)
+        # Note that LLVM releases libclang bindings for minor releases only
+        # that's why the clang packages are tagged 3.x and we compare against
+        # SIPLASPLAS_LIBCLANG_VERSION_MAJOR_MINOR instead of SIPLASPLAS_LIBCLANG_VERSION
+
+        if(NOT libclang_bindings_version VERSION_EQUAL SIPLASPLAS_LIBCLANG_VERSION_MAJOR_MINOR)
             message(FATAL_ERROR "libclang python bindings (clang==${libclang_bindings_version}) do not match required libclang version (${SIPLASPLAS_LIBCLANG_VERSION})")
         endif()
     else()
         message(STATUS "Python bindings (package \"clang\") not found. Installing...")
 
-        pip_install_package(clang ${SIPLASPLAS_LIBCLANG_VERSION})
+        pip_install_package(clang ${SIPLASPLAS_LIBCLANG_VERSION_MAJOR_MINOR})
     endif()
 endif()
 

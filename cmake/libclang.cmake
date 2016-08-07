@@ -166,7 +166,9 @@ else()
     endif()
 endif()
 
-message(STATUS "libclang version: ${SIPLASPLAS_LIBCLANG_VERSION}")
+string(REGEX REPLACE "([0-9]+\\.[0-9]+)\\.[0-9]+" "\\1" SIPLASPLAS_LIBCLANG_VERSION_MAJOR_MINOR "${SIPLASPLAS_LIBCLANG_VERSION}")
+
+message(STATUS "libclang version: ${SIPLASPLAS_LIBCLANG_VERSION} (${SIPLASPLAS_LIBCLANG_VERSION_MAJOR_MINOR})")
 message(STATUS "libclang library: ${SIPLASPLAS_LIBCLANG_LIBRARY}")
 message(STATUS "libclang include dir: ${SIPLASPLAS_LIBCLANG_INCLUDE_DIR}")
 message(STATUS "libclang system include dir: ${SIPLASPLAS_LIBCLANG_SYSTEM_INCLUDE_DIR}")
