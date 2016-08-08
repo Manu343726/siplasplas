@@ -96,6 +96,26 @@ function(get_target_common_property RESULT TARGET PROPERTY)
     set(${RESULT} ${value} PARENT_SCOPE)
 endfunction() 
 
+function(get_target_compile_options TARGET RESULT)
+    if(NOT TARGET ${TARGET})
+        set(${RESULT} PARENT_SCOPE)
+        return()
+    endif()
+
+    get_target_common_property(compile_options ${TARGET} COMPILE_OPTIONS)
+    get_target_dependencies(${TARGET} dependencies)
+
+    foreach(dep ${dependencies})
+        get_target_common_property(dep_compile_options ${dep} COMPILE_OPTIONS)
+        list(APPEND compile_options ${dep_compile_options})
+    endforeach()
+
+    if(compile_options)
+        list(REMOVE_DUPLICATES compile_options)
+    endif()
+    set(${RESULT} ${compile_options} PARENT_SCOPE)
+endfunction()
+
 # Gets the set of target include directories, recusivelly scanning
 # dependencies and checking kind of target
 function(get_target_include_directories TARGET RESULT)

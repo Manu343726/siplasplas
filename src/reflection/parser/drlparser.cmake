@@ -39,8 +39,8 @@ function(configure_siplasplas_reflection TARGET)
     endif()
 
     get_target_property(SOURCES ${TARGET} SOURCES)
-    get_target_property(COMPILE_OPTIONS ${TARGET} COMPILE_OPTIONS)
     get_target_include_directories(${TARGET} INCLUDE_DIRS)
+    get_target_compile_options(${TARGET} COMPILE_OPTIONS)
 
     # Filter MSVC compile options and use default C++11 options for libclang
     if(MSVC)
