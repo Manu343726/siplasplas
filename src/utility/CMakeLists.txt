@@ -1,4 +1,10 @@
 
+if(WIN32)
+	set(dynamiclibapi)
+else()
+	set(dynamiclibapi dl)
+endif()
+
 add_siplasplas_library(siplasplas-utility
 SOURCES
     assert.cpp
@@ -13,5 +19,5 @@ DEPENDS
     backward-cpp
     siplasplas-logger
 LINK_LIBS
-    dl
+    ${dynamiclibapi}
 )

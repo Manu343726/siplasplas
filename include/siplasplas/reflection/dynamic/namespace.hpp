@@ -11,7 +11,7 @@ namespace cpp
 namespace dynamic_reflection
 {
 
-class Namespace : public Entity
+class SIPLASPLAS_REFLECTION_DYNAMIC_EXPORT Namespace : public Entity
 {
 public:
     using Metadata = SourceInfo;

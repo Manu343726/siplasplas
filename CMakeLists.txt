@@ -25,11 +25,11 @@ option(SIPLASPLAS_BUILD_TESTS    "Build tests"    OFF)
 option(SIPLASPLAS_BUILD_EXAMPLES "Build examples" OFF)
 option(SIPLASPLAS_BUILD_DOCS     "Build doxygen documentation" OFF)
 option(SIPLASPLAS_DEPLOY_DOCS    "Generate target to deploy branch docs to website" OFF)
-option(SIPLASPLAS_DEPLOY_STANDARDESE_DOCS         "Deploy Standardese docs to website" OFF)
 option(SIPLASPLAS_CI_BUILD                        "siplasplas running on continuous integration build" FALSE)
-option(SIPLASPLAS_STANDARDESE_BUILD_TARGETS_FIRST "Build target before running standardese on that target. This ensures all deps are available" OFF)
 option(SIPLASPLAS_INSTALL_DRLPARSER_DEPENDENCIES  "Automatically install DRLParser dependencies" ON)
 option(SIPLASPLAS_DOWNLOAD_LIBCLANG               "Download libclang from llvm mirror instead of using system LLVM installation" OFF)
+option(SIPLASPLAS_COPY_DLL_DEPENDENCIES "Copy dll dependencies to the dependant target binary dir" ON)
+option(SIPLASPLAS_USE_SYSTEM_SFML       "Use SFML system distribution instead of build from sources" OFF)
 
 if(SIPLASPLAS_BUILD_TESTS)
     enable_testing()
@@ -43,7 +43,7 @@ if(SIPLASPLAS_BUILD_DOCS)
 else()
     message(STATUS "Docs build disabled")
 endif()
-include(cmake/cpack.cmake)
+include(cmake/cpacksettings.cmake)
 
 configure_file(
     ${CMAKE_SOURCE_DIR}/.ycm_extra_conf.py.in

@@ -12,7 +12,7 @@ namespace cpp
 namespace dynamic_reflection
 {
 
-class Function : public Entity
+class SIPLASPLAS_REFLECTION_DYNAMIC_EXPORT Function : public Entity
 {
 public:
     template<typename... Args>

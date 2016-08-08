@@ -12,9 +12,9 @@ class Optional
 public:
     Optional() = default;
 
-    template<typename... Args>
-    Optional(Args&&... args) :
-        _variant{T{std::forward<Args>(args)...}}
+    template<typename Arg, typename... Args>
+    Optional(Arg&& arg, Args&&... args) :
+        _variant{T{std::forward<Arg>(arg), std::forward<Args>(args)...}}
     {}
 
     template<typename U>

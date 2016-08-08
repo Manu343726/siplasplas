@@ -122,8 +122,6 @@ class Node(object):
         """ Creates a node and initializes its children and attributes"""
 
         node = nodeClass(**kwargs)
-        nodeInfo = '\r{}'.format(node.cursor.displayname or node.cursor.spelling)
-        print (nodeInfo[:90] + '...') if len(nodeInfo) > 87 else nodeInfo,
         nodeClass.initialize_children(node)
         node.attributes = Attribute.get_node_attributes(node)
         node.process()

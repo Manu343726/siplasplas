@@ -14,7 +14,7 @@ namespace cpp
 namespace dynamic_reflection
 {
 
-class Field : public Entity
+class SIPLASPLAS_REFLECTION_DYNAMIC_EXPORT Field : public Entity
 {
 public:
 
@@ -59,7 +59,7 @@ private:
         _fieldAccess{new FieldAccess<T Class::*>{field}}
     {}
 
-    class FieldAccessInterface
+    class SIPLASPLAS_REFLECTION_DYNAMIC_EXPORT FieldAccessInterface
     {
     public:
         virtual ~FieldAccessInterface() = default;

@@ -11,7 +11,7 @@
 namespace cpp
 {
 
-class Logger
+class SIPLASPLAS_LOGGER_EXPORT Logger
 {
 public:
     static std::shared_ptr<spdlog::logger> addLogger(const std::string& name);

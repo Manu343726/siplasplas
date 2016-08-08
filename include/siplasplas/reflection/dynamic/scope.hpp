@@ -1,10 +1,12 @@
 #ifndef SIPLASPLAS_REFLECTION_DYNAMIC_SCOPE_HPP
 #define SIPLASPLAS_REFLECTION_DYNAMIC_SCOPE_HPP
 
+#include <siplasplas/utility/string.hpp>
+#include <siplasplas/reflection/dynamic/export.hpp>
+
 #include <string>
 #include <vector>
 
-#include <siplasplas/utility/string.hpp>
 
 namespace cpp
 {
@@ -12,7 +14,7 @@ namespace cpp
 namespace dynamic_reflection
 {
 
-class Scope
+class SIPLASPLAS_REFLECTION_DYNAMIC_EXPORT Scope
 {
 public:
     static const Scope& globalScope();

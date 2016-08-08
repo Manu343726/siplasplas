@@ -3,6 +3,7 @@
 
 #include "sink.hpp"
 #include <siplasplas/reflection/dynamic/function_pointer.hpp>
+#include <siplasplas/signals/export.hpp>
 
 namespace cpp
 {
@@ -16,7 +17,7 @@ namespace cpp
  * Synchronous sinks have no special policy for function invocation but
  * just invoke the function directly when a signal arrives. See SignalEmitter::connect().
  */
-class SyncSink : public SignalSink
+class SIPLASPLAS_SIGNALS_EXPORT SyncSink : public SignalSink
 {
 public:
     /**
@@ -60,6 +61,8 @@ public:
      * @return Always returns true.
      */
     bool pull() override;
+
+    virtual ~SyncSink() = default;
 
 protected:
     void invoke(const std::vector<cpp::dynamic_reflection::Object>& args) override;

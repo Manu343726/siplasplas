@@ -9,7 +9,7 @@ namespace cpp
 namespace dynamic_reflection
 {
 
-class Runtime
+class SIPLASPLAS_REFLECTION_DYNAMIC_EXPORT Runtime
 {
 public:
     Runtime();

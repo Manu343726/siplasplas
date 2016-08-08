@@ -5,9 +5,6 @@ function(export_target_properties TARGET)
     map_new()
     ans(target_properties)
     set(properties
-        LOCATION
-        DEBUG_LOCATION
-        RELEASE_LOCATION
         INCLUDE_DIRECTORIES
         INTERFACE_INCLUDE_DIRECTORIES
         SOURCES
@@ -26,5 +23,14 @@ function(export_target_properties TARGET)
         map_set(target_properties ${property_name} ${property})
     endforeach()
 
-    json_write("${file}" target_properties)
+    map_set(target_properties LOCATION "@${TARGET}_LOCATION@")
+
+    json_write("${file}.in" target_properties)
+
+    # Write the LOCATION value at build time:
+    add_custom_command(TARGET ${TARGET} POST_BUILD 
+        COMMAND ${CMAKE_COMMAND} -DTARGET=${TARGET} -DINPUT_DIR="${CMAKE_BINARY_DIR}" -DOUTPUT_DIR="${CMAKE_BINARY_DIR}" -DLOCATION="$<TARGET_FILE_DIR:${TARGET}>/$<TARGET_FILE_NAME:${TARGET}>" -P "${CMAKE_SOURCE_DIR}/cmake/process_exported_target.cmake"
+        COMMENT "Exporting ${TARGET} metadata to ${file}..."
+        WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
+    )
 endfunction()

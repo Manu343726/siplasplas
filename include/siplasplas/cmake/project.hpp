@@ -4,6 +4,7 @@
 #include <string>
 #include <siplasplas/signals/emitter.hpp>
 #include <siplasplas/fswatch/fslistener.hpp>
+#include <siplasplas/cmake/export.hpp>
 #include "target.hpp"
 
 /**
@@ -44,8 +45,6 @@ namespace cpp
 
 /**
  * \ingroup cmake
- *
- *
  * \brief Configures and builds an existing CMake project.
  *
  * CMakeProject class handles an existing CMake project given
@@ -56,7 +55,7 @@ namespace cpp
  * The class notifies project events through signals, such as when the configuration finished,
  * a target build started, etc.
  */
-class CMakeProject : public SignalEmitter
+class SIPLASPLAS_CMAKE_EXPORT CMakeProject : public SignalEmitter
 {
 public:
 

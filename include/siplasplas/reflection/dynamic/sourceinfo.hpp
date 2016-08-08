@@ -13,7 +13,7 @@ namespace dynamic_reflection
 
 using Kind = static_reflection::Kind;
 
-class SourceInfo
+class SIPLASPLAS_REFLECTION_DYNAMIC_EXPORT SourceInfo
 {
 public:
     using Kind = dynamic_reflection::Kind;
@@ -27,16 +27,16 @@ public:
 
     SourceInfo(const std::string& fullName, const Kind& kind);
 
-    template<typename StaticSourceInfo>
+    template<typename Entity>
     static SourceInfo fromStaticSourceInfo()
     {
         return {
-            StaticSourceInfo::fullName(),
-            StaticSourceInfo::kind(),
-            StaticSourceInfo::spelling(),
-            StaticSourceInfo::displayName(),
-            StaticSourceInfo::file(),
-            StaticSourceInfo::line()
+            Entity::SourceInfo::SourceInfo::fullName(),
+            Entity::SourceInfo::kind(),
+            Entity::SourceInfo::spelling(),
+            Entity::SourceInfo::displayName(),
+            Entity::SourceInfo::file(),
+            Entity::SourceInfo::line()
         };
     }
 

@@ -3,6 +3,8 @@
 using namespace cpp;
 using namespace cpp::dynamic_reflection;
 
+AsyncSink::~AsyncSink() = default;
+
 bool AsyncSink::pull()
 {
     std::vector<Object> args;

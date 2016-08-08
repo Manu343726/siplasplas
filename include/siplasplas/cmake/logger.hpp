@@ -2,6 +2,7 @@
 #define SIPLASPLAS_CMAKE_LOGGER_HPP
 
 #include <siplasplas/logger/logger.hpp>
+#include <siplasplas/cmake/export.hpp>
 
 namespace cpp
 {
@@ -9,7 +10,7 @@ namespace cpp
 namespace cmake
 {
 
-spdlog::logger& log();
+SIPLASPLAS_CMAKE_EXPORT spdlog::logger& log();
 
 }
 

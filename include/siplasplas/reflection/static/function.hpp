@@ -11,12 +11,13 @@ namespace meta
 template<typename SourceInfo, typename FunctionType, FunctionType function>
 class Function;
 
-template<typename SourceInfo, typename R, typename... Args,
+template<typename SourceInfo_, typename R, typename... Args,
     R(*function)(Args...)>
-class Function<SourceInfo, R(*)(Args...), function> : public SourceInfo
+class Function<SourceInfo_, R(*)(Args...), function>
 {
 public:
     using type = R(*)(Args...);
+    using SourceInfo = SourceInfo_;
 
     constexpr Function() = default;
 
@@ -38,13 +39,14 @@ public:
     }
 };
 
-template<typename SourceInfo, typename R, typename Class, typename... Args,
+template<typename SourceInfo_, typename R, typename Class, typename... Args,
     R(Class::*method)(Args...) const>
-class Function<SourceInfo, R(Class::*)(Args...) const, method> : public SourceInfo
+class Function<SourceInfo_, R(Class::*)(Args...) const, method>
 {
 public:
     using type = R(Class::*)(Args...) const;
     using class_type = Class;
+    using SourceInfo = SourceInfo_;
 
     constexpr Function() = default;
 
@@ -66,13 +68,14 @@ public:
     }
 };
 
-template<typename SourceInfo, typename R, typename Class, typename... Args,
+template<typename SourceInfo_, typename R, typename Class, typename... Args,
     R(Class::*method)(Args...)>
-class Function<SourceInfo, R(Class::*)(Args...), method> : public SourceInfo
+class Function<SourceInfo_, R(Class::*)(Args...), method>
 {
 public:
     using type = R(Class::*)(Args...);
     using class_type = Class;
+    using SourceInfo = SourceInfo_;
 
     constexpr Function() = default;
 

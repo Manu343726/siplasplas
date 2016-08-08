@@ -13,18 +13,19 @@ namespace static_reflection
 namespace meta
 {
 
-template<typename SourceInfo, typename Class_,
+template<typename SourceInfo_, typename Class_,
     typename Methods_,
     typename Fields_,
     typename Constructors_,
     typename Classes_,
     typename Enums_
 >
-class Class : public SourceInfo
+class Class
 {
 public:
     using class_type = Class_;
     using type = class_type;
+    using SourceInfo = SourceInfo_;
 
     using Methods = Methods_;
     using Fields = Fields_;

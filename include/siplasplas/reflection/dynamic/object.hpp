@@ -13,7 +13,7 @@ namespace cpp
 namespace dynamic_reflection
 {
 
-class Object
+class SIPLASPLAS_REFLECTION_DYNAMIC_EXPORT Object
 {
 public:
     static constexpr bool ConstructReference = true;

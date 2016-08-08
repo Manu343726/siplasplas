@@ -9,6 +9,7 @@
 #include "syncsink.hpp"
 #include "asyncsink.hpp"
 #include "logger.hpp"
+#include <siplasplas/signals/export.hpp>
 
 #include <memory>
 #include <mutex>
@@ -62,7 +63,7 @@ namespace cpp
  *
  * For details \see signals
  */
-class SignalEmitter
+class SIPLASPLAS_SIGNALS_EXPORT SignalEmitter
 {
 public:
 

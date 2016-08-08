@@ -25,7 +25,7 @@ void loadClass(Runtime& runtime)
 
     runtime.addEntity(class_);
 
-    cpp::foreach<typename cpp::srfl::Class<Class>::Fields>([&](auto field)
+    cpp::foreach_type<typename cpp::srfl::Class<Class>::Fields>([&](auto field)
     {
         using Field = cpp::meta::type_t<decltype(field)>;
 
@@ -37,7 +37,7 @@ void loadClass(Runtime& runtime)
         );
     });
 
-    cpp::foreach<typename cpp::srfl::Class<Class>::Methods>([&](auto function)
+    cpp::foreach_type<typename cpp::srfl::Class<Class>::Methods>([&](auto function)
     {
         using Function = cpp::meta::type_t<decltype(function)>;
 

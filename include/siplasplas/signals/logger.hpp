@@ -2,6 +2,7 @@
 #define SIPLASPLAS_SIGNALS_LOGGER_HPP
 
 #include <siplasplas/logger/logger.hpp>
+#include <siplasplas/signals/export.hpp>
 
 namespace cpp
 {
@@ -9,7 +10,7 @@ namespace cpp
 namespace signals
 {
 
-spdlog::logger& log();
+SIPLASPLAS_SIGNALS_EXPORT spdlog::logger& log();
 
 }
 

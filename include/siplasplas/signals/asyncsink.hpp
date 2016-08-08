@@ -4,6 +4,7 @@
 #include "sink.hpp"
 #include <siplasplas/reflection/dynamic/function_pointer.hpp>
 #include <readerwriterqueue/readerwriterqueue.h>
+#include <siplasplas/signals/export.hpp>
 
 namespace cpp
 {
@@ -19,7 +20,7 @@ namespace cpp
  * in a thread safe queue. The destination function is invoked only when the user asks
  * for incomming signals by pulling the sink. See AsyncSInk::pull().
  */
-class AsyncSink : public SignalSink
+class SIPLASPLAS_SIGNALS_EXPORT AsyncSink : public SignalSink
 {
 public:
     /**
@@ -68,6 +69,8 @@ public:
      * empty.
      */
     bool pull() override;
+
+    virtual ~AsyncSink();
 
 protected:
     void invoke(const std::vector<cpp::dynamic_reflection::Object>& args) override;
