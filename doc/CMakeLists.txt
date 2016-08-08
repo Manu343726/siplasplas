@@ -61,7 +61,13 @@ if(SIPLASPLAS_DEPLOY_DOCS)
         COMMAND ${CMAKE_COMMAND} -E remove_directory "${standardese_docs_dest}"
         COMMAND ${CMAKE_COMMAND} -E copy_directory "${doxygen_docs_src}" "${doxygen_docs_dest}"
         COMMAND ${CMAKE_COMMAND} -E copy_directory "${standardese_docs_src}" "${standardese_docs_dest}"
-        COMMAND ${CMAKE_COMMAND} -DROOT_DIR=${SIPLASPLAS_WEBSITE_PATH}/doc/standardese/ -DBRANCH=${SIPLASPLAS_GIT_BRANCH} -DSANITIZED_BRANCH=${sanitized_branch} -DBRANCH_DIR=${standardese_docs_dest} -P ${CMAKE_SOURCE_DIR}/doc/process_standardese_output.cmake
+        COMMAND ${CMAKE_COMMAND}
+            -DDOC_DIR=${SIPLASPLAS_WEBSITE_PATH}/doc/
+            -DBRANCH=${SIPLASPLAS_GIT_BRANCH}
+            -DSANITIZED_BRANCH=${sanitized_branch}
+            -DDOXYGEN_BRANCH_DIR=${doxygen_docs_dest}
+            -DSTANDARDESE_BRANCH_DIR=${standardese_docs_dest}
+        -P ${CMAKE_SOURCE_DIR}/doc/process_docs.cmake
         COMMAND ${GIT_EXECUTABLE} add --all doc
         COMMAND ${GIT_EXECUTABLE} commit --allow-empty -m "Updated docs for ${COMMIT_BRIEF}"
         COMMAND ${GIT_EXECUTABLE} push origin gh-pages --quiet # Push quietly to not leak the access token

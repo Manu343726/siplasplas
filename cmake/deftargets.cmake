@@ -135,6 +135,8 @@ function(add_siplasplas_target NAME TARGET_TYPE)
         if(NOT ARGS_NO_INSTALL)
             install_siplasplas_headeronly_library(${NAME})
         endif()
+        configure_standardese(TARGET ${NAME} ROOT_DIR "${current_includedir}")
+
         set(linking INTERFACE)
     elseif(TARGET_TYPE STREQUAL "LIBRARY")
         if(SIPLASPLAS_LIBRARIES_STATIC)
@@ -149,7 +151,6 @@ function(add_siplasplas_target NAME TARGET_TYPE)
         if(ARGS_SHARED)
             set(link SHARED)
         endif()
-
         add_library(${NAME} ${link} ${ARGS_SOURCES})
 
         # Compute the include directory of the given target
@@ -169,6 +170,8 @@ function(add_siplasplas_target NAME TARGET_TYPE)
         if(NOT ARGS_NO_INSTALL)
             install_siplasplas_library(${NAME})
         endif()
+
+        configure_standardese(TARGET ${NAME} ROOT_DIR "${current_includedir}")
     else()
         # Create the executable
         add_executable(${NAME} ${ARGS_SOURCES})
