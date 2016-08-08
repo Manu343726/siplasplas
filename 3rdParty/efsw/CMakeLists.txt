@@ -11,7 +11,7 @@ COMPILE_OPTIONS
 	${fPIC}
 )
 
-add_siplasplas_thirdparty_component(efsw DEFAULT SHARED
+add_siplasplas_thirdparty_component(efsw DEFAULT
 THIRD_PARTY
     efsw
 INCLUDE_DIRS
