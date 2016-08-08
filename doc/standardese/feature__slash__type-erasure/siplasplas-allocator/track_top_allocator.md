@@ -13,5 +13,8 @@ layout: standardese-doc
 
 #include <sstream>
 
-namespace cpp{}
+namespace cpp
+{
+    class TrackTopAllocator;
+}
 ```

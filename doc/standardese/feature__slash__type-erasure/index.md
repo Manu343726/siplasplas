@@ -15,7 +15,6 @@ layout: standardese-doc
  - [`siplasplas-reflection-common` module]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-common/)
  - [`siplasplas-reflection-static` module]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-static/)
  - [`siplasplas-reflection-dynamic` module]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/)
- - [`siplasplas-reflection` module]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection/)
  - [`siplasplas-signals` module]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-signals/)
  - [`siplasplas-fswatch` module]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-fswatch/)
  - [`siplasplas-cmake` module]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-cmake/)

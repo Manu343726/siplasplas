@@ -17,5 +17,8 @@ layout: standardese-doc
 
 #include <siplasplas/metatype/export.hpp>
 
-namespace cpp{}
+namespace cpp
+{
+    class MetaTypeSystem;
+}
 ```

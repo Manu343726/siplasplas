@@ -11,6 +11,8 @@ layout: standardese-doc
 
 #include <siplasplas/reflection/dynamic/function_pointer.hpp>
 
+#include <siplasplas/signals/export.hpp>
+
 namespace cpp
 {
     class SyncSink;
@@ -32,8 +34,10 @@ public:
     
     virtual bool pull() override;
     
+    virtual ~SyncSink() = default;
+    
 protected:
-    virtual void invoke(const std::vector<cpp::dynamic_reflection::Object>& args) override;
+    virtual void invoke() override;
     
     virtual bool invokeWithoutCallee() const override;
 };

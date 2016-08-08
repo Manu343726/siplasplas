@@ -13,8 +13,8 @@ namespace cpp
     {
         namespace meta
         {
-            template <typename SourceInfo, typename Class, typename T, T Class::* field, std::size_t Offset>
-            class Field<SourceInfo, T Class::*, field, Offset>;
+            template <typename SourceInfo_, typename Class, typename T, T Class::* field, std::size_t Offset>
+            class Field<SourceInfo_, T Class::*, field, Offset>;
         }
         
         namespace codegen

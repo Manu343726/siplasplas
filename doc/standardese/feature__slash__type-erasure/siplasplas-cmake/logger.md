@@ -9,11 +9,13 @@ layout: standardese-doc
 
 #include <siplasplas/logger/logger.hpp>
 
+#include <siplasplas/cmake/export.hpp>
+
 namespace cpp
 {
     namespace cmake
     {
-        spdlog::logger& log();
+         spdlog::logger& log();
     }
 }
 ```

@@ -9,11 +9,13 @@ layout: standardese-doc
 
 #include <siplasplas/logger/logger.hpp>
 
+#include <siplasplas/signals/export.hpp>
+
 namespace cpp
 {
     namespace signals
     {
-        spdlog::logger& log();
+         spdlog::logger& log();
     }
 }
 ```

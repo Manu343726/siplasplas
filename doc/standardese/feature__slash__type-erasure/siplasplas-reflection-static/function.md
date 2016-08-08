@@ -13,14 +13,14 @@ namespace cpp
     {
         namespace meta
         {
-            template <typename SourceInfo, typename R, typename Args, R(*function)(Args...)>
-            class Function<SourceInfo, R(*)(Args...), function>;
+            template <typename SourceInfo_, typename R, typename ... Args, R(*function)(Args...)>
+            class Function<SourceInfo_, R(*)(Args...), function>;
             
-            template <typename SourceInfo, typename R, typename Class, typename Args, R(Class::*)(Args...) const method>
-            class Function<SourceInfo, R(Class::*)(Args...) const, method>;
+            template <typename SourceInfo_, typename R, typename Class, typename ... Args, R(Class::*)(Args...) const method>
+            class Function<SourceInfo_, R(Class::*)(Args...) const, method>;
             
-            template <typename SourceInfo, typename R, typename Class, typename Args, R(Class::*)(Args...) method>
-            class Function<SourceInfo, R(Class::*)(Args...), method>;
+            template <typename SourceInfo_, typename R, typename Class, typename ... Args, R(Class::*)(Args...) method>
+            class Function<SourceInfo_, R(Class::*)(Args...), method>;
         }
         
         namespace codegen
@@ -31,7 +31,7 @@ namespace cpp
             template <typename Head>
             class OverloadedFunction<Head>;
             
-            template <typename Head, typename Second, typename Tail>
+            template <typename Head, typename Second, typename ... Tail>
             class OverloadedFunction<Head, Second, Tail...>;
             
             template <typename Method>

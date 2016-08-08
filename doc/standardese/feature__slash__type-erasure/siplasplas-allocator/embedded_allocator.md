@@ -13,5 +13,8 @@ layout: standardese-doc
 
 #include <string>
 
-namespace cpp{}
+namespace cpp
+{
+    class EmbeddedAllocator;
+}
 ```

@@ -13,5 +13,8 @@ layout: standardese-doc
 
 #include <siplasplas/allocator/export.hpp>
 
-namespace cpp{}
+namespace cpp
+{
+    class FreeListAllocator;
+}
 ```

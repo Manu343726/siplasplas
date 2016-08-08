@@ -11,6 +11,8 @@ layout: standardese-doc
 
 #include <siplasplas/fswatch/fslistener.hpp>
 
+#include <siplasplas/cmake/export.hpp>
+
 #include <memory>
 
 #include <reflection/include/siplasplas/cmake/target.hpp>
@@ -25,7 +27,6 @@ namespace cpp
 
 ``` cpp
 class CMakeTarget
-: public cpp::SignalEmitter
 {
 public:
     struct Metadata;
@@ -64,10 +65,6 @@ struct Metadata
     std::string sourceDir;
     
     std::string binaryDir;
-    
-    std::vector<std::string> sources;
-    
-    std::vector<std::string> includeDirs;
     
     std::string binary;
     

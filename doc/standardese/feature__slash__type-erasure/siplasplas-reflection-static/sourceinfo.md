@@ -23,11 +23,8 @@ namespace cpp
         
         namespace meta
         {
-            namespace 
-            {
-                template <typename T>
-                struct FullNameFromType;
-            }
+            template <static_reflection::Kind Kind, typename FullName, typename Spelling, typename DisplayName, typename File, std::size_t Line>
+            class SourceInfo;
         }
     }
 }

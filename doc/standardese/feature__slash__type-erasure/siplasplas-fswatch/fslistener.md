@@ -11,6 +11,8 @@ layout: standardese-doc
 
 #include <siplasplas/signals/emitter.hpp>
 
+#include <siplasplas/fswatch/export.hpp>
+
 #include <reflection/include/siplasplas/fswatch/fslistener.hpp>
 
 namespace cpp
@@ -23,7 +25,6 @@ namespace cpp
 
 ``` cpp
 class FileSystemListener
-: public cpp::SignalEmitter
 {
 public:
     void fileCreated(efsw::WatchID watchId, const std::string& dir, const std::string& fileName);

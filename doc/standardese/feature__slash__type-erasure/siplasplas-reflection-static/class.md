@@ -17,7 +17,7 @@ namespace cpp
     {
         namespace meta
         {
-            template <typename SourceInfo, typename Class_, typename Methods_, typename Fields_, typename Constructors_, typename Classes_, typename Enums_>
+            template <typename SourceInfo_, typename Class_, typename Methods_, typename Fields_, typename Constructors_, typename Classes_, typename Enums_>
             class Class;
         }
         

@@ -9,6 +9,8 @@ layout: standardese-doc
 
 #include <siplasplas/reflection/dynamic/object_manip.hpp>
 
+#include <siplasplas/signals/export.hpp>
+
 #include <type_traits>
 
 namespace cpp
@@ -31,19 +33,19 @@ public:
     
     virtual ~SignalSink() = default;
     
-    template <typename Args>
+    template <typename ... Args>
     void operator()(Args&&... args);
     
     SignalEmitter* callee() const;
     
     SignalEmitter* caller() const;
     
-    virtual bool pull() = 0;
+    virtual bool pull() = 0
     
 protected:
-    virtual void invoke(const std::vector<cpp::dynamic_reflection::Object>& args) = 0;
+    virtual void invoke() = 0
     
-    virtual bool invokeWithoutCallee() const = 0;
+    virtual bool invokeWithoutCallee() const = 0
 };
 ```
 
@@ -104,7 +106,7 @@ Reference to the caller object. Caller must inherit SignalEmitter.
 ### Function template `cpp::SignalSink::operator()<Args...>`<a id="cpp::SignalSink::operator()<Args...>"></a>
 
 ``` cpp
-template <typename Args>
+template <typename ... Args>
 void operator()(Args&&... args);
 ```
 

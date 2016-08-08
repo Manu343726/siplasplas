@@ -13,6 +13,8 @@ layout: standardese-doc
 
 #include <readerwriterqueue/readerwriterqueue.h>
 
+#include <siplasplas/signals/export.hpp>
+
 namespace cpp
 {
     class AsyncSink;
@@ -34,8 +36,10 @@ public:
     
     virtual bool pull() override;
     
+    virtual ~AsyncSink();
+    
 protected:
-    virtual void invoke(const std::vector<cpp::dynamic_reflection::Object>& args) override;
+    virtual void invoke() override;
     
     virtual bool invokeWithoutCallee() const override;
 };
