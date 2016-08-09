@@ -6,8 +6,8 @@ layout: standardese-doc
 # `siplasplas-reflection-static` module files
 
 
- - [`api.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-reflection-static/api.html)
  - [`class.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-reflection-static/class.html)
+ - [`api.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-reflection-static/api.html)
  - [`enum.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-reflection-static/enum.html)
  - [`field.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-reflection-static/field.html)
  - [`function.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-reflection-static/function.html)
