@@ -1,4 +1,4 @@
-# siplasplas [![Build Status](https://travis-ci.org/Manu343726/siplasplas.svg?branch=master)](https://travis-ci.org/Manu343726/siplasplas) [![Build status](https://ci.appveyor.com/api/projects/status/d395bonrvrduwl6a?svg=true)](https://ci.appveyor.com/project/AlvarBer/siplasplas)
+# siplasplas [![Build Status](https://travis-ci.org/Manu343726/siplasplas.svg?branch=master)](https://travis-ci.org/Manu343726/siplasplas) [![Build status](https://ci.appveyor.com/api/projects/status/d395bonrvrduwl6a?svg=true)](https://ci.appveyor.com/project/AlvarBer/siplasplas) [![Documentation](https://img.shields.io/badge/Documentation-latest-green.svg)](https://Manu343726.github.io/siplasplas/doc) [![GitHub issues Open](https://img.shields.io/github/issues/Manu343726/siplasplas.svg?maxAge=2592000)]() [![](https://img.shields.io/github/issues-closed-raw/Manu343726/siplasplas.svg?maxAge=2592000)]()
 
 A library for C++ reflection and introspection
 
