@@ -8,8 +8,8 @@ layout: standardese-doc
 
  - [`api.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-reflection-dynamic/api.html)
  - [`attribute.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-reflection-dynamic/attribute.html)
- - [`contract.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-reflection-dynamic/contract.html)
  - [`class.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-reflection-dynamic/class.html)
+ - [`contract.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-reflection-dynamic/contract.html)
  - [`runtime_forward.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-reflection-dynamic/runtime_forward.html)
  - [`entity.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-reflection-dynamic/entity.html)
  - [`field.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-reflection-dynamic/field.html)
