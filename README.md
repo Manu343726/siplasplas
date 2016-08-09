@@ -1,151 +1,220 @@
-# siplasplas [![Build Status](https://travis-ci.org/Manu343726/siplasplas.svg?branch=master)](https://travis-ci.org/Manu343726/siplasplas) [![Build status](https://ci.appveyor.com/api/projects/status/d395bonrvrduwl6a?svg=true)](https://ci.appveyor.com/project/AlvarBer/siplasplas) [![docs](https://codedocs.xyz/Manu343726/siplasplas.svg)](https://codedocs.xyz/Manu343726/siplasplas/)
+# siplasplas [![Build Status](https://travis-ci.org/Manu343726/siplasplas.svg?branch=master)](https://travis-ci.org/Manu343726/siplasplas) [![Build status](https://ci.appveyor.com/api/projects/status/d395bonrvrduwl6a?svg=true)](https://ci.appveyor.com/project/AlvarBer/siplasplas)
 
-Examples and utilities for the Advanced C++ course for the GUEIM association, Complutense University of Madrid.
+A library for C++ reflection and introspection
 
-## Contents
+## Features
 
-The repository is organized as a small library with the different data structures, examples, and other utilities that will be studied in the course. In addition to hosting the course's contents, it is modeled to demonstrate how a typical Open Source C++ proyect is organized (Build system, testing, CI, etc).
+TODO: Examples, more detailed list, etc
 
-The repo is structured as follows:
+ - static reflection of C++ classes, enums, and functions
+ - dynamic reflection of C++ namespaces, classes, enums, and functions
+ - Multithread message passing (signals and slots)
+ - cmake access API
+ - Runtime C++ compilation (wip)
 
- - **`include/`**: Headers of the different utilities and examples.
- - **`src/`**: Implementations.
- - **`examples/`**: Examples of usage.
- - **`tests/`**: Unit tests.
- - **`3rdParty/`**: External dependencies.
+## Supported compilers
 
-## Environments
+siplasplas has been tested in GCC 5.1/5.2/6.1, Clang 3.6/3.7/3.8, and Visual Studio 2015.
 
-Since the course covers C++14, it is mandatory that the used compiler has at least partial support of C++14. I recommend using the newest compiler available to you. The contents have been tested for the following compilers:
+## Documentation
 
-### GCC 5.2-5.3
-Should already be available in any Linux distro. In the case of Ubuntu, you may add the testing PPAs (`ubuntu-toolchain-r-test`) to install it.
-You can see the installation process for Debian in the Travis CI build.
+Documentation is available [here]({{site.url}}{{site.baseurl}}/doc/).
 
-It is available for Windows trough the [nuwen MinGW distro](http://nuwen.net/mingw.html).
+The documentation is available in Doxygen and Standardese format, each one
+with multiple versions corresponding to the latest documentation of each
+siplasplas branch.
 
-In case it is not available (in Cygwin, for example), you may try to compile GCC by hand. It's really simple:
+> There are no siplasplas releases yet, so there's no stable
+> documentation. However, you can consider the `master` branch the most
+> stable one.
 
-``` bash
-$ git clone https://github.com/gcc-mirror/gcc gcc && cd gcc
-$ git checkout tag/gcc_5_3_0_release
-$ cd ..
-$ mkdir gcc-buildtree && cd gcc-buildtree
-$ ../gcc/configure --program-suffix=-5.3 --enable_languages=c++ --enable-version-specific-runtime-libs
-$ make -j8
-$ make check
-$ make install
-```
+## Installation
 
-[Here](http://eli.thegreenplace.net/2014/01/16/building-gcc-4-8-from-source-on-ubunu-12-04/) is a good guide for Ubuntu.
+> **NOTE**: siplasplas is a work in progress project
+subject to changes. We don't currently provide any kind of
+API or ABI stability guarantee, nor a production-ready installation
+process. The following instructions are to build siplasplas from sources.
 
-### Clang 3.6 forward
-
-Just like GCC, you may download it or compile it by hand. As an example, the Travis build installs Clang 3.7 in Ubuntu using the testing PPA. In the comments, you can find the instructions to compile LLVM and Clang by hand.
-
-### Visual Studio 2015
-
-Microsoft has (almost) completed the implementation of C++11 since Visual Studio 2015 Update 1.
-C++14 is partially supported. For the course, you need [at least VS2015](https://ci.appveyor.com/project/Manu343726/siplasplas/build/1.0.9).
-
-## Setup
-
-[![asciicast](https://asciinema.org/a/c13nlez3fhd86xdkicw7l6y8q.png)](https://asciinema.org/a/c13nlez3fhd86xdkicw7l6y8q)
-
-Just clone the repo and initialize the submodules of the external dependencies:
+### TL;DR
 
 ``` bash
-$ git clone https://github.com/GueimUCM/siplasplas
+$ git clone https://github.com/Manu343726/siplasplas --recursive
 $ cd siplasplas
-$ git submodule update --init
+$ mkdir build
+$ cd build
+$ cmake ..
+$ cmake --build .
 ```
 
-or, just in one step:
+### Prerequisites
+
+ - **Python 2.7**: The siplasplas relfection engine uses a libclang-based
+   parser witten in python. Python 2.7 and pip for Python 2.7 are
+   neccesary. All dependencies are handled automatically
+   (See*configuration* bellow).
+
+ - **Mercurial**: The [Entropia Filesystem Watcher](https://bitbucket.org/SpartanJ/efsw) dependency
+   is hosted on bitbucket using Mercurial for source control. Mercurial is needed to download the
+   dependency.
+
+ - **Doxygen**: Needed only if documentation build is enabled. See *configuration* bellow.
+
+ - **Libclang**: Siplasplas will use the libclang library distributed as
+   part of the system clang installation by default, but it can be
+   configured to download and build libclang automatically. See
+   *configuration*.
+
+### Dependencies
+
+All siplasplas dependencies are managed automatically through CMake, users
+don't have to worry about installing deps. Anyway, here is the list of the
+thrid party dependencies of siplasplas:
+
+ - [backward-cpp](https://github.com/bombela/backward-cpp) for exception
+   stack traces
+ - [chaiscript](http://chaiscript.com/) (For examples only)
+ - [cmake](https://github.com/Manu343726/cmake) tools for the cmake
+   scripts
+ - [ctti](https://github.com/Manu343726/ctti) for type indexing and
+   debugging
+ - [efsw](https://bitbucket.org/SpartanJ/efsw) for runtime C++ compilation
+ - [fmt](http://fmtlib.net/latest/index.html) for diagnostic messages
+ - [googletest](https://github.com/google/googletest) (For tests only)
+ - [imgui](https://github.com/ocornut/imgui) (For examples only)
+ - [SFML](http://www.sfml-dev.org/) (For examples only)
+ - [JSON For Modern C++](https://github.com/nlohmann/json) for cmake
+   target properties and serialization
+ - [libexecstream](http://libexecstream.sourceforge.net/) for cmake
+   invocation
+ - [readerwriterqueue](https://github.com/cameron314/readerwriterqueue)
+   for inter-thread message passing
+ - [spdlog](https://github.com/gabime/spdlog) for logging
+ - [standardese](https://github.com/foonathan/standardese) (For documentation only)
+
+siplasplas also depends on some python modules:
+
+ - [clang](https://pypi.python.org/pypi/clang) for C++ parsing
+ - [colorama](https://pypi.python.org/pypi/colorama) for parser logging
+ - [asciitree](https://pypi.python.org/pypi/asciitree/0.3.2) for AST
+   debugging
+ - [jinja2](http://jinja.pocoo.org/) for code generation
+
+### Download and configure the project
+
+Clone the [siplasplas repository]({{site.project.url}})
 
 ``` bash
-$ git clone --recursive https://github.com/GueimUCM/siplasplas
+$ git clone https://github.com/Manu343726/siplasplas --recursive
 ```
 
-To compile the examples and the unit tests, use the typical out-of-source compilation method of cmake:
+Create a `build/` directory inside the local repository
 
 ``` bash
-user@siplasplas: $ mkdir build && cd build
-user@siplasplas/build: $ cmake ..
-user@siplasplas/build: $ cmake --build .
+$ cd siplasplas
+$ mkdir build
 ```
-*If you are working with more than one environment at a time, it is recommended that you have a build folder for each environment. For example, if you're working under Windows you might want to try everything with Visual Studio, MinGW (GCC), and Cygwin (GCC and Clang), with a build folder for each one:*
+
+Run cmake in the build directory
 
 ``` bash
-user@siplasplas: $ mkdir buildVS && cd buildVS
-user@siplasplas/buildVS: $ cmake ..
-user@siplasplas: $ mkdir buildMinGW && cd buildMinGW
-user@siplasplas/buildMinGW: $ cmake ..
-cygwin@siplasplas: $ mkdir buildCygwin && cd buildCygwin
-cygwin@siplasplas/buildCygwin: $ cmake ..
+$ cd build
+$ cmake ..
 ```
-*You may also configure a project to act as an "umbrella", such that it configures all the projects you need automatically. An example is available [here](https://github.com/Manu343726/cpp-dod-tests).*
 
-Even though you can run the unit tests directly by running the executables, they are added to the project's [ctest](https://cmake.org/Wiki/CMake/Testing_With_CTest) configuration:
+> Make sure you installed all the requirements before running cmake,
+> siplasplas configuration may fail if one or more of that requirements is
+> missing.
+
+To build the library, invoke the default build target:
 
 ``` bash
-user@siplasplas/build: $ ctest . -VV
+$ cmake --build . # Or just "make" if using Makefiles generator
 ```
 
-*The generator of Visual Studio is multi-configuration, so you will have to tell CTest which configuration (Release or Debug) is it that you want to test:*
+### Configuration
 
-``` bash
-user@siplasplas/build: $ ctest -C Debug . -VV
-```
+The default cmake invocation will build siplasplas as dynamic libraries
+(one per module) using the default generator. Also, siplasplas
+configuration can be modified using some options and variables:
 
-*You must take into accout that GTest and GMock are built for a specific configuration at compile time (that is, the `${CMAKE_BUILD_TYPE}` variable), so make sure that you have configured the project in the corresponding mode before launching the test, since it won't link otherwise.*
+> The syntax to pass variables to cmake during configuration is
+> `-D<VARIABLE>=<VALUE>`, for example:
+>
+> `$ cmake .. -DSIPLASPLAS_VERBOSE_CONFIG=ON`
 
-### Reflection
+ - `CMAKE_BUILD_TYPE`: Build type to be used to build the project (Debug,
+   Release, etc). Set to `Debug` by default.
+ - `SIPLASPLAS_VERBOSE_CONFIG`: Configure siplasplas using detailed
+   output. `OFF` by default.
+ - `SIPLASPLAS_LIBRARIES_STATIC`: Build static libraries. `FALSE` by
+   default.
+ - `SIPLASPLAS_BUILD_EXAMPLES`: Build siplasplas examples in addition to
+   libraries. `OFF` by default.
+ - `SIPLASPLAS_BUILD_TESTS`: Build siplasplas unit tests. `OFF` by default.
+ - `SIPLASPLAS_BUILD_DOCS`: Generate targets to build siplasplas
+   documentation. `OFF` by default.
+ - `SIPLASPLAS_INSTALL_DRLPARSER_DEPENDENCIES`: Install reflection parser
+   python dependencies. `ON` by default. This needs pip version 2.7
+   installled.  Dependencies can be manually installed too, there's is
+   a `requirements.txt` file in `<siplasplas
+   sources>/src/reflection/parser/`. The requirements file doesn't cover
+   the `clang` dependency, you must install the clang package **with the
+   same version of your installed libclang**. For example, given:
 
-The reflection engine demonstrated in the course uses a Python script to analyze and generate the exta code necessary for refletion. In addition, said script uses the libclang API to analyze source code.
-For that reason, in order to compile and run the reflection examples, you must have Python 2.7 and libclang installed, as well as the script dependencies:
+   ``` bash
+   $ clang --version
+   clang version 3.8.0 (tags/RELEASE_380/final)
+   ...
+   ```
 
-1. **Install Python:**
+   you must install `clang==3.8.0` package for Python 2.7.
 
-In Linux, it should be enough to install it via your package manager. In Windows, you can download it from [here](https://www.python.org/downloads/). It's really important that you make sura that both the interpreter and the scripts are added to the `PATH`. Under Windows, the default configuration is `C:\Python27` and `C:\Python27\scripts`.
+ - `SIPLASPLAS_DOWNLOAD_LIBCLANG`: Download libclang from LLVM repository.
+   If enabled, siplasplas will download LLVM+Clang version
+   `${SIPLASPLAS_LIBCLANG_VERSION}` from the LLVM repositories. This
+   overrides `SIPLASPLAS_LIBCLANG_INCLUDE_DIR`,
+   `SIPLASPLAS_LIBCLANG_SYSTEM_INCLUDE_DIR`, and
+   `SIPLASPLAS_LIBCLANG_LIBRARY` variables. `OFF` by default.
 
-Besides, it is necessary to install `pip`, the Python dependency manager. The typical method is to download and execute the [`get-pip.py`](https://bootstrap.pypa.io/get-pip.py) script:
+ - `SIPLASPLAS_LIBCLANG_VERSION`: Version of libclang used by the
+   reflection parser. Inferred from the installed clang version by
+   default.  
+   > **NOTE:** siplasplas has been tested with libclang 3.7 and 3.8 only.
+   > siplasplas sources use C++14 features, a clang version with C++14
+   > support is needed. *Actually, the siplasplas configuration uses
+   > `-std=c++14` option, which limits the range of supported versions.*
 
-``` shell
-$ python get-pip.py
-```
+ - `SIPLASPLAS_LIBCLANG_INCLUDE_DIR`: Path to the LLVM includes. When
+   building docs, Standardese tool is built using this configuraton too.
+   Inferred by default.
+ - `SIPLASPLAS_LIBCLANG_SYSTEM_INCLUDE_DIR`: Path to the installed clang
+   includes. When building docs, Standardese tool is built using this
+   configuraton too. Inferred by default.
+ - `SIPLASPLAS_LIBCLANG_LIBRARY`: Path to the libclang library. When
+   building docs, Standardese tool is built using this configuraton too.
+   Inferred by default.
 
-2. **Install libclang:**
+## Acknowledgements
 
- - Windows: The precompiled version of Clang includes libclang, it should work out of the box. If it doesn't the problem probably lies in the path of `libclang.so`. Both the parser script and the CMake interface include a flag to pass the route of `libclang.so`, in case that happens. You may download Clang for Windows [here](http://llvm.org/releases/download.html).
- - Linux: The name of the package may change from one distro to another. In Debian, for example, the one being used in the Travis builds is `libclang1-[VERSION CLANG]`. It is usually included as part of the clang package.
+Many thanks to:
 
-3. **Install dependencies:**
-
-The script includes a file `requirements.txt` with it's dependencies: 
-
-``` shell
-$ pip install -r include/reflection/parser/requirements.txt
-```
-
-### 3rdParty/cmake
-
-Is a small repo where I have been uploading utilities to help using CMake. At the moment, it contains:
-
- - `exec-targets.cmake`: Defines a function `exec_target(NAME <name> PREFIX <prefix> [COMPILE_OPTIONS <compiler options>])` which creates an executable target `<prefix>_<name>` from the file `<prefix>s/<name>.cpp`. For example:
- 
- ``` cmake
- exec_target(NAME potato PREFIX example)
- ```
-  
-  creates an executable `example_potato` from the file `examples/potato.cpp`. 
-  To be able to use that function, you must call `setup_exec_targets([PROJECT <project name>] ...)` with the configuration that you want to use (Source folder, include directory, tests directory, etc). In any case, it is designed for projects with the organization mentioned above, so a call without parameters should work.
-
- - `gmock.cmake`: Downloads and configures Google's mocking and unit testing framework ([Google Test Framework](https://github.com/google/googletest)), so that it's really simple to write our own tests. It contains two functions `install_gtestgmock([VERSION <version>] ...)` (Downloads and configures the framework for our project) and `gmock_test_target(NAME <name>)` (A wrapper for `exec_target()` that configures a test executable  and links it to GTest/GMock).
- - `vs_source_groups.cmake`: The Visual Studio generator doesn't take the folder structure of a target's sources/includes into account when generating the corresponding project. This is really bothersome, since it means that usually only the `.cpp`s appear, without maintaining the folder structure. The function `generate_vs_source_groups(<group name> <top directory>)` configures the project to follow the original folder structure. It is called automatically from `exec_target()` if you are using Visual Studio.
- - [`cmakepp.cmake`](https://github.com/toeb/cmakepp): A framework that extends CMake with lots of utilities. Although it's complex and lacks documentation, the creator usually answers questions in detail. *I have copied the compiled version of cmakepp so that I can modify some things, that's why it's not a submodule.*
- - `custom_properties.cmake`: Both the targets and the sources of a CMake project have a series of properties associated to them, that we can query, modify, etc. However, the property set is fixed, we cannot add our own. This module implements a series of functions similar to the CMake property interface to defin our own properties for files and targets.
+ - Jonathan "foonathan" Müller, [as always](https://github.com/foonathan/standardese#acknowledgements)
+ - George "Concepticide" Makrydakis, for feedback, debates, and "Guys, what the fuck is gitter?"
+ - Diego Rodriguez Losada, for feedback, palmeritas, and blue boxes
+ - Asier González, for holding on for six months in my C++ course, which eventually became this project
+ - To all my [ByThech
+   WM&IP](http://www.by.com.es/watch-mochi/watch-mochi-ip-video-intercomunicacion-digital-con-tecnologia-ip/)
+   team mates, for having to suffer me saying "this with reflection would
+   be so easy!" every single day, and specifically to Javier Martín and
+   Antonio Pérez for feedback
+ - All my twitter followers, still there even with docens of tweets a day
+   about reflection! Seriously, some of the best people of the C++
+   community are there and give me a lot of feedback and ideas
+ - Jens Weller and the Fortune God, thanks for accepting my Meeting C++
+   2016 talk about siplasplas
 
 ## License
 
-All contents shared here are published under the MIT License
-
+siplasplas project is released under the MIT open source license. This
+license applies to all C++ sources, CMake scripts, and any other file
+except explicitly stated.
