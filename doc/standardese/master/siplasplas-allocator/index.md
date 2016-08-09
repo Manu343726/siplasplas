@@ -13,5 +13,5 @@ layout: standardese-doc
  - [`lifo_allocator.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-allocator/lifo_allocator.html)
  - [`linear_allocator.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-allocator/linear_allocator.html)
  - [`stl_allocator.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-allocator/stl_allocator.html)
- - [`entities.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-allocator/entities.html)
  - [`files.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-allocator/files.html)
+ - [`entities.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-allocator/entities.html)
