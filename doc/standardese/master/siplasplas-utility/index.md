@@ -6,8 +6,8 @@ layout: standardese-doc
 # `siplasplas-utility` module files
 
 
- - [`doxygroup.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/doxygroup.html)
  - [`assert.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/assert.html)
+ - [`doxygroup.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/doxygroup.html)
  - [`dynamiclibrary.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/dynamiclibrary.html)
  - [`error_logger.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/error_logger.html)
  - [`exception.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/exception.html)
