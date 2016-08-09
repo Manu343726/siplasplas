@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/Manu343726/siplasplas.png?label=ready&title=Ready)](https://waffle.io/Manu343726/siplasplas)
 # siplasplas [![Build Status](https://travis-ci.org/Manu343726/siplasplas.svg?branch=master)](https://travis-ci.org/Manu343726/siplasplas) [![Build status](https://ci.appveyor.com/api/projects/status/d395bonrvrduwl6a?svg=true)](https://ci.appveyor.com/project/AlvarBer/siplasplas) [![docs](https://codedocs.xyz/Manu343726/siplasplas.svg)](https://codedocs.xyz/Manu343726/siplasplas/)
 
 Examples and utilities for the Advanced C++ course for the GUEIM association, Complutense University of Madrid.
