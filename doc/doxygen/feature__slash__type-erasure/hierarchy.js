@@ -2,14 +2,20 @@ var hierarchy =
 [
     [ "cpp::AssertException", "classcpp_1_1_assert_exception.html", null ],
     [ "cpp::AssertExpression", "classcpp_1_1_assert_expression.html", null ],
+    [ "cpp::concepts::Concept< Result, NoExcept >", "classcpp_1_1concepts_1_1_concept.html", null ],
+    [ "cpp::concepts::Concept< false >", "classcpp_1_1concepts_1_1_concept.html", [
+      [ "cpp::concepts::IStreamable< T, typename >", "classcpp_1_1concepts_1_1_i_streamable.html", null ],
+      [ "cpp::concepts::OStreamable< T, typename >", "classcpp_1_1concepts_1_1_o_streamable.html", null ]
+    ] ],
     [ "cpp::DummyAssertExpression", "classcpp_1_1_dummy_assert_expression.html", null ],
     [ "cpp::DynamicLibrary", "classcpp_1_1_dynamic_library.html", null ],
     [ "cpp::Exception< Ex, Base >", "classcpp_1_1_exception.html", null ],
     [ "cpp::Hash< T >", "structcpp_1_1_hash.html", null ],
     [ "cpp::detail::Identity", "classcpp_1_1detail_1_1_identity.html", null ],
     [ "cpp::detail::If< Condition >", "classcpp_1_1detail_1_1_if.html", null ],
+    [ "cpp::features::IStreamable", "classcpp_1_1features_1_1_i_streamable.html", null ],
     [ "cpp::CMakeTarget::Metadata", "structcpp_1_1_c_make_target_1_1_metadata.html", null ],
-    [ "cpp::concepts::OStreamable< T, typename >", "classcpp_1_1concepts_1_1_o_streamable.html", null ],
+    [ "cpp::features::OStreamable", "classcpp_1_1features_1_1_o_streamable.html", null ],
     [ "cpp::RawHash< T >", "classcpp_1_1_raw_hash.html", null ],
     [ "cpp::SignalEmitter", "classcpp_1_1_signal_emitter.html", [
       [ "cpp::CMakeProject", "classcpp_1_1_c_make_project.html", null ],

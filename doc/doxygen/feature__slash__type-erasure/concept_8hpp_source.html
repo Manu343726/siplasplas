@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>siplasplas: Concepts</title>
+<title>siplasplas: include/siplasplas/typeerasure/concepts/concept.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -48,7 +48,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <ul class="tablist">
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
-      <li class="current"><a href="modules.html"><span>Modules</span></a></li>
+      <li><a href="modules.html"><span>Modules</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="examples.html"><span>Examples</span></a></li>
       <li>
@@ -81,7 +81,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('group__concepts.html','');});
+$(document).ready(function(){initNavTree('concept_8hpp_source.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -99,36 +99,18 @@ $(document).ready(function(){initNavTree('group__concepts.html','');});
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#nested-classes">Classes</a>  </div>
   <div class="headertitle">
-<div class="title">Concepts<div class="ingroups"><a class="el" href="group__type-erasure.html">Type-erasure</a></div></div>  </div>
+<div class="title">concept.hpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p>Family of concepts defining possible features of types.  
-<a href="#details">More...</a></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
-Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1concepts_1_1_concept.html">cpp::concepts::Concept&lt; Result, NoExcept &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a concept.  <a href="classcpp_1_1concepts_1_1_concept.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1concepts_1_1_o_streamable.html">cpp::concepts::OStreamable&lt; T, typename &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether a vaue of type T can be written to a standard stream.  <a href="classcpp_1_1concepts_1_1_o_streamable.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1concepts_1_1_i_streamable.html">cpp::concepts::IStreamable&lt; T, typename &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether a vaue of type T can be read from a standard stream.  <a href="classcpp_1_1concepts_1_1_i_streamable.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p>Family of concepts defining possible features of types. </p>
-<p>This submodule defines trait classes that check for different features that may be available in a given type. All trait classes are defined in the <code>cpp::concepts</code> namespace and have a PascalCase name that <em>tries</em> to describe the concept the trait represents. </p>
-</div><!-- contents -->
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef SIPLASPLAS_TYPEERASURE_CONCEPTS_CONCEPT_HPP</span></div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#define SIPLASPLAS_TYPEERASURE_CONCEPTS_CONCEPT_HPP</span></div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;type_traits&gt;</span></div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div><div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacecpp.html">cpp</a></div><div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div><div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div><div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">namespace </span>concepts</div><div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;{</div><div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div><div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">template</span>&lt;<span class="keywordtype">bool</span> Result, <span class="keywordtype">bool</span> NoExcept = false&gt;</div><div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classcpp_1_1concepts_1_1_concept.html">   28</a></span>&#160;<span class="keyword">class </span><a class="code" href="classcpp_1_1concepts_1_1_concept.html">Concept</a> : <span class="keyword">public</span> std::integral_constant&lt;bool, Result&gt;</div><div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div><div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">public</span>:</div><div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">static</span> constexpr <span class="keywordtype">bool</span> no_except = NoExcept;</div><div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;};</div><div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div><div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;}</div><div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div><div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;}</div><div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div><div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#endif // SIPLASPLAS_TYPEERASURE_CONCEPTS_CONCEPT_HPP</span></div><div class="ttc" id="namespacecpp_html"><div class="ttname"><a href="namespacecpp.html">cpp</a></div><div class="ttdef"><b>Definition:</b> canary_allocator.hpp:7</div></div>
+<div class="ttc" id="classcpp_1_1concepts_1_1_concept_html"><div class="ttname"><a href="classcpp_1_1concepts_1_1_concept.html">cpp::concepts::Concept</a></div><div class="ttdoc">Represents a concept. </div><div class="ttdef"><b>Definition:</b> concept.hpp:28</div></div>
+</div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><a class="el" href="dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="dir_b536e9ea0bc53b11715c87c87fe98792.html">siplasplas</a></li><li class="navelem"><a class="el" href="dir_ea706f0c87024f11cdd92794b90e9e36.html">typeerasure</a></li><li class="navelem"><a class="el" href="dir_c4f0f3fba4769a88ffe7d90e29689178.html">concepts</a></li><li class="navelem"><b>concept.hpp</b></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>

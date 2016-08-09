@@ -2,11 +2,17 @@ var annotated_dup =
 [
     [ "cpp", null, [
       [ "concepts", null, [
+        [ "Concept", "classcpp_1_1concepts_1_1_concept.html", null ],
+        [ "IStreamable", "classcpp_1_1concepts_1_1_i_streamable.html", null ],
         [ "OStreamable", "classcpp_1_1concepts_1_1_o_streamable.html", null ]
       ] ],
       [ "detail", null, [
         [ "Identity", "classcpp_1_1detail_1_1_identity.html", "classcpp_1_1detail_1_1_identity" ],
         [ "If", "classcpp_1_1detail_1_1_if.html", "classcpp_1_1detail_1_1_if" ]
+      ] ],
+      [ "features", null, [
+        [ "IStreamable", "classcpp_1_1features_1_1_i_streamable.html", null ],
+        [ "OStreamable", "classcpp_1_1features_1_1_o_streamable.html", null ]
       ] ],
       [ "AssertException", "classcpp_1_1_assert_exception.html", null ],
       [ "AssertExpression", "classcpp_1_1_assert_expression.html", "classcpp_1_1_assert_expression" ],

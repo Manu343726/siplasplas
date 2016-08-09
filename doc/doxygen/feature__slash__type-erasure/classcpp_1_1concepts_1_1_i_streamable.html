@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>siplasplas: cpp::concepts::OStreamable&lt; T, typename &gt; Class Template Reference</title>
+<title>siplasplas: cpp::concepts::IStreamable&lt; T, typename &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -89,7 +89,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('classcpp_1_1concepts_1_1_o_streamable.html','');});
+$(document).ready(function(){initNavTree('classcpp_1_1concepts_1_1_i_streamable.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -108,23 +108,23 @@ $(document).ready(function(){initNavTree('classcpp_1_1concepts_1_1_o_streamable.
 
 <div class="header">
   <div class="summary">
-<a href="classcpp_1_1concepts_1_1_o_streamable-members.html">List of all members</a>  </div>
+<a href="classcpp_1_1concepts_1_1_i_streamable-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">cpp::concepts::OStreamable&lt; T, typename &gt; Class Template Reference<div class="ingroups"><a class="el" href="group__type-erasure.html">Type-erasure</a> &raquo; <a class="el" href="group__concepts.html">Concepts</a></div></div>  </div>
+<div class="title">cpp::concepts::IStreamable&lt; T, typename &gt; Class Template Reference<div class="ingroups"><a class="el" href="group__type-erasure.html">Type-erasure</a> &raquo; <a class="el" href="group__concepts.html">Concepts</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Checks whether a vaue of type T can be written to a standard stream.  
- <a href="classcpp_1_1concepts_1_1_o_streamable.html#details">More...</a></p>
+<p>Checks whether a vaue of type T can be read from a standard stream.  
+ <a href="classcpp_1_1concepts_1_1_i_streamable.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="concepts_2iostream_8hpp_source.html">siplasplas/typeerasure/concepts/iostream.hpp</a>&gt;</code></p>
 <div class="dynheader">
-Inheritance diagram for cpp::concepts::OStreamable&lt; T, typename &gt;:</div>
+Inheritance diagram for cpp::concepts::IStreamable&lt; T, typename &gt;:</div>
 <div class="dyncontent">
  <div class="center">
-  <img src="classcpp_1_1concepts_1_1_o_streamable.png" usemap="#cpp::concepts::OStreamable_3C_20T_2C_20typename_20_3E_map" alt=""/>
-  <map id="cpp::concepts::OStreamable_3C_20T_2C_20typename_20_3E_map" name="cpp::concepts::OStreamable&lt; T, typename &gt;_map">
-<area href="classcpp_1_1concepts_1_1_concept.html" alt="cpp::concepts::Concept&lt; false &gt;" shape="rect" coords="0,0,263,24"/>
+  <img src="classcpp_1_1concepts_1_1_i_streamable.png" usemap="#cpp::concepts::IStreamable_3C_20T_2C_20typename_20_3E_map" alt=""/>
+  <map id="cpp::concepts::IStreamable_3C_20T_2C_20typename_20_3E_map" name="cpp::concepts::IStreamable&lt; T, typename &gt;_map">
+<area href="classcpp_1_1concepts_1_1_concept.html" alt="cpp::concepts::Concept&lt; false &gt;" shape="rect" coords="0,0,256,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -137,18 +137,18 @@ static constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>no_e
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename T, typename = void&gt;<br />
-class cpp::concepts::OStreamable&lt; T, typename &gt;</h3>
+class cpp::concepts::IStreamable&lt; T, typename &gt;</h3>
 
-<p>Checks whether a vaue of type T can be written to a standard stream. </p>
-<p>This concept trait checks if values of a given type T can be written to an stream class using <code>operator&lt;&lt;(std:ostream&amp;, T)</code>.</p>
+<p>Checks whether a vaue of type T can be read from a standard stream. </p>
+<p>This concept trait checks if values of a given type T can be read from a stream class using <code>operator&gt;&gt;(std:istream&amp;, T)</code>.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>Type to check. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>True if the type T has a <code>operator&lt;&lt;(Stream, T)</code> overload declared in this translation unit. False otherwise.</dd></dl>
-<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;siplasplas/typeerasure/concepts/iostream.hpp&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;vector&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div><div class="line"></div><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespacecpp_1_1concepts.html">cpp::concepts</a>;</div><div class="line"></div><div class="line">static_assert(!<a class="code" href="classcpp_1_1concepts_1_1_o_streamable.html">OStreamable</a>&lt;std::vector&lt;int&gt;&gt;(), <span class="stringliteral">&quot;vector is not ostreamable by default&quot;</span>);</div><div class="line">static_assert( <a class="code" href="classcpp_1_1concepts_1_1_o_streamable.html">OStreamable&lt;std::string&gt;</a>(), <span class="stringliteral">&quot;string is ostreamable&quot;</span>);</div></div><!-- fragment --> </div><hr/>The documentation for this class was generated from the following file:<ul>
+<dl class="section return"><dt>Returns</dt><dd>True if the type T has a <code>operator&gt;&gt;(std::istream&amp;, T)</code> overload declared in this translation unit. False otherwise.</dd></dl>
+<div class="fragment"><div class="line"><span class="preprocessor">#include &lt;siplasplas/typeerasure/concepts/iostream.hpp&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;vector&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div><div class="line"></div><div class="line"><span class="keyword">using namespace </span><a class="code" href="namespacecpp_1_1concepts.html">cpp::concepts</a>;</div><div class="line"></div><div class="line">static_assert(!<a class="code" href="classcpp_1_1concepts_1_1_i_streamable.html">IStreamable</a>&lt;std::vector&lt;int&gt;&gt;(), <span class="stringliteral">&quot;vector is not istreamable by default&quot;</span>);</div><div class="line">static_assert( <a class="code" href="classcpp_1_1concepts_1_1_i_streamable.html">IStreamable&lt;std::string&gt;</a>(), <span class="stringliteral">&quot;string is istreamable&quot;</span>);</div></div><!-- fragment --> </div><hr/>The documentation for this class was generated from the following file:<ul>
 <li>include/siplasplas/typeerasure/concepts/<a class="el" href="concepts_2iostream_8hpp_source.html">iostream.hpp</a></li>
 </ul>
 </div><!-- contents -->
@@ -156,7 +156,7 @@ class cpp::concepts::OStreamable&lt; T, typename &gt;</h3>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>cpp</b></li><li class="navelem"><b>concepts</b></li><li class="navelem"><a class="el" href="classcpp_1_1concepts_1_1_o_streamable.html">OStreamable</a></li>
+    <li class="navelem"><b>cpp</b></li><li class="navelem"><b>concepts</b></li><li class="navelem"><a class="el" href="classcpp_1_1concepts_1_1_i_streamable.html">IStreamable</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
