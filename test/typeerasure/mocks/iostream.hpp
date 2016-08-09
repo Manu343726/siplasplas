@@ -20,4 +20,23 @@ struct StreamLeftShiftOverload
     }
 };
 
+
+struct NoRightShiftOverload
+{};
+
+struct RightShiftOverload
+{
+    int operator>>(int)
+    {
+        return 42;
+    }
+};
+
+struct StreamRightShiftOverload
+{
+    friend std::istream& operator>>(std::istream& is, StreamRightShiftOverload&)
+    {
+        return is;
+    }
+};
 #endif // SIPLASPLAS_TEST_TYPEERASURE_MOCKS_IOSTREAM_HPP
