@@ -1,6 +1,7 @@
 add_siplasplas_test(typeerasure
 SOURCES
     concepts/iostream_test.cpp
+    concepts/valuesemantics_test.cpp
     features/iostream_test.cpp
 DEPENDS
     siplasplas-typeerasure

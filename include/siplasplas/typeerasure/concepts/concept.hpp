@@ -31,6 +31,9 @@ public:
     static constexpr bool no_except = NoExcept;
 };
 
+template<bool Result, bool NoExcept>
+constexpr bool Concept<Result, NoExcept>::no_except;
+
 }
 
 }
