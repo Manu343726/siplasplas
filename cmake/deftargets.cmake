@@ -66,7 +66,7 @@ endfunction()
 
 function(add_siplasplas_target NAME TARGET_TYPE)
     cmake_parse_arguments(ARGS
-        "EXCLUDE_FROM_RUN_ALL;STATIC;SHARED;NO_INSTALL;DEFAULT_TEST_MAIN"
+        "EXCLUDE_FROM_ALL;EXCLUDE_FROM_RUN_ALL;STATIC;SHARED;NO_INSTALL;DEFAULT_TEST_MAIN"
         "BOOST_VERSION;NAMESPACE"
         "SOURCES;INCLUDE_DIRS;COMPILE_OPTIONS;LINK_OPTIONS;DEPENDS;BOOST_COMPONENTS;LINK_LIBS;RUN_ARGS"
         ${ARGN}
@@ -125,8 +125,12 @@ function(add_siplasplas_target NAME TARGET_TYPE)
 
     list(APPEND link_libraries ${ARGS_DEPENDS} ${boost_targets} ${ARGS_LINK_LIBS})
 
+    if(ARGS_EXCLUDE_FROM_ALL)
+        set(exclude_target_from_all EXCLUDE_FROM_ALL)
+    endif()
+
     if(TARGET_TYPE STREQUAL "HEADER_ONLY_LIBRARY")
-        add_library(${NAME} INTERFACE)
+        add_library(${NAME} INTERFACE ${exclude_target_from_all})
         # Compute the include directory of the given target
         headerdir_from_sourcetree(current_includedir)
         # Add current include dir so we can just do '#include "foo.hpp"' in foo.cpp
@@ -151,7 +155,7 @@ function(add_siplasplas_target NAME TARGET_TYPE)
         if(ARGS_SHARED)
             set(link SHARED)
         endif()
-        add_library(${NAME} ${link} ${ARGS_SOURCES})
+        add_library(${NAME} ${exclude_target_from_all} ${link} ${ARGS_SOURCES})
 
         # Compute the include directory of the given target
         headerdir_from_sourcetree(current_includedir)
@@ -174,7 +178,7 @@ function(add_siplasplas_target NAME TARGET_TYPE)
         configure_standardese(TARGET ${NAME} ROOT_DIR "${current_includedir}")
     else()
         # Create the executable
-        add_executable(${NAME} ${ARGS_SOURCES})
+        add_executable(${NAME} ${exclude_target_from_all} ${ARGS_SOURCES})
 
         if(TARGET_TYPE STREQUAL "UNIT_TEST")
             set_target_properties(${NAME} PROPERTIES EXCLUDE_FROM_ALL TRUE)
