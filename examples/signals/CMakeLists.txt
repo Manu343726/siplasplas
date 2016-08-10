@@ -5,6 +5,7 @@ if(SIPLASPLAS_CI_BUILD)
 endif()
 
 add_siplasplas_example_simple(signals ${EXCLUDE_FROM_RUN_ALL} DEPENDS siplasplas-signals ${CMAKE_THREAD_LIBS_INIT})
+configure_siplasplas_reflection(examples-signals)
 
 set(PRODUCER_MILLISECONDS 3000)
 set(CONSUMER_MILLISECONDS 1000)

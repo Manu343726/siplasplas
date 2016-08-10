@@ -1,1 +1,2 @@
 add_siplasplas_example_simple(fswatch EXCLUDE_FROM_RUN_ALL DEPENDS siplasplas-fswatch)
+configure_siplasplas_reflection(examples-fswatch)
