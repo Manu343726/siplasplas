@@ -31,8 +31,11 @@ class Compiler:
         self.ignore_database = ignore_database
         self.logger = Logger(Fore.GREEN, len(files))
         self.pathformat = PathFormatter(sourcedir)
+        self.sources = files
+        self.compile_options = args
         self.sourcedir = sourcedir
         self.outputdir = output_dir
+        self.print_ast = print_ast
         self.jinjaTemplateFile = jinjaTemplateFile
 
         import jinja2
@@ -42,16 +45,17 @@ class Compiler:
 
         env = Environment(loader=FileSystemLoader(path),
                      trim_blocks=True)
-        template = env.get_template(file)
+        self.jinja_template = env.get_template(file)
 
-        self.tus = [TranslationUnitProcessor(sourcefile, args, template, self.logger, print_ast = print_ast) for sourcefile in files]
 
     def process(self):
-        self.logger.start('Processing {} files:'.format(len(self.tus)))
+        self.logger.start('Processing {} files:'.format(len(self.sources)))
 
-        for tu in self.tus:
+        for sourcefile in self.sources:
+
             # Only process a translation unit if its source file has changed
-            if self.ignore_database or not self.syncmanager.is_synced(tu.filePath):
+            if self.ignore_database or not self.syncmanager.is_synced(sourcefile):
+                tu =  TranslationUnitProcessor(sourcefile, self.compile_options, self.jinja_template, self.logger, print_ast = self.print_ast)
                 self.logger.step('({}outdated{}) {}'.format(Fore.RED, Fore.RESET, self.pathformat.format(tu.filePath)))
 
                 outputfile = self._output_file(tu.filePath)
@@ -64,13 +68,16 @@ class Compiler:
 
                 tu.process()
                 tu.run_jinja(outputfile)
-                self.syncmanager.sync(tu.filePath, os.path.relpath(outputfile, self.sourcedir))
+                self.syncmanager.sync(sourcefile, os.path.relpath(outputfile, self.sourcedir))
+                tu.dispose() # Release translation unit memory (Clang AST, processed AST, etc)
             else:
-                self.logger.step('({}up-to-date{}) {}'.format(Fore.GREEN, Fore.RESET, self.pathformat.format(tu.filePath)))
+                self.logger.step('({}up-to-date{}) {}'.format(Fore.GREEN, Fore.RESET, self.pathformat.format(sourcefile)))
+
 
     def save_database(self):
         self.logger.start('Writing database...')
         self.syncmanager.save()
+
 
     def run(self):
         self.process()
