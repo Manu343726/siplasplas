@@ -25,7 +25,9 @@ struct NoThrowConstructible
 
 struct CopyConstructible
 {
+    CopyConstructible() {}; // to instance lvalues in tests
     CopyConstructible(const CopyConstructible&) {}
+    CopyConstructible(CopyConstructible&&) {}
 };
 
 struct NoThrowCopyConstructible
@@ -35,6 +37,8 @@ struct NoThrowCopyConstructible
 
 struct MoveConstructible
 {
+    MoveConstructible() {} // to instantiate lvalues in tests
+    MoveConstructible(const MoveConstructible&) {}
     MoveConstructible(MoveConstructible&&) {}
 };
 
@@ -95,11 +99,13 @@ struct NoThrowMoveAssignable
 
 struct Destructible
 {
+    Destructible() {}
     ~Destructible() noexcept(false) {}
 };
 
 struct NoThrowDestructible
 {
+    NoThrowDestructible() {}
     ~NoThrowDestructible() noexcept {}
 };
 
@@ -127,7 +133,9 @@ struct NoNoThrowConstructible
 
 struct NoCopyConstructible
 {
+    NoCopyConstructible() {}; // to instance lvalues in tests
     NoCopyConstructible(const NoCopyConstructible&) = delete;
+    NoCopyConstructible(NoCopyConstructible&&) {}
 };
 
 struct NoNoThrowCopyConstructible
@@ -137,6 +145,8 @@ struct NoNoThrowCopyConstructible
 
 struct NoMoveConstructible
 {
+    NoMoveConstructible() {} // to instantiate lvalues in tests
+    NoMoveConstructible(const NoMoveConstructible&) {}
     NoMoveConstructible(NoMoveConstructible&&) = delete;
 };
 
@@ -179,11 +189,13 @@ struct NoNoThrowMoveAssignable
 
 struct NoDestructible
 {
+    NoDestructible() {}
     ~NoDestructible() = delete;
 };
 
 struct NoNoThrowDestructible
 {
+    NoNoThrowDestructible() {}
     ~NoNoThrowDestructible() noexcept = delete;
 };
 
