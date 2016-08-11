@@ -7,7 +7,7 @@ layout: standardese-doc
 ``` cpp
 #define SIPLASPLAS_UTILITY_STATICIF_HPP 
 
-#include "type_variables.hpp"
+#include "meta.hpp"
 
 namespace cpp
 {
@@ -37,7 +37,7 @@ public:
     constexpr decltype(std::forward<T>(value)) const operator()();
     
     template <typename T, typename Function>
-    constexpr decltype(callback(type<T>())) const type(Function callback);
+    constexpr decltype(callback(meta::identity<T>())) const type(Function callback);
     
     template <typename T>
     constexpr auto type() const;
