@@ -1,7 +1,7 @@
 #ifndef SIPLASPLAS_UTILITY_STATICIF_HPP
 #define SIPLASPLAS_UTILITY_STATICIF_HPP
 
-#include "type_variables.hpp"
+#include "meta.hpp"
 
 namespace cpp
 {
@@ -23,15 +23,21 @@ class Identity
 {
 public:
     template<typename T>
-    constexpr auto operator()(T&& value) -> decltype(std::forward<T>(value))
+    constexpr auto operator()(T&& value) -> decltype(std::forward<T>(value)) const
     {
         return std::forward<T>(value);
     }
 
     template<typename T, typename Function>
-    constexpr auto type(Function callback) -> decltype(callback(type<T>()))
+    constexpr auto type(Function callback) -> decltype(callback(meta::identity<T>())) const
     {
-        return callback(cpp::type<T>());
+        return callback(meta::identity<T>());
+    }
+
+    template<typename T>
+    constexpr auto type() const
+    {
+        return meta::identity<T>();
     }
 };
 
@@ -103,28 +109,30 @@ public:
         T* _value;
     };
 
-    template<typename Body>
-    constexpr typename std::enable_if<
-        !std::is_void<decltype(std::declval<Body>()(Identity()))>::value,
-        ElseBypass<decltype(std::declval<Body>()(Identity()))>
-    >::type
-    Then(const Body& body)
+    template<typename Body, typename... Args>
+    constexpr auto Then(const Body& body, Args&&... args) ->
+        typename std::enable_if<
+            !std::is_void<decltype(body(Identity(), std::forward<Args>(args)...))>::value,
+            ElseBypass<decltype(body(Identity(), std::forward<Args>(args)...))>
+        >::type
     {
-        return body(Identity());
+        return body(Identity(), std::forward<Args>(args)...);
     }
 
-    template<typename Body>
-    constexpr typename std::enable_if<
-        std::is_void<decltype(std::declval<Body>()(Identity()))>::value
-    >::type
-    Then(const Body& body)
+    template<typename Body, typename... Args>
+    constexpr auto Then(const Body& body, Args&&... args) ->
+        typename std::enable_if<
+            std::is_void<decltype(body(Identity(), std::forward<Args>(args)...))>::value,
+            If&
+        >::type
     {
-        body(Identity());
+        body(Identity(), std::forward<Args>(args)...);
+        return *this;
     }
 
 
-    template<typename Body>
-    constexpr void Else(const Body&)
+    template<typename Body, typename... Args>
+    constexpr void Else(const Body&, Args&&...)
     {
         /* NOTHING */
     }
@@ -136,16 +144,16 @@ class If<false>
 public:
     constexpr If() = default;
 
-    template<typename Body>
-    constexpr If& Then(const Body&)
+    template<typename Body, typename... Args>
+    constexpr If& Then(const Body&, Args&&...)
     {
         return *this;
     }
 
-    template<typename Body>
-    constexpr decltype(auto) Else(const Body& body)
+    template<typename Body, typename... Args>
+    constexpr decltype(auto) Else(const Body& body, Args&&... args)
     {
-        return body(Identity());
+        return body(Identity(), std::forward<Args>(args)...);
     }
 };
 
@@ -263,11 +271,11 @@ public:
  * \return An unspecified type implementing the `else` part of the
  * conditional.
  */
-template<bool Condition, typename ThenBody>
-auto staticIf(const ThenBody& thenBody)
+template<bool Condition, typename ThenBody, typename... Args>
+auto staticIf(const ThenBody& thenBody, Args&&... args)
 {
     detail::If<Condition> if_;
-    return if_.Then(thenBody);
+    return if_.Then(thenBody, std::forward<Args>(args)...);
 }
 
 }
