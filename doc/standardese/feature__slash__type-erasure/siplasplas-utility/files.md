@@ -4,6 +4,8 @@ layout: standardese-doc
 
   - [assert.hpp](assert.md "assert.hpp")
 
+  - [destroy.hpp](destroy.md "destroy.hpp")
+
   - [doxygroup.hpp](doxygroup.md "doxygroup.hpp")
 
   - [dynamiclibrary.hpp](dynamiclibrary.md "dynamiclibrary.hpp")

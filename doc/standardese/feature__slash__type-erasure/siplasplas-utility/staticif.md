@@ -22,8 +22,8 @@ namespace cpp
         class If<false>;
     }
     
-    template <bool Condition, typename ThenBody>
-    auto staticIf(const ThenBody& thenBody);
+    template <bool Condition, typename ThenBody, typename ... Args>
+    auto staticIf(const ThenBody& thenBody, Args&&... args);
 }
 ```
 
@@ -34,10 +34,13 @@ class Identity
 {
 public:
     template <typename T>
-    constexpr decltype(std::forward<T>(value)) operator()();
+    constexpr decltype(std::forward<T>(value)) const operator()();
     
     template <typename T, typename Function>
-    constexpr decltype(callback(type<T>())) type(Function callback);
+    constexpr decltype(callback(type<T>())) const type(Function callback);
+    
+    template <typename T>
+    constexpr auto type() const;
 };
 ```
 
@@ -60,19 +63,11 @@ public:
     template <typename T>
     class ElseBypass<T&>;
     
-    template <typename Body>
+    template <typename Body, typename ... Args>
     constexpr typename std::enable_if<
-    !std::is_void<decltype(std::declval<Body>()(Identity()))>::value,
-    ElseBypass<decltype(std::declval<Body>()(Identity()))>
-    >::type Then(const Body& body);
-    
-    template <typename Body>
-    constexpr typename std::enable_if<
-    std::is_void<decltype(std::declval<Body>()(Identity()))>::value
-    >::type Then(const Body& body);
-    
-    template <typename Body>
-    constexpr void Else(const Body&);
+    !std::is_void<decltype(body(Identity(), std::forward<Args>(args)...))>::value,
+    ElseBypass<decltype(body(Identity(), std::forward<Args>(args)...))>
+    >::type Then();
 };
 ```
 
@@ -98,11 +93,11 @@ If condition. True in the main template.
 
 -----
 
-## Function template `cpp::staticIf<Condition, ThenBody>`<a id="cpp::staticIf<Condition, ThenBody>"></a>
+## Function template `cpp::staticIf<Condition, ThenBody, Args...>`<a id="cpp::staticIf<Condition, ThenBody, Args...>"></a>
 
 ``` cpp
-template <bool Condition, typename ThenBody>
-auto staticIf(const ThenBody& thenBody);
+template <bool Condition, typename ThenBody, typename ... Args>
+auto staticIf(const ThenBody& thenBody, Args&&... args);
 ```
 
 An static conditional allows to conditionally evaluate some code depending on the value of a compile time property. The body of the conditional is implemented by user provided functions.
@@ -188,7 +183,7 @@ note this has some caveats:
 
   - **Return may not be optimal in some code paths**: If the condition is true, the `then` path is picked. If the `then` body returns a value, such value is not returned directly (So elligible for RVO) but bypassed through the `else` internals. This means **returning a value from a positive conditional may involve two move operations**.
 
-### Template parameter `cpp::staticIf<Condition, ThenBody>::Condition`<a id="cpp::staticIf<Condition, ThenBody>::Condition"></a>
+### Template parameter `cpp::staticIf<Condition, ThenBody, Args...>::Condition`<a id="cpp::staticIf<Condition, ThenBody, Args...>::Condition"></a>
 
 ``` cpp
 bool Condition

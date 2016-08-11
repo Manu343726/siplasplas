@@ -122,14 +122,18 @@ $(document).ready(function(){initNavTree('classcpp_1_1detail_1_1_identity.html',
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8ec8a5f3c63dc851ee8dceb595536c94"><td class="memTemplParams" colspan="2"><a class="anchor" id="a8ec8a5f3c63dc851ee8dceb595536c94"></a>
+<tr class="memitem:a938dc11e3c532a8e2e2ba4220f92213e"><td class="memTemplParams" colspan="2"><a class="anchor" id="a938dc11e3c532a8e2e2ba4220f92213e"></a>
 template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a8ec8a5f3c63dc851ee8dceb595536c94"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator()</b> (T &amp;&amp;value) -&gt; decltype(std::forward&lt; T &gt;(value))        </td></tr>
-<tr class="separator:a8ec8a5f3c63dc851ee8dceb595536c94"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab7e25b02c3373f3f870c47c08ce224ca"><td class="memTemplParams" colspan="2"><a class="anchor" id="ab7e25b02c3373f3f870c47c08ce224ca"></a>
+<tr class="memitem:a938dc11e3c532a8e2e2ba4220f92213e"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator()</b> (T &amp;&amp;value) -&gt; decltype(std::forward&lt; T &gt;(value)) const           </td></tr>
+<tr class="separator:a938dc11e3c532a8e2e2ba4220f92213e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa98f137af55e7a9a61e1d1a310d7ff46"><td class="memTemplParams" colspan="2"><a class="anchor" id="aa98f137af55e7a9a61e1d1a310d7ff46"></a>
 template&lt;typename T , typename Function &gt; </td></tr>
-<tr class="memitem:ab7e25b02c3373f3f870c47c08ce224ca"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>type</b> (Function callback) -&gt; decltype(callback(type&lt; T &gt;()))        </td></tr>
-<tr class="separator:ab7e25b02c3373f3f870c47c08ce224ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa98f137af55e7a9a61e1d1a310d7ff46"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>type</b> (Function callback) -&gt; decltype(callback(type&lt; T &gt;())) const           </td></tr>
+<tr class="separator:aa98f137af55e7a9a61e1d1a310d7ff46"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfb785027e0085f6d28cac654731e0e9"><td class="memTemplParams" colspan="2"><a class="anchor" id="acfb785027e0085f6d28cac654731e0e9"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:acfb785027e0085f6d28cac654731e0e9"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>type</b> () const </td></tr>
+<tr class="separator:acfb785027e0085f6d28cac654731e0e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A functor class implementing the identity function. </p>

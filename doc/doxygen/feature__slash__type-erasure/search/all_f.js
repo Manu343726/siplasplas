@@ -14,7 +14,7 @@ var searchData=
   ['siplasplas_5fassert_5fne',['SIPLASPLAS_ASSERT_NE',['../group__assert.html#ga3de0ef146157c71d5ab6036f56aa5ce7',1,'assert.hpp']]],
   ['sourcedir',['sourceDir',['../classcpp_1_1_c_make_project.html#a287a0a3fc1a7041e05b654f9e14d1f61',1,'cpp::CMakeProject']]],
   ['startwatch',['startWatch',['../classcpp_1_1_c_make_project.html#ae50f1dac1dff13c0ca09aa39bd333200',1,'cpp::CMakeProject']]],
-  ['staticif',['staticIf',['../group__utility.html#ga88d4fd749b209e05b250468ef5f4e2d8',1,'cpp']]],
+  ['staticif',['staticIf',['../group__utility.html#ga654d1cbd2f4b0fdd4abaf8213893fbd3',1,'cpp']]],
   ['stdoutline',['stdoutLine',['../classcpp_1_1_c_make_project.html#aceaea90bf1d90509c04914275ab7ba3d',1,'cpp::CMakeProject::stdoutLine()'],['../classcpp_1_1_c_make_target.html#aedcf2f2da4510d1b81169107e6a6374e',1,'cpp::CMakeTarget::stdoutLine()']]],
   ['symbol',['Symbol',['../classcpp_1_1_dynamic_library_1_1_symbol.html',1,'cpp::DynamicLibrary']]],
   ['syncsink',['SyncSink',['../classcpp_1_1_sync_sink.html#a87c58a6a826c13765db34e722435127a',1,'cpp::SyncSink::SyncSink(Caller &amp;caller, Function function)'],['../classcpp_1_1_sync_sink.html#ac016584f59da637a8e99b1e146fb8a3b',1,'cpp::SyncSink::SyncSink(Caller &amp;caller, Callee &amp;callee, Function function)']]],

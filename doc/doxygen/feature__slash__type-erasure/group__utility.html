@@ -127,6 +127,14 @@ Modules</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:gab2e9d3829ce1ca89d34621982e21825b"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:gab2e9d3829ce1ca89d34621982e21825b"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__utility.html#gab2e9d3829ce1ca89d34621982e21825b">cpp::destroy</a> (T &amp;object)</td></tr>
+<tr class="memdesc:gab2e9d3829ce1ca89d34621982e21825b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the destructor of an object.  <a href="group__utility.html#gab2e9d3829ce1ca89d34621982e21825b">More...</a><br /></td></tr>
+<tr class="separator:gab2e9d3829ce1ca89d34621982e21825b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa57a939be0ef8e82d9fa9dd6ae3eddca"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:gaa57a939be0ef8e82d9fa9dd6ae3eddca"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__utility.html#gaa57a939be0ef8e82d9fa9dd6ae3eddca">cpp::destroy</a> (T *objectPtr)</td></tr>
+<tr class="memdesc:gaa57a939be0ef8e82d9fa9dd6ae3eddca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the destructor of an object.  <a href="group__utility.html#gaa57a939be0ef8e82d9fa9dd6ae3eddca">More...</a><br /></td></tr>
+<tr class="separator:gaa57a939be0ef8e82d9fa9dd6ae3eddca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga808e1d5b24e934c1f7638db8a46bb6b7"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ga808e1d5b24e934c1f7638db8a46bb6b7"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__utility.html#ga808e1d5b24e934c1f7638db8a46bb6b7">cpp::lexical_cast</a> (const T &amp;value)</td></tr>
 <tr class="memdesc:ga808e1d5b24e934c1f7638db8a46bb6b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an string representation of a value.  <a href="group__utility.html#ga808e1d5b24e934c1f7638db8a46bb6b7">More...</a><br /></td></tr>
@@ -135,10 +143,10 @@ Functions</h2></td></tr>
 <tr class="memitem:ga867a648ffab91b5b8948bc80fbac0340"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__utility.html#ga867a648ffab91b5b8948bc80fbac0340">cpp::lexical_cast</a> (const std::string &amp;value)</td></tr>
 <tr class="memdesc:ga867a648ffab91b5b8948bc80fbac0340"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an string representation of a value.  <a href="group__utility.html#ga867a648ffab91b5b8948bc80fbac0340">More...</a><br /></td></tr>
 <tr class="separator:ga867a648ffab91b5b8948bc80fbac0340"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga88d4fd749b209e05b250468ef5f4e2d8"><td class="memTemplParams" colspan="2">template&lt;bool Condition, typename ThenBody &gt; </td></tr>
-<tr class="memitem:ga88d4fd749b209e05b250468ef5f4e2d8"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__utility.html#ga88d4fd749b209e05b250468ef5f4e2d8">cpp::staticIf</a> (const ThenBody &amp;thenBody)</td></tr>
-<tr class="memdesc:ga88d4fd749b209e05b250468ef5f4e2d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements an static conditional.  <a href="group__utility.html#ga88d4fd749b209e05b250468ef5f4e2d8">More...</a><br /></td></tr>
-<tr class="separator:ga88d4fd749b209e05b250468ef5f4e2d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga654d1cbd2f4b0fdd4abaf8213893fbd3"><td class="memTemplParams" colspan="2">template&lt;bool Condition, typename ThenBody , typename... Args&gt; </td></tr>
+<tr class="memitem:ga654d1cbd2f4b0fdd4abaf8213893fbd3"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__utility.html#ga654d1cbd2f4b0fdd4abaf8213893fbd3">cpp::staticIf</a> (const ThenBody &amp;thenBody, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:ga654d1cbd2f4b0fdd4abaf8213893fbd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements an static conditional.  <a href="group__utility.html#ga654d1cbd2f4b0fdd4abaf8213893fbd3">More...</a><br /></td></tr>
+<tr class="separator:ga654d1cbd2f4b0fdd4abaf8213893fbd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Some random utilities needed by other siplasplas modules. </p>
@@ -164,6 +172,58 @@ Functions</h2></td></tr>
 <li><b>Tuple manipulation tools</b>: See <a class="el" href="tuple_8hpp_source.html">tuple.hpp</a>. </li>
 </ul>
 <h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="gab2e9d3829ce1ca89d34621982e21825b"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void cpp::destroy </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;&#160;</td>
+          <td class="paramname"><em>object</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Invokes the destructor of an object. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Must be Destructible (See std::is_destructible) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="gaa57a939be0ef8e82d9fa9dd6ae3eddca"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void cpp::destroy </td>
+          <td>(</td>
+          <td class="paramtype">T *&#160;</td>
+          <td class="paramname"><em>objectPtr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Invokes the destructor of an object. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Must be Destructible (See std::is_destructible) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="ga808e1d5b24e934c1f7638db8a46bb6b7"></a>
 <div class="memitem">
 <div class="memproto">
@@ -234,18 +294,28 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="ga88d4fd749b209e05b250468ef5f4e2d8"></a>
+<a class="anchor" id="ga654d1cbd2f4b0fdd4abaf8213893fbd3"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;bool Condition, typename ThenBody &gt; </div>
+template&lt;bool Condition, typename ThenBody , typename... Args&gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">auto cpp::staticIf </td>
           <td>(</td>
           <td class="paramtype">const ThenBody &amp;&#160;</td>
-          <td class="paramname"><em>thenBody</em></td><td>)</td>
+          <td class="paramname"><em>thenBody</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -255,7 +325,7 @@ template&lt;bool Condition, typename ThenBody &gt; </div>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div><div class="line"><span class="keywordtype">void</span> f(T value)</div><div class="line">{</div><div class="line">    cpp::staticIf&lt;std::is_integral&lt;T&gt;::value&gt;([&amp;](<span class="keyword">auto</span> identity)</div><div class="line">    {</div><div class="line">        std::cout &lt;&lt; <span class="stringliteral">&quot;the value is integral\n&quot;</span>;</div><div class="line">    });</div><div class="line"></div><div class="line">    ...</div><div class="line">}</div></div><!-- fragment --><p>The body of the untaken conditional path shall not be evaluated by the compiler and can contain ill formed code. <b>NOTE</b>: This behavior relies on the two phase template processing scheme, so the statement above is only true for entities that will be evaluated in the instantiation phase only:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div><div class="line"><span class="keywordtype">void</span> foo(T value)</div><div class="line">{</div><div class="line">   <span class="keywordtype">int</span> i = 0;</div><div class="line"></div><div class="line">   <span class="comment">// The condition is false, so the code</span></div><div class="line">   <span class="comment">// inside the if &quot;should&quot; not be evaluated:</span></div><div class="line">   cpp::staticIf&lt;false&gt;([&amp;](<span class="keyword">auto</span> identity)</div><div class="line">   {</div><div class="line">       <span class="comment">// Ok: value depends on T template parameter.</span></div><div class="line">       value.TheMostBizarreMethodName();</div><div class="line"></div><div class="line">       <span class="comment">// ERROR: &#39;int&#39; type is not class/struct/union.</span></div><div class="line">       i.method();</div><div class="line"></div><div class="line">       <span class="comment">// Ok: identity(i) depends on a template parameter.</span></div><div class="line">       identity(i).method();</div><div class="line">   });</div><div class="line">}</div></div><!-- fragment --><p>As the example shows, the conditional body takes an <code>identity</code> parameter that can be used to force the evaluation of an expression at the second phase.</p>
 <p>The static conditional expression also provides an <code>else</code> sentence in the form of an <code>Else()</code> method:</p>
-<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div><div class="line"><span class="keywordtype">void</span> foo(T value)</div><div class="line">{</div><div class="line">   <span class="keywordtype">int</span> i = 0;</div><div class="line"></div><div class="line">   cpp::staticIf&lt;false&gt;([&amp;](<span class="keyword">auto</span> identity)</div><div class="line">   {</div><div class="line">       value.TheMostBizarreMethodName();</div><div class="line">       i.method();</div><div class="line">       identity(i).method();</div><div class="line">   }).Else([&amp;](<span class="keyword">auto</span> identity)</div><div class="line">   {</div><div class="line">       std::cout &lt;&lt; i &lt;&lt; std::endl;</div><div class="line">   });</div><div class="line">}</div></div><!-- fragment --><p><a class="el" href="group__utility.html#ga88d4fd749b209e05b250468ef5f4e2d8" title="Implements an static conditional. ">cpp::staticIf()</a> supports returning values from the conditional body too:</p>
+<div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div><div class="line"><span class="keywordtype">void</span> foo(T value)</div><div class="line">{</div><div class="line">   <span class="keywordtype">int</span> i = 0;</div><div class="line"></div><div class="line">   cpp::staticIf&lt;false&gt;([&amp;](<span class="keyword">auto</span> identity)</div><div class="line">   {</div><div class="line">       value.TheMostBizarreMethodName();</div><div class="line">       i.method();</div><div class="line">       identity(i).method();</div><div class="line">   }).Else([&amp;](<span class="keyword">auto</span> identity)</div><div class="line">   {</div><div class="line">       std::cout &lt;&lt; i &lt;&lt; std::endl;</div><div class="line">   });</div><div class="line">}</div></div><!-- fragment --><p><a class="el" href="group__utility.html#ga654d1cbd2f4b0fdd4abaf8213893fbd3" title="Implements an static conditional. ">cpp::staticIf()</a> supports returning values from the conditional body too:</p>
 <div class="fragment"><div class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</div><div class="line">T twice(<span class="keyword">const</span> T&amp; value)</div><div class="line">{</div><div class="line">    <span class="keywordflow">return</span> cpp::staticIf&lt;std::is_class&lt;T&gt;::value&gt;([&amp;](<span class="keyword">auto</span>)</div><div class="line">    {</div><div class="line">        <span class="keywordflow">return</span> value.twice();</div><div class="line">    }).Else([&amp;](<span class="keyword">auto</span>)</div><div class="line">    {</div><div class="line">        <span class="keywordflow">return</span> value * 2;</div><div class="line">    });</div><div class="line">}</div></div><!-- fragment --><p>note this has some caveats:</p>
 <ul>
 <li><b>Return types cannot be inferred</b>: Due to technical reasons <code>auto</code> or any other kind of type inference cannot be used with the return value of a static conditional.</li>

@@ -52,7 +52,7 @@ layout: standardese-doc
     
       - [raw\_hash\<T\>(const T &)](hash.md#cpp::raw_hash\<T\>\(const%20T%20&\) "cpp::raw_hash\<T\>(const T &)") - This function ignores the `std::hash` specialization of the value type and implements a bytewise hash value instead. Bytewise hash is computed as a hash combination of each byte of the value storage, in the range `[addressof(value), addressof(value) + sizeof(T))`. The value is copyed to an intermediary aligned storage to perform the byte traversal.
     
-      - [staticIf\<Condition, ThenBody\>(const ThenBody &)](staticif.md#cpp::staticIf\<Condition,%20ThenBody\>\(const%20ThenBody%20&\) "cpp::staticIf\<Condition, ThenBody\>(const ThenBody &)") - An static conditional allows to conditionally evaluate some code depending on the value of a compile time property. The body of the conditional is implemented by user provided functions.
+      - [staticIf\<Condition, ThenBody, Args...\>(const ThenBody &,Args &&...)](staticif.md#cpp::staticIf\<Condition,%20ThenBody,%20Args...\>\(const%20ThenBody%20&,Args%20&&...\) "cpp::staticIf\<Condition, ThenBody, Args...\>(const ThenBody &,Args &&...)") - An static conditional allows to conditionally evaluate some code depending on the value of a compile time property. The body of the conditional is implemented by user provided functions.
 
   - `cpp::detail`
     

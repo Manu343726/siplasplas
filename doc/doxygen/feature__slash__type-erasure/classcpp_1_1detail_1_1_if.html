@@ -122,18 +122,18 @@ $(document).ready(function(){initNavTree('classcpp_1_1detail_1_1_if.html','');})
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a14a7ef8d229e6fc772eeb7cba6dd9982"><td class="memTemplParams" colspan="2"><a class="anchor" id="a14a7ef8d229e6fc772eeb7cba6dd9982"></a>
-template&lt;typename Body &gt; </td></tr>
-<tr class="memitem:a14a7ef8d229e6fc772eeb7cba6dd9982"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; !std::is_void&lt; decltype(std::declval&lt; Body &gt;)(<a class="el" href="classcpp_1_1detail_1_1_identity.html">Identity</a>()))&gt;::value, ElseBypass&lt; decltype(std::declval&lt; Body &gt;)(<a class="el" href="classcpp_1_1detail_1_1_identity.html">Identity</a>()))&gt; &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Then</b> (const Body &amp;body)</td></tr>
-<tr class="separator:a14a7ef8d229e6fc772eeb7cba6dd9982"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa50cd8af993141d6316bc7202838949a"><td class="memTemplParams" colspan="2"><a class="anchor" id="aa50cd8af993141d6316bc7202838949a"></a>
-template&lt;typename Body &gt; </td></tr>
-<tr class="memitem:aa50cd8af993141d6316bc7202838949a"><td class="memTemplItemLeft" align="right" valign="top">constexpr std::enable_if&lt; std::is_void&lt; decltype(std::declval&lt; Body &gt;)(<a class="el" href="classcpp_1_1detail_1_1_identity.html">Identity</a>()))&gt;::value &gt;::type&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Then</b> (const Body &amp;body)</td></tr>
-<tr class="separator:aa50cd8af993141d6316bc7202838949a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf8643727e4d6e5d139f87044555ca6a"><td class="memTemplParams" colspan="2"><a class="anchor" id="acf8643727e4d6e5d139f87044555ca6a"></a>
-template&lt;typename Body &gt; </td></tr>
-<tr class="memitem:acf8643727e4d6e5d139f87044555ca6a"><td class="memTemplItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Else</b> (const Body &amp;)</td></tr>
-<tr class="separator:acf8643727e4d6e5d139f87044555ca6a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb09053794197c9db6e065cdf46ea35a"><td class="memTemplParams" colspan="2"><a class="anchor" id="aeb09053794197c9db6e065cdf46ea35a"></a>
+template&lt;typename Body , typename... Args&gt; </td></tr>
+<tr class="memitem:aeb09053794197c9db6e065cdf46ea35a"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Then</b> (const Body &amp;body, Args &amp;&amp;...args) -&gt; typename std::enable_if&lt;                                              !std::is_void&lt; decltype(body(<a class="el" href="classcpp_1_1detail_1_1_identity.html">Identity</a>(), std::forward&lt; Args &gt;(args)...))&gt;::value,                                           ElseBypass&lt; decltype(body(<a class="el" href="classcpp_1_1detail_1_1_identity.html">Identity</a>(), std::forward&lt; Args &gt;(args)...))&gt;                           &gt;::type        </td></tr>
+<tr class="separator:aeb09053794197c9db6e065cdf46ea35a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b1a5369e6ddc63b3b8e4c0ef2bce56b"><td class="memTemplParams" colspan="2"><a class="anchor" id="a7b1a5369e6ddc63b3b8e4c0ef2bce56b"></a>
+template&lt;typename Body , typename... Args&gt; </td></tr>
+<tr class="memitem:a7b1a5369e6ddc63b3b8e4c0ef2bce56b"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Then</b> (const Body &amp;body, Args &amp;&amp;...args) -&gt; typename std::enable_if&lt;                                              std::is_void&lt; decltype(body(<a class="el" href="classcpp_1_1detail_1_1_identity.html">Identity</a>(), std::forward&lt; Args &gt;(args)...))&gt;::value,                                           <a class="el" href="classcpp_1_1detail_1_1_if.html">If</a> &amp;                           &gt;::type        </td></tr>
+<tr class="separator:a7b1a5369e6ddc63b3b8e4c0ef2bce56b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22ffe927e8168896d6cd3b25c7c889af"><td class="memTemplParams" colspan="2"><a class="anchor" id="a22ffe927e8168896d6cd3b25c7c889af"></a>
+template&lt;typename Body , typename... Args&gt; </td></tr>
+<tr class="memitem:a22ffe927e8168896d6cd3b25c7c889af"><td class="memTemplItemLeft" align="right" valign="top">constexpr void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Else</b> (const Body &amp;, Args &amp;&amp;...)</td></tr>
+<tr class="separator:a22ffe927e8168896d6cd3b25c7c889af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;bool Condition&gt;<br />
