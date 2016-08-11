@@ -1,6 +1,8 @@
 #ifndef SIPLASPLAS_UTILITY_STATICIF_HPP
 #define SIPLASPLAS_UTILITY_STATICIF_HPP
 
+#include "type_variables.hpp"
+
 namespace cpp
 {
 
@@ -24,6 +26,12 @@ public:
     constexpr auto operator()(T&& value) -> decltype(std::forward<T>(value))
     {
         return std::forward<T>(value);
+    }
+
+    template<typename T, typename Function>
+    constexpr auto type(Function callback) -> decltype(callback(type<T>()))
+    {
+        return callback(cpp::type<T>());
     }
 };
 

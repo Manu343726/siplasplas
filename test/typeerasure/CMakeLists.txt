@@ -3,6 +3,7 @@ SOURCES
     concepts/iostream_test.cpp
     concepts/valuesemantics_test.cpp
     features/iostream_test.cpp
+    features/valuesemantics_test.cpp
 DEPENDS
     siplasplas-typeerasure
 DEFAULT_TEST_MAIN
