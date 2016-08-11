@@ -7,6 +7,8 @@ layout: standardese-doc
 ``` cpp
 #define SIPLASPLAS_UTILITY_STATICIF_HPP 
 
+#include "type_variables.hpp"
+
 namespace cpp
 {
     namespace detail
@@ -33,6 +35,9 @@ class Identity
 public:
     template <typename T>
     constexpr decltype(std::forward<T>(value)) operator()();
+    
+    template <typename T, typename Function>
+    constexpr decltype(callback(type<T>())) type(Function callback);
 };
 ```
 
@@ -54,6 +59,20 @@ public:
     
     template <typename T>
     class ElseBypass<T&>;
+    
+    template <typename Body>
+    constexpr typename std::enable_if<
+    !std::is_void<decltype(std::declval<Body>()(Identity()))>::value,
+    ElseBypass<decltype(std::declval<Body>()(Identity()))>
+    >::type Then(const Body& body);
+    
+    template <typename Body>
+    constexpr typename std::enable_if<
+    std::is_void<decltype(std::declval<Body>()(Identity()))>::value
+    >::type Then(const Body& body);
+    
+    template <typename Body>
+    constexpr void Else(const Body&);
 };
 ```
 

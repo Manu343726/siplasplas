@@ -97,6 +97,7 @@ var NAVTREEINDEX0 =
 "classcpp_1_1concepts_1_1_o_streamable.html":[1,3,0,1],
 "classcpp_1_1detail_1_1_identity.html":[2,0,0,1,0],
 "classcpp_1_1detail_1_1_identity.html#a8ec8a5f3c63dc851ee8dceb595536c94":[2,0,0,1,0,0],
+"classcpp_1_1detail_1_1_identity.html#ab7e25b02c3373f3f870c47c08ce224ca":[2,0,0,1,0,1],
 "classcpp_1_1detail_1_1_if.html":[2,0,0,1,1],
 "classcpp_1_1detail_1_1_if.html#a14a7ef8d229e6fc772eeb7cba6dd9982":[2,0,0,1,1,1],
 "classcpp_1_1detail_1_1_if.html#aa50cd8af993141d6316bc7202838949a":[2,0,0,1,1,2],

@@ -126,6 +126,10 @@ Public Member Functions</h2></td></tr>
 template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a8ec8a5f3c63dc851ee8dceb595536c94"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator()</b> (T &amp;&amp;value) -&gt; decltype(std::forward&lt; T &gt;(value))        </td></tr>
 <tr class="separator:a8ec8a5f3c63dc851ee8dceb595536c94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7e25b02c3373f3f870c47c08ce224ca"><td class="memTemplParams" colspan="2"><a class="anchor" id="ab7e25b02c3373f3f870c47c08ce224ca"></a>
+template&lt;typename T , typename Function &gt; </td></tr>
+<tr class="memitem:ab7e25b02c3373f3f870c47c08ce224ca"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>type</b> (Function callback) -&gt; decltype(callback(type&lt; T &gt;()))        </td></tr>
+<tr class="separator:ab7e25b02c3373f3f870c47c08ce224ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A functor class implementing the identity function. </p>
