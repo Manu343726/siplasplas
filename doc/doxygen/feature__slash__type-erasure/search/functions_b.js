@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['onfailure',['onFailure',['../classcpp_1_1_assert_expression.html#aa31218125f0b03ad8d380908e1d3e268',1,'cpp::AssertExpression::onFailure()'],['../classcpp_1_1_dummy_assert_expression.html#adcee6bf8b3e9fdb9e2650d24a4e10abf',1,'cpp::DummyAssertExpression::onFailure()']]],
-  ['operator_28_29',['operator()',['../classcpp_1_1_signal_sink.html#a971b0f8056fa4a6b3e67f5281c856631',1,'cpp::SignalSink']]]
+  ['name',['name',['../classcpp_1_1_c_make_target.html#abe5ccc6e13203fc7b455939967ab7ba7',1,'cpp::CMakeTarget::name()'],['../classcpp_1_1_dynamic_library_1_1_symbol.html#ae1102e4995d32584e0aa4c3fcdaf1429',1,'cpp::DynamicLibrary::Symbol::name()']]]
 ];

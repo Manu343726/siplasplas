@@ -7,14 +7,14 @@ layout: standardese-doc
 
 
  - [`destroy.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-utility/destroy.html)
- - [`doxygroup.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-utility/doxygroup.html)
  - [`assert.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-utility/assert.html)
+ - [`doxygroup.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-utility/doxygroup.html)
  - [`dynamiclibrary.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-utility/dynamiclibrary.html)
  - [`error_logger.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-utility/error_logger.html)
+ - [`exception.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-utility/exception.html)
  - [`function.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-utility/function.html)
  - [`function_traits.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-utility/function_traits.html)
  - [`fusion.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-utility/fusion.html)
- - [`exception.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-utility/exception.html)
  - [`hash.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-utility/hash.html)
  - [`lexical_cast.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-utility/lexical_cast.html)
  - [`memory_manip.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-utility/memory_manip.html)

@@ -135,6 +135,14 @@ Functions</h2></td></tr>
 <tr class="memitem:gaa57a939be0ef8e82d9fa9dd6ae3eddca"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__utility.html#gaa57a939be0ef8e82d9fa9dd6ae3eddca">cpp::destroy</a> (T *objectPtr)</td></tr>
 <tr class="memdesc:gaa57a939be0ef8e82d9fa9dd6ae3eddca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the destructor of an object.  <a href="group__utility.html#gaa57a939be0ef8e82d9fa9dd6ae3eddca">More...</a><br /></td></tr>
 <tr class="separator:gaa57a939be0ef8e82d9fa9dd6ae3eddca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga81ebc024fb46c3b4128443a6bf3e2464"><td class="memTemplParams" colspan="2">template&lt;typename T , typename... Args&gt; </td></tr>
+<tr class="memitem:ga81ebc024fb46c3b4128443a6bf3e2464"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__utility.html#ga81ebc024fb46c3b4128443a6bf3e2464">cpp::construct</a> (void *where, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:ga81ebc024fb46c3b4128443a6bf3e2464"><td class="mdescLeft">&#160;</td><td class="mdescRight">constructs an object of type T on the specified address  <a href="group__utility.html#ga81ebc024fb46c3b4128443a6bf3e2464">More...</a><br /></td></tr>
+<tr class="separator:ga81ebc024fb46c3b4128443a6bf3e2464"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6eb03b1733484d2450d8a98ff9e793be"><td class="memTemplParams" colspan="2">template&lt;typename T , typename... Args&gt; </td></tr>
+<tr class="memitem:ga6eb03b1733484d2450d8a98ff9e793be"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__utility.html#ga6eb03b1733484d2450d8a98ff9e793be">cpp::construct</a> (T *where, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:ga6eb03b1733484d2450d8a98ff9e793be"><td class="mdescLeft">&#160;</td><td class="mdescRight">constructs an object of type T on the specified address  <a href="group__utility.html#ga6eb03b1733484d2450d8a98ff9e793be">More...</a><br /></td></tr>
+<tr class="separator:ga6eb03b1733484d2450d8a98ff9e793be"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga808e1d5b24e934c1f7638db8a46bb6b7"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ga808e1d5b24e934c1f7638db8a46bb6b7"><td class="memTemplItemLeft" align="right" valign="top">std::string&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__utility.html#ga808e1d5b24e934c1f7638db8a46bb6b7">cpp::lexical_cast</a> (const T &amp;value)</td></tr>
 <tr class="memdesc:ga808e1d5b24e934c1f7638db8a46bb6b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an string representation of a value.  <a href="group__utility.html#ga808e1d5b24e934c1f7638db8a46bb6b7">More...</a><br /></td></tr>
@@ -143,6 +151,18 @@ Functions</h2></td></tr>
 <tr class="memitem:ga867a648ffab91b5b8948bc80fbac0340"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__utility.html#ga867a648ffab91b5b8948bc80fbac0340">cpp::lexical_cast</a> (const std::string &amp;value)</td></tr>
 <tr class="memdesc:ga867a648ffab91b5b8948bc80fbac0340"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an string representation of a value.  <a href="group__utility.html#ga867a648ffab91b5b8948bc80fbac0340">More...</a><br /></td></tr>
 <tr class="separator:ga867a648ffab91b5b8948bc80fbac0340"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab4fdc580f07afd23d2cc7b1ee0c28d48"><td class="memItemLeft" align="right" valign="top">SIPLASPLAS_UTILITY_EXPORT char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__utility.html#gab4fdc580f07afd23d2cc7b1ee0c28d48">cpp::detail::aligned_ptr</a> (char *pointer, std::size_t alignment)</td></tr>
+<tr class="memdesc:gab4fdc580f07afd23d2cc7b1ee0c28d48"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an address aligned to an specific boundary.  <a href="group__utility.html#gab4fdc580f07afd23d2cc7b1ee0c28d48">More...</a><br /></td></tr>
+<tr class="separator:gab4fdc580f07afd23d2cc7b1ee0c28d48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga86f6dd7ad9cef297add6ab338b1523af"><td class="memItemLeft" align="right" valign="top">SIPLASPLAS_UTILITY_EXPORT void *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__utility.html#ga86f6dd7ad9cef297add6ab338b1523af">cpp::detail::aligned_ptr</a> (void *pointer, std::size_t alignment)</td></tr>
+<tr class="memdesc:ga86f6dd7ad9cef297add6ab338b1523af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an address aligned to an specific boundary.  <a href="group__utility.html#ga86f6dd7ad9cef297add6ab338b1523af">More...</a><br /></td></tr>
+<tr class="separator:ga86f6dd7ad9cef297add6ab338b1523af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga488b583efccb73b95fc86570a2e78c4f"><td class="memItemLeft" align="right" valign="top">SIPLASPLAS_UTILITY_EXPORT bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__utility.html#ga488b583efccb73b95fc86570a2e78c4f">cpp::detail::is_aligned</a> (char *pointer, std::size_t alignment)</td></tr>
+<tr class="memdesc:ga488b583efccb73b95fc86570a2e78c4f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if an address is aligned to a given boundary.  <a href="group__utility.html#ga488b583efccb73b95fc86570a2e78c4f">More...</a><br /></td></tr>
+<tr class="separator:ga488b583efccb73b95fc86570a2e78c4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga4d8f7e5f5743aceb3efcfe197e612583"><td class="memItemLeft" align="right" valign="top">SIPLASPLAS_UTILITY_EXPORT bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__utility.html#ga4d8f7e5f5743aceb3efcfe197e612583">cpp::detail::is_aligned</a> (void *pointer, std::size_t alignment)</td></tr>
+<tr class="memdesc:ga4d8f7e5f5743aceb3efcfe197e612583"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if an address is aligned to a given boundary.  <a href="group__utility.html#ga4d8f7e5f5743aceb3efcfe197e612583">More...</a><br /></td></tr>
+<tr class="separator:ga4d8f7e5f5743aceb3efcfe197e612583"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga654d1cbd2f4b0fdd4abaf8213893fbd3"><td class="memTemplParams" colspan="2">template&lt;bool Condition, typename ThenBody , typename... Args&gt; </td></tr>
 <tr class="memitem:ga654d1cbd2f4b0fdd4abaf8213893fbd3"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__utility.html#ga654d1cbd2f4b0fdd4abaf8213893fbd3">cpp::staticIf</a> (const ThenBody &amp;thenBody, Args &amp;&amp;...args)</td></tr>
 <tr class="memdesc:ga654d1cbd2f4b0fdd4abaf8213893fbd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements an static conditional.  <a href="group__utility.html#ga654d1cbd2f4b0fdd4abaf8213893fbd3">More...</a><br /></td></tr>
@@ -172,6 +192,154 @@ Functions</h2></td></tr>
 <li><b>Tuple manipulation tools</b>: See <a class="el" href="tuple_8hpp_source.html">tuple.hpp</a>. </li>
 </ul>
 <h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="gab4fdc580f07afd23d2cc7b1ee0c28d48"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SIPLASPLAS_UTILITY_EXPORT char* cpp::detail::aligned_ptr </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>pointer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname"><em>alignment</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns an address aligned to an specific boundary. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pointer</td><td>Starting address </td></tr>
+    <tr><td class="paramname">alignment</td><td>Alignment boundary. Must be a power of two</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The next (upper) address from the given address that's aligned to the required boundary </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga86f6dd7ad9cef297add6ab338b1523af"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SIPLASPLAS_UTILITY_EXPORT void* cpp::detail::aligned_ptr </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>pointer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname"><em>alignment</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Returns an address aligned to an specific boundary. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pointer</td><td>Starting address </td></tr>
+    <tr><td class="paramname">alignment</td><td>Alignment boundary. Must be a power of two</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The next (upper) address from the given address that's aligned to the required boundary </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga81ebc024fb46c3b4128443a6bf3e2464"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename... Args&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void cpp::construct </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>where</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>constructs an object of type T on the specified address </p>
+<p>This function performs an in-place construction of an object of type T in the given address. Arguments are passed as-is to the object constructor. The behavior is undefined if <code>alignment(pointer) != alignof(T)</code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">where</td><td>Location of the object </td></tr>
+    <tr><td class="paramname">args</td><td>Constructor arguments</td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="fragment"><div class="line">std::aligned_storage&lt;std::string&gt; storage;</div><div class="line">cpp::construct&lt;std::string&gt;(&amp;storage, <span class="stringliteral">&quot;hello, world!&quot;</span>);</div></div><!-- fragment --> 
+</div>
+</div>
+<a class="anchor" id="ga6eb03b1733484d2450d8a98ff9e793be"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename... Args&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void cpp::construct </td>
+          <td>(</td>
+          <td class="paramtype">T *&#160;</td>
+          <td class="paramname"><em>where</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>constructs an object of type T on the specified address </p>
+<p>This function performs an in-place construction of an object of type T in the given address. Arguments are passed as-is to the object constructor. The behavior is undefined if <code>alignment(pointer) != alignof(T)</code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">where</td><td>Location of the object </td></tr>
+    <tr><td class="paramname">args</td><td>Constructor arguments</td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="fragment"><div class="line">std::aligned_storage&lt;std::string&gt; storage;</div><div class="line">std::string* stringPtr = <span class="keyword">reinterpret_cast&lt;</span>std::string*<span class="keyword">&gt;</span>(&amp;storage);</div><div class="line"></div><div class="line"><a class="code" href="group__utility.html#ga81ebc024fb46c3b4128443a6bf3e2464">cpp::construct</a>(stringPtr, <span class="stringliteral">&quot;hello, world!&quot;</span>);</div></div><!-- fragment --> 
+</div>
+</div>
 <a class="anchor" id="gab2e9d3829ce1ca89d34621982e21825b"></a>
 <div class="memitem">
 <div class="memproto">
@@ -221,6 +389,78 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
+
+</div>
+</div>
+<a class="anchor" id="ga488b583efccb73b95fc86570a2e78c4f"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SIPLASPLAS_UTILITY_EXPORT bool cpp::detail::is_aligned </td>
+          <td>(</td>
+          <td class="paramtype">char *&#160;</td>
+          <td class="paramname"><em>pointer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname"><em>alignment</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if an address is aligned to a given boundary. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pointer</td><td>Address to check </td></tr>
+    <tr><td class="paramname">alignment</td><td>Required alignment. Must be a power of two</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if <code>pointer</code> is aligned to <code>alignment</code> boundary. False otherwise. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga4d8f7e5f5743aceb3efcfe197e612583"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">SIPLASPLAS_UTILITY_EXPORT bool cpp::detail::is_aligned </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>pointer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname"><em>alignment</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if an address is aligned to a given boundary. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">pointer</td><td>Address to check </td></tr>
+    <tr><td class="paramname">alignment</td><td>Required alignment. Must be a power of two</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>true if <code>pointer</code> is aligned to <code>alignment</code> boundary. False otherwise. </dd></dl>
 
 </div>
 </div>

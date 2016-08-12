@@ -9,6 +9,8 @@ layout: standardese-doc
 
 #include "meta.hpp"
 
+#include <utility>
+
 namespace cpp
 {
     namespace detail
@@ -34,7 +36,7 @@ class Identity
 {
 public:
     template <typename T>
-    constexpr decltype(std::forward<T>(value)) const operator()();
+    constexpr decltype(std::forward<T>(value)) const operator()(T&& value);
     
     template <typename T, typename Function>
     constexpr decltype(callback(meta::identity<T>())) const type(Function callback);
@@ -67,7 +69,16 @@ public:
     constexpr typename std::enable_if<
     !std::is_void<decltype(body(Identity(), std::forward<Args>(args)...))>::value,
     ElseBypass<decltype(body(Identity(), std::forward<Args>(args)...))>
-    >::type Then();
+    >::type Then(const Body& body, Args&&... args);
+    
+    template <typename Body, typename ... Args>
+    constexpr typename std::enable_if<
+    std::is_void<decltype(body(Identity(), std::forward<Args>(args)...))>::value,
+    If&
+    >::type Then(const Body& body, Args&&... args);
+    
+    template <typename Body, typename ... Args>
+    constexpr void Else(const Body&, Args&&...);
 };
 ```
 

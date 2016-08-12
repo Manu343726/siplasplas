@@ -36,6 +36,10 @@ layout: standardese-doc
     
       - [Throw\<Exception, Args...\>(const std::string &,Args &&...)](exception.md#cpp::Throw\<Exception,%20Args...\>\(const%20std::string%20&,Args%20&&...\) "cpp::Throw\<Exception, Args...\>(const std::string &,Args &&...)") - Throws an exception. See cpp::exception().
     
+      - [construct\<T, Args...\>(T \*,Args &&...)](destroy.md#cpp::construct\<T,%20Args...\>\(T%20*,Args%20&&...\) "cpp::construct\<T, Args...\>(T *,Args &&...)") - This function performs an in-place construction of an object of type T in the given address. Arguments are passed as-is to the object constructor. The behavior is undefined if `alignment(pointer) != alignof(T)`.
+    
+      - [construct\<T, Args...\>(void \*,Args &&...)](destroy.md#cpp::construct\<T,%20Args...\>\(void%20*,Args%20&&...\) "cpp::construct\<T, Args...\>(void *,Args &&...)") - This function performs an in-place construction of an object of type T in the given address. Arguments are passed as-is to the object constructor. The behavior is undefined if `alignment(pointer) != alignof(T)`.
+    
       - [exceptionSkippingFrames\<Exception, Args...\>(std::size\_t,const std::string &,Args &&...)](exception.md#cpp::exceptionSkippingFrames\<Exception,%20Args...\>\(std::size_t,const%20std::string%20&,Args%20&&...\) "cpp::exceptionSkippingFrames\<Exception, Args...\>(std::size_t,const std::string &,Args &&...)") - This function creates an exception object of the given type using a custom parameterized error message (See [`fmt::format()`](http://fmtlib.net/latest/api.html#_CPPv2N3fmt6formatE10CStringRef7ArgList)). Exceptions instanced throught this function are reported automatically (See cpp::logError() and cpp::logException()).
     
       - [hash\<T, U, Args...\>(const T &,const U &,const Args &...)](hash.md#cpp::hash\<T,%20U,%20Args...\>\(const%20T%20&,const%20U%20&,const%20Args%20&...\) "cpp::hash\<T, U, Args...\>(const T &,const U &,const Args &...)") - This function is a generalization of unary cpp::hash() that accepts two or more input values. The resulting hash code is computed as the hash combination (See cpp::hash\_combine()) of the first value and the hash combination of the rest:
@@ -59,6 +63,14 @@ layout: standardese-doc
       - [Identity](staticif.md#cpp::detail::Identity "cpp::detail::Identity") - A functor class implementing the identity function
     
       - [If\<Condition\>](staticif.md#cpp::detail::If\<Condition\> "cpp::detail::If\<Condition\>") - Implements the then branch of an static conditional.
+    
+      - [aligned\_ptr(char \*,std::size\_t)](memory_manip.md#cpp::detail::aligned_ptr\(char%20*,std::size_t\) "cpp::detail::aligned_ptr(char *,std::size_t)")
+    
+      - [aligned\_ptr(void \*,std::size\_t)](memory_manip.md#cpp::detail::aligned_ptr\(void%20*,std::size_t\) "cpp::detail::aligned_ptr(void *,std::size_t)")
+    
+      - [is\_aligned(char \*,std::size\_t)](memory_manip.md#cpp::detail::is_aligned\(char%20*,std::size_t\) "cpp::detail::is_aligned(char *,std::size_t)")
+    
+      - [is\_aligned(void \*,std::size\_t)](memory_manip.md#cpp::detail::is_aligned\(void%20*,std::size_t\) "cpp::detail::is_aligned(void *,std::size_t)")
 
   - `cpp::utility`
     

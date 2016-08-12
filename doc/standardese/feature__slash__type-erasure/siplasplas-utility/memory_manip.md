@@ -19,6 +19,10 @@ namespace cpp
         
          void* aligned_ptr(void* pointer, std::size_t alignment);
         
+         bool is_aligned(char* pointer, std::size_t alignment);
+        
+         bool is_aligned(void* pointer, std::size_t alignment);
+        
         template <typename T>
         void write_at(char* pointer, const T& value, std::intptr_t offset = 0);
         
@@ -48,3 +52,75 @@ namespace cpp
     }
 }
 ```
+
+## Function `cpp::detail::aligned_ptr`<a id="cpp::detail::aligned_ptr"></a>
+
+``` cpp
+ char* aligned_ptr(char* pointer, std::size_t alignment);
+```
+
+*Returns:* The next (upper) address from the given address that's aligned to the required boundary
+
+### Parameter `cpp::detail::aligned_ptr::pointer`<a id="cpp::detail::aligned_ptr::pointer"></a>
+
+``` cpp
+char* pointer
+```
+
+Starting address \\param alignment Alignment boundary. Must be a power of two
+
+-----
+
+## Function `cpp::detail::aligned_ptr`<a id="cpp::detail::aligned_ptr"></a>
+
+``` cpp
+ void* aligned_ptr(void* pointer, std::size_t alignment);
+```
+
+*Returns:* The next (upper) address from the given address that's aligned to the required boundary
+
+### Parameter `cpp::detail::aligned_ptr::pointer`<a id="cpp::detail::aligned_ptr::pointer"></a>
+
+``` cpp
+void* pointer
+```
+
+Starting address \\param alignment Alignment boundary. Must be a power of two
+
+-----
+
+## Function `cpp::detail::is_aligned`<a id="cpp::detail::is_aligned"></a>
+
+``` cpp
+ bool is_aligned(char* pointer, std::size_t alignment);
+```
+
+*Returns:* true if \\p pointer is aligned to \\p alignment boundary. False otherwise.
+
+### Parameter `cpp::detail::is_aligned::pointer`<a id="cpp::detail::is_aligned::pointer"></a>
+
+``` cpp
+char* pointer
+```
+
+Address to check \\param alignment Required alignment. Must be a power of two
+
+-----
+
+## Function `cpp::detail::is_aligned`<a id="cpp::detail::is_aligned"></a>
+
+``` cpp
+ bool is_aligned(void* pointer, std::size_t alignment);
+```
+
+*Returns:* true if \\p pointer is aligned to \\p alignment boundary. False otherwise.
+
+### Parameter `cpp::detail::is_aligned::pointer`<a id="cpp::detail::is_aligned::pointer"></a>
+
+``` cpp
+void* pointer
+```
+
+Address to check \\param alignment Required alignment. Must be a power of two
+
+-----

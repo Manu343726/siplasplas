@@ -24,5 +24,5 @@ layout: standardese-doc
  - [`scope.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/scope.html)
  - [`sourceinfo.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/sourceinfo.html)
  - [`type.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/type.html)
- - [`entities.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/entities.html)
  - [`files.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/files.html)
+ - [`entities.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/entities.html)
