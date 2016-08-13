@@ -2,9 +2,11 @@
 #define SIPLASPLAS_TYPEERASURE_SIPLEANY_HPP
 
 #include "features/valuesemantics.hpp"
-#include "features/featuresgroup.hpp"
+#include "logger.hpp"
 #include <siplasplas/utility/destroy.hpp>
 #include <siplasplas/utility/memory_manip.hpp>
+#include <siplasplas/utility/assert.hpp>
+#include <cstdint>
 
 namespace cpp
 {
@@ -21,202 +23,349 @@ enum class ValueSemanticsOperation : std::size_t
     DESTROY        = 4
 };
 
-using ValueSemanticsOperationFunction = void(*)(void*, void*);
+using ValueSemanticsOperationFunction = void(*)(void*, const void*);
 
 template<typename T>
 ValueSemanticsOperationFunction valueSemanticsOperation(ValueSemanticsOperation operation)
 {
-    static constexpr SemanticFunction operations[] = {
-        +[](void* object, void* other) {
+    static ValueSemanticsOperationFunction operations[] = {
+        +[](void* object, const void* other) {
             features::CopyConstructible::apply<T>(object, other);
         },
-        +[](void* object, void* other) {
-            features::MoveConstructible::apply<T>(object, other);
+        +[](void* object, const void* other) {
+            features::MoveConstructible::apply<T>(object, const_cast<void*>(other));
         },
-        +[](void* object, void* other) {
+        +[](void* object, const void* other) {
             features::CopyAssignable::apply<T>(object, other);
         },
-        +[](void* object, void* other) {
-            features::MoveAssignable::apply<T>(object, other);
+        +[](void* object, const void* other) {
+            features::MoveAssignable::apply<T>(object, const_cast<void*>(other));
         },
-        +[](void* object, void*) {
+        +[](void* object, const void*) {
             features::Destructible::apply<T>(object);
         }
     };
 
     return operations[static_cast<std::size_t>(operation)];
-};
-
-using ValueSemantics = ValueSemanticsOperationFunction(*)(ValueSemanticsOperation);
-
 }
 
-class SimpleAny
+using ValueSemantics = decltype(&valueSemanticsOperation<int>);
+
+class TypeInfo
 {
 public:
-    static constexpr std::size_t STORAGE_CAPACITY = 32;
-
-    template<typename T, typename... Args>
-    SimpleAny create(Args&&... args)
+    ValueSemantics semantics() const
     {
-        return SimpleAny{meta::identity<T>(), std::forward<Args>(args)...};
+#if UINTPTR_MAX == UINT64_MAX // See constructor bellow
+        return cpp::detail::untagPointer(_semantics);
+#else
+        return _semantics;
+#endif
+    }
+
+    ValueSemanticsOperationFunction semantics(ValueSemanticsOperation operation) const
+    {
+        return semantics()(operation);
+    }
+
+    void copyConstruct(void* where, const void* other) const
+    {
+        semantics(ValueSemanticsOperation::COPY_CONSTRUCT)(where, other);
+    }
+
+    void moveConstruct(void* where, void* other) const
+    {
+        semantics(ValueSemanticsOperation::MOVE_CONSTRUCT)(where, const_cast<const void*>(other));
+    }
+
+    void copyAssign(void* where, const void* other) const
+    {
+        semantics(ValueSemanticsOperation::COPY_ASSIGN)(where, other);
+    }
+
+    void moveAssign(void* where, void* other) const
+    {
+        semantics(ValueSemanticsOperation::MOVE_ASSIGN)(where, const_cast<const void*>(other));
+    }
+
+    void destroy(void* where) const
+    {
+        semantics(ValueSemanticsOperation::DESTROY)(where, nullptr);
+    }
+
+    friend constexpr bool operator==(const TypeInfo& lhs, const TypeInfo& rhs)
+    {
+        return lhs._semantics == rhs._semantics;
+    }
+
+    friend constexpr bool operator!=(const TypeInfo& lhs, const TypeInfo& rhs)
+    {
+        return !(lhs == rhs);
     }
 
     template<typename T>
-    SimpleAny(const T& value) :
-        _alignment_offset{computeOffset<T>()}
+    constexpr TypeInfo(meta::identity<T>) :
+// If virtual addresses have 64 bits, use a use a tagged pointer to store the alignment,
+// else use an extra member
+#if UINTPTR_MAX == UINT64_MAX
+        _semantics{cpp::detail::tagPointer(&valueSemanticsOperation<T>, alignof(T))}
     {
-        SIPLASPLAS_ASSERT_TRUE(objectFitsInStorage<T>());
-        semantics() = detail::valueSemanticsOperation<T>;
-        semantics()(detail::ValueSemanticsOperation::COPY_CONSTRUCT)(storage(), &value);
+        static_assert(alignof(T) < (1 << 16), "Alignment of T cannot be tagged in a pointer, its value overflows a 16 bit unsigned integer");
     }
 
-    SimpleAny(const SimpleAny& other) :
-        _alignment_offset{other._alignment_offset}
+    std::size_t alignment() const
     {
-        semantics() = other.semantics();
-        semantics()(detail::ValueSemanticsOperation::COPY_CONSTRUCT)(storage(), other.storage());
-    }
-
-    SimpleAny(SimpleAny& other) :
-        _alignment_offset{other._alignment_offset}
-    {
-        semantics() = other.semantics();
-        semantics()(detail::ValueSemanticsOperation::MOVE_CONSTRUCT)(storage(), other.storage());
-    }
-
-    template<typename T>
-    SimpleAny& operator=(const T& value)
-    {
-        if(detail::valueSemanticsOperation<T> != semantics())
-        {
-            semantics()(detail::ValueSemanticsOperation::DESTROY)(storage(), nullptr);
-
-            _alignment_offset = computeOffset<T>();
-            SIPLASPLAS_ASSERT_TRUE(objectFitsInStorage<T>());
-            semantics() = detail::valueSemanticsOperation<T>;
-            semantics()(detail::ValueSemanticsOperation::COPY_CONSTRUCT(storage(), &value);
-        }
-        else
-        {
-            semantics()(detail::ValueSemanticsOperation::COPY_ASSIGN)(storage(), &value);
-        }
-
-        return *this;
-    }
-
-    SimpleAny& operator=(const SimpleAny& other)
-    {
-        if(semantics() != other.semantics())
-        {
-            semantics()(detail::ValueSemanticsOperation::DESTROY)(storage());
-
-            _alignment_offset = other._alignment_offset;
-            SIPLASPLAS_ASSERT_TRUE(objectFitsInStorage<T>());
-            semantics() = other.semantics();
-            semantics()(detail::ValueSemanticsOperation::COPY_CONSTRUCT)(storage(), other.storage());
-        }
-        else
-        {
-            semantics()(detail::ValueSemanticsOperation::COPY_ASSIGN)(storage(), other.storage());
-        }
-
-        return *this;
-    }
-
-    SimpleAny& operator=(SimpleAny&& other)
-    {
-        if(semantics() != other.semantics())
-        {
-            semantics()(detail::ValueSemanticsOperation::DESTROY)(storage());
-
-            _alignment_offset = other._alignment_offset;
-            SIPLASPLAS_ASSERT_TRUE(objectFitsInStorage<T>());
-            semantics() = other.semantics();
-            semantics()(detail::ValueSemanticsOperation::MOVE_CONSTRUCT)(storage(), other.storage());
-        }
-        else
-        {
-            semantics()(detail::ValueSemanticsOperation::MOVE_ASSIGN)(storage(), other.storage());
-        }
-
-        return *this;
-    }
-
-    ~SimpleAny()
-    {
-        semantics()(detail::ValueSemanticsOperation::DESTROY)(storage(), nullptr);
-    }
-
-
-    void* storage()
-    {
-        return &_storage[_alignment_offset];
+        return cpp::detail::readTaggedPointer(_semantics);
     }
 
 private:
-    std::uint8_t _alignment_offset;
-    std::array<std::uint8_t, STORAGE_CAPACITY> _storage;
+#else
+        _semantics{&valueSemanticsOperation<T>}
+        _alignment{alignof(T)}
+    {}
 
+    constexpr std::size_t alignment() const
+    {
+        return _alignment;
+    }
+
+private:
+    std::size_t _alignment;
+#endif // if not 64 bit
+    ValueSemantics _semantics;
+};
+
+template<typename T>
+constexpr TypeInfo typeInfo()
+{
+    return TypeInfo{meta::identity<T>()};
+}
+
+}
+
+/**
+ * \ingroup type-erasure
+ * \brief Implements a non-allocating type-erased value container
+ *
+ * The template BasicSimpleAny implements a type-erased value container, that is,
+ * a type that can hold values of different types at runtime. BasicSimpleAny uses
+ * a fixed-size buffer as storage to avoid dynamic allocations. The maximum capacity
+ * of this storage can be controlled with the \p Capacity template parameter.
+ *
+ * BasicSimpleAny assumes that types hosted on it satisfy the CopyConstructible,
+ * MoveConstructible, CopyAssignable, MoveAssignable, and Destructible. If any of those
+ * concepts are not satisfied, an exception would be thrown if the corresponding feature is used.
+ * This means you can use non-satisfying types as long as the operation is not needed (Invoked). For example:
+ *
+ * ``` cpp
+ * cpp::BasicSimpleAny<64> any{NoCopyAssignable()}: // Ok, NoCopyAssignable is move constructible
+ * auto any2 = cpp::BasicSimpleAny<64>::create<NoCopyAssignable>(); // Ok, NoCopyAssignable is default constructible
+ * any2 = any; // EXCEPTION THROWN: NoCopyAssignable is not copy assignable (Noooo, really?)
+ * any2 = std::move(any); // Ok, NoCopyAssignable is move assignable
+ * ```
+ *
+ * Note this behavior is undefined and may be disabled in release builds. In general,
+ * **using semantics not supporeted by the hosted type has undefined behavior**.
+ *
+ * \tparam Capacity Size in bytes of the internal storage. **Is not the max type sizeof()**,
+ * since some storage may be unused to fit with the type alignment
+ */
+template<std::size_t Capacity>
+class BasicSimpleAny
+{
+public:
+    static constexpr std::size_t STORAGE_CAPACITY = Capacity;
+
+    /**
+     * \brief Construct a BasicSimpleAny with an in-place constructed value of
+     * type T
+     *
+     * The value is constructed directly on the any storage, no extra copy operations are done.
+     * Arguments are passed as-is to the object constructor.
+     *
+     * \tparam T Type of the value to be constructed.
+     * \param args Constructor arguments
+     *
+     * \returns A BasicSimpleAny instance hosting an object of type T
+     */
     template<typename T, typename... Args>
-    SimpleAny(meta::identity<T>, Args&&... args) :
-        _alignment_offset{computeOffset<T>()}
+    static BasicSimpleAny create(Args&&... args)
+    {
+        return BasicSimpleAny{meta::identity<T>(), std::forward<Args>(args)...};
+    }
+
+    /**
+     * \brief Constructs an any of type T from an lvalue of type T
+     *
+     * A copy is done from the T lvalue argument to the any storage
+     *
+     * \param value A value of type T to store in the any
+     */
+    template<typename T>
+    BasicSimpleAny(const T& value) :
+        _typeInfo{detail::typeInfo<T>()}
     {
         SIPLASPLAS_ASSERT_TRUE(objectFitsInStorage<T>());
-        semantics() = detail::valueSemanticsOperation<T>;
-        features::Constructible::apply<T>(storage(), std::forward<Args>(args)...);
+        _typeInfo.copyConstruct(storage(), &value);
     }
 
-    static constexpr std::size_t semanticsSizeOf()
+    BasicSimpleAny(const BasicSimpleAny& other) :
+        _typeInfo{other._typeInfo}
     {
-        return sizeof(detail::ValueSemantics);
+        _typeInfo.copyConstruct(storage(), other.storage());
     }
 
-    static constexpr std::size_t semanticsAlignment()
+    BasicSimpleAny(BasicSimpleAny&& other) :
+        _typeInfo{other._typeInfo}
     {
-        return alignof(detail::ValueSemantics);
+        _typeInfo.moveConstruct(storage(), other.storage());
     }
 
+    /**
+     * \brief Checks if the any has a value of type T
+     *
+     * \returns True if the hosted type is **exactly** T, false otherwise
+     */
     template<typename T>
-    static std::uint8_t computeOffset(char* storage)
+    bool hasType() const
     {
-        const char* alignedSemanticsStorage = cpp::aligned_ptr(storage, semanticsAlignment());
-        const char* alignedStorage          = cpp::aligned_ptr(alignedSemanticsStorage + semanticsSizeOf(), alignof(T));
-        const std::uintptr_t semanticsOffset = alignedSemanticsStorage - storage;
-        const std::uintptr_t storageOffset   = alignedStorage - semanticsSizeOf() - alignedSemanticsStorage;
-
-        SIPLASPLAS_ASSERT_LE(semanticsOffset, 16);
-        SIPLASPLAS_ASSERT_LE(storageOffset, 16);
-
-        return static_cast<std::uint8_t>(semanticsOffset << 4 | storageOffset);
+        return detail::typeInfo<T>() == _typeInfo;
     }
 
-    std::uint8_t semanticsOffset() const
+    /**
+     * \brief Returns a readonly reference to the hosted object
+     *
+     * \tparam T Type of the returned object. If T is different from the hosted object
+     * type, the behavior is undefined (See hasType()).
+     */
+    template<typename T>
+    const T& get() const
     {
-        return _alignment_offset >> 4;
+        SIPLASPLAS_ASSERT_TRUE(hasType<T>());
+        return *reinterpret_cast<const T*>(storage());
     }
 
-    std::size_t storageOffset() const
+    /**
+     * \brief Returns a eference to the hosted object
+     *
+     * \tparam T Type of the returned object. If T is different from the hosted object
+     * type, the behavior is undefined (See hasType()).
+     */
+    template<typename T>
+    T& get()
     {
-        return 0xF0 & _alignment_offset;
+        SIPLASPLAS_ASSERT_TRUE(hasType<T>());
+        return *reinterpret_cast<T*>(storage());
     }
 
-    detail::ValueSemantics& semantics()
+    /**
+     * \brief Checks if two BasicSimpleAny objects host values of the same type
+     *
+     * \returns True if both hosted types are **exactly equal** i
+     * (i.e. `std::is_same<hosted type of lhs, hosted type of rhs>::value` would yield true).
+     */
+    template<std::size_t LhsCapacity, std::size_t RhsCapacity>
+    static bool sameType(const BasicSimpleAny<LhsCapacity>& lhs, const BasicSimpleAny<RhsCapacity>& rhs)
     {
-        return *reinterpret_cast<detail::ValueSemantics*>(&_storage[semanticsOffset()]);
+        return lhs._typeInfo == rhs._typeInfo;
+    }
+
+    /**
+     * \brief Assigns a value of type T
+     *
+     * If the current hosted type is T, performs a copy assignment of \p value
+     * into the hosted object. Else, the destructor of the hosted object is invoked
+     * and the value is copy-constructed into the storage.
+     *
+     * \param value Value to be assigned to the any
+     * \returns A reference to `*this`
+     */
+    template<typename T>
+    BasicSimpleAny& operator=(const T& value)
+    {
+        if(!hasType<T>())
+        {
+            _typeInfo.destroy(storage());
+            _typeInfo = detail::typeInfo<T>();
+            SIPLASPLAS_ASSERT_TRUE(objectFitsInStorage<T>());
+            _typeInfo.copyConstruct(storage(), &value);
+        }
+        else
+        {
+            _typeInfo.copyAssign(storage(), &value);
+        }
+
+        return *this;
+    }
+
+    BasicSimpleAny& operator=(const BasicSimpleAny& other)
+    {
+        if(!sameType(*this, other))
+        {
+            _typeInfo.destroy(storage());
+            _typeInfo = other._typeInfo;
+            _typeInfo.copyConstruct(storage(), other.storage());
+        }
+        else
+        {
+            _typeInfo.copyAssign(storage(), other.storage());
+        }
+
+        return *this;
+    }
+
+    BasicSimpleAny& operator=(BasicSimpleAny&& other)
+    {
+        if(!sameType(*this, other))
+        {
+            _typeInfo.destroy(storage());
+            _typeInfo = other._typeInfo;
+            _typeInfo.moveConstruct(storage(), other.storage());
+        }
+        else
+        {
+            _typeInfo.moveAssign(storage(), other.storage());
+        }
+
+        return *this;
+    }
+
+    ~BasicSimpleAny()
+    {
+        _typeInfo.destroy(storage());
+    }
+
+private:
+    detail::TypeInfo _typeInfo;
+    std::array<char, STORAGE_CAPACITY> _storage;
+
+    template<typename T, typename... Args>
+    BasicSimpleAny(meta::identity<T>, Args&&... args) :
+        _typeInfo{detail::typeInfo<T>()}
+    {
+        SIPLASPLAS_ASSERT_TRUE(objectFitsInStorage<T>());
+        features::Constructible::apply<T>(storage(), std::forward<Args>(args)...);
     }
 
     void* storage()
     {
-        return reinterpret_cast<char*>(semantics()) + semanticsSizeOf() + storageOffset();
+        return cpp::detail::aligned_ptr(&_storage[0], _typeInfo.alignment());
+    }
+
+    const void* storage() const
+    {
+        return cpp::detail::aligned_ptr(&_storage[0], _typeInfo.alignment());
     }
 
     template<typename T>
     bool objectFitsInStorage() const
     {
-        return reinterpret_cast<char*>(storage()) + sizeof(T) < &_storage[STORAGE_CAPACITY];
+        return reinterpret_cast<const char*>(storage()) >= _storage.begin() &&
+               reinterpret_cast<const char*>(storage()) + sizeof(T) <= _storage.end();
     }
 };
+
+using SimpleAny = BasicSimpleAny<64-sizeof(detail::TypeInfo)>;
 
 }
 
