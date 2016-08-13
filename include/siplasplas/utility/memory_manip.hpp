@@ -8,7 +8,28 @@ namespace cpp
 {
     namespace detail
     {
+        /**
+         * \ingroup utility
+         * \brief Returns an address aligned to an specific boundary
+         *
+         * \param pointer Starting address
+         * \param alignment Alignment boundary. Must be a power of two
+         *
+         * \returns The next (upper) address from the given address that's aligned
+         * to the required boundary
+         */
         SIPLASPLAS_UTILITY_EXPORT char* aligned_ptr(char* pointer, std::size_t alignment);
+
+        /**
+         * \ingroup utility
+         * \brief Returns an address aligned to an specific boundary
+         *
+         * \param pointer Starting address
+         * \param alignment Alignment boundary. Must be a power of two
+         *
+         * \returns The next (upper) address from the given address that's aligned
+         * to the required boundary
+         */
         SIPLASPLAS_UTILITY_EXPORT void* aligned_ptr(void* pointer, std::size_t alignment);
 
         template<typename T>
