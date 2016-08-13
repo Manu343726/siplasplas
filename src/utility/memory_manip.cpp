@@ -27,6 +27,16 @@ void* aligned_ptr(void* pointer, std::size_t alignment)
     return aligned_ptr(reinterpret_cast<char*>(pointer), alignment);
 }
 
+bool is_aligned(char* pointer, std::size_t alignment)
+{
+    return reinterpret_cast<std::uintptr_t>(pointer) % alignment == 0;
+}
+
+bool is_aligned(void* pointer, std::size_t alignment)
+{
+    return is_aligned(reinterpret_cast<char*>(pointer), alignment);
+}
+
 }
 
 }

@@ -32,6 +32,28 @@ namespace cpp
          */
         SIPLASPLAS_UTILITY_EXPORT void* aligned_ptr(void* pointer, std::size_t alignment);
 
+        /**
+         * \ingroup utility
+         * \brief Checks if an address is aligned to a given boundary
+         *
+         * \param pointer Address to check
+         * \param alignment Required alignment. Must be a power of two
+         *
+         * \returns true if \p pointer is aligned to \p alignment boundary. False otherwise.
+         */
+        SIPLASPLAS_UTILITY_EXPORT bool is_aligned(char* pointer, std::size_t alignment);
+
+        /**
+         * \ingroup utility
+         * \brief Checks if an address is aligned to a given boundary
+         *
+         * \param pointer Address to check
+         * \param alignment Required alignment. Must be a power of two
+         *
+         * \returns true if \p pointer is aligned to \p alignment boundary. False otherwise.
+         */
+        SIPLASPLAS_UTILITY_EXPORT bool is_aligned(void* pointer, std::size_t alignment);
+
         template<typename T>
         void write_at(char* pointer, const T& value, std::intptr_t offset = 0)
         {
