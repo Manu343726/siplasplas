@@ -1,12 +1,14 @@
 #include "mocks/valuesemantics.hpp"
+#include <siplasplas/typeerasure/anystorage/fixedsize.hpp>
 #include <siplasplas/typeerasure/simpleany.hpp>
 #include <gmock/gmock.h>
 #include <vector>
 #include <string>
 #include <array>
 
-using namespace ::cpp;
 using namespace ::testing;
+
+using SimpleAny = cpp::SimpleAny64;
 
 TEST(SimpleAnyTest, create_defaultConstructibleType_noThrow)
 {
@@ -29,27 +31,22 @@ TEST(SimpleAnyTest, create_smallTypes_noThrow)
     EXPECT_NO_THROW((SimpleAny::create<std::array<char, 8>>()));
     EXPECT_NO_THROW((SimpleAny::create<std::array<char, 16>>()));
     EXPECT_NO_THROW((SimpleAny::create<std::array<char, 32>>()));
+    EXPECT_NO_THROW((SimpleAny::create<std::array<char, 64>>()));
 }
 
 TEST(SimpleAnyTest, createWithCustomArgs_smallTypes_noThrow)
 {
-    // cpp::SimpleAny storage is of 64-8 bytes, to fit
-    // n a cache line (First 8 bytes are used for
-    // semantics)
     EXPECT_NO_THROW(SimpleAny::create<std::string>("hello, world!"));
     EXPECT_NO_THROW(SimpleAny::create<std::vector<std::string>>(42, "hello, world!"));
     EXPECT_NO_THROW((SimpleAny::create<std::array<char, 4>>()));
     EXPECT_NO_THROW((SimpleAny::create<std::array<char, 8>>()));
     EXPECT_NO_THROW((SimpleAny::create<std::array<char, 16>>()));
     EXPECT_NO_THROW((SimpleAny::create<std::array<char, 32>>()));
+    EXPECT_NO_THROW((SimpleAny::create<std::array<char, 64>>()));
 }
 
 TEST(SimpleAnyTest, createWithCustomArgs_bigTypes_throw)
 {
-    // cpp::SimpleAny storage is of 64-8 bytes, to fit
-    // n a cache line (First 8 bytes are used for
-    // semantics)
-    EXPECT_THROW((SimpleAny::create<std::array<char, 64>>()), cpp::AssertException);
     EXPECT_THROW((SimpleAny::create<std::array<char, 128>>()), cpp::AssertException);
     EXPECT_THROW((SimpleAny::create<std::array<char, 256>>()), cpp::AssertException);
     EXPECT_THROW((SimpleAny::create<std::array<char, 512>>()), cpp::AssertException);
