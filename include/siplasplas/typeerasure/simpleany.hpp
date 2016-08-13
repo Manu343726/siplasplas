@@ -14,6 +14,10 @@ namespace cpp
 namespace detail
 {
 
+/**
+ * \ingroup type-erasure
+ * \brief Represents a move semantics operation. See valueSemanticsOperation()
+ */
 enum class ValueSemanticsOperation : std::size_t
 {
     COPY_CONSTRUCT = 0,
@@ -25,6 +29,27 @@ enum class ValueSemanticsOperation : std::size_t
 
 using ValueSemanticsOperationFunction = void(*)(void*, const void*);
 
+/**
+ * \ingroup type-erasure
+ * \brief Implements a type-erased interface for the value semantics features
+ * of a type T
+ *
+ * The function returns a function pointer with a type erased signature that
+ * gives access to the specified value semantics feature. See ValueSemanticsOperation.
+ *
+ * ``` cpp
+ * int i = 42;
+ * int* j = malloc(sizeof(i));
+ * void (*copyConstructInts)(void*, const void*) = valueSemanticsOperation<int>(ValueSemanticsOperation::COPY_CONSTRUCT);
+ *
+ * copyConstructInts(j, &i); // copy i into j
+ * ```
+ *
+ * \param operation The operation needed
+ *
+ * \returns A `void(*)(void*, const void*)` function pointer that implements
+ * the required operation
+ */
 template<typename T>
 ValueSemanticsOperationFunction valueSemanticsOperation(ValueSemanticsOperation operation)
 {
@@ -51,9 +76,38 @@ ValueSemanticsOperationFunction valueSemanticsOperation(ValueSemanticsOperation 
 
 using ValueSemantics = decltype(&valueSemanticsOperation<int>);
 
+/**
+ * \ingroup type-erasure
+ * \brief Contains minimal information to execute the value semantics operations
+ * of a type
+ *
+ * This class stores the alignment and value semantics operations of a type. The value semantics
+ * operations are aset of type-erased functions mapping to the different value semantics features
+ * (CopyConstructible, DefaultConstructible, etc). This mapping is implemented as a lookup table
+ * of function pointers.
+ *
+ * ``` cpp
+ * std::aligned_storage<sizeof(std::string), alignof(std::string)> stringStorage;
+ * std::string str = "hello, world!";
+ * auto typeInfo = TypeInfo::get<std::string>();
+ *
+ * // Copy construct the string from str:
+ * typeInfo.copyConstruct(&stringStorage, &str);
+ *
+ * // Or if there's no access to a properly aligned storage, use TypeInfo::alignment():
+ * char buffer[64];
+ * typeInfo.copyConstruct(
+ *     cpp::detail::aligned_ptr(&buffer[0], typeInfo.alignment()), // Get an aligned address first
+ *     &str
+ *  );
+ * ```
+ */
 class TypeInfo
 {
 public:
+    /**
+     * \brief Retuns the type-erased semantics of the type. See valueSemantics().
+     */
     ValueSemantics semantics() const
     {
 #if UINTPTR_MAX == UINT64_MAX // See constructor bellow
@@ -63,34 +117,83 @@ public:
 #endif
     }
 
+    /**
+     * \brief Returns the function implementing the given valuesemantics operation
+     * for the type
+     */
     ValueSemanticsOperationFunction semantics(ValueSemanticsOperation operation) const
     {
         return semantics()(operation);
     }
 
+    /**
+     * \brief Copy constructs values of the type
+     * If the passed arguments are not of the represented type, the behavior is undefined
+     *
+     * \param where Address of the object to be constructed
+     * \param other Address of the object to copy from
+     */
     void copyConstruct(void* where, const void* other) const
     {
         semantics(ValueSemanticsOperation::COPY_CONSTRUCT)(where, other);
     }
 
+    /**
+     * \brief Move constructs values of the type
+     * If the passed arguments are not of the represented type, the behavior is undefined
+     *
+     * \param where Address of the object to be constructed
+     * \param other Reference of the object to move from (The pointer is a pointer to the
+     * rvalue reference up in the call stack).
+     */
     void moveConstruct(void* where, void* other) const
     {
         semantics(ValueSemanticsOperation::MOVE_CONSTRUCT)(where, const_cast<const void*>(other));
     }
 
+    /**
+     * \brief Move assigns values of the type
+     * If the passed arguments are not of the represented type, the behavior is undefined
+     *
+     * \param where Address of the object to be assigned to
+     * \param other Address of the object to assign from
+     */
     void copyAssign(void* where, const void* other) const
     {
         semantics(ValueSemanticsOperation::COPY_ASSIGN)(where, other);
     }
 
+    /**
+     * \brief Move assigns values of the type
+     * If the passed arguments are not of the represented type, the behavior is undefined
+     *
+     * \param where Address of the object to be assigned to
+     * \param other Reference of the object to assign from (The pointer is a pointer to the
+     * rvalue reference up in the call stack).
+     */
     void moveAssign(void* where, void* other) const
     {
         semantics(ValueSemanticsOperation::MOVE_ASSIGN)(where, const_cast<const void*>(other));
     }
 
+    /**
+     * \brief Destroys objects of the type
+     * If the passed arguments are not of the represented type, the behavior is undefined
+     *
+     * \param where Pointer to the object to destroy
+     */
     void destroy(void* where) const
     {
         semantics(ValueSemanticsOperation::DESTROY)(where, nullptr);
+    }
+
+    /**
+     * \brief Returns the type information of type T
+     */
+    template<typename T>
+    static constexpr TypeInfo get()
+    {
+        return TypeInfo{meta::identity<T>()};
     }
 
     friend constexpr bool operator==(const TypeInfo& lhs, const TypeInfo& rhs)
@@ -103,6 +206,7 @@ public:
         return !(lhs == rhs);
     }
 
+private:
     template<typename T>
     constexpr TypeInfo(meta::identity<T>) :
 // If virtual addresses have 64 bits, use a use a tagged pointer to store the alignment,
@@ -113,6 +217,7 @@ public:
         static_assert(alignof(T) < (1 << 16), "Alignment of T cannot be tagged in a pointer, its value overflows a 16 bit unsigned integer");
     }
 
+public:
     std::size_t alignment() const
     {
         return cpp::detail::readTaggedPointer(_semantics);
@@ -124,6 +229,7 @@ private:
         _alignment{alignof(T)}
     {}
 
+public:
     constexpr std::size_t alignment() const
     {
         return _alignment;
@@ -134,12 +240,6 @@ private:
 #endif // if not 64 bit
     ValueSemantics _semantics;
 };
-
-template<typename T>
-constexpr TypeInfo typeInfo()
-{
-    return TypeInfo{meta::identity<T>()};
-}
 
 }
 
@@ -203,7 +303,7 @@ public:
      */
     template<typename T>
     BasicSimpleAny(const T& value) :
-        _typeInfo{detail::typeInfo<T>()}
+        _typeInfo{detail::TypeInfo::get<T>()}
     {
         SIPLASPLAS_ASSERT_TRUE(objectFitsInStorage<T>());
         _typeInfo.copyConstruct(storage(), &value);
@@ -229,7 +329,7 @@ public:
     template<typename T>
     bool hasType() const
     {
-        return detail::typeInfo<T>() == _typeInfo;
+        return detail::TypeInfo::get<T>() == _typeInfo;
     }
 
     /**
@@ -286,7 +386,7 @@ public:
         if(!hasType<T>())
         {
             _typeInfo.destroy(storage());
-            _typeInfo = detail::typeInfo<T>();
+            _typeInfo = detail::TypeInfo::get<T>();
             SIPLASPLAS_ASSERT_TRUE(objectFitsInStorage<T>());
             _typeInfo.copyConstruct(storage(), &value);
         }
@@ -341,7 +441,7 @@ private:
 
     template<typename T, typename... Args>
     BasicSimpleAny(meta::identity<T>, Args&&... args) :
-        _typeInfo{detail::typeInfo<T>()}
+        _typeInfo{detail::TypeInfo::get<T>()}
     {
         SIPLASPLAS_ASSERT_TRUE(objectFitsInStorage<T>());
         features::Constructible::apply<T>(storage(), std::forward<Args>(args)...);
