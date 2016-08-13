@@ -2,6 +2,7 @@
 #define SIPLASPLAS_UTILITY_STATICIF_HPP
 
 #include "meta.hpp"
+#include <utility>
 
 namespace cpp
 {
