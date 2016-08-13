@@ -6,5 +6,5 @@ var searchData=
   ['hash_5fcombine',['hash_combine',['../group__hash.html#gab301455e7efcfbf6eae66d3ab649a00e',1,'cpp']]],
   ['hashset',['HashSet',['../group__hash.html#gae68ed7e53b403d96f180ff0f20141fd2',1,'cpp']]],
   ['hashtable',['HashTable',['../group__hash.html#gacd5cae7eac6a765000ff92a6e1040108',1,'cpp']]],
-  ['hastype',['hasType',['../classcpp_1_1_basic_simple_any.html#aebaab3396a60fab86b1dd80d9161dba2',1,'cpp::BasicSimpleAny']]]
+  ['hastype',['hasType',['../classcpp_1_1_simple_any.html#ab35c68fdcbf4612d8460579cede0eb44',1,'cpp::SimpleAny::hasType()'],['../classcpp_1_1_simple_any_3_01_const_non_owning_storage_01_4.html#a7a32c1fdd8557bc2dc703103b2f5f9ab',1,'cpp::SimpleAny&lt; ConstNonOwningStorage &gt;::hasType()'],['../classcpp_1_1_simple_any_3_01_non_owning_storage_01_4.html#a69e825fc93ca088f04334967d63eaac9',1,'cpp::SimpleAny&lt; NonOwningStorage &gt;::hasType()']]]
 ];

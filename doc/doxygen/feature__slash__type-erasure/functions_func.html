@@ -101,6 +101,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="#index_p"><span>p</span></a></li>
       <li><a href="#index_r"><span>r</span></a></li>
       <li><a href="#index_s"><span>s</span></a></li>
+      <li><a href="#index_t"><span>t</span></a></li>
       <li class="current"><a href="#index_0x7e"><span>~</span></a></li>
     </ul>
   </div>
@@ -163,8 +164,8 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 
 
 <h3><a class="anchor" id="index_b"></a>- b -</h3><ul>
-<li>BasicSimpleAny()
-: <a class="el" href="classcpp_1_1_basic_simple_any.html#a51140d3630b27ecd66b4c6741a04f0c4">cpp::BasicSimpleAny&lt; Capacity &gt;</a>
+<li>begin()
+: <a class="el" href="classcpp_1_1_fixed_size_storage.html#a0f5bf5eeb8cb359f33dbb620abf0e161">cpp::FixedSizeStorage&lt; Size, Alignment &gt;</a>
 </li>
 <li>binaryDir()
 : <a class="el" href="classcpp_1_1_c_make_project.html#abb046a3a7078a0d04c67e53d9a05dc24">cpp::CMakeProject</a>
@@ -212,26 +213,31 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 : <a class="el" href="classcpp_1_1_c_make_project.html#ae3cd65a5a5b2a8db7583d0bf5181cc7a">cpp::CMakeProject</a>
 </li>
 <li>connect()
-: <a class="el" href="classcpp_1_1_signal_emitter.html#a066ef1c17fd4550eed4bb11436af3e33">cpp::SignalEmitter</a>
+: <a class="el" href="classcpp_1_1_signal_emitter.html#a8519d6b9541fd06c16707649bed4c446">cpp::SignalEmitter</a>
 </li>
 <li>connect_async()
 : <a class="el" href="classcpp_1_1_signal_emitter.html#a154d13b2bcf5f8bbf997b5172284b486">cpp::SignalEmitter</a>
 </li>
+<li>ConstNonOwningStorage()
+: <a class="el" href="classcpp_1_1_const_non_owning_storage.html#ac83a24e137098b2391aa4d3f465dfc5a">cpp::ConstNonOwningStorage</a>
+</li>
 <li>copyAssign()
-: <a class="el" href="classcpp_1_1detail_1_1_type_info.html#a82e2069bc3e3022056f51d9cdb1c516e">cpp::detail::TypeInfo</a>
+: <a class="el" href="classcpp_1_1_type_info.html#a7d2e2ce60e16701e6e8b72cb1305698a">cpp::TypeInfo</a>
 </li>
 <li>copyConstruct()
-: <a class="el" href="classcpp_1_1detail_1_1_type_info.html#a66c72d25519da42ba38b5db2316a17a8">cpp::detail::TypeInfo</a>
+: <a class="el" href="classcpp_1_1_type_info.html#a8f33ae2da77463b5b2a3ccb0358a4966">cpp::TypeInfo</a>
 </li>
 <li>create()
-: <a class="el" href="classcpp_1_1_basic_simple_any.html#aca9b54efb6303352b0bcf6d06a61254d">cpp::BasicSimpleAny&lt; Capacity &gt;</a>
+: <a class="el" href="classcpp_1_1_simple_any.html#aefc4c44055e1f138368566631665fed5">cpp::SimpleAny&lt; Storage &gt;</a>
+, <a class="el" href="classcpp_1_1_simple_any_3_01_const_non_owning_storage_01_4.html#afe44f60fe0a3b0161008873118b78954">cpp::SimpleAny&lt; ConstNonOwningStorage &gt;</a>
+, <a class="el" href="classcpp_1_1_simple_any_3_01_non_owning_storage_01_4.html#aad3ce1ee2ca2051297b3cb292f89ef3b">cpp::SimpleAny&lt; NonOwningStorage &gt;</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_d"></a>- d -</h3><ul>
 <li>destroy()
-: <a class="el" href="classcpp_1_1detail_1_1_type_info.html#ad6e6124cf4b7fe633bc799bb6f1b02d4">cpp::detail::TypeInfo</a>
+: <a class="el" href="classcpp_1_1_type_info.html#a5a5e2c55b3517eb1bc37b98182049f9f">cpp::TypeInfo</a>
 </li>
 </ul>
 
@@ -239,6 +245,9 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 <h3><a class="anchor" id="index_e"></a>- e -</h3><ul>
 <li>emit()
 : <a class="el" href="classcpp_1_1_signal_emitter.html#a037c3bfe62b4cb68df612fd413321e98">cpp::SignalEmitter</a>
+</li>
+<li>end()
+: <a class="el" href="classcpp_1_1_fixed_size_storage.html#a57566234c1b4a26977b685fcfed55d4c">cpp::FixedSizeStorage&lt; Size, Alignment &gt;</a>
 </li>
 </ul>
 
@@ -264,9 +273,11 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 
 <h3><a class="anchor" id="index_g"></a>- g -</h3><ul>
 <li>get()
-: <a class="el" href="classcpp_1_1_basic_simple_any.html#a4f2b6195c3748fd926ba5b559481e74e">cpp::BasicSimpleAny&lt; Capacity &gt;</a>
-, <a class="el" href="classcpp_1_1detail_1_1_type_info.html#ad5ace112a7dd9dfbe4b949f0135d29f0">cpp::detail::TypeInfo</a>
-, <a class="el" href="classcpp_1_1_dynamic_library_1_1_symbol.html#a6005d5c25e4dd3e027a044f5f87888df">cpp::DynamicLibrary::Symbol</a>
+: <a class="el" href="classcpp_1_1_dynamic_library_1_1_symbol.html#a6005d5c25e4dd3e027a044f5f87888df">cpp::DynamicLibrary::Symbol</a>
+, <a class="el" href="classcpp_1_1_simple_any.html#acaa614c00c4366e8466476f027902d2f">cpp::SimpleAny&lt; Storage &gt;</a>
+, <a class="el" href="classcpp_1_1_simple_any_3_01_const_non_owning_storage_01_4.html#a4717822e326ff1f8f7c7d0f7d8083515">cpp::SimpleAny&lt; ConstNonOwningStorage &gt;</a>
+, <a class="el" href="classcpp_1_1_simple_any_3_01_non_owning_storage_01_4.html#ab660ffc1275755e70eb67533dd60848e">cpp::SimpleAny&lt; NonOwningStorage &gt;</a>
+, <a class="el" href="classcpp_1_1_type_info.html#abb8df5a19862e6a5b18dcd4b94e0d68c">cpp::TypeInfo</a>
 </li>
 <li>getObject()
 : <a class="el" href="classcpp_1_1_dynamic_library_1_1_symbol.html#a37d72e3094fe936c0570103f44018c0b">cpp::DynamicLibrary::Symbol</a>
@@ -283,7 +294,9 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 , <a class="el" href="classcpp_1_1_dynamic_library_1_1_symbol.html#a9ed92ba3d61715ed011c043e6b7663aa">cpp::DynamicLibrary::Symbol</a>
 </li>
 <li>hasType()
-: <a class="el" href="classcpp_1_1_basic_simple_any.html#aebaab3396a60fab86b1dd80d9161dba2">cpp::BasicSimpleAny&lt; Capacity &gt;</a>
+: <a class="el" href="classcpp_1_1_simple_any.html#ab35c68fdcbf4612d8460579cede0eb44">cpp::SimpleAny&lt; Storage &gt;</a>
+, <a class="el" href="classcpp_1_1_simple_any_3_01_const_non_owning_storage_01_4.html#a7a32c1fdd8557bc2dc703103b2f5f9ab">cpp::SimpleAny&lt; ConstNonOwningStorage &gt;</a>
+, <a class="el" href="classcpp_1_1_simple_any_3_01_non_owning_storage_01_4.html#a69e825fc93ca088f04334967d63eaac9">cpp::SimpleAny&lt; NonOwningStorage &gt;</a>
 </li>
 </ul>
 
@@ -304,10 +317,10 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 : <a class="el" href="classcpp_1_1_c_make_target.html#a675880341d04b3a51686fbbe65d87f34">cpp::CMakeTarget</a>
 </li>
 <li>moveAssign()
-: <a class="el" href="classcpp_1_1detail_1_1_type_info.html#a755f908786ff32e0ad368831204d816d">cpp::detail::TypeInfo</a>
+: <a class="el" href="classcpp_1_1_type_info.html#a750ff99f253457f0441c744373890ead">cpp::TypeInfo</a>
 </li>
 <li>moveConstruct()
-: <a class="el" href="classcpp_1_1detail_1_1_type_info.html#abef314a8a0bcdf1ff5cb9577633ccbc4">cpp::detail::TypeInfo</a>
+: <a class="el" href="classcpp_1_1_type_info.html#a7abd35d43b5cefe96db502113beed324">cpp::TypeInfo</a>
 </li>
 </ul>
 
@@ -317,10 +330,16 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 : <a class="el" href="classcpp_1_1_c_make_target.html#abe5ccc6e13203fc7b455939967ab7ba7">cpp::CMakeTarget</a>
 , <a class="el" href="classcpp_1_1_dynamic_library_1_1_symbol.html#ae1102e4995d32584e0aa4c3fcdaf1429">cpp::DynamicLibrary::Symbol</a>
 </li>
+<li>NonOwningStorage()
+: <a class="el" href="classcpp_1_1_non_owning_storage.html#a702845a416efcfcbf410299d3b391277">cpp::NonOwningStorage</a>
+</li>
 </ul>
 
 
 <h3><a class="anchor" id="index_o"></a>- o -</h3><ul>
+<li>objectFitsInStorage()
+: <a class="el" href="classcpp_1_1_fixed_size_storage.html#a8b8c5382fb8287c6064ce539dd17e2ca">cpp::FixedSizeStorage&lt; Size, Alignment &gt;</a>
+</li>
 <li>onFailure()
 : <a class="el" href="classcpp_1_1_assert_expression.html#aa31218125f0b03ad8d380908e1d3e268">cpp::AssertExpression</a>
 , <a class="el" href="classcpp_1_1_dummy_assert_expression.html#adcee6bf8b3e9fdb9e2650d24a4e10abf">cpp::DummyAssertExpression</a>
@@ -329,7 +348,9 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 : <a class="el" href="classcpp_1_1_signal_sink.html#a971b0f8056fa4a6b3e67f5281c856631">cpp::SignalSink</a>
 </li>
 <li>operator=()
-: <a class="el" href="classcpp_1_1_basic_simple_any.html#a22a8ba6a9fc2e19a5e6318eb061a063e">cpp::BasicSimpleAny&lt; Capacity &gt;</a>
+: <a class="el" href="classcpp_1_1_simple_any.html#a5f3f083b76778d37d8069d6765246b8a">cpp::SimpleAny&lt; Storage &gt;</a>
+, <a class="el" href="classcpp_1_1_simple_any_3_01_const_non_owning_storage_01_4.html#ad400f50ec771c8ec000ed6621c51cf48">cpp::SimpleAny&lt; ConstNonOwningStorage &gt;</a>
+, <a class="el" href="classcpp_1_1_simple_any_3_01_non_owning_storage_01_4.html#a0b3cceddb602ebbea33b803e768b3b8a">cpp::SimpleAny&lt; NonOwningStorage &gt;</a>
 </li>
 </ul>
 
@@ -349,6 +370,10 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 
 
 <h3><a class="anchor" id="index_r"></a>- r -</h3><ul>
+<li>rebind()
+: <a class="el" href="classcpp_1_1_const_non_owning_storage.html#a59187444cef69c0f83996fb3c9c9f164">cpp::ConstNonOwningStorage</a>
+, <a class="el" href="classcpp_1_1_non_owning_storage.html#a995f47ad70bbf7803ba490a33d78d087">cpp::NonOwningStorage</a>
+</li>
 <li>reloadBinary()
 : <a class="el" href="classcpp_1_1_c_make_target.html#af77fcb1e80adc031c89d38febf34d036">cpp::CMakeTarget</a>
 </li>
@@ -356,14 +381,17 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 
 
 <h3><a class="anchor" id="index_s"></a>- s -</h3><ul>
-<li>sameType()
-: <a class="el" href="classcpp_1_1_basic_simple_any.html#ac127a89d9e38c876fcde9a4e4d5a20ee">cpp::BasicSimpleAny&lt; Capacity &gt;</a>
-</li>
 <li>semantics()
-: <a class="el" href="classcpp_1_1detail_1_1_type_info.html#aee2788b4fe2444f2d910ec8267729009">cpp::detail::TypeInfo</a>
+: <a class="el" href="classcpp_1_1_type_info.html#a71e470cdcc253caf4965c0dfbcf68f57">cpp::TypeInfo</a>
 </li>
 <li>SignalSink()
-: <a class="el" href="classcpp_1_1_signal_sink.html#a0c12f236d49430adddf02e220faf2052">cpp::SignalSink</a>
+: <a class="el" href="classcpp_1_1_signal_sink.html#a70709cffd3e19a0f3c25fbe6c672e2b4">cpp::SignalSink</a>
+</li>
+<li>SimpleAny()
+: <a class="el" href="classcpp_1_1_simple_any.html#ad882ddbd085449603400249cdf1cd60e">cpp::SimpleAny&lt; Storage &gt;</a>
+</li>
+<li>size()
+: <a class="el" href="classcpp_1_1_fixed_size_storage.html#a46434c28c10c8c1eca53e6ec461c65cb">cpp::FixedSizeStorage&lt; Size, Alignment &gt;</a>
 </li>
 <li>sourceDir()
 : <a class="el" href="classcpp_1_1_c_make_project.html#a287a0a3fc1a7041e05b654f9e14d1f61">cpp::CMakeProject</a>
@@ -375,8 +403,22 @@ $(document).ready(function(){initNavTree('functions_func.html','');});
 : <a class="el" href="classcpp_1_1_c_make_project.html#aceaea90bf1d90509c04914275ab7ba3d">cpp::CMakeProject</a>
 , <a class="el" href="classcpp_1_1_c_make_target.html#aedcf2f2da4510d1b81169107e6a6374e">cpp::CMakeTarget</a>
 </li>
+<li>storage()
+: <a class="el" href="classcpp_1_1_const_non_owning_storage.html#a6b0d2add2d2c1b9c93bccf4ac84b497d">cpp::ConstNonOwningStorage</a>
+, <a class="el" href="classcpp_1_1_fixed_size_storage.html#ae90c573f11916d9558cb2d0be886bf0a">cpp::FixedSizeStorage&lt; Size, Alignment &gt;</a>
+, <a class="el" href="classcpp_1_1_non_owning_storage.html#a2109f9c027391885e55d523a8256ff56">cpp::NonOwningStorage</a>
+</li>
 <li>SyncSink()
 : <a class="el" href="classcpp_1_1_sync_sink.html#a87c58a6a826c13765db34e722435127a">cpp::SyncSink</a>
+</li>
+</ul>
+
+
+<h3><a class="anchor" id="index_t"></a>- t -</h3><ul>
+<li>typeInfo()
+: <a class="el" href="classcpp_1_1_simple_any.html#a147ea8a345f90f7b95775488611b1f21">cpp::SimpleAny&lt; Storage &gt;</a>
+, <a class="el" href="classcpp_1_1_simple_any_3_01_const_non_owning_storage_01_4.html#a93c31081be9096a600305359a2fd4aa0">cpp::SimpleAny&lt; ConstNonOwningStorage &gt;</a>
+, <a class="el" href="classcpp_1_1_simple_any_3_01_non_owning_storage_01_4.html#a6a62d318a27be3bf23ee843a8453fef5">cpp::SimpleAny&lt; NonOwningStorage &gt;</a>
 </li>
 </ul>
 

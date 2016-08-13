@@ -1,11 +1,19 @@
 var searchData=
 [
-  ['sametype',['sameType',['../classcpp_1_1_basic_simple_any.html#ac127a89d9e38c876fcde9a4e4d5a20ee',1,'cpp::BasicSimpleAny']]],
-  ['semantics',['semantics',['../classcpp_1_1detail_1_1_type_info.html#aee2788b4fe2444f2d910ec8267729009',1,'cpp::detail::TypeInfo::semantics() const '],['../classcpp_1_1detail_1_1_type_info.html#acb6b39510b3c4ad791c7ed98ce2b70a9',1,'cpp::detail::TypeInfo::semantics(ValueSemanticsOperation operation) const ']]],
+  ['storage',['storage',['../group__any.html',1,'']]],
+  ['semantics',['semantics',['../classcpp_1_1_type_info.html#a71e470cdcc253caf4965c0dfbcf68f57',1,'cpp::TypeInfo::semantics() const '],['../classcpp_1_1_type_info.html#a9e504ef8a321c519f466f6e3d4168197',1,'cpp::TypeInfo::semantics(detail::ValueSemanticsOperation operation) const ']]],
   ['signalemitter',['SignalEmitter',['../classcpp_1_1_signal_emitter.html',1,'cpp']]],
   ['signals',['Signals',['../group__signals.html',1,'']]],
   ['signalsink',['SignalSink',['../classcpp_1_1_signal_sink.html',1,'cpp']]],
   ['signalsink',['SignalSink',['../classcpp_1_1_signal_sink.html#a0c12f236d49430adddf02e220faf2052',1,'cpp::SignalSink::SignalSink(Caller &amp;caller, Callee &amp;callee)'],['../classcpp_1_1_signal_sink.html#a70709cffd3e19a0f3c25fbe6c672e2b4',1,'cpp::SignalSink::SignalSink(Caller &amp;caller)']]],
+  ['simpleany',['SimpleAny',['../classcpp_1_1_simple_any.html#ad882ddbd085449603400249cdf1cd60e',1,'cpp::SimpleAny']]],
+  ['simpleany',['SimpleAny',['../classcpp_1_1_simple_any.html',1,'cpp']]],
+  ['simpleany16',['SimpleAny16',['../group__type-erasure.html#ga454e7ccda8b041e14721b8929d49e0e5',1,'cpp']]],
+  ['simpleany32',['SimpleAny32',['../group__type-erasure.html#ga55b0eab2ae460acfb2aab431ebabda2d',1,'cpp']]],
+  ['simpleany64',['SimpleAny64',['../group__type-erasure.html#ga8a1ebf8abc432d6a7d90e07e97bc0834',1,'cpp']]],
+  ['simpleany8',['SimpleAny8',['../group__type-erasure.html#gaf264a5242fad1ad7e84f2e2e2993eed1',1,'cpp']]],
+  ['simpleany_3c_20constnonowningstorage_20_3e',['SimpleAny&lt; ConstNonOwningStorage &gt;',['../classcpp_1_1_simple_any_3_01_const_non_owning_storage_01_4.html',1,'cpp']]],
+  ['simpleany_3c_20nonowningstorage_20_3e',['SimpleAny&lt; NonOwningStorage &gt;',['../classcpp_1_1_simple_any_3_01_non_owning_storage_01_4.html',1,'cpp']]],
   ['siplasplas_5fassert',['SIPLASPLAS_ASSERT',['../group__assert.html#ga85063fb7dc312ce74ae18cf264a35679',1,'assert.hpp']]],
   ['siplasplas_5fassert_5fbe',['SIPLASPLAS_ASSERT_BE',['../group__assert.html#ga66bdb3beb003a154581fff9028ba31e3',1,'assert.hpp']]],
   ['siplasplas_5fassert_5fbt',['SIPLASPLAS_ASSERT_BT',['../group__assert.html#gaf7d0a76e90558a6cc5758056eb0ea7da',1,'assert.hpp']]],
@@ -16,11 +24,13 @@ var searchData=
   ['siplasplas_5fassert_5flt',['SIPLASPLAS_ASSERT_LT',['../group__assert.html#gade65127ee32f777a70f3bd9a79405ed8',1,'assert.hpp']]],
   ['siplasplas_5fassert_5fne',['SIPLASPLAS_ASSERT_NE',['../group__assert.html#ga3de0ef146157c71d5ab6036f56aa5ce7',1,'assert.hpp']]],
   ['siplasplas_5fassert_5ftrue',['SIPLASPLAS_ASSERT_TRUE',['../group__assert.html#ga1bb2314a7eed7c6840a732eaddf9dfbd',1,'assert.hpp']]],
+  ['size',['size',['../classcpp_1_1_fixed_size_storage.html#a46434c28c10c8c1eca53e6ec461c65cb',1,'cpp::FixedSizeStorage']]],
   ['sourcedir',['sourceDir',['../classcpp_1_1_c_make_project.html#a287a0a3fc1a7041e05b654f9e14d1f61',1,'cpp::CMakeProject']]],
   ['startwatch',['startWatch',['../classcpp_1_1_c_make_project.html#ae50f1dac1dff13c0ca09aa39bd333200',1,'cpp::CMakeProject']]],
   ['staticif',['staticIf',['../group__utility.html#ga654d1cbd2f4b0fdd4abaf8213893fbd3',1,'cpp']]],
   ['stdoutline',['stdoutLine',['../classcpp_1_1_c_make_project.html#aceaea90bf1d90509c04914275ab7ba3d',1,'cpp::CMakeProject::stdoutLine()'],['../classcpp_1_1_c_make_target.html#aedcf2f2da4510d1b81169107e6a6374e',1,'cpp::CMakeTarget::stdoutLine()']]],
+  ['storage',['storage',['../classcpp_1_1_fixed_size_storage.html#ae90c573f11916d9558cb2d0be886bf0a',1,'cpp::FixedSizeStorage::storage(std::size_t alignment=alignof(std::uint8_t)) const '],['../classcpp_1_1_fixed_size_storage.html#abca9e61472517e6d986016e0ac076964',1,'cpp::FixedSizeStorage::storage(std::size_t alignment=alignof(std::uint8_t))'],['../classcpp_1_1_const_non_owning_storage.html#a6b0d2add2d2c1b9c93bccf4ac84b497d',1,'cpp::ConstNonOwningStorage::storage()'],['../classcpp_1_1_non_owning_storage.html#a2109f9c027391885e55d523a8256ff56',1,'cpp::NonOwningStorage::storage()']]],
   ['symbol',['Symbol',['../classcpp_1_1_dynamic_library_1_1_symbol.html',1,'cpp::DynamicLibrary']]],
-  ['syncsink',['SyncSink',['../classcpp_1_1_sync_sink.html#a87c58a6a826c13765db34e722435127a',1,'cpp::SyncSink::SyncSink(Caller &amp;caller, Function function)'],['../classcpp_1_1_sync_sink.html#ac016584f59da637a8e99b1e146fb8a3b',1,'cpp::SyncSink::SyncSink(Caller &amp;caller, Callee &amp;callee, Function function)']]],
-  ['syncsink',['SyncSink',['../classcpp_1_1_sync_sink.html',1,'cpp']]]
+  ['syncsink',['SyncSink',['../classcpp_1_1_sync_sink.html',1,'cpp']]],
+  ['syncsink',['SyncSink',['../classcpp_1_1_sync_sink.html#a87c58a6a826c13765db34e722435127a',1,'cpp::SyncSink::SyncSink(Caller &amp;caller, Function function)'],['../classcpp_1_1_sync_sink.html#ac016584f59da637a8e99b1e146fb8a3b',1,'cpp::SyncSink::SyncSink(Caller &amp;caller, Callee &amp;callee, Function function)']]]
 ];

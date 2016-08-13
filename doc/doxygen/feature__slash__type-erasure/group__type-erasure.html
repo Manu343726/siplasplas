@@ -102,6 +102,7 @@ $(document).ready(function(){initNavTree('group__type-erasure.html','');});
   <div class="summary">
 <a href="#groups">Modules</a> &#124;
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
@@ -114,6 +115,9 @@ $(document).ready(function(){initNavTree('group__type-erasure.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="groups"></a>
 Modules</h2></td></tr>
+<tr class="memitem:group__any"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__any.html">storage</a></td></tr>
+<tr class="memdesc:group__any"><td class="mdescLeft">&#160;</td><td class="mdescRight">Provides different storage backends for <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">cpp::SimpleAny</a> class. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__concepts"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__concepts.html">Concepts</a></td></tr>
 <tr class="memdesc:group__concepts"><td class="mdescLeft">&#160;</td><td class="mdescRight">Family of concepts defining possible features of types. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -122,12 +126,39 @@ Modules</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1detail_1_1_type_info.html">cpp::detail::TypeInfo</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains minimal information to execute the value semantics operations of a type.  <a href="classcpp_1_1detail_1_1_type_info.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny&lt; Storage &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements a type-erased value container with minimal value semantics requirements.  <a href="classcpp_1_1_simple_any.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_basic_simple_any.html">cpp::BasicSimpleAny&lt; Capacity &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements a non-allocating type-erased value container.  <a href="classcpp_1_1_basic_simple_any.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_type_info.html">cpp::TypeInfo</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains minimal information to execute the value semantics operations of a type.  <a href="classcpp_1_1_type_info.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:gaf264a5242fad1ad7e84f2e2e2993eed1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gaf264a5242fad1ad7e84f2e2e2993eed1"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#gaf264a5242fad1ad7e84f2e2e2993eed1">cpp::SimpleAny8</a> = SimpleAny&lt; FixedSizeStorage&lt; 8 &gt;&gt;</td></tr>
+<tr class="memdesc:gaf264a5242fad1ad7e84f2e2e2993eed1"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">SimpleAny</a> with 8 bytes fixed-size storage. <br /></td></tr>
+<tr class="separator:gaf264a5242fad1ad7e84f2e2e2993eed1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga454e7ccda8b041e14721b8929d49e0e5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga454e7ccda8b041e14721b8929d49e0e5"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#ga454e7ccda8b041e14721b8929d49e0e5">cpp::SimpleAny16</a> = SimpleAny&lt; FixedSizeStorage&lt; 16 &gt;&gt;</td></tr>
+<tr class="memdesc:ga454e7ccda8b041e14721b8929d49e0e5"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">SimpleAny</a> with 16 bytes fixed-size storage. <br /></td></tr>
+<tr class="separator:ga454e7ccda8b041e14721b8929d49e0e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga55b0eab2ae460acfb2aab431ebabda2d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga55b0eab2ae460acfb2aab431ebabda2d"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#ga55b0eab2ae460acfb2aab431ebabda2d">cpp::SimpleAny32</a> = SimpleAny&lt; FixedSizeStorage&lt; 32 &gt;&gt;</td></tr>
+<tr class="memdesc:ga55b0eab2ae460acfb2aab431ebabda2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">SimpleAny</a> with 32 bytes fixed-size storage. <br /></td></tr>
+<tr class="separator:ga55b0eab2ae460acfb2aab431ebabda2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8a1ebf8abc432d6a7d90e07e97bc0834"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga8a1ebf8abc432d6a7d90e07e97bc0834"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#ga8a1ebf8abc432d6a7d90e07e97bc0834">cpp::SimpleAny64</a> = SimpleAny&lt; FixedSizeStorage&lt; 64 &gt;&gt;</td></tr>
+<tr class="memdesc:ga8a1ebf8abc432d6a7d90e07e97bc0834"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">SimpleAny</a> with 64 bytes fixed-size storage. <br /></td></tr>
+<tr class="separator:ga8a1ebf8abc432d6a7d90e07e97bc0834"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf7a9b84f0d0601f1be2f8d287dea7cb3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gaf7a9b84f0d0601f1be2f8d287dea7cb3"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#gaf7a9b84f0d0601f1be2f8d287dea7cb3">cpp::ConstReferenceAny</a> = SimpleAny&lt; ConstNonOwningStorage &gt;</td></tr>
+<tr class="memdesc:gaf7a9b84f0d0601f1be2f8d287dea7cb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">A non-owning <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">SimpleAny</a> that (const) references an existing object. <br /></td></tr>
+<tr class="separator:gaf7a9b84f0d0601f1be2f8d287dea7cb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaadb3d9d778950331a7a34ea86ba4b7bf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gaadb3d9d778950331a7a34ea86ba4b7bf"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#gaadb3d9d778950331a7a34ea86ba4b7bf">cpp::ReferenceAny</a> = SimpleAny&lt; NonOwningStorage &gt;</td></tr>
+<tr class="memdesc:gaadb3d9d778950331a7a34ea86ba4b7bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">A non-owning <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">SimpleAny</a> that references an existing object. <br /></td></tr>
+<tr class="separator:gaadb3d9d778950331a7a34ea86ba4b7bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
