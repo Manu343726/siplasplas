@@ -12,11 +12,15 @@ layout: standardese-doc
 
   - [SIPLASPLAS\_ASSERT\_EQ](assert.md#SIPLASPLAS_ASSERT_EQ "SIPLASPLAS_ASSERT_EQ") - The assertion success if \\p a and \\p b are equal. Fails otherwise. Equality is tested using `operator==(a, b)`.
 
+  - [SIPLASPLAS\_ASSERT\_FALSE](assert.md#SIPLASPLAS_ASSERT_FALSE "SIPLASPLAS_ASSERT_FALSE") - The assertion success if the expression evaluates to false. Fails otherwise.
+
   - [SIPLASPLAS\_ASSERT\_LE](assert.md#SIPLASPLAS_ASSERT_LE "SIPLASPLAS_ASSERT_LE") - The assertion success if \\p a is less or equal to \\p b. Fails otherwise. Comparison is done by means of `operator<=(a, b)`.
 
   - [SIPLASPLAS\_ASSERT\_LT](assert.md#SIPLASPLAS_ASSERT_LT "SIPLASPLAS_ASSERT_LT") - The assertion success if \\p a is less than \\p b. Fails otherwise. Comparison is done by means of `operator<(a, b)`.
 
   - [SIPLASPLAS\_ASSERT\_NE](assert.md#SIPLASPLAS_ASSERT_NE "SIPLASPLAS_ASSERT_NE") - The assertion success if \\p a and \\p b are not equal. Fails otherwise. Inequality is tested using `operator!=(a, b)`.
+
+  - [SIPLASPLAS\_ASSERT\_TRUE](assert.md#SIPLASPLAS_ASSERT_TRUE "SIPLASPLAS_ASSERT_TRUE") - The assertion success if the expression evaluates to true. Fails otherwise.
 
   - `cpp`
     
@@ -66,11 +70,39 @@ layout: standardese-doc
     
       - [aligned\_ptr(char \*,std::size\_t)](memory_manip.md#cpp::detail::aligned_ptr\(char%20*,std::size_t\) "cpp::detail::aligned_ptr(char *,std::size_t)")
     
+      - [aligned\_ptr(const char \*,std::size\_t)](memory_manip.md#cpp::detail::aligned_ptr\(const%20char%20*,std::size_t\) "cpp::detail::aligned_ptr(const char *,std::size_t)")
+    
+      - [aligned\_ptr(const void \*,std::size\_t)](memory_manip.md#cpp::detail::aligned_ptr\(const%20void%20*,std::size_t\) "cpp::detail::aligned_ptr(const void *,std::size_t)")
+    
       - [aligned\_ptr(void \*,std::size\_t)](memory_manip.md#cpp::detail::aligned_ptr\(void%20*,std::size_t\) "cpp::detail::aligned_ptr(void *,std::size_t)")
     
       - [is\_aligned(char \*,std::size\_t)](memory_manip.md#cpp::detail::is_aligned\(char%20*,std::size_t\) "cpp::detail::is_aligned(char *,std::size_t)")
     
+      - [is\_aligned(const char \*,std::size\_t)](memory_manip.md#cpp::detail::is_aligned\(const%20char%20*,std::size_t\) "cpp::detail::is_aligned(const char *,std::size_t)")
+    
+      - [is\_aligned(const void \*,std::size\_t)](memory_manip.md#cpp::detail::is_aligned\(const%20void%20*,std::size_t\) "cpp::detail::is_aligned(const void *,std::size_t)")
+    
       - [is\_aligned(void \*,std::size\_t)](memory_manip.md#cpp::detail::is_aligned\(void%20*,std::size_t\) "cpp::detail::is_aligned(void *,std::size_t)")
+    
+      - [missalignment(char \*,std::size\_t)](memory_manip.md#cpp::detail::missalignment\(char%20*,std::size_t\) "cpp::detail::missalignment(char *,std::size_t)")
+    
+      - [missalignment(const char \*,std::size\_t)](memory_manip.md#cpp::detail::missalignment\(const%20char%20*,std::size_t\) "cpp::detail::missalignment(const char *,std::size_t)")
+    
+      - [missalignment(const void \*,std::size\_t)](memory_manip.md#cpp::detail::missalignment\(const%20void%20*,std::size_t\) "cpp::detail::missalignment(const void *,std::size_t)")
+    
+      - [missalignment(void \*,std::size\_t)](memory_manip.md#cpp::detail::missalignment\(void%20*,std::size_t\) "cpp::detail::missalignment(void *,std::size_t)")
+    
+      - [readTaggedPointer\<R, Args...\>(R (\*)(Args...))](memory_manip.md#cpp::detail::readTaggedPointer\<R,%20Args...\>\(R%20\(*\)\(Args...\)\) "cpp::detail::readTaggedPointer\<R, Args...\>(R (*)(Args...))") - Assuming the pointer is a tagged pointer, this function reads the data tagged in the 16 more significative bits of the pointer. Compilation fails if this function is used in non 64 bit architectures.
+    
+      - [readTaggedPointer\<T\>(T \*)](memory_manip.md#cpp::detail::readTaggedPointer\<T\>\(T%20*\) "cpp::detail::readTaggedPointer\<T\>(T *)") - Assuming the pointer is a tagged pointer, this function reads the data tagged in the 16 more significative bits of the pointer. Compilation fails if this function is used in non 64 bit architectures.
+    
+      - [tagPointer\<R, U, Args...\>(R (\*)(Args...),U)](memory_manip.md#cpp::detail::tagPointer\<R,%20U,%20Args...\>\(R%20\(*\)\(Args...\),U\) "cpp::detail::tagPointer\<R, U, Args...\>(R (*)(Args...),U)") - This function uses the tagged pointer technique to store data in a 64 bit virtual memory address. Passing data of more that 16 bits wide has undefined behavior. Compilation fails if this function is used in non 64 bit architectures. Note accessing a tagged pointer directly may cause a segmentation fault. See cpp::untagPointer().
+    
+      - [tagPointer\<T, U\>(T \*,U)](memory_manip.md#cpp::detail::tagPointer\<T,%20U\>\(T%20*,U\) "cpp::detail::tagPointer\<T, U\>(T *,U)") - This function uses the tagged pointer technique to store data in a 64 bit virtual memory address. Passing data of more that 16 bits wide has undefined behavior. Compilation fails if this function is used in non 64 bit architectures. Note accessing a tagged pointer directly may cause a segmentation fault. See cpp::untagPointer().
+    
+      - [untagPointer\<R, Args...\>(R (\*)(Args...))](memory_manip.md#cpp::detail::untagPointer\<R,%20Args...\>\(R%20\(*\)\(Args...\)\) "cpp::detail::untagPointer\<R, Args...\>(R (*)(Args...))") - Assuming the pointer is a tagged pointer, this function removes the tagged data and returns the memory address ready to be referenced. Compilation fails if this function is used in non 64 bit architectures.
+    
+      - [untagPointer\<T\>(T \*)](memory_manip.md#cpp::detail::untagPointer\<T\>\(T%20*\) "cpp::detail::untagPointer\<T\>(T *)") - Assuming the pointer is a tagged pointer, this function removes the tagged data and returns the memory address ready to be referenced. Compilation fails if this function is used in non 64 bit architectures.
 
   - `cpp::utility`
     

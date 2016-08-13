@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['_7eassertexpression',['~AssertExpression',['../classcpp_1_1_assert_expression.html#aa79800e71aa879d2167d7e660b29b7fd',1,'cpp::AssertExpression']]]
+  ['tagpointer',['tagPointer',['../group__utility.html#ga4526dc776a686b7377416021812aceb4',1,'cpp::detail::tagPointer(T *pointer, U data)'],['../group__utility.html#gaf2d1c9dd21fb459235efa2f7a281cb8d',1,'cpp::detail::tagPointer(R(*pointer)(Args...), U data) -&gt; decltype(pointer)                        ']]]
 ];
