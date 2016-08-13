@@ -2,6 +2,7 @@ var hierarchy =
 [
     [ "cpp::AssertException", "classcpp_1_1_assert_exception.html", null ],
     [ "cpp::AssertExpression", "classcpp_1_1_assert_expression.html", null ],
+    [ "cpp::BasicSimpleAny< Capacity >", "classcpp_1_1_basic_simple_any.html", null ],
     [ "cpp::concepts::Concept< Result, NoExcept >", "classcpp_1_1concepts_1_1_concept.html", null ],
     [ "cpp::concepts::Concept< false >", "classcpp_1_1concepts_1_1_concept.html", [
       [ "cpp::concepts::IStreamable< T, typename >", "classcpp_1_1concepts_1_1_i_streamable.html", null ],

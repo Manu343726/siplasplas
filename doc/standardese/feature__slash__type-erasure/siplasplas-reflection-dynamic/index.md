@@ -6,8 +6,8 @@ layout: standardese-doc
 # `siplasplas-reflection-dynamic` module files
 
 
- - [`attribute.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/attribute.html)
  - [`api.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/api.html)
+ - [`attribute.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/attribute.html)
  - [`contract.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/contract.html)
  - [`class.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/class.html)
  - [`runtime_forward.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/runtime_forward.html)
@@ -17,8 +17,8 @@ layout: standardese-doc
  - [`function_pointer.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/function_pointer.html)
  - [`logger.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/logger.html)
  - [`namespace.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/namespace.html)
- - [`object.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/object.html)
  - [`object_manip.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/object_manip.html)
+ - [`object.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/object.html)
  - [`runtime.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/runtime.html)
  - [`runtimeloader.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/runtimeloader.html)
  - [`scope.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/scope.html)

@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['sametype',['sameType',['../classcpp_1_1_basic_simple_any.html#ac127a89d9e38c876fcde9a4e4d5a20ee',1,'cpp::BasicSimpleAny']]],
   ['signalemitter',['SignalEmitter',['../classcpp_1_1_signal_emitter.html',1,'cpp']]],
   ['signals',['Signals',['../group__signals.html',1,'']]],
   ['signalsink',['SignalSink',['../classcpp_1_1_signal_sink.html',1,'cpp']]],
