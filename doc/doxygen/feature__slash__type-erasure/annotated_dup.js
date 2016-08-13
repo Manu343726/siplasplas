@@ -8,7 +8,8 @@ var annotated_dup =
       ] ],
       [ "detail", null, [
         [ "Identity", "classcpp_1_1detail_1_1_identity.html", "classcpp_1_1detail_1_1_identity" ],
-        [ "If", "classcpp_1_1detail_1_1_if.html", "classcpp_1_1detail_1_1_if" ]
+        [ "If", "classcpp_1_1detail_1_1_if.html", "classcpp_1_1detail_1_1_if" ],
+        [ "TypeInfo", "classcpp_1_1detail_1_1_type_info.html", "classcpp_1_1detail_1_1_type_info" ]
       ] ],
       [ "features", null, [
         [ "IStreamable", "classcpp_1_1features_1_1_i_streamable.html", null ],

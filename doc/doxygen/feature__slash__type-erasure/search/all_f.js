@@ -1,6 +1,7 @@
 var searchData=
 [
   ['sametype',['sameType',['../classcpp_1_1_basic_simple_any.html#ac127a89d9e38c876fcde9a4e4d5a20ee',1,'cpp::BasicSimpleAny']]],
+  ['semantics',['semantics',['../classcpp_1_1detail_1_1_type_info.html#aee2788b4fe2444f2d910ec8267729009',1,'cpp::detail::TypeInfo::semantics() const '],['../classcpp_1_1detail_1_1_type_info.html#acb6b39510b3c4ad791c7ed98ce2b70a9',1,'cpp::detail::TypeInfo::semantics(ValueSemanticsOperation operation) const ']]],
   ['signalemitter',['SignalEmitter',['../classcpp_1_1_signal_emitter.html',1,'cpp']]],
   ['signals',['Signals',['../group__signals.html',1,'']]],
   ['signalsink',['SignalSink',['../classcpp_1_1_signal_sink.html',1,'cpp']]],

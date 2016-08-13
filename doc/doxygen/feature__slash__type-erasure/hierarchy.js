@@ -35,5 +35,6 @@ var hierarchy =
       [ "cpp::AsyncSink", "classcpp_1_1_async_sink.html", null ],
       [ "cpp::SyncSink", "classcpp_1_1_sync_sink.html", null ]
     ] ],
-    [ "cpp::DynamicLibrary::Symbol", "classcpp_1_1_dynamic_library_1_1_symbol.html", null ]
+    [ "cpp::DynamicLibrary::Symbol", "classcpp_1_1_dynamic_library_1_1_symbol.html", null ],
+    [ "cpp::detail::TypeInfo", "classcpp_1_1detail_1_1_type_info.html", null ]
 ];

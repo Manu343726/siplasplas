@@ -101,7 +101,9 @@ $(document).ready(function(){initNavTree('group__type-erasure.html','');});
 <div class="header">
   <div class="summary">
 <a href="#groups">Modules</a> &#124;
-<a href="#nested-classes">Classes</a>  </div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Type-erasure</div>  </div>
 </div><!--header-->
@@ -120,12 +122,65 @@ Modules</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1detail_1_1_type_info.html">cpp::detail::TypeInfo</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Contains minimal information to execute the value semantics operations of a type.  <a href="classcpp_1_1detail_1_1_type_info.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_basic_simple_any.html">cpp::BasicSimpleAny&lt; Capacity &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements a non-allocating type-erased value container.  <a href="classcpp_1_1_basic_simple_any.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:gaba17b70fef7b2a4c0a2348efffe76fae"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gaba17b70fef7b2a4c0a2348efffe76fae"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#gaba17b70fef7b2a4c0a2348efffe76fae">cpp::detail::ValueSemanticsOperation</a> : std::size_t { <br />
+&#160;&#160;<b>COPY_CONSTRUCT</b>, 
+<b>MOVE_CONSTRUCT</b>, 
+<b>COPY_ASSIGN</b>, 
+<b>MOVE_ASSIGN</b>, 
+<br />
+&#160;&#160;<b>DESTROY</b>
+<br />
+ }<tr class="memdesc:gaba17b70fef7b2a4c0a2348efffe76fae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a move semantics operation. See <a class="el" href="group__type-erasure.html#ga22b04e841203091f885d45347adfcbe5" title="Implements a type-erased interface for the value semantics features of a type T. ">valueSemanticsOperation()</a> <br /></td></tr>
+</td></tr>
+<tr class="separator:gaba17b70fef7b2a4c0a2348efffe76fae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:ga22b04e841203091f885d45347adfcbe5"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga22b04e841203091f885d45347adfcbe5"><td class="memTemplItemLeft" align="right" valign="top">ValueSemanticsOperationFunction&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#ga22b04e841203091f885d45347adfcbe5">cpp::detail::valueSemanticsOperation</a> (ValueSemanticsOperation operation)</td></tr>
+<tr class="memdesc:ga22b04e841203091f885d45347adfcbe5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements a type-erased interface for the value semantics features of a type T.  <a href="group__type-erasure.html#ga22b04e841203091f885d45347adfcbe5">More...</a><br /></td></tr>
+<tr class="separator:ga22b04e841203091f885d45347adfcbe5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Type-erasure utilities. </p>
+<h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="ga22b04e841203091f885d45347adfcbe5"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">ValueSemanticsOperationFunction cpp::detail::valueSemanticsOperation </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__type-erasure.html#gaba17b70fef7b2a4c0a2348efffe76fae">ValueSemanticsOperation</a>&#160;</td>
+          <td class="paramname"><em>operation</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Implements a type-erased interface for the value semantics features of a type T. </p>
+<p>The function returns a function pointer with a type erased signature that gives access to the specified value semantics feature. See ValueSemanticsOperation.</p>
+<div class="fragment"><div class="line"><span class="keywordtype">int</span> i = 42;</div><div class="line"><span class="keywordtype">int</span>* j = malloc(<span class="keyword">sizeof</span>(i));</div><div class="line">void (*copyConstructInts)(<span class="keywordtype">void</span>*, <span class="keyword">const</span> <span class="keywordtype">void</span>*) = valueSemanticsOperation&lt;int&gt;(ValueSemanticsOperation::COPY_CONSTRUCT);</div><div class="line"></div><div class="line">copyConstructInts(j, &amp;i); <span class="comment">// copy i into j</span></div></div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">operation</td><td>The operation needed</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A <code>void(*)(void*, const void*)</code> function pointer that implements the required operation </dd></dl>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
