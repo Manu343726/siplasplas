@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['referenceany',['ReferenceAny',['../group__type-erasure.html#gaadb3d9d778950331a7a34ea86ba4b7bf',1,'cpp']]]
+  ['referencesimpleany',['ReferenceSimpleAny',['../group__type-erasure.html#ga96ea8afa78a5e2f6b5dff8b6506afb9b',1,'cpp']]]
 ];

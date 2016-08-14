@@ -24,7 +24,7 @@ var searchData=
   ['connect_5fasync',['connect_async',['../classcpp_1_1_signal_emitter.html#a154d13b2bcf5f8bbf997b5172284b486',1,'cpp::SignalEmitter::connect_async(Caller &amp;caller, R(Class::*source)(Args...), Function function)'],['../classcpp_1_1_signal_emitter.html#a74547169c5a7375e9812e966efb2d3fd',1,'cpp::SignalEmitter::connect_async(Caller &amp;caller, R(Class::*source)(Args...), Callee &amp;callee, Function function)']]],
   ['constnonowningstorage',['ConstNonOwningStorage',['../classcpp_1_1_const_non_owning_storage.html#ac83a24e137098b2391aa4d3f465dfc5a',1,'cpp::ConstNonOwningStorage']]],
   ['constnonowningstorage',['ConstNonOwningStorage',['../classcpp_1_1_const_non_owning_storage.html',1,'cpp']]],
-  ['constreferenceany',['ConstReferenceAny',['../group__type-erasure.html#gaf7a9b84f0d0601f1be2f8d287dea7cb3',1,'cpp']]],
+  ['constreferencesimpleany',['ConstReferenceSimpleAny',['../group__type-erasure.html#gacc6d5ee72d584e0775ff78d227bb9691',1,'cpp']]],
   ['construct',['construct',['../group__utility.html#ga81ebc024fb46c3b4128443a6bf3e2464',1,'cpp::construct(void *where, Args &amp;&amp;...args)'],['../group__utility.html#ga6eb03b1733484d2450d8a98ff9e793be',1,'cpp::construct(T *where, Args &amp;&amp;...args)']]],
   ['constructible',['Constructible',['../classcpp_1_1concepts_1_1_constructible.html',1,'cpp::concepts']]],
   ['copyassign',['copyAssign',['../classcpp_1_1_type_info.html#a7d2e2ce60e16701e6e8b72cb1305698a',1,'cpp::TypeInfo']]],

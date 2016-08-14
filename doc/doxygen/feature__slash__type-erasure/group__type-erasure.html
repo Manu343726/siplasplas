@@ -151,14 +151,14 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gro
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#ga8a1ebf8abc432d6a7d90e07e97bc0834">cpp::SimpleAny64</a> = SimpleAny&lt; FixedSizeStorage&lt; 64 &gt;&gt;</td></tr>
 <tr class="memdesc:ga8a1ebf8abc432d6a7d90e07e97bc0834"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">SimpleAny</a> with 64 byte fixed-size storage. <br /></td></tr>
 <tr class="separator:ga8a1ebf8abc432d6a7d90e07e97bc0834"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaf7a9b84f0d0601f1be2f8d287dea7cb3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gaf7a9b84f0d0601f1be2f8d287dea7cb3"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#gaf7a9b84f0d0601f1be2f8d287dea7cb3">cpp::ConstReferenceAny</a> = SimpleAny&lt; ConstNonOwningStorage &gt;</td></tr>
-<tr class="memdesc:gaf7a9b84f0d0601f1be2f8d287dea7cb3"><td class="mdescLeft">&#160;</td><td class="mdescRight">A non-owning <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">SimpleAny</a> that (const) references an existing object. <br /></td></tr>
-<tr class="separator:gaf7a9b84f0d0601f1be2f8d287dea7cb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaadb3d9d778950331a7a34ea86ba4b7bf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gaadb3d9d778950331a7a34ea86ba4b7bf"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#gaadb3d9d778950331a7a34ea86ba4b7bf">cpp::ReferenceAny</a> = SimpleAny&lt; NonOwningStorage &gt;</td></tr>
-<tr class="memdesc:gaadb3d9d778950331a7a34ea86ba4b7bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">A non-owning <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">SimpleAny</a> that references an existing object. <br /></td></tr>
-<tr class="separator:gaadb3d9d778950331a7a34ea86ba4b7bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gacc6d5ee72d584e0775ff78d227bb9691"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gacc6d5ee72d584e0775ff78d227bb9691"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#gacc6d5ee72d584e0775ff78d227bb9691">cpp::ConstReferenceSimpleAny</a> = SimpleAny&lt; ConstNonOwningStorage &gt;</td></tr>
+<tr class="memdesc:gacc6d5ee72d584e0775ff78d227bb9691"><td class="mdescLeft">&#160;</td><td class="mdescRight">A non-owning <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">SimpleAny</a> that (const) references an existing object. <br /></td></tr>
+<tr class="separator:gacc6d5ee72d584e0775ff78d227bb9691"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga96ea8afa78a5e2f6b5dff8b6506afb9b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga96ea8afa78a5e2f6b5dff8b6506afb9b"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#ga96ea8afa78a5e2f6b5dff8b6506afb9b">cpp::ReferenceSimpleAny</a> = SimpleAny&lt; NonOwningStorage &gt;</td></tr>
+<tr class="memdesc:ga96ea8afa78a5e2f6b5dff8b6506afb9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">A non-owning <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">SimpleAny</a> that references an existing object. <br /></td></tr>
+<tr class="separator:ga96ea8afa78a5e2f6b5dff8b6506afb9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -176,6 +176,26 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ga189ee4b90e459fe6e56850121e99f442"><td class="memTemplParams" colspan="2"><a class="anchor" id="ga189ee4b90e459fe6e56850121e99f442"></a>
+template&lt;typename Callable , typename... Storages&gt; </td></tr>
+<tr class="memitem:ga189ee4b90e459fe6e56850121e99f442"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#ga189ee4b90e459fe6e56850121e99f442">cpp::typeerasure::invoke</a> (Callable &amp;&amp;callable, const ::<a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny</a>&lt; Storages &gt; &amp;...args)</td></tr>
+<tr class="memdesc:ga189ee4b90e459fe6e56850121e99f442"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a callable object with the given type-erased arguments. <br /></td></tr>
+<tr class="separator:ga189ee4b90e459fe6e56850121e99f442"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaebb19034ebb7e52f61d7646d48ca2ee5"><td class="memTemplParams" colspan="2"><a class="anchor" id="gaebb19034ebb7e52f61d7646d48ca2ee5"></a>
+template&lt;typename Callable , typename... Storages&gt; </td></tr>
+<tr class="memitem:gaebb19034ebb7e52f61d7646d48ca2ee5"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#gaebb19034ebb7e52f61d7646d48ca2ee5">cpp::typeerasure::invoke</a> (Callable &amp;&amp;callable,::<a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny</a>&lt; Storages &gt; &amp;&amp;...args)</td></tr>
+<tr class="memdesc:gaebb19034ebb7e52f61d7646d48ca2ee5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a callable object with the given type-erased arguments. <br /></td></tr>
+<tr class="separator:gaebb19034ebb7e52f61d7646d48ca2ee5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab76836a0017aa4bfc25e7d1f7bebcbe3"><td class="memTemplParams" colspan="2"><a class="anchor" id="gab76836a0017aa4bfc25e7d1f7bebcbe3"></a>
+template&lt;typename Callable , typename Storage &gt; </td></tr>
+<tr class="memitem:gab76836a0017aa4bfc25e7d1f7bebcbe3"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#gab76836a0017aa4bfc25e7d1f7bebcbe3">cpp::typeerasure::invoke</a> (Callable &amp;&amp;callable, const std::vector&lt;::<a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny</a>&lt; Storage &gt;&gt; &amp;args)</td></tr>
+<tr class="memdesc:gab76836a0017aa4bfc25e7d1f7bebcbe3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a callable object with the given type-erased arguments. <br /></td></tr>
+<tr class="separator:gab76836a0017aa4bfc25e7d1f7bebcbe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga09d29976839dd8644c2f5e60755e0a2d"><td class="memTemplParams" colspan="2"><a class="anchor" id="ga09d29976839dd8644c2f5e60755e0a2d"></a>
+template&lt;typename Callable , typename Storage &gt; </td></tr>
+<tr class="memitem:ga09d29976839dd8644c2f5e60755e0a2d"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#ga09d29976839dd8644c2f5e60755e0a2d">cpp::typeerasure::invoke</a> (Callable &amp;&amp;callable, std::vector&lt;::<a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny</a>&lt; Storage &gt;&gt; &amp;&amp;args)</td></tr>
+<tr class="memdesc:ga09d29976839dd8644c2f5e60755e0a2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a callable object with the given type-erased arguments. <br /></td></tr>
+<tr class="separator:ga09d29976839dd8644c2f5e60755e0a2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga22b04e841203091f885d45347adfcbe5"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ga22b04e841203091f885d45347adfcbe5"><td class="memTemplItemLeft" align="right" valign="top">ValueSemanticsOperationFunction&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#ga22b04e841203091f885d45347adfcbe5">cpp::detail::valueSemanticsOperation</a> (ValueSemanticsOperation operation)</td></tr>
 <tr class="memdesc:ga22b04e841203091f885d45347adfcbe5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements a type-erased interface for the value semantics features of a type T.  <a href="group__type-erasure.html#ga22b04e841203091f885d45347adfcbe5">More...</a><br /></td></tr>

@@ -298,7 +298,7 @@ template&lt;typename Caller , typename Callee , typename Function &gt; </div>
 </div><div class="memdoc">
 
 <p>Does nothing. </p>
-<p>Synchronous sinks directly invoke the destination function when SignalSink::operator() and SyncSink::invoke() are invoked, so <a class="el" href="classcpp_1_1_sync_sink.html#a4d7d65c33dcc02792e35b9f99f64432c" title="Does nothing. ">pull()</a> has no work to do.</p>
+<p>Synchronous sinks directly invoke the destination function when SignalSink::operator() and <a class="el" href="group__type-erasure.html#ga189ee4b90e459fe6e56850121e99f442" title="Invokes a callable object with the given type-erased arguments. ">SyncSink::invoke()</a> are invoked, so <a class="el" href="classcpp_1_1_sync_sink.html#a4d7d65c33dcc02792e35b9f99f64432c" title="Does nothing. ">pull()</a> has no work to do.</p>
 <dl class="section return"><dt>Returns</dt><dd>Always returns true. </dd></dl>
 
 <p>Implements <a class="el" href="classcpp_1_1_signal_sink.html">cpp::SignalSink</a>.</p>

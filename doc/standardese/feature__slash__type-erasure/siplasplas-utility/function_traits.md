@@ -28,6 +28,9 @@ namespace cpp
         template <typename R, typename ... Args>
         struct get_function_signature<R(Args...)>;
         
+        template <typename R, typename ... Args>
+        struct get_function_signature<R(*)(Args...)>;
+        
         template <typename C, typename R, typename ... Args>
         struct get_function_signature<R (C::*)(Args...)>;
         

@@ -168,11 +168,11 @@ virtual bool&#160;</td><td class="memItemRight" valign="bottom"><b>invokeWithout
 <div class="textblock"><p>Interface to the signals sink API. </p>
 <p>A signal sink represents the destination of an emitted signal, that is, the action that should be invoked and how. Sinks keep track of the objects participating in a signal interchange (The source <a class="el" href="classcpp_1_1_signal_emitter.html" title="Class that can send and receive signals from other emitters. ">SignalEmitter</a> and the destination object, if any). The interface provides two member functions to be overrided:</p>
 <ul>
-<li><b>SignalSink::invoke()</b>: Implements the behavior of the sink, that is, what is done when the source signal is emitted.</li>
+<li><b><a class="el" href="group__type-erasure.html#ga189ee4b90e459fe6e56850121e99f442" title="Invokes a callable object with the given type-erased arguments. ">SignalSink::invoke()</a></b>: Implements the behavior of the sink, that is, what is done when the source signal is emitted.</li>
 <li><b>SignalSink::pull()</b>: Implements the pull behavior of the sink, what should be done if the user of the connection explicitly asks for incoming signals.</li>
 </ul>
-<p>Also the user must specify whether the sink should be invoked with ot without a callee object (See <a class="el" href="classcpp_1_1_signal_sink.html#a971b0f8056fa4a6b3e67f5281c856631" title="Invokes the sink with the given arguments. ">SignalSink::operator()()</a> template). <b>Callee (if any) is always the first argument of type erased invoke() function</b>.</p>
-<p>When an user invokes the signal, he/she does through the SignalSInk::invoke() template, which perfect forwards the signal arguments to the type erased protected functions above. </p>
+<p>Also the user must specify whether the sink should be invoked with ot without a callee object (See <a class="el" href="classcpp_1_1_signal_sink.html#a971b0f8056fa4a6b3e67f5281c856631" title="Invokes the sink with the given arguments. ">SignalSink::operator()()</a> template). <b>Callee (if any) is always the first argument of type erased <a class="el" href="group__type-erasure.html#ga189ee4b90e459fe6e56850121e99f442" title="Invokes a callable object with the given type-erased arguments. ">invoke()</a> function</b>.</p>
+<p>When an user invokes the signal, he/she does through the <a class="el" href="group__type-erasure.html#ga189ee4b90e459fe6e56850121e99f442" title="Invokes a callable object with the given type-erased arguments. ">SignalSInk::invoke()</a> template, which perfect forwards the signal arguments to the type erased protected functions above. </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a0c12f236d49430adddf02e220faf2052"></a>
 <div class="memitem">
@@ -333,7 +333,7 @@ template&lt;typename... Args&gt; </div>
 </div><div class="memdoc">
 
 <p>Invokes the sink with the given arguments. </p>
-<p>This function invokes the sink by type erasing the call arguments and passing them to SignalSink::invoke(). If neccesary (See SignalSink::invokeWithoutCallee()) it also passes a reference to the callee object first.</p>
+<p>This function invokes the sink by type erasing the call arguments and passing them to <a class="el" href="group__type-erasure.html#ga189ee4b90e459fe6e56850121e99f442" title="Invokes a callable object with the given type-erased arguments. ">SignalSink::invoke()</a>. If neccesary (See SignalSink::invokeWithoutCallee()) it also passes a reference to the callee object first.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">args</td><td>call arguments. </td></tr>

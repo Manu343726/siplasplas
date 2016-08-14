@@ -140,10 +140,10 @@ template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a7a32c1fdd8557bc2dc703103b2f5f9ab"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1_simple_any_3_01_const_non_owning_storage_01_4.html#a7a32c1fdd8557bc2dc703103b2f5f9ab">hasType</a> () const </td></tr>
 <tr class="memdesc:a7a32c1fdd8557bc2dc703103b2f5f9ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the any has a value of type T.  <a href="#a7a32c1fdd8557bc2dc703103b2f5f9ab">More...</a><br /></td></tr>
 <tr class="separator:a7a32c1fdd8557bc2dc703103b2f5f9ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4717822e326ff1f8f7c7d0f7d8083515"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a4717822e326ff1f8f7c7d0f7d8083515"><td class="memTemplItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1_simple_any_3_01_const_non_owning_storage_01_4.html#a4717822e326ff1f8f7c7d0f7d8083515">get</a> () const </td></tr>
-<tr class="memdesc:a4717822e326ff1f8f7c7d0f7d8083515"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a readonly reference to the hosted object.  <a href="#a4717822e326ff1f8f7c7d0f7d8083515">More...</a><br /></td></tr>
-<tr class="separator:a4717822e326ff1f8f7c7d0f7d8083515"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9c2936f9e2b27ee6bc15525e1befa15"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ae9c2936f9e2b27ee6bc15525e1befa15"><td class="memTemplItemLeft" align="right" valign="top">const std::decay_t&lt; T &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1_simple_any_3_01_const_non_owning_storage_01_4.html#ae9c2936f9e2b27ee6bc15525e1befa15">get</a> () const </td></tr>
+<tr class="memdesc:ae9c2936f9e2b27ee6bc15525e1befa15"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a readonly reference to the hosted object.  <a href="#ae9c2936f9e2b27ee6bc15525e1befa15">More...</a><br /></td></tr>
+<tr class="separator:ae9c2936f9e2b27ee6bc15525e1befa15"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93c31081be9096a600305359a2fd4aa0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a93c31081be9096a600305359a2fd4aa0"></a>
 <a class="el" href="classcpp_1_1_type_info.html">TypeInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_simple_any_3_01_const_non_owning_storage_01_4.html#a93c31081be9096a600305359a2fd4aa0">typeInfo</a> () const </td></tr>
 <tr class="memdesc:a93c31081be9096a600305359a2fd4aa0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type information of the hosted type. <br /></td></tr>
@@ -180,7 +180,7 @@ class cpp::SimpleAny&lt; ConstNonOwningStorage &gt;</h3>
 
 <p><a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">cpp::SimpleAny</a> specialization for non-owning const references to existing objects. See <a class="el" href="classcpp_1_1_const_non_owning_storage.html" title="Implements a read-only non owning storage. ">cpp::ConstNonOwningStorage</a> </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a4717822e326ff1f8f7c7d0f7d8083515"></a>
+<a class="anchor" id="ae9c2936f9e2b27ee6bc15525e1befa15"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -190,7 +190,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const T&amp; <a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny</a>&lt; <a class="el" href="classcpp_1_1_const_non_owning_storage.html">ConstNonOwningStorage</a> &gt;::get </td>
+          <td class="memname">const std::decay_t&lt;T&gt;&amp; <a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny</a>&lt; <a class="el" href="classcpp_1_1_const_non_owning_storage.html">ConstNonOwningStorage</a> &gt;::get </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>

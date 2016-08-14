@@ -12,6 +12,7 @@ var group__utility =
     [ "construct", "group__utility.html#ga6eb03b1733484d2450d8a98ff9e793be", null ],
     [ "destroy", "group__utility.html#gab2e9d3829ce1ca89d34621982e21825b", null ],
     [ "destroy", "group__utility.html#gaa57a939be0ef8e82d9fa9dd6ae3eddca", null ],
+    [ "invoke", "group__utility.html#gaa5ce618849a87f98c075cf947174abf4", null ],
     [ "is_aligned", "group__utility.html#ga488b583efccb73b95fc86570a2e78c4f", null ],
     [ "is_aligned", "group__utility.html#ga4d8f7e5f5743aceb3efcfe197e612583", null ],
     [ "is_aligned", "group__utility.html#gad5dc2a2574e06016fcc0f30483ff4abf", null ],

@@ -22,6 +22,8 @@ layout: standardese-doc
 
   - [hash.hpp](hash.md "hash.hpp")
 
+  - [invoke.hpp](invoke.md "invoke.hpp")
+
   - [lexical\_cast.hpp](lexical_cast.md "lexical_cast.hpp")
 
   - [memory\_manip.hpp](memory_manip.md "memory_manip.hpp")
