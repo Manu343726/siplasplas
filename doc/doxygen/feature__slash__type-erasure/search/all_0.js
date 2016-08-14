@@ -10,6 +10,7 @@ var searchData=
   ['assertexception',['AssertException',['../classcpp_1_1_assert_exception.html',1,'cpp']]],
   ['assertexpression',['AssertExpression',['../classcpp_1_1_assert_expression.html',1,'cpp']]],
   ['assertexpression',['AssertExpression',['../classcpp_1_1_assert_expression.html#a747d06793ac638fae3da51bae1eca33d',1,'cpp::AssertExpression']]],
+  ['assignable',['Assignable',['../classcpp_1_1concepts_1_1_assignable.html',1,'cpp::concepts']]],
   ['asyncsink',['AsyncSink',['../classcpp_1_1_async_sink.html',1,'cpp']]],
   ['asyncsink',['AsyncSink',['../classcpp_1_1_async_sink.html#a56ed191f5431410389b6c256f557c4c0',1,'cpp::AsyncSink::AsyncSink(Caller &amp;caller, Function function)'],['../classcpp_1_1_async_sink.html#aaf85acf83bfba5d4464e906e17271d1f',1,'cpp::AsyncSink::AsyncSink(Caller &amp;caller, Callee &amp;callee, Function function)']]]
 ];

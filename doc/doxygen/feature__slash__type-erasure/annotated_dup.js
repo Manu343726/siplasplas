@@ -2,8 +2,16 @@ var annotated_dup =
 [
     [ "cpp", null, [
       [ "concepts", null, [
+        [ "Assignable", "classcpp_1_1concepts_1_1_assignable.html", null ],
         [ "Concept", "classcpp_1_1concepts_1_1_concept.html", null ],
+        [ "Constructible", "classcpp_1_1concepts_1_1_constructible.html", null ],
+        [ "CopyAssignable", "classcpp_1_1concepts_1_1_copy_assignable.html", null ],
+        [ "CopyConstructible", "classcpp_1_1concepts_1_1_copy_constructible.html", null ],
+        [ "DefaultConstructible", "classcpp_1_1concepts_1_1_default_constructible.html", null ],
+        [ "Destructible", "classcpp_1_1concepts_1_1_destructible.html", null ],
         [ "IStreamable", "classcpp_1_1concepts_1_1_i_streamable.html", null ],
+        [ "MoveAssignable", "classcpp_1_1concepts_1_1_move_assignable.html", null ],
+        [ "MoveConstructible", "classcpp_1_1concepts_1_1_move_constructible.html", null ],
         [ "OStreamable", "classcpp_1_1concepts_1_1_o_streamable.html", null ]
       ] ],
       [ "detail", null, [

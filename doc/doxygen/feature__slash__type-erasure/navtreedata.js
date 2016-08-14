@@ -20,7 +20,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"group__error-handling.html#gaf55bea62b12e6179f0532190c88bce20"
+"group__dynamic-library.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
