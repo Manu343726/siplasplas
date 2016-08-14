@@ -7,6 +7,11 @@
 #include <ostream>
 #include <istream>
 
+/**
+ * \ingroup concepts
+ * \defgroup iostream
+ */
+
 namespace cpp
 {
 
@@ -14,7 +19,7 @@ namespace concepts
 {
 
 /**
- * \ingroup concepts
+ * \ingroup iostream
  * \brief Checks whether a vaue of type T can be written to a standard stream.
  *
  * This concept trait checks if values of a given type T can be
@@ -45,7 +50,7 @@ class OStreamable<T, cpp::meta::void_t<decltype(std::declval<std::ostream&>() <<
 {};
 
 /**
- * \ingroup concepts
+ * \ingroup iostream
  * \brief Checks whether a vaue of type T can be read from a standard stream.
  *
  * This concept trait checks if values of a given type T can be
