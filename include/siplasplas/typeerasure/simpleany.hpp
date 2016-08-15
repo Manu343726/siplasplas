@@ -104,10 +104,10 @@ public:
      * type, the behavior is undefined (See hasType()).
      */
     template<typename T>
-    const T& get() const
+    const std::decay_t<T>& get() const
     {
-        SIPLASPLAS_ASSERT_TRUE(hasType<T>());
-        return *reinterpret_cast<const T*>(Storage::storage(_typeInfo.alignment()));
+        SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>());
+        return *reinterpret_cast<const std::decay_t<T>*>(Storage::storage(_typeInfo.alignment()));
     }
 
     /**
@@ -117,10 +117,10 @@ public:
      * type, the behavior is undefined (See hasType()).
      */
     template<typename T>
-    T& get()
+    std::decay_t<T>& get()
     {
-        SIPLASPLAS_ASSERT_TRUE(hasType<T>());
-        return *reinterpret_cast<T*>(Storage::storage(_typeInfo.alignment()));
+        SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>());
+        return *reinterpret_cast<std::decay_t<T>*>(Storage::storage(_typeInfo.alignment()));
     }
 
     /**
@@ -263,10 +263,10 @@ public:
      * type, the behavior is undefined (See hasType()).
      */
     template<typename T>
-    const T& get() const
+    const std::decay_t<T>& get() const
     {
-        SIPLASPLAS_ASSERT_TRUE(hasType<T>());
-        return *reinterpret_cast<const T*>(ConstNonOwningStorage::storage(_typeInfo.alignment()));
+        SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>());
+        return *reinterpret_cast<const std::decay_t<T>*>(ConstNonOwningStorage::storage(_typeInfo.alignment()));
     }
 
     /**
@@ -349,10 +349,10 @@ public:
      * type, the behavior is undefined (See hasType()).
      */
     template<typename T>
-    const T& get() const
+    const std::decay_t<T>& get() const
     {
-        SIPLASPLAS_ASSERT_TRUE(hasType<T>());
-        return *reinterpret_cast<const T*>(NonOwningStorage::storage(_typeInfo.alignment()));
+        SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>());
+        return *reinterpret_cast<const std::decay_t<T>*>(NonOwningStorage::storage(_typeInfo.alignment()));
     }
 
     /**
@@ -362,10 +362,10 @@ public:
      * type, the behavior is undefined (See hasType()).
      */
     template<typename T>
-    T& get()
+    std::decay_t<T>& get()
     {
-        SIPLASPLAS_ASSERT_TRUE(hasType<T>());
-        return *reinterpret_cast<T*>(NonOwningStorage::storage(_typeInfo.alignment()));
+        SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>());
+        return *reinterpret_cast<std::decay_t<T>*>(NonOwningStorage::storage(_typeInfo.alignment()));
     }
 
     /**
