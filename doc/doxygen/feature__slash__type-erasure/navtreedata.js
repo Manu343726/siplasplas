@@ -20,7 +20,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"group__dynamic-library.html"
+"cmake_2cmake-project_8cpp-example.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

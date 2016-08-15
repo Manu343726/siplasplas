@@ -108,6 +108,7 @@ $(document).ready(function(){initNavTree('classcpp_1_1_simple_any.html','');});
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="classcpp_1_1_simple_any-members.html">List of all members</a>  </div>
@@ -120,15 +121,43 @@ $(document).ready(function(){initNavTree('classcpp_1_1_simple_any.html','');});
  <a href="classcpp_1_1_simple_any.html#details">More...</a></p>
 
 <p><code>#include &lt;<a class="el" href="simpleany_8hpp_source.html">siplasplas/typeerasure/simpleany.hpp</a>&gt;</code></p>
-
-<p>Inherits Storage.</p>
+<div class="dynheader">
+Inheritance diagram for cpp::SimpleAny&lt; Storage &gt;:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classcpp_1_1_simple_any.png" usemap="#cpp::SimpleAny_3C_20Storage_20_3E_map" alt=""/>
+  <map id="cpp::SimpleAny_3C_20Storage_20_3E_map" name="cpp::SimpleAny&lt; Storage &gt;_map">
+<area href="classcpp_1_1_any.html" title="Implements a type-erased object container with support for dynamic method and attribute invokation..." alt="cpp::Any&lt; Storage, FunctionsStorage, FunctionArgsStorage, AttributesStorage &gt;" shape="rect" coords="0,56,473,80"/>
+</map>
+ </div></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structcpp_1_1_simple_any_1_1_empty_tag.html">EmptyTag</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Type used to represent empty state.  <a href="structcpp_1_1_simple_any_1_1_empty_tag.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ad882ddbd085449603400249cdf1cd60e"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:ad882ddbd085449603400249cdf1cd60e"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1_simple_any.html#ad882ddbd085449603400249cdf1cd60e">SimpleAny</a> (const T &amp;value)</td></tr>
-<tr class="memdesc:ad882ddbd085449603400249cdf1cd60e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an any of type T from an lvalue of type T.  <a href="#ad882ddbd085449603400249cdf1cd60e">More...</a><br /></td></tr>
-<tr class="separator:ad882ddbd085449603400249cdf1cd60e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9622e80d5d2991395173312d7fa1f5c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad9622e80d5d2991395173312d7fa1f5c"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_simple_any.html#ad9622e80d5d2991395173312d7fa1f5c">SimpleAny</a> ()</td></tr>
+<tr class="memdesc:ad9622e80d5d2991395173312d7fa1f5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an empty <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">SimpleAny</a>. <br /></td></tr>
+<tr class="separator:ad9622e80d5d2991395173312d7fa1f5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab4ebe3f63990da1c9957f003a298f163"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_simple_any.html#ab4ebe3f63990da1c9957f003a298f163">empty</a> () const </td></tr>
+<tr class="memdesc:ab4ebe3f63990da1c9957f003a298f163"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether the any has an object hosted in or if is empty.  <a href="#ab4ebe3f63990da1c9957f003a298f163">More...</a><br /></td></tr>
+<tr class="separator:ab4ebe3f63990da1c9957f003a298f163"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac9485d4f854ab202f1dc48cdf5b05c97"><td class="memTemplParams" colspan="2">template&lt;typename T , typename  = std::enable_if_t&lt;        !std::is_base_of&lt;            SimpleAny,            std::decay_t&lt;T&gt;        &gt;::value    &gt;&gt; </td></tr>
+<tr class="memitem:ac9485d4f854ab202f1dc48cdf5b05c97"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1_simple_any.html#ac9485d4f854ab202f1dc48cdf5b05c97">SimpleAny</a> (const T &amp;value)</td></tr>
+<tr class="memdesc:ac9485d4f854ab202f1dc48cdf5b05c97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an any of type T from an lvalue of type T.  <a href="#ac9485d4f854ab202f1dc48cdf5b05c97">More...</a><br /></td></tr>
+<tr class="separator:ac9485d4f854ab202f1dc48cdf5b05c97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec15b1ff77cfd2e7b1909d7ad3a86a4d"><td class="memTemplParams" colspan="2"><a class="anchor" id="aec15b1ff77cfd2e7b1909d7ad3a86a4d"></a>
+template&lt;typename OtherStorage &gt; </td></tr>
+<tr class="memitem:aec15b1ff77cfd2e7b1909d7ad3a86a4d"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>SimpleAny</b> (const <a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt; OtherStorage &gt; &amp;other)</td></tr>
+<tr class="separator:aec15b1ff77cfd2e7b1909d7ad3a86a4d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad75047f87a51b9d9673f625beef1611c"><td class="memTemplParams" colspan="2"><a class="anchor" id="ad75047f87a51b9d9673f625beef1611c"></a>
+template&lt;typename OtherStorage &gt; </td></tr>
+<tr class="memitem:ad75047f87a51b9d9673f625beef1611c"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><b>SimpleAny</b> (<a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt; OtherStorage &gt; &amp;&amp;other)</td></tr>
+<tr class="separator:ad75047f87a51b9d9673f625beef1611c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeecd800641f46d2287774b7c38dd16ea"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeecd800641f46d2287774b7c38dd16ea"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>SimpleAny</b> (const <a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a> &amp;other)</td></tr>
 <tr class="separator:aeecd800641f46d2287774b7c38dd16ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -184,13 +213,13 @@ class cpp::SimpleAny&lt; Storage &gt;</h3>
   </dd>
 </dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="ad882ddbd085449603400249cdf1cd60e"></a>
+<a class="anchor" id="ac9485d4f854ab202f1dc48cdf5b05c97"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename Storage&gt; </div>
 <div class="memtemplate">
-template&lt;typename T &gt; </div>
+template&lt;typename T , typename  = std::enable_if_t&lt;        !std::is_base_of&lt;            SimpleAny,            std::decay_t&lt;T&gt;        &gt;::value    &gt;&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -263,6 +292,34 @@ template&lt;typename T , typename... Args&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">SimpleAny</a> instance hosting an object of type T </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ab4ebe3f63990da1c9957f003a298f163"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Storage&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool <a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny</a>&lt; Storage &gt;::empty </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Checks whether the any has an object hosted in or if is empty. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if the any is empty (There's no hosted object), false instead </dd></dl>
 
 </div>
 </div>

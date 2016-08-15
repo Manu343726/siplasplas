@@ -22,6 +22,10 @@ var annotated_dup =
         [ "IStreamable", "classcpp_1_1features_1_1_i_streamable.html", null ],
         [ "OStreamable", "classcpp_1_1features_1_1_o_streamable.html", null ]
       ] ],
+      [ "typeerasure", null, [
+        [ "Function", "classcpp_1_1typeerasure_1_1_function.html", "classcpp_1_1typeerasure_1_1_function" ]
+      ] ],
+      [ "Any", "classcpp_1_1_any.html", "classcpp_1_1_any" ],
       [ "AssertException", "classcpp_1_1_assert_exception.html", null ],
       [ "AssertExpression", "classcpp_1_1_assert_expression.html", "classcpp_1_1_assert_expression" ],
       [ "AsyncSink", "classcpp_1_1_async_sink.html", "classcpp_1_1_async_sink" ],

@@ -17,6 +17,9 @@ namespace cpp
     template <typename T>
     void destroy(T* objectPtr);
     
+    template <typename R, typename ... Args>
+    void destroy(R(*functionPointer)(Args...));
+    
     template <typename T, typename ... Args>
     void construct(void* where, Args&&... args);
     
