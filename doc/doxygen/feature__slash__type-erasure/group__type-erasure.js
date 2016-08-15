@@ -100,8 +100,10 @@ var group__type_erasure =
     [ "SimpleAny8", "group__type-erasure.html#gaf264a5242fad1ad7e84f2e2e2993eed1", null ],
     [ "ValueSemanticsOperation", "group__type-erasure.html#gaba17b70fef7b2a4c0a2348efffe76fae", null ],
     [ "invoke", "group__type-erasure.html#ga189ee4b90e459fe6e56850121e99f442", null ],
+    [ "invoke", "group__type-erasure.html#ga1427d8680b6f76b2605c0519f259e85d", null ],
     [ "invoke", "group__type-erasure.html#gaebb19034ebb7e52f61d7646d48ca2ee5", null ],
     [ "invoke", "group__type-erasure.html#gab76836a0017aa4bfc25e7d1f7bebcbe3", null ],
+    [ "invoke", "group__type-erasure.html#gab384b4416850752979093d983b07c60f", null ],
     [ "invoke", "group__type-erasure.html#ga09d29976839dd8644c2f5e60755e0a2d", null ],
     [ "valueSemanticsOperation", "group__type-erasure.html#ga22b04e841203091f885d45347adfcbe5", null ]
 ];
