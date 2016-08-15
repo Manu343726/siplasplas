@@ -6,6 +6,7 @@ SOURCES
     features/valuesemantics_test.cpp
     simpleany_test.cpp
     referencesimpleany_test.cpp
+    invoke_test.cpp
 DEPENDS
     siplasplas-typeerasure
 DEFAULT_TEST_MAIN

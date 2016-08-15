@@ -262,7 +262,7 @@ namespace meta
             using before = Seq<Left...>;
             using left  = Seq<Left..., Head>;
             using head  = Head;
-            using right = Seq<Tail...>;
+            using right = Seq<Head, Tail...>;
             using after = Seq<Tail...>;
         };
     }
@@ -279,6 +279,10 @@ namespace meta
     using pack_split_before_t = typename pack_split<Index, Ts...>::before;
     template<std::size_t Index, typename... Ts>
     using pack_split_after_t = typename pack_split<Index, Ts...>::after;
+    template<typename... Ts>
+    using pack_head_t = pack_get_t<0, Ts...>;
+    template<typename... Ts>
+    using pack_tail_t = pack_split_after_t<0, Ts...>;
 
     template<std::size_t Index, typename Seq>
     struct split;
@@ -302,7 +306,11 @@ namespace meta
     template<std::size_t Index, typename Seq>
     using split_before_t = typename split<Index, Seq>::before;
     template<std::size_t Index, typename Seq>
-    using split_after_t = typename pack_split<Index, Seq>::after;
+    using split_after_t = typename split<Index, Seq>::after;
+    template<typename Seq>
+    using head_t = get_t<0, Seq>;
+    template<typename Seq>
+    using tail_t = split_after_t<0, Seq>;
 
 
     template<typename T, typename... Ts>

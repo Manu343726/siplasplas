@@ -49,17 +49,24 @@ namespace detail
         static constexpr FunctionKind kind = FunctionKind::FREE_FUNCTION;
     };
 
+    template<typename R, typename... Args>
+    struct get_function_signature<R(*)(Args...)> :
+        public get_function_signature<R(Args...)>
+    {};
+
     template<typename C, typename R, typename... Args>
-    struct get_function_signature<R (C::*)(Args...)> :
-        get_function_signature<R(Args...)>
+    struct get_function_signature<R (C::*)(Args...)>
     {
+        using args = meta::list<C, Args...>;
+        using return_type = R;
         static constexpr FunctionKind kind = FunctionKind::MEMBER_FUNCTION;
     };
 
     template<typename C, typename R, typename... Args>
-    struct get_function_signature<R (C::*)(Args...) const> :
-        get_function_signature<R(Args...)>
+    struct get_function_signature<R (C::*)(Args...) const>
     {
+        using args = meta::list<C, Args...>;
+        using return_type = R;
         static constexpr FunctionKind kind = FunctionKind::CONST_MEMBER_FUNCTION;
     };
 
@@ -71,9 +78,16 @@ struct function_signature : public
 {};
 
 template<typename Functor>
-struct function_signature<Functor, true> :
-    detail::get_function_signature<decltype(&Functor::operator())>
+struct function_signature<Functor, true>
 {
+    // Function pointers include the class type as first argument,
+    // remove it since functors are callable themselves without any
+    // extra object
+    using args = meta::tail_t<
+        typename detail::get_function_signature<decltype(&Functor::operator())>::args
+    >;
+    using return_type = typename detail::get_function_signature<decltype(&Functor::operator())>::return_type;
+
     static constexpr FunctionKind kind = FunctionKind::FUNCTOR;
 };
 
