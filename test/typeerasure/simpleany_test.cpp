@@ -1,3 +1,5 @@
+#define SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
+
 #include "mocks/valuesemantics.hpp"
 #include <siplasplas/typeerasure/anystorage/fixedsize.hpp>
 #include <siplasplas/typeerasure/simpleany.hpp>

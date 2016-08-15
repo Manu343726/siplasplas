@@ -40,6 +40,10 @@ template<typename Storage>
 class SimpleAny : protected Storage
 {
 public:
+    /**
+     * \brief Type used to represent empty state
+     */
+    struct EmptyTag {};
 
     /**
      * \brief Constructs a SimpleAny with an in-place constructed value of
@@ -60,18 +64,56 @@ public:
     }
 
     /**
+     * \brief Constructs an empty SimpleAny
+     */
+    SimpleAny() :
+        _typeInfo{TypeInfo::get<EmptyTag>()}
+    {}
+
+    /**
+     * \brief Checks whether the any has an object hosted in or
+     * if is empty
+     *
+     * \returns True if the any is empty (There's no hosted object), false
+     * instead
+     */
+    bool empty() const
+    {
+        return hasType<EmptyTag>();
+    }
+
+    /**
      * \brief Constructs an any of type T from an lvalue of type T
      *
      * A copy is done from the T lvalue argument to the any storage
      *
      * \param value A value of type T to store in the any
      */
-    template<typename T>
+    template<typename T, typename = std::enable_if_t<
+        !std::is_base_of<
+            SimpleAny,
+            std::decay_t<T>
+        >::value
+    >>
     SimpleAny(const T& value) :
         _typeInfo{TypeInfo::get<T>()}
     {
         SIPLASPLAS_ASSERT_TRUE(Storage::template objectFitsInStorage<T>());
         _typeInfo.copyConstruct(Storage::storage(_typeInfo.alignment()), &value);
+    }
+
+    template<typename OtherStorage>
+    SimpleAny(const SimpleAny<OtherStorage>& other) :
+        _typeInfo{other._typeInfo}
+    {
+        _typeInfo.copyConstruct(Storage::storage(_typeInfo.alignment()), other.storage());
+    }
+
+    template<typename OtherStorage>
+    SimpleAny(SimpleAny<OtherStorage>&& other) :
+        _typeInfo{other._typeInfo}
+    {
+        _typeInfo.moveConstruct(Storage::storage(_typeInfo.alignment()), other.storage());
     }
 
     SimpleAny(const SimpleAny& other) :
@@ -106,7 +148,9 @@ public:
     template<typename T>
     const std::decay_t<T>& get() const
     {
+#ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
         SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>());
+#endif
         return *reinterpret_cast<const std::decay_t<T>*>(Storage::storage(_typeInfo.alignment()));
     }
 
@@ -119,7 +163,9 @@ public:
     template<typename T>
     std::decay_t<T>& get()
     {
+#ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
         SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>());
+#endif
         return *reinterpret_cast<std::decay_t<T>*>(Storage::storage(_typeInfo.alignment()));
     }
 
@@ -265,7 +311,9 @@ public:
     template<typename T>
     const std::decay_t<T>& get() const
     {
+#ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
         SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>());
+#endif
         return *reinterpret_cast<const std::decay_t<T>*>(ConstNonOwningStorage::storage(_typeInfo.alignment()));
     }
 
@@ -351,7 +399,9 @@ public:
     template<typename T>
     const std::decay_t<T>& get() const
     {
+#ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
         SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>());
+#endif
         return *reinterpret_cast<const std::decay_t<T>*>(NonOwningStorage::storage(_typeInfo.alignment()));
     }
 
@@ -364,7 +414,9 @@ public:
     template<typename T>
     std::decay_t<T>& get()
     {
+#ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
         SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>());
+#endif
         return *reinterpret_cast<std::decay_t<T>*>(NonOwningStorage::storage(_typeInfo.alignment()));
     }
 

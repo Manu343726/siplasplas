@@ -1,3 +1,5 @@
+#define SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
+
 #include <siplasplas/typeerasure/invoke.hpp>
 #include <gmock/gmock.h>
 #include <string>
