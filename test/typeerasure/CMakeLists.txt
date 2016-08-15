@@ -7,6 +7,7 @@ SOURCES
     simpleany_test.cpp
     referencesimpleany_test.cpp
     invoke_test.cpp
+    function_test.cpp
 DEPENDS
     siplasplas-typeerasure
 DEFAULT_TEST_MAIN

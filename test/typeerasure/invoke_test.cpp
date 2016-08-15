@@ -1,45 +1,12 @@
 #define SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
 
+#include "mocks/invoke.hpp"
 #include <siplasplas/typeerasure/invoke.hpp>
 #include <gmock/gmock.h>
-#include <string>
 
 using namespace ::testing;
 using namespace ::std::string_literals;
 
-int addIntsByValue(int a, int b)
-{
-    return a + b;
-}
-
-std::string addStringsByConstReference(const std::string& a, const std::string& b)
-{
-    return a + b;
-}
-
-class Class
-{
-public:
-    int addIntsByValue(int a, int b)
-    {
-        return a + b;
-    }
-
-    int addIntsByValueConst(int a, int b) const
-    {
-        return a + b;
-    }
-
-    std::string addStringsByConstReference(const std::string& a, const std::string& b)
-    {
-        return a + b;
-    }
-
-    std::string addStringsByConstReferenceConst(const std::string& a, const std::string& b) const
-    {
-        return a + b;
-    }
-};
 
 TEST(InvokeTest, SimpleAny64_FreeFunctionIntsByValue_rightArgs)
 {

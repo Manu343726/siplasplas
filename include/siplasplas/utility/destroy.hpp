@@ -30,6 +30,12 @@ void destroy(T* objectPtr)
     objectPtr->~T();
 }
 
+template<typename R, typename... Args>
+void destroy(R(*functionPointer)(Args...))
+{
+ // NOOP
+}
+
 /**
  * \ingroup utility
  * \brief constructs an object of type T on the specified address
