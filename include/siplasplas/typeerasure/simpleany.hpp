@@ -434,13 +434,13 @@ using SimpleAny64 = SimpleAny<FixedSizeStorage<64>>;
  * \ingroup type-erasure
  * \brief A non-owning SimpleAny that (const) references an existing object
  */
-using ConstReferenceAny = SimpleAny<ConstNonOwningStorage>;
+using ConstReferenceSimpleAny = SimpleAny<ConstNonOwningStorage>;
 
 /**
  * \ingroup type-erasure
  * \brief A non-owning SimpleAny that references an existing object
  */
-using ReferenceAny = SimpleAny<NonOwningStorage>;
+using ReferenceSimpleAny = SimpleAny<NonOwningStorage>;
 
 
 }
