@@ -13,6 +13,7 @@ SOURCES
     dynamiclibrary.cpp
     string.cpp
     error_logger.cpp
+    logger.cpp
 DEPENDS
     ctti
     fmt
