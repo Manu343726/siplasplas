@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['type_2derasure',['Type-erasure',['../group__type-erasure.html',1,'']]]
+  ['storage',['storage',['../group__any.html',1,'']]],
+  ['signals',['Signals',['../group__signals.html',1,'']]]
 ];

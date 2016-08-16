@@ -26,6 +26,8 @@ layout: standardese-doc
 
   - [lexical\_cast.hpp](lexical_cast.md "lexical_cast.hpp")
 
+  - [logger.hpp](logger.md "logger.hpp")
+
   - [memory\_manip.hpp](memory_manip.md "memory_manip.hpp")
 
   - [meta.hpp](meta.md "meta.hpp")

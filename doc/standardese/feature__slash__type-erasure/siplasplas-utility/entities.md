@@ -64,9 +64,15 @@ layout: standardese-doc
 
   - `cpp::detail`
     
+      - [AlignedMallocAlingOffset](memory_manip.md#cpp::detail::AlignedMallocAlingOffset "cpp::detail::AlignedMallocAlingOffset") - This type limits the maximum alignment requirement that can be passed to aligned\_malloc() stores the distance to the start of the allocated block so it can be deallocated in aligned\_free(). To use as little extra memory as possible, a 8 bit unsigned integer is used by default, which means up to 256 byte alignment boundary is supported by default. Users can change that limit by defining `SIPLASPLAS_UTILITY_ALIGNEDMALLOC_ALIGNOFFSET_BITS` to the with in bits of the unsigned integer used for offset storage (8, 16, 32, and 64 are supported)
+    
       - [Identity](staticif.md#cpp::detail::Identity "cpp::detail::Identity") - A functor class implementing the identity function
     
       - [If\<Condition\>](staticif.md#cpp::detail::If\<Condition\> "cpp::detail::If\<Condition\>") - Implements the then branch of an static conditional.
+    
+      - [aligned\_malloc(std::size\_t,std::size\_t,std::size\_t)](memory_manip.md#cpp::detail::aligned_malloc\(std::size_t,std::size_t,std::size_t\) "cpp::detail::aligned_malloc(std::size_t,std::size_t,std::size_t)") - This function allocates a memory block starting at a specific alignment boundary. Users can also set some extra bytes for bookeeping data before the returned block. To deallocate blocks allocated with aligned\_malloc(), use aligned\_free(), never std::free()
+    
+      - [aligned\_malloc\_block(void \*,std::size\_t)](memory_manip.md#cpp::detail::aligned_malloc_block\(void%20*,std::size_t\) "cpp::detail::aligned_malloc_block(void *,std::size_t)") - aligned\_malloc() allocates an oversized block in order to acomplish the alignment requirements While aligned\_malloc() returns the expected aligned block, this function can be used to get the complete allocated block.
     
       - [aligned\_ptr(char \*,std::size\_t)](memory_manip.md#cpp::detail::aligned_ptr\(char%20*,std::size_t\) "cpp::detail::aligned_ptr(char *,std::size_t)")
     
@@ -96,9 +102,9 @@ layout: standardese-doc
     
       - [readTaggedPointer\<T\>(T \*)](memory_manip.md#cpp::detail::readTaggedPointer\<T\>\(T%20*\) "cpp::detail::readTaggedPointer\<T\>(T *)") - Assuming the pointer is a tagged pointer, this function reads the data tagged in the 16 more significative bits of the pointer. Compilation fails if this function is used in non 64 bit architectures.
     
-      - [tagPointer\<R, U, Args...\>(R (\*)(Args...),U)](memory_manip.md#cpp::detail::tagPointer\<R,%20U,%20Args...\>\(R%20\(*\)\(Args...\),U\) "cpp::detail::tagPointer\<R, U, Args...\>(R (*)(Args...),U)") - This function uses the tagged pointer technique to store data in a 64 bit virtual memory address. Passing data of more that 16 bits wide has undefined behavior. Compilation fails if this function is used in non 64 bit architectures. Note accessing a tagged pointer directly may cause a segmentation fault. See cpp::untagPointer().
+      - [tagPointer\<R, U, Args...\>(R (\*)(Args...),U)](memory_manip.md#cpp::detail::tagPointer\<R,%20U,%20Args...\>\(R%20\(*\)\(Args...\),U\) "cpp::detail::tagPointer\<R, U, Args...\>(R (*)(Args...),U)") - This function uses the tagged pointer technique to store data in a 64 bit virtual memory address. Passing data of more than 16 bits wide has undefined behavior. Compilation fails if this function is used in non 64 bit architectures. Note accessing a tagged pointer directly may cause a segmentation fault. See cpp::untagPointer().
     
-      - [tagPointer\<T, U\>(T \*,U)](memory_manip.md#cpp::detail::tagPointer\<T,%20U\>\(T%20*,U\) "cpp::detail::tagPointer\<T, U\>(T *,U)") - This function uses the tagged pointer technique to store data in a 64 bit virtual memory address. Passing data of more that 16 bits wide has undefined behavior. Compilation fails if this function is used in non 64 bit architectures. Note accessing a tagged pointer directly may cause a segmentation fault. See cpp::untagPointer().
+      - [tagPointer\<T, U\>(T \*,U)](memory_manip.md#cpp::detail::tagPointer\<T,%20U\>\(T%20*,U\) "cpp::detail::tagPointer\<T, U\>(T *,U)") - This function uses the tagged pointer technique to store data in a 64 bit virtual memory address. Passing data of more than 16 bits wide has undefined behavior. Compilation fails if this function is used in non 64 bit architectures. Note accessing a tagged pointer directly may cause a segmentation fault. See cpp::untagPointer().
     
       - [untagPointer\<R, Args...\>(R (\*)(Args...))](memory_manip.md#cpp::detail::untagPointer\<R,%20Args...\>\(R%20\(*\)\(Args...\)\) "cpp::detail::untagPointer\<R, Args...\>(R (*)(Args...))") - Assuming the pointer is a tagged pointer, this function removes the tagged data and returns the memory address ready to be referenced. Compilation fails if this function is used in non 64 bit architectures.
     

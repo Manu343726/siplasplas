@@ -17,7 +17,7 @@ layout: standardese-doc
 
 namespace cpp
 {
-    namespace detail
+    inline namespace detail
     {
          char* aligned_ptr(char* pointer, std::size_t alignment);
         
@@ -60,6 +60,14 @@ namespace cpp
         
         template <typename R, typename ... Args>
         std::uint16_t readTaggedPointer(R(*pointer)(Args...));
+        
+        using AlignedMallocAlingOffset = std::uint8_t;
+        
+         void* aligned_malloc(std::size_t size, std::size_t alignment, std::size_t offset = 0);
+        
+         void* aligned_malloc_block(void* pointer, std::size_t offset = 0);
+        
+         void aligned_free(void* pointer, std::size_t offset = 0);
         
         template <typename T>
         void write_at(char* pointer, const T& value, std::intptr_t offset = 0);
@@ -314,7 +322,7 @@ template <typename T, typename U>
 T* tagPointer(T* pointer, U data);
 ```
 
-This function uses the tagged pointer technique to store data in a 64 bit virtual memory address. Passing data of more that 16 bits wide has undefined behavior. Compilation fails if this function is used in non 64 bit architectures. Note accessing a tagged pointer directly may cause a segmentation fault. See cpp::untagPointer().
+This function uses the tagged pointer technique to store data in a 64 bit virtual memory address. Passing data of more than 16 bits wide has undefined behavior. Compilation fails if this function is used in non 64 bit architectures. Note accessing a tagged pointer directly may cause a segmentation fault. See cpp::untagPointer().
 
 *Returns:* A pointer of type T\* with the data and the same address
 
@@ -335,7 +343,7 @@ template <typename R, typename U, typename ... Args>
 decltype(pointer) tagPointer(R(*pointer)(Args...), U data);
 ```
 
-This function uses the tagged pointer technique to store data in a 64 bit virtual memory address. Passing data of more that 16 bits wide has undefined behavior. Compilation fails if this function is used in non 64 bit architectures. Note accessing a tagged pointer directly may cause a segmentation fault. See cpp::untagPointer().
+This function uses the tagged pointer technique to store data in a 64 bit virtual memory address. Passing data of more than 16 bits wide has undefined behavior. Compilation fails if this function is used in non 64 bit architectures. Note accessing a tagged pointer directly may cause a segmentation fault. See cpp::untagPointer().
 
 *Returns:* A pointer of type T\* with the data and the same address
 
@@ -430,5 +438,62 @@ R(*pointer)(Args...)
 ```
 
 Tagged pointer to read
+
+-----
+
+## Type alias `cpp::detail::AlignedMallocAlingOffset`<a id="cpp::detail::AlignedMallocAlingOffset"></a>
+
+``` cpp
+using AlignedMallocAlingOffset = std::uint8_t;
+```
+
+This type limits the maximum alignment requirement that can be passed to aligned\_malloc() stores the distance to the start of the allocated block so it can be deallocated in aligned\_free(). To use as little extra memory as possible, a 8 bit unsigned integer is used by default, which means up to 256 byte alignment boundary is supported by default. Users can change that limit by defining `SIPLASPLAS_UTILITY_ALIGNEDMALLOC_ALIGNOFFSET_BITS` to the with in bits of the unsigned integer used for offset storage (8, 16, 32, and 64 are supported)
+
+``` cpp
+#define SIPLASPLAS_UTILITY_ALIGNEDMALLOC_ALIGNEDOFFSET_BITS 32
+#include <siplasplas/utility/memory_manip.hpp>
+
+void* ptr =cpp::aligned_malloc(1024, 1024); // Allocate 1024 bytes in the 1024 boundary
+```
+
+-----
+
+## Function `cpp::detail::aligned_malloc`<a id="cpp::detail::aligned_malloc"></a>
+
+``` cpp
+ void* aligned_malloc(std::size_t size, std::size_t alignment, std::size_t offset = 0);
+```
+
+This function allocates a memory block starting at a specific alignment boundary. Users can also set some extra bytes for bookeeping data before the returned block. To deallocate blocks allocated with aligned\_malloc(), use aligned\_free(), never std::free()
+
+*Returns:* A pointer to a memory block of \\p size bytes, multiple of \\p alignment. nullptr if fails
+
+### Parameter `cpp::detail::aligned_malloc::size`<a id="cpp::detail::aligned_malloc::size"></a>
+
+``` cpp
+std::size_t size
+```
+
+Requested block size in bytes \\param alignment Required alignment boundary. Must be a power of two \\param offset Extra space reserved for the user right brefore the returned block. 0 by default.
+
+-----
+
+## Function `cpp::detail::aligned_malloc_block`<a id="cpp::detail::aligned_malloc_block"></a>
+
+``` cpp
+ void* aligned_malloc_block(void* pointer, std::size_t offset = 0);
+```
+
+aligned\_malloc() allocates an oversized block in order to acomplish the alignment requirements While aligned\_malloc() returns the expected aligned block, this function can be used to get the complete allocated block.
+
+*Returns:* A pointer to the beginning of the complete allocated block. This pointer can be deallocated by `std::free()`.
+
+### Parameter `cpp::detail::aligned_malloc_block::pointer`<a id="cpp::detail::aligned_malloc_block::pointer"></a>
+
+``` cpp
+void* pointer
+```
+
+Pointer to a block allocated by cpp::aligned\_malloc() \\param offset User offset. The behavior is undefined if it's different to the argument given to cpp::aligned\_malloc() when allocating the block
 
 -----
