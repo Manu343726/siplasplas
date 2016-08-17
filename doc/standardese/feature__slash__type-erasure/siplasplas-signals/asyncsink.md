@@ -9,7 +9,7 @@ layout: standardese-doc
 
 #include "sink.hpp"
 
-#include <siplasplas/reflection/dynamic/function_pointer.hpp>
+#include <siplasplas/typeerasure/function.hpp>
 
 #include <readerwriterqueue/readerwriterqueue.h>
 

@@ -17,7 +17,7 @@ layout: standardese-doc
 
 namespace cpp
 {
-    inline namespace detail
+    namespace detail
     {
          char* aligned_ptr(char* pointer, std::size_t alignment);
         

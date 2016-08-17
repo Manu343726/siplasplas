@@ -49,7 +49,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li class="current"><a href="modules.html"><span>Modules</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="examples.html"><span>Examples</span></a></li>
       <li>
@@ -112,6 +111,9 @@ $(document).ready(function(){initNavTree('group__any.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_dead_pool_storage.html">cpp::DeadPoolStorage&lt; PreallocatedSize, PreallocatedAlignment &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements fixed-size with fallback to dynamic allocation.  <a href="classcpp_1_1_dead_pool_storage.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_fixed_size_storage.html">cpp::FixedSizeStorage&lt; Size, Alignment &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements fixed-size storage.  <a href="classcpp_1_1_fixed_size_storage.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -126,7 +128,7 @@ Classes</h2></td></tr>
 <p>Provides different storage backends for <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">cpp::SimpleAny</a> class. </p>
 <p><a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">cpp::SimpleAny</a> class expects an <code>Storage</code> policy as parameter. Storage policies specify where an object is allocated (hosted), by returning the raw address of the object.</p>
 <p>The minimal interface of an <code>Storage</code> class is:</p>
-<div class="fragment"><div class="line"><span class="keywordtype">void</span>* Storage::storage(std::size_t alignment) <span class="keyword">const</span></div><div class="line"><span class="keywordtype">bool</span> Storage::objectFitsInStorage&lt;T&gt;() const</div></div><!-- fragment --><p>Classes implementing user-defined storage policies may extend this interface, but <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">cpp::SimpleAny</a> should be able to work using <code>storage()</code> function only. <code>objectFitsInStorage()</code> function is used for checks and may not be required in release builds. </p>
+<div class="fragment"><div class="line"><span class="keywordtype">void</span>* Storage::storage(<a class="code" href="classcpp_1_1typeerasure_1_1_type_info.html">cpp::typeerasure::TypeInfo</a> typeInfo) <span class="keyword">const</span></div><div class="line"><span class="keywordtype">bool</span> Storage::objectFitsInStorage&lt;T&gt;() const</div></div><!-- fragment --><p>Classes implementing user-defined storage policies may extend this interface, but <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">cpp::SimpleAny</a> should be able to work using <code>storage()</code> function only. <code>objectFitsInStorage()</code> function is used for checks and may not be required in release builds. </p>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

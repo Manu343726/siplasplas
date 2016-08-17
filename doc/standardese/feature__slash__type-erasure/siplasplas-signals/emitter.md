@@ -7,10 +7,6 @@ layout: standardese-doc
 ``` cpp
 #define SIPLASPLAS_SIGNALS_EMITTER_HPP 
 
-#include <siplasplas/reflection/dynamic/object_manip.hpp>
-
-#include <siplasplas/reflection/dynamic/function_pointer.hpp>
-
 #include <siplasplas/utility/function_traits.hpp>
 
 #include <siplasplas/utility/hash.hpp>

@@ -9,9 +9,13 @@ layout: standardese-doc
 
 #include "function_traits.hpp"
 
+#include "logger.hpp"
+
 #include <utility>
 
 #include <functional>
+
+#include <iostream>
 
 namespace cpp
 {

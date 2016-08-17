@@ -7,7 +7,7 @@ layout: standardese-doc
 ``` cpp
 #define SIPLASPLAS_SIGNALS_SINK_HPP 
 
-#include <siplasplas/reflection/dynamic/object_manip.hpp>
+#include <siplasplas/typeerasure/simpleany.hpp>
 
 #include <siplasplas/signals/export.hpp>
 

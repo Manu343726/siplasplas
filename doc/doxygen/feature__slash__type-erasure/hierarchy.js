@@ -34,6 +34,7 @@ var hierarchy =
     [ "cpp::ConstNonOwningStorage", "classcpp_1_1_const_non_owning_storage.html", [
       [ "cpp::SimpleAny< ConstNonOwningStorage >", "classcpp_1_1_simple_any_3_01_const_non_owning_storage_01_4.html", null ]
     ] ],
+    [ "cpp::DeadPoolStorage< PreallocatedSize, PreallocatedAlignment >", "classcpp_1_1_dead_pool_storage.html", null ],
     [ "cpp::DummyAssertExpression", "classcpp_1_1_dummy_assert_expression.html", null ],
     [ "cpp::DynamicLibrary", "classcpp_1_1_dynamic_library.html", null ],
     [ "cpp::SimpleAny< Storage >::EmptyTag", "structcpp_1_1_simple_any_1_1_empty_tag.html", null ],
@@ -66,5 +67,5 @@ var hierarchy =
       [ "cpp::Any< Storage, FunctionsStorage, FunctionArgsStorage, AttributesStorage >", "classcpp_1_1_any.html", null ]
     ] ],
     [ "cpp::DynamicLibrary::Symbol", "classcpp_1_1_dynamic_library_1_1_symbol.html", null ],
-    [ "cpp::TypeInfo", "classcpp_1_1_type_info.html", null ]
+    [ "cpp::typeerasure::TypeInfo", "classcpp_1_1typeerasure_1_1_type_info.html", null ]
 ];

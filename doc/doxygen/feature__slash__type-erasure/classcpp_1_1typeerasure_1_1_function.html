@@ -49,7 +49,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
-      <li><a href="namespaces.html"><span>Namespaces</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="examples.html"><span>Examples</span></a></li>
       <li>
@@ -136,11 +135,22 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a42cca5f583e997c874e1f9e155636929"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt; Storage &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#a42cca5f583e997c874e1f9e155636929">operator()</a> (Args &amp;&amp;...args) const </td></tr>
 <tr class="memdesc:a42cca5f583e997c874e1f9e155636929"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the callable with the given arguments.  <a href="#a42cca5f583e997c874e1f9e155636929">More...</a><br /></td></tr>
 <tr class="separator:a42cca5f583e997c874e1f9e155636929"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4bcac010f3208af9146e5f47709af929"><td class="memTemplParams" colspan="2">template&lt;typename ArgsVector &gt; </td></tr>
+<tr class="memitem:a4bcac010f3208af9146e5f47709af929"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt; Storage &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#a4bcac010f3208af9146e5f47709af929">invoke</a> (ArgsVector &amp;&amp;args)</td></tr>
+<tr class="memdesc:a4bcac010f3208af9146e5f47709af929"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the callable with the given arguments The arguments are passed as a vector of <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">SimpleAny</a>.  <a href="#a4bcac010f3208af9146e5f47709af929">More...</a><br /></td></tr>
+<tr class="separator:a4bcac010f3208af9146e5f47709af929"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75c830b5ec69347d6b6363fc328c5730"><td class="memTemplParams" colspan="2">template&lt;typename ArgsVector &gt; </td></tr>
+<tr class="memitem:a75c830b5ec69347d6b6363fc328c5730"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt; Storage &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#a75c830b5ec69347d6b6363fc328c5730">invoke</a> (ArgsVector &amp;&amp;args) const </td></tr>
+<tr class="memdesc:a75c830b5ec69347d6b6363fc328c5730"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the callable with the given arguments The arguments are passed as a vector of <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">SimpleAny</a>.  <a href="#a75c830b5ec69347d6b6363fc328c5730">More...</a><br /></td></tr>
+<tr class="separator:a75c830b5ec69347d6b6363fc328c5730"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a75aef5c9af48d985c086fb18d59eb213"><td class="memTemplParams" colspan="2"><a class="anchor" id="a75aef5c9af48d985c086fb18d59eb213"></a>
 template&lt;typename Callable &gt; </td></tr>
 <tr class="memitem:a75aef5c9af48d985c086fb18d59eb213"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html">Function</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#a75aef5c9af48d985c086fb18d59eb213">operator=</a> (Callable &amp;&amp;callable)</td></tr>
 <tr class="memdesc:a75aef5c9af48d985c086fb18d59eb213"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns a new callable to the function. <br /></td></tr>
 <tr class="separator:a75aef5c9af48d985c086fb18d59eb213"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a2f611ef23dd191fef535851df6a7ba"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6a2f611ef23dd191fef535851df6a7ba"></a>
+cpp::FunctionKind&#160;</td><td class="memItemRight" valign="bottom"><b>kind</b> () const </td></tr>
+<tr class="separator:a6a2f611ef23dd191fef535851df6a7ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -242,6 +252,80 @@ template&lt;typename Callable , typename... Args&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="classcpp_1_1typeerasure_1_1_function.html" title="Stores a type-erased callable of any signature and kind. ">Function</a> instance with the given callable type </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a4bcac010f3208af9146e5f47709af929"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Storage , typename ArgsStorage  = Storage&gt; </div>
+<div class="memtemplate">
+template&lt;typename ArgsVector &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt;Storage&gt; <a class="el" href="classcpp_1_1typeerasure_1_1_function.html">cpp::typeerasure::Function</a>&lt; Storage, ArgsStorage &gt;::invoke </td>
+          <td>(</td>
+          <td class="paramtype">ArgsVector &amp;&amp;&#160;</td>
+          <td class="paramname"><em>args</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Invokes the callable with the given arguments The arguments are passed as a vector of <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">SimpleAny</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">args</td><td>Forwarding reference to vector of arguments</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the return value of the callable as in <code>cpp::invoke(&lt;underlying callable&gt;, &lt;args&gt;)</code> </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a75c830b5ec69347d6b6363fc328c5730"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Storage , typename ArgsStorage  = Storage&gt; </div>
+<div class="memtemplate">
+template&lt;typename ArgsVector &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt;Storage&gt; <a class="el" href="classcpp_1_1typeerasure_1_1_function.html">cpp::typeerasure::Function</a>&lt; Storage, ArgsStorage &gt;::invoke </td>
+          <td>(</td>
+          <td class="paramtype">ArgsVector &amp;&amp;&#160;</td>
+          <td class="paramname"><em>args</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Invokes the callable with the given arguments The arguments are passed as a vector of <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">SimpleAny</a>. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">args</td><td>Forwarding reference to vector of arguments</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the return value of the callable as in <code>cpp::invoke(&lt;underlying callable&gt;, &lt;args&gt;)</code> </dd></dl>
 
 </div>
 </div>

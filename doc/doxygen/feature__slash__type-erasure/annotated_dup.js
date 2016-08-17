@@ -14,13 +14,17 @@ var annotated_dup =
         [ "MoveConstructible", "classcpp_1_1concepts_1_1_move_constructible.html", null ],
         [ "OStreamable", "classcpp_1_1concepts_1_1_o_streamable.html", null ]
       ] ],
-      [ "detail", "namespacecpp_1_1detail.html", "namespacecpp_1_1detail" ],
+      [ "detail", null, [
+        [ "Identity", "classcpp_1_1detail_1_1_identity.html", "classcpp_1_1detail_1_1_identity" ],
+        [ "If", "classcpp_1_1detail_1_1_if.html", "classcpp_1_1detail_1_1_if" ]
+      ] ],
       [ "features", null, [
         [ "IStreamable", "classcpp_1_1features_1_1_i_streamable.html", null ],
         [ "OStreamable", "classcpp_1_1features_1_1_o_streamable.html", null ]
       ] ],
       [ "typeerasure", null, [
-        [ "Function", "classcpp_1_1typeerasure_1_1_function.html", "classcpp_1_1typeerasure_1_1_function" ]
+        [ "Function", "classcpp_1_1typeerasure_1_1_function.html", "classcpp_1_1typeerasure_1_1_function" ],
+        [ "TypeInfo", "classcpp_1_1typeerasure_1_1_type_info.html", "classcpp_1_1typeerasure_1_1_type_info" ]
       ] ],
       [ "Any", "classcpp_1_1_any.html", "classcpp_1_1_any" ],
       [ "AssertException", "classcpp_1_1_assert_exception.html", null ],
@@ -29,6 +33,7 @@ var annotated_dup =
       [ "CMakeProject", "classcpp_1_1_c_make_project.html", "classcpp_1_1_c_make_project" ],
       [ "CMakeTarget", "classcpp_1_1_c_make_target.html", "classcpp_1_1_c_make_target" ],
       [ "ConstNonOwningStorage", "classcpp_1_1_const_non_owning_storage.html", "classcpp_1_1_const_non_owning_storage" ],
+      [ "DeadPoolStorage", "classcpp_1_1_dead_pool_storage.html", "classcpp_1_1_dead_pool_storage" ],
       [ "DummyAssertExpression", "classcpp_1_1_dummy_assert_expression.html", "classcpp_1_1_dummy_assert_expression" ],
       [ "DynamicLibrary", "classcpp_1_1_dynamic_library.html", "classcpp_1_1_dynamic_library" ],
       [ "Exception", "classcpp_1_1_exception.html", "classcpp_1_1_exception" ],
@@ -42,7 +47,6 @@ var annotated_dup =
       [ "SimpleAny", "classcpp_1_1_simple_any.html", "classcpp_1_1_simple_any" ],
       [ "SimpleAny< ConstNonOwningStorage >", "classcpp_1_1_simple_any_3_01_const_non_owning_storage_01_4.html", "classcpp_1_1_simple_any_3_01_const_non_owning_storage_01_4" ],
       [ "SimpleAny< NonOwningStorage >", "classcpp_1_1_simple_any_3_01_non_owning_storage_01_4.html", "classcpp_1_1_simple_any_3_01_non_owning_storage_01_4" ],
-      [ "SyncSink", "classcpp_1_1_sync_sink.html", "classcpp_1_1_sync_sink" ],
-      [ "TypeInfo", "classcpp_1_1_type_info.html", "classcpp_1_1_type_info" ]
+      [ "SyncSink", "classcpp_1_1_sync_sink.html", "classcpp_1_1_sync_sink" ]
     ] ]
 ];

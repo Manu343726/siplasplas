@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>siplasplas: Namespace List</title>
+<title>siplasplas: cpp::DeadPoolStorage&lt; PreallocatedSize, PreallocatedAlignment &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -49,8 +49,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="modules.html"><span>Modules</span></a></li>
-      <li class="current"><a href="namespaces.html"><span>Namespaces</span></a></li>
-      <li><a href="annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="examples.html"><span>Examples</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -72,8 +71,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
   <div id="navrow2" class="tabs2">
     <ul class="tablist">
-      <li class="current"><a href="namespaces.html"><span>Namespace&#160;List</span></a></li>
-      <li><a href="namespacemembers.html"><span>Namespace&#160;Members</span></a></li>
+      <li><a href="annotated.html"><span>Class&#160;List</span></a></li>
+      <li><a href="classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="hierarchy.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -88,7 +89,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('namespaces.html','');});
+$(document).ready(function(){initNavTree('classcpp_1_1_dead_pool_storage.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -106,21 +107,52 @@ $(document).ready(function(){initNavTree('namespaces.html','');});
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="classcpp_1_1_dead_pool_storage-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">Namespace List</div>  </div>
+<div class="title">cpp::DeadPoolStorage&lt; PreallocatedSize, PreallocatedAlignment &gt; Class Template Reference<div class="ingroups"><a class="el" href="group__type-erasure.html">Type-erasure</a> &raquo; <a class="el" href="group__any.html">storage</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock">Here is a list of all documented namespaces with brief descriptions:</div><div class="directory">
-<div class="levels">[detail level <span onclick="javascript:toggleLevel(1);">1</span><span onclick="javascript:toggleLevel(2);">2</span>]</div><table class="directory">
-<tr id="row_0_" class="even"><td class="entry"><span style="width:0px;display:inline-block;">&#160;</span><span id="arr_0_" class="arrow" onclick="toggleFolder('0_')">&#9660;</span><span class="icona"><span class="icon">N</span></span><b>cpp</b></td><td class="desc"></td></tr>
-<tr id="row_0_0_"><td class="entry"><span style="width:32px;display:inline-block;">&#160;</span><span class="icona"><span class="icon">N</span></span><a class="el" href="namespacecpp_1_1detail.html" target="_self">detail</a></td><td class="desc">Inline namespace for memory_manip API The namespace <code><a class="el" href="namespacecpp_1_1detail.html" title="inline namespace for memory_manip API The namespace cpp::detail for memory_manip tools is deprecated...">cpp::detail</a></code> for memory_manip tools is deprecated, these tools were raised to the <code>cpp</code> namespace. To maintain backwards compatibility, the nested <code>detail</code> namespace is maintained as an inline namespace </td></tr>
+
+<p>Implements fixed-size with fallback to dynamic allocation.  
+ <a href="classcpp_1_1_dead_pool_storage.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="deadpool_8hpp_source.html">siplasplas/typeerasure/anystorage/deadpool.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:ae6b986ba65e1db64ef03b86d6682c32a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae6b986ba65e1db64ef03b86d6682c32a"></a>
+void *&#160;</td><td class="memItemRight" valign="bottom"><b>storage</b> (<a class="el" href="classcpp_1_1typeerasure_1_1_type_info.html">cpp::typeerasure::TypeInfo</a> typeInfo) const </td></tr>
+<tr class="separator:ae6b986ba65e1db64ef03b86d6682c32a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addac6bcd521ac298bd1cbd943b58f69b"><td class="memTemplParams" colspan="2"><a class="anchor" id="addac6bcd521ac298bd1cbd943b58f69b"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:addac6bcd521ac298bd1cbd943b58f69b"><td class="memTemplItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memTemplItemRight" valign="bottom"><b>objectFitsInStorage</b> () const </td></tr>
+<tr class="separator:addac6bcd521ac298bd1cbd943b58f69b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-</div><!-- directory -->
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;std::size_t PreallocatedSize, std::size_t PreallocatedAlignment = alignof(std::uint8_t)&gt;<br />
+class cpp::DeadPoolStorage&lt; PreallocatedSize, PreallocatedAlignment &gt;</h3>
+
+<p>Implements fixed-size with fallback to dynamic allocation. </p>
+<p><a class="el" href="classcpp_1_1_dead_pool_storage.html" title="Implements fixed-size with fallback to dynamic allocation. ">DeadPoolStorage</a> implements a fixed-size storage similar to <a class="el" href="classcpp_1_1_fixed_size_storage.html" title="Implements fixed-size storage. ">FixedSizeStorage</a> but that switches to dynamic allocation if there's no enough space in the fixed-size storage to allocate the object</p>
+<p>Dynamic allocation is performed through <a class="el" href="group__memory-manip.html#gaf300d008c5db6103a31e463e2b0d19f8" title="Allocates a block of memory of memory aligned to an specific boundary. ">cpp::detail::aligned_malloc()</a></p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">PreAllocatedSize</td><td>Max capacity of the storage </td></tr>
+    <tr><td class="paramname">PreAllocatedAlignment</td><td>Storage alignment. <code>Alignof(std::uint8_t</code>) by default </td></tr>
+  </table>
+  </dd>
+</dl>
+</div><hr/>The documentation for this class was generated from the following file:<ul>
+<li>include/siplasplas/typeerasure/anystorage/<a class="el" href="deadpool_8hpp_source.html">deadpool.hpp</a></li>
+</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
+    <li class="navelem"><b>cpp</b></li><li class="navelem"><a class="el" href="classcpp_1_1_dead_pool_storage.html">DeadPoolStorage</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>

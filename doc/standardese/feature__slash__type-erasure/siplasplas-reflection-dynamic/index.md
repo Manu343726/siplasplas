@@ -6,8 +6,8 @@ layout: standardese-doc
 # `siplasplas-reflection-dynamic` module files
 
 
- - [`attribute.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/attribute.html)
  - [`api.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/api.html)
+ - [`attribute.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/attribute.html)
  - [`contract.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/contract.html)
  - [`class.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/class.html)
  - [`runtime_forward.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/feature__slash__type-erasure/siplasplas-reflection-dynamic/runtime_forward.html)

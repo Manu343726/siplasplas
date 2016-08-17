@@ -9,6 +9,7 @@ var searchData=
   ['aligned_5fmalloc_5fblock',['aligned_malloc_block',['../group__memory-manip.html#ga342e7b7c8fc6e309adb37f446b5e9b3e',1,'cpp::detail']]],
   ['aligned_5fptr',['aligned_ptr',['../group__memory-manip.html#gab4fdc580f07afd23d2cc7b1ee0c28d48',1,'cpp::detail::aligned_ptr(char *pointer, std::size_t alignment)'],['../group__memory-manip.html#ga86f6dd7ad9cef297add6ab338b1523af',1,'cpp::detail::aligned_ptr(void *pointer, std::size_t alignment)'],['../group__memory-manip.html#gae169dbc31c9d0c0ea8faab15515b39d9',1,'cpp::detail::aligned_ptr(const char *pointer, std::size_t alignment)'],['../group__memory-manip.html#gaabdc011d4b9b1dc7245b658f9e4eddb3',1,'cpp::detail::aligned_ptr(const void *pointer, std::size_t alignment)']]],
   ['alignedmallocalingoffset',['AlignedMallocAlingOffset',['../group__memory-manip.html#ga5928a3dd004a5e3a2965c031644684ea',1,'cpp::detail']]],
+  ['alignment',['alignment',['../classcpp_1_1typeerasure_1_1_type_info.html#ab20d1c8b7bc30820bdeffbdca7ed2c14',1,'cpp::typeerasure::TypeInfo']]],
   ['any',['Any',['../classcpp_1_1_any.html',1,'cpp']]],
   ['any16',['Any16',['../group__type-erasure.html#ga3ce6ea8ae518dff87245e09a8f8a94b3',1,'cpp']]],
   ['any32',['Any32',['../group__type-erasure.html#ga261278f1d5b053873929683a6896fde7',1,'cpp']]],
@@ -17,9 +18,9 @@ var searchData=
   ['apply',['apply',['../classcpp_1_1features_1_1_o_streamable.html#a3467930aee822f6183de89de596f8530',1,'cpp::features::OStreamable::apply()'],['../classcpp_1_1features_1_1_i_streamable.html#a9fc4131e82a9c090eb85aabef41721b4',1,'cpp::features::IStreamable::apply()']]],
   ['assert',['Assert',['../group__assert.html',1,'']]],
   ['assertexception',['AssertException',['../classcpp_1_1_assert_exception.html',1,'cpp']]],
-  ['assertexpression',['AssertExpression',['../classcpp_1_1_assert_expression.html',1,'cpp']]],
   ['assertexpression',['AssertExpression',['../classcpp_1_1_assert_expression.html#a747d06793ac638fae3da51bae1eca33d',1,'cpp::AssertExpression']]],
+  ['assertexpression',['AssertExpression',['../classcpp_1_1_assert_expression.html',1,'cpp']]],
   ['assignable',['Assignable',['../classcpp_1_1concepts_1_1_assignable.html',1,'cpp::concepts']]],
-  ['asyncsink',['AsyncSink',['../classcpp_1_1_async_sink.html#a56ed191f5431410389b6c256f557c4c0',1,'cpp::AsyncSink::AsyncSink(Caller &amp;caller, Function function)'],['../classcpp_1_1_async_sink.html#aaf85acf83bfba5d4464e906e17271d1f',1,'cpp::AsyncSink::AsyncSink(Caller &amp;caller, Callee &amp;callee, Function function)']]],
-  ['asyncsink',['AsyncSink',['../classcpp_1_1_async_sink.html',1,'cpp']]]
+  ['asyncsink',['AsyncSink',['../classcpp_1_1_async_sink.html',1,'cpp']]],
+  ['asyncsink',['AsyncSink',['../classcpp_1_1_async_sink.html#a56ed191f5431410389b6c256f557c4c0',1,'cpp::AsyncSink::AsyncSink(Caller &amp;caller, Function function)'],['../classcpp_1_1_async_sink.html#aaf85acf83bfba5d4464e906e17271d1f',1,'cpp::AsyncSink::AsyncSink(Caller &amp;caller, Callee &amp;callee, Function function)']]]
 ];
