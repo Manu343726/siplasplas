@@ -144,6 +144,8 @@ public:
      *
      * \tparam T Type of the returned object. If T is different from the hosted object
      * type, the behavior is undefined (See hasType()).
+     * \returns A reference to the hosted object it the hosted object is not a pointer.
+     * If the hosted object is a pointer, returns a reference to the pointed object
      */
     template<typename T>
     const std::decay_t<T>& get() const
@@ -151,14 +153,23 @@ public:
 #ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
         SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>());
 #endif
-        return *reinterpret_cast<const std::decay_t<T>*>(Storage::storage(_typeInfo));
+        if(_typeInfo.isPointer())
+        {
+            return **reinterpret_cast<const std::decay_t<T>* const *>(Storage::storage(_typeInfo));
+        }
+        else
+        {
+            return *reinterpret_cast<const std::decay_t<T>*>(Storage::storage(_typeInfo));
+        }
     }
 
     /**
-     * \brief Returns a eference to the hosted object
+     * \brief Returns a reference to the hosted object
      *
      * \tparam T Type of the returned object. If T is different from the hosted object
      * type, the behavior is undefined (See hasType()).
+     * \returns A reference to the hosted object it the hosted object is not a pointer.
+     * If the hosted object is a pointer, returns a reference to the pointed object
      */
     template<typename T>
     std::decay_t<T>& get()
@@ -166,7 +177,14 @@ public:
 #ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
         SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>());
 #endif
-        return *reinterpret_cast<std::decay_t<T>*>(Storage::storage(_typeInfo));
+        if(_typeInfo.isPointer())
+        {
+            return **reinterpret_cast<std::decay_t<T>**>(Storage::storage(_typeInfo));
+        }
+        else
+        {
+            return *reinterpret_cast<std::decay_t<T>*>(Storage::storage(_typeInfo));
+        }
     }
 
     /**

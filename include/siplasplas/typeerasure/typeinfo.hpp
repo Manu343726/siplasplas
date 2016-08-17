@@ -4,6 +4,7 @@
 #include "features/valuesemantics.hpp"
 #include <siplasplas/utility/memory_manip.hpp>
 #include <siplasplas/utility/meta.hpp>
+#include <siplasplas/utility/function_traits.hpp>
 
 namespace cpp
 {
@@ -128,6 +129,22 @@ public:
     }
 
     /**
+     * \brief Returns the name of the type
+     */
+    const char* typeName() const
+    {
+        return _typeId.name().c_str();
+    }
+
+    /**
+     * \brief Checks if the type is a pointer type
+     */
+    bool isPointer() const
+    {
+        return _isPointer;
+    }
+
+    /**
      * \brief Returns the function implementing the given valuesemantics operation
      * for the type
      */
@@ -194,7 +211,10 @@ public:
      */
     void destroy(void* where) const
     {
-        semantics(detail::ValueSemanticsOperation::DESTROY)(where, nullptr);
+        if(!isPointer())
+        {
+            semantics(detail::ValueSemanticsOperation::DESTROY)(where, nullptr);
+        }
     }
 
     /**
@@ -223,7 +243,12 @@ private:
 // else use an extra member
 #if UINTPTR_MAX == UINT64_MAX
         _semantics{cpp::detail::tagPointer(&detail::valueSemanticsOperation<T>, alignof(T))},
-        _sizeOf{sizeof(T)}
+        _sizeOf{sizeof(T)},
+        _typeId{ctti::type_id<T>()},
+        _isPointer{
+            std::is_pointer<T>::value &&
+            cpp::function_kind<T>() != cpp::FunctionKind::FREE_FUNCTION
+        }
     {
         static_assert(alignof(T) < (1 << 16), "Alignment of T cannot be tagged in a pointer, its value overflows a 16 bit unsigned integer");
     }
@@ -241,7 +266,12 @@ private:
 #else
         _semantics{&valueSemanticsOperation<T>},
         _alignment{alignof(T)},
-        _sizeOf{sizeof(T)}
+        _sizeOf{sizeof(T)},
+        _typeId{ctti::type_id<T>()},
+        _isPointer{
+            std::is_pointer<T>::value &&
+            cpp::function_kind<T>() != cpp::FunctionKind::FREE_FUNCTION
+        }
     {}
 
 public:
@@ -258,6 +288,8 @@ private:
 #endif // if not 64 bit
     detail::ValueSemantics _semantics;
     std::size_t _sizeOf;
+    ctti::type_id_t _typeId;
+    bool _isPointer;
 };
 
 }
