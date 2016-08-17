@@ -139,7 +139,6 @@ function(add_siplasplas_target NAME TARGET_TYPE)
         if(NOT ARGS_NO_INSTALL)
             install_siplasplas_headeronly_library(${NAME})
         endif()
-        configure_standardese(TARGET ${NAME} ROOT_DIR "${current_includedir}")
 
         set(linking INTERFACE)
     elseif(TARGET_TYPE STREQUAL "LIBRARY")
@@ -175,7 +174,6 @@ function(add_siplasplas_target NAME TARGET_TYPE)
             install_siplasplas_library(${NAME})
         endif()
 
-        configure_standardese(TARGET ${NAME} ROOT_DIR "${current_includedir}")
     else()
         # Create the executable
         add_executable(${NAME} ${exclude_target_from_all} ${ARGS_SOURCES})
@@ -212,6 +210,10 @@ function(add_siplasplas_target NAME TARGET_TYPE)
         ${CMAKE_SOURCE_DIR}/include
         ${ARGS_INCLUDE_DIRS}
     )
+
+    if(TARGET_TYPE STREQUAL "LIBRARY" OR TARGET_TYPE STREQUAL "HEADER_ONLY_LIBRARY")
+        configure_standardese(TARGET ${NAME} ROOT_DIR "${current_includedir}")
+    endif()
 
     string(REGEX REPLACE "_" " " TARGET_TYPE "${TARGET_TYPE}")
     message(STATUS "SIPLASPLAS ${TARGET_TYPE} ${NAME}")

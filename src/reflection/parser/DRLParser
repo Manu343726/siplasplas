@@ -129,6 +129,9 @@ class App:
             if os.path.commonprefix([dir, directory]) == dir:
                 return True
 
+        if directory == os.path.join(self.args.sourcedir, 'include'):
+            return True
+
         return False
 
     def __init__(self):

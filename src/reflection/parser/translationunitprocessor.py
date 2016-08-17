@@ -35,8 +35,7 @@ class TranslationUnitProcessor:
 
         self.logger.info('Parsing file...')
 
-        ast_options = clang.cindex.TranslationUnit.PARSE_DETAILED_PROCESSING_RECORD
-        self.clang_tu = self.index.parse(self.filePath, args = self.compileArgs, options = ast_options)
+        self.clang_tu = clang.cindex.Index.create().parse(self.filePath, args = self.compileArgs)
 
         for d in self.clang_tu.diagnostics:
             GlobalLogger.error().step('Line {} (severity {}): {}'.format(d.location.line, d.severity, d.spelling))
