@@ -44,6 +44,7 @@ namespace detail
     struct get_function_signature<R(Args...)>
     {
         using args = meta::list<Args...>;
+        using args_without_this = args;
         using return_type = R;
 
         static constexpr FunctionKind kind = FunctionKind::FREE_FUNCTION;
@@ -58,6 +59,7 @@ namespace detail
     struct get_function_signature<R (C::*)(Args...)>
     {
         using args = meta::list<C, Args...>;
+        using args_without_this = meta::list<Args...>;
         using return_type = R;
         static constexpr FunctionKind kind = FunctionKind::MEMBER_FUNCTION;
     };
@@ -66,6 +68,7 @@ namespace detail
     struct get_function_signature<R (C::*)(Args...) const>
     {
         using args = meta::list<C, Args...>;
+        using args_without_this = meta::list<Args...>;
         using return_type = R;
         static constexpr FunctionKind kind = FunctionKind::CONST_MEMBER_FUNCTION;
     };
@@ -86,6 +89,7 @@ struct function_signature<Functor, true>
     using args = meta::tail_t<
         typename detail::get_function_signature<decltype(&Functor::operator())>::args
     >;
+    using args_without_this = args;
     using return_type = typename detail::get_function_signature<decltype(&Functor::operator())>::return_type;
 
     static constexpr FunctionKind kind = FunctionKind::FUNCTOR;
@@ -96,6 +100,9 @@ using function_return_type = typename function_signature<Function>::return_type;
 
 template<typename Function>
 using function_arguments = typename function_signature<Function>::args;
+
+template<typename Function>
+using function_arguments_without_this = typename function_signature<Function>::args_without_this;
 
 template<std::size_t Index, typename Function>
 using function_argument = meta::get_t<Index, function_arguments<Function>>;
@@ -114,7 +121,7 @@ constexpr FunctionKind function_kind(Function)
 
 template<typename A, typename B>
 struct equal_signature : std::is_same<
-    function_arguments<A>, function_arguments<B>
+    function_arguments_without_this<A>, function_arguments_without_this<B>
 >{};
 
 }
