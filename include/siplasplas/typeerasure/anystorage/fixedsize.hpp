@@ -2,6 +2,7 @@
 #define SIPLASPLAS_TYPEERASURE_ANYSTORAGE_FIXEDSIZE_HPP
 
 #include <siplasplas/utility/memory_manip.hpp>
+#include <siplasplas/typeerasure/typeinfo.hpp>
 #include <array>
 #include <type_traits>
 
@@ -62,29 +63,29 @@ protected:
     /**
      * \brief Returns a pointer to the storage memory space
      *
-     * \param alignment Required storage alignment. Byte boundary by default
+     * \param typeInfo Type information with the required alignment and storage size
      *
      * \returns An aligned pointer to the storage. The behavior is undefined if
      * the storage has no space to host an object with the required alignment
      * (See objectFitsInStorage()).
      */
-    const void* storage(std::size_t alignment = alignof(std::uint8_t)) const
+    const void* storage(cpp::typeerasure::TypeInfo typeInfo) const
     {
-        return cpp::detail::aligned_ptr(begin(), alignment);
+        return cpp::detail::aligned_ptr(begin(), typeInfo.alignment());
     }
 
     /**
      * \brief Returns a pointer to the storage memory space
      *
-     * \param alignment Required storage alignment. Byte boundary by default
+     * \param typeInfo Type information with the required alignment and storage size
      *
      * \returns An aligned pointer to the storage. The behavior is undefined if
      * the storage has no space to host an object with the required alignment
      * (See objectFitsInStorage()).
      */
-    void* storage(std::size_t alignment = alignof(std::uint8_t))
+    void* storage(cpp::typeerasure::TypeInfo typeInfo)
     {
-        return cpp::detail::aligned_ptr(begin(), alignment);
+        return cpp::detail::aligned_ptr(begin(), typeInfo.alignment());
     }
 
     /**
@@ -95,7 +96,7 @@ protected:
     template<typename T>
     bool objectFitsInStorage() const
     {
-        return reinterpret_cast<const char*>(storage(alignof(T))) + sizeof(T) <= end();
+        return reinterpret_cast<const char*>(storage(cpp::typeerasure::TypeInfo::get<T>())) + sizeof(T) <= end();
     }
 
 private:

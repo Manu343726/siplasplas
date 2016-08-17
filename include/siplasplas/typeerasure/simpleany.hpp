@@ -2,7 +2,7 @@
 #define SIPLASPLAS_TYPEERASURE_SIPLEANY_HPP
 
 #include "typeinfo.hpp"
-#include "anystorage/fixedsize.hpp"
+#include "anystorage/deadpool.hpp"
 #include "anystorage/nonowning.hpp"
 #include "logger.hpp"
 #include <siplasplas/utility/assert.hpp>
@@ -67,7 +67,7 @@ public:
      * \brief Constructs an empty SimpleAny
      */
     SimpleAny() :
-        _typeInfo{TypeInfo::get<EmptyTag>()}
+        _typeInfo{cpp::typeerasure::TypeInfo::get<EmptyTag>()}
     {}
 
     /**
@@ -96,36 +96,36 @@ public:
         >::value
     >>
     SimpleAny(const T& value) :
-        _typeInfo{TypeInfo::get<T>()}
+        _typeInfo{cpp::typeerasure::TypeInfo::get<T>()}
     {
         SIPLASPLAS_ASSERT_TRUE(Storage::template objectFitsInStorage<T>());
-        _typeInfo.copyConstruct(Storage::storage(_typeInfo.alignment()), &value);
+        _typeInfo.copyConstruct(Storage::storage(_typeInfo), &value);
     }
 
     template<typename OtherStorage>
     SimpleAny(const SimpleAny<OtherStorage>& other) :
         _typeInfo{other._typeInfo}
     {
-        _typeInfo.copyConstruct(Storage::storage(_typeInfo.alignment()), other.storage());
+        _typeInfo.copyConstruct(Storage::storage(_typeInfo), other.storage(other.typeInfo()));
     }
 
     template<typename OtherStorage>
     SimpleAny(SimpleAny<OtherStorage>&& other) :
         _typeInfo{other._typeInfo}
     {
-        _typeInfo.moveConstruct(Storage::storage(_typeInfo.alignment()), other.storage());
+        _typeInfo.moveConstruct(Storage::storage(_typeInfo), other.storage(other.typeInfo()));
     }
 
     SimpleAny(const SimpleAny& other) :
         _typeInfo{other._typeInfo}
     {
-        _typeInfo.copyConstruct(Storage::storage(_typeInfo.alignment()), other.storage());
+        _typeInfo.copyConstruct(Storage::storage(_typeInfo), other.storage(other.typeInfo()));
     }
 
     SimpleAny(SimpleAny&& other) :
         _typeInfo{other._typeInfo}
     {
-        _typeInfo.moveConstruct(Storage::storage(_typeInfo.alignment()), other.storage());
+        _typeInfo.moveConstruct(Storage::storage(_typeInfo), other.storage(other.typeInfo()));
     }
 
     /**
@@ -136,7 +136,7 @@ public:
     template<typename T>
     bool hasType() const
     {
-        return TypeInfo::get<T>() == _typeInfo;
+        return cpp::typeerasure::TypeInfo::get<T>() == _typeInfo;
     }
 
     /**
@@ -151,7 +151,7 @@ public:
 #ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
         SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>());
 #endif
-        return *reinterpret_cast<const std::decay_t<T>*>(Storage::storage(_typeInfo.alignment()));
+        return *reinterpret_cast<const std::decay_t<T>*>(Storage::storage(_typeInfo));
     }
 
     /**
@@ -166,13 +166,13 @@ public:
 #ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
         SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>());
 #endif
-        return *reinterpret_cast<std::decay_t<T>*>(Storage::storage(_typeInfo.alignment()));
+        return *reinterpret_cast<std::decay_t<T>*>(Storage::storage(_typeInfo));
     }
 
     /**
      * \brief Returns the type information of the hosted type
      */
-    TypeInfo typeInfo() const
+    cpp::typeerasure::TypeInfo typeInfo() const
     {
         return _typeInfo;
     }
@@ -192,14 +192,14 @@ public:
     {
         if(!hasType<T>())
         {
-            _typeInfo.destroy(Storage::storage(_typeInfo.alignment()));
-            _typeInfo = TypeInfo::get<T>();
+            _typeInfo.destroy(Storage::storage(_typeInfo));
+            _typeInfo = cpp::typeerasure::TypeInfo::get<T>();
             SIPLASPLAS_ASSERT_TRUE(Storage::template objectFitsInStorage<T>());
-            _typeInfo.copyConstruct(Storage::storage(_typeInfo.alignment()), &value);
+            _typeInfo.copyConstruct(Storage::storage(_typeInfo), &value);
         }
         else
         {
-            _typeInfo.copyAssign(Storage::storage(_typeInfo.alignment()), &value);
+            _typeInfo.copyAssign(Storage::storage(_typeInfo), &value);
         }
 
         return *this;
@@ -209,13 +209,13 @@ public:
     {
         if(!sameType(*this, other))
         {
-            _typeInfo.destroy(Storage::storage(_typeInfo.alignment()));
+            _typeInfo.destroy(Storage::storage(_typeInfo));
             _typeInfo = other._typeInfo;
-            _typeInfo.copyConstruct(Storage::storage(_typeInfo.alignment()), other.storage());
+            _typeInfo.copyConstruct(Storage::storage(_typeInfo), other.storage(other.typeInfo()));
         }
         else
         {
-            _typeInfo.copyAssign(Storage::storage(_typeInfo.alignment()), other.storage());
+            _typeInfo.copyAssign(Storage::storage(_typeInfo), other.storage(other.typeInfo()));
         }
 
         return *this;
@@ -225,13 +225,13 @@ public:
     {
         if(!sameType(*this, other))
         {
-            _typeInfo.destroy(Storage::storage(_typeInfo.alignment()));
+            _typeInfo.destroy(Storage::storage(_typeInfo));
             _typeInfo = other._typeInfo;
-            _typeInfo.moveConstruct(Storage::storage(_typeInfo.alignment()), other.storage());
+            _typeInfo.moveConstruct(Storage::storage(_typeInfo), other.storage(other.typeInfo()));
         }
         else
         {
-            _typeInfo.moveAssign(Storage::storage(_typeInfo.alignment()), other.storage());
+            _typeInfo.moveAssign(Storage::storage(_typeInfo), other.storage(other.typeInfo()));
         }
 
         return *this;
@@ -239,18 +239,18 @@ public:
 
     ~SimpleAny()
     {
-        _typeInfo.destroy(Storage::storage(_typeInfo.alignment()));
+        _typeInfo.destroy(Storage::storage(_typeInfo));
     }
 
 private:
-    TypeInfo _typeInfo;
+    cpp::typeerasure::TypeInfo _typeInfo;
 
     template<typename T, typename... Args>
     SimpleAny(meta::identity<T>, Args&&... args) :
-        _typeInfo{TypeInfo::get<T>()}
+        _typeInfo{cpp::typeerasure::TypeInfo::get<T>()}
     {
         SIPLASPLAS_ASSERT_TRUE(Storage::template objectFitsInStorage<T>());
-        features::Constructible::apply<T>(Storage::storage(_typeInfo.alignment()), std::forward<Args>(args)...);
+        features::Constructible::apply<T>(Storage::storage(_typeInfo), std::forward<Args>(args)...);
     }
 };
 
@@ -278,7 +278,7 @@ public:
     template<typename T>
     SimpleAny(const T& value) :
         ConstNonOwningStorage(&value),
-        _typeInfo{TypeInfo::get<T>()}
+        _typeInfo{cpp::typeerasure::TypeInfo::get<T>()}
     {}
 
     /**
@@ -299,7 +299,7 @@ public:
     template<typename T>
     bool hasType() const
     {
-        return TypeInfo::get<T>() == _typeInfo;
+        return cpp::typeerasure::TypeInfo::get<T>() == _typeInfo;
     }
 
     /**
@@ -314,13 +314,13 @@ public:
 #ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
         SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>());
 #endif
-        return *reinterpret_cast<const std::decay_t<T>*>(ConstNonOwningStorage::storage(_typeInfo.alignment()));
+        return *reinterpret_cast<const std::decay_t<T>*>(ConstNonOwningStorage::storage(_typeInfo));
     }
 
     /**
      * \brief Returns the type information of the hosted type
      */
-    TypeInfo typeInfo() const
+    cpp::typeerasure::TypeInfo typeInfo() const
     {
         return _typeInfo;
     }
@@ -340,19 +340,19 @@ public:
     {
         if(!hasType<T>())
         {
-            _typeInfo = TypeInfo::get<T>();
+            _typeInfo = cpp::typeerasure::TypeInfo::get<T>();
             ConstNonOwningStorage::rebind(&value);
         }
         else
         {
-            _typeInfo.copyAssign(ConstNonOwningStorage::storage(_typeInfo.alignment()), &value);
+            _typeInfo.copyAssign(ConstNonOwningStorage::storage(_typeInfo), &value);
         }
 
         return *this;
     }
 
 private:
-    TypeInfo _typeInfo;
+    cpp::typeerasure::TypeInfo _typeInfo;
 };
 
 /**
@@ -366,7 +366,7 @@ public:
     template<typename T>
     SimpleAny(T& value) :
         NonOwningStorage(const_cast<std::decay_t<T>*>(&value)),
-        _typeInfo{TypeInfo::get<std::decay_t<T>>()}
+        _typeInfo{cpp::typeerasure::TypeInfo::get<std::decay_t<T>>()}
     {}
 
     /**
@@ -387,7 +387,7 @@ public:
     template<typename T>
     bool hasType() const
     {
-        return TypeInfo::get<T>() == _typeInfo;
+        return cpp::typeerasure::TypeInfo::get<T>() == _typeInfo;
     }
 
     /**
@@ -402,7 +402,7 @@ public:
 #ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
         SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>());
 #endif
-        return *reinterpret_cast<const std::decay_t<T>*>(NonOwningStorage::storage(_typeInfo.alignment()));
+        return *reinterpret_cast<const std::decay_t<T>*>(NonOwningStorage::storage(_typeInfo));
     }
 
     /**
@@ -417,13 +417,13 @@ public:
 #ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
         SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>());
 #endif
-        return *reinterpret_cast<std::decay_t<T>*>(NonOwningStorage::storage(_typeInfo.alignment()));
+        return *reinterpret_cast<std::decay_t<T>*>(NonOwningStorage::storage(_typeInfo));
     }
 
     /**
      * \brief Returns the type information of the hosted type
      */
-    TypeInfo typeInfo() const
+    cpp::typeerasure::TypeInfo typeInfo() const
     {
         return _typeInfo;
     }
@@ -443,44 +443,44 @@ public:
     {
         if(!hasType<T>())
         {
-            _typeInfo = TypeInfo::get<T>();
+            _typeInfo = cpp::typeerasure::TypeInfo::get<T>();
             NonOwningStorage::rebind(&value);
         }
         else
         {
-            _typeInfo.copyAssign(NonOwningStorage::storage(_typeInfo.alignment()), &value);
+            _typeInfo.copyAssign(NonOwningStorage::storage(_typeInfo), &value);
         }
 
         return *this;
     }
 
 private:
-    TypeInfo _typeInfo;
+    cpp::typeerasure::TypeInfo _typeInfo;
 };
 
 /**
  * \ingroup type-erasure
- * \brief A SimpleAny with 8 byte fixed-size storage
+ * \brief A SimpleAny with 8 byte dead pool storage
  */
-using SimpleAny8  = SimpleAny<FixedSizeStorage<8>>;
+using SimpleAny8  = SimpleAny<DeadPoolStorage<8>>;
 
 /**
  * \ingroup type-erasure
- * \brief A SimpleAny with 16 byte fixed-size storage
+ * \brief A SimpleAny with 16 byte dead pool storage
  */
-using SimpleAny16 = SimpleAny<FixedSizeStorage<16>>;
+using SimpleAny16 = SimpleAny<DeadPoolStorage<16>>;
 
 /**
  * \ingroup type-erasure
- * \brief A SimpleAny with 32 byte fixed-size storage
+ * \brief A SimpleAny with 32 byte dead pool storage
  */
-using SimpleAny32 = SimpleAny<FixedSizeStorage<32>>;
+using SimpleAny32 = SimpleAny<DeadPoolStorage<32>>;
 
 /**
  * \ingroup type-erasure
- * \brief A SimpleAny with 64 byte fixed-size storage
+ * \brief A SimpleAny with 64 byte dead pool storage
  */
-using SimpleAny64 = SimpleAny<FixedSizeStorage<64>>;
+using SimpleAny64 = SimpleAny<DeadPoolStorage<64>>;
 
 /**
  * \ingroup type-erasure

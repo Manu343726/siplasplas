@@ -1,6 +1,8 @@
 #ifndef SIPLASPLAS_TYPEERASURE_ANYSTORAGE_NONOWNING_HPP
 #define SIPLASPLAS_TYPEERASURE_ANYSTORAGE_NONOWNING_HPP
 
+#include <siplasplas/typeerasure/typeinfo.hpp>
+
 namespace cpp
 {
 
@@ -39,12 +41,12 @@ public:
     /**
      * \brief Returns a pointer to the storage memory space
      *
-     * \param alignment Required storage alignment. Byte boundary by default
+     * \param typeInfo Type information with the required alignment and storage size
      *
      * \returns A pointer to the reference object. Alignment is ignored, this
      * function assumes the pointer to the referenced object is valid
      */
-    const void* storage(std::size_t alignment = alignof(std::uint8_t)) const
+    const void* storage(cpp::typeerasure::TypeInfo typeInfo) const
     {
         return _reference;
     }
@@ -94,7 +96,7 @@ public:
      * \returns A pointer to the reference object. Alignment is ignored, this
      * function assumes the pointer to the referenced object is valid
      */
-    void* storage(std::size_t alignment = alignof(std::uint8_t)) const
+    void* storage(cpp::typeerasure::TypeInfo typeInfo) const
     {
         return _reference;
     }

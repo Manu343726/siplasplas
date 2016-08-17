@@ -3,6 +3,10 @@
 
 #include "simpleany.hpp"
 #include "invoke.hpp"
+#include "anystorage/deadpool.hpp"
+#include "anystorage/fixedsize.hpp"
+#include <siplasplas/utility/function_traits.hpp>
+#include <siplasplas/utility/staticif.hpp>
 
 namespace cpp
 {
@@ -115,6 +119,34 @@ public:
     }
 
     /**
+     * \brief Invokes the callable with the given arguments
+     * The arguments are passed as a vector of SimpleAny
+     *
+     * \param args Forwarding reference to vector of arguments
+     *
+     * \returns the return value of the callable as in `cpp::invoke(<underlying callable>, <args>)`
+     */
+    template<typename ArgsVector>
+    SimpleAny<Storage> invoke(ArgsVector&& args)
+    {
+        return _invoke.template get<InvokeInterface>().invoke(std::forward<ArgsVector>(args));
+    }
+
+    /**
+     * \brief Invokes the callable with the given arguments
+     * The arguments are passed as a vector of SimpleAny
+     *
+     * \param args Forwarding reference to vector of arguments
+     *
+     * \returns the return value of the callable as in `cpp::invoke(<underlying callable>, <args>)`
+     */
+    template<typename ArgsVector>
+    SimpleAny<Storage> invoke(ArgsVector&& args) const
+    {
+        return _invoke.template get<InvokeInterface>().invoke(std::forward<ArgsVector>(args));
+    }
+
+    /**
      * \brief Assigns a new callable to the function
      */
     template<typename Callable>
@@ -122,6 +154,11 @@ public:
     {
         _invoke = Invoke<std::decay_t<Callable>>{std::forward<Callable>(callable)};
         return *this;
+    }
+
+    cpp::FunctionKind kind() const
+    {
+        return _invoke.template get<InvokeInterface>().kind();
     }
 
 private:
@@ -139,6 +176,7 @@ private:
 
         virtual void* getObject() = 0;
         virtual const void* getObject() const = 0;
+        virtual cpp::FunctionKind kind() const = 0;
     };
 
     template<typename Callable>
@@ -152,12 +190,27 @@ private:
 
         SimpleAny<Storage> invoke(std::vector<SimpleAny<ArgsStorage>>&& args) override
         {
-            return cpp::typeerasure::invoke(_any.template get<Callable>(), std::move(args));
+            return cpp::staticIf<std::is_same<void, decltype(cpp::typeerasure::invoke(_any.template get<Callable>(), std::move(args)))>::value>([&](auto identity)
+            {
+                cpp::typeerasure::invoke(_any.template get<Callable>(), std::move(args));
+                return cpp::SimpleAny<Storage>();
+            }).Else([&](auto identity)
+            {
+                return cpp::typeerasure::invoke(_any.template get<Callable>(), std::move(args));
+            });
         }
 
         SimpleAny<Storage> invoke(std::vector<SimpleAny<ArgsStorage>>&& args) const override
         {
-            return cpp::typeerasure::invoke(_any.template get<Callable>(), std::move(args));
+            return cpp::staticIf<std::is_same<void, decltype(cpp::typeerasure::invoke(_any.template get<Callable>(), std::move(args)))>::value>([&](auto identity)
+            {
+                cpp::typeerasure::invoke(_any.template get<Callable>(), std::move(args));
+                return cpp::SimpleAny<Storage>();
+            }).Else([&](auto identity)
+            {
+                return cpp::typeerasure::invoke(_any.template get<Callable>(), std::move(args));
+            });
+
         }
 
         void* getObject() override
@@ -168,6 +221,11 @@ private:
         const void* getObject() const override
         {
             return &_any.template get<Callable>();
+        }
+
+        cpp::FunctionKind kind() const override
+        {
+            return cpp::function_kind<Callable>();
         }
 
     private:
@@ -182,25 +240,25 @@ private:
  * \ingroup type-erasure
  * \brief A Function with 8 byte fixed-size storage
  */
-using Function8  = Function<FixedSizeStorage<8>>;
+using Function8  = Function<DeadPoolStorage<8>>;
 
 /**
  * \ingroup type-erasure
  * \brief A Function with 16 byte fixed-size storage
  */
-using Function16 = Function<FixedSizeStorage<16>>;
+using Function16 = Function<DeadPoolStorage<16>>;
 
 /**
  * \ingroup type-erasure
  * \brief A Function with 32 byte fixed-size storage
  */
-using Function32 = Function<FixedSizeStorage<32>>;
+using Function32 = Function<DeadPoolStorage<32>>;
 
 /**
  * \ingroup type-erasure
  * \brief A Function with 64 byte fixed-size storage
  */
-using Function64 = Function<FixedSizeStorage<64>>;
+using Function64 = Function<DeadPoolStorage<64>>;
 
 }
 

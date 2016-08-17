@@ -2,6 +2,7 @@
 
 #include "mocks/valuesemantics.hpp"
 #include <siplasplas/typeerasure/anystorage/fixedsize.hpp>
+#include <siplasplas/typeerasure/anystorage/deadpool.hpp>
 #include <siplasplas/typeerasure/simpleany.hpp>
 #include <gmock/gmock.h>
 #include <vector>
@@ -47,13 +48,12 @@ TEST(SimpleAnyTest, createWithCustomArgs_smallTypes_noThrow)
     EXPECT_NO_THROW((SimpleAny::create<std::array<char, 64>>()));
 }
 
-TEST(SimpleAnyTest, createWithCustomArgs_bigTypes_throw)
+TEST(SimpleAnyTest, createWithCustomArgs_bigTypes_noThrow)
 {
-    EXPECT_THROW((SimpleAny::create<std::array<char, 128>>()), cpp::AssertException);
-    EXPECT_THROW((SimpleAny::create<std::array<char, 256>>()), cpp::AssertException);
-    EXPECT_THROW((SimpleAny::create<std::array<char, 512>>()), cpp::AssertException);
+    EXPECT_NO_THROW((SimpleAny::create<std::array<char, 128>>()));
+    EXPECT_NO_THROW((SimpleAny::create<std::array<char, 256>>()));
+    EXPECT_NO_THROW((SimpleAny::create<std::array<char, 512>>()));
 }
-
 
 TEST(SimpleAnyTest, constructFromValue_smallTypes_noThrow)
 {
@@ -81,6 +81,17 @@ TEST(SimpleAnyTest, assignValue_smallDifferentTypes_noThrow)
     EXPECT_NO_THROW(any = (std::array<char, 8>()));
     EXPECT_NO_THROW(any = (std::array<char, 16>()));
     EXPECT_NO_THROW(any = (std::array<char, 32>()));
+}
+
+TEST(SimpleAnyTest, deadPool8_assignValue_bigDifferentTypes_noThrow)
+{
+    auto any = cpp::SimpleAny<cpp::DeadPoolStorage<8>>::create<int>(42);
+
+    EXPECT_NO_THROW(any = std::string("hello, world!"));
+    EXPECT_NO_THROW(any = (std::array<char, 128>()));
+    EXPECT_NO_THROW(any = (std::array<char, 256>()));
+    EXPECT_NO_THROW(any = (std::array<char, 512>()));
+    EXPECT_NO_THROW(any = (std::array<char, 1024>()));
 }
 
 TEST(SimpleAnyTest, assignValue_sameType_noThrow)

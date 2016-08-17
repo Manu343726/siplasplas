@@ -8,6 +8,9 @@
 namespace cpp
 {
 
+namespace typeerasure
+{
+
 namespace detail
 {
 
@@ -117,6 +120,14 @@ public:
     }
 
     /**
+     * \brief Returns the size of the type
+     */
+    std::size_t sizeOf() const
+    {
+        return _sizeOf;
+    }
+
+    /**
      * \brief Returns the function implementing the given valuesemantics operation
      * for the type
      */
@@ -211,12 +222,16 @@ private:
 // If virtual addresses have 64 bits, use a use a tagged pointer to store the alignment,
 // else use an extra member
 #if UINTPTR_MAX == UINT64_MAX
-        _semantics{cpp::detail::tagPointer(&detail::valueSemanticsOperation<T>, alignof(T))}
+        _semantics{cpp::detail::tagPointer(&detail::valueSemanticsOperation<T>, alignof(T))},
+        _sizeOf{sizeof(T)}
     {
         static_assert(alignof(T) < (1 << 16), "Alignment of T cannot be tagged in a pointer, its value overflows a 16 bit unsigned integer");
     }
 
 public:
+    /**
+     * \brief returns the alignment of the type
+     */
     std::size_t alignment() const
     {
         return cpp::detail::readTaggedPointer(_semantics);
@@ -224,11 +239,15 @@ public:
 
 private:
 #else
-        _semantics{&valueSemanticsOperation<T>}
-        _alignment{alignof(T)}
+        _semantics{&valueSemanticsOperation<T>},
+        _alignment{alignof(T)},
+        _sizeOf{sizeof(T)}
     {}
 
 public:
+    /**
+     * \brief returns the alignment of the type
+     */
     constexpr std::size_t alignment() const
     {
         return _alignment;
@@ -238,7 +257,10 @@ private:
     std::size_t _alignment;
 #endif // if not 64 bit
     detail::ValueSemantics _semantics;
+    std::size_t _sizeOf;
 };
+
+}
 
 }
 

@@ -11,7 +11,7 @@
  * The minimal interface of an `Storage` class is:
  *
  * ``` cpp
- * void* Storage::storage(std::size_t alignment) const
+ * void* Storage::storage(cpp::typeerasure::TypeInfo typeInfo) const
  * bool Storage::objectFitsInStorage<T>() const
  * ```
  *
