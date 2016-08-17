@@ -16,9 +16,40 @@ namespace typeerasure
 namespace detail
 {
 
+template<typename Callable, typename Storage, std::size_t... Is>
+void logInvoke(::cpp::meta::index_sequence<Is...>, const std::vector<cpp::SimpleAny<Storage>>& args)
+{
+    static constexpr ctti::type_id_t paramsTypes[] = { ctti::type_id<::cpp::function_argument<Is, std::decay_t<Callable>>>()..., ctti::type_id<void>() };
+
+    typeerasure::log().debug("About to do type-erased invoke (vector args):");
+    typeerasure::log().debug("  Function: {}", ctti::type_id<std::decay_t<Callable>>().name());
+
+    for(std::size_t i = 0; i < sizeof...(Is); ++i)
+    {
+        typeerasure::log().debug("  #{}: Param {}, Arg {}", i, paramsTypes[i].name(), args[i].typeInfo().typeName());
+    }
+}
+
+template<typename Callable, typename... Storages, std::size_t... Is>
+void logInvoke(::cpp::meta::index_sequence<Is...>, const cpp::SimpleAny<Storages>&... args)
+{
+    static constexpr ctti::type_id_t paramsTypes[] = { ctti::type_id<::cpp::function_argument<Is, std::decay_t<Callable>>>()..., ctti::type_id<void>() };
+    TypeInfo argsTypes[] = { args.typeInfo()... , TypeInfo::get<int>()};
+
+    typeerasure::log().debug("About to do type-erased invoke (variadic args):");
+    typeerasure::log().debug("  Function: {}", ctti::type_id<std::decay_t<Callable>>().name());
+
+    for(std::size_t i = 0; i < sizeof...(Is); ++i)
+    {
+        typeerasure::log().debug("  #{}: Param {}, Arg {}", i, paramsTypes[i].name(), argsTypes[i].typeName());
+    }
+}
+
 template<typename Callable, typename... Storages, std::size_t... Is>
 auto invoke(Callable&& callable, ::cpp::meta::index_sequence<Is...>, const ::cpp::SimpleAny<Storages>&... args)
 {
+    logInvoke<Callable>(::cpp::meta::index_sequence<Is...>(), args...);
+
     return ::cpp::invoke(
         std::forward<Callable>(callable),
         args.template get<
@@ -33,6 +64,8 @@ auto invoke(Callable&& callable, ::cpp::meta::index_sequence<Is...>, const ::cpp
 template<typename Callable, typename... Storages, std::size_t... Is>
 auto invoke(Callable&& callable, ::cpp::meta::index_sequence<Is...>, ::cpp::SimpleAny<Storages>&... args)
 {
+    logInvoke<Callable>(::cpp::meta::index_sequence<Is...>(), args...);
+
     return ::cpp::invoke(
         std::forward<Callable>(callable),
         args.template get<
@@ -47,6 +80,8 @@ auto invoke(Callable&& callable, ::cpp::meta::index_sequence<Is...>, ::cpp::Simp
 template<typename Callable, typename... Storages, std::size_t... Is>
 auto invoke(Callable&& callable, ::cpp::meta::index_sequence<Is...>, ::cpp::SimpleAny<Storages>&&... args)
 {
+    logInvoke<Callable>(::cpp::meta::index_sequence<Is...>(), args...);
+
     return ::cpp::invoke(
         std::forward<Callable>(callable),
         std::move(args.template get<
@@ -61,6 +96,8 @@ auto invoke(Callable&& callable, ::cpp::meta::index_sequence<Is...>, ::cpp::Simp
 template<typename Callable, typename Storage, std::size_t... Is>
 auto invoke(Callable&& callable, ::cpp::meta::index_sequence<Is...>, const std::vector<::cpp::SimpleAny<Storage>>& args)
 {
+    logInvoke<Callable>(::cpp::meta::index_sequence<Is...>(), args);
+
     return ::cpp::invoke(
         std::forward<Callable>(callable),
         args[Is].template get<
@@ -75,6 +112,8 @@ auto invoke(Callable&& callable, ::cpp::meta::index_sequence<Is...>, const std::
 template<typename Callable, typename Storage, std::size_t... Is>
 auto invoke(Callable&& callable, ::cpp::meta::index_sequence<Is...>, std::vector<::cpp::SimpleAny<Storage>>& args)
 {
+    logInvoke<Callable>(::cpp::meta::index_sequence<Is...>(), args);
+
     return ::cpp::invoke(
         std::forward<Callable>(callable),
         args[Is].template get<
@@ -89,6 +128,8 @@ auto invoke(Callable&& callable, ::cpp::meta::index_sequence<Is...>, std::vector
 template<typename Callable, typename Storage, std::size_t... Is>
 auto invoke(Callable&& callable, ::cpp::meta::index_sequence<Is...>, std::vector<::cpp::SimpleAny<Storage>>&& args)
 {
+    logInvoke<Callable>(::cpp::meta::index_sequence<Is...>(), args);
+
     return ::cpp::invoke(
         std::forward<Callable>(callable),
         std::move(
@@ -117,7 +158,7 @@ auto invoke(Callable&& callable, ::cpp::meta::index_sequence<Is...>, std::vector
 template<typename Callable, typename... Storages>
 auto invoke(Callable&& callable, const ::cpp::SimpleAny<Storages>&... args)
 {
-    return detail::invoke(std::forward<Callable>(callable), ::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>(), args...);
+    return ::cpp::typeerasure::detail::invoke(std::forward<Callable>(callable), ::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>(), args...);
 }
 
 /**
@@ -133,7 +174,7 @@ auto invoke(Callable&& callable, const ::cpp::SimpleAny<Storages>&... args)
 template<typename Callable, typename... Storages>
 auto invoke(Callable&& callable, ::cpp::SimpleAny<Storages>&... args)
 {
-    return detail::invoke(std::forward<Callable>(callable), ::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>(), args...);
+    return ::cpp::typeerasure::detail::invoke(std::forward<Callable>(callable), ::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>(), args...);
 }
 
 /**
@@ -149,7 +190,7 @@ auto invoke(Callable&& callable, ::cpp::SimpleAny<Storages>&... args)
 template<typename Callable, typename... Storages>
 auto invoke(Callable&& callable, ::cpp::SimpleAny<Storages>&&... args)
 {
-    return detail::invoke(std::forward<Callable>(callable), ::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>(), std::move(args)...);
+    return ::cpp::typeerasure::detail::invoke(std::forward<Callable>(callable), ::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>(), std::move(args)...);
 }
 
 /**
@@ -165,7 +206,7 @@ auto invoke(Callable&& callable, ::cpp::SimpleAny<Storages>&&... args)
 template<typename Callable, typename Storage>
 auto invoke(Callable&& callable, const std::vector<::cpp::SimpleAny<Storage>>& args)
 {
-    return detail::invoke(std::forward<Callable>(callable), ::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>(), args);
+    return ::cpp::typeerasure::detail::invoke(std::forward<Callable>(callable), ::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>(), args);
 }
 
 /**
@@ -181,7 +222,7 @@ auto invoke(Callable&& callable, const std::vector<::cpp::SimpleAny<Storage>>& a
 template<typename Callable, typename Storage>
 auto invoke(Callable&& callable, std::vector<::cpp::SimpleAny<Storage>>& args)
 {
-    return detail::invoke(std::forward<Callable>(callable), ::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>(), args);
+    return ::cpp::typeerasure::detail::invoke(std::forward<Callable>(callable), ::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>(), args);
 }
 
 /**
@@ -197,7 +238,7 @@ auto invoke(Callable&& callable, std::vector<::cpp::SimpleAny<Storage>>& args)
 template<typename Callable, typename Storage>
 auto invoke(Callable&& callable, std::vector<::cpp::SimpleAny<Storage>>&& args)
 {
-    return detail::invoke(std::forward<Callable>(callable), ::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>(), std::move(args));
+    return ::cpp::typeerasure::detail::invoke(std::forward<Callable>(callable), ::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>(), std::move(args));
 }
 
 }
