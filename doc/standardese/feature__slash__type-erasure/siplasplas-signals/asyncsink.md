@@ -39,7 +39,7 @@ public:
     virtual ~AsyncSink();
     
 protected:
-    virtual void invoke() override;
+    virtual void invoke(std::vector<cpp::SimpleAny32>&& args) override;
     
     virtual bool invokeWithoutCallee() const override;
 };

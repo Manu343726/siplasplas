@@ -174,7 +174,7 @@ template&lt;typename OtherStorage &gt; </td></tr>
 <tr class="separator:a82cfcf4cb1157c8c7bdc8186830feefd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a03296f18b3b4f3814099c191bc2dc660"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a03296f18b3b4f3814099c191bc2dc660"><td class="memTemplItemLeft" align="right" valign="top">std::decay_t&lt; T &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1_simple_any.html#a03296f18b3b4f3814099c191bc2dc660">get</a> ()</td></tr>
-<tr class="memdesc:a03296f18b3b4f3814099c191bc2dc660"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a eference to the hosted object.  <a href="#a03296f18b3b4f3814099c191bc2dc660">More...</a><br /></td></tr>
+<tr class="memdesc:a03296f18b3b4f3814099c191bc2dc660"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a reference to the hosted object.  <a href="#a03296f18b3b4f3814099c191bc2dc660">More...</a><br /></td></tr>
 <tr class="separator:a03296f18b3b4f3814099c191bc2dc660"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a224ef65d5a1ee5411cf7d94155ce61fa"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a224ef65d5a1ee5411cf7d94155ce61fa"></a>
 <a class="el" href="classcpp_1_1typeerasure_1_1_type_info.html">cpp::typeerasure::TypeInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_simple_any.html#a224ef65d5a1ee5411cf7d94155ce61fa">typeInfo</a> () const </td></tr>
@@ -355,6 +355,7 @@ template&lt;typename T &gt; </div>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to the hosted object it the hosted object is not a pointer. If the hosted object is a pointer, returns a reference to the pointed object </dd></dl>
 
 </div>
 </div>
@@ -383,13 +384,14 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Returns a eference to the hosted object. </p>
+<p>Returns a reference to the hosted object. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">T</td><td>Type of the returned object. If T is different from the hosted object type, the behavior is undefined (See <a class="el" href="classcpp_1_1_simple_any.html#ab35c68fdcbf4612d8460579cede0eb44" title="Checks if the any has a value of type T. ">hasType()</a>). </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to the hosted object it the hosted object is not a pointer. If the hosted object is a pointer, returns a reference to the pointed object </dd></dl>
 
 </div>
 </div>

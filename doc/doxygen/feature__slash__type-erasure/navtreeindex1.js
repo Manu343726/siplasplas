@@ -1,5 +1,7 @@
 var NAVTREEINDEX1 =
 {
+"group__memory-manip.html#gab55632800c338656882153aa0d878403":[1,4,4,15],
+"group__memory-manip.html#gaba9adb82c913725ac2e0ae97bcf34704":[1,4,4,20],
 "group__memory-manip.html#gac6d18df75333ae65c1e2883b2940f7ac":[1,4,4,21],
 "group__memory-manip.html#gad5dc2a2574e06016fcc0f30483ff4abf":[1,4,4,10],
 "group__memory-manip.html#gad7f23776302f41ccfce366e8c4fdc30f":[1,4,4,14],

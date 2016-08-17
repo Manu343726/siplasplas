@@ -14,12 +14,4 @@ layout: standardese-doc
 #include <siplasplas/utility/dynamiclibrary.hpp>
 
 #include <siplasplas/variant/optional.hpp>
-
-namespace cpp
-{
-    namespace dynamic_reflection
-    {
-        class RuntimeLoader;
-    }
-}
 ```

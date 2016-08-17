@@ -25,6 +25,7 @@ namespace cpp
 
 ``` cpp
 class FileSystemListener
+: public cpp::SignalEmitter
 {
 public:
     void fileCreated(efsw::WatchID watchId, const std::string& dir, const std::string& fileName);

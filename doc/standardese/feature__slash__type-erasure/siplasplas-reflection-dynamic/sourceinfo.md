@@ -17,6 +17,8 @@ namespace cpp
 {
     namespace dynamic_reflection
     {
+        using Kind = static_reflection::Kind;
+        
         class SourceInfo;
     }
 }

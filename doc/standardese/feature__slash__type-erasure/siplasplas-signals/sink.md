@@ -43,7 +43,7 @@ public:
     virtual bool pull() = 0
     
 protected:
-    virtual void invoke() = 0
+    virtual void invoke(std::vector<cpp::SimpleAny32>&& args) = 0
     
     virtual bool invokeWithoutCallee() const = 0
 };

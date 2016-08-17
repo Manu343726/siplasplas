@@ -11,7 +11,7 @@ layout: standardese-doc
 
 #include <siplasplas/utility/hash.hpp>
 
-#include <siplasplas/reflection/api.hpp>
+#include <siplasplas/reflection/static/api.hpp>
 
 #include "syncsink.hpp"
 
