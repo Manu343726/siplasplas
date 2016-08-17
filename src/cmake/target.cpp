@@ -86,8 +86,6 @@ CMakeTarget::Metadata CMakeTarget::Metadata::loadFromFile(const CMakeProject& pr
         }
 
         metadata.binary = json["LOCATION"];
-        metadata.binaryDebug = json["DEBUG_LOCATION"];
-        metadata.binaryRelease = json["RELEASE_LOCATION"];
 
         return metadata;
     }

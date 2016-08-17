@@ -3,7 +3,7 @@
 
 #include <siplasplas/utility/function_traits.hpp>
 #include <siplasplas/utility/hash.hpp>
-#include <siplasplas/reflection/api.hpp>
+#include <siplasplas/reflection/static/api.hpp>
 #include "syncsink.hpp"
 #include "asyncsink.hpp"
 #include "logger.hpp"

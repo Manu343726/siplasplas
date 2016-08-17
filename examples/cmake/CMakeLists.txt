@@ -1,4 +1,4 @@
-add_siplasplas_example_simple(cmake-project EXCLUDE_FROM_RUN_ALL DEPENDS siplasplas-cmake)
+add_siplasplas_example_simple(cmake-project EXCLUDE_FROM_RUN_ALL DEPENDS siplasplas-cmake siplasplas-reflection-dynamic)
 configure_siplasplas_reflection(examples-cmake-project)
 
 target_compile_definitions(examples-cmake-project PRIVATE
