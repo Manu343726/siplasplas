@@ -239,3 +239,21 @@ a {
 
 .site-footer-credits {
   color: #819198; }
+
+.page-navigator{
+	background-color: #333;
+}
+
+.page-navigator > ul{
+	margin: 0px;
+	text-align: right;
+}
+
+.page-navigator > ul a{
+	color: #fff;
+}
+
+.page-navigator > ul > li{
+	display: inline-block;
+	padding: 15px 15px;
+}

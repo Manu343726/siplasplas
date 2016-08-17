@@ -5,6 +5,7 @@
 
   <body>
     {% include page-header.html %}
+	{% include page-navigator.html %}
 
     <section class="main-content">
       
@@ -13,6 +14,25 @@
       {% include page-footer.html %}
 
     </section>
+	<script src="{{ site.baseurl }}/js/jquery-3.1.0.min.js"></script>
+	<script src="{{ site.baseurl }}/js/menu.js"></script>
+	<script>
+		$(function() {
 
+			$(window).on('scroll', function () {
+				if ($(this).scrollTop() > 382) {
+					
+					$('.page-navigator').css('position', 'fixed');
+					$('.page-navigator').css('top', '0');
+					$('.page-navigator').css('right', '0');
+					$('.page-navigator ul').hide();
+				} else {
+					$('.page-navigator').css('position', 'static');
+					$('.page-navigator').css('top', 'auto');
+				    $('.page-navigator ul').show();
+				}
+			});
+		});
+	</script>
   </body>
 </html>
