@@ -1,27 +1,27 @@
 #include "asyncsink.hpp"
 
 using namespace cpp;
-using namespace cpp::dynamic_reflection;
+using namespace cpp::typeerasure;
 
 AsyncSink::~AsyncSink() = default;
 
 bool AsyncSink::pull()
 {
-    std::vector<Object> args;
+    std::vector<SimpleAny32> args;
     bool result = false;
 
     while(_queue.try_dequeue(args))
     {
-        _fptr.invoke(args);
+        _fptr.invoke(std::move(args));
         result = true;
     }
 
     return result;
 }
 
-void AsyncSink::invoke(const std::vector<Object>& args)
+void AsyncSink::invoke(std::vector<SimpleAny32>&& args)
 {
-    _queue.enqueue(args);
+    _queue.enqueue(std::move(args));
 }
 
 bool AsyncSink::invokeWithoutCallee() const

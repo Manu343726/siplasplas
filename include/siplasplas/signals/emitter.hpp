@@ -1,8 +1,6 @@
 #ifndef SIPLASPLAS_SIGNALS_EMITTER_HPP
 #define SIPLASPLAS_SIGNALS_EMITTER_HPP
 
-#include <siplasplas/reflection/dynamic/object_manip.hpp>
-#include <siplasplas/reflection/dynamic/function_pointer.hpp>
 #include <siplasplas/utility/function_traits.hpp>
 #include <siplasplas/utility/hash.hpp>
 #include <siplasplas/reflection/api.hpp>
@@ -276,7 +274,6 @@ protected:
 #ifdef SIPLASPLAS_LOG_SIGNALS
             {
                 static ctti::type_id_t argsTypes[] = {ctti::type_id<decltype(std::forward<Args>(args))>()..., ctti::type_id<void>()};
-                cpp::dynamic_reflection::Object objectArgs[] = {std::forward<Args>(args)..., cpp::dynamic_reflection::Object()};
 
                 signals::log().debug("Emitting signal from @{}. Args (count={})", static_cast<void*>(this), sizeof...(args));
 
@@ -285,7 +282,6 @@ protected:
                     signals::log().debug(
                         "  Arg({}): value '{}', type '{}'",
                         i,
-                        objectArgs[i].toString(),
                         argsTypes[i].name()
                     );
                 }

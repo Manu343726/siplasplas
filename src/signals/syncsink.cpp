@@ -1,16 +1,16 @@
 #include "syncsink.hpp"
 
 using namespace cpp;
-using namespace cpp::dynamic_reflection;
+using namespace cpp::typeerasure;
 
 bool SyncSink::pull()
 {
     return false;
 }
 
-void SyncSink::invoke(const std::vector<Object>& args)
+void SyncSink::invoke(std::vector<SimpleAny32>&& args)
 {
-    _fptr.invoke(args);
+    _fptr.invoke(std::move(args));
 }
 
 bool SyncSink::invokeWithoutCallee() const

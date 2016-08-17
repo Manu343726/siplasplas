@@ -2,8 +2,10 @@
 #define SIPLASPLAS_UTILITY_INVOKE_HPP
 
 #include "function_traits.hpp"
+#include "logger.hpp"
 #include <utility>
 #include <functional>
+#include <iostream>
 
 namespace cpp
 {
@@ -19,6 +21,18 @@ namespace detail
         template<typename Function, typename Object_, typename... Args>
         static auto apply(Function function, Object_&& object, Args&&... args)
         {
+            constexpr ctti::type_id_t typeIds[] = { ctti::type_id<std::decay_t<Args>>()..., ctti::type_id<void>() };
+
+            utility::log().debug("About to invoke member function:");
+            utility::log().debug("Object: {} @{}", ctti::type_id<std::decay_t<Object_>>().name(), reinterpret_cast<void*>(&object));
+
+            for(std::size_t i = 0; i < sizeof...(args); ++i)
+            {
+                utility::log().debug("  #{} {}", i, typeIds[i].name());
+            }
+
+            std::cout << reinterpret_cast<void*>(&object) << std::endl;
+
             return (std::forward<Object_>(object).*function)(std::forward<Args>(args)...);
         }
     };

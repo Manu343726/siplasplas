@@ -5,6 +5,7 @@ SOURCES
     syncsink.cpp
     logger.cpp
 DEPENDS
-    siplasplas-reflection-dynamic
+    siplasplas-reflection-static
+    siplasplas-typeerasure
     readerwriterqueue
 )
