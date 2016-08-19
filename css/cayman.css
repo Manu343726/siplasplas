@@ -52,8 +52,7 @@ a {
 .page-header {
   color: #fff;
   text-align: center;
-  background-color: #159957;
-  background-image: linear-gradient(120deg, #155799, #159957); }
+  background-image: url('../images/bg3.png'); }
   @media screen and (min-width: 64em) {
     .page-header {
       padding: 5rem 6rem; } }
@@ -66,16 +65,19 @@ a {
 
 .project-name {
   margin-top: 0;
-  margin-bottom: 0.1rem; }
+  margin-bottom: 0.1rem;
+  color: #159957;
+  text-shadow: 1px 1px 1px #292929;
+  font-size: 1.2em }
   @media screen and (min-width: 64em) {
     .project-name {
-      font-size: 3.25rem; } }
+      font-size: 3.50rem; } }
   @media screen and (min-width: 42em) and (max-width: 64em) {
     .project-name {
-      font-size: 2.25rem; } }
+      font-size: 2.50rem; } }
   @media screen and (max-width: 42em) {
     .project-name {
-      font-size: 1.75rem; } }
+      font-size: 2rem; } }
 
 .project-tagline {
   margin-bottom: 2rem;
