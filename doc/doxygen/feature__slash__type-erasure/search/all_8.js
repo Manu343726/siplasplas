@@ -6,6 +6,6 @@ var searchData=
   ['iostream',['Iostream',['../group__iostream.html',1,'']]],
   ['is_5faligned',['is_aligned',['../group__memory-manip.html#ga488b583efccb73b95fc86570a2e78c4f',1,'cpp::detail::is_aligned(char *pointer, std::size_t alignment)'],['../group__memory-manip.html#ga4d8f7e5f5743aceb3efcfe197e612583',1,'cpp::detail::is_aligned(void *pointer, std::size_t alignment)'],['../group__memory-manip.html#gad5dc2a2574e06016fcc0f30483ff4abf',1,'cpp::detail::is_aligned(const char *pointer, std::size_t alignment)'],['../group__memory-manip.html#ga08c4249f74a2f3daa063467186750b31',1,'cpp::detail::is_aligned(const void *pointer, std::size_t alignment)']]],
   ['ispointer',['isPointer',['../classcpp_1_1typeerasure_1_1_type_info.html#a5ff232f445010425154c74e144a5625c',1,'cpp::typeerasure::TypeInfo']]],
-  ['istreamable',['IStreamable',['../classcpp_1_1features_1_1_i_streamable.html',1,'cpp::features']]],
-  ['istreamable',['IStreamable',['../classcpp_1_1concepts_1_1_i_streamable.html',1,'cpp::concepts']]]
+  ['istreamable',['IStreamable',['../classcpp_1_1concepts_1_1_i_streamable.html',1,'cpp::concepts']]],
+  ['istreamable',['IStreamable',['../classcpp_1_1features_1_1_i_streamable.html',1,'cpp::features']]]
 ];
