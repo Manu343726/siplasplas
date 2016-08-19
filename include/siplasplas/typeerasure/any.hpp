@@ -49,7 +49,7 @@ public:
     using SimpleAny<Storage>::SimpleAny;
 
     using Method = cpp::typeerasure::Function<FunctionsStorage, FunctionArgsStorage>;
-    using Attribute = SimpleAny<AttributesStorage>;
+    using Attribute = cpp::typeerasure::Function<AttributesStorage>;
 
     class MethodProxy
     {
@@ -102,6 +102,92 @@ public:
         const Any* _this;
     };
 
+    class AttributeProxy
+    {
+    public:
+        AttributeProxy(Attribute& attribute, Any* this_) :
+            _attribute{&attribute},
+            _this{this_}
+        {}
+
+        template<typename Invokable>
+        std::enable_if_t<
+            cpp::function_kind<std::decay_t<Invokable>>() != cpp::FunctionKind::INVALID,
+            AttributeProxy&
+        >
+        operator=(Invokable&& invokable)
+        {
+            (*_attribute) = std::forward<Invokable>(invokable);
+            return *this;
+        }
+
+        template<typename T>
+        std::enable_if_t<
+            cpp::function_kind<std::decay_t<T>>() == cpp::FunctionKind::INVALID,
+            AttributeProxy&
+        >
+        operator=(T&& value)
+        {
+            get<std::decay_t<T>>() = std::forward<T>(value);
+            return *this;
+        }
+
+        template<typename T>
+        T& get()
+        {
+            return (*_attribute)(*_this).template get<T>();
+        }
+
+        template<typename T>
+        operator T&()
+        {
+            return get<T>();
+        }
+
+        template<typename T>
+        const T& get() const
+        {
+            return (*_attribute)(*_this).template get<T>();
+        }
+
+        template<typename T>
+        operator const T&() const
+        {
+            return get<T>();
+        }
+
+
+    private:
+        Attribute* _attribute;
+        Any* _this;
+    };
+
+    class ConstAttributeProxy
+    {
+    public:
+        ConstAttributeProxy(const Attribute& attribute, const Any* this_) :
+            _attribute{&attribute},
+            _this{this_}
+        {}
+
+        template<typename T>
+        const T& get() const
+        {
+            return (*_attribute)(*_this).template get<T>();
+        }
+
+        template<typename T>
+        operator const T&() const
+        {
+            return get<T>();
+        }
+
+    private:
+        const Attribute* _attribute;
+        const Any* _this;
+    };
+
+
     /**
      * \brief Gives access to an object method
      *
@@ -127,17 +213,17 @@ public:
      */
     ConstMethodProxy operator()(const std::string& name) const
     {
-        return _methods[name];
+        return {_methods[name], this};
     }
 
-    Attribute& operator[](const std::string& name)
+    AttributeProxy operator[](const std::string& name)
     {
-        return _attributes[name];
+        return {_attributes[name], this};
     }
 
-    const Attribute& operator[](const std::string& name) const
+    ConstAttributeProxy operator[](const std::string& name) const
     {
-        return _attributes[name];
+        return {_attributes[name], this};
     }
 
     /**

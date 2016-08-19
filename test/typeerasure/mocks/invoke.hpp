@@ -35,6 +35,8 @@ public:
     {
         return a + b;
     }
+
+    int i = 42;
 };
 
 #endif // SIPLASPLAS_TEST_TYPEERASURE_MOCKS_INVOKE_HPP
