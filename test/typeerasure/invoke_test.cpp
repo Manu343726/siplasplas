@@ -91,6 +91,22 @@ TEST(InvokeTest, SimpleAny64_byRefParamFunction_modifiesAnyHostedObject)
     cpp::typeerasure::invoke(mutation, any);
 
     EXPECT_EQ("hello, world!", any.get<std::string>());
+
+    class MutableClass
+    {
+    public:
+        void mutableFunction()
+        {
+            i = 42;
+        }
+
+        int i = 0;
+    };
+
+    MutableClass object;
+
+    cpp::typeerasure::invoke(&MutableClass::mutableFunction, cpp::SimpleAny64(&object));
+    EXPECT_EQ(42, object.i);
 }
 
 TEST(InvokeTest, ConstReferenceSimpleAny_FreeFunctionIntsByValue_rightArgs)

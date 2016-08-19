@@ -13,6 +13,7 @@ enum class FunctionKind
     INVALID,
     FREE_FUNCTION,
     MEMBER_FUNCTION,
+    MEMBER_OBJECT,
     CONST_MEMBER_FUNCTION,
     FUNCTOR
 };
@@ -73,6 +74,18 @@ namespace detail
         static constexpr FunctionKind kind = FunctionKind::CONST_MEMBER_FUNCTION;
     };
 
+    /*
+     * Ok, pointers to data members are not functions but callables (See cpp::callable())
+     * Maybe we should change this whole header and call it callable_traits
+     */
+    template<typename T, typename Class>
+    struct get_function_signature<T Class::*>
+    {
+        using args = meta::list<Class>;
+        using args_without_this = meta::list<>;
+        using return_type = T;
+        static constexpr FunctionKind kind = FunctionKind::MEMBER_OBJECT;
+    };
 }
 
 template<typename Function, bool IsFunctor = detail::IsFunctorClass<Function>::value>
