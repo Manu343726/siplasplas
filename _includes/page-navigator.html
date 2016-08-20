@@ -11,17 +11,16 @@
 		   <ul>
 			  <li><a href="{{ site.baseurl }}/doc/doxygen/">Doxygen</a>
 				 <ul>
-				    <li><a href="{{ site.baseurl }}/doc/doxygen/feature/"><i class="fa fa-code-fork" aria-hidden="true"></i> feature</a></li>
-				    <li><a href="{{ site.baseurl }}/doc/doxygen/fix-windows-support/"><i class="fa fa-code-fork" aria-hidden="true"></i> fix-window-support</a></li>
-					<li><a href="{{ site.baseurl }}/doc/doxygen/master/"><i class="fa fa-code-fork" aria-hidden="true"></i> master</a></li>
-					<li><a href="{{ site.baseurl }}/doc/doxygen/feature__slash__type-erasure/"><i class="fa fa-code-fork" aria-hidden="true"></i> feature/type-erasure</a></li>
+					{% for branch in site.project.documentation.doxygen %}
+				    <li><a href="{{ site.baseurl }}/doc/doxygen/{{ branch.url }}"><i class="fa fa-code-fork" aria-hidden="true"></i> {{ branch.name }}</a></li>
+					{% endfor %}
 				 </ul>
 			  </li>
 			  <li><a href="{{ site.baseurl }}/doc/standardese/">Standardese</a>
 				 <ul>
-				    <li><a href="{{ site.baseurl }}/doc/standardese/fix-windows-support/"><i class="fa fa-code-fork" aria-hidden="true"></i> fix-windows-support</a></li>
-					<li><a href="{{ site.baseurl }}/doc/standardese/master/"><i class="fa fa-code-fork" aria-hidden="true"></i> master</a></li>
-				    <li><a href="{{ site.baseurl }}/doc/standardese/feature__slash__type-erasure/"><i class="fa fa-code-fork" aria-hidden="true"></i> feature/type-erasure</a></li>
+					{% for branch in site.project.documentation.standardese %}
+				    <li><a href="{{ site.baseurl }}/doc/standardese/{{ branch.url }}"><i class="fa fa-code-fork" aria-hidden="true"></i> {{ branch.name }}</a></li>
+					{% endfor %}
 				 </ul>
 			  </li>
 		   </ul>
