@@ -6,14 +6,20 @@
 <script src="{{ site.baseurl }}/js/menu.js"></script>
 <script>
 $(function() {
-	var position = $('#cssmenu').css('position');;
+	var position = $('#cssmenu').css('position');
+	var title = (position == 'relative');
     $(window).on('scroll', function(){
 		console.log(position);
 		if($(this).scrollTop() > $('.page-header').height() + 100){
-			
+			if(title){
+				$('#cssmenu .logo').removeClass('hide');
+			}
 			$('#cssmenu').css('position', 'fixed');
 			$('#cssmenu').css('top', '0');
 		}else{
+			if(title){
+				$('#cssmenu .logo').addClass('hide');
+			}
 			$('#cssmenu').css('position', position);
 		}
 	});

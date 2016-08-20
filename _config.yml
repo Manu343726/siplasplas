@@ -2,7 +2,8 @@
 title:        siplasplas
 tagline:      A library for C++ reflection and introspection
 baseurl:      "/siplasplas"
-paginate:     1
+paginate:     1	
+highlighter: pygments
 
 # About/contact
 author:
