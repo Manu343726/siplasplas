@@ -72,3 +72,12 @@ nav{width:100%;}
 	font-size: 0.9em;
 	border-bottom: 1px solid #fff;
 }
+
+.fix{
+	position: fixed!important;
+	top: 0;
+}
+
+.menu-separator{
+	margin-top: 30px;
+}
