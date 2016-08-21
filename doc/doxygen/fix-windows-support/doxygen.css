@@ -1,7 +1,7 @@
 /* The standard CSS for doxygen 1.8.11 */
 
 body, table, div, p, dl {
-	font: 400 14px/22px Roboto,sans-serif;
+	font: 400 14px/22px sans-serif;
 }
 
 /* @group Heading Levels */
@@ -11,15 +11,15 @@ h1.groupheader {
 }
 
 .title {
-	font: 400 14px/28px Roboto,sans-serif;
+	font: 400 14px/28px sans-serif;
 	font-size: 150%;
 	font-weight: bold;
 	margin: 10px 2px;
 }
 
 h2.groupheader {
-	border-bottom: 1px solid #879ECB;
-	color: #354C7B;
+	border-bottom: 1px solid #159957;
+	color: #159957;
 	font-size: 150%;
 	font-weight: normal;
 	margin-top: 1.75em;
@@ -110,13 +110,13 @@ div.navtab {
 /* @group Link Styling */
 
 a {
-	color: #3D578C;
+	color: #159957;
 	font-weight: normal;
 	text-decoration: none;
 }
 
 .contents a:visited {
-	color: #4665A2;
+	color: #117B46;
 }
 
 a:hover {
@@ -552,12 +552,9 @@ table.memberdecls {
         border-left: 1px solid #A8B8D9;
         border-right: 1px solid #A8B8D9;
         padding: 6px 0px 6px 0px;
-        color: #253555;
+        color: #FFF;
         font-weight: bold;
-        text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.9);
-        background-image:url('nav_f.png');
-        background-repeat:repeat-x;
-        background-color: #E2E8F2;
+        background-color: #393939;
         /* opera specific markup */
         box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.15);
         border-top-right-radius: 4px;
@@ -615,7 +612,7 @@ dl.reflist dd {
 }
 
 .paramname {
-	color: #602020;
+	color: #159957;
 	white-space: nowrap;
 }
 .paramname em {
@@ -665,15 +662,11 @@ span.mlabels {
 }
 
 span.mlabel {
-        background-color: #728DC1;
-        border-top:1px solid #5373B4;
-        border-left:1px solid #5373B4;
-        border-right:1px solid #C4CFE5;
-        border-bottom:1px solid #C4CFE5;
+        background-color: #159957;
 	text-shadow: none;
 	color: white;
 	margin-right: 4px;
-	padding: 2px 3px;
+	padding: 3px;
 	border-radius: 3px;
 	font-size: 7pt;
 	white-space: nowrap;
@@ -769,7 +762,7 @@ div.directory {
     height: 14px;
     width: 16px;
     display: inline-block;
-    background-color: #728DC1;
+    background-color: #159957;
     color: white;
     text-align: center;
     border-radius: 4px;
@@ -936,14 +929,13 @@ table.fieldtable {
 
 .navpath ul
 {
+	background-color: #393939;
 	font-size: 11px;
-	background-image:url('tab_b.png');
 	background-repeat:repeat-x;
 	background-position: 0 -5px;
 	height:30px;
 	line-height:30px;
-	color:#8AA0CC;
-	border:solid 1px #C2CDE4;
+	color: #fff;
 	overflow:hidden;
 	margin:0px;
 	padding:0px;
@@ -955,10 +947,7 @@ table.fieldtable {
 	float:left;
 	padding-left:10px;
 	padding-right:15px;
-	background-image:url('bc_s.png');
-	background-repeat:no-repeat;
-	background-position:right;
-	color:#364D7C;
+	color:#fff;
 }
 
 .navpath li.navelem a
@@ -967,9 +956,8 @@ table.fieldtable {
 	display:block;
 	text-decoration: none;
 	outline: none;
-	color: #283A5D;
-	font-family: 'Lucida Grande',Geneva,Helvetica,Arial,sans-serif;
-	text-shadow: 0px 1px 1px rgba(255, 255, 255, 0.9);
+	color: #159957;
+	font-family: sans-serif;
 	text-decoration: none;        
 }
 
@@ -987,7 +975,7 @@ table.fieldtable {
         background-image:none;
         background-repeat:no-repeat;
         background-position:right;
-        color:#364D7C;
+        color:#159957;
         font-size: 8pt;
 }
 
@@ -1136,16 +1124,17 @@ dl.section dd {
 
 #projectname
 {
-	font: 300% Tahoma, Arial,sans-serif;
-	margin: 0px;
-	padding: 2px 0px;
+	font-size: 300%;
+	color: #159957;
+	margin-bottom: 15px;
+	font-weight: bold;
+	text-shadow: 1px 1px 1px #292929;
 }
     
 #projectbrief
 {
-	font: 120% Tahoma, Arial,sans-serif;
-	margin: 0px;
-	padding: 0px;
+	font-size: 120%;
+	color: #fff;
 }
 
 #projectnumber
@@ -1157,10 +1146,10 @@ dl.section dd {
 
 #titlearea
 {
-	padding: 0px;
+	padding: 25px 0;
 	margin: 0px;
 	width: 100%;
-	border-bottom: 1px solid #5373B4;
+	background-image: url('bg3.png');
 }
 
 .image
