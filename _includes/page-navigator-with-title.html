@@ -1,0 +1,33 @@
+<nav id='cssmenu' class='fix'>
+	<div class="logo"><a href="{{ site.baseurl }}">siplasplas</a></div>
+	<div id="head-mobile"></div>
+	<div class="button"></div>
+	<ul>
+		<li><a href="https://github.com/Manu343726/siplasplas/issues" target="_blank"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+ Issues</a></li>
+		<li><a href="https://github.com/Manu343726/siplasplas" target="_blank"><i class="fa fa-github" aria-hidden="true"></i>
+ View on GitHub</a></li>
+		<li><a href="{{ site.baseurl }}/doc"><i class="fa fa-book" aria-hidden="true"></i>
+ Documentation</a>
+		   <ul>
+			  <li><a href="{{ site.baseurl }}/doc/doxygen/">Doxygen</a>
+				 <ul>
+					{% for branch in site.project.documentation.doxygen %}
+				    <li><a href="{{ site.baseurl }}/doc/doxygen/{{ branch.url }}"><i class="fa fa-code-fork" aria-hidden="true"></i> {{ branch.name }}</a></li>
+					{% endfor %}
+				 </ul>
+			  </li>
+			  <li><a href="{{ site.baseurl }}/doc/standardese/">Standardese</a>
+				 <ul>
+					{% for branch in site.project.documentation.standardese %}
+				    <li><a href="{{ site.baseurl }}/doc/standardese/{{ branch.url }}"><i class="fa fa-code-fork" aria-hidden="true"></i> {{ branch.name }}</a></li>
+					{% endfor %}
+				 </ul>
+			  </li>
+		   </ul>
+		</li>
+		<li><a href="{{ site.baseurl }}/"><i class="fa fa-home" aria-hidden="true"></i>
+ Home</a></li>
+	</ul>
+</nav>
+<div class="menu-separator"></div>

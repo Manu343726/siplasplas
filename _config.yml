@@ -2,7 +2,8 @@
 title:        siplasplas
 tagline:      A library for C++ reflection and introspection
 baseurl:      "/siplasplas"
-paginate:     1
+paginate:     1	
+highlighter: rouge
 
 # About/contact
 author:
@@ -17,7 +18,17 @@ project:
   website: https://manu343726/github.io/siplasplas
   issues:
     url: https://github.com/Manu343726/siplasplas/issues
-
+  documentation:
+    doxygen:
+      - name: master
+        url: master
+      - name: feature/typeerasure
+        url: feature__slash__type-erasure
+    standardese:
+      - name: master
+        url: master
+      - name: feature/typeerasure
+        url: feature__slash__type-erasure
 # Gems
 gems:
   - jekyll-paginate

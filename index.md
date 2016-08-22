@@ -42,14 +42,14 @@ process. The following instructions are to build siplasplas from sources.
 
 ### TL;DR
 
-``` bash
+{% highlight shell %}
 $ git clone https://github.com/Manu343726/siplasplas --recursive
 $ cd siplasplas
 $ mkdir build
 $ cd build
 $ cmake ..
 $ cmake --build .
-```
+{% endhighlight %}
 
 ### Prerequisites
 
@@ -108,23 +108,23 @@ siplasplas also depends on some python modules:
 
 Clone the [siplasplas repository]({{site.project.url}})
 
-``` bash
+{% highlight shell %}
 $ git clone https://github.com/Manu343726/siplasplas --recursive
-```
+{% endhighlight %}
 
 Create a `build/` directory inside the local repository
 
-``` bash
+{% highlight shell %}
 $ cd siplasplas
 $ mkdir build
-```
+{% endhighlight %}
 
 Run cmake in the build directory
 
-``` bash
+{% highlight shell %}
 $ cd build
 $ cmake ..
-```
+{% endhighlight %}
 
 > Make sure you installed all the requirements before running cmake,
 > siplasplas configuration may fail if one or more of that requirements is
@@ -132,9 +132,9 @@ $ cmake ..
 
 To build the library, invoke the default build target:
 
-``` bash
+{% highlight shell %}
 $ cmake --build . # Or just "make" if using Makefiles generator
-```
+{% endhighlight %}
 
 ### Configuration
 
