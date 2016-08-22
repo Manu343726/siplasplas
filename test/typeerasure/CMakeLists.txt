@@ -9,6 +9,7 @@ SOURCES
     invoke_test.cpp
     function_test.cpp
     any_test.cpp
+    anyarg_test.cpp
 DEPENDS
     siplasplas-typeerasure
 DEFAULT_TEST_MAIN

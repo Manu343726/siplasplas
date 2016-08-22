@@ -340,3 +340,22 @@ TEST(InvokeTest, ReferenceSimpleAny_byRefParamFunction_modifiesAnyHostedObject)
     EXPECT_EQ("hello, world!", string);
 }
 
+TEST(InvokeTest, AnyArg_memberFunctionModifiesObject)
+{
+    class Class
+    {
+    public:
+        void f()
+        {
+            i = 42;
+        }
+
+        int i = 0;
+    };
+
+    Class object;
+
+    cpp::typeerasure::invoke(&Class::f, std::vector<cpp::AnyArg>{object});
+
+    EXPECT_EQ(42, object.i);
+}

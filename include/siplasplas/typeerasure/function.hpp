@@ -2,11 +2,13 @@
 #define SIPLASPLAS_TYPEERASURE_FUNCTION_HPP
 
 #include "simpleany.hpp"
+#include "anyarg.hpp"
 #include "invoke.hpp"
 #include "anystorage/deadpool.hpp"
 #include "anystorage/fixedsize.hpp"
 #include <siplasplas/utility/function_traits.hpp>
 #include <siplasplas/utility/staticif.hpp>
+#include <siplasplas/utility/compiles.hpp>
 
 namespace cpp
 {
@@ -156,6 +158,10 @@ public:
         return *this;
     }
 
+    /**
+     * \brief Returns the function kind (free function, pointer to member function, functor, etc)
+     * of the callable
+     */
     cpp::FunctionKind kind() const
     {
         return _invoke.template get<InvokeInterface>().kind();
@@ -171,8 +177,18 @@ private:
     {
     public:
         virtual ~InvokeInterface() = default;
+        virtual SimpleAny<Storage> invoke(std::vector<AnyArg>&& args) = 0;
+        virtual SimpleAny<Storage> invoke(std::vector<AnyArg>&& args) const = 0;
+        virtual SimpleAny<Storage> invoke(std::vector<AnyArg>& args) = 0;
+        virtual SimpleAny<Storage> invoke(std::vector<AnyArg>& args) const = 0;
+        virtual SimpleAny<Storage> invoke(const std::vector<AnyArg>& args) = 0;
+        virtual SimpleAny<Storage> invoke(const std::vector<AnyArg>& args) const = 0;
         virtual SimpleAny<Storage> invoke(std::vector<SimpleAny<ArgsStorage>>&& args) = 0;
         virtual SimpleAny<Storage> invoke(std::vector<SimpleAny<ArgsStorage>>&& args) const = 0;
+        virtual SimpleAny<Storage> invoke(std::vector<SimpleAny<ArgsStorage>>& args) = 0;
+        virtual SimpleAny<Storage> invoke(std::vector<SimpleAny<ArgsStorage>>& args) const = 0;
+        virtual SimpleAny<Storage> invoke(const std::vector<SimpleAny<ArgsStorage>>& args) = 0;
+        virtual SimpleAny<Storage> invoke(const std::vector<SimpleAny<ArgsStorage>>& args) const = 0;
 
         virtual void* getObject() = 0;
         virtual const void* getObject() const = 0;
@@ -188,29 +204,108 @@ private:
             _any{SimpleAny<Storage>::template create<Callable>(std::forward<Args>(args)...)}
         {}
 
+        SimpleAny<Storage> invoke(std::vector<AnyArg>&& args) override
+        {
+            return doInvoke(std::move(args));
+        }
+
+        SimpleAny<Storage> invoke(std::vector<AnyArg>&& args) const override
+        {
+            return doInvoke(std::move(args));
+        }
+
+        SimpleAny<Storage> invoke(std::vector<AnyArg>& args) override
+        {
+            return doInvoke(args);
+        }
+
+        SimpleAny<Storage> invoke(std::vector<AnyArg>& args) const override
+        {
+            return doInvoke(args);
+        }
+
+        SimpleAny<Storage> invoke(const std::vector<AnyArg>& args) override
+        {
+            return doInvoke(args);
+        }
+
+        SimpleAny<Storage> invoke(const std::vector<AnyArg>& args) const override
+        {
+            return doInvoke(args);
+        }
+
         SimpleAny<Storage> invoke(std::vector<SimpleAny<ArgsStorage>>&& args) override
         {
-            return cpp::staticIf<std::is_same<void, decltype(cpp::typeerasure::invoke(_any.template get<Callable>(), std::move(args)))>::value>([&](auto identity)
-            {
-                cpp::typeerasure::invoke(_any.template get<Callable>(), std::move(args));
-                return cpp::SimpleAny<Storage>();
-            }).Else([&](auto identity)
-            {
-                return cpp::typeerasure::invoke(_any.template get<Callable>(), std::move(args));
-            });
+            return doInvoke(std::move(args));
         }
 
         SimpleAny<Storage> invoke(std::vector<SimpleAny<ArgsStorage>>&& args) const override
         {
-            return cpp::staticIf<std::is_same<void, decltype(cpp::typeerasure::invoke(_any.template get<Callable>(), std::move(args)))>::value>([&](auto identity)
-            {
-                cpp::typeerasure::invoke(_any.template get<Callable>(), std::move(args));
-                return cpp::SimpleAny<Storage>();
-            }).Else([&](auto identity)
-            {
-                return cpp::typeerasure::invoke(_any.template get<Callable>(), std::move(args));
-            });
+            return doInvoke(std::move(args));
+        }
 
+        SimpleAny<Storage> invoke(std::vector<SimpleAny<ArgsStorage>>& args) override
+        {
+            return doInvoke(args);
+        }
+
+        SimpleAny<Storage> invoke(std::vector<SimpleAny<ArgsStorage>>& args) const override
+        {
+            return doInvoke(args);
+        }
+
+        SimpleAny<Storage> invoke(const std::vector<SimpleAny<ArgsStorage>>& args) override
+        {
+            return doInvoke(args);
+        }
+
+        SimpleAny<Storage> invoke(const std::vector<SimpleAny<ArgsStorage>>& args) const override
+        {
+            return doInvoke(args);
+        }
+
+        template<typename Args>
+        SimpleAny<Storage> doInvoke(Args&& args)
+        {
+            auto compiles = SIPLASPLAS_UTILITY_COMPILES(cpp::typeerasure::invoke(identity(_any.template get<Callable>()), std::forward<Args>(args)));
+
+            return cpp::staticIf<compiles>([this](auto identity, auto&& args)
+            {
+                return cpp::staticIf<std::is_same<void, decltype(cpp::typeerasure::invoke(_any.template get<Callable>(), std::forward<Args>(args)))>::value>([&](auto identity)
+                {
+                    cpp::typeerasure::invoke(identity(_any.template get<Callable>()), std::forward<Args>(args));
+                    return cpp::SimpleAny<Storage>();
+                }).Else([&](auto identity)
+                {
+                    return cpp::typeerasure::invoke(identity(_any.template get<Callable>()), std::forward<Args>(args));
+                });
+            }, std::forward<Args>(args))
+            .Else([](auto)
+            {
+                return std::runtime_error{"Invalid call expression"};
+            });
+        }
+
+        template<typename Args>
+        SimpleAny<Storage> doInvoke(Args&& args) const
+        {
+            auto compiles = SIPLASPLAS_UTILITY_COMPILES(cpp::typeerasure::invoke(identity(_any.template get<Callable>()), std::forward<Args>(args)));
+
+            return cpp::staticIf<compiles>([this](auto identity, auto&& args)
+            {
+                return cpp::staticIf<std::is_same<void, decltype(cpp::typeerasure::invoke(_any.template get<Callable>(), std::forward<Args>(args)))>::value>([&](auto identity)
+                {
+                    cpp::typeerasure::invoke(identity(_any.template get<Callable>()), std::forward<Args>(args));
+                    return cpp::SimpleAny<Storage>();
+                }).Else([&](auto identity)
+                {
+                    return cpp::typeerasure::invoke(identity(_any.template get<Callable>()), std::forward<Args>(args));
+                });
+            }, std::forward<Args>(args))
+            .Else([](auto)
+            {
+                return std::runtime_error{"Invalid call expression"};
+            });
         }
 
         void* getObject() override
