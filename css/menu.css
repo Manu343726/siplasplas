@@ -62,7 +62,7 @@ nav{width:100%;}
 #cssmenu ul ul .submenu-button:after{top:15px;right:13px}
 #cssmenu .submenu-button.submenu-opened:after{background:#fff}
 #cssmenu .submenu-button:before{position:absolute;top:19px;right:22px;display:block;width:2px;height:8px;background:#ddd;content:''}
-#cssmenu ul ul .submenu-but<div class="logo"><a href="{{ site.baseurl }}">siplasplas</a></div>ton:before{top:12px;right:16px}
+#cssmenu ul ul .submenu-button:before{top:12px;right:16px}
 #cssmenu .submenu-button.submenu-opened:before{display:none}
 #cssmenu ul ul ul li.active a{border-left:none}
 #cssmenu > ul > li.has-sub > ul > li.active > a,#cssmenu > ul ul > li.has-sub > ul > li.active > a{border-top:none}
