@@ -4,6 +4,8 @@ layout: standardese-doc
 
   - [assert.hpp](assert.md "assert.hpp")
 
+  - [compiles.hpp](compiles.md "compiles.hpp")
+
   - [destroy.hpp](destroy.md "destroy.hpp")
 
   - [doxygroup.hpp](doxygroup.md "doxygroup.hpp")
@@ -21,6 +23,8 @@ layout: standardese-doc
   - [fusion.hpp](fusion.md "fusion.hpp")
 
   - [hash.hpp](hash.md "hash.hpp")
+
+  - [identity.hpp](identity.md "identity.hpp")
 
   - [invoke.hpp](invoke.md "invoke.hpp")
 
@@ -45,3 +49,5 @@ layout: standardese-doc
   - [tuple.hpp](tuple.md "tuple.hpp")
 
   - [type\_variables.hpp](type_variables.md "type_variables.hpp")
+
+  - [universal\_reference.hpp](universal_reference.md "universal_reference.hpp")

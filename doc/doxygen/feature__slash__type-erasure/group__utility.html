@@ -101,6 +101,7 @@ $(document).ready(function(){initNavTree('group__utility.html','');});
 <div class="header">
   <div class="summary">
 <a href="#groups">Modules</a> &#124;
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Utility</div>  </div>
@@ -126,6 +127,21 @@ Modules</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__memory-manip"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__memory-manip.html">Memory-manip</a></td></tr>
 <tr class="memdesc:group__memory-manip"><td class="mdescLeft">&#160;</td><td class="mdescRight">Tools related to raw memory manipulation. <br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_identity.html">cpp::Identity</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A functor class implementing the identity function.  <a href="classcpp_1_1_identity.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_universal_reference.html">cpp::UniversalReference&lt; T, IsLvalueReference, IsConst &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements a copyable wrapper of an universal reference.  <a href="classcpp_1_1_universal_reference.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_universal_reference_3_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_t_00_013d7c84b76fe12a69d69f1a3494ce1211.html">cpp::UniversalReference&lt;                  T,           true,           false &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classcpp_1_1_universal_reference.html" title="Implements a copyable wrapper of an universal reference. ">UniversalReference</a> spacialization for non-const lvalues.  <a href="classcpp_1_1_universal_reference_3_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_t_00_013d7c84b76fe12a69d69f1a3494ce1211.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_universal_reference_3_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_t_00_01317da0ee22d68a1b11e0bf5e76ec5679.html">cpp::UniversalReference&lt;                  T,           false,           false &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classcpp_1_1_universal_reference.html" title="Implements a copyable wrapper of an universal reference. ">UniversalReference</a> spacialization for rvalues.  <a href="classcpp_1_1_universal_reference_3_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_t_00_01317da0ee22d68a1b11e0bf5e76ec5679.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
@@ -163,6 +179,10 @@ template&lt;typename Callable , typename... Args&gt; </td></tr>
 <tr class="memitem:ga654d1cbd2f4b0fdd4abaf8213893fbd3"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__utility.html#ga654d1cbd2f4b0fdd4abaf8213893fbd3">cpp::staticIf</a> (const ThenBody &amp;thenBody, Args &amp;&amp;...args)</td></tr>
 <tr class="memdesc:ga654d1cbd2f4b0fdd4abaf8213893fbd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements an static conditional.  <a href="group__utility.html#ga654d1cbd2f4b0fdd4abaf8213893fbd3">More...</a><br /></td></tr>
 <tr class="separator:ga654d1cbd2f4b0fdd4abaf8213893fbd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga64331d68fc4c2b5be09b1e93bb8aeb2e"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga64331d68fc4c2b5be09b1e93bb8aeb2e"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__utility.html#ga64331d68fc4c2b5be09b1e93bb8aeb2e">cpp::universalReference</a> (T &amp;&amp;value) -&gt; UniversalReference&lt;              std::decay_t&lt; T &gt;,           std::is_lvalue_reference&lt; T &gt;::value,           std::is_const&lt; std::remove_reference_t&lt; T &gt;&gt;::value &gt;</td></tr>
+<tr class="memdesc:ga64331d68fc4c2b5be09b1e93bb8aeb2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates an universal reference to the given value.  <a href="group__utility.html#ga64331d68fc4c2b5be09b1e93bb8aeb2e">More...</a><br /></td></tr>
+<tr class="separator:ga64331d68fc4c2b5be09b1e93bb8aeb2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Some random utilities needed by other siplasplas modules. </p>
@@ -437,6 +457,38 @@ template&lt;bool Condition, typename ThenBody , typename... Args&gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>An unspecified type implementing the <code>else</code> part of the conditional. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga64331d68fc4c2b5be09b1e93bb8aeb2e"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">auto cpp::universalReference </td>
+          <td>(</td>
+          <td class="paramtype">T &amp;&amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td> -&gt; <a class="el" href="classcpp_1_1_universal_reference.html">UniversalReference</a>&lt;
+    std::decay_t&lt;T&gt;,
+    std::is_lvalue_reference&lt;T&gt;::value,
+    std::is_const&lt;std::remove_reference_t&lt;T&gt;&gt;::value
+&gt;
+</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates an universal reference to the given value. </p>
+<p>This function checks the value category of the given value and instances the apropiate <a class="el" href="classcpp_1_1_universal_reference.html" title="Implements a copyable wrapper of an universal reference. ">cpp::UniversalReference</a> specialization. Note the returned type depends on the value category. For an alternative with common a type, see cpp::typeerasure::AnyArg</p>
+<dl class="section return"><dt>Returns</dt><dd>A <a class="el" href="classcpp_1_1_universal_reference.html" title="Implements a copyable wrapper of an universal reference. ">UniversalReference</a> specialization instance as follows:<ul>
+<li><code><a class="el" href="classcpp_1_1_universal_reference.html" title="Implements a copyable wrapper of an universal reference. ">UniversalReference</a>&lt;std::decay_t&lt;T&gt;, true, true&gt;</code> if <code>value</code> type is deduced to a const reference to an lvalue.</li>
+<li><code><a class="el" href="classcpp_1_1_universal_reference.html" title="Implements a copyable wrapper of an universal reference. ">UniversalReference</a>&lt;std::decay_t&lt;T&gt;, true, false&gt;</code> if <code>value</code> type is deduced to a non const reference to an lvalue.</li>
+<li><code><a class="el" href="classcpp_1_1_universal_reference.html" title="Implements a copyable wrapper of an universal reference. ">UniversalReference</a>&lt;std::decay_t&lt;T&gt;, false, false&gt;</code> if <code>value</code> type is deduced to an rvalue reference </li>
+</ul>
+</dd></dl>
 
 </div>
 </div>

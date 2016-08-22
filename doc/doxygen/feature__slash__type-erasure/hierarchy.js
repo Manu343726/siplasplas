@@ -1,5 +1,6 @@
 var hierarchy =
 [
+    [ "cpp::AnyArg", "classcpp_1_1_any_arg.html", null ],
     [ "cpp::AssertException", "classcpp_1_1_assert_exception.html", null ],
     [ "cpp::AssertExpression", "classcpp_1_1_assert_expression.html", null ],
     [ "cpp::concepts::Concept< Result, NoExcept >", "classcpp_1_1concepts_1_1_concept.html", null ],
@@ -45,7 +46,7 @@ var hierarchy =
     ] ],
     [ "cpp::typeerasure::Function< Storage, ArgsStorage >", "classcpp_1_1typeerasure_1_1_function.html", null ],
     [ "cpp::Hash< T >", "structcpp_1_1_hash.html", null ],
-    [ "cpp::detail::Identity", "classcpp_1_1detail_1_1_identity.html", null ],
+    [ "cpp::Identity", "classcpp_1_1_identity.html", null ],
     [ "cpp::detail::If< Condition >", "classcpp_1_1detail_1_1_if.html", null ],
     [ "cpp::features::IStreamable", "classcpp_1_1features_1_1_i_streamable.html", null ],
     [ "cpp::CMakeTarget::Metadata", "structcpp_1_1_c_make_target_1_1_metadata.html", null ],
@@ -67,5 +68,8 @@ var hierarchy =
       [ "cpp::Any< Storage, FunctionsStorage, FunctionArgsStorage, AttributesStorage >", "classcpp_1_1_any.html", null ]
     ] ],
     [ "cpp::DynamicLibrary::Symbol", "classcpp_1_1_dynamic_library_1_1_symbol.html", null ],
-    [ "cpp::typeerasure::TypeInfo", "classcpp_1_1typeerasure_1_1_type_info.html", null ]
+    [ "cpp::typeerasure::TypeInfo", "classcpp_1_1typeerasure_1_1_type_info.html", null ],
+    [ "cpp::UniversalReference< T, IsLvalueReference, IsConst >", "classcpp_1_1_universal_reference.html", null ],
+    [ "cpp::UniversalReference<                  T,           false,           false >", "classcpp_1_1_universal_reference_3_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_t_00_01317da0ee22d68a1b11e0bf5e76ec5679.html", null ],
+    [ "cpp::UniversalReference<                  T,           true,           false >", "classcpp_1_1_universal_reference_3_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_t_00_013d7c84b76fe12a69d69f1a3494ce1211.html", null ]
 ];

@@ -1,11 +1,9 @@
 var searchData=
 [
-  ['memory_2dmanip',['Memory-manip',['../group__memory-manip.html',1,'']]],
-  ['metadata',['Metadata',['../structcpp_1_1_c_make_target_1_1_metadata.html',1,'cpp::CMakeTarget']]],
-  ['metadata',['metadata',['../classcpp_1_1_c_make_target.html#a675880341d04b3a51686fbbe65d87f34',1,'cpp::CMakeTarget']]],
-  ['missalignment',['missalignment',['../group__memory-manip.html#ga055cbe10db0b5bd9d5872355b4c03654',1,'cpp::detail::missalignment(const char *address, std::size_t alignment)'],['../group__memory-manip.html#ga48a6b7c4956039a6586238507ebf3c2b',1,'cpp::detail::missalignment(const void *address, std::size_t alignment)'],['../group__memory-manip.html#gad7f23776302f41ccfce366e8c4fdc30f',1,'cpp::detail::missalignment(char *address, std::size_t alignment)'],['../group__memory-manip.html#gab55632800c338656882153aa0d878403',1,'cpp::detail::missalignment(void *address, std::size_t alignment)']]],
-  ['moveassign',['moveAssign',['../classcpp_1_1typeerasure_1_1_type_info.html#a96ea03d498cce728b8ed559e53b7054b',1,'cpp::typeerasure::TypeInfo']]],
-  ['moveassignable',['MoveAssignable',['../classcpp_1_1concepts_1_1_move_assignable.html',1,'cpp::concepts']]],
-  ['moveconstruct',['moveConstruct',['../classcpp_1_1typeerasure_1_1_type_info.html#a5fa15968ad2bf8ccab87f9a325960336',1,'cpp::typeerasure::TypeInfo']]],
-  ['moveconstructible',['MoveConstructible',['../classcpp_1_1concepts_1_1_move_constructible.html',1,'cpp::concepts']]]
+  ['lexical_5fcast',['lexical_cast',['../group__utility.html#ga808e1d5b24e934c1f7638db8a46bb6b7',1,'cpp::lexical_cast(const T &amp;value)'],['../group__utility.html#ga867a648ffab91b5b8948bc80fbac0340',1,'cpp::lexical_cast(const std::string &amp;value)']]],
+  ['load',['load',['../classcpp_1_1_dynamic_library.html#ad29953588c6d3a43cc9d9b56d2bd8671',1,'cpp::DynamicLibrary']]],
+  ['loadfromfile',['loadFromFile',['../structcpp_1_1_c_make_target_1_1_metadata.html#a23c44a52e46f2555162e80a12a782415',1,'cpp::CMakeTarget::Metadata::loadFromFile()'],['../classcpp_1_1_c_make_target.html#a787e29eb95146c8306419a231f46ef7e',1,'cpp::CMakeTarget::loadFromFile()']]],
+  ['logerror',['logError',['../group__error-handling.html#gac6068453228432f32c6255ebb4585f67',1,'cpp::utility']]],
+  ['logerrorskippingframes',['logErrorSkippingFrames',['../group__error-handling.html#gaf55bea62b12e6179f0532190c88bce20',1,'cpp::utility']]],
+  ['logexception',['logException',['../group__error-handling.html#ga05e2efea9fe01d9e95cfdb88601b6dad',1,'cpp::logException(const Message &amp;message, std::size_t framesToSkip=0)'],['../group__error-handling.html#ga0d0af8b2a10a407c6c83b3564e398212',1,'cpp::logException(const Ex &amp;exception, std::size_t framesToSkip=0)']]]
 ];

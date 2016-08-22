@@ -9,14 +9,14 @@ layout: standardese-doc
 
 #include "meta.hpp"
 
+#include "identity.hpp"
+
 #include <utility>
 
 namespace cpp
 {
     namespace detail
     {
-        class Identity;
-        
         template <bool Condition>
         class If;
         
@@ -28,29 +28,6 @@ namespace cpp
     auto staticIf(const ThenBody& thenBody, Args&&... args);
 }
 ```
-
-## Class `cpp::detail::Identity`<a id="cpp::detail::Identity"></a>
-
-``` cpp
-class Identity
-{
-public:
-    template <typename T>
-    constexpr decltype(std::forward<T>(value)) const operator()(T&& value);
-    
-    template <typename T, typename Function>
-    constexpr decltype(callback(meta::identity<T>())) const type(Function callback);
-    
-    template <typename T>
-    constexpr auto type() const;
-};
-```
-
-A functor class implementing the identity function
-
-The identity function takes a value of any type and returns it as is. The function performs no mutation of the value. Given an expression `x` `decltype(x) == decltype(Identity()(x))` and the yield value is the same. This function is useful to delay the evaluation of an expression to the second template processing phase (The on instantiation phase). See cpp::staticIf.
-
------
 
 ## Class template `cpp::detail::If<Condition>`<a id="cpp::detail::If<Condition>"></a>
 
@@ -67,13 +44,13 @@ public:
     
     template <typename Body, typename ... Args>
     constexpr typename std::enable_if<
-    !std::is_void<decltype(body(Identity(), std::forward<Args>(args)...))>::value,
-    ElseBypass<decltype(body(Identity(), std::forward<Args>(args)...))>
+    !std::is_void<decltype(body(::cpp::Identity(), std::forward<Args>(args)...))>::value,
+    ElseBypass<decltype(body(::cpp::Identity(), std::forward<Args>(args)...))>
     >::type Then(const Body& body, Args&&... args);
     
     template <typename Body, typename ... Args>
     constexpr typename std::enable_if<
-    std::is_void<decltype(body(Identity(), std::forward<Args>(args)...))>::value,
+    std::is_void<decltype(body(::cpp::Identity(), std::forward<Args>(args)...))>::value,
     If&
     >::type Then(const Body& body, Args&&... args);
     

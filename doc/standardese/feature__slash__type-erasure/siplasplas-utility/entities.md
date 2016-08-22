@@ -36,9 +36,41 @@ layout: standardese-doc
     
       - [Hash\<T\>](hash.md#cpp::Hash\<T\> "cpp::Hash\<T\>") - This template provides the features of cpp::hash() as a functor template, suitable for unordered containers.
     
+      - [Identity](identity.md#cpp::Identity "cpp::Identity") - The identity function takes a value of any type and returns it as is. The function performs no mutation of the value. Given an expression `x` `decltype(x) == decltype(Identity()(x))` and the yield value is the same. This function is useful to delay the evaluation of an expression to the second template processing phase (The on instantiation phase). See cpp::staticIf or cpp::compiles.
+    
       - [RawHash\<T\>](hash.md#cpp::RawHash\<T\> "cpp::RawHash\<T\>") - This template provides the features of cpp::raw\_hash() as a functor template, suitable for unordered containers.
     
       - [Throw\<Exception, Args...\>(const std::string &,Args &&...)](exception.md#cpp::Throw\<Exception,%20Args...\>\(const%20std::string%20&,Args%20&&...\) "cpp::Throw\<Exception, Args...\>(const std::string &,Args &&...)") - Throws an exception. See cpp::exception().
+    
+      - [UniversalReference\<T, IsLvalueReference, IsConst\>](universal_reference.md#cpp::UniversalReference\<T,%20IsLvalueReference,%20IsConst\> "cpp::UniversalReference\<T, IsLvalueReference, IsConst\>") - This template and its specialization provides a common interface to store references to lvalue and rvalues. UniversalReference has different spacializations for each value category supported (reference to lvalue, const reference to lvalue, rvalue). Instances of this types should be created through cpp::universalReference() function, which instances the appropiate template given the input value category.
+    
+      - [UniversalReference\<
+        T,
+        false,
+        false
+        \>](universal_reference.md#cpp::UniversalReference\<
+        T,
+        false,
+        false
+        \> "cpp::UniversalReference\<
+        T,
+        false,
+        false
+        \>") - See cpp::UniversalReference main template documentation for details
+    
+      - [UniversalReference\<
+        T,
+        true,
+        false
+        \>](universal_reference.md#cpp::UniversalReference\<
+        T,
+        true,
+        false
+        \> "cpp::UniversalReference\<
+        T,
+        true,
+        false
+        \>") - See cpp::UniversalReference main template documentation for details
     
       - [construct\<T, Args...\>(T \*,Args &&...)](destroy.md#cpp::construct\<T,%20Args...\>\(T%20*,Args%20&&...\) "cpp::construct\<T, Args...\>(T *,Args &&...)") - This function performs an in-place construction of an object of type T in the given address. Arguments are passed as-is to the object constructor. The behavior is undefined if `alignment(pointer) != alignof(T)`.
     
@@ -61,12 +93,12 @@ layout: standardese-doc
       - [raw\_hash\<T\>(const T &)](hash.md#cpp::raw_hash\<T\>\(const%20T%20&\) "cpp::raw_hash\<T\>(const T &)") - This function ignores the `std::hash` specialization of the value type and implements a bytewise hash value instead. Bytewise hash is computed as a hash combination of each byte of the value storage, in the range `[addressof(value), addressof(value) + sizeof(T))`. The value is copyed to an intermediary aligned storage to perform the byte traversal.
     
       - [staticIf\<Condition, ThenBody, Args...\>(const ThenBody &,Args &&...)](staticif.md#cpp::staticIf\<Condition,%20ThenBody,%20Args...\>\(const%20ThenBody%20&,Args%20&&...\) "cpp::staticIf\<Condition, ThenBody, Args...\>(const ThenBody &,Args &&...)") - An static conditional allows to conditionally evaluate some code depending on the value of a compile time property. The body of the conditional is implemented by user provided functions.
+    
+      - [universalReference\<T\>(T &&)](universal_reference.md#cpp::universalReference\<T\>\(T%20&&\) "cpp::universalReference\<T\>(T &&)") - This function checks the value category of the given value and instances the apropiate cpp::UniversalReference specialization. Note the returned type depends on the value category. For an alternative with common a type, see cpp::typeerasure::AnyArg
 
   - `cpp::detail`
     
       - [AlignedMallocAlingOffset](memory_manip.md#cpp::detail::AlignedMallocAlingOffset "cpp::detail::AlignedMallocAlingOffset") - This type limits the maximum alignment requirement that can be passed to aligned\_malloc() stores the distance to the start of the allocated block so it can be deallocated in aligned\_free(). To use as little extra memory as possible, a 8 bit unsigned integer is used by default, which means up to 256 byte alignment boundary is supported by default. Users can change that limit by defining `SIPLASPLAS_UTILITY_ALIGNEDMALLOC_ALIGNOFFSET_BITS` to the with in bits of the unsigned integer used for offset storage (8, 16, 32, and 64 are supported)
-    
-      - [Identity](staticif.md#cpp::detail::Identity "cpp::detail::Identity") - A functor class implementing the identity function
     
       - [If\<Condition\>](staticif.md#cpp::detail::If\<Condition\> "cpp::detail::If\<Condition\>") - Implements the then branch of an static conditional.
     

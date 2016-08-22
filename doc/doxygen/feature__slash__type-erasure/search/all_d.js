@@ -1,6 +1,9 @@
 var searchData=
 [
-  ['path',['path',['../classcpp_1_1_dynamic_library.html#a75e9bae652bef88d368758a889cc7b51',1,'cpp::DynamicLibrary']]],
-  ['poll',['poll',['../classcpp_1_1_signal_emitter.html#a2c933986daab2d4ce95b3f92adfe0970',1,'cpp::SignalEmitter']]],
-  ['pull',['pull',['../classcpp_1_1_async_sink.html#a33cfaadc824347626105304df44fd930',1,'cpp::AsyncSink::pull()'],['../classcpp_1_1_sync_sink.html#a4d7d65c33dcc02792e35b9f99f64432c',1,'cpp::SyncSink::pull()']]]
+  ['objectfitsinstorage',['objectFitsInStorage',['../classcpp_1_1_fixed_size_storage.html#a8b8c5382fb8287c6064ce539dd17e2ca',1,'cpp::FixedSizeStorage']]],
+  ['onfailure',['onFailure',['../classcpp_1_1_assert_expression.html#aa31218125f0b03ad8d380908e1d3e268',1,'cpp::AssertExpression::onFailure()'],['../classcpp_1_1_dummy_assert_expression.html#adcee6bf8b3e9fdb9e2650d24a4e10abf',1,'cpp::DummyAssertExpression::onFailure()']]],
+  ['operator_28_29',['operator()',['../classcpp_1_1_signal_sink.html#a971b0f8056fa4a6b3e67f5281c856631',1,'cpp::SignalSink::operator()()'],['../classcpp_1_1_any.html#ab97028606f578b350f706d28b578365d',1,'cpp::Any::operator()(const std::string &amp;name)'],['../classcpp_1_1_any.html#ab0bff3c78794e698a41fa66bffd91718',1,'cpp::Any::operator()(const std::string &amp;name) const '],['../classcpp_1_1typeerasure_1_1_function.html#a710ec6744265ceb452ba51540eac6848',1,'cpp::typeerasure::Function::operator()(Args &amp;&amp;...args)'],['../classcpp_1_1typeerasure_1_1_function.html#a42cca5f583e997c874e1f9e155636929',1,'cpp::typeerasure::Function::operator()(Args &amp;&amp;...args) const ']]],
+  ['operator_3d',['operator=',['../classcpp_1_1typeerasure_1_1_function.html#a75aef5c9af48d985c086fb18d59eb213',1,'cpp::typeerasure::Function::operator=()'],['../classcpp_1_1_simple_any.html#a5f3f083b76778d37d8069d6765246b8a',1,'cpp::SimpleAny::operator=()'],['../classcpp_1_1_simple_any_3_01_const_non_owning_storage_01_4.html#ad400f50ec771c8ec000ed6621c51cf48',1,'cpp::SimpleAny&lt; ConstNonOwningStorage &gt;::operator=()'],['../classcpp_1_1_simple_any_3_01_non_owning_storage_01_4.html#a0b3cceddb602ebbea33b803e768b3b8a',1,'cpp::SimpleAny&lt; NonOwningStorage &gt;::operator=()']]],
+  ['ostreamable',['OStreamable',['../classcpp_1_1concepts_1_1_o_streamable.html',1,'cpp::concepts']]],
+  ['ostreamable',['OStreamable',['../classcpp_1_1features_1_1_o_streamable.html',1,'cpp::features']]]
 ];

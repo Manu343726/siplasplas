@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>siplasplas: cpp::detail::Identity Class Reference</title>
+<title>siplasplas: Member List</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -89,7 +89,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('classcpp_1_1detail_1_1_identity.html','');});
+$(document).ready(function(){initNavTree('classcpp_1_1_universal_reference.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -107,46 +107,21 @@ $(document).ready(function(){initNavTree('classcpp_1_1detail_1_1_identity.html',
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="classcpp_1_1detail_1_1_identity-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">cpp::detail::Identity Class Reference</div>  </div>
+<div class="title">cpp::UniversalReference&lt; T, IsLvalueReference, IsConst &gt; Member List</div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>A functor class implementing the identity function.  
- <a href="classcpp_1_1detail_1_1_identity.html#details">More...</a></p>
-
-<p><code>#include &lt;<a class="el" href="staticif_8hpp_source.html">siplasplas/utility/staticif.hpp</a>&gt;</code></p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a938dc11e3c532a8e2e2ba4220f92213e"><td class="memTemplParams" colspan="2"><a class="anchor" id="a938dc11e3c532a8e2e2ba4220f92213e"></a>
-template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a938dc11e3c532a8e2e2ba4220f92213e"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>operator()</b> (T &amp;&amp;value) -&gt; decltype(std::forward&lt; T &gt;(value)) const           </td></tr>
-<tr class="separator:a938dc11e3c532a8e2e2ba4220f92213e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae0ab3f6f240403d6d0f483bd3f4a8317"><td class="memTemplParams" colspan="2"><a class="anchor" id="ae0ab3f6f240403d6d0f483bd3f4a8317"></a>
-template&lt;typename T , typename Function &gt; </td></tr>
-<tr class="memitem:ae0ab3f6f240403d6d0f483bd3f4a8317"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>type</b> (Function callback) -&gt; decltype(callback(meta::identity&lt; T &gt;())) const           </td></tr>
-<tr class="separator:ae0ab3f6f240403d6d0f483bd3f4a8317"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acfb785027e0085f6d28cac654731e0e9"><td class="memTemplParams" colspan="2"><a class="anchor" id="acfb785027e0085f6d28cac654731e0e9"></a>
-template&lt;typename T &gt; </td></tr>
-<tr class="memitem:acfb785027e0085f6d28cac654731e0e9"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>type</b> () const </td></tr>
-<tr class="separator:acfb785027e0085f6d28cac654731e0e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>A functor class implementing the identity function. </p>
-<p>The identity function takes a value of any type and returns it as is. The function performs no mutation of the value. Given an expression <code>x</code> <code>decltype(x) == decltype(Identity()(x))</code> and the yield value is the same. This function is useful to delay the evaluation of an expression to the second template processing phase (The on instantiation phase). See cpp::staticIf. </p>
-</div><hr/>The documentation for this class was generated from the following file:<ul>
-<li>include/siplasplas/utility/<a class="el" href="staticif_8hpp_source.html">staticif.hpp</a></li>
-</ul>
-</div><!-- contents -->
+<p>This is the complete list of members for <a class="el" href="classcpp_1_1_universal_reference.html">cpp::UniversalReference&lt; T, IsLvalueReference, IsConst &gt;</a>, including all inherited members.</p>
+<table class="directory">
+  <tr class="even"><td class="entry"><a class="el" href="classcpp_1_1_universal_reference.html#a6bc46b0cce455ab055159c9628b9d545">get</a>() const </td><td class="entry"><a class="el" href="classcpp_1_1_universal_reference.html">cpp::UniversalReference&lt; T, IsLvalueReference, IsConst &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>UniversalReference</b>(const ValueType &amp;lvalueRef) (defined in <a class="el" href="classcpp_1_1_universal_reference.html">cpp::UniversalReference&lt; T, IsLvalueReference, IsConst &gt;</a>)</td><td class="entry"><a class="el" href="classcpp_1_1_universal_reference.html">cpp::UniversalReference&lt; T, IsLvalueReference, IsConst &gt;</a></td><td class="entry"><span class="mlabel">inline</span></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>ValueType</b> typedef (defined in <a class="el" href="classcpp_1_1_universal_reference.html">cpp::UniversalReference&lt; T, IsLvalueReference, IsConst &gt;</a>)</td><td class="entry"><a class="el" href="classcpp_1_1_universal_reference.html">cpp::UniversalReference&lt; T, IsLvalueReference, IsConst &gt;</a></td><td class="entry"></td></tr>
+</table></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>cpp</b></li><li class="navelem"><b>detail</b></li><li class="navelem"><a class="el" href="classcpp_1_1detail_1_1_identity.html">Identity</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>

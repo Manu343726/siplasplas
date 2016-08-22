@@ -18,6 +18,4 @@ layout: standardese-doc
 #include "target.hpp"
 
 #include <reflection/include/siplasplas/cmake/project.hpp>
-
-namespace cpp{}
 ```

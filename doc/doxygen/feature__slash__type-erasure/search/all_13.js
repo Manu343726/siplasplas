@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['_7eassertexpression',['~AssertExpression',['../classcpp_1_1_assert_expression.html#aa79800e71aa879d2167d7e660b29b7fd',1,'cpp::AssertExpression']]]
+  ['value_2dsemantics',['Value-semantics',['../group__value-semantics.html',1,'']]],
+  ['valuesemanticsoperation',['ValueSemanticsOperation',['../group__type-erasure.html#gac7671c64b391c768a4fb882637be87ca',1,'cpp::typeerasure::detail::ValueSemanticsOperation()'],['../group__type-erasure.html#ga7031eddbfb1bdfa0a0ebda930085c3f1',1,'cpp::typeerasure::detail::valueSemanticsOperation(ValueSemanticsOperation operation)']]]
 ];
