@@ -203,7 +203,7 @@ public:
                     wording,                                                                 \
                     SIPLASPLAS_PP_STR(b),                                                    \
                     b                                                                        \
-                ), (a op b))
+                ), ((a) op (b)))
 
 /**
  * \ingroup assert
@@ -329,5 +329,40 @@ public:
  * `operator<<(std::ostream&, const T&)`
  */
 #define SIPLASPLAS_ASSERT_LE(a, b) SIPLASPLAS_ASSERT_COMP_IMPL(a, b, <=, "less or equal to")
+
+/**
+ * \ingroup assert
+ * \brief Defines a true assertion
+ *
+ * The assertion success if the expression evaluates to true. Fails otherwise.
+ *
+ * \param ... Assertion boolean expression
+ *
+ * ``` cpp
+ * SIPLASPLAS_ASSERT_TRUE(std::is_integral<std::string>()); // "Expected 'std::is_integral<std::string>()' to be true. Got false instead"
+ * ```
+ */
+#define SIPLASPLAS_ASSERT_TRUE(...) SIPLASPLAS_ASSERT_IMPL(::fmt::format( \
+                "Expected '{}' to be true. Got false instead",            \
+                SIPLASPLAS_PP_STR((__VA_ARGS__))                          \
+            ), __VA_ARGS__)
+
+/**
+ * \ingroup assert
+ * \brief Defines a false assertion
+ *
+ * The assertion success if the expression evaluates to false. Fails otherwise.
+ *
+ * \param ... Assertion boolean expression
+ *
+ * ``` cpp
+ * SIPLASPLAS_ASSERT_FALSE(std::is_integral<float>()); // "Expected 'std::is_integral<float>()' to be false. Got true instead"
+ * ```
+ */
+#define SIPLASPLAS_ASSERT_FALSE(...) SIPLASPLAS_ASSERT_IMPL(::fmt::format( \
+                "Expected '{}' to be false. Got true instead",            \
+                SIPLASPLAS_PP_STR((__VA_ARGS__))                          \
+            ), __VA_ARGS__)
+
 
 #endif // SIPLASPLAS_UTILITY_ASSERT_HPP

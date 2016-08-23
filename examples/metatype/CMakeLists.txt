@@ -1,1 +1,1 @@
-add_example(metatype DEPENDS siplasplas-metatype)
+add_siplasplas_example_simple(metatype DEPENDS siplasplas-metatype)

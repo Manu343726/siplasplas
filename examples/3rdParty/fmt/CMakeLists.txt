@@ -1,1 +1,1 @@
-add_example(fmt DEPENDS fmt ctti)
+add_siplasplas_example_simple(fmt DEPENDS fmt ctti)

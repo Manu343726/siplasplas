@@ -1,1 +1,1 @@
-add_example(libexecstream DEPENDS libexecstream)
+add_siplasplas_example_simple(libexecstream DEPENDS libexecstream)

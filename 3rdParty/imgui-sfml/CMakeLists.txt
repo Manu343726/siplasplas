@@ -57,7 +57,7 @@ if(WIN32)
     set(opengl ${OPENGL_LIBRARIES} opengl32)
 endif()
 
-add_siplasplas_library(imgui-sfml
+add_siplasplas_library(imgui-sfml EXCLUDE_FROM_ALL
 SOURCES
     imgui-sfml/imgui-SFML.cpp
     imgui-sfml/imgui.cpp

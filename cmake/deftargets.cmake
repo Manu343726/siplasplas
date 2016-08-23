@@ -66,7 +66,7 @@ endfunction()
 
 function(add_siplasplas_target NAME TARGET_TYPE)
     cmake_parse_arguments(ARGS
-        "EXCLUDE_FROM_RUN_ALL;STATIC;SHARED;NO_INSTALL;DEFAULT_TEST_MAIN"
+        "EXCLUDE_FROM_ALL;EXCLUDE_FROM_RUN_ALL;STATIC;SHARED;NO_INSTALL;DEFAULT_TEST_MAIN"
         "BOOST_VERSION;NAMESPACE"
         "SOURCES;INCLUDE_DIRS;COMPILE_OPTIONS;LINK_OPTIONS;DEPENDS;BOOST_COMPONENTS;LINK_LIBS;RUN_ARGS"
         ${ARGN}
@@ -92,7 +92,7 @@ function(add_siplasplas_target NAME TARGET_TYPE)
                 set(STD_CXX c++14)
             endif()
 
-            set(common_options -std=${STD_CXX} -Wall -pedantic -ftemplate-depth-1024 -fPIC)
+            set(common_options -std=${STD_CXX} -Wall -pedantic -ftemplate-depth-1024 -fPIC -ftemplate-backtrace-limit=0)
             set(debug_options -O0 -g3)
             set(release_options -O3 -g0)
 
@@ -125,8 +125,12 @@ function(add_siplasplas_target NAME TARGET_TYPE)
 
     list(APPEND link_libraries ${ARGS_DEPENDS} ${boost_targets} ${ARGS_LINK_LIBS})
 
+    if(ARGS_EXCLUDE_FROM_ALL)
+        set(exclude_target_from_all EXCLUDE_FROM_ALL)
+    endif()
+
     if(TARGET_TYPE STREQUAL "HEADER_ONLY_LIBRARY")
-        add_library(${NAME} INTERFACE)
+        add_library(${NAME} INTERFACE ${exclude_target_from_all})
         # Compute the include directory of the given target
         headerdir_from_sourcetree(current_includedir)
         # Add current include dir so we can just do '#include "foo.hpp"' in foo.cpp
@@ -135,7 +139,6 @@ function(add_siplasplas_target NAME TARGET_TYPE)
         if(NOT ARGS_NO_INSTALL)
             install_siplasplas_headeronly_library(${NAME})
         endif()
-        configure_standardese(TARGET ${NAME} ROOT_DIR "${current_includedir}")
 
         set(linking INTERFACE)
     elseif(TARGET_TYPE STREQUAL "LIBRARY")
@@ -151,7 +154,7 @@ function(add_siplasplas_target NAME TARGET_TYPE)
         if(ARGS_SHARED)
             set(link SHARED)
         endif()
-        add_library(${NAME} ${link} ${ARGS_SOURCES})
+        add_library(${NAME} ${exclude_target_from_all} ${link} ${ARGS_SOURCES})
 
         # Compute the include directory of the given target
         headerdir_from_sourcetree(current_includedir)
@@ -171,10 +174,9 @@ function(add_siplasplas_target NAME TARGET_TYPE)
             install_siplasplas_library(${NAME})
         endif()
 
-        configure_standardese(TARGET ${NAME} ROOT_DIR "${current_includedir}")
     else()
         # Create the executable
-        add_executable(${NAME} ${ARGS_SOURCES})
+        add_executable(${NAME} ${exclude_target_from_all} ${ARGS_SOURCES})
 
         if(TARGET_TYPE STREQUAL "UNIT_TEST")
             set_target_properties(${NAME} PROPERTIES EXCLUDE_FROM_ALL TRUE)
@@ -191,6 +193,8 @@ function(add_siplasplas_target NAME TARGET_TYPE)
             )
         endif()
 
+        # Examples and tests may have headers right alongside them:
+        target_include_directories(${NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
         add_run_target(${NAME} ${TARGET_TYPE})
         set_flags()
         set(linking PRIVATE)
@@ -206,6 +210,10 @@ function(add_siplasplas_target NAME TARGET_TYPE)
         ${CMAKE_SOURCE_DIR}/include
         ${ARGS_INCLUDE_DIRS}
     )
+
+    if(TARGET_TYPE STREQUAL "LIBRARY" OR TARGET_TYPE STREQUAL "HEADER_ONLY_LIBRARY")
+        configure_standardese(TARGET ${NAME} ROOT_DIR "${current_includedir}")
+    endif()
 
     string(REGEX REPLACE "_" " " TARGET_TYPE "${TARGET_TYPE}")
     message(STATUS "SIPLASPLAS ${TARGET_TYPE} ${NAME}")
@@ -237,20 +245,39 @@ function(add_siplasplas_target NAME TARGET_TYPE)
             message(":: Link: ${link}")
         endif()
     endif()
+
+    # Save useful info for the user
+    set(${NAME}_SOURCES ${ARGS_SOURCES} PARENT_SCOPE)
 endfunction()
 
-function(add_siplasplas_executable NAME)
+macro(add_siplasplas_executable NAME)
     add_siplasplas_target("${NAME}" EXECUTABLE ${ARGN})
-endfunction()
+endmacro()
 
-function(add_siplasplas_library NAME)
+macro(add_siplasplas_library NAME)
     add_siplasplas_target("${NAME}" LIBRARY ${ARGN})
-endfunction()
+endmacro()
 
-function(add_siplasplas_header_only_library NAME)
+macro(add_siplasplas_header_only_library NAME)
     add_siplasplas_target("${NAME}" HEADER_ONLY_LIBRARY ${ARGN})
-endfunction()
+endmacro()
 
-function(add_siplasplas_test NAME)
-    add_siplasplas_target("${NAME}" UNIT_TEST ${ARGN})
-endfunction()
+macro(add_siplasplas_test NAME)
+    add_siplasplas_target("${NAME}" UNIT_TEST NAMESPACE tests ${ARGN})
+endmacro()
+
+macro(add_siplasplas_example NAME)
+    add_siplasplas_executable("${NAME}" NAMESPACE examples ${ARGN})
+
+    install_siplasplas_example(
+        examples-${NAME} SOURCES ${examples-${NAME}_SOURCES}
+    )
+endmacro()
+
+macro(add_siplasplas_test_simple NAME)
+    add_siplasplas_test("${NAME}" SOURCES ${NAME}_test.cpp ${ARGN})
+endmacro()
+
+macro(add_siplasplas_example_simple NAME)
+    add_siplasplas_example("${NAME}" SOURCES ${NAME}.cpp ${ARGN})
+endmacro()

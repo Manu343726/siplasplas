@@ -35,16 +35,13 @@ class TranslationUnitProcessor:
 
         self.logger.info('Parsing file...')
 
-        ast_options = clang.cindex.TranslationUnit.PARSE_DETAILED_PROCESSING_RECORD
-        self.clang_tu = self.index.parse(self.filePath, args = self.compileArgs, options = ast_options)
+        self.clang_tu = clang.cindex.Index.create().parse(self.filePath, args = self.compileArgs)
 
         for d in self.clang_tu.diagnostics:
             GlobalLogger.error().step('Line {} (severity {}): {}'.format(d.location.line, d.severity, d.spelling))
 
         self.logger.info('Processing AST...')
 
-        self.classes = []
-        self.namespace = []
         self.translation_unit = TranslationUnit(self.clang_tu.cursor, self.filePath)
 
         # This is the root of the AST. For easy visitation, check TranslationUnit.nodes() method,
@@ -68,6 +65,12 @@ class TranslationUnitProcessor:
                     lambda c: list(c.get_children()),
                     lambda c: 'File {}, line {}: \'{}\', {}'.format(c.location.file, c.location.line, c.displayname or c.spelling, c.kind)
                 ))
+
+
+    def dispose(self):
+        self.clang_tu = None
+        self.translation_unit = None
+        self.root = None
 
 
     def run_jinja(self, outputfile):

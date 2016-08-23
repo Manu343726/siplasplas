@@ -2,7 +2,7 @@
 #define SIPLASPLAS_SIGNALS_ASYNCSINK_HPP
 
 #include "sink.hpp"
-#include <siplasplas/reflection/dynamic/function_pointer.hpp>
+#include <siplasplas/typeerasure/function.hpp>
 #include <readerwriterqueue/readerwriterqueue.h>
 #include <siplasplas/signals/export.hpp>
 
@@ -73,12 +73,12 @@ public:
     virtual ~AsyncSink();
 
 protected:
-    void invoke(const std::vector<cpp::dynamic_reflection::Object>& args) override;
+    void invoke(std::vector<cpp::SimpleAny32>&& args) override;
     bool invokeWithoutCallee() const override;
 
 private:
-    moodycamel::ReaderWriterQueue<std::vector<cpp::dynamic_reflection::Object>> _queue;
-    cpp::dynamic_reflection::FunctionPointer _fptr;
+    moodycamel::ReaderWriterQueue<std::vector<cpp::SimpleAny32>> _queue;
+    cpp::typeerasure::Function32 _fptr;
 };
 
 }

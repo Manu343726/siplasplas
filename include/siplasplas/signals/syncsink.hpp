@@ -2,7 +2,7 @@
 #define SIPLASPLAS_SIGNALS_SYNCSINK_HPP
 
 #include "sink.hpp"
-#include <siplasplas/reflection/dynamic/function_pointer.hpp>
+#include <siplasplas/typeerasure/function.hpp>
 #include <siplasplas/signals/export.hpp>
 
 namespace cpp
@@ -65,11 +65,11 @@ public:
     virtual ~SyncSink() = default;
 
 protected:
-    void invoke(const std::vector<cpp::dynamic_reflection::Object>& args) override;
+    void invoke(std::vector<cpp::SimpleAny32>&& args) override;
     bool invokeWithoutCallee() const override;
 
 private:
-    cpp::dynamic_reflection::FunctionPointer _fptr;
+    cpp::typeerasure::Function32 _fptr;
 };
 
 }

@@ -1,3 +1,3 @@
-add_example(meta           DEPENDS siplasplas-utility)
-add_example(fusion         DEPENDS siplasplas-utility)
-add_example(dynamiclibrary DEPENDS siplasplas-utility)
+add_siplasplas_example_simple(meta           DEPENDS siplasplas-utility)
+add_siplasplas_example_simple(fusion         DEPENDS siplasplas-utility)
+add_siplasplas_example_simple(dynamiclibrary DEPENDS siplasplas-utility)

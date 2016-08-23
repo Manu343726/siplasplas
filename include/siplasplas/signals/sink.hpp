@@ -1,7 +1,7 @@
 #ifndef SIPLASPLAS_SIGNALS_SINK_HPP
 #define SIPLASPLAS_SIGNALS_SINK_HPP
 
-#include <siplasplas/reflection/dynamic/object_manip.hpp>
+#include <siplasplas/typeerasure/simpleany.hpp>
 #include <siplasplas/signals/export.hpp>
 #include <type_traits>
 
@@ -88,17 +88,17 @@ public:
         if(invokeWithoutCallee())
         {
             invoke(
-                cpp::dynamic_reflection::pack_to_vector(
+                std::vector<cpp::SimpleAny32>{
                     std::forward<Args>(args)...
-                )
+                }
             );
         }
         else
         {
             invoke(
-                cpp::dynamic_reflection::pack_to_vector(
+                std::vector<cpp::SimpleAny32>{
                     _callee, std::forward<Args>(args)...
-                )
+                }
             );
         }
     }
@@ -127,11 +127,11 @@ public:
     virtual bool pull() = 0;
 
 protected:
-    virtual void invoke(const std::vector<cpp::dynamic_reflection::Object>& args) = 0;
+    virtual void invoke(std::vector<cpp::SimpleAny32>&& args) = 0;
     virtual bool invokeWithoutCallee() const = 0;
 
 private:
-    cpp::dynamic_reflection::Object _caller, _callee;
+    cpp::SimpleAny32 _caller, _callee;
 };
 
 }

@@ -1,0 +1,16 @@
+add_siplasplas_test(typeerasure
+SOURCES
+    concepts/iostream_test.cpp
+    concepts/valuesemantics_test.cpp
+    features/iostream_test.cpp
+    features/valuesemantics_test.cpp
+    simpleany_test.cpp
+    referencesimpleany_test.cpp
+    invoke_test.cpp
+    function_test.cpp
+    any_test.cpp
+    anyarg_test.cpp
+DEPENDS
+    siplasplas-typeerasure
+DEFAULT_TEST_MAIN
+)

@@ -144,7 +144,7 @@ function(add_siplasplas_thirdparty NAME)
             "${source_dir}/${includedir}"
         )
     endforeach()
-    target_include_directories(${NAME} INTERFACE "${source_dir}" "${repodir}" "${repodir}/.." ${includedirs})
+    target_include_directories(${NAME} INTERFACE ${includedirs})
     target_link_libraries(${NAME} INTERFACE ${THIRDPARTY_DEPENDS})
 
     function(print_args var)
