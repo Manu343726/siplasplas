@@ -11,6 +11,7 @@ layout: standardese-doc
  - [`siplasplas-variant` module]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-variant/)
  - [`siplasplas-allocator` module]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-allocator/)
  - [`siplasplas-metatype` module]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-metatype/)
+ - [`siplasplas-typeerasure` module]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-typeerasure/)
  - [`siplasplas-reflection-common` module]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-reflection-common/)
  - [`siplasplas-reflection-static` module]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-reflection-static/)
  - [`siplasplas-reflection-dynamic` module]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-reflection-dynamic/)

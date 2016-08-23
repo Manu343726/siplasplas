@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['utility',['Utility',['../group__utility.html',1,'']]]
+  ['memory_2dmanip',['Memory-manip',['../group__memory-manip.html',1,'']]]
 ];

@@ -28,7 +28,7 @@ layout: standardese-doc
                     wording,                                                                 \
                     SIPLASPLAS_PP_STR(b),                                                    \
                     b                                                                        \
-                ), (a op b))
+                ), ((a) op (b)))
 
 #define SIPLASPLAS_ASSERT_EQ(a, b) SIPLASPLAS_ASSERT_COMP_IMPL(a, b, ==, "equal to")
 
@@ -41,6 +41,16 @@ layout: standardese-doc
 #define SIPLASPLAS_ASSERT_BE(a, b) SIPLASPLAS_ASSERT_COMP_IMPL(a, b, >=, "bigger or equal to")
 
 #define SIPLASPLAS_ASSERT_LE(a, b) SIPLASPLAS_ASSERT_COMP_IMPL(a, b, <=, "less or equal to")
+
+#define SIPLASPLAS_ASSERT_TRUE(...) SIPLASPLAS_ASSERT_IMPL(::fmt::format( \
+                "Expected '{}' to be true. Got false instead",            \
+                SIPLASPLAS_PP_STR((__VA_ARGS__))                          \
+            ), __VA_ARGS__)
+
+#define SIPLASPLAS_ASSERT_FALSE(...) SIPLASPLAS_ASSERT_IMPL(::fmt::format( \
+                "Expected '{}' to be false. Got true instead",            \
+                SIPLASPLAS_PP_STR((__VA_ARGS__))                          \
+            ), __VA_ARGS__)
 
 namespace cpp
 {
@@ -76,7 +86,7 @@ SIPLASPLAS_ASSERT("The answer to the universe and everything must be...", answer
                     wording,                                                                 \
                     SIPLASPLAS_PP_STR(b),                                                    \
                     b                                                                        \
-                ), (a op b))
+                ), ((a) op (b)))
 ```
 
 This macro builds a detailed assertion expression for expressions that compare two values using an specific comparison operator. The resulting diagnostic message is of the form:
@@ -206,6 +216,40 @@ SIPLASPLAS_ASSERT_EQ(a, 42); // "Expected 'a' (3141592) less or equal to '42' (4
 ```
 
 Compared values must be printable by the [fmt](https://github.com/fmtlib/fmt) library. This can be achieved by implementing `operator<<(std::ostream&, const T&)`
+
+-----
+
+## Macro `SIPLASPLAS_ASSERT_TRUE`<a id="SIPLASPLAS_ASSERT_TRUE"></a>
+
+``` cpp
+#define SIPLASPLAS_ASSERT_TRUE(...) SIPLASPLAS_ASSERT_IMPL(::fmt::format( \
+                "Expected '{}' to be true. Got false instead",            \
+                SIPLASPLAS_PP_STR((__VA_ARGS__))                          \
+            ), __VA_ARGS__)
+```
+
+The assertion success if the expression evaluates to true. Fails otherwise.
+
+``` cpp
+SIPLASPLAS_ASSERT_TRUE(std::is_integral<std::string>()); // "Expected 'std::is_integral<std::string>()' to be true. Got false instead"
+```
+
+-----
+
+## Macro `SIPLASPLAS_ASSERT_FALSE`<a id="SIPLASPLAS_ASSERT_FALSE"></a>
+
+``` cpp
+#define SIPLASPLAS_ASSERT_FALSE(...) SIPLASPLAS_ASSERT_IMPL(::fmt::format( \
+                "Expected '{}' to be false. Got true instead",            \
+                SIPLASPLAS_PP_STR((__VA_ARGS__))                          \
+            ), __VA_ARGS__)
+```
+
+The assertion success if the expression evaluates to false. Fails otherwise.
+
+``` cpp
+SIPLASPLAS_ASSERT_FALSE(std::is_integral<float>()); // "Expected 'std::is_integral<float>()' to be false. Got true instead"
+```
 
 -----
 

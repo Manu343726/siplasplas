@@ -4,6 +4,10 @@ layout: standardese-doc
 
   - [assert.hpp](assert.md "assert.hpp")
 
+  - [compiles.hpp](compiles.md "compiles.hpp")
+
+  - [destroy.hpp](destroy.md "destroy.hpp")
+
   - [doxygroup.hpp](doxygroup.md "doxygroup.hpp")
 
   - [dynamiclibrary.hpp](dynamiclibrary.md "dynamiclibrary.hpp")
@@ -20,7 +24,13 @@ layout: standardese-doc
 
   - [hash.hpp](hash.md "hash.hpp")
 
+  - [identity.hpp](identity.md "identity.hpp")
+
+  - [invoke.hpp](invoke.md "invoke.hpp")
+
   - [lexical\_cast.hpp](lexical_cast.md "lexical_cast.hpp")
+
+  - [logger.hpp](logger.md "logger.hpp")
 
   - [memory\_manip.hpp](memory_manip.md "memory_manip.hpp")
 
@@ -32,8 +42,12 @@ layout: standardese-doc
 
   - [printers.hpp](printers.md "printers.hpp")
 
+  - [staticif.hpp](staticif.md "staticif.hpp")
+
   - [string.hpp](string.md "string.hpp")
 
   - [tuple.hpp](tuple.md "tuple.hpp")
 
   - [type\_variables.hpp](type_variables.md "type_variables.hpp")
+
+  - [universal\_reference.hpp](universal_reference.md "universal_reference.hpp")

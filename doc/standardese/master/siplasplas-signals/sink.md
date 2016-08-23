@@ -7,7 +7,7 @@ layout: standardese-doc
 ``` cpp
 #define SIPLASPLAS_SIGNALS_SINK_HPP 
 
-#include <siplasplas/reflection/dynamic/object_manip.hpp>
+#include <siplasplas/typeerasure/simpleany.hpp>
 
 #include <siplasplas/signals/export.hpp>
 
@@ -43,7 +43,7 @@ public:
     virtual bool pull() = 0
     
 protected:
-    virtual void invoke() = 0
+    virtual void invoke(std::vector<cpp::SimpleAny32>&& args) = 0
     
     virtual bool invokeWithoutCallee() const = 0
 };

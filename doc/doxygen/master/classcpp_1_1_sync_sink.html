@@ -165,9 +165,9 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:adfc8349129076ebbce725ba496c75c9e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adfc8349129076ebbce725ba496c75c9e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>invoke</b> (const std::vector&lt; cpp::dynamic_reflection::Object &gt; &amp;args) override</td></tr>
-<tr class="separator:adfc8349129076ebbce725ba496c75c9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36ba86db9eb6eed6f4bbb7b25858df64"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a36ba86db9eb6eed6f4bbb7b25858df64"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>invoke</b> (std::vector&lt; <a class="el" href="group__type-erasure.html#gab9fa9ebd99a86d12b409102725a88be0">cpp::SimpleAny32</a> &gt; &amp;&amp;args) override</td></tr>
+<tr class="separator:a36ba86db9eb6eed6f4bbb7b25858df64"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ada560a89de149e7a339734828930a52f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ada560a89de149e7a339734828930a52f"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>invokeWithoutCallee</b> () const  override</td></tr>
 <tr class="separator:ada560a89de149e7a339734828930a52f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -298,7 +298,7 @@ template&lt;typename Caller , typename Callee , typename Function &gt; </div>
 </div><div class="memdoc">
 
 <p>Does nothing. </p>
-<p>Synchronous sinks directly invoke the destination function when SignalSink::operator() and SyncSink::invoke() are invoked, so <a class="el" href="classcpp_1_1_sync_sink.html#a4d7d65c33dcc02792e35b9f99f64432c" title="Does nothing. ">pull()</a> has no work to do.</p>
+<p>Synchronous sinks directly invoke the destination function when SignalSink::operator() and <a class="el" href="group__type-erasure.html#ga189ee4b90e459fe6e56850121e99f442" title="Invokes a callable object with the given type-erased arguments. ">SyncSink::invoke()</a> are invoked, so <a class="el" href="classcpp_1_1_sync_sink.html#a4d7d65c33dcc02792e35b9f99f64432c" title="Does nothing. ">pull()</a> has no work to do.</p>
 <dl class="section return"><dt>Returns</dt><dd>Always returns true. </dd></dl>
 
 <p>Implements <a class="el" href="classcpp_1_1_signal_sink.html">cpp::SignalSink</a>.</p>

@@ -28,11 +28,17 @@ namespace cpp
         template <typename R, typename ... Args>
         struct get_function_signature<R(Args...)>;
         
+        template <typename R, typename ... Args>
+        struct get_function_signature<R(*)(Args...)>;
+        
         template <typename C, typename R, typename ... Args>
         struct get_function_signature<R (C::*)(Args...)>;
         
         template <typename C, typename R, typename ... Args>
         struct get_function_signature<R (C::*)(Args...) const>;
+        
+        template <typename T, typename Class>
+        struct get_function_signature<T Class::*>;
     }
     
     template <typename Function, bool IsFunctor = detail::IsFunctorClass<Function>::value>

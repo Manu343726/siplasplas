@@ -20,8 +20,10 @@
 }
 
 #nav-tree .selected {
+  background-image: url('tab_a.png');
+  background-repeat:repeat-x;
   color: #fff;
-  background: #393939;
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 1.0);
 }
 
 #nav-tree img {
@@ -41,7 +43,7 @@
 #nav-tree .label {
   margin:0px;
   padding:0px;
-  font: 12px sans-serif;
+  font: 12px 'Lucida Grande',Geneva,Helvetica,Arial,sans-serif;
 }
 
 #nav-tree .label a {
@@ -51,7 +53,6 @@
 #nav-tree .selected a {
   text-decoration:none;
   color:#fff;
-  font-weight:bold;
 }
 
 #nav-tree .children_ul {
@@ -93,7 +94,7 @@
 }
 
 .ui-resizable-e {
-  background-color: #CECECE;
+  background:url("splitbar.png") repeat scroll right center transparent;
   cursor:e-resize;
   height:100%;
   right:0;
@@ -113,6 +114,8 @@
 }
 
 #nav-tree {
+  background-image:url('nav_h.png');
+  background-repeat:repeat-x;
   background-color: #F9FAFC;
   -webkit-overflow-scrolling : touch; /* iOS 5+ */
 }

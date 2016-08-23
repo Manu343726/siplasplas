@@ -14,7 +14,9 @@ var group__assert =
     [ "SIPLASPLAS_ASSERT_BT", "group__assert.html#gaf7d0a76e90558a6cc5758056eb0ea7da", null ],
     [ "SIPLASPLAS_ASSERT_COMP_IMPL", "group__assert.html#gaf6c1a323763ae04fdb258acc89825529", null ],
     [ "SIPLASPLAS_ASSERT_EQ", "group__assert.html#ga1af7fc5cd11f822e2c5c571fd63330db", null ],
+    [ "SIPLASPLAS_ASSERT_FALSE", "group__assert.html#ga133cb3425f5f317ed55439ed393b397d", null ],
     [ "SIPLASPLAS_ASSERT_LE", "group__assert.html#ga886c7190567c50ed629f405d0f8fda2d", null ],
     [ "SIPLASPLAS_ASSERT_LT", "group__assert.html#gade65127ee32f777a70f3bd9a79405ed8", null ],
-    [ "SIPLASPLAS_ASSERT_NE", "group__assert.html#ga3de0ef146157c71d5ab6036f56aa5ce7", null ]
+    [ "SIPLASPLAS_ASSERT_NE", "group__assert.html#ga3de0ef146157c71d5ab6036f56aa5ce7", null ],
+    [ "SIPLASPLAS_ASSERT_TRUE", "group__assert.html#ga1bb2314a7eed7c6840a732eaddf9dfbd", null ]
 ];

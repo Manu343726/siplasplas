@@ -148,6 +148,12 @@ Macros</h2></td></tr>
 <tr class="memitem:ga886c7190567c50ed629f405d0f8fda2d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__assert.html#ga886c7190567c50ed629f405d0f8fda2d">SIPLASPLAS_ASSERT_LE</a>(a,  b)</td></tr>
 <tr class="memdesc:ga886c7190567c50ed629f405d0f8fda2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines a less or equal assertion.  <a href="#ga886c7190567c50ed629f405d0f8fda2d">More...</a><br /></td></tr>
 <tr class="separator:ga886c7190567c50ed629f405d0f8fda2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1bb2314a7eed7c6840a732eaddf9dfbd"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__assert.html#ga1bb2314a7eed7c6840a732eaddf9dfbd">SIPLASPLAS_ASSERT_TRUE</a>(...)</td></tr>
+<tr class="memdesc:ga1bb2314a7eed7c6840a732eaddf9dfbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines a true assertion.  <a href="#ga1bb2314a7eed7c6840a732eaddf9dfbd">More...</a><br /></td></tr>
+<tr class="separator:ga1bb2314a7eed7c6840a732eaddf9dfbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga133cb3425f5f317ed55439ed393b397d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__assert.html#ga133cb3425f5f317ed55439ed393b397d">SIPLASPLAS_ASSERT_FALSE</a>(...)</td></tr>
+<tr class="memdesc:ga133cb3425f5f317ed55439ed393b397d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines a false assertion.  <a href="#ga133cb3425f5f317ed55439ed393b397d">More...</a><br /></td></tr>
+<tr class="separator:ga133cb3425f5f317ed55439ed393b397d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Assertion utilities. </p>
@@ -333,6 +339,31 @@ Macros</h2></td></tr>
 
 </div>
 </div>
+<a class="anchor" id="ga133cb3425f5f317ed55439ed393b397d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SIPLASPLAS_ASSERT_FALSE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Defines a false assertion. </p>
+<p>The assertion success if the expression evaluates to false. Fails otherwise.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">...</td><td>Assertion boolean expression</td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;SIPLASPLAS_ASSERT_FALSE(std::is_integral&lt;float&gt;()); // &quot;Expected &#39;std::is_integral&lt;float&gt;()&#39; to be false. Got true instead&quot;</div></div><!-- fragment --> 
+</div>
+</div>
 <a class="anchor" id="ga886c7190567c50ed629f405d0f8fda2d"></a>
 <div class="memitem">
 <div class="memproto">
@@ -442,6 +473,31 @@ Macros</h2></td></tr>
 </dl>
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;int a = 42;</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;SIPLASPLAS_ASSERT_NE(a, 42); // &quot;Expected &#39;a&#39; (42) not equal to &#39;42&#39; (42)&quot;</div></div><!-- fragment --><p>Compared values must be printable by the <a href="https://github.com/fmtlib/fmt">fmt</a> library. This can be achieved by implementing <code>operator&lt;&lt;(std::ostream&amp;, const T&amp;)</code> </p>
 
+</div>
+</div>
+<a class="anchor" id="ga1bb2314a7eed7c6840a732eaddf9dfbd"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SIPLASPLAS_ASSERT_TRUE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Defines a true assertion. </p>
+<p>The assertion success if the expression evaluates to true. Fails otherwise.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">...</td><td>Assertion boolean expression</td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;SIPLASPLAS_ASSERT_TRUE(std::is_integral&lt;std::string&gt;()); // &quot;Expected &#39;std::is_integral&lt;std::string&gt;()&#39; to be true. Got false instead&quot;</div></div><!-- fragment --> 
 </div>
 </div>
 </div><!-- contents -->
