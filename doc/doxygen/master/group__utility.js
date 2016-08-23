@@ -26,6 +26,8 @@ var group__utility =
       [ "get", "classcpp_1_1_universal_reference_3_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_t_00_01317da0ee22d68a1b11e0bf5e76ec5679.html#a077ab9fa6037c253fef629c45df626c3", null ],
       [ "get", "classcpp_1_1_universal_reference_3_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_t_00_01317da0ee22d68a1b11e0bf5e76ec5679.html#ae0567f0910c5bf735702b1ad41a9f272", null ]
     ] ],
+    [ "SIPLASPLAS_UTILITY_COMPILES", "group__utility.html#gaad62b455cf4d9cf038c6652f3081a229", null ],
+    [ "compiles", "group__utility.html#gaf4e3666d709fc6add22d09c6ab830469", null ],
     [ "construct", "group__utility.html#ga81ebc024fb46c3b4128443a6bf3e2464", null ],
     [ "construct", "group__utility.html#ga6eb03b1733484d2450d8a98ff9e793be", null ],
     [ "destroy", "group__utility.html#gab2e9d3829ce1ca89d34621982e21825b", null ],

@@ -24,6 +24,7 @@ var searchData=
   ['siplasplas_5fassert_5flt',['SIPLASPLAS_ASSERT_LT',['../group__assert.html#gade65127ee32f777a70f3bd9a79405ed8',1,'assert.hpp']]],
   ['siplasplas_5fassert_5fne',['SIPLASPLAS_ASSERT_NE',['../group__assert.html#ga3de0ef146157c71d5ab6036f56aa5ce7',1,'assert.hpp']]],
   ['siplasplas_5fassert_5ftrue',['SIPLASPLAS_ASSERT_TRUE',['../group__assert.html#ga1bb2314a7eed7c6840a732eaddf9dfbd',1,'assert.hpp']]],
+  ['siplasplas_5futility_5fcompiles',['SIPLASPLAS_UTILITY_COMPILES',['../group__utility.html#gaad62b455cf4d9cf038c6652f3081a229',1,'compiles.hpp']]],
   ['size',['size',['../classcpp_1_1_fixed_size_storage.html#a46434c28c10c8c1eca53e6ec461c65cb',1,'cpp::FixedSizeStorage']]],
   ['sizeof',['sizeOf',['../classcpp_1_1typeerasure_1_1_type_info.html#ac6b9042c0b784671afa5b7374a6fddd7',1,'cpp::typeerasure::TypeInfo']]],
   ['sourcedir',['sourceDir',['../classcpp_1_1_c_make_project.html#a287a0a3fc1a7041e05b654f9e14d1f61',1,'cpp::CMakeProject']]],

@@ -102,6 +102,7 @@ $(document).ready(function(){initNavTree('group__utility.html','');});
   <div class="summary">
 <a href="#groups">Modules</a> &#124;
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#define-members">Macros</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Utility</div>  </div>
@@ -144,8 +145,18 @@ Classes</h2></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classcpp_1_1_universal_reference.html" title="Implements a copyable wrapper of an universal reference. ">UniversalReference</a> spacialization for rvalues.  <a href="classcpp_1_1_universal_reference_3_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_t_00_01317da0ee22d68a1b11e0bf5e76ec5679.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:gaad62b455cf4d9cf038c6652f3081a229"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__utility.html#gaad62b455cf4d9cf038c6652f3081a229">SIPLASPLAS_UTILITY_COMPILES</a>(...)                                </td></tr>
+<tr class="memdesc:gaad62b455cf4d9cf038c6652f3081a229"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if an expression is well formed.  <a href="#gaad62b455cf4d9cf038c6652f3081a229">More...</a><br /></td></tr>
+<tr class="separator:gaad62b455cf4d9cf038c6652f3081a229"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:gaf4e3666d709fc6add22d09c6ab830469"><td class="memTemplParams" colspan="2">template&lt;typename Expr &gt; </td></tr>
+<tr class="memitem:gaf4e3666d709fc6add22d09c6ab830469"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__utility.html#gaf4e3666d709fc6add22d09c6ab830469">cpp::compiles</a> (Expr &amp;&amp;expr)</td></tr>
+<tr class="memdesc:gaf4e3666d709fc6add22d09c6ab830469"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if an expression is well formed.  <a href="group__utility.html#gaf4e3666d709fc6add22d09c6ab830469">More...</a><br /></td></tr>
+<tr class="separator:gaf4e3666d709fc6add22d09c6ab830469"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gab2e9d3829ce1ca89d34621982e21825b"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:gab2e9d3829ce1ca89d34621982e21825b"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__utility.html#gab2e9d3829ce1ca89d34621982e21825b">cpp::destroy</a> (T &amp;object)</td></tr>
 <tr class="memdesc:gab2e9d3829ce1ca89d34621982e21825b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the destructor of an object.  <a href="group__utility.html#gab2e9d3829ce1ca89d34621982e21825b">More...</a><br /></td></tr>
@@ -207,7 +218,64 @@ template&lt;typename Callable , typename... Args&gt; </td></tr>
 <li><b>Raw memory manipulation</b>: Tools for raw memory manipulation such as functions to compute aligned addresses, functions to read/write values directly into raw memory, etc. See <a class="el" href="memory__manip_8hpp_source.html">memory_manip.hpp</a>.</li>
 <li><b>Tuple manipulation tools</b>: See <a class="el" href="tuple_8hpp_source.html">tuple.hpp</a>. </li>
 </ul>
+<h2 class="groupheader">Macro Definition Documentation</h2>
+<a class="anchor" id="gaad62b455cf4d9cf038c6652f3081a229"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define SIPLASPLAS_UTILITY_COMPILES</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if an expression is well formed. </p>
+<p>This macro hides the syntax complexity of <a class="el" href="group__utility.html#gaf4e3666d709fc6add22d09c6ab830469" title="Checks if an expression is well formed. ">cpp::compiles()</a> and checks directly whatever expression is passed as argument to the macro:</p>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;auto result = SIPLASPLAS_UTILITY_COMPILES(</div><div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;    identity(std::declval&lt;std::string&gt;()).append(&quot;hello&quot;)</div><div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;);</div><div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div><div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;static_assert(!result, &quot;std::string has no append() method&quot;);</div></div><!-- fragment --><p>Note there's an implicit <code>identity</code> variable available to delay the evaluation of the expression.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Expression</td><td>to check</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An implementation defined type constexpr-convertible to bool. The returned value converts to true if the expression is well formed, converts to false otherwise. </dd></dl>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="gaf4e3666d709fc6add22d09c6ab830469"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Expr &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto cpp::compiles </td>
+          <td>(</td>
+          <td class="paramtype">Expr &amp;&amp;&#160;</td>
+          <td class="paramname"><em>expr</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if an expression is well formed. </p>
+<p>This function takes an expression in the form of an SFINAE-friendly context and checks if the expression can be compiled. For example:</p>
+<div class="fragment"><div class="line"><span class="keyword">auto</span> result = <a class="code" href="group__utility.html#gaf4e3666d709fc6add22d09c6ab830469">cpp::compiles</a>([](<span class="keyword">auto</span> identity) -&gt; decltype(</div><div class="line">    identity(std::declval&lt;std::string&gt;()).append(<span class="stringliteral">&quot;hello&quot;</span>)</div><div class="line">) {});</div><div class="line"></div><div class="line">static_assert(!result, <span class="stringliteral">&quot;std::string has no append() method&quot;</span>);</div></div><!-- fragment --><p>The cpp::compiles(&lt;test&gt;) expression itself is not constexpr, so two steps are needed to perform the constexpr test. <a class="el" href="group__utility.html#gaf4e3666d709fc6add22d09c6ab830469" title="Checks if an expression is well formed. ">cpp::compiles()</a> returns an implementation defined type that is constexpr-convertible to bool, giving the result of the test.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">expr</td><td>A callable template of signature <code>decltype(&lt;expression to check&gt;)(<a class="el" href="classcpp_1_1_identity.html" title="A functor class implementing the identity function. ">Identity</a>)</code>. The identity parameter is given to delay the evaluation of the expression, making it dependent of a template of the test. If the expression is directly evaluable, an ill-formed expression would make the program compilation to fail.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>An implementation defined type constexpr-convertible to bool. The returned value converts to true if the expression is well formed, converts to false otherwise. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ga81ebc024fb46c3b4128443a6bf3e2464"></a>
 <div class="memitem">
 <div class="memproto">

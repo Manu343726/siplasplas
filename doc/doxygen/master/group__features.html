@@ -105,6 +105,9 @@ $(document).ready(function(){initNavTree('group__features.html','');});
 <div class="title">Features<div class="ingroups"><a class="el" href="group__type-erasure.html">Type-erasure</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Generic implementation of type features.  
+<a href="#details">More...</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
@@ -116,6 +119,13 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<p>Generic implementation of type features. </p>
+<p>This module provides implementation classes for the concepts defined in <code>cpp::concepts</code> namespace. For each concept of name <code>C</code> defined in <code>cpp::concepts</code> there's a <code>cpp::features::C</code> class that implements that concept. The implementation works as follows:</p>
+<ul>
+<li>Feature classes have <code>apply()</code> template static methods with the signature needed to implement the concept.</li>
+<li>If the type given to <code>apply()</code> satisfies the concept, <code>apply()</code> invokes the default implementation of that concept. For example, if the concept represents to have a <code>push_back()</code> method, <code>apply()</code> will have the signature <code>apply&lt;T, U&gt;(T&amp; object, U&amp;&amp; value)</code> and will invoke <code>object.push_back(std::forward&lt;U&gt;(value))</code>.</li>
+<li>If the type given to apply doesn't satisfy the concept, an exception is thrown </li>
+</ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

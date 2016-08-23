@@ -22,6 +22,8 @@ layout: standardese-doc
 
   - [SIPLASPLAS\_ASSERT\_TRUE](assert.md#SIPLASPLAS_ASSERT_TRUE "SIPLASPLAS_ASSERT_TRUE") - The assertion success if the expression evaluates to true. Fails otherwise.
 
+  - [SIPLASPLAS\_UTILITY\_COMPILES](compiles.md#SIPLASPLAS_UTILITY_COMPILES "SIPLASPLAS_UTILITY_COMPILES") - This macro hides the syntax complexity of cpp::compiles() and checks directly whatever expression is passed as argument to the macro:
+
   - `cpp`
     
       - [AssertException](assert.md#cpp::AssertException "cpp::AssertException") - An AssertException is thrown whenever a siplasplas assertion fails (See AssertExpression). AssertException::what() returns a detailed message about the assertion failure.
@@ -71,6 +73,8 @@ layout: standardese-doc
         true,
         false
         \>") - See cpp::UniversalReference main template documentation for details
+    
+      - [compiles\<Expr\>(Expr &&)](compiles.md#cpp::compiles\<Expr\>\(Expr%20&&\) "cpp::compiles\<Expr\>(Expr &&)") - This function takes an expression in the form of an SFINAE-friendly context and checks if the expression can be compiled. For example:
     
       - [construct\<T, Args...\>(T \*,Args &&...)](destroy.md#cpp::construct\<T,%20Args...\>\(T%20*,Args%20&&...\) "cpp::construct\<T, Args...\>(T *,Args &&...)") - This function performs an in-place construction of an object of type T in the given address. Arguments are passed as-is to the object constructor. The behavior is undefined if `alignment(pointer) != alignof(T)`.
     
