@@ -15,25 +15,25 @@ TEST(AnyArgTest, rightTypeCategories)
     {
         cpp::AnyArg arg{stringRef};
 
-        EXPECT_TRUE(arg.isLvalueReference());
-        EXPECT_FALSE(arg.isConstReference());
-        EXPECT_FALSE(arg.isRvalueReference());
+        EXPECT_TRUE(arg.isLvalue());
+        EXPECT_FALSE(arg.isConst());
+        EXPECT_FALSE(arg.isRvalue());
     };
     auto getConstLvalueReference = [](const std::string& stringRef)
     {
         cpp::AnyArg arg{stringRef};
 
-        EXPECT_TRUE(arg.isLvalueReference());
-        EXPECT_TRUE(arg.isConstReference());
-        EXPECT_FALSE(arg.isRvalueReference());
+        EXPECT_TRUE(arg.isLvalue());
+        EXPECT_TRUE(arg.isConst());
+        EXPECT_FALSE(arg.isRvalue());
     };
     auto getRvalueReference = [](std::string&& stringRef)
     {
         cpp::AnyArg arg{std::move(stringRef)};
 
-        EXPECT_FALSE(arg.isLvalueReference());
-        EXPECT_FALSE(arg.isConstReference());
-        EXPECT_TRUE(arg.isRvalueReference());
+        EXPECT_FALSE(arg.isLvalue());
+        EXPECT_FALSE(arg.isConst());
+        EXPECT_TRUE(arg.isRvalue());
     };
 
     std::string str{"hello, world!"};

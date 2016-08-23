@@ -188,6 +188,20 @@ auto invoke(Callable&& callable, ::cpp::meta::index_sequence<Is...>, std::vector
     );
 }
 
+template<typename Callable, std::size_t... Is, typename Iterator, typename = typename std::iterator_traits<Iterator>::value_type>
+auto invoke(Callable&& callable, ::cpp::meta::index_sequence<Is...>, Iterator argsBegin)
+{
+    return ::cpp::invoke(
+        std::forward<Callable>(callable),
+        (argsBegin + Is)->template get<
+            ::cpp::function_argument<
+                Is,
+                std::decay_t<Callable>
+            >
+        >()...
+    );
+}
+
 }
 
 /**
@@ -341,6 +355,25 @@ template<typename Callable>
 auto invoke(Callable&& callable, std::vector<::cpp::AnyArg>&& args)
 {
     return ::cpp::typeerasure::detail::invoke(std::forward<Callable>(callable), ::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>(), std::move(args));
+}
+
+/**
+ * \ingroup type-erasure
+ * \brief Invokes a callable object with the given type-erased arguments
+ *
+ * This overload takes an iterator to a sequence of type-erased arguments.
+ *
+ * \tparam Iterator Must follow the [`RandomAccessIterator`](http://en.cppreference.com/w/cpp/concept/RandomAccessIterator) concept
+ * \param callable Callable entity to be invoked
+ * \param argsBegin Iterator pointing to the beginning of the args sequence. If \p callable is a pointer to member function,
+ * the first argument is interpreted as the caller object
+ *
+ * See cpp::invoke() for detailed behavior
+ */
+template<typename Callable, typename Iterator, typename = typename std::iterator_traits<Iterator>::value_type>
+auto invoke(Callable&& callable, Iterator argsBegin)
+{
+    return ::cpp::typeerasure::detail::invoke(std::forward<Callable>(callable), ::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>(), argsBegin);
 }
 
 }

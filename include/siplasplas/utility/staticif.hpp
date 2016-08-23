@@ -44,11 +44,6 @@ public:
         template<typename Body>
         constexpr T Else(const Body&)
         {
-            return static_cast<T>(*this);
-        }
-
-        constexpr operator T()
-        {
             return std::move(_value);
         }
 
@@ -71,6 +66,11 @@ public:
         }
 
         constexpr operator T&()
+        {
+            return *_value;
+        }
+
+        T& operator()()
         {
             return *_value;
         }

@@ -106,7 +106,7 @@ namespace detail
         template<typename R, typename Class, typename Object, typename... Tail>
         static decltype(auto) apply(R Class::* pointer, Object&& object, Tail&&...)
         {
-            return InvokeMemberObject<Class, Object>::apply(pointer, std::forward<Object>(object));
+            return InvokeMemberObject<Class, std::decay_t<Object>>::apply(pointer, std::forward<Object>(object));
         }
     };
 
