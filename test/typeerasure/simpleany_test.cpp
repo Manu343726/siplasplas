@@ -59,7 +59,7 @@ TEST(SimpleAnyTest, constructFromValue_smallTypes_noThrow)
 {
     EXPECT_NO_THROW(SimpleAny{42});
     EXPECT_NO_THROW(SimpleAny{std::string{"hello, world!"}});
-    EXPECT_NO_THROW((SimpleAny{std::vector<std::string>{{std::string{"hello, "}, std::string{"world!"}}}}));
+    EXPECT_NO_THROW((SimpleAny{std::vector<std::string>()}));
 }
 
 TEST(SimpleAnyTest, get_sameType_noThrow)
