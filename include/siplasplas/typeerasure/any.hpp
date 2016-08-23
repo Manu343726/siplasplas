@@ -275,39 +275,39 @@ private:
 
 /**
  * \ingroup type-erasure
- * \brief An Any with 8 byte fixed-size storage
+ * \brief An Any with 8 byte deadpool storage
  */
-using Any8  = Any<FixedSizeStorage<8>>;
+using Any8  = Any<DeadPoolStorage<8>>;
 
 /**
  * \ingroup type-erasure
- * \brief An Any with 16 byte fixed-size storage
+ * \brief An Any with 16 byte deadpool storage
  */
-using Any16 = Any<FixedSizeStorage<16>>;
+using Any16 = Any<DeadPoolStorage<16>>;
 
 /**
  * \ingroup type-erasure
- * \brief An Any with 32 byte fixed-size storage
+ * \brief An Any with 32 byte deadpool storage
  */
-using Any32 = Any<FixedSizeStorage<32>>;
+using Any32 = Any<DeadPoolStorage<32>>;
 
 /**
  * \ingroup type-erasure
- * \brief An Any with 64 byte fixed-size storage
+ * \brief An Any with 64 byte deadpool storage
  */
-using Any64 = Any<FixedSizeStorage<64>>;
+using Any64 = Any<DeadPoolStorage<64>>;
 
 /**
  * \ingroup type-erasure
  * \brief A non-owning Any that (const) references an existing object
  */
-using ConstReferenceAny = Any<ConstNonOwningStorage, FixedSizeStorage<32>>;
+using ConstReferenceAny = Any<ConstNonOwningStorage, DeadPoolStorage<32>>;
 
 /**
  * \ingroup type-erasure
  * \brief A non-owning Any that references an existing object
  */
-using ReferenceAny = Any<NonOwningStorage, FixedSizeStorage<32>>;
+using ReferenceAny = Any<NonOwningStorage, DeadPoolStorage<32>>;
 
 }
 
