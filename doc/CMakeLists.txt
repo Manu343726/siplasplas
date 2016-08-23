@@ -54,12 +54,17 @@ if(SIPLASPLAS_DEPLOY_DOCS)
     set(standardese_docs_src  "${CMAKE_BINARY_DIR}/doc/standardese")
     set(standardese_docs_dest "${SIPLASPLAS_WEBSITE_PATH}/doc/standardese/${sanitized_branch}")
     set(doxygen_docs_src  "${CMAKE_BINARY_DIR}/doc/html")
-    set(doxygen_docs_dest "${SIPLASPLAS_WEBSITE_PATH}/doc/doxygen/${sanitized_branch}")
+    set(doxygen_css_sources  "${SIPLASPLAS_WEBSITE_PATH}/css/doxygen")
+    set(doxygen_docs_dest    "${SIPLASPLAS_WEBSITE_PATH}/doc/doxygen/${sanitized_branch}")
 
     add_custom_target(deploy-docs
         COMMAND ${CMAKE_COMMAND} -E remove_directory "${doxygen_docs_dest}"
         COMMAND ${CMAKE_COMMAND} -E remove_directory "${standardese_docs_dest}"
         COMMAND ${CMAKE_COMMAND} -E copy_directory "${doxygen_docs_src}" "${doxygen_docs_dest}"
+        COMMAND ${CMAKE_COMMAND} -E copy "${doxygen_css_sources}/doxygen.css"        "${doxygen_docs_dest}"
+        COMMAND ${CMAKE_COMMAND} -E copy "${doxygen_css_sources}/navtree.css"        "${doxygen_docs_dest}"
+        COMMAND ${CMAKE_COMMAND} -E copy "${doxygen_css_sources}/tabs.css"           "${doxygen_docs_dest}"
+        COMMAND ${CMAKE_COMMAND} -E copy "${SIPLASPLAS_WEBSITE_PATH}/images/bg3.png" "${doxygen_docs_dest}"
         COMMAND ${CMAKE_COMMAND} -E copy_directory "${standardese_docs_src}" "${standardese_docs_dest}"
         COMMAND ${CMAKE_COMMAND}
             -DDOC_DIR=${SIPLASPLAS_WEBSITE_PATH}/doc/
