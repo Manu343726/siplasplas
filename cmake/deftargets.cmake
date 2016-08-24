@@ -37,11 +37,17 @@ function(add_run_target NAME TARGET_TYPE)
 
     set(run-target run${NAMESPACE_SEPARATOR}${NAME})
 
+    if(SIPLASPLAS_ENABLE_VALGRIND)
+        find_program(MEMORYCHECK_COMMAND valgrind REQUIRED)
+        set(valgrind_command ${MEMORYCHECK_COMMAND} --leak-check=full --track-origins=yes --trace-children=yes)
+    endif()
+
     # Create custom target to run the executable/test
     add_custom_target(${run-target}
-        COMMAND ${NAME} ${ARGS_RUN_ARGS}
+        COMMAND ${valgrind_command} $<TARGET_FILE_DIR:${NAME}>/$<TARGET_FILE_NAME:${NAME}> ${ARGS_RUN_ARGS}
         DEPENDS ${NAME}
         COMMENT "Running ${NAME}..."
+        WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
         VERBATIM
     )
 
