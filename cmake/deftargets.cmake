@@ -108,6 +108,10 @@ function(add_siplasplas_target NAME TARGET_TYPE)
             ${ARGS_COMPILE_OPTIONS}
         )
 
+        if(SIPLASPLAS_ENABLE_ASSERTS)
+            target_compile_definitions(${NAME} PRIVATE SIPLASPLAS_ENABLE_ASSERTS)
+        endif()
+
         set_property(TARGET ${NAME} APPEND PROPERTY LINK_FLAGS ${ARGS_LINK_OPTIONS})
     endfunction()
 
