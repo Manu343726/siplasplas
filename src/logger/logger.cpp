@@ -1,4 +1,5 @@
 #include "logger.hpp"
+#include <siplasplas/utility/string.hpp>
 
 using namespace cpp;
 
@@ -17,7 +18,7 @@ std::shared_ptr<spdlog::sinks::rotating_file_sink_mt> Logger::createSink(const s
 {
     constexpr std::size_t LOGGER_BUFFER_LENGTH = 1024*1024;
     constexpr std::size_t LOGGER_FILES_MAX = 10;
-    return std::make_shared<spdlog::sinks::rotating_file_sink_mt>(name, name + ".log", LOGGER_BUFFER_LENGTH, LOGGER_FILES_MAX, FORCE_FLUSH);
+    return std::make_shared<spdlog::sinks::rotating_file_sink_mt>(name,  + "siplasplas.log", LOGGER_BUFFER_LENGTH, LOGGER_FILES_MAX, FORCE_FLUSH);
 }
 
 std::shared_ptr<spdlog::sinks::dist_sink_mt>& Logger::commonSink()
@@ -25,7 +26,7 @@ std::shared_ptr<spdlog::sinks::dist_sink_mt>& Logger::commonSink()
     static auto commonSink = []
     {
         auto distSink = std::make_shared<spdlog::sinks::dist_sink_mt>();
-        distSink->add_sink(createSink("siplasplas"));
+        distSink->add_sink(createSink("global"));
         return distSink;
     }();
 
@@ -41,5 +42,14 @@ std::shared_ptr<spdlog::logger> Logger::addLogger(const std::string& name)
     logger->set_level(LOG_LEVEL);
 
     spdlog::register_logger(logger);
+
+    logger->log(LOG_LEVEL, " ");
+    logger->log(LOG_LEVEL, " ");
+    logger->log(LOG_LEVEL, " ");
+    logger->log(LOG_LEVEL, "{} logger registered", name);
+    logger->log(LOG_LEVEL, " ");
+    logger->log(LOG_LEVEL, " ");
+    logger->log(LOG_LEVEL, " ");
+
     return logger;
 }

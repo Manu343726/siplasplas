@@ -42,9 +42,24 @@ function(add_run_target NAME TARGET_TYPE)
         set(valgrind_command ${MEMORYCHECK_COMMAND} --leak-check=full --track-origins=yes --trace-children=yes)
     endif()
 
+    if(SIPLASPLAS_DUMP_ERRORS)
+        if(NOT EXISTS "${CMAKE_CURRENT_BINARY_DIR}/error.siplasplas.log")
+            file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/error.siplasplas.log" "")
+        endif()
+
+        if(NOT WIN32)
+            # This is a convoluted way to exit with error after printing the
+            # log, needed because of the shit makefiles that CMake generates
+            # (Parenthesis are quoted so it is not possible to group boolean ops)
+            set(dump_errors
+                || bash -c "\\(cat error.siplasplas.log && false\\)"
+            )
+        endif()
+    endif()
+
     # Create custom target to run the executable/test
     add_custom_target(${run-target}
-        COMMAND ${valgrind_command} $<TARGET_FILE_DIR:${NAME}>/$<TARGET_FILE_NAME:${NAME}> ${ARGS_RUN_ARGS}
+        COMMAND ${valgrind_command} $<TARGET_FILE_DIR:${NAME}>/$<TARGET_FILE_NAME:${NAME}> ${ARGS_RUN_ARGS} ${dump_errors}
         DEPENDS ${NAME}
         COMMENT "Running ${NAME}..."
         WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"

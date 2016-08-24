@@ -1,6 +1,7 @@
 #include "classes.hpp"
 #include <siplasplas/reflection/static/api.hpp>
 #include <siplasplas/typeerasure/any.hpp>
+#include <siplasplas/typeerasure/features/iostream.hpp>
 #include <siplasplas/utility/fusion.hpp>
 #include <iostream>
 

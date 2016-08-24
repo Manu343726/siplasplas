@@ -9,6 +9,8 @@ TEST(AnyTest, Any64_invokeMethod)
 {
     cpp::Any64 any{Class()};
 
+    SIPLASPLAS_ASSERT(any.hasType<Class>());
+
     any("addIntsByValue") = &Class::addIntsByValue;
     any["i"] = &Class::i;
     any["str"] = &Class::str;

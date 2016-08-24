@@ -29,6 +29,7 @@ option(SIPLASPLAS_COPY_DLL_DEPENDENCIES "Copy dll dependencies to the dependant 
 option(SIPLASPLAS_USE_SYSTEM_SFML       "Use SFML system distribution instead of build from sources" OFF)
 option(SIPLASPLAS_ENABLE_VALGRIND "Enable memory check of executable targets" OFF)
 option(SIPLASPLAS_ENABLE_ASSERTS "Force assertions, which are disabled by default on Release build" OFF)
+option(SIPLASPLAS_DUMP_ERRORS "Dump error logs after running an executable. Implies SIPLASPLAS_CLEAR_LOGS" ON)
 
 add_subdirectory(3rdParty)
 add_subdirectory(src)
