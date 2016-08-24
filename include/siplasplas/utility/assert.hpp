@@ -95,11 +95,41 @@ public:
      *      return 1 / finvsqrt(n);
      * }
      * ```
+     *
+     * \returns A reference to *this to implement the assertion expression fluent
+     * interface.
      */
     AssertExpression& onFailure(const std::function<void()>& callback);
 
+    /**
+     * \brief Adds detailed information to the assertion report
+     *
+     * \param messageBody Detail message string
+     * \param messageArgs Detail message arguments. The body may contain placeholders to fill
+     * with this values (See fmt::format()).
+     *
+     * \returns A reference to *this to implement the assertion expression fluent
+     * interface.
+     */
+    template<typename String, typename... Args>
+    AssertExpression& detail(String&& messageBody, Args&&... messageArgs)
+    {
+        _detail = ::fmt::format(std::forward<String>(messageBody), std::forward<Args>(messageArgs)...);
+        return *this;
+    }
+
+    /**
+     * \brief Adds detailed information to the assertion report. Equivalent to detail().
+     */
+    template<typename String, typename... Args>
+    AssertExpression& operator()(String&& messageBody, Args&&... args)
+    {
+        return detail(std::forward<String>(messageBody), std::forward<Args>(args)...);
+    }
+
 private:
     std::string _message;
+    std::string _detail;
     std::string _file;
     std::size_t _line;
     std::function<void()> _onFailureCallback;
@@ -122,9 +152,7 @@ public:
      * This function template is defined only to make siplasplas assertions
      * compile when are disabled. It does nothing.
      *
-     * \param Function
-     *
-     * @return A reference to *this to implement the assertion expression fluent
+     * \returns A reference to *this to implement the assertion expression fluent
      * interface.
      */
     template<typename Function>
@@ -132,11 +160,36 @@ public:
     {
         return *this;
     }
+
+    /**
+     * \brief Does nothing
+     *
+     * This function template is defined only to make siplasplas assertions
+     * compile when are disabled. It does nothing.
+     *
+     * \returns A reference to *this to implement the assertion expression fluent
+     * interface.
+     */
+    template<typename String, typename... Args>
+    DummyAssertExpression& detail(String&&, Args&&...)
+    {
+        return *this;
+    }
+
+    /**
+     * \brief Does nothing. Equivalent to detail().
+     */
+    template<typename String, typename... Args>
+    DummyAssertExpression& operator()(String&&, Args&&...)
+    {
+        return *this;
+    }
 };
 
 }
 
-#ifndef NDEBUG
+#if !defined(NDEBUG) || defined(SIPLASPLAS_ENABLE_ASSERTS)
+#define SIPLASPLAS_ASSERTS_ENABLED
 #define SIPLASPLAS_ASSERT_IMPL(MESSAGE, ...) ::cpp::AssertExpression((__VA_ARGS__), MESSAGE, __FILE__, __LINE__)
 #else
 #define SIPLASPLAS_ASSERT_IMPL(MESSAGE, ...) ::cpp::DummyAssertExpression()

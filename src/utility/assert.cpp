@@ -8,6 +8,7 @@ AssertExpression::AssertExpression(bool assertionResult,
                                    const std::string& file,
                                    std::size_t line) :
     _message{message},
+    _detail{""},
     _file{file},
     _line{line},
     _assertionFailed{!assertionResult}
@@ -28,11 +29,24 @@ AssertExpression::~AssertExpression() noexcept(false)
             _onFailureCallback();
         }
 
-        throw cpp::exception<AssertException>(
-            "File {}, line {} Assertion Failed: {}",
-            _file,
-            _line,
-            _message
-        );
+        if(_detail.empty())
+        {
+            throw cpp::exception<AssertException>(
+                "File {}, line {} Assertion Failed: {}",
+                _file,
+                _line,
+                _message
+            );
+        }
+        else
+        {
+            throw cpp::exception<AssertException>(
+                "File {}, line {} Assertion Failed: {}\nDetails: {}",
+                _file,
+                _line,
+                _message,
+                _detail
+            );
+        }
     }
 }
