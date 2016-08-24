@@ -50,11 +50,11 @@ namespace typeerasure
  *
  * Invoking a Function objects with the wrong arguments has undefined behavior
  *
- * \tparam Storage Storage for the hosted callable.
- * \tparam ArgsStorage Storage that will be used during type-erasure of
- * function call arguments. Same as \p Storage by default
+ * \tparam Storage Storage for the hosted callable
+ * \tparam ArgsStorage Storage for type-erased call arguments
+ * \tparam ReturnStorage Storage for the return value
  */
-template<typename Storage, typename ArgsStorage = Storage>
+template<typename Storage, typename ArgsStorage = Storage, typename ReturnStorage = Storage>
 class Function
 {
 public:
@@ -74,6 +74,14 @@ public:
     Function(Callable&& callable) :
         _invoke{Invoke<std::decay_t<Callable>>{std::forward<Callable>(callable)}}
     {}
+
+    /**
+     * \brief Checks if the object is empty (No callable assigned)
+     */
+    bool empty() const
+    {
+        return _invoke.empty();
+    }
 
     /**
      * \brief Creates a Function by instancing in-place the given callable
@@ -100,7 +108,7 @@ public:
      * \returns the return value of the callable as in `cpp::invoke(<underlying callable>, std::forward(args)...)`
      */
     template<typename... Args>
-    SimpleAny<Storage> operator()(Args&&... args)
+    SimpleAny<ReturnStorage> operator()(Args&&... args)
     {
         AnyArg argsArray[] = {std::forward<Args>(args)..., AnyArg(nullptr)};
         return _invoke.template get<InvokeInterface>().invoke(std::begin(argsArray));
@@ -117,7 +125,7 @@ public:
      * \returns the return value of the callable as in `cpp::invoke(<underlying callable>, std::forward(args)...)`
      */
     template<typename... Args>
-    SimpleAny<Storage> operator()(Args&&... args) const
+    SimpleAny<ReturnStorage> operator()(Args&&... args) const
     {
         AnyArg argsArray[] = {std::forward<Args>(args)..., AnyArg(nullptr)};
         return _invoke.template get<InvokeInterface>().invoke(std::begin(argsArray));
@@ -132,7 +140,7 @@ public:
      * \returns the return value of the callable as in `cpp::invoke(<underlying callable>, <args>)`
      */
     template<typename ArgsVector>
-    SimpleAny<Storage> invoke(ArgsVector&& args)
+    SimpleAny<ReturnStorage> invoke(ArgsVector&& args)
     {
         return _invoke.template get<InvokeInterface>().invoke(std::forward<ArgsVector>(args));
     }
@@ -146,7 +154,7 @@ public:
      * \returns the return value of the callable as in `cpp::invoke(<underlying callable>, <args>)`
      */
     template<typename ArgsVector>
-    SimpleAny<Storage> invoke(ArgsVector&& args) const
+    SimpleAny<ReturnStorage> invoke(ArgsVector&& args) const
     {
         return _invoke.template get<InvokeInterface>().invoke(std::forward<ArgsVector>(args));
     }
@@ -159,7 +167,7 @@ public:
      *
      * \returns the return value of the callable as in `cpp::invoke(<underlying callable>, <args>)`
      */
-    SimpleAny<Storage> invoke(AnyArg* args)
+    SimpleAny<ReturnStorage> invoke(AnyArg* args)
     {
         return _invoke.template get<InvokeInterface>().invoke(args);
     }
@@ -172,7 +180,7 @@ public:
      *
      * \returns the return value of the callable as in `cpp::invoke(<underlying callable>, <args>)`
      */
-    SimpleAny<Storage> invoke(AnyArg* args) const
+    SimpleAny<ReturnStorage> invoke(AnyArg* args) const
     {
         return _invoke.template get<InvokeInterface>().invoke(args);
     }
@@ -206,22 +214,18 @@ private:
     {
     public:
         virtual ~InvokeInterface() = default;
-        virtual SimpleAny<Storage> invoke(std::vector<AnyArg>&& args) = 0;
-        virtual SimpleAny<Storage> invoke(std::vector<AnyArg>&& args) const = 0;
-        virtual SimpleAny<Storage> invoke(std::vector<AnyArg>& args) = 0;
-        virtual SimpleAny<Storage> invoke(std::vector<AnyArg>& args) const = 0;
-        virtual SimpleAny<Storage> invoke(const std::vector<AnyArg>& args) = 0;
-        virtual SimpleAny<Storage> invoke(const std::vector<AnyArg>& args) const = 0;
-        virtual SimpleAny<Storage> invoke(AnyArg* args) = 0;
-        virtual SimpleAny<Storage> invoke(AnyArg* args) const = 0;
-        virtual SimpleAny<Storage> invoke(std::vector<SimpleAny<ArgsStorage>>&& args) = 0;
-        virtual SimpleAny<Storage> invoke(std::vector<SimpleAny<ArgsStorage>>&& args) const = 0;
-        virtual SimpleAny<Storage> invoke(std::vector<SimpleAny<ArgsStorage>>& args) = 0;
-        virtual SimpleAny<Storage> invoke(std::vector<SimpleAny<ArgsStorage>>& args) const = 0;
-        virtual SimpleAny<Storage> invoke(const std::vector<SimpleAny<ArgsStorage>>& args) = 0;
-        virtual SimpleAny<Storage> invoke(const std::vector<SimpleAny<ArgsStorage>>& args) const = 0;
-        virtual SimpleAny<Storage> invoke(SimpleAny<ArgsStorage>* args) = 0;
-        virtual SimpleAny<Storage> invoke(SimpleAny<ArgsStorage>* args) const = 0;
+        virtual SimpleAny<ReturnStorage> invoke(std::vector<AnyArg>&& args) = 0;
+        virtual SimpleAny<ReturnStorage> invoke(std::vector<AnyArg>&& args) const = 0;
+        virtual SimpleAny<ReturnStorage> invoke(std::vector<AnyArg>& args) = 0;
+        virtual SimpleAny<ReturnStorage> invoke(std::vector<AnyArg>& args) const = 0;
+        virtual SimpleAny<ReturnStorage> invoke(AnyArg* args) = 0;
+        virtual SimpleAny<ReturnStorage> invoke(AnyArg* args) const = 0;
+        virtual SimpleAny<ReturnStorage> invoke(std::vector<SimpleAny<ArgsStorage>>&& args) = 0;
+        virtual SimpleAny<ReturnStorage> invoke(std::vector<SimpleAny<ArgsStorage>>&& args) const = 0;
+        virtual SimpleAny<ReturnStorage> invoke(std::vector<SimpleAny<ArgsStorage>>& args) = 0;
+        virtual SimpleAny<ReturnStorage> invoke(std::vector<SimpleAny<ArgsStorage>>& args) const = 0;
+        virtual SimpleAny<ReturnStorage> invoke(SimpleAny<ArgsStorage>* args) = 0;
+        virtual SimpleAny<ReturnStorage> invoke(SimpleAny<ArgsStorage>* args) const = 0;
 
         virtual void* getObject() = 0;
         virtual const void* getObject() const = 0;
@@ -237,94 +241,74 @@ private:
             _callable{std::forward<Args>(args)...}
         {}
 
-        SimpleAny<Storage> invoke(std::vector<AnyArg>&& args) override
+        SimpleAny<ReturnStorage> invoke(std::vector<AnyArg>&& args) override
         {
             return doInvoke(std::move(args));
         }
 
-        SimpleAny<Storage> invoke(std::vector<AnyArg>&& args) const override
+        SimpleAny<ReturnStorage> invoke(std::vector<AnyArg>&& args) const override
         {
             return doInvoke(std::move(args));
         }
 
-        SimpleAny<Storage> invoke(std::vector<AnyArg>& args) override
+        SimpleAny<ReturnStorage> invoke(std::vector<AnyArg>& args) override
         {
             return doInvoke(args);
         }
 
-        SimpleAny<Storage> invoke(std::vector<AnyArg>& args) const override
+        SimpleAny<ReturnStorage> invoke(std::vector<AnyArg>& args) const override
         {
             return doInvoke(args);
         }
 
-        SimpleAny<Storage> invoke(const std::vector<AnyArg>& args) override
+        SimpleAny<ReturnStorage> invoke(AnyArg* args) override
         {
             return doInvoke(args);
         }
 
-        SimpleAny<Storage> invoke(const std::vector<AnyArg>& args) const override
+        SimpleAny<ReturnStorage> invoke(AnyArg* args) const override
         {
             return doInvoke(args);
         }
 
-        SimpleAny<Storage> invoke(AnyArg* args) override
-        {
-            return doInvoke(args);
-        }
-
-        SimpleAny<Storage> invoke(AnyArg* args) const override
-        {
-            return doInvoke(args);
-        }
-
-        SimpleAny<Storage> invoke(std::vector<SimpleAny<ArgsStorage>>&& args) override
+        SimpleAny<ReturnStorage> invoke(std::vector<SimpleAny<ArgsStorage>>&& args) override
         {
             return doInvoke(std::move(args));
         }
 
-        SimpleAny<Storage> invoke(std::vector<SimpleAny<ArgsStorage>>&& args) const override
+        SimpleAny<ReturnStorage> invoke(std::vector<SimpleAny<ArgsStorage>>&& args) const override
         {
             return doInvoke(std::move(args));
         }
 
-        SimpleAny<Storage> invoke(std::vector<SimpleAny<ArgsStorage>>& args) override
+        SimpleAny<ReturnStorage> invoke(std::vector<SimpleAny<ArgsStorage>>& args) override
         {
             return doInvoke(args);
         }
 
-        SimpleAny<Storage> invoke(std::vector<SimpleAny<ArgsStorage>>& args) const override
+        SimpleAny<ReturnStorage> invoke(std::vector<SimpleAny<ArgsStorage>>& args) const override
         {
             return doInvoke(args);
         }
 
-        SimpleAny<Storage> invoke(const std::vector<SimpleAny<ArgsStorage>>& args) override
+        SimpleAny<ReturnStorage> invoke(SimpleAny<ArgsStorage>* args) override
         {
             return doInvoke(args);
         }
 
-        SimpleAny<Storage> invoke(const std::vector<SimpleAny<ArgsStorage>>& args) const override
-        {
-            return doInvoke(args);
-        }
-
-        SimpleAny<Storage> invoke(SimpleAny<ArgsStorage>* args) override
-        {
-            return doInvoke(args);
-        }
-
-        SimpleAny<Storage> invoke(SimpleAny<ArgsStorage>* args) const override
+        SimpleAny<ReturnStorage> invoke(SimpleAny<ArgsStorage>* args) const override
         {
             return doInvoke(args);
         }
 
         template<typename Args>
-        SimpleAny<Storage> doInvoke(Args&& args)
+        SimpleAny<ReturnStorage> doInvoke(Args&& args)
         {
             return doInvoke(_callable, std::forward<Args>(args));
         }
 
         template<typename Args>
-        SimpleAny<Storage> doInvoke(Args&& args) const
+        SimpleAny<ReturnStorage> doInvoke(Args&& args) const
         {
             return doInvoke(_callable, std::forward<Args>(args));
         }
@@ -332,20 +316,20 @@ private:
 #define SIPLASPLAS_FUNCTION_INVOKE_EXPRESSION cpp::typeerasure::invoke(identity(std::forward<Callable_>(callable)), identity(std::forward<Args>(args)))
 
         template<typename Callable_, typename Args>
-        static SimpleAny<Storage> doInvoke(Callable_&& callable, Args&& args)
+        static SimpleAny<ReturnStorage> doInvoke(Callable_&& callable, Args&& args)
         {
-            return cpp::staticIf<!(cpp::function_kind<Callable>() == cpp::FunctionKind::MEMBER_FUNCTION && std::is_const<std::remove_reference_t<Args>>::value)>([&](auto identity) -> SimpleAny<Storage>
+            return cpp::staticIf<!(cpp::function_kind<Callable>() == cpp::FunctionKind::MEMBER_FUNCTION && std::is_const<std::remove_reference_t<Args>>::value)>([&](auto identity) -> SimpleAny<ReturnStorage>
             {
-                return cpp::staticIf<std::is_void<decltype(SIPLASPLAS_FUNCTION_INVOKE_EXPRESSION)>::value>([&](auto identity) -> SimpleAny<Storage>
+                return cpp::staticIf<std::is_void<decltype(SIPLASPLAS_FUNCTION_INVOKE_EXPRESSION)>::value>([&](auto identity) -> SimpleAny<ReturnStorage>
                 {
                     SIPLASPLAS_FUNCTION_INVOKE_EXPRESSION;
-                    return cpp::SimpleAny<Storage>();
-                }).Else([&](auto identity) -> SimpleAny<Storage>
+                    return cpp::SimpleAny<ReturnStorage>();
+                }).Else([&](auto identity) -> SimpleAny<ReturnStorage>
                 {
                     return SIPLASPLAS_FUNCTION_INVOKE_EXPRESSION;
                 });
             })
-            .Else([](auto) -> SimpleAny<Storage>
+            .Else([](auto) -> SimpleAny<ReturnStorage>
             {
                 throw cpp::exception<std::runtime_error>(
                     "Cannot invoke a non-const member function with a const vector of arguments"

@@ -25,9 +25,6 @@ TEST(SimpleAnyTest, create_noDefaultConstructibleType_throws)
 
 TEST(SimpleAnyTest, create_smallTypes_noThrow)
 {
-    // cpp::SimpleAny storage is of 64-8 bytes, to fit
-    // n a cache line (First 8 bytes are used for
-    // semantics)
     EXPECT_NO_THROW(SimpleAny::create<std::string>());
     EXPECT_NO_THROW(SimpleAny::create<std::vector<std::string>>());
     EXPECT_NO_THROW((SimpleAny::create<std::array<char, 4>>()));
@@ -59,7 +56,7 @@ TEST(SimpleAnyTest, constructFromValue_smallTypes_noThrow)
 {
     EXPECT_NO_THROW(SimpleAny{42});
     EXPECT_NO_THROW(SimpleAny{std::string{"hello, world!"}});
-    EXPECT_NO_THROW((SimpleAny{std::vector<std::string>{{std::string{"hello, "}, std::string{"world!"}}}}));
+    EXPECT_NO_THROW((SimpleAny{std::vector<std::string>{}}));
 }
 
 TEST(SimpleAnyTest, get_sameType_noThrow)

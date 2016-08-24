@@ -11,6 +11,267 @@
 namespace cpp
 {
 
+template<typename Storage>
+class SimpleAny;
+
+template<>
+class SimpleAny<cpp::NonOwningStorage>;
+
+template<>
+class SimpleAny<cpp::ConstNonOwningStorage>;
+
+
+/**
+ * \brief Checks if two SimpleAny objects host values of the same type
+ *
+ * \returns True if both hosted types are **exactly equal** i
+ * (i.e. `std::is_same<hosted type of lhs, hosted type of rhs>::value` would yield true).
+ */
+template<typename LhsStorage, typename RhsStorage>
+bool sameType(const SimpleAny<LhsStorage>& lhs, const SimpleAny<RhsStorage>& rhs)
+{
+    return lhs.typeInfo() == rhs.typeInfo();
+}
+
+/**
+ * \brief cpp::SimpleAny specialization for non-owning const references to existing objects.
+ * See cpp::ConstNonOwningStorage
+ */
+template<>
+class SimpleAny<ConstNonOwningStorage> : public ConstNonOwningStorage
+{
+public:
+    struct EmptyTag {};
+
+    SimpleAny() :
+        ConstNonOwningStorage{nullptr},
+        _typeInfo{cpp::typeerasure::TypeInfo::get<EmptyTag>()}
+    {}
+
+    /**
+     * \brief Checks whether the any has an object hosted in or
+     * if is empty
+     *
+     * \returns True if the any is empty (There's no hosted object), false
+     * instead
+     */
+    bool empty() const
+    {
+        return hasType<EmptyTag>();
+    }
+
+    template<typename T>
+    SimpleAny(const T& value) :
+        ConstNonOwningStorage(&value),
+        _typeInfo{cpp::typeerasure::TypeInfo::get<T>()}
+    {}
+
+    SimpleAny(const void* object, const cpp::typeerasure::TypeInfo& typeInfo) :
+        ConstNonOwningStorage{object},
+        _typeInfo{typeInfo}
+    {}
+
+    /**
+     * \brief Creates a const reference SimpleAny referencing the
+     * given object of type T
+     */
+    template<typename T>
+    static SimpleAny create(const T& value)
+    {
+        return SimpleAny(value);
+    }
+
+    /**
+     * \brief Checks if the any has a value of type T
+     *
+     * \returns True if the hosted type is **exactly** T, false otherwise
+     */
+    template<typename T>
+    bool hasType() const
+    {
+        return cpp::typeerasure::TypeInfo::get<T>() == _typeInfo;
+    }
+
+    /**
+     * \brief Returns a readonly reference to the hosted object
+     *
+     * \tparam T Type of the returned object. If T is different from the hosted object
+     * type, the behavior is undefined (See hasType()).
+     */
+    template<typename T>
+    const std::decay_t<T>& get() const
+    {
+#ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
+        SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>())("SimpleAny has type '{}', requested '{}' instead", typeInfo().typeName(), ctti::type_id<std::decay_t<T>>().name());
+#endif
+        return *reinterpret_cast<const std::decay_t<T>*>(ConstNonOwningStorage::storage(_typeInfo));
+    }
+
+    /**
+     * \brief Returns the type information of the hosted type
+     */
+    cpp::typeerasure::TypeInfo typeInfo() const
+    {
+        return _typeInfo;
+    }
+
+    /**
+     * \brief Assigns a value of type T
+     *
+     * If the current hosted type is T, performs a copy assignment of \p value
+     * into the hosted object. Else, the hosted reference is rebinded
+     * to point to the new value.
+     *
+     * \param value Value to be assigned to the any
+     * \returns A reference to `*this`
+     */
+    template<typename T>
+    SimpleAny& operator=(const T& value)
+    {
+        if(!hasType<T>())
+        {
+            _typeInfo = cpp::typeerasure::TypeInfo::get<T>();
+            ConstNonOwningStorage::rebind(&value);
+        }
+        else
+        {
+            _typeInfo.copyAssign(ConstNonOwningStorage::storage(_typeInfo), &value);
+        }
+
+        return *this;
+    }
+
+private:
+    cpp::typeerasure::TypeInfo _typeInfo;
+};
+
+/**
+ * \brief cpp::SimpleAny specialization for non-owning references to existing objects.
+ * See cpp::NonOwningStorage
+ */
+template<>
+class SimpleAny<NonOwningStorage> : public NonOwningStorage
+{
+public:
+    struct EmptyTag {};
+
+    SimpleAny() :
+        NonOwningStorage{nullptr},
+        _typeInfo{cpp::typeerasure::TypeInfo::get<EmptyTag>()}
+    {}
+
+    /**
+     * \brief Checks whether the any has an object hosted in or
+     * if is empty
+     *
+     * \returns True if the any is empty (There's no hosted object), false
+     * instead
+     */
+    bool empty() const
+    {
+        return hasType<EmptyTag>();
+    }
+
+    template<typename T>
+    SimpleAny(T& value) :
+        NonOwningStorage(const_cast<std::decay_t<T>*>(&value)),
+        _typeInfo{cpp::typeerasure::TypeInfo::get<std::decay_t<T>>()}
+    {}
+
+    SimpleAny(void* object, const cpp::typeerasure::TypeInfo& typeInfo) :
+        NonOwningStorage{object},
+        _typeInfo{typeInfo}
+    {}
+
+    /**
+     * \brief Creates a const reference SimpleAny referencing the
+     * given object of type T
+     */
+    template<typename T>
+    static SimpleAny create(const T& value)
+    {
+        return SimpleAny(value);
+    }
+
+    /**
+     * \brief Checks if the any has a value of type T
+     *
+     * \returns True if the hosted type is **exactly** T, false otherwise
+     */
+    template<typename T>
+    bool hasType() const
+    {
+        return cpp::typeerasure::TypeInfo::get<T>() == _typeInfo;
+    }
+
+    /**
+     * \brief Returns a readonly reference to the hosted object
+     *
+     * \tparam T Type of the returned object. If T is different from the hosted object
+     * type, the behavior is undefined (See hasType()).
+     */
+    template<typename T>
+    const std::decay_t<T>& get() const
+    {
+#ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
+        SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>())("SimpleAny has type '{}', requested '{}' instead", typeInfo().typeName(), ctti::type_id<std::decay_t<T>>().name());
+#endif
+        return *reinterpret_cast<const std::decay_t<T>*>(NonOwningStorage::storage(_typeInfo));
+    }
+
+    /**
+     * \brief Returns a reference to the hosted object
+     *
+     * \tparam T Type of the returned object. If T is different from the hosted object
+     * type, the behavior is undefined (See hasType()).
+     */
+    template<typename T>
+    std::decay_t<T>& get()
+    {
+#ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
+        SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>())("SimpleAny has type '{}', requested '{}' instead", typeInfo().typeName(), ctti::type_id<std::decay_t<T>>().name());
+#endif
+        return *reinterpret_cast<std::decay_t<T>*>(NonOwningStorage::storage(_typeInfo));
+    }
+
+    /**
+     * \brief Returns the type information of the hosted type
+     */
+    cpp::typeerasure::TypeInfo typeInfo() const
+    {
+        return _typeInfo;
+    }
+
+    /**
+     * \brief Assigns a value of type T
+     *
+     * If the current hosted type is T, performs a copy assignment of \p value
+     * into the hosted object. Else, the hosted reference is rebinded
+     * to point to the new value.
+     *
+     * \param value Value to be assigned to the any
+     * \returns A reference to `*this`
+     */
+    template<typename T>
+    SimpleAny& operator=(const T& value)
+    {
+        if(!hasType<T>())
+        {
+            _typeInfo = cpp::typeerasure::TypeInfo::get<T>();
+            NonOwningStorage::rebind(&value);
+        }
+        else
+        {
+            _typeInfo.copyAssign(NonOwningStorage::storage(_typeInfo), &value);
+        }
+
+        return *this;
+    }
+
+private:
+    cpp::typeerasure::TypeInfo _typeInfo;
+};
+
 /**
  * \ingroup type-erasure
  * \brief Implements a type-erased value container with minimal
@@ -104,26 +365,26 @@ public:
 
     template<typename OtherStorage>
     SimpleAny(const SimpleAny<OtherStorage>& other) :
-        _typeInfo{other._typeInfo}
+        _typeInfo{other.typeInfo()}
     {
         _typeInfo.copyConstruct(Storage::storage(_typeInfo), other.storage(other.typeInfo()));
     }
 
     template<typename OtherStorage>
     SimpleAny(SimpleAny<OtherStorage>&& other) :
-        _typeInfo{other._typeInfo}
+        _typeInfo{other.typeInfo()}
     {
         _typeInfo.moveConstruct(Storage::storage(_typeInfo), other.storage(other.typeInfo()));
     }
 
     SimpleAny(const SimpleAny& other) :
-        _typeInfo{other._typeInfo}
+        _typeInfo{other.typeInfo()}
     {
         _typeInfo.copyConstruct(Storage::storage(_typeInfo), other.storage(other.typeInfo()));
     }
 
     SimpleAny(SimpleAny&& other) :
-        _typeInfo{other._typeInfo}
+        _typeInfo{other.typeInfo()}
     {
         _typeInfo.moveConstruct(Storage::storage(_typeInfo), other.storage(other.typeInfo()));
     }
@@ -151,7 +412,7 @@ public:
     const std::decay_t<T>& get() const
     {
 #ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
-        SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>());
+        SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>())("SimpleAny has type '{}', requested '{}' instead", typeInfo().typeName(), ctti::type_id<std::decay_t<T>>().name());
 #endif
         if(_typeInfo.isPointer())
         {
@@ -175,7 +436,7 @@ public:
     std::decay_t<T>& get()
     {
 #ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
-        SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>());
+        SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>())("SimpleAny has type '{}', requested '{}' instead", typeInfo().typeName(), ctti::type_id<std::decay_t<T>>().name());
 #endif
         if(_typeInfo.isPointer())
         {
@@ -193,6 +454,22 @@ public:
     cpp::typeerasure::TypeInfo typeInfo() const
     {
         return _typeInfo;
+    }
+
+    /**
+     * \brief Returns a reference any to the hosted object
+     */
+    cpp::SimpleAny<cpp::NonOwningStorage> getReference()
+    {
+        return {Storage::storage(_typeInfo), _typeInfo};
+    }
+
+    /**
+     * \brief Returns a const reference any to the hosted object
+     */
+    cpp::SimpleAny<cpp::ConstNonOwningStorage> getReference() const
+    {
+        return {Storage::storage(_typeInfo), _typeInfo};
     }
 
     /**
@@ -272,209 +549,6 @@ private:
     }
 };
 
-
-/**
- * \brief Checks if two SimpleAny objects host values of the same type
- *
- * \returns True if both hosted types are **exactly equal** i
- * (i.e. `std::is_same<hosted type of lhs, hosted type of rhs>::value` would yield true).
- */
-template<typename LhsStorage, typename RhsStorage>
-bool sameType(const SimpleAny<LhsStorage>& lhs, const SimpleAny<RhsStorage>& rhs)
-{
-    return lhs.typeInfo() == rhs.typeInfo();
-}
-
-/**
- * \brief cpp::SimpleAny specialization for non-owning const references to existing objects.
- * See cpp::ConstNonOwningStorage
- */
-template<>
-class SimpleAny<ConstNonOwningStorage> : protected ConstNonOwningStorage
-{
-public:
-    template<typename T>
-    SimpleAny(const T& value) :
-        ConstNonOwningStorage(&value),
-        _typeInfo{cpp::typeerasure::TypeInfo::get<T>()}
-    {}
-
-    /**
-     * \brief Creates a const reference SimpleAny referencing the
-     * given object of type T
-     */
-    template<typename T>
-    static SimpleAny create(const T& value)
-    {
-        return SimpleAny(value);
-    }
-
-    /**
-     * \brief Checks if the any has a value of type T
-     *
-     * \returns True if the hosted type is **exactly** T, false otherwise
-     */
-    template<typename T>
-    bool hasType() const
-    {
-        return cpp::typeerasure::TypeInfo::get<T>() == _typeInfo;
-    }
-
-    /**
-     * \brief Returns a readonly reference to the hosted object
-     *
-     * \tparam T Type of the returned object. If T is different from the hosted object
-     * type, the behavior is undefined (See hasType()).
-     */
-    template<typename T>
-    const std::decay_t<T>& get() const
-    {
-#ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
-        SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>());
-#endif
-        return *reinterpret_cast<const std::decay_t<T>*>(ConstNonOwningStorage::storage(_typeInfo));
-    }
-
-    /**
-     * \brief Returns the type information of the hosted type
-     */
-    cpp::typeerasure::TypeInfo typeInfo() const
-    {
-        return _typeInfo;
-    }
-
-    /**
-     * \brief Assigns a value of type T
-     *
-     * If the current hosted type is T, performs a copy assignment of \p value
-     * into the hosted object. Else, the hosted reference is rebinded
-     * to point to the new value.
-     *
-     * \param value Value to be assigned to the any
-     * \returns A reference to `*this`
-     */
-    template<typename T>
-    SimpleAny& operator=(const T& value)
-    {
-        if(!hasType<T>())
-        {
-            _typeInfo = cpp::typeerasure::TypeInfo::get<T>();
-            ConstNonOwningStorage::rebind(&value);
-        }
-        else
-        {
-            _typeInfo.copyAssign(ConstNonOwningStorage::storage(_typeInfo), &value);
-        }
-
-        return *this;
-    }
-
-private:
-    cpp::typeerasure::TypeInfo _typeInfo;
-};
-
-/**
- * \brief cpp::SimpleAny specialization for non-owning references to existing objects.
- * See cpp::NonOwningStorage
- */
-template<>
-class SimpleAny<NonOwningStorage> : protected NonOwningStorage
-{
-public:
-    template<typename T>
-    SimpleAny(T& value) :
-        NonOwningStorage(const_cast<std::decay_t<T>*>(&value)),
-        _typeInfo{cpp::typeerasure::TypeInfo::get<std::decay_t<T>>()}
-    {}
-
-    /**
-     * \brief Creates a const reference SimpleAny referencing the
-     * given object of type T
-     */
-    template<typename T>
-    static SimpleAny create(const T& value)
-    {
-        return SimpleAny(value);
-    }
-
-    /**
-     * \brief Checks if the any has a value of type T
-     *
-     * \returns True if the hosted type is **exactly** T, false otherwise
-     */
-    template<typename T>
-    bool hasType() const
-    {
-        return cpp::typeerasure::TypeInfo::get<T>() == _typeInfo;
-    }
-
-    /**
-     * \brief Returns a readonly reference to the hosted object
-     *
-     * \tparam T Type of the returned object. If T is different from the hosted object
-     * type, the behavior is undefined (See hasType()).
-     */
-    template<typename T>
-    const std::decay_t<T>& get() const
-    {
-#ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
-        SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>());
-#endif
-        return *reinterpret_cast<const std::decay_t<T>*>(NonOwningStorage::storage(_typeInfo));
-    }
-
-    /**
-     * \brief Returns a reference to the hosted object
-     *
-     * \tparam T Type of the returned object. If T is different from the hosted object
-     * type, the behavior is undefined (See hasType()).
-     */
-    template<typename T>
-    std::decay_t<T>& get()
-    {
-#ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
-        SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>());
-#endif
-        return *reinterpret_cast<std::decay_t<T>*>(NonOwningStorage::storage(_typeInfo));
-    }
-
-    /**
-     * \brief Returns the type information of the hosted type
-     */
-    cpp::typeerasure::TypeInfo typeInfo() const
-    {
-        return _typeInfo;
-    }
-
-    /**
-     * \brief Assigns a value of type T
-     *
-     * If the current hosted type is T, performs a copy assignment of \p value
-     * into the hosted object. Else, the hosted reference is rebinded
-     * to point to the new value.
-     *
-     * \param value Value to be assigned to the any
-     * \returns A reference to `*this`
-     */
-    template<typename T>
-    SimpleAny& operator=(const T& value)
-    {
-        if(!hasType<T>())
-        {
-            _typeInfo = cpp::typeerasure::TypeInfo::get<T>();
-            NonOwningStorage::rebind(&value);
-        }
-        else
-        {
-            _typeInfo.copyAssign(NonOwningStorage::storage(_typeInfo), &value);
-        }
-
-        return *this;
-    }
-
-private:
-    cpp::typeerasure::TypeInfo _typeInfo;
-};
 
 /**
  * \ingroup type-erasure

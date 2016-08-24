@@ -7,7 +7,6 @@
 using namespace ::testing;
 using namespace ::std::string_literals;
 
-
 TEST(InvokeTest, SimpleAny64_FreeFunctionIntsByValue_rightArgs)
 {
     EXPECT_EQ(42, cpp::typeerasure::invoke(addIntsByValue, cpp::SimpleAny64(20), cpp::SimpleAny64(22)));
@@ -327,6 +326,26 @@ TEST(InvokeTest, AnyArg_memberFunctionModifiesObject)
     Class object;
 
     cpp::typeerasure::invoke(&Class::f, std::vector<cpp::AnyArg>{object});
+
+    EXPECT_EQ(42, object.i);
+}
+
+TEST(InvokeTest, AnyArg_memberObjectModifiesObject)
+{
+    class Class
+    {
+    public:
+        void f()
+        {
+            i = 42;
+        }
+
+        int i = 0;
+    };
+
+    Class object;
+
+    cpp::typeerasure::invoke(&Class::i, std::vector<cpp::AnyArg>{object}) = 42;
 
     EXPECT_EQ(42, object.i);
 }

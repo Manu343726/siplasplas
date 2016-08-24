@@ -40,16 +40,22 @@ namespace cpp
 template<
     typename Storage,
     typename FunctionsStorage = Storage,
-    typename FunctionArgsStorage = FunctionsStorage,
-    typename AttributesStorage = Storage
+    typename FunctionArgsStorage = FunctionsStorage
 >
 class Any : public SimpleAny<Storage>
 {
 public:
+    using Base = SimpleAny<Storage>;
     using SimpleAny<Storage>::SimpleAny;
 
     using Method = cpp::typeerasure::Function<FunctionsStorage, FunctionArgsStorage>;
-    using Attribute = cpp::typeerasure::Function<AttributesStorage>;
+    using Attribute = cpp::typeerasure::Function<FunctionsStorage, FunctionArgsStorage, cpp::NonOwningStorage>;
+
+    template<typename Class, typename... Args>
+    static Any create(Args&&... args)
+    {
+        return SimpleAny<Storage>::template create<Class>(std::forward<Args>(args)...);
+    }
 
     class MethodProxy
     {
@@ -62,13 +68,13 @@ public:
         template<typename... Args>
         auto operator()(Args&&... args)
         {
-            return (*_method)(*_this, std::forward<Args>(args)...);
+            return (*_method)(_this->getReference(), std::forward<Args>(args)...);
         }
 
         template<typename... Args>
         auto operator()(Args&&... args) const
         {
-            return (*_method)(*_this, std::forward<Args>(args)...);
+            return (*_method)(_this->getReference(), std::forward<Args>(args)...);
         }
 
         template<typename Callable>
@@ -94,7 +100,7 @@ public:
         template<typename... Args>
         auto operator()(Args&&... args) const
         {
-            return (*_method)(*_this, std::forward<Args>(args)...);
+            return (*_method)(_this->getReference(), std::forward<Args>(args)...);
         }
 
     private:
@@ -112,7 +118,7 @@ public:
 
         template<typename Invokable>
         std::enable_if_t<
-            cpp::function_kind<std::decay_t<Invokable>>() != cpp::FunctionKind::INVALID,
+            cpp::function_kind<std::decay_t<Invokable>>() == cpp::FunctionKind::MEMBER_OBJECT,
             AttributeProxy&
         >
         operator=(Invokable&& invokable)
@@ -123,7 +129,7 @@ public:
 
         template<typename T>
         std::enable_if_t<
-            cpp::function_kind<std::decay_t<T>>() == cpp::FunctionKind::INVALID,
+            cpp::function_kind<std::decay_t<T>>() != cpp::FunctionKind::MEMBER_OBJECT,
             AttributeProxy&
         >
         operator=(T&& value)
@@ -135,7 +141,7 @@ public:
         template<typename T>
         T& get()
         {
-            return (*_attribute)(*_this).template get<T>();
+            return (*_attribute)(_this->getReference()).template get<T>();
         }
 
         template<typename T>
@@ -147,7 +153,7 @@ public:
         template<typename T>
         const T& get() const
         {
-            return (*_attribute)(*_this).template get<T>();
+            return (*_attribute)(_this->getReference()).template get<T>();
         }
 
         template<typename T>
@@ -213,6 +219,7 @@ public:
      */
     ConstMethodProxy operator()(const std::string& name) const
     {
+        SIPLASPLAS_ASSERT(hasMethod(name))("Class {} has no method named '{}'", Base::typeInfo().typeName(), name);
         return {_methods[name], this};
     }
 
@@ -223,6 +230,7 @@ public:
 
     ConstAttributeProxy operator[](const std::string& name) const
     {
+        SIPLASPLAS_ASSERT(hasAttribute(name))("Class {} has no attribute named '{}'", Base::typeInfo().typeName(), name);
         return {_attributes[name], this};
     }
 
@@ -239,7 +247,7 @@ public:
 
         if(it != _methods.end())
         {
-            return !it->empty();
+            return !it->second.empty();
         }
         else
         {
@@ -260,7 +268,7 @@ public:
 
         if(it != _attributes.end())
         {
-            return !it->empty();
+            return !it->second.empty();
         }
         else
         {
@@ -275,39 +283,39 @@ private:
 
 /**
  * \ingroup type-erasure
- * \brief An Any with 8 byte fixed-size storage
+ * \brief An Any with 8 byte dead-pool storage
  */
-using Any8  = Any<FixedSizeStorage<8>>;
+using Any8  = Any<DeadPoolStorage<8>>;
 
 /**
  * \ingroup type-erasure
- * \brief An Any with 16 byte fixed-size storage
+ * \brief An Any with 16 byte dead-pool storage
  */
-using Any16 = Any<FixedSizeStorage<16>>;
+using Any16 = Any<DeadPoolStorage<16>>;
 
 /**
  * \ingroup type-erasure
- * \brief An Any with 32 byte fixed-size storage
+ * \brief An Any with 32 byte dead-pool storage
  */
-using Any32 = Any<FixedSizeStorage<32>>;
+using Any32 = Any<DeadPoolStorage<32>>;
 
 /**
  * \ingroup type-erasure
- * \brief An Any with 64 byte fixed-size storage
+ * \brief An Any with 64 byte dead-pool storage
  */
-using Any64 = Any<FixedSizeStorage<64>>;
+using Any64 = Any<DeadPoolStorage<64>>;
 
 /**
  * \ingroup type-erasure
  * \brief A non-owning Any that (const) references an existing object
  */
-using ConstReferenceAny = Any<ConstNonOwningStorage, FixedSizeStorage<32>>;
+using ConstReferenceAny = Any<ConstNonOwningStorage, DeadPoolStorage<32>>;
 
 /**
  * \ingroup type-erasure
  * \brief A non-owning Any that references an existing object
  */
-using ReferenceAny = Any<NonOwningStorage, FixedSizeStorage<32>>;
+using ReferenceAny = Any<NonOwningStorage, DeadPoolStorage<32>>;
 
 }
 
