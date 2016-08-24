@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>siplasplas: cpp::Any&lt; Storage, FunctionsStorage, FunctionArgsStorage, AttributesStorage &gt; Class Template Reference</title>
+<title>siplasplas: cpp::Any&lt; Storage, FunctionsStorage, FunctionArgsStorage &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -110,9 +110,10 @@ $(document).ready(function(){initNavTree('classcpp_1_1_any.html','');});
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="classcpp_1_1_any-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">cpp::Any&lt; Storage, FunctionsStorage, FunctionArgsStorage, AttributesStorage &gt; Class Template Reference<div class="ingroups"><a class="el" href="group__type-erasure.html">Type-erasure</a></div></div>  </div>
+<div class="title">cpp::Any&lt; Storage, FunctionsStorage, FunctionArgsStorage &gt; Class Template Reference<div class="ingroups"><a class="el" href="group__type-erasure.html">Type-erasure</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -121,44 +122,47 @@ $(document).ready(function(){initNavTree('classcpp_1_1_any.html','');});
 
 <p><code>#include &lt;<a class="el" href="any_8hpp_source.html">siplasplas/typeerasure/any.hpp</a>&gt;</code></p>
 <div class="dynheader">
-Inheritance diagram for cpp::Any&lt; Storage, FunctionsStorage, FunctionArgsStorage, AttributesStorage &gt;:</div>
+Inheritance diagram for cpp::Any&lt; Storage, FunctionsStorage, FunctionArgsStorage &gt;:</div>
 <div class="dyncontent">
  <div class="center">
-  <img src="classcpp_1_1_any.png" usemap="#cpp::Any_3C_20Storage_2C_20FunctionsStorage_2C_20FunctionArgsStorage_2C_20AttributesStorage_20_3E_map" alt=""/>
-  <map id="cpp::Any_3C_20Storage_2C_20FunctionsStorage_2C_20FunctionArgsStorage_2C_20AttributesStorage_20_3E_map" name="cpp::Any&lt; Storage, FunctionsStorage, FunctionArgsStorage, AttributesStorage &gt;_map">
-<area href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. " alt="cpp::SimpleAny&lt; Storage &gt;" shape="rect" coords="0,0,473,24"/>
+  <img src="classcpp_1_1_any.png" usemap="#cpp::Any_3C_20Storage_2C_20FunctionsStorage_2C_20FunctionArgsStorage_20_3E_map" alt=""/>
+  <map id="cpp::Any_3C_20Storage_2C_20FunctionsStorage_2C_20FunctionArgsStorage_20_3E_map" name="cpp::Any&lt; Storage, FunctionsStorage, FunctionArgsStorage &gt;_map">
+<area href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. " alt="cpp::SimpleAny&lt; Storage &gt;" shape="rect" coords="0,0,367,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a72f4c52498b5ec01e487dad605fd9532"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a72f4c52498b5ec01e487dad605fd9532"></a>
+<tr class="memitem:a38e56c3941abf38cd606bc8cf7e0f713"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a38e56c3941abf38cd606bc8cf7e0f713"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>Base</b> = <a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt; Storage &gt;</td></tr>
+<tr class="separator:a38e56c3941abf38cd606bc8cf7e0f713"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81fea85224f00442624ea3a52b7f9781"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a81fea85224f00442624ea3a52b7f9781"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>Method</b> = <a class="el" href="classcpp_1_1typeerasure_1_1_function.html">cpp::typeerasure::Function</a>&lt; FunctionsStorage, FunctionArgsStorage &gt;</td></tr>
-<tr class="separator:a72f4c52498b5ec01e487dad605fd9532"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4b6a99b15db81d4b9f0e7f7abb7a9577"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4b6a99b15db81d4b9f0e7f7abb7a9577"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>Attribute</b> = <a class="el" href="classcpp_1_1typeerasure_1_1_function.html">cpp::typeerasure::Function</a>&lt; AttributesStorage &gt;</td></tr>
-<tr class="separator:a4b6a99b15db81d4b9f0e7f7abb7a9577"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a81fea85224f00442624ea3a52b7f9781"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf9780cf9eb2d9b76eae03b35530d8f4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaf9780cf9eb2d9b76eae03b35530d8f4"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>Attribute</b> = <a class="el" href="classcpp_1_1typeerasure_1_1_function.html">cpp::typeerasure::Function</a>&lt; FunctionsStorage, FunctionArgsStorage, <a class="el" href="classcpp_1_1_non_owning_storage.html">cpp::NonOwningStorage</a> &gt;</td></tr>
+<tr class="separator:aaf9780cf9eb2d9b76eae03b35530d8f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab97028606f578b350f706d28b578365d"><td class="memItemLeft" align="right" valign="top">MethodProxy&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_any.html#ab97028606f578b350f706d28b578365d">operator()</a> (const std::string &amp;name)</td></tr>
-<tr class="memdesc:ab97028606f578b350f706d28b578365d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gives access to an object method.  <a href="#ab97028606f578b350f706d28b578365d">More...</a><br /></td></tr>
-<tr class="separator:ab97028606f578b350f706d28b578365d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab0bff3c78794e698a41fa66bffd91718"><td class="memItemLeft" align="right" valign="top">ConstMethodProxy&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_any.html#ab0bff3c78794e698a41fa66bffd91718">operator()</a> (const std::string &amp;name) const </td></tr>
-<tr class="memdesc:ab0bff3c78794e698a41fa66bffd91718"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gives access to an object method.  <a href="#ab0bff3c78794e698a41fa66bffd91718">More...</a><br /></td></tr>
-<tr class="separator:ab0bff3c78794e698a41fa66bffd91718"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aad1f00e22b3f78bf0077a78baaeb75f1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aad1f00e22b3f78bf0077a78baaeb75f1"></a>
+<tr class="memitem:a63b6f8aad7d5c45251633b5f06713e02"><td class="memItemLeft" align="right" valign="top">MethodProxy&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_any.html#a63b6f8aad7d5c45251633b5f06713e02">operator()</a> (const std::string &amp;name)</td></tr>
+<tr class="memdesc:a63b6f8aad7d5c45251633b5f06713e02"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gives access to an object method.  <a href="#a63b6f8aad7d5c45251633b5f06713e02">More...</a><br /></td></tr>
+<tr class="separator:a63b6f8aad7d5c45251633b5f06713e02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a226831e70bc80979a974e40a8a82cd5b"><td class="memItemLeft" align="right" valign="top">ConstMethodProxy&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_any.html#a226831e70bc80979a974e40a8a82cd5b">operator()</a> (const std::string &amp;name) const </td></tr>
+<tr class="memdesc:a226831e70bc80979a974e40a8a82cd5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Gives access to an object method.  <a href="#a226831e70bc80979a974e40a8a82cd5b">More...</a><br /></td></tr>
+<tr class="separator:a226831e70bc80979a974e40a8a82cd5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b80ded0c668647d68e560982bac0f84"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8b80ded0c668647d68e560982bac0f84"></a>
 AttributeProxy&#160;</td><td class="memItemRight" valign="bottom"><b>operator[]</b> (const std::string &amp;name)</td></tr>
-<tr class="separator:aad1f00e22b3f78bf0077a78baaeb75f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6bc33ecfaa59512c8043e7a3b6307850"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6bc33ecfaa59512c8043e7a3b6307850"></a>
+<tr class="separator:a8b80ded0c668647d68e560982bac0f84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a817cad495220cfb4315a15b6ebb64b4e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a817cad495220cfb4315a15b6ebb64b4e"></a>
 ConstAttributeProxy&#160;</td><td class="memItemRight" valign="bottom"><b>operator[]</b> (const std::string &amp;name) const </td></tr>
-<tr class="separator:a6bc33ecfaa59512c8043e7a3b6307850"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8557bd743017164e55ebce33994c495f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_any.html#a8557bd743017164e55ebce33994c495f">hasMethod</a> (const std::string &amp;name) const </td></tr>
-<tr class="memdesc:a8557bd743017164e55ebce33994c495f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the object has a method with a given name.  <a href="#a8557bd743017164e55ebce33994c495f">More...</a><br /></td></tr>
-<tr class="separator:a8557bd743017164e55ebce33994c495f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae4397da5d41e351076253afd05687403"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_any.html#ae4397da5d41e351076253afd05687403">hasAttribute</a> (const std::string &amp;name) const </td></tr>
-<tr class="memdesc:ae4397da5d41e351076253afd05687403"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the object has an attribute with a given name.  <a href="#ae4397da5d41e351076253afd05687403">More...</a><br /></td></tr>
-<tr class="separator:ae4397da5d41e351076253afd05687403"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:a817cad495220cfb4315a15b6ebb64b4e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6495c74a7a2b9130d8ba55a2d4a23f4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_any.html#ac6495c74a7a2b9130d8ba55a2d4a23f4">hasMethod</a> (const std::string &amp;name) const </td></tr>
+<tr class="memdesc:ac6495c74a7a2b9130d8ba55a2d4a23f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the object has a method with a given name.  <a href="#ac6495c74a7a2b9130d8ba55a2d4a23f4">More...</a><br /></td></tr>
+<tr class="separator:ac6495c74a7a2b9130d8ba55a2d4a23f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a848c18d0e2c45683c142df82a1ebb452"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_any.html#a848c18d0e2c45683c142df82a1ebb452">hasAttribute</a> (const std::string &amp;name) const </td></tr>
+<tr class="memdesc:a848c18d0e2c45683c142df82a1ebb452"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the object has an attribute with a given name.  <a href="#a848c18d0e2c45683c142df82a1ebb452">More...</a><br /></td></tr>
+<tr class="separator:a848c18d0e2c45683c142df82a1ebb452"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcpp_1_1_simple_any"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcpp_1_1_simple_any')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny&lt; Storage &gt;</a></td></tr>
 <tr class="memitem:ad9622e80d5d2991395173312d7fa1f5c inherit pub_methods_classcpp_1_1_simple_any"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad9622e80d5d2991395173312d7fa1f5c"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_simple_any.html#ad9622e80d5d2991395173312d7fa1f5c">SimpleAny</a> ()</td></tr>
@@ -201,6 +205,14 @@ template&lt;typename OtherStorage &gt; </td></tr>
 <a class="el" href="classcpp_1_1typeerasure_1_1_type_info.html">cpp::typeerasure::TypeInfo</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_simple_any.html#a224ef65d5a1ee5411cf7d94155ce61fa">typeInfo</a> () const </td></tr>
 <tr class="memdesc:a224ef65d5a1ee5411cf7d94155ce61fa inherit pub_methods_classcpp_1_1_simple_any"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type information of the hosted type. <br /></td></tr>
 <tr class="separator:a224ef65d5a1ee5411cf7d94155ce61fa inherit pub_methods_classcpp_1_1_simple_any"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fc22ea0e86cd3a58fb758806ec3e174 inherit pub_methods_classcpp_1_1_simple_any"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2fc22ea0e86cd3a58fb758806ec3e174"></a>
+<a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny</a>&lt; <a class="el" href="classcpp_1_1_non_owning_storage.html">cpp::NonOwningStorage</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_simple_any.html#a2fc22ea0e86cd3a58fb758806ec3e174">getReference</a> ()</td></tr>
+<tr class="memdesc:a2fc22ea0e86cd3a58fb758806ec3e174 inherit pub_methods_classcpp_1_1_simple_any"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a reference any to the hosted object. <br /></td></tr>
+<tr class="separator:a2fc22ea0e86cd3a58fb758806ec3e174 inherit pub_methods_classcpp_1_1_simple_any"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51cca3b55a686638d3735bf01b12dd32 inherit pub_methods_classcpp_1_1_simple_any"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a51cca3b55a686638d3735bf01b12dd32"></a>
+<a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny</a>&lt; <a class="el" href="classcpp_1_1_const_non_owning_storage.html">cpp::ConstNonOwningStorage</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_simple_any.html#a51cca3b55a686638d3735bf01b12dd32">getReference</a> () const </td></tr>
+<tr class="memdesc:a51cca3b55a686638d3735bf01b12dd32 inherit pub_methods_classcpp_1_1_simple_any"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const reference any to the hosted object. <br /></td></tr>
+<tr class="separator:a51cca3b55a686638d3735bf01b12dd32 inherit pub_methods_classcpp_1_1_simple_any"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f3f083b76778d37d8069d6765246b8a inherit pub_methods_classcpp_1_1_simple_any"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a5f3f083b76778d37d8069d6765246b8a inherit pub_methods_classcpp_1_1_simple_any"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1_simple_any.html#a5f3f083b76778d37d8069d6765246b8a">operator=</a> (const T &amp;value)</td></tr>
 <tr class="memdesc:a5f3f083b76778d37d8069d6765246b8a inherit pub_methods_classcpp_1_1_simple_any"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns a value of type T.  <a href="#a5f3f083b76778d37d8069d6765246b8a">More...</a><br /></td></tr>
@@ -212,8 +224,12 @@ template&lt;typename OtherStorage &gt; </td></tr>
 <a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a> &amp;&amp;other)</td></tr>
 <tr class="separator:a9ded2f1650493096973736102cde5872 inherit pub_methods_classcpp_1_1_simple_any"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
-Additional Inherited Members</h2></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:ac2e9d7c7df74670c72f202402bbe7ef5"><td class="memTemplParams" colspan="2"><a class="anchor" id="ac2e9d7c7df74670c72f202402bbe7ef5"></a>
+template&lt;typename Class , typename... Args&gt; </td></tr>
+<tr class="memitem:ac2e9d7c7df74670c72f202402bbe7ef5"><td class="memTemplItemLeft" align="right" valign="top">static <a class="el" href="classcpp_1_1_any.html">Any</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><b>create</b> (Args &amp;&amp;...args)</td></tr>
+<tr class="separator:ac2e9d7c7df74670c72f202402bbe7ef5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_static_methods_classcpp_1_1_simple_any"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_classcpp_1_1_simple_any')"><img src="closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny&lt; Storage &gt;</a></td></tr>
 <tr class="memitem:aefc4c44055e1f138368566631665fed5 inherit pub_static_methods_classcpp_1_1_simple_any"><td class="memTemplParams" colspan="2">template&lt;typename T , typename... Args&gt; </td></tr>
 <tr class="memitem:aefc4c44055e1f138368566631665fed5 inherit pub_static_methods_classcpp_1_1_simple_any"><td class="memTemplItemLeft" align="right" valign="top">static <a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1_simple_any.html#aefc4c44055e1f138368566631665fed5">create</a> (Args &amp;&amp;...args)</td></tr>
@@ -221,8 +237,8 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:aefc4c44055e1f138368566631665fed5 inherit pub_static_methods_classcpp_1_1_simple_any"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;typename Storage, typename FunctionsStorage = Storage, typename FunctionArgsStorage = FunctionsStorage, typename AttributesStorage = Storage&gt;<br />
-class cpp::Any&lt; Storage, FunctionsStorage, FunctionArgsStorage, AttributesStorage &gt;</h3>
+<div class="textblock"><h3>template&lt;typename Storage, typename FunctionsStorage = Storage, typename FunctionArgsStorage = FunctionsStorage&gt;<br />
+class cpp::Any&lt; Storage, FunctionsStorage, FunctionArgsStorage &gt;</h3>
 
 <p>Implements a type-erased object container with support for dynamic method and attribute invokation. </p>
 <p><a class="el" href="classcpp_1_1_any.html" title="Implements a type-erased object container with support for dynamic method and attribute invokation...">cpp::Any</a> extends the interface of <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">cpp::SimpleAny</a> to add dynamic manipulation of the object's interface. <a class="el" href="classcpp_1_1_any.html" title="Implements a type-erased object container with support for dynamic method and attribute invokation...">cpp::Any</a> keeps track of a set of methods and attributes the instace has assigned, so it can behave as an instance of a class with its interface and associated data members:</p>
@@ -237,17 +253,17 @@ class cpp::Any&lt; Storage, FunctionsStorage, FunctionArgsStorage, AttributesSto
   </dd>
 </dl>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ae4397da5d41e351076253afd05687403"></a>
+<a class="anchor" id="a848c18d0e2c45683c142df82a1ebb452"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Storage , typename FunctionsStorage  = Storage, typename FunctionArgsStorage  = FunctionsStorage, typename AttributesStorage  = Storage&gt; </div>
+template&lt;typename Storage , typename FunctionsStorage  = Storage, typename FunctionArgsStorage  = FunctionsStorage&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="classcpp_1_1_any.html">cpp::Any</a>&lt; Storage, FunctionsStorage, FunctionArgsStorage, AttributesStorage &gt;::hasAttribute </td>
+          <td class="memname">bool <a class="el" href="classcpp_1_1_any.html">cpp::Any</a>&lt; Storage, FunctionsStorage, FunctionArgsStorage &gt;::hasAttribute </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>name</em></td><td>)</td>
@@ -272,17 +288,17 @@ template&lt;typename Storage , typename FunctionsStorage  = Storage, typename Fu
 
 </div>
 </div>
-<a class="anchor" id="a8557bd743017164e55ebce33994c495f"></a>
+<a class="anchor" id="ac6495c74a7a2b9130d8ba55a2d4a23f4"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Storage , typename FunctionsStorage  = Storage, typename FunctionArgsStorage  = FunctionsStorage, typename AttributesStorage  = Storage&gt; </div>
+template&lt;typename Storage , typename FunctionsStorage  = Storage, typename FunctionArgsStorage  = FunctionsStorage&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool <a class="el" href="classcpp_1_1_any.html">cpp::Any</a>&lt; Storage, FunctionsStorage, FunctionArgsStorage, AttributesStorage &gt;::hasMethod </td>
+          <td class="memname">bool <a class="el" href="classcpp_1_1_any.html">cpp::Any</a>&lt; Storage, FunctionsStorage, FunctionArgsStorage &gt;::hasMethod </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>name</em></td><td>)</td>
@@ -307,17 +323,17 @@ template&lt;typename Storage , typename FunctionsStorage  = Storage, typename Fu
 
 </div>
 </div>
-<a class="anchor" id="ab97028606f578b350f706d28b578365d"></a>
+<a class="anchor" id="a63b6f8aad7d5c45251633b5f06713e02"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Storage , typename FunctionsStorage  = Storage, typename FunctionArgsStorage  = FunctionsStorage, typename AttributesStorage  = Storage&gt; </div>
+template&lt;typename Storage , typename FunctionsStorage  = Storage, typename FunctionArgsStorage  = FunctionsStorage&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">MethodProxy <a class="el" href="classcpp_1_1_any.html">cpp::Any</a>&lt; Storage, FunctionsStorage, FunctionArgsStorage, AttributesStorage &gt;::operator() </td>
+          <td class="memname">MethodProxy <a class="el" href="classcpp_1_1_any.html">cpp::Any</a>&lt; Storage, FunctionsStorage, FunctionArgsStorage &gt;::operator() </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>name</em></td><td>)</td>
@@ -342,17 +358,17 @@ template&lt;typename Storage , typename FunctionsStorage  = Storage, typename Fu
 
 </div>
 </div>
-<a class="anchor" id="ab0bff3c78794e698a41fa66bffd91718"></a>
+<a class="anchor" id="a226831e70bc80979a974e40a8a82cd5b"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Storage , typename FunctionsStorage  = Storage, typename FunctionArgsStorage  = FunctionsStorage, typename AttributesStorage  = Storage&gt; </div>
+template&lt;typename Storage , typename FunctionsStorage  = Storage, typename FunctionArgsStorage  = FunctionsStorage&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">ConstMethodProxy <a class="el" href="classcpp_1_1_any.html">cpp::Any</a>&lt; Storage, FunctionsStorage, FunctionArgsStorage, AttributesStorage &gt;::operator() </td>
+          <td class="memname">ConstMethodProxy <a class="el" href="classcpp_1_1_any.html">cpp::Any</a>&lt; Storage, FunctionsStorage, FunctionArgsStorage &gt;::operator() </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>name</em></td><td>)</td>

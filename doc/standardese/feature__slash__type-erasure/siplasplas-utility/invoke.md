@@ -47,12 +47,12 @@ namespace cpp
     }
     
     template <typename Callable, typename ... Args>
-    auto invoke(Callable&& callable, Args&&... args);
+    decltype(auto) invoke(Callable&& callable, Args&&... args);
     
     template <typename R, typename Class, typename ... Args>
-    auto invoke(R Class::* pointer, Args&&... args);
+    decltype(auto) invoke(R Class::* pointer, Args&&... args);
     
     template <typename R, typename Class, typename ... Params, typename ... Args>
-    auto invoke(R (Class::*)(Params...) const pointer, Args&&... args);
+    decltype(auto) invoke(R (Class::*)(Params...) const pointer, Args&&... args);
 }
 ```

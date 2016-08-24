@@ -13,7 +13,6 @@ var searchData=
   ['simpleany64',['SimpleAny64',['../group__type-erasure.html#gab3741de7c88217cb83238e279e9755b4',1,'cpp']]],
   ['simpleany8',['SimpleAny8',['../group__type-erasure.html#ga1c5bdeb4e470bbf333fcd0816083c73e',1,'cpp']]],
   ['simpleany_3c_20constnonowningstorage_20_3e',['SimpleAny&lt; ConstNonOwningStorage &gt;',['../classcpp_1_1_simple_any_3_01_const_non_owning_storage_01_4.html',1,'cpp']]],
-  ['simpleany_3c_20cpp_3a_3afixedsizestorage_3c_20sizeof_28invoke_3c_20void_28_2a_29_28_29_3e_29_2c_20alignof_28invoke_3c_20void_28_2a_29_28_29_3e_29_3e_20_3e',['SimpleAny&lt; cpp::FixedSizeStorage&lt; sizeof(Invoke&lt; void(*)()&gt;), alignof(Invoke&lt; void(*)()&gt;)&gt; &gt;',['../classcpp_1_1_simple_any.html',1,'cpp']]],
   ['simpleany_3c_20nonowningstorage_20_3e',['SimpleAny&lt; NonOwningStorage &gt;',['../classcpp_1_1_simple_any_3_01_non_owning_storage_01_4.html',1,'cpp']]],
   ['siplasplas_5fassert',['SIPLASPLAS_ASSERT',['../group__assert.html#ga85063fb7dc312ce74ae18cf264a35679',1,'assert.hpp']]],
   ['siplasplas_5fassert_5fbe',['SIPLASPLAS_ASSERT_BE',['../group__assert.html#ga66bdb3beb003a154581fff9028ba31e3',1,'assert.hpp']]],

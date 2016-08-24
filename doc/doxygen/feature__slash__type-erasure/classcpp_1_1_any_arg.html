@@ -122,11 +122,17 @@ $(document).ready(function(){initNavTree('classcpp_1_1_any_arg.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a6ae9775959333a93e0f916e651ec1cfd"><td class="memTemplParams" colspan="2"><a class="anchor" id="a6ae9775959333a93e0f916e651ec1cfd"></a>
-template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a6ae9775959333a93e0f916e651ec1cfd"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1_any_arg.html#a6ae9775959333a93e0f916e651ec1cfd">AnyArg</a> (T &amp;&amp;value)</td></tr>
-<tr class="memdesc:a6ae9775959333a93e0f916e651ec1cfd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes an <a class="el" href="classcpp_1_1_any_arg.html" title="Represents a type erased function call argument. ">AnyArg</a> object with a given value. <br /></td></tr>
-<tr class="separator:a6ae9775959333a93e0f916e651ec1cfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73f70460ac3b6035704b408801edef21"><td class="memTemplParams" colspan="2"><a class="anchor" id="a73f70460ac3b6035704b408801edef21"></a>
+template&lt;typename T , typename  = std::enable_if_t&lt;        !std::is_same&lt;std::decay_t&lt;T&gt;, cpp::ConstReferenceSimpleAny&gt;::value &amp;&amp;        !std::is_same&lt;std::decay_t&lt;T&gt;, cpp::ReferenceSimpleAny&gt;::value    &gt;&gt; </td></tr>
+<tr class="memitem:a73f70460ac3b6035704b408801edef21"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1_any_arg.html#a73f70460ac3b6035704b408801edef21">AnyArg</a> (T &amp;&amp;value)</td></tr>
+<tr class="memdesc:a73f70460ac3b6035704b408801edef21"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initializes an <a class="el" href="classcpp_1_1_any_arg.html" title="Represents a type erased function call argument. ">AnyArg</a> object with a given value. <br /></td></tr>
+<tr class="separator:a73f70460ac3b6035704b408801edef21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d9a1da02c27edc41e2af5ef5d480097"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1d9a1da02c27edc41e2af5ef5d480097"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>AnyArg</b> (const <a class="el" href="group__type-erasure.html#ga96ea8afa78a5e2f6b5dff8b6506afb9b">cpp::ReferenceSimpleAny</a> &amp;reference)</td></tr>
+<tr class="separator:a1d9a1da02c27edc41e2af5ef5d480097"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaadd7372a1d724c77f6ba45ef0687897"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaadd7372a1d724c77f6ba45ef0687897"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>AnyArg</b> (const <a class="el" href="group__type-erasure.html#gacc6d5ee72d584e0775ff78d227bb9691">cpp::ConstReferenceSimpleAny</a> &amp;reference)</td></tr>
+<tr class="separator:aaadd7372a1d724c77f6ba45ef0687897"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a73b2f2009c33fa3de1cb57a38dc05c74"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a73b2f2009c33fa3de1cb57a38dc05c74"><td class="memTemplItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1_any_arg.html#a73b2f2009c33fa3de1cb57a38dc05c74">get</a> () const </td></tr>
 <tr class="memdesc:a73b2f2009c33fa3de1cb57a38dc05c74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const reference to the argument object.  <a href="#a73b2f2009c33fa3de1cb57a38dc05c74">More...</a><br /></td></tr>

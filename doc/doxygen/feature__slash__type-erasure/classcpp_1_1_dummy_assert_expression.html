@@ -126,11 +126,60 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:adcee6bf8b3e9fdb9e2650d24a4e10abf"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classcpp_1_1_dummy_assert_expression.html">DummyAssertExpression</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1_dummy_assert_expression.html#adcee6bf8b3e9fdb9e2650d24a4e10abf">onFailure</a> (Function)</td></tr>
 <tr class="memdesc:adcee6bf8b3e9fdb9e2650d24a4e10abf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does nothing.  <a href="#adcee6bf8b3e9fdb9e2650d24a4e10abf">More...</a><br /></td></tr>
 <tr class="separator:adcee6bf8b3e9fdb9e2650d24a4e10abf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71e6594a2f48664f7337589835230a9b"><td class="memTemplParams" colspan="2">template&lt;typename String , typename... Args&gt; </td></tr>
+<tr class="memitem:a71e6594a2f48664f7337589835230a9b"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classcpp_1_1_dummy_assert_expression.html">DummyAssertExpression</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1_dummy_assert_expression.html#a71e6594a2f48664f7337589835230a9b">detail</a> (String &amp;&amp;, Args &amp;&amp;...)</td></tr>
+<tr class="memdesc:a71e6594a2f48664f7337589835230a9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does nothing.  <a href="#a71e6594a2f48664f7337589835230a9b">More...</a><br /></td></tr>
+<tr class="separator:a71e6594a2f48664f7337589835230a9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec56f063f3c168211991283de09b8712"><td class="memTemplParams" colspan="2"><a class="anchor" id="aec56f063f3c168211991283de09b8712"></a>
+template&lt;typename String , typename... Args&gt; </td></tr>
+<tr class="memitem:aec56f063f3c168211991283de09b8712"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classcpp_1_1_dummy_assert_expression.html">DummyAssertExpression</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1_dummy_assert_expression.html#aec56f063f3c168211991283de09b8712">operator()</a> (String &amp;&amp;, Args &amp;&amp;...)</td></tr>
+<tr class="memdesc:aec56f063f3c168211991283de09b8712"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does nothing. Equivalent to <a class="el" href="classcpp_1_1_dummy_assert_expression.html#a71e6594a2f48664f7337589835230a9b" title="Does nothing. ">detail()</a>. <br /></td></tr>
+<tr class="separator:aec56f063f3c168211991283de09b8712"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents an assert expression when <a class="el" href="group__assert.html#ga85063fb7dc312ce74ae18cf264a35679" title="Defines an assertion expression. ">SIPLASPLAS_ASSERT()</a> macros are disabled. </p>
 <p>When siplasplas assertions are disabled <a class="el" href="classcpp_1_1_dummy_assert_expression.html" title="Represents an assert expression when SIPLASPLAS_ASSERT() macros are disabled. ">DummyAssertExpression</a> objects are instanced instead, and the expression does nothing. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a71e6594a2f48664f7337589835230a9b"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename String , typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classcpp_1_1_dummy_assert_expression.html">DummyAssertExpression</a>&amp; cpp::DummyAssertExpression::detail </td>
+          <td>(</td>
+          <td class="paramtype">String &amp;&amp;&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Does nothing. </p>
+<p>This function template is defined only to make siplasplas assertions compile when are disabled. It does nothing.</p>
+<dl class="section return"><dt>Returns</dt><dd>A reference to *this to implement the assertion expression fluent interface. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="adcee6bf8b3e9fdb9e2650d24a4e10abf"></a>
 <div class="memitem">
 <div class="memproto">
@@ -157,12 +206,6 @@ template&lt;typename Function &gt; </div>
 
 <p>Does nothing. </p>
 <p>This function template is defined only to make siplasplas assertions compile when are disabled. It does nothing.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">Function</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
 <dl class="section return"><dt>Returns</dt><dd>A reference to *this to implement the assertion expression fluent interface. </dd></dl>
 
 </div>

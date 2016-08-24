@@ -11,6 +11,8 @@ var classcpp_1_1_simple_any =
     [ "empty", "classcpp_1_1_simple_any.html#ab4ebe3f63990da1c9957f003a298f163", null ],
     [ "get", "classcpp_1_1_simple_any.html#a82cfcf4cb1157c8c7bdc8186830feefd", null ],
     [ "get", "classcpp_1_1_simple_any.html#a03296f18b3b4f3814099c191bc2dc660", null ],
+    [ "getReference", "classcpp_1_1_simple_any.html#a2fc22ea0e86cd3a58fb758806ec3e174", null ],
+    [ "getReference", "classcpp_1_1_simple_any.html#a51cca3b55a686638d3735bf01b12dd32", null ],
     [ "hasType", "classcpp_1_1_simple_any.html#ab35c68fdcbf4612d8460579cede0eb44", null ],
     [ "operator=", "classcpp_1_1_simple_any.html#a5f3f083b76778d37d8069d6765246b8a", null ],
     [ "operator=", "classcpp_1_1_simple_any.html#ab3b5efef11cb623dcc85c1b8ece8d9b5", null ],

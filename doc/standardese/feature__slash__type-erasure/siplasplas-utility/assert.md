@@ -17,6 +17,8 @@ layout: standardese-doc
 
 #include <siplasplas/utility/export.hpp>
 
+#define SIPLASPLAS_ASSERTS_ENABLED 
+
 #define SIPLASPLAS_ASSERT_IMPL(MESSAGE, ...) ::cpp::AssertExpression((__VA_ARGS__), MESSAGE, __FILE__, __LINE__)
 
 #define SIPLASPLAS_ASSERT(...) SIPLASPLAS_ASSERT_IMPL(SIPLASPLAS_PP_STR((__VA_ARGS__)), __VA_ARGS__)
@@ -279,6 +281,12 @@ public:
     ~AssertExpression() noexcept(false);
     
     AssertExpression& onFailure(const std::function<void()>& callback);
+    
+    template <typename String, typename ... Args>
+    AssertExpression& detail(String&& messageBody, Args&&... messageArgs);
+    
+    template <typename String, typename ... Args>
+    AssertExpression& operator()(String&& messageBody, Args&&... args);
 };
 ```
 
@@ -342,6 +350,8 @@ int sqrt(int n)
 }
 ```
 
+*Returns:* A reference to \*this to implement the assertion expression fluent interface.
+
 #### Parameter `cpp::AssertExpression::onFailure::callback`<a id="cpp::AssertExpression::onFailure::callback"></a>
 
 ``` cpp
@@ -349,6 +359,38 @@ const std::function<void()>& callback
 ```
 
 Function to execute when the assertion fails.
+
+-----
+
+### Function template `cpp::AssertExpression::detail<String, Args...>`<a id="cpp::AssertExpression::detail<String, Args...>"></a>
+
+``` cpp
+template <typename String, typename ... Args>
+AssertExpression& detail(String&& messageBody, Args&&... messageArgs);
+```
+
+Adds detailed information to the assertion report
+
+*Returns:* A reference to \*this to implement the assertion expression fluent interface.
+
+#### Parameter `cpp::AssertExpression::detail::messageBody`<a id="cpp::AssertExpression::detail::messageBody"></a>
+
+``` cpp
+String&& messageBody
+```
+
+Detail message string \\param messageArgs Detail message arguments. The body may contain placeholders to fill with this values (See fmt::format()).
+
+-----
+
+### Function template `cpp::AssertExpression::operator()<String, Args...>`<a id="cpp::AssertExpression::operator()<String, Args...>"></a>
+
+``` cpp
+template <typename String, typename ... Args>
+AssertExpression& operator()(String&& messageBody, Args&&... args);
+```
+
+Adds detailed information to the assertion report. Equivalent to detail().
 
 -----
 
@@ -362,6 +404,12 @@ class DummyAssertExpression
 public:
     template <typename Function>
     DummyAssertExpression& onFailure(Function);
+    
+    template <typename String, typename ... Args>
+    DummyAssertExpression& detail(String&&, Args&&...);
+    
+    template <typename String, typename ... Args>
+    DummyAssertExpression& operator()(String&&, Args&&...);
 };
 ```
 
@@ -378,13 +426,33 @@ Does nothing.
 
 This function template is defined only to make siplasplas assertions compile when are disabled. It does nothing.
 
-@return A reference to \*this to implement the assertion expression fluent interface.
+*Returns:* A reference to \*this to implement the assertion expression fluent interface.
 
-#### Template parameter `cpp::DummyAssertExpression::onFailure<Function>::Function`<a id="cpp::DummyAssertExpression::onFailure<Function>::Function"></a>
+-----
+
+### Function template `cpp::DummyAssertExpression::detail<String, Args...>`<a id="cpp::DummyAssertExpression::detail<String, Args...>"></a>
 
 ``` cpp
-typename Function
+template <typename String, typename ... Args>
+DummyAssertExpression& detail(String&&, Args&&...);
 ```
+
+Does nothing
+
+This function template is defined only to make siplasplas assertions compile when are disabled. It does nothing.
+
+*Returns:* A reference to \*this to implement the assertion expression fluent interface.
+
+-----
+
+### Function template `cpp::DummyAssertExpression::operator()<String, Args...>`<a id="cpp::DummyAssertExpression::operator()<String, Args...>"></a>
+
+``` cpp
+template <typename String, typename ... Args>
+DummyAssertExpression& operator()(String&&, Args&&...);
+```
+
+Does nothing. Equivalent to detail().
 
 -----
 
