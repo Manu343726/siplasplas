@@ -19,7 +19,7 @@ namespace detail
     {
     public:
         template<typename Function, typename Object_, typename... Args>
-        static auto apply(Function function, Object_&& object, Args&&... args)
+        static decltype(auto) apply(Function function, Object_&& object, Args&&... args)
         {
             constexpr ctti::type_id_t typeIds[] = { ctti::type_id<decltype(std::forward<Args>(args))>()..., ctti::type_id<void>() };
 
@@ -41,7 +41,7 @@ namespace detail
     {
     public:
         template<typename Function, typename Reference_, typename... Args>
-        static auto apply(Function function, Reference_&& reference, Args&&... args)
+        static decltype(auto) apply(Function function, Reference_&& reference, Args&&... args)
         {
             return ((std::forward<Reference_>(reference).get()).*function)(std::forward<Args>(args)...);
         }
@@ -52,7 +52,7 @@ namespace detail
     {
     public:
         template<typename Function, typename Pointer_, typename... Args>
-        static auto apply(Function function, Pointer_&& pointer, Args&&... args)
+        static decltype(auto) apply(Function function, Pointer_&& pointer, Args&&... args)
         {
             return ((*std::forward<Pointer_>(pointer)).*function)(std::forward<Args>(args)...);
         }
@@ -64,14 +64,16 @@ namespace detail
     class InvokeMemberObject
     {
     public:
-        template<typename MemberObject, typename Object_>
-        static decltype(auto) apply(MemberObject memberObject, Object_&& object)
+        template<typename Type>
+        static const Type& apply(Type (Class::*memberObject), const Object& object)
         {
-            utility::log().debug("About to invoke member object:");
-            utility::log().debug("  MemberObject: {}", ctti::type_id<MemberObject>().name());
-            utility::log().debug("  Object: {}", ctti::type_id<decltype(std::forward<Object_>(object))>().name());
+            return object.*memberObject;
+        }
 
-            return std::forward<Object_>(object).*memberObject;
+        template<typename Type>
+        static Type& apply(Type (Class::*memberObject), Object& object)
+        {
+            return object.*memberObject;
         }
     };
 
@@ -79,10 +81,16 @@ namespace detail
     class InvokeMemberObject<Class, std::reference_wrapper<T>, false>
     {
     public:
-        template<typename MemberObject, typename Reference_>
-        static decltype(auto) apply(MemberObject memberObject, Reference_&& reference)
+        template<typename Type>
+        static const Type& apply(Type (Class::*memberObject), const std::reference_wrapper<T>& object)
         {
-            return (std::forward<Reference_>(reference).get()).*memberObject;
+            return object.get().*memberObject;
+        }
+
+        template<typename Type>
+        static Type& apply(Type (Class::*memberObject), std::reference_wrapper<T>& object)
+        {
+            return object.get().*memberObject;
         }
     };
 
@@ -90,10 +98,16 @@ namespace detail
     class InvokeMemberObject<Class, Object, false>
     {
     public:
-        template<typename MemberObject, typename Pointer_>
-        static decltype(auto) apply(MemberObject memberObject, Pointer_&& pointer)
+        template<typename Type>
+        static const Type& apply(Type (Class::*memberObject), const Object& object)
         {
-            return (*std::forward<Pointer_>(pointer)).*memberObject;
+            return object->*memberObject;
+        }
+
+        template<typename Type>
+        static Type& apply(Type (Class::*memberObject), Object& object)
+        {
+            return object->*memberObject;
         }
     };
 
@@ -135,19 +149,19 @@ namespace detail
  * See [`std::invoke()`](http://en.cppreference.com/w/cpp/utility/functional/invoke)
  */
 template<typename Callable, typename... Args>
-auto invoke(Callable&& callable, Args&&... args)
+decltype(auto) invoke(Callable&& callable, Args&&... args)
 {
     return std::forward<Callable>(callable)(std::forward<Args>(args)...);
 }
 
 template<typename R, typename Class, typename... Args>
-auto invoke(R Class::*pointer, Args&&... args)
+decltype(auto) invoke(R Class::*pointer, Args&&... args)
 {
     return ::cpp::detail::InvokeMember<decltype(pointer)>::apply(pointer, std::forward<Args>(args)...);
 }
 
 template<typename R, typename Class, typename... Params, typename... Args>
-auto invoke(R (Class::*pointer)(Params...) const, Args&&... args)
+decltype(auto) invoke(R (Class::*pointer)(Params...) const, Args&&... args)
 {
     return ::cpp::detail::InvokeMember<decltype(pointer)>::apply(pointer, std::forward<Args>(args)...);
 }

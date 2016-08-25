@@ -27,6 +27,9 @@ option(SIPLASPLAS_INSTALL_DRLPARSER_DEPENDENCIES  "Automatically install DRLPars
 option(SIPLASPLAS_DOWNLOAD_LIBCLANG               "Download libclang from llvm mirror instead of using system LLVM installation" OFF)
 option(SIPLASPLAS_COPY_DLL_DEPENDENCIES "Copy dll dependencies to the dependant target binary dir" ON)
 option(SIPLASPLAS_USE_SYSTEM_SFML       "Use SFML system distribution instead of build from sources" OFF)
+option(SIPLASPLAS_ENABLE_VALGRIND "Enable memory check of executable targets" OFF)
+option(SIPLASPLAS_ENABLE_ASSERTS "Force assertions, which are disabled by default on Release build" OFF)
+option(SIPLASPLAS_DUMP_ERRORS "Dump error logs after running an executable. Implies SIPLASPLAS_CLEAR_LOGS" ON)
 
 add_subdirectory(3rdParty)
 add_subdirectory(src)

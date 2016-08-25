@@ -22,6 +22,7 @@ matrix:
             - g++-5 # We need an updated stdlibc++ for clang too
             - gcc-5
             - libboost1.55-all-dev # For Standardese
+            - valgrind
           sources:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.7
@@ -113,11 +114,14 @@ install:
   - if [ ! -d build ]; then mkdir build; fi
   - cd build
 
-  - cmake .. -DSIPLASPLAS_BUILD_TESTS=ON
+  - cmake .. -DSIPLASPLAS_ENABLE_VALGRIND=ON
+             -DSIPLASPLAS_ENABLE_ASSERTS=ON
+             -DSIPLASPLAS_BUILD_TESTS=ON
              -DSIPLASPLAS_BUILD_EXAMPLES=ON
              -DSIPLASPLAS_VERBOSE_CONFIG=ON
              -DSIPLASPLAS_CI_BUILD=ON
              -DCMAKE_VERBOSE_MAKEFILE=OFF
+             -DSIPLASPLAS_DUMP_ERRORS=ON
              -DBII_BOOST_VERBOSE=ON
              -DCMAKE_BUILD_TYPE=$BUILD_TYPE
              -DSIPLASPLAS_CLANGXX="$(which clang++-${CLANG_VERSION})"

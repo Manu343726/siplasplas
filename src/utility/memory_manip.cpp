@@ -95,13 +95,6 @@ void* aligned_malloc(std::size_t size, std::size_t alignment, std::size_t offset
 
         if(alignedPtr + size <= oversizedBlock + blockSize)
         {
-#ifndef SIPLASPLAS_UTILITY_ALIGNEDMALLOC_NO_FITBLOCK
-            // Realloc the block to use the required block size only if possible
-            if(alignedPtr + size != oversizedBlock + blockSize)
-            {
-                oversizedBlock = reinterpret_cast<char*>(std::realloc(oversizedBlock, (alignedPtr + size) - oversizedBlock));
-            }
-#endif
             // Store the distance to the oversizedBlock start to be able to free
             // the entire block later (See cpp::aligned_free())
             // Note it is the distance oversizedBlock to alignedPtr assuming offset == 0,
@@ -125,13 +118,22 @@ void* aligned_malloc(std::size_t size, std::size_t alignment, std::size_t offset
                     utility::log().debug("  stored distance: {}", distanceToBlock);
                     utility::log().debug("  read distance:   {}", static_cast<std::size_t>(read_before<char>(alignedPtr - offset)));
                     utility::log().debug("  result diff:     {}", reinterpret_cast<char*>(aligned_malloc_block(alignedPtr, offset)) - reinterpret_cast<char*>(oversizedBlock));
+
+                    std::free(oversizedBlock);
                 });
 
                 return alignedPtr;
             }
             else
             {
-                // The alignment offset cannot be stored
+                utility::log().warn("aligned_malloc(size={}, alignment={}, offset={}) failed: Alignment requirement bigger than max supported ({})", size, alignment, offset, std::numeric_limits<AlignedMallocAlingOffset>::max());
+                utility::log().debug("  std::malloc() block: {} (size={})", reinterpret_cast<void*>(oversizedBlock), blockSize);
+                utility::log().debug("  aligned address: {}", reinterpret_cast<void*>(alignedPtr));
+                utility::log().debug("  aligned address - offset: {}", reinterpret_cast<void*>(alignedPointerWithoutOffset));
+                utility::log().debug("  offset to block: {}", distanceToBlock);
+                utility::log().debug("  Max offset supported: {}", std::numeric_limits<AlignedMallocAlingOffset>::max());
+
+                std::free(oversizedBlock);
                 return nullptr;
             }
         }

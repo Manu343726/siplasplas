@@ -1,0 +1,2 @@
+add_siplasplas_example_simple(any DEPENDS siplasplas-reflection-static siplasplas-typeerasure)
+configure_siplasplas_reflection(examples-any)

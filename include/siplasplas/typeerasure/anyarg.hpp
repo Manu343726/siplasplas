@@ -34,12 +34,32 @@ public:
     /**
      * \brief Initializes an AnyArg object with a given value
      */
-    template<typename T>
+    template<typename T, typename = std::enable_if_t<
+        !std::is_same<std::decay_t<T>, cpp::ConstReferenceSimpleAny>::value &&
+        !std::is_same<std::decay_t<T>, cpp::ReferenceSimpleAny>::value
+    >>
     AnyArg(T&& value) :
         _universalRef{cpp::universalReference(std::forward<T>(value))}
     {
         _typeProperties[0] = std::is_lvalue_reference<T>::value;
         _typeProperties[1] = std::is_const<std::remove_reference_t<T>>::value;
+        _typeProperties[2] = false;
+    }
+
+    AnyArg(const cpp::ReferenceSimpleAny& reference) :
+        _universalRef{cpp::SimpleAny32::create<cpp::ReferenceSimpleAny>(reference)}
+    {
+        _typeProperties[0] = true;
+        _typeProperties[1] = false;
+        _typeProperties[2] = true;
+    }
+
+    AnyArg(const cpp::ConstReferenceSimpleAny& reference) :
+        _universalRef{cpp::SimpleAny32::create<cpp::ConstReferenceSimpleAny>(reference)}
+    {
+        _typeProperties[0] = true;
+        _typeProperties[1] = true;
+        _typeProperties[2] = true;
     }
 
     /**
@@ -53,17 +73,31 @@ public:
     template<typename T>
     const T& get() const
     {
-        if(isRvalue())
+        if(isReferenceAny())
         {
-            return _universalRef.get<cpp::UniversalReference<std::decay_t<T>, false, false>>().get();
-        }
-        else if(isConst())
-        {
-            return _universalRef.get<cpp::UniversalReference<std::decay_t<T>, true, true>>().get();
+            if(isConst())
+            {
+                return _universalRef.get<cpp::ConstReferenceSimpleAny>().get<T>();
+            }
+            else
+            {
+                return _universalRef.get<cpp::ReferenceSimpleAny>().get<T>();
+            }
         }
         else
         {
-            return _universalRef.get<cpp::UniversalReference<std::decay_t<T>, true, false>>().get();
+            if(isRvalue())
+            {
+                return _universalRef.get<cpp::UniversalReference<std::decay_t<T>, false, false>>().get();
+            }
+            else if(isConst())
+            {
+                return _universalRef.get<cpp::UniversalReference<std::decay_t<T>, true, true>>().get();
+            }
+            else
+            {
+                return _universalRef.get<cpp::UniversalReference<std::decay_t<T>, true, false>>().get();
+            }
         }
     }
 
@@ -80,17 +114,31 @@ public:
     template<typename T>
     T& get()
     {
-        if(isRvalue())
+        if(isReferenceAny())
         {
-            return _universalRef.get<cpp::UniversalReference<std::decay_t<T>, false, false>>().get();
-        }
-        else if(isConst())
-        {
-            throw std::runtime_error{"Cannot get a non-const reference to a const argument"};
+            if(isConst())
+            {
+                throw std::runtime_error{"Cannot get a non-const reference to a const argument"};
+            }
+            else
+            {
+                return _universalRef.get<cpp::ReferenceSimpleAny>().get<T>();
+            }
         }
         else
         {
-            return _universalRef.get<cpp::UniversalReference<std::decay_t<T>, true, false>>().get();
+            if(isRvalue())
+            {
+                return _universalRef.get<cpp::UniversalReference<std::decay_t<T>, false, false>>().get();
+            }
+            else if(isConst())
+            {
+                throw std::runtime_error{"Cannot get a non-const reference to a const argument"};
+            }
+            else
+            {
+                return _universalRef.get<cpp::UniversalReference<std::decay_t<T>, true, false>>().get();
+            }
         }
     }
 
@@ -120,7 +168,12 @@ public:
 
 private:
     cpp::SimpleAny32 _universalRef;
-    std::bitset<2> _typeProperties;
+    std::bitset<3> _typeProperties;
+
+    bool isReferenceAny() const
+    {
+        return _typeProperties[2];
+    }
 };
 
 }

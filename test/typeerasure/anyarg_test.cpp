@@ -1,13 +1,23 @@
+#include "mocks/invoke.hpp"
 #include <siplasplas/typeerasure/anyarg.hpp>
 #include <gmock/gmock.h>
 
 using namespace ::testing;
 
-class Class
+TEST(AnyArgTest, lvalueReference_modifiesReferencedObject)
 {
-public:
-    int i = 0;
-};
+    std::string str;
+    Class object;
+    cpp::AnyArg arg(str), arg2(object);
+
+    arg.get<std::string>() = "hello, world!";
+    arg2.get<Class>().str = "hello, world!";
+    arg2.get<Class>().i   = 42;
+
+    EXPECT_EQ("hello, world!", str);
+    EXPECT_EQ("hello, world!", object.str);
+    EXPECT_EQ(42, object.i);
+}
 
 TEST(AnyArgTest, rightTypeCategories)
 {
@@ -41,14 +51,4 @@ TEST(AnyArgTest, rightTypeCategories)
     getLvalueReference(str);
     getConstLvalueReference(str);
     getRvalueReference(std::move(str));
-}
-
-TEST(AnyArgTest, lvalueReference_modifiesReferencedObject)
-{
-    Class object;
-    cpp::AnyArg arg(object);
-
-    arg.get<Class>().i = 42;
-
-    EXPECT_EQ(42, object.i);
 }

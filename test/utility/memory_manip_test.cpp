@@ -76,33 +76,25 @@ TEST(MemoryManipTest, alignedMalloc_returnsAlignedMemory)
 TEST(MemoryManipTest, alignedMalloc_allocatesSupportedAlignmentAndFreeWorks)
 {
     void* ptr = nullptr;
-    EXPECT_NE(nullptr, ptr = aligned_malloc(1, 16));
+
+    static_assert(std::numeric_limits<cpp::detail::AlignedMallocAlingOffset>::max() < 256,
+        "alignedMalloc tests are written expecting a max alignment support of 256 byte boundary");
+
+
+    EXPECT_FALSE((ptr = aligned_malloc(1, 16))  == nullptr);
     aligned_free(ptr);
-    EXPECT_NE(nullptr, ptr = aligned_malloc(1, 32));
+    EXPECT_FALSE((ptr = aligned_malloc(1, 32))  == nullptr);
     aligned_free(ptr);
-    EXPECT_NE(nullptr, ptr = aligned_malloc(1, 64));
+    EXPECT_FALSE((ptr = aligned_malloc(1, 64))  == nullptr);
     aligned_free(ptr);
-    EXPECT_NE(nullptr, ptr = aligned_malloc(1, 128));
+    EXPECT_FALSE((ptr = aligned_malloc(1, 128)) == nullptr);
     aligned_free(ptr);
-    EXPECT_NE(nullptr, ptr = aligned_malloc(1, 256));
-    aligned_free(ptr);
-    EXPECT_NE(nullptr, ptr = aligned_malloc(1, 16,  10));
+    EXPECT_FALSE((ptr = aligned_malloc(1, 16,  10))     == nullptr);
     aligned_free(ptr, 10);
-    EXPECT_NE(nullptr, ptr = aligned_malloc(1, 32,  100));
+    EXPECT_FALSE((ptr = aligned_malloc(1, 32,  100))    == nullptr);
     aligned_free(ptr, 100);
-    EXPECT_NE(nullptr, ptr = aligned_malloc(1, 64,  1000));
+    EXPECT_FALSE((ptr = aligned_malloc(1, 64,  1000))   == nullptr);
     aligned_free(ptr, 1000);
-    EXPECT_NE(nullptr, ptr = aligned_malloc(1, 128, 10000));
+    EXPECT_FALSE((ptr = aligned_malloc(1, 128, 10000))  == nullptr);
     aligned_free(ptr, 10000);
-    EXPECT_NE(nullptr, ptr = aligned_malloc(1, 256, 100000));
-    aligned_free(ptr, 100000);
-
-    // Up to 256 byte alignment is supported by default,
-    // the following calls should fail with the default
-    // config:
-
-    EXPECT_EQ(nullptr, ptr = aligned_malloc(1, 512));
-    EXPECT_EQ(nullptr, ptr = aligned_malloc(1, 1024));
-    EXPECT_EQ(nullptr, ptr = aligned_malloc(1, 2048));
-    EXPECT_EQ(nullptr, ptr = aligned_malloc(1, 4096));
 }

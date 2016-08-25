@@ -40,16 +40,22 @@ namespace cpp
 template<
     typename Storage,
     typename FunctionsStorage = Storage,
-    typename FunctionArgsStorage = FunctionsStorage,
-    typename AttributesStorage = Storage
+    typename FunctionArgsStorage = FunctionsStorage
 >
 class Any : public SimpleAny<Storage>
 {
 public:
+    using Base = SimpleAny<Storage>;
     using SimpleAny<Storage>::SimpleAny;
 
     using Method = cpp::typeerasure::Function<FunctionsStorage, FunctionArgsStorage>;
-    using Attribute = cpp::typeerasure::Function<AttributesStorage>;
+    using Attribute = cpp::typeerasure::Function<FunctionsStorage, FunctionArgsStorage, cpp::NonOwningStorage>;
+
+    template<typename Class, typename... Args>
+    static Any create(Args&&... args)
+    {
+        return SimpleAny<Storage>::template create<Class>(std::forward<Args>(args)...);
+    }
 
     class MethodProxy
     {
@@ -62,13 +68,13 @@ public:
         template<typename... Args>
         auto operator()(Args&&... args)
         {
-            return (*_method)(*_this, std::forward<Args>(args)...);
+            return (*_method)(_this->getReference(), std::forward<Args>(args)...);
         }
 
         template<typename... Args>
         auto operator()(Args&&... args) const
         {
-            return (*_method)(*_this, std::forward<Args>(args)...);
+            return (*_method)(_this->getReference(), std::forward<Args>(args)...);
         }
 
         template<typename Callable>
@@ -94,7 +100,7 @@ public:
         template<typename... Args>
         auto operator()(Args&&... args) const
         {
-            return (*_method)(*_this, std::forward<Args>(args)...);
+            return (*_method)(_this->getReference(), std::forward<Args>(args)...);
         }
 
     private:
@@ -112,7 +118,7 @@ public:
 
         template<typename Invokable>
         std::enable_if_t<
-            cpp::function_kind<std::decay_t<Invokable>>() != cpp::FunctionKind::INVALID,
+            cpp::function_kind<std::decay_t<Invokable>>() == cpp::FunctionKind::MEMBER_OBJECT,
             AttributeProxy&
         >
         operator=(Invokable&& invokable)
@@ -123,7 +129,7 @@ public:
 
         template<typename T>
         std::enable_if_t<
-            cpp::function_kind<std::decay_t<T>>() == cpp::FunctionKind::INVALID,
+            cpp::function_kind<std::decay_t<T>>() != cpp::FunctionKind::MEMBER_OBJECT,
             AttributeProxy&
         >
         operator=(T&& value)
@@ -135,7 +141,7 @@ public:
         template<typename T>
         T& get()
         {
-            return (*_attribute)(*_this).template get<T>();
+            return (*_attribute)(_this->getReference()).template get<T>();
         }
 
         template<typename T>
@@ -147,7 +153,7 @@ public:
         template<typename T>
         const T& get() const
         {
-            return (*_attribute)(*_this).template get<T>();
+            return (*_attribute)(_this->getReference()).template get<T>();
         }
 
         template<typename T>
@@ -213,6 +219,7 @@ public:
      */
     ConstMethodProxy operator()(const std::string& name) const
     {
+        SIPLASPLAS_ASSERT(hasMethod(name))("Class {} has no method named '{}'", Base::typeInfo().typeName(), name);
         return {_methods[name], this};
     }
 
@@ -223,6 +230,7 @@ public:
 
     ConstAttributeProxy operator[](const std::string& name) const
     {
+        SIPLASPLAS_ASSERT(hasAttribute(name))("Class {} has no attribute named '{}'", Base::typeInfo().typeName(), name);
         return {_attributes[name], this};
     }
 
@@ -239,7 +247,7 @@ public:
 
         if(it != _methods.end())
         {
-            return !it->empty();
+            return !it->second.empty();
         }
         else
         {
@@ -260,7 +268,7 @@ public:
 
         if(it != _attributes.end())
         {
-            return !it->empty();
+            return !it->second.empty();
         }
         else
         {

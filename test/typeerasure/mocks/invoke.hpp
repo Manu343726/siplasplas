@@ -37,6 +37,7 @@ public:
     }
 
     int i = 42;
+    std::string str = "hello";
 };
 
 #endif // SIPLASPLAS_TEST_TYPEERASURE_MOCKS_INVOKE_HPP
