@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.11"/>
-<title>siplasplas: cpp::typeerasure::Function&lt; Storage, ArgsStorage &gt; Class Template Reference</title>
+<title>siplasplas: cpp::typeerasure::Function&lt; Storage, ArgsStorage, ReturnStorage &gt; Class Template Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -112,7 +112,7 @@ $(document).ready(function(){initNavTree('classcpp_1_1typeerasure_1_1_function.h
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="classcpp_1_1typeerasure_1_1_function-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">cpp::typeerasure::Function&lt; Storage, ArgsStorage &gt; Class Template Reference<div class="ingroups"><a class="el" href="group__type-erasure.html">Type-erasure</a></div></div>  </div>
+<div class="title">cpp::typeerasure::Function&lt; Storage, ArgsStorage, ReturnStorage &gt; Class Template Reference<div class="ingroups"><a class="el" href="group__type-erasure.html">Type-erasure</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -123,69 +123,74 @@ $(document).ready(function(){initNavTree('classcpp_1_1typeerasure_1_1_function.h
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aa7c97a2e0a295b2fbc6d3de11fb2d966"><td class="memTemplParams" colspan="2">template&lt;typename Callable &gt; </td></tr>
-<tr class="memitem:aa7c97a2e0a295b2fbc6d3de11fb2d966"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#aa7c97a2e0a295b2fbc6d3de11fb2d966">Function</a> (Callable &amp;&amp;callable)</td></tr>
-<tr class="memdesc:aa7c97a2e0a295b2fbc6d3de11fb2d966"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="classcpp_1_1typeerasure_1_1_function.html" title="Stores a type-erased callable of any signature and kind. ">Function</a> from a Callable object.  <a href="#aa7c97a2e0a295b2fbc6d3de11fb2d966">More...</a><br /></td></tr>
-<tr class="separator:aa7c97a2e0a295b2fbc6d3de11fb2d966"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a710ec6744265ceb452ba51540eac6848"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
-<tr class="memitem:a710ec6744265ceb452ba51540eac6848"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt; Storage &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#a710ec6744265ceb452ba51540eac6848">operator()</a> (Args &amp;&amp;...args)</td></tr>
-<tr class="memdesc:a710ec6744265ceb452ba51540eac6848"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the callable with the given arguments.  <a href="#a710ec6744265ceb452ba51540eac6848">More...</a><br /></td></tr>
-<tr class="separator:a710ec6744265ceb452ba51540eac6848"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42cca5f583e997c874e1f9e155636929"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
-<tr class="memitem:a42cca5f583e997c874e1f9e155636929"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt; Storage &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#a42cca5f583e997c874e1f9e155636929">operator()</a> (Args &amp;&amp;...args) const </td></tr>
-<tr class="memdesc:a42cca5f583e997c874e1f9e155636929"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the callable with the given arguments.  <a href="#a42cca5f583e997c874e1f9e155636929">More...</a><br /></td></tr>
-<tr class="separator:a42cca5f583e997c874e1f9e155636929"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4bcac010f3208af9146e5f47709af929"><td class="memTemplParams" colspan="2">template&lt;typename ArgsVector &gt; </td></tr>
-<tr class="memitem:a4bcac010f3208af9146e5f47709af929"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt; Storage &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#a4bcac010f3208af9146e5f47709af929">invoke</a> (ArgsVector &amp;&amp;args)</td></tr>
-<tr class="memdesc:a4bcac010f3208af9146e5f47709af929"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the callable with the given arguments The arguments are passed as a vector of <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">SimpleAny</a>.  <a href="#a4bcac010f3208af9146e5f47709af929">More...</a><br /></td></tr>
-<tr class="separator:a4bcac010f3208af9146e5f47709af929"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75c830b5ec69347d6b6363fc328c5730"><td class="memTemplParams" colspan="2">template&lt;typename ArgsVector &gt; </td></tr>
-<tr class="memitem:a75c830b5ec69347d6b6363fc328c5730"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt; Storage &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#a75c830b5ec69347d6b6363fc328c5730">invoke</a> (ArgsVector &amp;&amp;args) const </td></tr>
-<tr class="memdesc:a75c830b5ec69347d6b6363fc328c5730"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the callable with the given arguments The arguments are passed as a vector of <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">SimpleAny</a>.  <a href="#a75c830b5ec69347d6b6363fc328c5730">More...</a><br /></td></tr>
-<tr class="separator:a75c830b5ec69347d6b6363fc328c5730"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:affea673c85d3f3b1969e6e916ef987b0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt; Storage &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#affea673c85d3f3b1969e6e916ef987b0">invoke</a> (<a class="el" href="classcpp_1_1_any_arg.html">AnyArg</a> *args)</td></tr>
-<tr class="memdesc:affea673c85d3f3b1969e6e916ef987b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the callable with the given arguments The arguments are passed as a vector of <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">SimpleAny</a>.  <a href="#affea673c85d3f3b1969e6e916ef987b0">More...</a><br /></td></tr>
-<tr class="separator:affea673c85d3f3b1969e6e916ef987b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6d9b232f1db5319c2654fb1bef509bc7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt; Storage &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#a6d9b232f1db5319c2654fb1bef509bc7">invoke</a> (<a class="el" href="classcpp_1_1_any_arg.html">AnyArg</a> *args) const </td></tr>
-<tr class="memdesc:a6d9b232f1db5319c2654fb1bef509bc7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the callable with the given arguments The arguments are passed as a vector of <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">SimpleAny</a>.  <a href="#a6d9b232f1db5319c2654fb1bef509bc7">More...</a><br /></td></tr>
-<tr class="separator:a6d9b232f1db5319c2654fb1bef509bc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a75aef5c9af48d985c086fb18d59eb213"><td class="memTemplParams" colspan="2"><a class="anchor" id="a75aef5c9af48d985c086fb18d59eb213"></a>
+<tr class="memitem:a5fcf578d4cab4a48b5ce076dc198154c"><td class="memTemplParams" colspan="2">template&lt;typename Callable &gt; </td></tr>
+<tr class="memitem:a5fcf578d4cab4a48b5ce076dc198154c"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#a5fcf578d4cab4a48b5ce076dc198154c">Function</a> (Callable &amp;&amp;callable)</td></tr>
+<tr class="memdesc:a5fcf578d4cab4a48b5ce076dc198154c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="classcpp_1_1typeerasure_1_1_function.html" title="Stores a type-erased callable of any signature and kind. ">Function</a> from a Callable object.  <a href="#a5fcf578d4cab4a48b5ce076dc198154c">More...</a><br /></td></tr>
+<tr class="separator:a5fcf578d4cab4a48b5ce076dc198154c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9dc2e35d0b3a70002b276f415e3cdada"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9dc2e35d0b3a70002b276f415e3cdada"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#a9dc2e35d0b3a70002b276f415e3cdada">empty</a> () const </td></tr>
+<tr class="memdesc:a9dc2e35d0b3a70002b276f415e3cdada"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the object is empty (No callable assigned) <br /></td></tr>
+<tr class="separator:a9dc2e35d0b3a70002b276f415e3cdada"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af63bcc5f9ec7a9b0a1bb3a7a5c641f60"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:af63bcc5f9ec7a9b0a1bb3a7a5c641f60"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt; ReturnStorage &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#af63bcc5f9ec7a9b0a1bb3a7a5c641f60">operator()</a> (Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:af63bcc5f9ec7a9b0a1bb3a7a5c641f60"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the callable with the given arguments.  <a href="#af63bcc5f9ec7a9b0a1bb3a7a5c641f60">More...</a><br /></td></tr>
+<tr class="separator:af63bcc5f9ec7a9b0a1bb3a7a5c641f60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaceb57f91aec0922d7f657bd39fbd45c"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:aaceb57f91aec0922d7f657bd39fbd45c"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt; ReturnStorage &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#aaceb57f91aec0922d7f657bd39fbd45c">operator()</a> (Args &amp;&amp;...args) const </td></tr>
+<tr class="memdesc:aaceb57f91aec0922d7f657bd39fbd45c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the callable with the given arguments.  <a href="#aaceb57f91aec0922d7f657bd39fbd45c">More...</a><br /></td></tr>
+<tr class="separator:aaceb57f91aec0922d7f657bd39fbd45c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93bedfcf9a04ff04fbaa617c40a89eb0"><td class="memTemplParams" colspan="2">template&lt;typename ArgsVector &gt; </td></tr>
+<tr class="memitem:a93bedfcf9a04ff04fbaa617c40a89eb0"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt; ReturnStorage &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#a93bedfcf9a04ff04fbaa617c40a89eb0">invoke</a> (ArgsVector &amp;&amp;args)</td></tr>
+<tr class="memdesc:a93bedfcf9a04ff04fbaa617c40a89eb0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the callable with the given arguments The arguments are passed as a vector of <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">SimpleAny</a>.  <a href="#a93bedfcf9a04ff04fbaa617c40a89eb0">More...</a><br /></td></tr>
+<tr class="separator:a93bedfcf9a04ff04fbaa617c40a89eb0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afba6c8808c387c50a039e9c5dbccc758"><td class="memTemplParams" colspan="2">template&lt;typename ArgsVector &gt; </td></tr>
+<tr class="memitem:afba6c8808c387c50a039e9c5dbccc758"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt; ReturnStorage &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#afba6c8808c387c50a039e9c5dbccc758">invoke</a> (ArgsVector &amp;&amp;args) const </td></tr>
+<tr class="memdesc:afba6c8808c387c50a039e9c5dbccc758"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the callable with the given arguments The arguments are passed as a vector of <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">SimpleAny</a>.  <a href="#afba6c8808c387c50a039e9c5dbccc758">More...</a><br /></td></tr>
+<tr class="separator:afba6c8808c387c50a039e9c5dbccc758"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1c5f29c1431d3896a7d7d61e85f4ce88"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt; ReturnStorage &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#a1c5f29c1431d3896a7d7d61e85f4ce88">invoke</a> (<a class="el" href="classcpp_1_1_any_arg.html">AnyArg</a> *args)</td></tr>
+<tr class="memdesc:a1c5f29c1431d3896a7d7d61e85f4ce88"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the callable with the given arguments The arguments are passed as a vector of <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">SimpleAny</a>.  <a href="#a1c5f29c1431d3896a7d7d61e85f4ce88">More...</a><br /></td></tr>
+<tr class="separator:a1c5f29c1431d3896a7d7d61e85f4ce88"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae9e8c67304ebc05b11626d1ee1de4119"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt; ReturnStorage &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#ae9e8c67304ebc05b11626d1ee1de4119">invoke</a> (<a class="el" href="classcpp_1_1_any_arg.html">AnyArg</a> *args) const </td></tr>
+<tr class="memdesc:ae9e8c67304ebc05b11626d1ee1de4119"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the callable with the given arguments The arguments are passed as a vector of <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">SimpleAny</a>.  <a href="#ae9e8c67304ebc05b11626d1ee1de4119">More...</a><br /></td></tr>
+<tr class="separator:ae9e8c67304ebc05b11626d1ee1de4119"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0820ff3e26deba957a9c72ff77f26243"><td class="memTemplParams" colspan="2"><a class="anchor" id="a0820ff3e26deba957a9c72ff77f26243"></a>
 template&lt;typename Callable &gt; </td></tr>
-<tr class="memitem:a75aef5c9af48d985c086fb18d59eb213"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html">Function</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#a75aef5c9af48d985c086fb18d59eb213">operator=</a> (Callable &amp;&amp;callable)</td></tr>
-<tr class="memdesc:a75aef5c9af48d985c086fb18d59eb213"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns a new callable to the function. <br /></td></tr>
-<tr class="separator:a75aef5c9af48d985c086fb18d59eb213"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a2f611ef23dd191fef535851df6a7ba"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6a2f611ef23dd191fef535851df6a7ba"></a>
-cpp::FunctionKind&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#a6a2f611ef23dd191fef535851df6a7ba">kind</a> () const </td></tr>
-<tr class="memdesc:a6a2f611ef23dd191fef535851df6a7ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the function kind (free function, pointer to member function, functor, etc) of the callable. <br /></td></tr>
-<tr class="separator:a6a2f611ef23dd191fef535851df6a7ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0820ff3e26deba957a9c72ff77f26243"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html">Function</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#a0820ff3e26deba957a9c72ff77f26243">operator=</a> (Callable &amp;&amp;callable)</td></tr>
+<tr class="memdesc:a0820ff3e26deba957a9c72ff77f26243"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assigns a new callable to the function. <br /></td></tr>
+<tr class="separator:a0820ff3e26deba957a9c72ff77f26243"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6d18bee9b85d7b448d832a26f3caf6d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae6d18bee9b85d7b448d832a26f3caf6d"></a>
+cpp::FunctionKind&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#ae6d18bee9b85d7b448d832a26f3caf6d">kind</a> () const </td></tr>
+<tr class="memdesc:ae6d18bee9b85d7b448d832a26f3caf6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the function kind (free function, pointer to member function, functor, etc) of the callable. <br /></td></tr>
+<tr class="separator:ae6d18bee9b85d7b448d832a26f3caf6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a0196cc7d441862cc3fc508e90768cfaf"><td class="memTemplParams" colspan="2">template&lt;typename Callable , typename... Args&gt; </td></tr>
-<tr class="memitem:a0196cc7d441862cc3fc508e90768cfaf"><td class="memTemplItemLeft" align="right" valign="top">static <a class="el" href="classcpp_1_1typeerasure_1_1_function.html">Function</a>&lt; Storage &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#a0196cc7d441862cc3fc508e90768cfaf">create</a> (Args &amp;&amp;...args)</td></tr>
-<tr class="memdesc:a0196cc7d441862cc3fc508e90768cfaf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classcpp_1_1typeerasure_1_1_function.html" title="Stores a type-erased callable of any signature and kind. ">Function</a> by instancing in-place the given callable.  <a href="#a0196cc7d441862cc3fc508e90768cfaf">More...</a><br /></td></tr>
-<tr class="separator:a0196cc7d441862cc3fc508e90768cfaf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a506122a87fc02437e43fd3dca41f9c07"><td class="memTemplParams" colspan="2">template&lt;typename Callable , typename... Args&gt; </td></tr>
+<tr class="memitem:a506122a87fc02437e43fd3dca41f9c07"><td class="memTemplItemLeft" align="right" valign="top">static <a class="el" href="classcpp_1_1typeerasure_1_1_function.html">Function</a>&lt; Storage &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#a506122a87fc02437e43fd3dca41f9c07">create</a> (Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:a506122a87fc02437e43fd3dca41f9c07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a <a class="el" href="classcpp_1_1typeerasure_1_1_function.html" title="Stores a type-erased callable of any signature and kind. ">Function</a> by instancing in-place the given callable.  <a href="#a506122a87fc02437e43fd3dca41f9c07">More...</a><br /></td></tr>
+<tr class="separator:a506122a87fc02437e43fd3dca41f9c07"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><h3>template&lt;typename Storage, typename ArgsStorage = Storage&gt;<br />
-class cpp::typeerasure::Function&lt; Storage, ArgsStorage &gt;</h3>
+<div class="textblock"><h3>template&lt;typename Storage, typename ArgsStorage = Storage, typename ReturnStorage = Storage&gt;<br />
+class cpp::typeerasure::Function&lt; Storage, ArgsStorage, ReturnStorage &gt;</h3>
 
 <p>Stores a type-erased callable of any signature and kind. </p>
 <p>The <a class="el" href="classcpp_1_1typeerasure_1_1_function.html" title="Stores a type-erased callable of any signature and kind. ">Function</a> class goes one step beyond <code>std::function</code> and provides a unique class to store any kind of C++ callable object</p>
 <div class="fragment"><div class="line"><span class="keyword">class </span>MyClass</div><div class="line">{</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="keywordtype">int</span> method(<span class="keyword">const</span> std::vector&lt;int&gt;&amp;);</div><div class="line">};</div><div class="line"><span class="keywordtype">void</span> freeFunction(<span class="keywordtype">int</span> i);</div><div class="line"></div><div class="line">MyClass object;</div><div class="line"></div><div class="line">std::vector&lt;Function&gt; functions = {</div><div class="line">    &amp;MyClass::method,</div><div class="line">    [](<span class="keywordtype">int</span> i, <span class="keyword">const</span> std::string&amp; str) {</div><div class="line">        <span class="keywordflow">return</span> std::to_string(i) + str;</div><div class="line">    },</div><div class="line">    freeFunction</div><div class="line">};</div><div class="line"></div><div class="line"><span class="keywordtype">int</span> i = functions[0](object, std::vector&lt;int&gt;{1, 2, 3, 4});</div><div class="line"><span class="keyword">const</span> std::string&amp; str = functions[1](42, <span class="stringliteral">&quot;hello&quot;</span>);</div><div class="line">functions[3](42);</div></div><!-- fragment --><p>Invoking a <a class="el" href="classcpp_1_1typeerasure_1_1_function.html" title="Stores a type-erased callable of any signature and kind. ">Function</a> objects with the wrong arguments has undefined behavior</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">Storage</td><td>Storage for the hosted callable. </td></tr>
-    <tr><td class="paramname">ArgsStorage</td><td>Storage that will be used during type-erasure of function call arguments. Same as <code>Storage</code> by default </td></tr>
+    <tr><td class="paramname">Storage</td><td>Storage for the hosted callable </td></tr>
+    <tr><td class="paramname">ArgsStorage</td><td>Storage for type-erased call arguments </td></tr>
+    <tr><td class="paramname">ReturnStorage</td><td>Storage for the return value </td></tr>
   </table>
   </dd>
 </dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="aa7c97a2e0a295b2fbc6d3de11fb2d966"></a>
+<a class="anchor" id="a5fcf578d4cab4a48b5ce076dc198154c"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Storage , typename ArgsStorage  = Storage&gt; </div>
+template&lt;typename Storage , typename ArgsStorage  = Storage, typename ReturnStorage  = Storage&gt; </div>
 <div class="memtemplate">
 template&lt;typename Callable &gt; </div>
 <table class="mlabels">
@@ -193,7 +198,7 @@ template&lt;typename Callable &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html">cpp::typeerasure::Function</a>&lt; Storage, ArgsStorage &gt;::<a class="el" href="classcpp_1_1typeerasure_1_1_function.html">Function</a> </td>
+          <td class="memname"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html">cpp::typeerasure::Function</a>&lt; Storage, ArgsStorage, ReturnStorage &gt;::<a class="el" href="classcpp_1_1typeerasure_1_1_function.html">Function</a> </td>
           <td>(</td>
           <td class="paramtype">Callable &amp;&amp;&#160;</td>
           <td class="paramname"><em>callable</em></td><td>)</td>
@@ -219,11 +224,11 @@ template&lt;typename Callable &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a0196cc7d441862cc3fc508e90768cfaf"></a>
+<a class="anchor" id="a506122a87fc02437e43fd3dca41f9c07"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Storage , typename ArgsStorage  = Storage&gt; </div>
+template&lt;typename Storage , typename ArgsStorage  = Storage, typename ReturnStorage  = Storage&gt; </div>
 <div class="memtemplate">
 template&lt;typename Callable , typename... Args&gt; </div>
 <table class="mlabels">
@@ -231,7 +236,7 @@ template&lt;typename Callable , typename... Args&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static <a class="el" href="classcpp_1_1typeerasure_1_1_function.html">Function</a>&lt;Storage&gt; <a class="el" href="classcpp_1_1typeerasure_1_1_function.html">cpp::typeerasure::Function</a>&lt; Storage, ArgsStorage &gt;::create </td>
+          <td class="memname">static <a class="el" href="classcpp_1_1typeerasure_1_1_function.html">Function</a>&lt;Storage&gt; <a class="el" href="classcpp_1_1typeerasure_1_1_function.html">cpp::typeerasure::Function</a>&lt; Storage, ArgsStorage, ReturnStorage &gt;::create </td>
           <td>(</td>
           <td class="paramtype">Args &amp;&amp;...&#160;</td>
           <td class="paramname"><em>args</em></td><td>)</td>
@@ -262,11 +267,11 @@ template&lt;typename Callable , typename... Args&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a4bcac010f3208af9146e5f47709af929"></a>
+<a class="anchor" id="a93bedfcf9a04ff04fbaa617c40a89eb0"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Storage , typename ArgsStorage  = Storage&gt; </div>
+template&lt;typename Storage , typename ArgsStorage  = Storage, typename ReturnStorage  = Storage&gt; </div>
 <div class="memtemplate">
 template&lt;typename ArgsVector &gt; </div>
 <table class="mlabels">
@@ -274,7 +279,7 @@ template&lt;typename ArgsVector &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt;Storage&gt; <a class="el" href="classcpp_1_1typeerasure_1_1_function.html">cpp::typeerasure::Function</a>&lt; Storage, ArgsStorage &gt;::invoke </td>
+          <td class="memname"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt;ReturnStorage&gt; <a class="el" href="classcpp_1_1typeerasure_1_1_function.html">cpp::typeerasure::Function</a>&lt; Storage, ArgsStorage, ReturnStorage &gt;::invoke </td>
           <td>(</td>
           <td class="paramtype">ArgsVector &amp;&amp;&#160;</td>
           <td class="paramname"><em>args</em></td><td>)</td>
@@ -299,11 +304,11 @@ template&lt;typename ArgsVector &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a75c830b5ec69347d6b6363fc328c5730"></a>
+<a class="anchor" id="afba6c8808c387c50a039e9c5dbccc758"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Storage , typename ArgsStorage  = Storage&gt; </div>
+template&lt;typename Storage , typename ArgsStorage  = Storage, typename ReturnStorage  = Storage&gt; </div>
 <div class="memtemplate">
 template&lt;typename ArgsVector &gt; </div>
 <table class="mlabels">
@@ -311,7 +316,7 @@ template&lt;typename ArgsVector &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt;Storage&gt; <a class="el" href="classcpp_1_1typeerasure_1_1_function.html">cpp::typeerasure::Function</a>&lt; Storage, ArgsStorage &gt;::invoke </td>
+          <td class="memname"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt;ReturnStorage&gt; <a class="el" href="classcpp_1_1typeerasure_1_1_function.html">cpp::typeerasure::Function</a>&lt; Storage, ArgsStorage, ReturnStorage &gt;::invoke </td>
           <td>(</td>
           <td class="paramtype">ArgsVector &amp;&amp;&#160;</td>
           <td class="paramname"><em>args</em></td><td>)</td>
@@ -336,17 +341,17 @@ template&lt;typename ArgsVector &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="affea673c85d3f3b1969e6e916ef987b0"></a>
+<a class="anchor" id="a1c5f29c1431d3896a7d7d61e85f4ce88"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Storage , typename ArgsStorage  = Storage&gt; </div>
+template&lt;typename Storage , typename ArgsStorage  = Storage, typename ReturnStorage  = Storage&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt;Storage&gt; <a class="el" href="classcpp_1_1typeerasure_1_1_function.html">cpp::typeerasure::Function</a>&lt; Storage, ArgsStorage &gt;::invoke </td>
+          <td class="memname"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt;ReturnStorage&gt; <a class="el" href="classcpp_1_1typeerasure_1_1_function.html">cpp::typeerasure::Function</a>&lt; Storage, ArgsStorage, ReturnStorage &gt;::invoke </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classcpp_1_1_any_arg.html">AnyArg</a> *&#160;</td>
           <td class="paramname"><em>args</em></td><td>)</td>
@@ -371,17 +376,17 @@ template&lt;typename Storage , typename ArgsStorage  = Storage&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a6d9b232f1db5319c2654fb1bef509bc7"></a>
+<a class="anchor" id="ae9e8c67304ebc05b11626d1ee1de4119"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Storage , typename ArgsStorage  = Storage&gt; </div>
+template&lt;typename Storage , typename ArgsStorage  = Storage, typename ReturnStorage  = Storage&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt;Storage&gt; <a class="el" href="classcpp_1_1typeerasure_1_1_function.html">cpp::typeerasure::Function</a>&lt; Storage, ArgsStorage &gt;::invoke </td>
+          <td class="memname"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt;ReturnStorage&gt; <a class="el" href="classcpp_1_1typeerasure_1_1_function.html">cpp::typeerasure::Function</a>&lt; Storage, ArgsStorage, ReturnStorage &gt;::invoke </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classcpp_1_1_any_arg.html">AnyArg</a> *&#160;</td>
           <td class="paramname"><em>args</em></td><td>)</td>
@@ -406,11 +411,11 @@ template&lt;typename Storage , typename ArgsStorage  = Storage&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a710ec6744265ceb452ba51540eac6848"></a>
+<a class="anchor" id="af63bcc5f9ec7a9b0a1bb3a7a5c641f60"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Storage , typename ArgsStorage  = Storage&gt; </div>
+template&lt;typename Storage , typename ArgsStorage  = Storage, typename ReturnStorage  = Storage&gt; </div>
 <div class="memtemplate">
 template&lt;typename... Args&gt; </div>
 <table class="mlabels">
@@ -418,7 +423,7 @@ template&lt;typename... Args&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt;Storage&gt; <a class="el" href="classcpp_1_1typeerasure_1_1_function.html">cpp::typeerasure::Function</a>&lt; Storage, ArgsStorage &gt;::operator() </td>
+          <td class="memname"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt;ReturnStorage&gt; <a class="el" href="classcpp_1_1typeerasure_1_1_function.html">cpp::typeerasure::Function</a>&lt; Storage, ArgsStorage, ReturnStorage &gt;::operator() </td>
           <td>(</td>
           <td class="paramtype">Args &amp;&amp;...&#160;</td>
           <td class="paramname"><em>args</em></td><td>)</td>
@@ -444,11 +449,11 @@ template&lt;typename... Args&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a42cca5f583e997c874e1f9e155636929"></a>
+<a class="anchor" id="aaceb57f91aec0922d7f657bd39fbd45c"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Storage , typename ArgsStorage  = Storage&gt; </div>
+template&lt;typename Storage , typename ArgsStorage  = Storage, typename ReturnStorage  = Storage&gt; </div>
 <div class="memtemplate">
 template&lt;typename... Args&gt; </div>
 <table class="mlabels">
@@ -456,7 +461,7 @@ template&lt;typename... Args&gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt;Storage&gt; <a class="el" href="classcpp_1_1typeerasure_1_1_function.html">cpp::typeerasure::Function</a>&lt; Storage, ArgsStorage &gt;::operator() </td>
+          <td class="memname"><a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a>&lt;ReturnStorage&gt; <a class="el" href="classcpp_1_1typeerasure_1_1_function.html">cpp::typeerasure::Function</a>&lt; Storage, ArgsStorage, ReturnStorage &gt;::operator() </td>
           <td>(</td>
           <td class="paramtype">Args &amp;&amp;...&#160;</td>
           <td class="paramname"><em>args</em></td><td>)</td>

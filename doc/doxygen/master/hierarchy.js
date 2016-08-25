@@ -41,7 +41,7 @@ var hierarchy =
     [ "cpp::SimpleAny< Storage >::EmptyTag", "structcpp_1_1_simple_any_1_1_empty_tag.html", null ],
     [ "cpp::Exception< Ex, Base >", "classcpp_1_1_exception.html", null ],
     [ "cpp::FixedSizeStorage< Size, Alignment >", "classcpp_1_1_fixed_size_storage.html", null ],
-    [ "cpp::typeerasure::Function< Storage, ArgsStorage >", "classcpp_1_1typeerasure_1_1_function.html", null ],
+    [ "cpp::typeerasure::Function< Storage, ArgsStorage, ReturnStorage >", "classcpp_1_1typeerasure_1_1_function.html", null ],
     [ "cpp::Hash< T >", "structcpp_1_1_hash.html", null ],
     [ "cpp::Identity", "classcpp_1_1_identity.html", null ],
     [ "cpp::detail::If< Condition >", "classcpp_1_1detail_1_1_if.html", null ],
@@ -62,7 +62,7 @@ var hierarchy =
       [ "cpp::SyncSink", "classcpp_1_1_sync_sink.html", null ]
     ] ],
     [ "cpp::SimpleAny< Storage >", "classcpp_1_1_simple_any.html", [
-      [ "cpp::Any< Storage, FunctionsStorage, FunctionArgsStorage, AttributesStorage >", "classcpp_1_1_any.html", null ]
+      [ "cpp::Any< Storage, FunctionsStorage, FunctionArgsStorage >", "classcpp_1_1_any.html", null ]
     ] ],
     [ "cpp::DynamicLibrary::Symbol", "classcpp_1_1_dynamic_library_1_1_symbol.html", null ],
     [ "cpp::typeerasure::TypeInfo", "classcpp_1_1typeerasure_1_1_type_info.html", null ],

@@ -127,13 +127,13 @@ Modules</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_any.html">cpp::Any&lt; Storage, FunctionsStorage, FunctionArgsStorage, AttributesStorage &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_any.html">cpp::Any&lt; Storage, FunctionsStorage, FunctionArgsStorage &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements a type-erased object container with support for dynamic method and attribute invokation.  <a href="classcpp_1_1_any.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_any_arg.html">cpp::AnyArg</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a type erased function call argument.  <a href="classcpp_1_1_any_arg.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html">cpp::typeerasure::Function&lt; Storage, ArgsStorage &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html">cpp::typeerasure::Function&lt; Storage, ArgsStorage, ReturnStorage &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores a type-erased callable of any signature and kind.  <a href="classcpp_1_1typeerasure_1_1_function.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny&lt; Storage &gt;</a></td></tr>
@@ -226,46 +226,46 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ga189ee4b90e459fe6e56850121e99f442"><td class="memTemplParams" colspan="2">template&lt;typename Callable , typename... Storages&gt; </td></tr>
-<tr class="memitem:ga189ee4b90e459fe6e56850121e99f442"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#ga189ee4b90e459fe6e56850121e99f442">cpp::typeerasure::invoke</a> (Callable &amp;&amp;callable, const ::<a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny</a>&lt; Storages &gt; &amp;...args)</td></tr>
-<tr class="memdesc:ga189ee4b90e459fe6e56850121e99f442"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a callable object with the given type-erased arguments.  <a href="group__type-erasure.html#ga189ee4b90e459fe6e56850121e99f442">More...</a><br /></td></tr>
-<tr class="separator:ga189ee4b90e459fe6e56850121e99f442"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga1427d8680b6f76b2605c0519f259e85d"><td class="memTemplParams" colspan="2">template&lt;typename Callable , typename... Storages&gt; </td></tr>
-<tr class="memitem:ga1427d8680b6f76b2605c0519f259e85d"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#ga1427d8680b6f76b2605c0519f259e85d">cpp::typeerasure::invoke</a> (Callable &amp;&amp;callable,::<a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny</a>&lt; Storages &gt; &amp;...args)</td></tr>
-<tr class="memdesc:ga1427d8680b6f76b2605c0519f259e85d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a callable object with the given type-erased arguments.  <a href="group__type-erasure.html#ga1427d8680b6f76b2605c0519f259e85d">More...</a><br /></td></tr>
-<tr class="separator:ga1427d8680b6f76b2605c0519f259e85d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaebb19034ebb7e52f61d7646d48ca2ee5"><td class="memTemplParams" colspan="2">template&lt;typename Callable , typename... Storages&gt; </td></tr>
-<tr class="memitem:gaebb19034ebb7e52f61d7646d48ca2ee5"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#gaebb19034ebb7e52f61d7646d48ca2ee5">cpp::typeerasure::invoke</a> (Callable &amp;&amp;callable,::<a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny</a>&lt; Storages &gt; &amp;&amp;...args)</td></tr>
-<tr class="memdesc:gaebb19034ebb7e52f61d7646d48ca2ee5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a callable object with the given type-erased arguments.  <a href="group__type-erasure.html#gaebb19034ebb7e52f61d7646d48ca2ee5">More...</a><br /></td></tr>
-<tr class="separator:gaebb19034ebb7e52f61d7646d48ca2ee5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab76836a0017aa4bfc25e7d1f7bebcbe3"><td class="memTemplParams" colspan="2">template&lt;typename Callable , typename Storage &gt; </td></tr>
-<tr class="memitem:gab76836a0017aa4bfc25e7d1f7bebcbe3"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#gab76836a0017aa4bfc25e7d1f7bebcbe3">cpp::typeerasure::invoke</a> (Callable &amp;&amp;callable, const std::vector&lt;::<a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny</a>&lt; Storage &gt;&gt; &amp;args)</td></tr>
-<tr class="memdesc:gab76836a0017aa4bfc25e7d1f7bebcbe3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a callable object with the given type-erased arguments.  <a href="group__type-erasure.html#gab76836a0017aa4bfc25e7d1f7bebcbe3">More...</a><br /></td></tr>
-<tr class="separator:gab76836a0017aa4bfc25e7d1f7bebcbe3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gab384b4416850752979093d983b07c60f"><td class="memTemplParams" colspan="2">template&lt;typename Callable , typename Storage &gt; </td></tr>
-<tr class="memitem:gab384b4416850752979093d983b07c60f"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#gab384b4416850752979093d983b07c60f">cpp::typeerasure::invoke</a> (Callable &amp;&amp;callable, std::vector&lt;::<a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny</a>&lt; Storage &gt;&gt; &amp;args)</td></tr>
-<tr class="memdesc:gab384b4416850752979093d983b07c60f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a callable object with the given type-erased arguments.  <a href="group__type-erasure.html#gab384b4416850752979093d983b07c60f">More...</a><br /></td></tr>
-<tr class="separator:gab384b4416850752979093d983b07c60f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga09d29976839dd8644c2f5e60755e0a2d"><td class="memTemplParams" colspan="2">template&lt;typename Callable , typename Storage &gt; </td></tr>
-<tr class="memitem:ga09d29976839dd8644c2f5e60755e0a2d"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#ga09d29976839dd8644c2f5e60755e0a2d">cpp::typeerasure::invoke</a> (Callable &amp;&amp;callable, std::vector&lt;::<a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny</a>&lt; Storage &gt;&gt; &amp;&amp;args)</td></tr>
-<tr class="memdesc:ga09d29976839dd8644c2f5e60755e0a2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a callable object with the given type-erased arguments.  <a href="group__type-erasure.html#ga09d29976839dd8644c2f5e60755e0a2d">More...</a><br /></td></tr>
-<tr class="separator:ga09d29976839dd8644c2f5e60755e0a2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gaabb05a1bce3757f15ad7b0b9129a186c"><td class="memTemplParams" colspan="2">template&lt;typename Callable &gt; </td></tr>
-<tr class="memitem:gaabb05a1bce3757f15ad7b0b9129a186c"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#gaabb05a1bce3757f15ad7b0b9129a186c">cpp::typeerasure::invoke</a> (Callable &amp;&amp;callable, const std::vector&lt;::<a class="el" href="classcpp_1_1_any_arg.html">cpp::AnyArg</a> &gt; &amp;args)</td></tr>
-<tr class="memdesc:gaabb05a1bce3757f15ad7b0b9129a186c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a callable object with the given type-erased arguments.  <a href="group__type-erasure.html#gaabb05a1bce3757f15ad7b0b9129a186c">More...</a><br /></td></tr>
-<tr class="separator:gaabb05a1bce3757f15ad7b0b9129a186c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga9a06aa7ef141fd02f2b7caa0549cc096"><td class="memTemplParams" colspan="2">template&lt;typename Callable &gt; </td></tr>
-<tr class="memitem:ga9a06aa7ef141fd02f2b7caa0549cc096"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#ga9a06aa7ef141fd02f2b7caa0549cc096">cpp::typeerasure::invoke</a> (Callable &amp;&amp;callable, std::vector&lt;::<a class="el" href="classcpp_1_1_any_arg.html">cpp::AnyArg</a> &gt; &amp;args)</td></tr>
-<tr class="memdesc:ga9a06aa7ef141fd02f2b7caa0549cc096"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a callable object with the given type-erased arguments.  <a href="group__type-erasure.html#ga9a06aa7ef141fd02f2b7caa0549cc096">More...</a><br /></td></tr>
-<tr class="separator:ga9a06aa7ef141fd02f2b7caa0549cc096"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ga2084f253a7ef4ca5944ad0e685533498"><td class="memTemplParams" colspan="2">template&lt;typename Callable &gt; </td></tr>
-<tr class="memitem:ga2084f253a7ef4ca5944ad0e685533498"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#ga2084f253a7ef4ca5944ad0e685533498">cpp::typeerasure::invoke</a> (Callable &amp;&amp;callable, std::vector&lt;::<a class="el" href="classcpp_1_1_any_arg.html">cpp::AnyArg</a> &gt; &amp;&amp;args)</td></tr>
-<tr class="memdesc:ga2084f253a7ef4ca5944ad0e685533498"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a callable object with the given type-erased arguments.  <a href="group__type-erasure.html#ga2084f253a7ef4ca5944ad0e685533498">More...</a><br /></td></tr>
-<tr class="separator:ga2084f253a7ef4ca5944ad0e685533498"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:gabc0f1baf4db2fba659dc00634ec7549c"><td class="memTemplParams" colspan="2">template&lt;typename Callable , typename Iterator , typename  = typename std::iterator_traits&lt;Iterator&gt;::value_type&gt; </td></tr>
-<tr class="memitem:gabc0f1baf4db2fba659dc00634ec7549c"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#gabc0f1baf4db2fba659dc00634ec7549c">cpp::typeerasure::invoke</a> (Callable &amp;&amp;callable, Iterator argsBegin)</td></tr>
-<tr class="memdesc:gabc0f1baf4db2fba659dc00634ec7549c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a callable object with the given type-erased arguments.  <a href="group__type-erasure.html#gabc0f1baf4db2fba659dc00634ec7549c">More...</a><br /></td></tr>
-<tr class="separator:gabc0f1baf4db2fba659dc00634ec7549c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga6bbe20a2dc43bca387f4856111c1851a"><td class="memTemplParams" colspan="2">template&lt;typename Callable , typename... Storages&gt; </td></tr>
+<tr class="memitem:ga6bbe20a2dc43bca387f4856111c1851a"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#ga6bbe20a2dc43bca387f4856111c1851a">cpp::typeerasure::invoke</a> (Callable &amp;&amp;callable, const ::<a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny</a>&lt; Storages &gt; &amp;...args)</td></tr>
+<tr class="memdesc:ga6bbe20a2dc43bca387f4856111c1851a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a callable object with the given type-erased arguments.  <a href="group__type-erasure.html#ga6bbe20a2dc43bca387f4856111c1851a">More...</a><br /></td></tr>
+<tr class="separator:ga6bbe20a2dc43bca387f4856111c1851a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga0a2221dc9f0d63c45b4342eb992245e2"><td class="memTemplParams" colspan="2">template&lt;typename Callable , typename... Storages&gt; </td></tr>
+<tr class="memitem:ga0a2221dc9f0d63c45b4342eb992245e2"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#ga0a2221dc9f0d63c45b4342eb992245e2">cpp::typeerasure::invoke</a> (Callable &amp;&amp;callable,::<a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny</a>&lt; Storages &gt; &amp;...args)</td></tr>
+<tr class="memdesc:ga0a2221dc9f0d63c45b4342eb992245e2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a callable object with the given type-erased arguments.  <a href="group__type-erasure.html#ga0a2221dc9f0d63c45b4342eb992245e2">More...</a><br /></td></tr>
+<tr class="separator:ga0a2221dc9f0d63c45b4342eb992245e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8f1fa35e29685e4dd49c5f432f24deda"><td class="memTemplParams" colspan="2">template&lt;typename Callable , typename... Storages&gt; </td></tr>
+<tr class="memitem:ga8f1fa35e29685e4dd49c5f432f24deda"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#ga8f1fa35e29685e4dd49c5f432f24deda">cpp::typeerasure::invoke</a> (Callable &amp;&amp;callable,::<a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny</a>&lt; Storages &gt; &amp;&amp;...args)</td></tr>
+<tr class="memdesc:ga8f1fa35e29685e4dd49c5f432f24deda"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a callable object with the given type-erased arguments.  <a href="group__type-erasure.html#ga8f1fa35e29685e4dd49c5f432f24deda">More...</a><br /></td></tr>
+<tr class="separator:ga8f1fa35e29685e4dd49c5f432f24deda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga48e716c0c250219b0e2b87e387eab855"><td class="memTemplParams" colspan="2">template&lt;typename Callable , typename Storage &gt; </td></tr>
+<tr class="memitem:ga48e716c0c250219b0e2b87e387eab855"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#ga48e716c0c250219b0e2b87e387eab855">cpp::typeerasure::invoke</a> (Callable &amp;&amp;callable, const std::vector&lt;::<a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny</a>&lt; Storage &gt;&gt; &amp;args)</td></tr>
+<tr class="memdesc:ga48e716c0c250219b0e2b87e387eab855"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a callable object with the given type-erased arguments.  <a href="group__type-erasure.html#ga48e716c0c250219b0e2b87e387eab855">More...</a><br /></td></tr>
+<tr class="separator:ga48e716c0c250219b0e2b87e387eab855"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga8e15d5974d0e530fb7fa230eb945faf3"><td class="memTemplParams" colspan="2">template&lt;typename Callable , typename Storage &gt; </td></tr>
+<tr class="memitem:ga8e15d5974d0e530fb7fa230eb945faf3"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#ga8e15d5974d0e530fb7fa230eb945faf3">cpp::typeerasure::invoke</a> (Callable &amp;&amp;callable, std::vector&lt;::<a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny</a>&lt; Storage &gt;&gt; &amp;args)</td></tr>
+<tr class="memdesc:ga8e15d5974d0e530fb7fa230eb945faf3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a callable object with the given type-erased arguments.  <a href="group__type-erasure.html#ga8e15d5974d0e530fb7fa230eb945faf3">More...</a><br /></td></tr>
+<tr class="separator:ga8e15d5974d0e530fb7fa230eb945faf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa94316f1dd7762d56da8e12c2d23ebd9"><td class="memTemplParams" colspan="2">template&lt;typename Callable , typename Storage &gt; </td></tr>
+<tr class="memitem:gaa94316f1dd7762d56da8e12c2d23ebd9"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#gaa94316f1dd7762d56da8e12c2d23ebd9">cpp::typeerasure::invoke</a> (Callable &amp;&amp;callable, std::vector&lt;::<a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny</a>&lt; Storage &gt;&gt; &amp;&amp;args)</td></tr>
+<tr class="memdesc:gaa94316f1dd7762d56da8e12c2d23ebd9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a callable object with the given type-erased arguments.  <a href="group__type-erasure.html#gaa94316f1dd7762d56da8e12c2d23ebd9">More...</a><br /></td></tr>
+<tr class="separator:gaa94316f1dd7762d56da8e12c2d23ebd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga095c79ef047719dc703358fbe96bb2ff"><td class="memTemplParams" colspan="2">template&lt;typename Callable &gt; </td></tr>
+<tr class="memitem:ga095c79ef047719dc703358fbe96bb2ff"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#ga095c79ef047719dc703358fbe96bb2ff">cpp::typeerasure::invoke</a> (Callable &amp;&amp;callable, const std::vector&lt;::<a class="el" href="classcpp_1_1_any_arg.html">cpp::AnyArg</a> &gt; &amp;args)</td></tr>
+<tr class="memdesc:ga095c79ef047719dc703358fbe96bb2ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a callable object with the given type-erased arguments.  <a href="group__type-erasure.html#ga095c79ef047719dc703358fbe96bb2ff">More...</a><br /></td></tr>
+<tr class="separator:ga095c79ef047719dc703358fbe96bb2ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab39e6e82b96e1e86d3ec54936adededc"><td class="memTemplParams" colspan="2">template&lt;typename Callable &gt; </td></tr>
+<tr class="memitem:gab39e6e82b96e1e86d3ec54936adededc"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#gab39e6e82b96e1e86d3ec54936adededc">cpp::typeerasure::invoke</a> (Callable &amp;&amp;callable, std::vector&lt;::<a class="el" href="classcpp_1_1_any_arg.html">cpp::AnyArg</a> &gt; &amp;args)</td></tr>
+<tr class="memdesc:gab39e6e82b96e1e86d3ec54936adededc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a callable object with the given type-erased arguments.  <a href="group__type-erasure.html#gab39e6e82b96e1e86d3ec54936adededc">More...</a><br /></td></tr>
+<tr class="separator:gab39e6e82b96e1e86d3ec54936adededc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gab5c72485252a322ee9162745f4b748ee"><td class="memTemplParams" colspan="2">template&lt;typename Callable &gt; </td></tr>
+<tr class="memitem:gab5c72485252a322ee9162745f4b748ee"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#gab5c72485252a322ee9162745f4b748ee">cpp::typeerasure::invoke</a> (Callable &amp;&amp;callable, std::vector&lt;::<a class="el" href="classcpp_1_1_any_arg.html">cpp::AnyArg</a> &gt; &amp;&amp;args)</td></tr>
+<tr class="memdesc:gab5c72485252a322ee9162745f4b748ee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a callable object with the given type-erased arguments.  <a href="group__type-erasure.html#gab5c72485252a322ee9162745f4b748ee">More...</a><br /></td></tr>
+<tr class="separator:gab5c72485252a322ee9162745f4b748ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gad3bdab12bd6b6f8fd8ae32242f0b4dec"><td class="memTemplParams" colspan="2">template&lt;typename Callable , typename Iterator , typename  = typename std::iterator_traits&lt;Iterator&gt;::value_type&gt; </td></tr>
+<tr class="memitem:gad3bdab12bd6b6f8fd8ae32242f0b4dec"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#gad3bdab12bd6b6f8fd8ae32242f0b4dec">cpp::typeerasure::invoke</a> (Callable &amp;&amp;callable, Iterator argsBegin)</td></tr>
+<tr class="memdesc:gad3bdab12bd6b6f8fd8ae32242f0b4dec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes a callable object with the given type-erased arguments.  <a href="group__type-erasure.html#gad3bdab12bd6b6f8fd8ae32242f0b4dec">More...</a><br /></td></tr>
+<tr class="separator:gad3bdab12bd6b6f8fd8ae32242f0b4dec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga7031eddbfb1bdfa0a0ebda930085c3f1"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ga7031eddbfb1bdfa0a0ebda930085c3f1"><td class="memTemplItemLeft" align="right" valign="top">ValueSemanticsOperationFunction&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#ga7031eddbfb1bdfa0a0ebda930085c3f1">cpp::typeerasure::detail::valueSemanticsOperation</a> (ValueSemanticsOperation operation)</td></tr>
 <tr class="memdesc:ga7031eddbfb1bdfa0a0ebda930085c3f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements a type-erased interface for the value semantics features of a type T.  <a href="group__type-erasure.html#ga7031eddbfb1bdfa0a0ebda930085c3f1">More...</a><br /></td></tr>
@@ -278,17 +278,17 @@ Functions</h2></td></tr>
 <li><code><a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">cpp::SimpleAny</a></code>: Type-erased value container with customizable storage</li>
 <li><code><a class="el" href="classcpp_1_1typeerasure_1_1_function.html" title="Stores a type-erased callable of any signature and kind. ">cpp::typeerasure::Function</a></code>: Type-erased callable with customizable storage</li>
 <li><code><a class="el" href="classcpp_1_1_any.html" title="Implements a type-erased object container with support for dynamic method and attribute invokation...">cpp::Any</a></code>: Type-erased value container with a customizable object-like interface at runtime.</li>
-<li><code><a class="el" href="group__type-erasure.html#ga189ee4b90e459fe6e56850121e99f442" title="Invokes a callable object with the given type-erased arguments. ">cpp::typeerasure::invoke()</a></code>: Generic callable invocation with type-erased arguments </li>
+<li><code><a class="el" href="group__type-erasure.html#ga6bbe20a2dc43bca387f4856111c1851a" title="Invokes a callable object with the given type-erased arguments. ">cpp::typeerasure::invoke()</a></code>: Generic callable invocation with type-erased arguments </li>
 </ul>
 <h2 class="groupheader">Function Documentation</h2>
-<a class="anchor" id="ga189ee4b90e459fe6e56850121e99f442"></a>
+<a class="anchor" id="ga6bbe20a2dc43bca387f4856111c1851a"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename Callable , typename... Storages&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">auto cpp::typeerasure::invoke </td>
+          <td class="memname">decltype(auto) cpp::typeerasure::invoke </td>
           <td>(</td>
           <td class="paramtype">Callable &amp;&amp;&#160;</td>
           <td class="paramname"><em>callable</em>, </td>
@@ -315,18 +315,18 @@ template&lt;typename Callable , typename... Storages&gt; </div>
   </table>
   </dd>
 </dl>
-<p>See <a class="el" href="group__utility.html#gaa5ce618849a87f98c075cf947174abf4" title="Invokes the Callable object with the given arguments. See std::invoke() ">cpp::invoke()</a> for detailed behavior </p>
+<p>See <a class="el" href="group__utility.html#gaf4744fbb3392aeb77a421cc17243f1af" title="Invokes the Callable object with the given arguments. See std::invoke() ">cpp::invoke()</a> for detailed behavior </p>
 
 </div>
 </div>
-<a class="anchor" id="ga1427d8680b6f76b2605c0519f259e85d"></a>
+<a class="anchor" id="ga0a2221dc9f0d63c45b4342eb992245e2"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename Callable , typename... Storages&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">auto cpp::typeerasure::invoke </td>
+          <td class="memname">decltype(auto) cpp::typeerasure::invoke </td>
           <td>(</td>
           <td class="paramtype">Callable &amp;&amp;&#160;</td>
           <td class="paramname"><em>callable</em>, </td>
@@ -353,18 +353,18 @@ template&lt;typename Callable , typename... Storages&gt; </div>
   </table>
   </dd>
 </dl>
-<p>See <a class="el" href="group__utility.html#gaa5ce618849a87f98c075cf947174abf4" title="Invokes the Callable object with the given arguments. See std::invoke() ">cpp::invoke()</a> for detailed behavior </p>
+<p>See <a class="el" href="group__utility.html#gaf4744fbb3392aeb77a421cc17243f1af" title="Invokes the Callable object with the given arguments. See std::invoke() ">cpp::invoke()</a> for detailed behavior </p>
 
 </div>
 </div>
-<a class="anchor" id="gaebb19034ebb7e52f61d7646d48ca2ee5"></a>
+<a class="anchor" id="ga8f1fa35e29685e4dd49c5f432f24deda"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename Callable , typename... Storages&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">auto cpp::typeerasure::invoke </td>
+          <td class="memname">decltype(auto) cpp::typeerasure::invoke </td>
           <td>(</td>
           <td class="paramtype">Callable &amp;&amp;&#160;</td>
           <td class="paramname"><em>callable</em>, </td>
@@ -391,18 +391,18 @@ template&lt;typename Callable , typename... Storages&gt; </div>
   </table>
   </dd>
 </dl>
-<p>See <a class="el" href="group__utility.html#gaa5ce618849a87f98c075cf947174abf4" title="Invokes the Callable object with the given arguments. See std::invoke() ">cpp::invoke()</a> for detailed behavior </p>
+<p>See <a class="el" href="group__utility.html#gaf4744fbb3392aeb77a421cc17243f1af" title="Invokes the Callable object with the given arguments. See std::invoke() ">cpp::invoke()</a> for detailed behavior </p>
 
 </div>
 </div>
-<a class="anchor" id="gab76836a0017aa4bfc25e7d1f7bebcbe3"></a>
+<a class="anchor" id="ga48e716c0c250219b0e2b87e387eab855"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename Callable , typename Storage &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">auto cpp::typeerasure::invoke </td>
+          <td class="memname">decltype(auto) cpp::typeerasure::invoke </td>
           <td>(</td>
           <td class="paramtype">Callable &amp;&amp;&#160;</td>
           <td class="paramname"><em>callable</em>, </td>
@@ -429,18 +429,18 @@ template&lt;typename Callable , typename Storage &gt; </div>
   </table>
   </dd>
 </dl>
-<p>See <a class="el" href="group__utility.html#gaa5ce618849a87f98c075cf947174abf4" title="Invokes the Callable object with the given arguments. See std::invoke() ">cpp::invoke()</a> for detailed behavior </p>
+<p>See <a class="el" href="group__utility.html#gaf4744fbb3392aeb77a421cc17243f1af" title="Invokes the Callable object with the given arguments. See std::invoke() ">cpp::invoke()</a> for detailed behavior </p>
 
 </div>
 </div>
-<a class="anchor" id="gab384b4416850752979093d983b07c60f"></a>
+<a class="anchor" id="ga8e15d5974d0e530fb7fa230eb945faf3"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename Callable , typename Storage &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">auto cpp::typeerasure::invoke </td>
+          <td class="memname">decltype(auto) cpp::typeerasure::invoke </td>
           <td>(</td>
           <td class="paramtype">Callable &amp;&amp;&#160;</td>
           <td class="paramname"><em>callable</em>, </td>
@@ -467,18 +467,18 @@ template&lt;typename Callable , typename Storage &gt; </div>
   </table>
   </dd>
 </dl>
-<p>See <a class="el" href="group__utility.html#gaa5ce618849a87f98c075cf947174abf4" title="Invokes the Callable object with the given arguments. See std::invoke() ">cpp::invoke()</a> for detailed behavior </p>
+<p>See <a class="el" href="group__utility.html#gaf4744fbb3392aeb77a421cc17243f1af" title="Invokes the Callable object with the given arguments. See std::invoke() ">cpp::invoke()</a> for detailed behavior </p>
 
 </div>
 </div>
-<a class="anchor" id="ga09d29976839dd8644c2f5e60755e0a2d"></a>
+<a class="anchor" id="gaa94316f1dd7762d56da8e12c2d23ebd9"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename Callable , typename Storage &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">auto cpp::typeerasure::invoke </td>
+          <td class="memname">decltype(auto) cpp::typeerasure::invoke </td>
           <td>(</td>
           <td class="paramtype">Callable &amp;&amp;&#160;</td>
           <td class="paramname"><em>callable</em>, </td>
@@ -505,18 +505,18 @@ template&lt;typename Callable , typename Storage &gt; </div>
   </table>
   </dd>
 </dl>
-<p>See <a class="el" href="group__utility.html#gaa5ce618849a87f98c075cf947174abf4" title="Invokes the Callable object with the given arguments. See std::invoke() ">cpp::invoke()</a> for detailed behavior </p>
+<p>See <a class="el" href="group__utility.html#gaf4744fbb3392aeb77a421cc17243f1af" title="Invokes the Callable object with the given arguments. See std::invoke() ">cpp::invoke()</a> for detailed behavior </p>
 
 </div>
 </div>
-<a class="anchor" id="gaabb05a1bce3757f15ad7b0b9129a186c"></a>
+<a class="anchor" id="ga095c79ef047719dc703358fbe96bb2ff"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename Callable &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">auto cpp::typeerasure::invoke </td>
+          <td class="memname">decltype(auto) cpp::typeerasure::invoke </td>
           <td>(</td>
           <td class="paramtype">Callable &amp;&amp;&#160;</td>
           <td class="paramname"><em>callable</em>, </td>
@@ -544,18 +544,18 @@ template&lt;typename Callable &gt; </div>
   </table>
   </dd>
 </dl>
-<p>See <a class="el" href="group__utility.html#gaa5ce618849a87f98c075cf947174abf4" title="Invokes the Callable object with the given arguments. See std::invoke() ">cpp::invoke()</a> for detailed behavior </p>
+<p>See <a class="el" href="group__utility.html#gaf4744fbb3392aeb77a421cc17243f1af" title="Invokes the Callable object with the given arguments. See std::invoke() ">cpp::invoke()</a> for detailed behavior </p>
 
 </div>
 </div>
-<a class="anchor" id="ga9a06aa7ef141fd02f2b7caa0549cc096"></a>
+<a class="anchor" id="gab39e6e82b96e1e86d3ec54936adededc"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename Callable &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">auto cpp::typeerasure::invoke </td>
+          <td class="memname">decltype(auto) cpp::typeerasure::invoke </td>
           <td>(</td>
           <td class="paramtype">Callable &amp;&amp;&#160;</td>
           <td class="paramname"><em>callable</em>, </td>
@@ -583,18 +583,18 @@ template&lt;typename Callable &gt; </div>
   </table>
   </dd>
 </dl>
-<p>See <a class="el" href="group__utility.html#gaa5ce618849a87f98c075cf947174abf4" title="Invokes the Callable object with the given arguments. See std::invoke() ">cpp::invoke()</a> for detailed behavior </p>
+<p>See <a class="el" href="group__utility.html#gaf4744fbb3392aeb77a421cc17243f1af" title="Invokes the Callable object with the given arguments. See std::invoke() ">cpp::invoke()</a> for detailed behavior </p>
 
 </div>
 </div>
-<a class="anchor" id="ga2084f253a7ef4ca5944ad0e685533498"></a>
+<a class="anchor" id="gab5c72485252a322ee9162745f4b748ee"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename Callable &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">auto cpp::typeerasure::invoke </td>
+          <td class="memname">decltype(auto) cpp::typeerasure::invoke </td>
           <td>(</td>
           <td class="paramtype">Callable &amp;&amp;&#160;</td>
           <td class="paramname"><em>callable</em>, </td>
@@ -622,18 +622,18 @@ template&lt;typename Callable &gt; </div>
   </table>
   </dd>
 </dl>
-<p>See <a class="el" href="group__utility.html#gaa5ce618849a87f98c075cf947174abf4" title="Invokes the Callable object with the given arguments. See std::invoke() ">cpp::invoke()</a> for detailed behavior </p>
+<p>See <a class="el" href="group__utility.html#gaf4744fbb3392aeb77a421cc17243f1af" title="Invokes the Callable object with the given arguments. See std::invoke() ">cpp::invoke()</a> for detailed behavior </p>
 
 </div>
 </div>
-<a class="anchor" id="gabc0f1baf4db2fba659dc00634ec7549c"></a>
+<a class="anchor" id="gad3bdab12bd6b6f8fd8ae32242f0b4dec"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename Callable , typename Iterator , typename  = typename std::iterator_traits&lt;Iterator&gt;::value_type&gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">auto cpp::typeerasure::invoke </td>
+          <td class="memname">decltype(auto) cpp::typeerasure::invoke </td>
           <td>(</td>
           <td class="paramtype">Callable &amp;&amp;&#160;</td>
           <td class="paramname"><em>callable</em>, </td>
@@ -667,7 +667,7 @@ template&lt;typename Callable , typename Iterator , typename  = typename std::it
   </table>
   </dd>
 </dl>
-<p>See <a class="el" href="group__utility.html#gaa5ce618849a87f98c075cf947174abf4" title="Invokes the Callable object with the given arguments. See std::invoke() ">cpp::invoke()</a> for detailed behavior </p>
+<p>See <a class="el" href="group__utility.html#gaf4744fbb3392aeb77a421cc17243f1af" title="Invokes the Callable object with the given arguments. See std::invoke() ">cpp::invoke()</a> for detailed behavior </p>
 
 </div>
 </div>

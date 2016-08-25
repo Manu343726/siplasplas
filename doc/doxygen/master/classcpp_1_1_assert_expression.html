@@ -131,6 +131,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa31218125f0b03ad8d380908e1d3e268"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcpp_1_1_assert_expression.html">AssertExpression</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_assert_expression.html#aa31218125f0b03ad8d380908e1d3e268">onFailure</a> (const std::function&lt; void()&gt; &amp;callback)</td></tr>
 <tr class="memdesc:aa31218125f0b03ad8d380908e1d3e268"><td class="mdescLeft">&#160;</td><td class="mdescRight">Specifies an action to execute when the assertion fails.  <a href="#aa31218125f0b03ad8d380908e1d3e268">More...</a><br /></td></tr>
 <tr class="separator:aa31218125f0b03ad8d380908e1d3e268"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa49f0ca91221d2d9300fd484b838c7b6"><td class="memTemplParams" colspan="2">template&lt;typename String , typename... Args&gt; </td></tr>
+<tr class="memitem:aa49f0ca91221d2d9300fd484b838c7b6"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classcpp_1_1_assert_expression.html">AssertExpression</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1_assert_expression.html#aa49f0ca91221d2d9300fd484b838c7b6">detail</a> (String &amp;&amp;messageBody, Args &amp;&amp;...messageArgs)</td></tr>
+<tr class="memdesc:aa49f0ca91221d2d9300fd484b838c7b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds detailed information to the assertion report.  <a href="#aa49f0ca91221d2d9300fd484b838c7b6">More...</a><br /></td></tr>
+<tr class="separator:aa49f0ca91221d2d9300fd484b838c7b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae7fc220b74614490642ff76bf1f2b93"><td class="memTemplParams" colspan="2"><a class="anchor" id="aae7fc220b74614490642ff76bf1f2b93"></a>
+template&lt;typename String , typename... Args&gt; </td></tr>
+<tr class="memitem:aae7fc220b74614490642ff76bf1f2b93"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classcpp_1_1_assert_expression.html">AssertExpression</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1_assert_expression.html#aae7fc220b74614490642ff76bf1f2b93">operator()</a> (String &amp;&amp;messageBody, Args &amp;&amp;...args)</td></tr>
+<tr class="memdesc:aae7fc220b74614490642ff76bf1f2b93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds detailed information to the assertion report. Equivalent to <a class="el" href="classcpp_1_1_assert_expression.html#aa49f0ca91221d2d9300fd484b838c7b6" title="Adds detailed information to the assertion report. ">detail()</a>. <br /></td></tr>
+<tr class="separator:aae7fc220b74614490642ff76bf1f2b93"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Implements a siplasplas assertion. </p>
@@ -212,6 +221,52 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="aa49f0ca91221d2d9300fd484b838c7b6"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename String , typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classcpp_1_1_assert_expression.html">AssertExpression</a>&amp; cpp::AssertExpression::detail </td>
+          <td>(</td>
+          <td class="paramtype">String &amp;&amp;&#160;</td>
+          <td class="paramname"><em>messageBody</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>messageArgs</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Adds detailed information to the assertion report. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">messageBody</td><td>Detail message string </td></tr>
+    <tr><td class="paramname">messageArgs</td><td>Detail message arguments. The body may contain placeholders to fill with this values (See fmt::format()).</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A reference to *this to implement the assertion expression fluent interface. </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="aa31218125f0b03ad8d380908e1d3e268"></a>
 <div class="memitem">
 <div class="memproto">
@@ -235,7 +290,8 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Reference to the assertion expresion (*this). Implements a fluent interface on the assertion expression.</dd></dl>
-<div class="fragment"><div class="line"><span class="keyword">static</span> std::size_t failures = 0;</div><div class="line"></div><div class="line"><span class="keywordtype">int</span> sqrt(<span class="keywordtype">int</span> n)</div><div class="line">{</div><div class="line">     <a class="code" href="group__assert.html#gaf7d0a76e90558a6cc5758056eb0ea7da">SIPLASPLAS_ASSERT_BT</a>(n, 0).onFailure([&amp;]</div><div class="line">     {</div><div class="line">         <span class="comment">// Increment the global failures count</span></div><div class="line">         <span class="comment">// if the assertion fails.</span></div><div class="line">         failures++;</div><div class="line">     });</div><div class="line"></div><div class="line">     <span class="keywordflow">return</span> 1 / finvsqrt(n);</div><div class="line">}</div></div><!-- fragment --> 
+<div class="fragment"><div class="line"><span class="keyword">static</span> std::size_t failures = 0;</div><div class="line"></div><div class="line"><span class="keywordtype">int</span> sqrt(<span class="keywordtype">int</span> n)</div><div class="line">{</div><div class="line">     <a class="code" href="group__assert.html#gaf7d0a76e90558a6cc5758056eb0ea7da">SIPLASPLAS_ASSERT_BT</a>(n, 0).onFailure([&amp;]</div><div class="line">     {</div><div class="line">         <span class="comment">// Increment the global failures count</span></div><div class="line">         <span class="comment">// if the assertion fails.</span></div><div class="line">         failures++;</div><div class="line">     });</div><div class="line"></div><div class="line">     <span class="keywordflow">return</span> 1 / finvsqrt(n);</div><div class="line">}</div></div><!-- fragment --><dl class="section return"><dt>Returns</dt><dd>A reference to *this to implement the assertion expression fluent interface. </dd></dl>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>

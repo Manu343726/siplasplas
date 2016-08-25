@@ -4,10 +4,14 @@ var group__assert =
     [ "AssertExpression", "classcpp_1_1_assert_expression.html", [
       [ "AssertExpression", "classcpp_1_1_assert_expression.html#a747d06793ac638fae3da51bae1eca33d", null ],
       [ "~AssertExpression", "classcpp_1_1_assert_expression.html#aa79800e71aa879d2167d7e660b29b7fd", null ],
-      [ "onFailure", "classcpp_1_1_assert_expression.html#aa31218125f0b03ad8d380908e1d3e268", null ]
+      [ "detail", "classcpp_1_1_assert_expression.html#aa49f0ca91221d2d9300fd484b838c7b6", null ],
+      [ "onFailure", "classcpp_1_1_assert_expression.html#aa31218125f0b03ad8d380908e1d3e268", null ],
+      [ "operator()", "classcpp_1_1_assert_expression.html#aae7fc220b74614490642ff76bf1f2b93", null ]
     ] ],
     [ "DummyAssertExpression", "classcpp_1_1_dummy_assert_expression.html", [
-      [ "onFailure", "classcpp_1_1_dummy_assert_expression.html#adcee6bf8b3e9fdb9e2650d24a4e10abf", null ]
+      [ "detail", "classcpp_1_1_dummy_assert_expression.html#a71e6594a2f48664f7337589835230a9b", null ],
+      [ "onFailure", "classcpp_1_1_dummy_assert_expression.html#adcee6bf8b3e9fdb9e2650d24a4e10abf", null ],
+      [ "operator()", "classcpp_1_1_dummy_assert_expression.html#aec56f063f3c168211991283de09b8712", null ]
     ] ],
     [ "SIPLASPLAS_ASSERT", "group__assert.html#ga85063fb7dc312ce74ae18cf264a35679", null ],
     [ "SIPLASPLAS_ASSERT_BE", "group__assert.html#ga66bdb3beb003a154581fff9028ba31e3", null ],
