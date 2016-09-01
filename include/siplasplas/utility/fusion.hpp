@@ -8,8 +8,6 @@
 #include <sstream>
 #include <vector>
 
-#include <ctti/type_id.hpp>
-
 namespace cpp
 {
 
@@ -168,23 +166,6 @@ template<typename T, typename... Ts, typename Function>
 std::vector<T> fmap(Function function)
 {
     return types_call<T, Ts...>(function);
-}
-
-template<typename Types>
-std::string printTypeList()
-{
-    std::ostringstream os;
-
-    os << "{";
-
-    foreach<Types>([&os](auto type)
-    {
-        os << ctti::type_id<typename decltype(type)::type>().name() << ", ";
-    });
-
-    os << "}";
-
-    return os.str();
 }
 
 }

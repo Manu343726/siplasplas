@@ -1,6 +1,8 @@
 #ifndef SIPLASPLAS_REFLECTION_STATIC_FIELD_HPP
 #define SIPLASPLAS_REFLECTION_STATIC_FIELD_HPP
 
+#include <siplasplas/utility/meta.hpp>
+
 namespace cpp
 {
 
@@ -20,7 +22,7 @@ public:
     using type = T Class::*;
     using value_type = T;
     using class_type = Class;
-    using decay_t = std::decay_t<value_type>;
+    using decay_t = cpp::meta::decay_t<value_type>;
     using SourceInfo = SourceInfo_;
 
     constexpr Field() = default;

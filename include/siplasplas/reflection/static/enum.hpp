@@ -56,7 +56,7 @@ public:
         return _values;
     }
 
-    static constexpr const char* toString(const EnumType value)
+    static const char* toString(const EnumType value)
     {
         for(std::size_t i = 0; i < sizeof...(Constants) + 1; ++i)
         {
@@ -69,7 +69,7 @@ public:
         throw std::logic_error{"unknown enum constant"};
     }
 
-    static constexpr EnumType fromString(const char* name)
+    static EnumType fromString(const char* name)
     {
         for(std::size_t i = 0; i < sizeof...(Constants) + 1; ++i)
         {

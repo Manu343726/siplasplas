@@ -2,7 +2,6 @@
 #define SIPLASPLAS_REFLECTION_STATIC_SOURCEINFO_HPP
 
 #include <siplasplas/utility/meta.hpp>
-#include <ctti/type_id.hpp>
 #include <array>
 #include <string>
 
