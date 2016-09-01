@@ -37,6 +37,7 @@ class Compiler:
         self.outputdir = output_dir
         self.print_ast = print_ast
         self.jinjaTemplateFile = jinjaTemplateFile
+        self.verbose = verbose
 
         import jinja2
         from jinja2 import Template, Environment, FileSystemLoader
@@ -59,15 +60,17 @@ class Compiler:
                 self.logger.step('({}outdated{}) {}'.format(Fore.RED, Fore.RESET, self.pathformat.format(tu.filePath)))
 
                 outputfile = self._output_file(tu.filePath)
-                self.logger.info('Output file: {}'.format(outputfile))
+
+                if self.verbose:
+                    self.logger.info('Output file: {}'.format(outputfile))
 
                 # Touch the output file so #include <outputfile> doesn't fail
                 if not os.path.exists(outputfile):
                     with open(outputfile, 'w') as f:
                         f.close()
 
-                tu.process()
-                tu.run_jinja(outputfile)
+                tu.process(self.verbose)
+                tu.run_jinja(outputfile, self.verbose)
                 self.syncmanager.sync(sourcefile, os.path.relpath(outputfile, self.sourcedir))
                 tu.dispose() # Release translation unit memory (Clang AST, processed AST, etc)
             else:
@@ -114,9 +117,8 @@ class App:
         return outputfiles
 
     def splashscreen(self, message):
-        print '{}==>{} {}'.format(Fore.MAGENTA, Fore.RESET, message)
-        print '    {}{}{}'.format(Fore.MAGENTA, '='*len(message), Fore.RESET)
-        print ''
+        print message
+        print '{}{}{}'.format(Fore.GREEN, '='*len(message), Fore.RESET)
 
     def split_argument(self, arg):
         if arg:
@@ -135,8 +137,8 @@ class App:
         return False
 
     def __init__(self):
-        self.splashscreen('Dynamic Reflection Library Parser')
-        self.logger = Logger(Fore.MAGENTA)
+        self.splashscreen('siplasplas reflection parser')
+        self.logger = Logger(Fore.GREEN)
 
         parser = argparse.ArgumentParser(description='Dynamic Reflection Library Parser')
         parser.add_argument('--compile-options',   default = '', help = 'Clang compile options')
@@ -146,7 +148,8 @@ class App:
         parser.add_argument('-I', '--includedirs', default = '', help = 'Extra include directories for libclang parser')
         parser.add_argument('-s', '--sourcedir',                              help = 'Project source directory')
         parser.add_argument('-x', '--exclude',     nargs = '*', default = [], help = 'List of GLOBs to exclude source files from include directories scan')
-        parser.add_argument('--blacklist', nargs ='*', default = [], help = 'Subset of searchdirs to ignore')
+        parser.add_argument('--blacklist',         default = '', help = 'Subset of searchdirs to ignore')
+        parser.add_argument('--no-ignore-externals', action = 'store_true', help = 'Do not ignore include directories external to the sourcetree during search')
         parser.add_argument('-e', '--extensions',  nargs = '*', default = ['.hpp', '.h', '.hxx'], help = 'List of file extensions used for include directory input files scan')
         parser.add_argument('-i', '--ignore-database', action = 'store_true', help = 'Ignore database records (Ignore input file timestamps, process file always)')
         parser.add_argument('-l', '--libclang',                               help = 'Full path to libclang library (libclang.so)')
@@ -160,11 +163,10 @@ class App:
         GlobalLogger.enabled(self.args.verbose)
 
         if self.args.libclang:
-            self.logger.step('libclang.so: ' + self.args.libclang)
+            libclang_binary = self.args.libclang
             clang.cindex.Config.set_library_file(self.args.libclang)
         else:
-            config = clang.cindex.Config()
-            self.logger.step('libclang.so: ' + os.path.abspath(config.get_filename()))
+            libclang_binary = os.path.realpath(clang.cindex.Config().get_filename())
 
 
         self.args.compile_options = self.split_argument(self.args.compile_options)
@@ -172,15 +174,25 @@ class App:
         self.args.files       = self.split_argument(self.args.files)
         self.args.searchdirs  = self.split_argument(self.args.searchdirs)
         self.args.includedirs = self.split_argument(self.args.includedirs)
+        self.args.blacklist   = self.split_argument(self.args.blacklist)
 
-        self.logger.step('Database file: {}'.format(self.args.database))
-        self.logger.step('Extensions: ' + ', '.join(self.args.extensions))
-        self.logger.step('Exclude: ' + ', '.join(self.args.exclude))
-        self.logger.step('Compile options: ' + ' '.join(self.args.compile_options))
-        self.logger.step('Template file: ' + self.args.code_template_file)
-        self.logger.step('Output directory: ' + self.args.output_dir)
+        # Ignore directories from outside the sourcetree by default:
+        if not self.args.no_ignore_externals:
+            self.args.blacklist += [dir for dir in self.args.searchdirs if os.path.commonprefix([dir, self.args.sourcedir]) != self.args.sourcedir]
 
-        self.logger = Logger(Fore.YELLOW)
+        if self.args.verbose:
+            self.logger.start('Settings:')
+
+            self.logger.step('Source directory: {}'.format(self.args.sourcedir))
+            self.logger.step('Libclang binary: {}'.format(libclang_binary))
+            self.logger.step('Database file: {}'.format(self.args.database))
+            self.logger.step('Extensions: ' + ', '.join(self.args.extensions))
+            self.logger.step('Exclude: ' + ', '.join(self.args.exclude))
+            self.logger.step('Blacklist: ' + ', '.join(self.args.blacklist))
+            self.logger.step('Compile options: ' + ' '.join(self.args.compile_options))
+            self.logger.step('Template file: ' + self.args.code_template_file)
+            self.logger.step('Output directory: ' + self.args.output_dir)
+
 
         if self.args.searchdirs:
             self.logger.start('Scanning search directories:')
@@ -195,10 +207,11 @@ class App:
 
         self.args.files.sort()
 
-        self.logger.start('Extra include directories:')
+        if self.args.verbose:
+            self.logger.start('Extra include directories:')
 
-        for dir in self.args.includedirs:
-            self.logger.step(dir)
+            for dir in self.args.includedirs:
+                self.logger.step(dir)
 
         includes = ['-I{}'.format(os.path.abspath(i)) for i in (self.args.searchdirs + self.args.includedirs)]
         includes.append('-I' + os.path.abspath(self.args.sourcedir))
@@ -213,7 +226,8 @@ class App:
             self.args.sourcedir, self.args.files,
             self.args.database, self.args.output_dir, self.args.ignore_database,
             self.args.ast_dump,
-            self.args.code_template_file
+            self.args.code_template_file,
+            self.args.verbose
         )
 
     def run(self):

@@ -1,0 +1,11 @@
+install(
+FILES
+    utils.cmake
+    libclang.cmake
+    pip.cmake
+    FindLibClang.cmake
+    FindPythonPip.cmake
+    siplasplas.cmake
+DESTINATION
+    cmake/
+)

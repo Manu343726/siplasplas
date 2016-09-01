@@ -1,4 +1,3 @@
-
 set(PACKAGE_VARIANT "${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}-${CMAKE_BUILD_TYPE}")
 
 if(SIPLASPLAS_LIBRARIES_STATIC)
@@ -23,6 +22,7 @@ string(REGEX REPLACE "\n" "" branch "${branch}")
 string(REGEX REPLACE " " "-" branch "${branch}")
 
 set(CPACK_PACKAGE_FILE_NAME "siplasplas-${branch}-${PACKAGE_VARIANT}")
+string(REGEX REPLACE "\\." "_" CPACK_PACKAGE_FILE_NAME "${CPACK_PACKAGE_FILE_NAME}")
 set(CPACK_PACKAGE_VENDOR "Manu Sánchez")
 set(CPACK_PACKAGE_DESCRIPTION "Examples and utilities for the Advanced C++ course for the GUEIM association, Complutense University of Madrid")
 set(CPACK_PACKAGE_VERSION_MAJOR ${SIPLASPLAS_VERSION_MAJOR})

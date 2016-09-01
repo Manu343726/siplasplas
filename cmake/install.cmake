@@ -6,18 +6,9 @@ function(install_siplasplas_library TARGET)
         RUNTIME DESTINATION bin
         COMPONENT libraries
     )
-
-    headerdir_from_sourcetree(dir)
-    install(DIRECTORY ${dir} DESTINATION include/siplasplas
-        COMPONENT headers
-    )
 endfunction()
 
 function(install_siplasplas_headeronly_library TARGET)
-    headerdir_from_sourcetree(dir)
-    install(DIRECTORY ${dir} DESTINATION include/siplasplas
-        COMPONENT headers
-    )
 endfunction()
 
 function(install_siplasplas_example EXAMPLE)
@@ -40,3 +31,5 @@ function(install_siplasplas_example EXAMPLE)
         )
     endif()
 endfunction()
+
+install(DIRECTORY "${CMAKE_SOURCE_DIR}/include/siplasplas" DESTINATION include/)

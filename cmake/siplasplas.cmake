@@ -1,0 +1,22 @@
+if(NOT SIPLASPLAS_ROOT)
+    message(FATAL_ERROR "siplasplas installation not found. Use SIPLASPLAS_ROOT variable to specify the path to your siplasplas installation")
+endif()
+
+set(SIPLAPLAS_LIB_DIR    "${SIPLASPLAS_ROOT}/lib"   CACHE INTERNAL "")
+set(SIPLASPLAS_CMAKE_DIR "${SIPLASPLAS_ROOT}/cmake" CACHE INTERNAL "")
+set(SIPLASPLAS_BIN_DIR   "${SIPLASPLAS_ROOT}/bin"   CACHE INTERNAL "")
+set(SIPLASPLAS_INCLUDE_DIR "${SIPLASPLAS_ROOT}/include" CACHE INTERNAL "")
+
+if(NOT SIPLASPLAS_DRLPARSER_PYTHON_VERSION)
+    set(SIPLASPLAS_DRLPARSER_PYTHON_VERSION 2.7)
+endif()
+
+if(SIPLASPLAS_BUILDING_FROM_SOURCES)
+    set(SIPLASPLAS_DRLPARSER_DIR "${CMAKE_SOURCE_DIR}/src/reflection/parser")
+else()
+    set(SIPLASPLAS_DRLPARSER_DIR "${SIPLASPLAS_BIN_DIR}/reflection-parser/parser" CACHE INTERNAL "")
+endif()
+list(APPEND CMAKE_MODULE_PATH "${SIPLASPLAS_CMAKE_DIR}" "${SIPLASPLAS_DRLPARSER_DIR}")
+
+include(utils)
+include(drlparser)

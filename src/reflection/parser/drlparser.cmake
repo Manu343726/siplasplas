@@ -1,33 +1,59 @@
 include(libclang)
 include(pip)
+include(utils)
 
 find_package(PythonInterp 2.7 REQUIRED)
 
-set(DRLPARSER_SCRIPT ${CMAKE_CURRENT_LIST_DIR}/DRLParser)
-set(DRLPARSER_CODEGEN_TEMPLATE ${CMAKE_CURRENT_LIST_DIR}/templates/reflection_template.hpp)
-set(OUTPUT_DIR ${CMAKE_BINARY_DIR}/ouput/reflection)
-set(INCLUDE_OUTPUT_DIR ${CMAKE_BINARY_DIR}/ouput/)
+macro(drlparser_setup)
+    set(DRLPARSER_SCRIPT "${SIPLASPLAS_DRLPARSER_DIR}/DRLParser")
+    set(DRLPARSER_CODEGEN_TEMPLATE "${SIPLASPLAS_DRLPARSER_DIR}/templates/reflection_template.hpp")
 
-if(SIPLASPLAS_INSTALL_DRLPARSER_DEPENDENCIES)
-    pip_install_requirements("${CMAKE_SOURCE_DIR}/src/reflection/parser")
-    pip_package_version(clang libclang_bindings_version)
-
-    if(libclang_bindings_version)
-        # Note that LLVM releases libclang bindings for minor releases only
-        # that's why the clang packages are tagged 3.x and we compare against
-        # SIPLASPLAS_LIBCLANG_VERSION_MAJOR_MINOR instead of SIPLASPLAS_LIBCLANG_VERSION
-
-        if(NOT libclang_bindings_version VERSION_EQUAL SIPLASPLAS_LIBCLANG_VERSION_MAJOR_MINOR)
-            message(FATAL_ERROR "libclang python bindings (clang==${libclang_bindings_version}) do not match required libclang version (${SIPLASPLAS_LIBCLANG_VERSION})")
-        endif()
-    else()
-        message(STATUS "Python bindings (package \"clang\") not found. Installing...")
-
-        pip_install_package(clang ${SIPLASPLAS_LIBCLANG_VERSION_MAJOR_MINOR})
+    if(NOT SIPLASPLAS_REFLECTION_OUTPUT_DIR)
+        set(SIPLASPLAS_REFLECTION_OUTPUT_DIR "${CMAKE_BINARY_DIR}/output")
     endif()
-endif()
+    if(NOT SIPLASPLAS_REFLECTION_OUTPUT_INCLUDE_PREFIX)
+        set(SIPLASPLAS_REFLECTION_OUTPUT_INCLUDE_PREFIX "reflection")
+    endif()
+    set(DSIPLASPLAS_REFLECTION_OUTPUT_DIR_FULLPATH "${SIPLASPLAS_REFLECTION_OUTPUT_DIR}/${SIPLASPLAS_REFLECTION_OUTPUT_INCLUDE_PREFIX}")
+
+    if(NOT EXISTS "${DRLPARSER_SCRIPT}")
+        message(FATAL_ERROR "No DRLParser script found in ${SIPLASPLAS_DRLPARSER_DIR}")
+    endif()
+
+    if(SIPLASPLAS_INSTALL_DRLPARSER_DEPENDENCIES AND NOT __SIPLASPLAS_DRLPARSER_DEPS_SATISFIED)
+        pip_install_requirements("${SIPLASPLAS_DRLPARSER_DIR}")
+        pip_package_version(clang libclang_bindings_version)
+
+        if(libclang_bindings_version)
+            # Note that LLVM releases libclang bindings for minor releases only
+            # that's why the clang packages are tagged 3.x and we compare against
+            # SIPLASPLAS_LIBCLANG_VERSION_MAJOR_MINOR instead of SIPLASPLAS_LIBCLANG_VERSION
+
+            if(NOT libclang_bindings_version VERSION_EQUAL SIPLASPLAS_LIBCLANG_VERSION_MAJOR_MINOR)
+                message(FATAL_ERROR "libclang python bindings (clang==${libclang_bindings_version}) do not match required libclang version (${SIPLASPLAS_LIBCLANG_VERSION})")
+            else()
+                message(STATUS "libclang python bindings found")
+            endif()
+        else()
+            message(STATUS "Python bindings (package \"clang\") not found. Installing...")
+
+            pip_install_package(clang ${SIPLASPLAS_LIBCLANG_VERSION_MAJOR_MINOR})
+        endif()
+
+        set(__SIPLASPLAS_DRLPARSER_DEPS_SATISFIED TRUE CACHE INTERNAL "")
+    endif()
+endmacro()
 
 function(configure_siplasplas_reflection TARGET)
+    drlparser_setup()
+
+    cmake_parse_arguments(DRLPARSER
+        ""
+        ""
+        "EXCLUDE;BLACKLIST"
+        ${ARGN}
+    )
+
     function(log MESSAGE)
         if(SIPLASPLAS_VERBOSE_CONFIG)
             message(STATUS "[REFLECTION LOG] ${MESSAGE}")
@@ -36,6 +62,8 @@ function(configure_siplasplas_reflection TARGET)
 
     if(NOT (TARGET ${TARGET}))
         message(FATA_ERROR "Target ${TARGET} not found!")
+    else()
+        log("Configuring siplasplas reflection for target '${TARGET}'")
     endif()
 
     get_target_property(SOURCES ${TARGET} SOURCES)
@@ -66,7 +94,13 @@ function(configure_siplasplas_reflection TARGET)
     endif()
 
     target_include_directories(${TARGET}
-        PUBLIC ${INCLUDE_OUTPUT_DIR}
+        PUBLIC "${SIPLASPLAS_REFLECTION_OUTPUT_DIR}"
+        PUBLIC "${SIPLASPLAS_INCLUDE_DIR}"
+    )
+    target_compile_definitions(${TARGET} PUBLIC
+        -DSIPLASPLAS_REFLECTION_OUTPUT_DIR="${SIPLASPLAS_REFLECTION_OUTPUT_DIR}"
+        -DSIPLASPLAS_REFLECTION_OUTPUT_INCLUDE_PREFIX="${SIPLASPLAS_REFLECTION_OUTPUT_INCLUDE_PREFIX}"
+        -DSIPLASPLAS_REFLECTION_OUTPUT_DIR_FULLPATH="${DSIPLASPLAS_REFLECTION_OUTPUT_DIR_FULLPATH}"
     )
 
     log("Processing target ${TARGET}:")
@@ -75,6 +109,7 @@ function(configure_siplasplas_reflection TARGET)
     string(REGEX REPLACE ";" "," INCLUDE_DIRS "${INCLUDE_DIRS}")
 
     set(includes ${INCLUDE_DIRS} ${EXTRA_LIBCLANG_INCLUDES})
+    list(REMOVE_DUPLICATES includes)
     string(REGEX REPLACE ";" "," includes  "${includes}")
     set(includedirs --includedirs "\"${includes}\"")
 
@@ -103,6 +138,15 @@ function(configure_siplasplas_reflection TARGET)
         set(astdump --ast-dump)
     endif()
 
+    if(DRLPARSER_EXCLUDE)
+        string(REGEX REPLACE ";" "," exclude_globs "${DRLPARSER_EXCLUDE}")
+        set(exclude --exclude "\"${exclude_globs}\"")
+    endif()
+
+    list(APPEND DRLPARSER_BLACKLIST "${CMAKE_BINARY_DIR}")
+    string(REGEX REPLACE ";" "," blacklist_dirs "${DRLPARSER_BLACKLIST}")
+    set(blacklist --blacklist "\"${blacklist_dirs}\"")
+
     string(REGEX REPLACE ";" "," COMPILE_OPTIONS "${COMPILE_OPTIONS}")
     log("libclang compile options: ${COMPILE_OPTIONS}")
 
@@ -111,8 +155,9 @@ function(configure_siplasplas_reflection TARGET)
         --searchdirs "\"${INCLUDE_DIRS}\""
         ${includedirs}
         -s ${CMAKE_SOURCE_DIR}
-        -o ${OUTPUT_DIR}
-        --blacklist "${CMAKE_BINARY_DIR}"
+        -o "${DSIPLASPLAS_REFLECTION_OUTPUT_DIR_FULLPATH}"
+        ${exclude}
+        ${blacklist}
         ${database}
         ${libclang}
         ${ignore_database}
@@ -121,11 +166,15 @@ function(configure_siplasplas_reflection TARGET)
         --code-template-file ${DRLPARSER_CODEGEN_TEMPLATE}
     )
 
+    set(command ${DRLPARSER_SCRIPT} ${options})
+    log("DRLParser command: ${command}")
+
     add_prebuild_command(
         NAME ${TARGET}_drlparser
         TARGET ${TARGET}
-        COMMAND ${PYTHON_EXECUTABLE} ${DRLPARSER_SCRIPT}
-            ${options}
+        COMMAND ${command}
         VERBATIM
+        WORKING_DIRECTORY "${SIPLASPLAS_DRLPARSER_DIR}"
+        COMMENT "Running siplasplas reflection parser for ${TARGET}"
     )
 endfunction()
