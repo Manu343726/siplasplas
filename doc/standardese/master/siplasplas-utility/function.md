@@ -7,6 +7,8 @@ layout: standardese-doc
 ``` cpp
 #define SIPLASPLAS_UTILITY_FUNCTION_HPP 
 
+#include "meta.hpp"
+
 #include <utility>
 
 namespace cpp
@@ -21,6 +23,6 @@ namespace cpp
     struct Function<First, Second, Tail...>;
     
     template <typename ... Fs>
-    Function<std::decay_t<Fs>...> make_function(Fs&&... fs);
+    Function<cpp::meta::decay_t<Fs>...> make_function(Fs&&... fs);
 }
 ```

@@ -9,8 +9,6 @@ layout: standardese-doc
 
 #include <siplasplas/utility/meta.hpp>
 
-#include <ctti/type_id.hpp>
-
 #include <array>
 
 #include <string>

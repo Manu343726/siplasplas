@@ -17,8 +17,6 @@ layout: standardese-doc
 
 #include <vector>
 
-#include <ctti/type_id.hpp>
-
 namespace cpp
 {
     namespace detail
@@ -54,7 +52,7 @@ namespace cpp
     }
     
     template <typename T, typename ... Ts, typename Function>
-    std::vector<T> types_call();
+    std::vector<T> types_call(Function function);
     
     template <typename ... Ts, typename Function>
     void foreach_type(Function function);
@@ -66,9 +64,9 @@ namespace cpp
     auto fold(Function function, Previous&& previous, Head&& head, Tail&&... tail);
     
     template <typename T, typename Function, typename ... Args>
-    std::vector<T> fmap();
+    std::vector<T> fmap(Function function, Args&&... args);
     
-    template <typename Types>
-    std::string printTypeList();
+    template <typename T, typename ... Ts, typename Function>
+    std::vector<T> fmap(Function function);
 }
 ```

@@ -7,6 +7,8 @@ layout: standardese-doc
 ``` cpp
 #define SIPLASPLAS_REFLECTION_STATIC_FIELD_HPP 
 
+#include <siplasplas/utility/meta.hpp>
+
 namespace cpp
 {
     namespace static_reflection
