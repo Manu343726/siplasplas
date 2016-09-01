@@ -1,4 +1,3 @@
-
 # Returns the relative path of the
 # current source dir against the source
 # tree root.

@@ -12,6 +12,8 @@ set(SIPLASPLAS_VERSION_MINOR 0)
 set(SIPLASPLAS_VERSION_PATCH 0)
 
 set(SIPLASPLAS_DRLPARSER_PYTHON_VERSION 2.7)
+set(SIPLASPLAS_BUILDING_FROM_SOURCES TRUE CACHE INTERNAL "")
+set(SIPLASPLAS_ROOT "${CMAKE_SOURCE_DIR}")
 
 include(cmake/deftargets.cmake)
 include(cmake/install.cmake)
@@ -31,6 +33,9 @@ option(SIPLASPLAS_ENABLE_VALGRIND "Enable memory check of executable targets" OF
 option(SIPLASPLAS_ENABLE_ASSERTS "Force assertions, which are disabled by default on Release build" OFF)
 option(SIPLASPLAS_DUMP_ERRORS "Dump error logs after running an executable. Implies SIPLASPLAS_CLEAR_LOGS" ON)
 
+include(cmake/siplasplas.cmake)
+
+add_subdirectory(cmake)
 add_subdirectory(3rdParty)
 add_subdirectory(src)
 

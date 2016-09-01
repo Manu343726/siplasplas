@@ -1,5 +1,6 @@
 import clang.cindex
 import asciitree
+import os
 from utility.logger import GlobalLogger
 from ast.translationunit import TranslationUnit
 
@@ -24,7 +25,7 @@ class TranslationUnitProcessor:
         self.classes = []
         self.root = None
 
-    def process(self):
+    def process(self, verbose = False):
         """ Process the translation unit
 
             Generates an ast.TranslationUnit instance with all the
@@ -33,14 +34,17 @@ class TranslationUnitProcessor:
             (See runJinja() method below)
         """
 
-        self.logger.info('Parsing file...')
+        if verbose:
+            self.logger.info('Parsing file: {} {} ...'.format( os.path.basename(self.filePath), ' '.join(self.compileArgs)))
 
         self.clang_tu = clang.cindex.Index.create().parse(self.filePath, args = self.compileArgs)
 
-        for d in self.clang_tu.diagnostics:
-            GlobalLogger.error().step('Line {} (severity {}): {}'.format(d.location.line, d.severity, d.spelling))
+        if verbose:
+            for d in self.clang_tu.diagnostics:
+                GlobalLogger.error().step('Line {} (severity {}): {}'.format(d.location.line, d.severity, d.spelling))
 
-        self.logger.info('Processing AST...')
+        if verbose:
+            self.logger.info('Processing AST...')
 
         self.translation_unit = TranslationUnit(self.clang_tu.cursor, self.filePath)
 
@@ -48,9 +52,11 @@ class TranslationUnitProcessor:
         # it gives an iterable on the translation unit AST
         self.root = self.translation_unit.root
 
-        # Print the processed AST and the full AST given by libclang.
+        # Print the processed AST and the full AST given by libclang
         if self.print_ast:
-            self.logger.info('Dumping AST to {}...'.format(self.ast_file_path))
+            if verbose:
+                self.logger.info('Dumping AST to {}...'.format(self.ast_file_path))
+
             with open(self.ast_file_path, 'w') as ast_file:
                 import asciitree
 
@@ -73,13 +79,14 @@ class TranslationUnitProcessor:
         self.root = None
 
 
-    def run_jinja(self, outputfile):
+    def run_jinja(self, outputfile, verbose = False):
         """ Generate reflection code for the translation unit"""
 
         if self.jinjaTemplate:
             import hashlib
 
-            self.logger.info('Generating file...')
+            if verbose:
+                self.logger.info('Generating file...')
 
             with open(outputfile, 'w') as outputFile:
                 outputFile.write(self.jinjaTemplate.render(global_namespace = self.translation_unit.root, hash = hashlib.md5(outputfile.encode()).hexdigest()))

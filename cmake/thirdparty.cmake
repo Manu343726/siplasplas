@@ -222,12 +222,15 @@ function(add_siplasplas_thirdparty_component NAME)
 
         if(COMPONENT_SHARED)
             compute_binary_file(${COMPONENT_BINARY_NAME} SHARED "${COMPONENT_LIBRARY_SUFFIX}${COMPONENT_SHARED_LIBRARY_SUFFIX}" "${COMPONENT_BINARY_DIR}" libfile)
+            install(FILES "${binary_dir}/${libfile}" DESTINATION lib)
 
             # We should import the location of the import lib (.lib) too to link with the dll
             # (In dll platforms you link against the import lib, not the dynamic library)
             if(MSVC)
                 compute_binary_file(${COMPONENT_BINARY_NAME} IMPORT "${COMPONENT_LIBRARY_SUFFIX}" "${COMPONENT_BINARY_DIR}" importedlibfile)
+                install(FILES "${binary_dir}/${importedlibfile}" DESTINATION lib)
             endif()
+
         else()
             compute_binary_file(${COMPONENT_BINARY_NAME} STATIC "${COMPONENT_LIBRARY_SUFFIX}" "${COMPONENT_BINARY_DIR}" libfile)
         endif()
