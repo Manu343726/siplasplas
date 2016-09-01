@@ -9,6 +9,9 @@ namespace cpp
 
 namespace meta
 {
+    template<typename T>
+    using decay_t = typename std::decay<T>::type;
+
     template<typename... Bs>
     struct assert;
 

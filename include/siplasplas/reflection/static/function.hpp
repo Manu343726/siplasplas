@@ -144,7 +144,7 @@ public:
     {}
 
     template<typename... Args>
-    auto operator()(Args&&... args)
+    auto operator()(Args&&... args) -> decltype(Method::invoke(*std::declval<typename Method::class_type*>(), std::forward<Args>(args)...))
     {
         return Method::invoke(*_object, std::forward<Args>(args)...);
     }
@@ -162,7 +162,7 @@ public:
     {}
 
     template<typename... Args>
-    auto operator()(Args&&... args)
+    auto operator()(Args&&... args) -> decltype(Method::invoke(*std::declval<const typename Method::class_type*>(), std::forward<Args>(args)...))
     {
         return Method::invoke(*_object, std::forward<Args>(args)...);
     }

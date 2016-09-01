@@ -5,6 +5,7 @@
 #ifndef SIPLASPLAS_UTILITY_FUNCTION_HPP
 #define SIPLASPLAS_UTILITY_FUNCTION_HPP
 
+#include "meta.hpp"
 #include <utility>
 
 namespace cpp
@@ -55,7 +56,7 @@ namespace cpp
     };
 
     template<typename... Fs>
-    Function<std::decay_t<Fs>...> make_function(Fs&&... fs)
+    Function<cpp::meta::decay_t<Fs>...> make_function(Fs&&... fs)
     {
         return { std::forward<Fs>(fs)... };
     }
