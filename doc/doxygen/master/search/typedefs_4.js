@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['referenceany',['ReferenceAny',['../group__type-erasure.html#ga8a940a0384454b4445fcff40a7118d30',1,'cpp']]],
-  ['referencesimpleany',['ReferenceSimpleAny',['../group__type-erasure.html#ga96ea8afa78a5e2f6b5dff8b6506afb9b',1,'cpp']]]
+  ['hashset',['HashSet',['../group__hash.html#gae68ed7e53b403d96f180ff0f20141fd2',1,'cpp']]],
+  ['hashtable',['HashTable',['../group__hash.html#gacd5cae7eac6a765000ff92a6e1040108',1,'cpp']]]
 ];

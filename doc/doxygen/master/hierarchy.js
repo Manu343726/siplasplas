@@ -3,6 +3,9 @@ var hierarchy =
     [ "cpp::AnyArg", "classcpp_1_1_any_arg.html", null ],
     [ "cpp::AssertException", "classcpp_1_1_assert_exception.html", null ],
     [ "cpp::AssertExpression", "classcpp_1_1_assert_expression.html", null ],
+    [ "cpp::static_reflection::meta::Class< SourceInfo_, Class_, Methods_, Fields_, Constructors_, Classes_, Enums_ >", "classcpp_1_1static__reflection_1_1meta_1_1_class.html", null ],
+    [ "cpp::static_reflection::Class< T >", "classcpp_1_1static__reflection_1_1_class.html", null ],
+    [ "cpp::static_reflection::meta::Class< static_reflection::meta::EmptySourceInfo< T >, T,::cpp::meta::list<>,::cpp::meta::list<>,::cpp::meta::list<>,::cpp::meta::list<>,::cpp::meta::list<> >", "classcpp_1_1static__reflection_1_1meta_1_1_class.html", null ],
     [ "cpp::concepts::Concept< Result, NoExcept >", "classcpp_1_1concepts_1_1_concept.html", null ],
     [ "cpp::concepts::Concept< false >", "classcpp_1_1concepts_1_1_concept.html", [
       [ "cpp::concepts::IStreamable< T, typename >", "classcpp_1_1concepts_1_1_i_streamable.html", null ],

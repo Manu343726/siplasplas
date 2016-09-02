@@ -21,6 +21,12 @@ var annotated_dup =
         [ "IStreamable", "classcpp_1_1features_1_1_i_streamable.html", null ],
         [ "OStreamable", "classcpp_1_1features_1_1_o_streamable.html", null ]
       ] ],
+      [ "static_reflection", null, [
+        [ "meta", null, [
+          [ "Class", "classcpp_1_1static__reflection_1_1meta_1_1_class.html", "classcpp_1_1static__reflection_1_1meta_1_1_class" ]
+        ] ],
+        [ "Class", "classcpp_1_1static__reflection_1_1_class.html", null ]
+      ] ],
       [ "typeerasure", null, [
         [ "Function", "classcpp_1_1typeerasure_1_1_function.html", "classcpp_1_1typeerasure_1_1_function" ],
         [ "TypeInfo", "classcpp_1_1typeerasure_1_1_type_info.html", "classcpp_1_1typeerasure_1_1_type_info" ]
