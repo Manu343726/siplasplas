@@ -1,6 +1,12 @@
 #ifndef SIPLASPLAS_REFLECTION_STATIC_API_HPP
 #define SIPLASPLAS_REFLECTION_STATIC_API_HPP
 
+/**
+ * \ingroup reflection
+ * \defgroup static-reflection
+ * \brief Access to static reflection information
+ */
+
 #include "sourceinfo.hpp"
 #include "function.hpp"
 #include "field.hpp"
