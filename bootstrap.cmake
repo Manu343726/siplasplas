@@ -1,6 +1,9 @@
 if(NOT SIPLASPLAS_ROOT)
     if(SIPLASPLAS_PACKAGE_URL)
-        set(SIPLASPLAS_PACKAGE "${CMAKE_BINARY_DIR}/siplasplas_package")
+        get_filename_component(SIPLASPLAS_PACKAGE "${SIPLASPLAS_PACKAGE_URL}" NAME)
+        message(STATUS "Downloading siplasplas package (${SIPLASPLAS_PACKAGE}) from ${SIPLASPLAS_PACKAGE_URL} ...")
+        set(SIPLASPLAS_PACKAGE "${CMAKE_SOURCE_DIR}/${SIPLASPLAS_PACKAGE}")
+
         file(DOWNLOAD "${SIPLASPLAS_PACKAGE_URL}" "${SIPLASPLAS_PACKAGE}" SHOW_PROGRESS)
     endif()
 
