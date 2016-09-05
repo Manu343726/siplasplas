@@ -170,31 +170,60 @@ namespace meta
     template<char... Chars>
     using string = list<std::integral_constant<char, Chars>...>;
 
-    template<typename String>
-    class StringToArray;
+    template<typename Sequence>
+    class SequenceToArray;
 
-    template<char... Chars>
-    class StringToArray<list<std::integral_constant<char, Chars>...>>
+    template<template<typename...> class Seq, typename T, T... Values>
+    class SequenceToArray<Seq<std::integral_constant<T, Values>...>>
     {
     public:
-        using type = const char[sizeof...(Chars) + 1];
+        using array_t = const T[sizeof...(Values)];
 
-        static constexpr const type& get()
+        static constexpr const array_t& get()
         {
             return array;
         }
 
-        static constexpr const char* c_str()
+        static constexpr const T get(std::size_t i)
         {
-            return get();
+            return array[i];
+        }
+
+        static constexpr std::size_t size()
+        {
+            return sizeof...(Values);
         }
 
     private:
-        static constexpr type array = {Chars..., '\0'};
+        static constexpr const T array[] = {Values...};
+    };
+
+    template<typename T, T... Values>
+    using PackToArray = SequenceToArray<list<std::integral_constant<T, Values>...>>;
+
+    template<template<typename...> class Seq, typename T, T... Values>
+    constexpr const T SequenceToArray<Seq<std::integral_constant<T, Values>...>>::array[sizeof...(Values)];
+
+    template<typename String>
+    class StringToArray;
+
+    template<template<typename...> class Seq, char... Chars>
+    class StringToArray<Seq<std::integral_constant<char, Chars>...>> : public SequenceToArray<Seq<std::integral_constant<char, Chars>..., std::integral_constant<char, '\0'>>>
+    {
+    public:
+        static constexpr const char* c_str()
+        {
+            return SequenceToArray<Seq<std::integral_constant<char, Chars>..., std::integral_constant<char, '\0'>>>::get();
+        }
+
+        static constexpr std::size_t length()
+        {
+            return sizeof...(Chars);
+        }
     };
 
     template<char... Chars>
-    constexpr const char StringToArray<list<std::integral_constant<char, Chars>...>>::array[sizeof...(Chars) + 1];
+    using PackStringToArray = StringToArray<list<std::integral_constant<char, Chars>...>>;
 
     template<typename Seq>
     struct functor;

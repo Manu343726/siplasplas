@@ -65,7 +65,7 @@ public:
         return _toString(value, 0);
     }
 
-    static constexpr EnumType fromString(const char* name)
+    static EnumType fromString(const char* name)
     {
         return _fromString(name, 0);
     }
@@ -74,7 +74,7 @@ private:
     static constexpr const char* _namesArray[] = {::cpp::meta::StringToArray<ConstantsNames>::c_str()...};
     static constexpr bool streq(const char* lhs, const char* rhs)
     {
-        return ((*rhs and *lhs) ? (*lhs == *rhs) and streq(lhs + 1, rhs + 1) : (not *lhs and not *rhs));
+        return lhs == rhs or ((*rhs and *lhs) ? (*lhs == *rhs) and streq(lhs + 1, rhs + 1) : (not *lhs and not *rhs));
     }
 
     static constexpr const char* _toString(const EnumType value, std::size_t i)
@@ -82,7 +82,7 @@ private:
         return (i < sizeof...(Constants)) ?
             ((value == Enum::value(i)) ? Enum::name(i) : _toString(value, i + 1))
         :
-            nullptr;
+            throw std::domain_error{"Unknown enum value " + std::to_string(value)};
     }
 
     static constexpr EnumType _fromString(const char* name, std::size_t i)
@@ -90,9 +90,41 @@ private:
         return (i < sizeof...(ConstantsNames)) ?
             (streq(name, Enum::name(i)) ? Enum::value(i) : _fromString(name, i + 1))
         :
-            static_cast<EnumType>(0);
+            throw std::domain_error{"Unknown enum name " + std::string(name)}
     }
 };
+
+template<typename SourceInfo, typename EnumType, typename Constants, typename ConstantsNames>
+constexpr const char* Enum<SourceInfo, EnumType, Constants, ConstantsNames>::_namesArray[ConstantsNames::size()];
+
+template<
+    typename SourceInfo,
+    typename EnumType,
+    EnumType... Constants,
+    typename... ConstantsNames
+>
+const char* Enum<
+    SourceInfo,
+    EnumType,
+    ::cpp::meta::list<std::integral_constant<EnumType, Constants>...>,
+    ::cpp::meta::list<ConstantsNames...>
+>::_names[] = {
+    ::cpp::meta::StringToArray<ConstantsNames>::c_str()...
+};
+
+template<
+    typename SourceInfo,
+    typename EnumType,
+    EnumType... Constants,
+    typename... ConstantsNames
+>
+constexpr EnumType Enum<
+    SourceInfo,
+    EnumType,
+    ::cpp::meta::list<std::integral_constant<EnumType, Constants>...>,
+    ::cpp::meta::list<ConstantsNames...>
+>::_values[];
+
 
 } // namespace meta
 

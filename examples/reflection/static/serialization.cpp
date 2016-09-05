@@ -7,6 +7,22 @@
 #include <iostream>
 #include <sstream>
 
+/*
+ * This example shows how to write a generic serialization function
+ * that automatically works with any user defined type.
+ *
+ * The example serializes objects to JSON objects with the following entries:
+ *  - type: Typename of the serialized object
+ *  - value: Value of the serialized object. May be a fundamental type, a string, or
+ *    a serialized object (recursively)
+ *
+ * The serialization implementation takes into account common C++ types such as
+ * vectors, (unordered) maps, tuples, etc.
+ *
+ * The example also shows the deserialization counterpart, and how the
+ * objects can be read/written from/to JSON objects.
+ */
+
 template<typename T>
 std::enable_if_t<std::is_fundamental<T>::value, nlohmann::json>
 serialize(const T& object);
@@ -26,6 +42,9 @@ nlohmann::json serialize(const std::unordered_map<Key, Value>& value);
 
 
 
+/*
+ * Serialization of fundamental values (Integers, bools, floats, etc)
+ */
 template<typename T>
 std::enable_if_t<std::is_fundamental<T>::value, nlohmann::json>
 serialize(const T& value)
@@ -38,6 +57,9 @@ serialize(const T& value)
     return json;
 }
 
+/*
+ * Serialization of a vector of values: Maps to an array of serialized values
+ */
 template<typename T>
 nlohmann::json serialize(const std::vector<T>& values)
 {
@@ -55,6 +77,9 @@ nlohmann::json serialize(const std::vector<T>& values)
     return json;
 }
 
+/*
+ * Serialization of strings: Just writes an string entry as value
+ */
 nlohmann::json serialize(const std::string& value)
 {
     auto json = nlohmann::json::object();
@@ -65,6 +90,9 @@ nlohmann::json serialize(const std::string& value)
     return json;
 }
 
+/*
+ * Serialization of a tuple of values: Maps to an array of serializad values
+ */
 template<typename... Ts>
 nlohmann::json serialize(const std::tuple<Ts...>& value)
 {
@@ -84,6 +112,10 @@ nlohmann::json serialize(const std::tuple<Ts...>& value)
     return json;
 }
 
+/*
+ * Serialization of pairs: Maps to a ("first", "second") keyed object mapping
+ * to the serialized values of the pair
+ */
 template<typename First, typename Second>
 nlohmann::json serialize(const std::pair<First, Second>& value)
 {
@@ -99,6 +131,10 @@ nlohmann::json serialize(const std::pair<First, Second>& value)
     return json;
 }
 
+/*
+ * Serialziation of unordered maps: Maps to an array of {"key", "value"} objects
+ * mapping to the serializaed keys and values
+ */
 template<typename Key, typename Value>
 nlohmann::json serialize(const std::unordered_map<Key, Value>& value)
 {
@@ -122,22 +158,24 @@ nlohmann::json serialize(const std::unordered_map<Key, Value>& value)
     return json;
 }
 
-template<typename First, typename Second>
-nlohmann::json serialize(const std::pair<First, Second>& value);
-
-template<typename Key, typename Value>
-nlohmann::json serialize(const std::unordered_map<Key, Value>& value);
-
+/*
+ * Serialization of user defined class types: Maps to an object mapping from the
+ * member name to the serialized value for each public member object of the class
+ */
 template<typename T>
 std::enable_if_t<std::is_class<T>::value, nlohmann::json> serialize(const T& object)
 {
     auto json = nlohmann::json::object();
     auto fields = nlohmann::json::object();
 
+    // User defined classes are serialized by serializing their public member objects,
+    // generating a "<member name>: <value>" JSON object mapping from field names to
+    // serialized values
     cpp::foreach_type<typename cpp::static_reflection::Class<T>::Fields>([&](auto type)
     {
         using FieldInfo = cpp::meta::type_t<decltype(type)>;
 
+        // We use the spelling of the field as key, and the serialized value as value:
         fields[FieldInfo::SourceInfo::spelling()] = serialize(
             cpp::invoke(FieldInfo::get(), object) // C++17 std::invoke() on member object ptr
         );
@@ -149,8 +187,25 @@ std::enable_if_t<std::is_class<T>::value, nlohmann::json> serialize(const T& obj
     return json;
 }
 
+/*
+ * The following Deserialize<> template implements deserialization
+ * of values of type T from JSON objects following the previous format.
+ */
+
 namespace
 {
+
+template<typename T>
+struct IsNotSpecializedType : public std::true_type {};
+
+template<typename... Ts>
+struct IsNotSpecializedType<std::tuple<Ts...>> : public std::false_type {};
+
+template<typename Key, typename Value>
+struct IsNotSpecializedType<std::unordered_map<Key, Value>> : public std::false_type {};
+
+template<typename T>
+struct IsNotSpecializedType<std::vector<T>> : public std::false_type {};
 
 template<typename T, typename = void>
 class Deserialize;
@@ -168,7 +223,7 @@ public:
 };
 
 template<typename T>
-class Deserialize<T, std::enable_if_t<std::is_class<T>::value>>
+class Deserialize<T, std::enable_if_t<std::is_class<T>::value && IsNotSpecializedType<T>::value>>
 {
 public:
     static T apply(const nlohmann::json& json)
@@ -202,9 +257,9 @@ public:
         std::vector<T> vector;
         vector.reserve(json.size());
 
-        for(const auto& value : json)
+        for(const auto& value : json["value"])
         {
-            vector.emplace_back(value);
+            vector.emplace_back(Deserialize<T>::apply(value));
         }
 
         return vector;
@@ -230,14 +285,17 @@ class Deserialize<std::unordered_map<Key, Value>, void>
 public:
     static std::unordered_map<Key, Value> apply(const nlohmann::json& json)
     {
-        SIPLASPLAS_ASSERT(json["value"].is_object());
+        SIPLASPLAS_ASSERT(json["value"].is_array());
         SIPLASPLAS_ASSERT_EQ(json["type"].get<std::string>(), cpp::lexical_cast(ctti::type_id<std::unordered_map<Key, Value>>().name()));
 
         std::unordered_map<Key, Value> map;
 
-        for(const auto& keyValue : json)
+        for(const auto& keyValue : json["value"])
         {
-            map[Deserialize<Key>::apply(keyValue["jey"])] = Deserialize<Value>::apply(keyValue["value"]);
+            SIPLASPLAS_ASSERT(keyValue.is_object())(
+                "keyValue ({}) must be an object node. Is an {} instead", keyValue.dump(), keyValue.type()
+            );
+            map[Deserialize<Key>::apply(keyValue["key"])] = Deserialize<Value>::apply(keyValue["value"]);
         }
 
         return map;
@@ -295,7 +353,8 @@ int main()
     MyClass myObject;
     auto json = serialize(myObject);
     auto deserializedObject = deserialize<MyClass>(json);
+    auto reserializedObject = serialize(deserializedObject);
 
     std::cout << "Serialized object: " << json.dump(1) << std::endl;
-    std::cout << "Re-serialized deserialized object: " << serialize(deserializedObject).dump(1) << std::endl;
+    std::cout << "Re-serialized deserialized object: " << reserializedObject.dump(1) << std::endl;
 }
