@@ -12,11 +12,11 @@ namespace static_reflection
 namespace meta
 {
 
-template<typename SourceInfo, typename F, F field, std::size_t offset = 0>
+template<typename SourceInfo, typename F, F field>
 class Field;
 
-template<typename SourceInfo_, typename Class, typename T, T Class::*field, std::size_t Offset>
-class Field<SourceInfo_, T Class::*, field, Offset>
+template<typename SourceInfo_, typename Class, typename T, T Class::*field>
+class Field<SourceInfo_, T Class::*, field>
 {
 public:
     using type = T Class::*;
@@ -50,11 +50,6 @@ public:
     constexpr decay_t& operator()(Class& object) const
     {
         return get(object);
-    }
-
-    static constexpr std::size_t offset()
-    {
-        return Offset;
     }
 
 private:
