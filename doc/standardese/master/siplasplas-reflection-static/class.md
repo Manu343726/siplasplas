@@ -15,11 +15,7 @@ namespace cpp
 {
     namespace static_reflection
     {
-        namespace meta
-        {
-            template <typename SourceInfo_, typename Class_, typename Methods_, typename Fields_, typename Constructors_, typename Classes_, typename Enums_>
-            class Class;
-        }
+        namespace meta{}
         
         namespace codegen
         {

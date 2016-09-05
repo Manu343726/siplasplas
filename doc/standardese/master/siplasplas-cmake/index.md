@@ -9,5 +9,5 @@ layout: standardese-doc
  - [`logger.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-cmake/logger.html)
  - [`project.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-cmake/project.html)
  - [`target.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-cmake/target.html)
- - [`entities.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-cmake/entities.html)
  - [`files.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-cmake/files.html)
+ - [`entities.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-cmake/entities.html)

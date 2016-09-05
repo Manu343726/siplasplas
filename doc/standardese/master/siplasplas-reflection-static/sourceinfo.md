@@ -89,7 +89,7 @@ auto kind = cpp::static_reflection::Class<MyClass>::SourceInfo::kind(); // Retur
 static constexpr const char* fullName();
 ```
 
-Returns the full qualified name of an emptity \\returns a pointer to a null-terminated `constexpr` C string with the full name. If the source info is a default empty source info (Such as from an entity without reflection metadata available) returns an empty string.
+Returns the full qualified name of an entity \\returns a pointer to a null-terminated `constexpr` C string with the full name. If the source info is a default empty source info (Such as from an entity without reflection metadata available) returns an empty string.
 
 -----
 

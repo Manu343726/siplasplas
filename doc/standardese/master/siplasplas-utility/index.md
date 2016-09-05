@@ -7,8 +7,8 @@ layout: standardese-doc
 
 
  - [`compiles.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/compiles.html)
- - [`destroy.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/destroy.html)
  - [`assert.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/assert.html)
+ - [`destroy.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/destroy.html)
  - [`doxygroup.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/doxygroup.html)
  - [`dynamiclibrary.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/dynamiclibrary.html)
  - [`error_logger.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/error_logger.html)
@@ -19,8 +19,8 @@ layout: standardese-doc
  - [`hash.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/hash.html)
  - [`identity.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/identity.html)
  - [`invoke.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/invoke.html)
- - [`lexical_cast.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/lexical_cast.html)
  - [`logger.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/logger.html)
+ - [`lexical_cast.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/lexical_cast.html)
  - [`meta.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/meta.html)
  - [`memory_manip.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/memory_manip.html)
  - [`overload.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/overload.html)

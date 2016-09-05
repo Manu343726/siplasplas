@@ -24,8 +24,11 @@ var annotated_dup =
       [ "static_reflection", null, [
         [ "meta", null, [
           [ "Class", "classcpp_1_1static__reflection_1_1meta_1_1_class.html", "classcpp_1_1static__reflection_1_1meta_1_1_class" ],
+          [ "Enum", "classcpp_1_1static__reflection_1_1meta_1_1_enum.html", "classcpp_1_1static__reflection_1_1meta_1_1_enum" ],
           [ "SourceInfo", "classcpp_1_1static__reflection_1_1meta_1_1_source_info.html", null ]
-        ] ]
+        ] ],
+        [ "Class", "classcpp_1_1static__reflection_1_1_class.html", null ],
+        [ "Enum", "classcpp_1_1static__reflection_1_1_enum.html", null ]
       ] ],
       [ "typeerasure", null, [
         [ "Function", "classcpp_1_1typeerasure_1_1_function.html", "classcpp_1_1typeerasure_1_1_function" ],

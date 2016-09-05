@@ -11,20 +11,15 @@ layout: standardese-doc
 
 #include <string>
 
+#include <limits>
+
+#include <array>
+
 namespace cpp
 {
     namespace static_reflection
     {
-        namespace meta
-        {
-            template <typename SourceInfo_, typename EnumType, EnumType ... Constants, typename ... ConstantsNames>
-            class Enum<
-            SourceInfo_,
-            EnumType,
-            ::cpp::meta::list<std::integral_constant<EnumType, Constants>...>,
-            ::cpp::meta::list<ConstantsNames...>
-            >;
-        }
+        namespace meta{}
         
         namespace codegen{}
         
@@ -33,3 +28,24 @@ namespace cpp
     }
 }
 ```
+
+## Class template `cpp::static_reflection::Enum<EnumType>`<a id="cpp::static_reflection::Enum<EnumType>"></a>
+
+``` cpp
+template <typename EnumType>
+class Enum
+: public codegen::Enum<EnumType>
+{};
+```
+
+See cpp::static\_reflection::meta::Enum template for the returned information.
+
+### Template parameter `cpp::static_reflection::Enum<EnumType>::EnumType`<a id="cpp::static_reflection::Enum<EnumType>::EnumType"></a>
+
+``` cpp
+typename EnumType
+```
+
+Must be an enumeration type. The behavior is undefined otherwise.
+
+-----

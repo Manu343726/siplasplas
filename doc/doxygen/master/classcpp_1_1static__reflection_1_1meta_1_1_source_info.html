@@ -126,7 +126,7 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memdesc:ad88e599571c9979c12a4aa9047e20559"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrns the kind (category) of the entity.  <a href="#ad88e599571c9979c12a4aa9047e20559">More...</a><br /></td></tr>
 <tr class="separator:ad88e599571c9979c12a4aa9047e20559"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a40994242e7d167b04b5e44a5fcbdad5b"><td class="memItemLeft" align="right" valign="top">static constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_source_info.html#a40994242e7d167b04b5e44a5fcbdad5b">fullName</a> ()</td></tr>
-<tr class="memdesc:a40994242e7d167b04b5e44a5fcbdad5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the full qualified name of an emptity.  <a href="#a40994242e7d167b04b5e44a5fcbdad5b">More...</a><br /></td></tr>
+<tr class="memdesc:a40994242e7d167b04b5e44a5fcbdad5b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the full qualified name of an entity.  <a href="#a40994242e7d167b04b5e44a5fcbdad5b">More...</a><br /></td></tr>
 <tr class="separator:a40994242e7d167b04b5e44a5fcbdad5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6f09d058feb43fd5d6b56cb4261952f4"><td class="memItemLeft" align="right" valign="top">static constexpr const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_source_info.html#a6f09d058feb43fd5d6b56cb4261952f4">spelling</a> ()</td></tr>
 <tr class="memdesc:a6f09d058feb43fd5d6b56cb4261952f4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the name of the entity See <a href="http://clang.llvm.org/doxygen/group__CINDEX__CURSOR__XREF.html#gaad1c9b2a1c5ef96cebdbc62f1671c763"><code>clang_getCursorSpelling()</code></a>.  <a href="#a6f09d058feb43fd5d6b56cb4261952f4">More...</a><br /></td></tr>
@@ -231,7 +231,7 @@ template&lt;static_reflection::Kind Kind, typename FullName , typename Spelling 
 </table>
 </div><div class="memdoc">
 
-<p>Returns the full qualified name of an emptity. </p>
+<p>Returns the full qualified name of an entity. </p>
 <dl class="section return"><dt>Returns</dt><dd>a pointer to a null-terminated <code>constexpr</code> C string with the full name. If the source info is a default empty source info (Such as from an entity without reflection metadata available) returns an empty string. </dd></dl>
 
 </div>
@@ -260,7 +260,7 @@ template&lt;static_reflection::Kind Kind, typename FullName , typename Spelling 
 </div><div class="memdoc">
 
 <p>Retrns the kind (category) of the entity. </p>
-<div class="fragment"><div class="line"><span class="keyword">auto</span> <a class="code" href="classcpp_1_1static__reflection_1_1meta_1_1_source_info.html#ad88e599571c9979c12a4aa9047e20559">kind</a> = <a class="code" href="classcpp_1_1static__reflection_1_1meta_1_1_source_info.html#ad88e599571c9979c12a4aa9047e20559">cpp::static_reflection::Class&lt;MyClass&gt;::SourceInfo::kind</a>(); <span class="comment">// Returns Kind::CLASS</span></div></div><!-- fragment --> 
+<div class="fragment"><div class="line"><span class="keyword">auto</span> <a class="code" href="classcpp_1_1static__reflection_1_1meta_1_1_source_info.html#ad88e599571c9979c12a4aa9047e20559">kind</a> = <a class="code" href="classcpp_1_1static__reflection_1_1_class.html">cpp::static_reflection::Class&lt;MyClass&gt;::SourceInfo::kind</a>(); <span class="comment">// Returns Kind::CLASS</span></div></div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a6f09d058feb43fd5d6b56cb4261952f4"></a>

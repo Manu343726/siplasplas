@@ -112,11 +112,20 @@ $(document).ready(function(){initNavTree('group__static-reflection.html','');});
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_class.html">cpp::static_reflection::meta::Class&lt; SourceInfo_, Class_, Methods_, Fields_, Constructors_, Classes_, Enums_ &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns information of a given class.  <a href="classcpp_1_1static__reflection_1_1meta_1_1_class.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_class.html">cpp::static_reflection::meta::Class</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores static reflection information of a given class.  <a href="classcpp_1_1static__reflection_1_1meta_1_1_class.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_enum.html">cpp::static_reflection::meta::Enum&lt; SourceInfo, EnumType, Constants, ConstantsNames &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores static reflection information of an enumeration type.  <a href="classcpp_1_1static__reflection_1_1meta_1_1_enum.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_source_info.html">cpp::static_reflection::meta::SourceInfo&lt; Kind, FullName, Spelling, DisplayName, File, Line &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores source information of an entity.  <a href="classcpp_1_1static__reflection_1_1meta_1_1_source_info.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1static__reflection_1_1_class.html">cpp::static_reflection::Class&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns static reflection information of a given class.  <a href="classcpp_1_1static__reflection_1_1_class.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1static__reflection_1_1_enum.html">cpp::static_reflection::Enum&lt; EnumType &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns static reflection information of the given enumeration type.  <a href="classcpp_1_1static__reflection_1_1_enum.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
@@ -136,6 +145,20 @@ Enumerations</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Access to static reflection information. </p>
+<p>This API gives access to the reflection metadata collected by DRLParser at compile time. The APi works by declaring a template for each kind of entity supported by the reflection engine (<code>Class</code>, <code>Enum</code>, <code>Field</code>, etc) in the namespace <code>cpp::static_reflection</code>. These templates expect the entity to be reflected as parameter (The class type, the enum type, the member function pointer, etc), with the instance having access to the metadata of the given entity:</p>
+<div class="fragment"><div class="line"><span class="keyword">using</span> ClassReflectionInfo = <a class="code" href="classcpp_1_1static__reflection_1_1_class.html">cpp::static_reflection::Class&lt;MyCustomClass&gt;</a>;</div><div class="line"><span class="keyword">using</span> EnumReflectionInfo  = <a class="code" href="classcpp_1_1static__reflection_1_1_enum.html">cpp::static_reflection::Enum&lt;MyEnum&gt;</a>;</div><div class="line"><span class="keyword">using</span> MethodReflectionInfo = cpp::static_reflection::Function&lt;decltype(&amp;MyCustomClass::method), &amp;MyCustomClass::method&gt;;</div><div class="line">...</div></div><!-- fragment --><p>For the specifics about the metadata returned for the different kinds of entities, see the templates declared in the cpp::static_reflection namespace.</p>
+<h2>How the API namespaces are organized</h2>
+<p>The static reflection API reads the metadata scanned by DRLParser. This metadata is represented (stored) as instances of the different templates of the <code>cpp::static_reflection::meta</code> namespace.</p>
+<p>That metadata is not declared nor accessed directly by the API but the code generated by DRLParser declares specializations of <code>cpp::static_reflection::codegen</code> templates that contain the metadata (the <code>cpp::static_reflection::meta</code> instances). This codegen templates are specialized for each type found in the processed header (So the parameters are supposed to be unique, an "index" to the metadata).</p>
+<p>The static reflection API (<code>cpp::static_reflection</code> templates) indexes metadata through the <code>cpp::static_reflection::codegen</code> templates.</p>
+<h3>TL;DR:</h3>
+<ul>
+<li>**<code>cpp::static_reflection::meta</code>**: Datatypes representing reflection metadata</li>
+<li>**<code>cpp::static_reflection::codegen</code>**: Indexation of metadata generated during reflection parsing and processing (DRLParser)</li>
+<li>**<code>cpp::static_reflection</code>**: API for static access of reflection metadata</li>
+</ul>
+<h3>Why <code>codegen</code> middle layer?</h3>
+<p>The <code>codegen</code> namespace is designed to abstract the reflection metadata representation from the user API, so the backend can be changed to use other reflection methods. Currently, all the metadata access is directly implemented in <code>meta</code>, but <code>codegen</code> can be used as a translation layer if the metadata backend changes. </p>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a class="anchor" id="ga6861198f6b3d051a9f6cc383b1ddbd83"></a>
 <div class="memitem">
