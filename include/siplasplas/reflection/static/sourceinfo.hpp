@@ -64,7 +64,7 @@ public:
     }
 
     /**
-     * \brief Returns the full qualified name of an emptity
+     * \brief Returns the full qualified name of an entity
      * \returns a pointer to a null-terminated `constexpr` C string
      * with the full name.
      * If the source info is a default empty source info (Such as from an entity without reflection

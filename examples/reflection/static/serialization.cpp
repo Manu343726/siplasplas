@@ -11,7 +11,7 @@
  * This example shows how to write a generic serialization function
  * that automatically works with any user defined type.
  *
- * The example serializes objects to JSON objects with the following entries:
+ * The example serializes C++ objects to JSON objects with the following entries:
  *  - type: Typename of the serialized object
  *  - value: Value of the serialized object. May be a fundamental type, a string, or
  *    a serialized object (recursively)
@@ -20,7 +20,7 @@
  * vectors, (unordered) maps, tuples, etc.
  *
  * The example also shows the deserialization counterpart, and how the
- * objects can be read/written from/to JSON objects.
+ * C++ objects can be read/written from/to JSON objects.
  */
 
 template<typename T>

@@ -13,10 +13,7 @@ namespace static_reflection
 namespace meta
 {
 
-/**
- * \ingroup static-reflection
- * \brief Returns information of a given class
- */
+#ifndef SIPLASPLAS_DOXYGEN_RUNNING
 template<typename SourceInfo_, typename Class_,
     typename Methods_,
     typename Fields_,
@@ -25,15 +22,23 @@ template<typename SourceInfo_, typename Class_,
     typename Enums_
 >
 class Class
+#else
+
+/**
+ * \ingroup static-reflection
+ * \brief Stores static reflection information of a given class
+ */
+class Class
+#endif // SIPLASPLAS_DOXYGEN_RUNNING
 {
 public:
     using class_type = Class_;
     using type = class_type;
 
     /**
-     * \brief Returns the source information of the class 
+     * \brief Returns the source information of the class
      *
-     * Returns a cpp::static_reflection::SourceInfo instance with the
+     * Returns a cpp::static_reflection::meta::SourceInfo instance with the
      * source information of the declaration of the class. This information includes:
      *  - Class name, e.g. "MyClass". See cpp::static_reflection::SourceInfo::spelling()
      *  - Full qualified class name, e.g. "MyNamespace::MyClass". See cpp::static_reflection::SourceInfo::fullName()
@@ -59,7 +64,7 @@ public:
      * instance for each public non-static member object of the class.
      */
     using Fields = Fields_;
-    
+
     /**
      * \brief Returns information about the public constructors of the class. **Returns an empty cpp::meta::list<>, constructor information
      * is not currently collected by the reflection parser**
@@ -101,7 +106,8 @@ namespace codegen
 
 /**
  * \ingroup static-reflection
- * \brief Returns information of a given class
+ * \class cpp::static_reflection::Class
+ * \brief Returns static reflection information of a given class
  *
  * This template returns (inherits) a cpp::static_reflection::meta::Class instance with the information
  * of the given class type. If there's no static reflection information of this class in the current translation
