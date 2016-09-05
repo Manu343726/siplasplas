@@ -52,8 +52,11 @@ namespace cpp
         template <typename ... Ts>
         struct list;
         
-        template <char ... Chars>
-        class StringToArray<list<std::integral_constant<char, Chars>...>;
+        template <template <typename> typename Seq, typename T, T ... Values>
+        class SequenceToArray<Seq<std::integral_constant<T, Values>...>;
+        
+        template <template <typename> typename Seq, char ... Chars>
+        class StringToArray<Seq<std::integral_constant<char, Chars>...>;
         
         template <template <typename> typename Seq, typename ... Ts>
         struct functor<Seq<Ts...>;

@@ -21,7 +21,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"functions.html"
+"fswatch_2fswatch_8cpp-example.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

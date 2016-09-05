@@ -4,7 +4,6 @@ var hierarchy =
     [ "cpp::AssertException", "classcpp_1_1_assert_exception.html", null ],
     [ "cpp::AssertExpression", "classcpp_1_1_assert_expression.html", null ],
     [ "cpp::static_reflection::meta::Class< SourceInfo_, Class_, Methods_, Fields_, Constructors_, Classes_, Enums_ >", "classcpp_1_1static__reflection_1_1meta_1_1_class.html", null ],
-    [ "cpp::static_reflection::Class< T >", "classcpp_1_1static__reflection_1_1_class.html", null ],
     [ "cpp::static_reflection::meta::Class< static_reflection::meta::EmptySourceInfo< T >, T,::cpp::meta::list<>,::cpp::meta::list<>,::cpp::meta::list<>,::cpp::meta::list<>,::cpp::meta::list<> >", "classcpp_1_1static__reflection_1_1meta_1_1_class.html", null ],
     [ "cpp::concepts::Concept< Result, NoExcept >", "classcpp_1_1concepts_1_1_concept.html", null ],
     [ "cpp::concepts::Concept< false >", "classcpp_1_1concepts_1_1_concept.html", [
@@ -67,6 +66,7 @@ var hierarchy =
     [ "cpp::SimpleAny< Storage >", "classcpp_1_1_simple_any.html", [
       [ "cpp::Any< Storage, FunctionsStorage, FunctionArgsStorage >", "classcpp_1_1_any.html", null ]
     ] ],
+    [ "cpp::static_reflection::meta::SourceInfo< Kind, FullName, Spelling, DisplayName, File, Line >", "classcpp_1_1static__reflection_1_1meta_1_1_source_info.html", null ],
     [ "cpp::DynamicLibrary::Symbol", "classcpp_1_1_dynamic_library_1_1_symbol.html", null ],
     [ "cpp::typeerasure::TypeInfo", "classcpp_1_1typeerasure_1_1_type_info.html", null ],
     [ "cpp::UniversalReference< T, IsLvalueReference, IsConst >", "classcpp_1_1_universal_reference.html", null ],

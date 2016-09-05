@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['valuesemanticsoperation',['ValueSemanticsOperation',['../group__type-erasure.html#gac7671c64b391c768a4fb882637be87ca',1,'cpp::typeerasure::detail']]]
+  ['kind',['Kind',['../group__static-reflection.html#ga6861198f6b3d051a9f6cc383b1ddbd83',1,'cpp::static_reflection']]]
 ];

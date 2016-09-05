@@ -8,8 +8,8 @@ layout: standardese-doc
 
  - [`compiles.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/compiles.html)
  - [`destroy.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/destroy.html)
- - [`doxygroup.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/doxygroup.html)
  - [`assert.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/assert.html)
+ - [`doxygroup.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/doxygroup.html)
  - [`dynamiclibrary.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/dynamiclibrary.html)
  - [`error_logger.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/error_logger.html)
  - [`exception.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/exception.html)
@@ -30,6 +30,6 @@ layout: standardese-doc
  - [`string.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/string.html)
  - [`tuple.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/tuple.html)
  - [`type_variables.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/type_variables.html)
- - [`files.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/files.html)
  - [`universal_reference.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/universal_reference.html)
+ - [`files.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/files.html)
  - [`entities.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/entities.html)

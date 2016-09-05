@@ -10,5 +10,6 @@ var group__static_reflection =
       [ "SourceInfo", "classcpp_1_1static__reflection_1_1meta_1_1_class.html#ae0deda62c4721901a10463fff4b56960", null ],
       [ "type", "classcpp_1_1static__reflection_1_1meta_1_1_class.html#a6206def820763ff0becee50d4b5498ce", null ]
     ] ],
-    [ "Class", "classcpp_1_1static__reflection_1_1_class.html", null ]
+    [ "SourceInfo", "classcpp_1_1static__reflection_1_1meta_1_1_source_info.html", null ],
+    [ "Kind", "group__static-reflection.html#ga6861198f6b3d051a9f6cc383b1ddbd83", null ]
 ];

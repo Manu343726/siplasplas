@@ -210,7 +210,6 @@ var NAVTREEINDEX0 =
 "classcpp_1_1detail_1_1_if.html#abd3fa4e6532913cd6dc4148bb3354004":[2,0,0,1,0,2],
 "classcpp_1_1features_1_1_i_streamable.html":[1,4,2,1],
 "classcpp_1_1features_1_1_o_streamable.html":[1,4,2,0],
-"classcpp_1_1static__reflection_1_1_class.html":[1,2,0,1],
 "classcpp_1_1static__reflection_1_1meta_1_1_class.html":[1,2,0,0],
 "classcpp_1_1static__reflection_1_1meta_1_1_class.html#a6206def820763ff0becee50d4b5498ce":[1,2,0,0,7],
 "classcpp_1_1static__reflection_1_1meta_1_1_class.html#a7d93c5ac40faec2a1fe0dd3b80a6c557":[1,2,0,0,1],
@@ -220,6 +219,7 @@ var NAVTREEINDEX0 =
 "classcpp_1_1static__reflection_1_1meta_1_1_class.html#ae0deda62c4721901a10463fff4b56960":[1,2,0,0,6],
 "classcpp_1_1static__reflection_1_1meta_1_1_class.html#ae36abf14a19ae8eca18d9eb5297f62ec":[1,2,0,0,4],
 "classcpp_1_1static__reflection_1_1meta_1_1_class.html#afb94d62f3ae97ee17f27078743627643":[1,2,0,0,0],
+"classcpp_1_1static__reflection_1_1meta_1_1_source_info.html":[1,2,0,1],
 "classcpp_1_1typeerasure_1_1_function.html":[1,4,5],
 "classcpp_1_1typeerasure_1_1_function.html#a0820ff3e26deba957a9c72ff77f26243":[1,4,5,10],
 "classcpp_1_1typeerasure_1_1_function.html#a1c5f29c1431d3896a7d7d61e85f4ce88":[1,4,5,5],
@@ -249,5 +249,5 @@ var NAVTREEINDEX0 =
 "classes.html":[2,1],
 "cmake_2cmake-project_8cpp-example.html":[3,0],
 "examples.html":[3],
-"fswatch_2fswatch_8cpp-example.html":[3,1]
+"examples_2reflection_2static_2serialization_8cpp-example.html":[3,1]
 };
