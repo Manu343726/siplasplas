@@ -1,5 +1,3 @@
-include(${SIPLASPLAS_REFLECTION_MODULE})
-
 add_subdirectory(3rdParty)
 add_subdirectory(utility)
 add_subdirectory(allocator)

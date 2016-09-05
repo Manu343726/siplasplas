@@ -92,6 +92,17 @@ public:
     bool otherField;
     InnerClass objectOfInnerClass;
     std::string strField = "hello";
+
+    std::vector<std::string> vector = {"hello", ", ", "world!"};
+    std::unordered_map<std::string, int> answers = {
+        {"everything", 42},
+        {"eveything squared", 42*42}
+    };
+    std::tuple<int, std::string, InnerClass> tuple = std::make_tuple(
+        42,
+        "everything",
+        InnerClass()
+    );
 };
 
 #include <reflection/examples/reflection/myclass.hpp>

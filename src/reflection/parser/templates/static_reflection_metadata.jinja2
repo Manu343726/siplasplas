@@ -43,18 +43,17 @@
 
 {% macro method(class, node) -%}
 ::cpp::static_reflection::meta::Function<
-    {{sourceinfo(node, 'FUNCTION')      | indent(4)}},
-    {{utility.member_type(class, node)    | indent(4)}},
+    {{sourceinfo(node, 'FUNCTION')     | indent(4)}},
+    {{utility.member_type(class, node) | indent(4)}},
     {{utility.untyped_member_pointer(class, node) | indent(4)}}
 >
 {%- endmacro %}
 
 {% macro field(class, node) -%}
 ::cpp::static_reflection::meta::Field<
-    {{sourceinfo(node, 'FIELD')                       | indent(4)}},
+    {{sourceinfo(node, 'FIELD')           | indent(4)}},
     {{utility.member_type(class, node)    | indent(4)}},
-    {{utility.member_pointer(class, node) | indent(4)}},
-    offsetof({{class.fullname}}, {{node.spelling}})
+    {{utility.member_pointer(class, node) | indent(4)}}
 >
 {%- endmacro %}
 

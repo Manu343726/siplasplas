@@ -4,7 +4,7 @@
 #include <cstddef>
 #include <cassert>
 
-#include "myclass.hpp"
+#include "../myclass.hpp"
 #include <siplasplas/utility/fusion.hpp>
 
 using namespace std::string_literals;

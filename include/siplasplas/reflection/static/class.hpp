@@ -113,54 +113,6 @@ namespace codegen
  *
  * ``` cpp
  *
- * template<typename T, typename = std::enable_if_t<!std::is_basic_type<T>::value>>
- * std::string serialize(const T& object)
- * {
- *     std::ostringstream os;
- *
- *     os << cpp::static_reflection::Class<T>::fullName() << ": {";
- *
- *     cpp::foreach_type<typename cpp::static_reflection::Class<T>::Fields>([&](auto type)
- *     {
- *         using FieldInfo = cpp::meta::type_t<decltype(type)>;
- *
- *         os << serialize(object.*FieldInfo::get()) << ", ";
- *     });
- *
- *     os << "}";
- *
- *     return os.str();
- * }
- *
- * template<typename T, std::enable_if_t<std::is_basic_type<T>::value>>
- * std::string serialize(T value)
- * {
- *     std::ostream os;
- *     os << ctti::type_id<T>().name() << ": " << value;
- *     return os.str();
- * }
- *
- * template<typename T>
- * std::string serialize(const std::vector<T>& values)
- * {
- *     std::ostream os;
- *
- *     os << "[";
- *
- *     for(const T& value : values)
- *     {
- *         os << serialize(value) << ", ";
- *     }
- *
- *     os << "]";
- *
- *     return os.str();
- * }
- *
- * std::string serialize(const std::string& value)
- * {
- *     return value;
- * }
  *
  * ```
  *
