@@ -32,6 +32,7 @@ option(SIPLASPLAS_USE_SYSTEM_SFML       "Use SFML system distribution instead of
 option(SIPLASPLAS_ENABLE_VALGRIND "Enable memory check of executable targets" OFF)
 option(SIPLASPLAS_ENABLE_ASSERTS "Force assertions, which are disabled by default on Release build" OFF)
 option(SIPLASPLAS_DUMP_ERRORS "Dump error logs after running an executable. Implies SIPLASPLAS_CLEAR_LOGS" ON)
+option(SIPLASPLAS_IMGUI_SFML_EXAMPLES_ENABLED "Enable examples using imgui and SFML" OFF)
 
 include(cmake/siplasplas.cmake)
 

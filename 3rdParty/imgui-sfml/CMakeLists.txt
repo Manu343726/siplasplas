@@ -18,7 +18,7 @@ if(SIPLASPLAS_USE_SYSTEM_SFML)
     find_package(SFML 2 COMPONENTS ${sfml-components} REQUIRED)
     set(sfml-targets ${SFML_LIBRARIES})
 else()
-    add_siplasplas_thirdparty(sfml
+    add_siplasplas_thirdparty(sfml EXCLUDE_FROM_ALL
     GIT_REPOSITORY
         "https://github.com/SFML/SFML"
     CMAKE_EXTRA_ARGS
@@ -57,7 +57,7 @@ if(WIN32)
     set(opengl ${OPENGL_LIBRARIES} opengl32)
 endif()
 
-add_siplasplas_library(imgui-sfml
+add_siplasplas_library(imgui-sfml EXCLUDE_FROM_ALL
 SOURCES
     imgui-sfml/imgui-SFML.cpp
     imgui-sfml/imgui.cpp
