@@ -109,6 +109,7 @@ $(document).ready(function(){initNavTree('classcpp_1_1static__reflection_1_1meta
 <div class="header">
   <div class="summary">
 <a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="classcpp_1_1static__reflection_1_1meta_1_1_function-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -135,6 +136,17 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="cla
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_function.html#afbc00bb7590ef35c39d9418df78fc942">SourceInfo</a> = SourceInfo_</td></tr>
 <tr class="memdesc:afbc00bb7590ef35c39d9418df78fc942"><td class="mdescLeft">&#160;</td><td class="mdescRight">Source information of the member function. See <a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_source_info.html" title="Stores source information of an entity. ">cpp::static_reflection::meta::SourceInfo</a>. <br /></td></tr>
 <tr class="separator:afbc00bb7590ef35c39d9418df78fc942"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:adfebe77494ec47206048bec9e38be1a3"><td class="memTemplParams" colspan="2">template&lt;typename... Args_&gt; </td></tr>
+<tr class="memitem:adfebe77494ec47206048bec9e38be1a3"><td class="memTemplItemLeft" align="right" valign="top">constexpr R&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_function.html#adfebe77494ec47206048bec9e38be1a3">operator()</a> (const <a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_class.html">Class</a> &amp;object, Args_ &amp;&amp;...args) const </td></tr>
+<tr class="memdesc:adfebe77494ec47206048bec9e38be1a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the function with the given object and arguments.  <a href="#adfebe77494ec47206048bec9e38be1a3">More...</a><br /></td></tr>
+<tr class="separator:adfebe77494ec47206048bec9e38be1a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5fb221180f811d50dcf4571a312fbe94"><td class="memTemplParams" colspan="2">template&lt;typename... Args_&gt; </td></tr>
+<tr class="memitem:a5fb221180f811d50dcf4571a312fbe94"><td class="memTemplItemLeft" align="right" valign="top">constexpr R&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_function.html#a5fb221180f811d50dcf4571a312fbe94">operator()</a> (<a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_class.html">Class</a> &amp;object, Args_ &amp;&amp;...args) const </td></tr>
+<tr class="memdesc:a5fb221180f811d50dcf4571a312fbe94"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invokes the function with the given object and arguments.  <a href="#a5fb221180f811d50dcf4571a312fbe94">More...</a><br /></td></tr>
+<tr class="separator:a5fb221180f811d50dcf4571a312fbe94"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -236,6 +248,88 @@ template&lt;typename... Args_&gt; </div>
 
 <p>Invokes the member function with the given object and arguments. </p>
 <p>Equivalent to cpp::invoke(<a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_function.html#a34ff2eb587307610ee377070f9bf53e3" title="Returns a pointer to the member function. ">get()</a>, object, std::forward(args)...) </p>
+
+</div>
+</div>
+<a class="anchor" id="adfebe77494ec47206048bec9e38be1a3"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename SourceInfo, typename FunctionType, FunctionType function&gt; </div>
+<div class="memtemplate">
+template&lt;typename... Args_&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr R <a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_function.html">cpp::static_reflection::meta::Function</a>&lt; <a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_function.html#afbc00bb7590ef35c39d9418df78fc942">SourceInfo</a>, FunctionType, function &gt;::operator() </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_class.html">Class</a> &amp;&#160;</td>
+          <td class="paramname"><em>object</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args_ &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Invokes the function with the given object and arguments. </p>
+<p>Equivalent to cpp::invoke(<a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_function.html#a34ff2eb587307610ee377070f9bf53e3" title="Returns a pointer to the member function. ">get()</a>, std::forward(args)...) </p>
+
+</div>
+</div>
+<a class="anchor" id="a5fb221180f811d50dcf4571a312fbe94"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename SourceInfo, typename FunctionType, FunctionType function&gt; </div>
+<div class="memtemplate">
+template&lt;typename... Args_&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr R <a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_function.html">cpp::static_reflection::meta::Function</a>&lt; <a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_function.html#afbc00bb7590ef35c39d9418df78fc942">SourceInfo</a>, FunctionType, function &gt;::operator() </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_class.html">Class</a> &amp;&#160;</td>
+          <td class="paramname"><em>object</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args_ &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Invokes the function with the given object and arguments. </p>
+<p>Equivalent to cpp::invoke(<a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_function.html#a34ff2eb587307610ee377070f9bf53e3" title="Returns a pointer to the member function. ">get()</a>, std::forward(args)...) </p>
 
 </div>
 </div>
