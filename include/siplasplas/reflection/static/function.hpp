@@ -53,6 +53,17 @@ public:
     {
         return function;
     }
+
+    /**
+     * \brief Invokes the function with the given arguments
+     *
+     * Equivalent to cpp::invoke(get(), std::forward(args)...)
+     */
+    template<typename... Args_>
+    constexpr R operator()(Args_&&... args) const
+    {
+        return invoke(std::forward<Args_>(args)...);
+    }
 };
 
 #ifndef SIPLASPLAS_RUNNING_DOXYGEN
@@ -100,6 +111,17 @@ public:
     static constexpr type get()
     {
         return method;
+    }
+
+    /**
+     * \brief Invokes the function with the given object and arguments
+     *
+     * Equivalent to cpp::invoke(get(), std::forward(args)...)
+     */
+    template<typename... Args_>
+    constexpr R operator()(const Class& object, Args_&&... args) const
+    {
+        return invoke(object, std::forward<Args_>(args)...);
     }
 };
 
@@ -159,6 +181,28 @@ public:
     static constexpr type get()
     {
         return method;
+    }
+
+    /**
+     * \brief Invokes the function with the given object and arguments
+     *
+     * Equivalent to cpp::invoke(get(), std::forward(args)...)
+     */
+    template<typename... Args_>
+    constexpr R operator()(const Class& object, Args_&&... args) const
+    {
+        return invoke(object, std::forward<Args_>(args)...);
+    }
+
+    /**
+     * \brief Invokes the function with the given object and arguments
+     *
+     * Equivalent to cpp::invoke(get(), std::forward(args)...)
+     */
+    template<typename... Args_>
+    constexpr R operator()(Class& object, Args_&&... args) const
+    {
+        return invoke(object, std::forward<Args_>(args)...);
     }
 };
 
