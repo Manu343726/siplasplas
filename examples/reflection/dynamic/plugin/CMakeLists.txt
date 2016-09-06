@@ -8,7 +8,7 @@ DEPENDS
     siplasplas-reflection-dynamic
     plugininterface
 INCLUDE_DIRS
-    ${CMAKE_SOURCE_DIR}/examples/reflection
+    ${CMAKE_SOURCE_DIR}/examples/reflection/dynamic
 )
 
 configure_siplasplas_reflection(pluginexample)

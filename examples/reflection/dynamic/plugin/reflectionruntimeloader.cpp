@@ -3,6 +3,7 @@
 #include "plugin.hpp"
 
 #include <siplasplas/utility/fusion.hpp>
+#include <siplasplas/reflection/dynamic/api.hpp>
 
 using namespace cpp::dynamic_reflection;
 

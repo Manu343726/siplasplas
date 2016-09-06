@@ -18,7 +18,7 @@ endfunction()
 
 get_ram_mb(RAMMB)
 if(RAMMB GREATER 1024 OR SIPLASPLAS_BUILD_CHAISCRIPT_EXAMPLE)
-    add_siplasplas_example_simple(chaiscript DEPENDS chaiscript siplasplas-reflection-static)
+    add_siplasplas_example_simple(chaiscript INCLUDE_DIRS .. DEPENDS chaiscript siplasplas-reflection-static)
     configure_siplasplas_reflection(examples-chaiscript)
 endif()
 
