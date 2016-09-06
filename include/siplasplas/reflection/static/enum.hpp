@@ -34,7 +34,6 @@ class Enum<
     ::cpp::meta::list<std::integral_constant<EnumType, Constants>...>,
     ::cpp::meta::list<ConstantsNames...>
 >
-class Enum
 #else
 
 /**
@@ -110,15 +109,18 @@ public:
      *
      * Equivalent to values()[i]
      *
-     * \param i Zero-indexed index of the constant. Constants are indexed from top
-     * declared ones to the bottom:
-     *     ``` cpp
-     *     enum class JoystickAxis
-     *     {
-     *         X, // Enum<JoystickAxis>::value(0)
-     *         Y  // Enum<JoystickAxis>::value(1)
-     *     };
-     *     ```
+     * \param i Zero-indexed index of the constant
+     *
+     * > **Note:** Constants are indexed from top to bottom:
+     * >
+     * > ``` cpp
+     * > enum class JoystickAxis
+     * > {
+     * >     X, // Enum<JoystickAxis>::value(0)
+     * >     Y  // Enum<JoystickAxis>::value(1)
+     * > };
+     * > ```
+     *
      * the behavior is undefined if `i >= count()`.
      */
     static constexpr EnumType value(std::size_t i)
@@ -131,15 +133,18 @@ public:
      *
      * Equivalent to names()[i]
      *
-     * \param i Zero-indexed index of the constant. Constants are indexed from top
-     * declared ones to the bottom:
-     *     ``` cpp
-     *     enum class JoystickAxis
-     *     {
-     *         X, // Enum<JoystickAxis>::value(0)
-     *         Y  // Enum<JoystickAxis>::value(1)
-     *     };
-     *     ```
+     * \param i Zero-indexed index of the constant
+     *
+     * > **Note:** Constants are indexed from top to bottom:
+     * >
+     * > ``` cpp
+     * > enum class JoystickAxis
+     * > {
+     * >     X, // Enum<JoystickAxis>::value(0)
+     * >     Y  // Enum<JoystickAxis>::value(1)
+     * > };
+     * > ```
+     *
      * the behavior is undefined if `i >= count()`.
      *
      * \returns A pointer to a constexpr null terminated C string with the name
@@ -288,8 +293,6 @@ class Enum : public static_reflection::meta::Enum<
  * See cpp::static_reflection::meta::Enum template for the returned information.
  *
  * \tparam EnumType Must be an enumeration type. The behavior is undefined otherwise.
- *
- * \example examples/reflection/static/enum.cpp
  */
 template<typename EnumType>
 class Enum : public codegen::Enum<EnumType>

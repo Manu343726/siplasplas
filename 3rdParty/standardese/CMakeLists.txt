@@ -16,7 +16,7 @@ endif()
 
 add_siplasplas_thirdparty(standardese
 GIT_REPOSITORY
-    "https://github.com/Manu343726/standardese"
+    "https://github.com/foonathan/standardese"
 GIT_TAG
     develop
 CMAKE_EXTRA_ARGS

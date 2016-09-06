@@ -117,12 +117,6 @@ namespace codegen
  * See cpp::static_reflection::meta::Class for the returned information.
  *
  * \tparam T Must be a class type.
- *
- *
- * \example examples/reflection/static/serialization.cpp
- * This example shows how to write a generic serialization function
- * using static reflection
- *
  */
 template<typename T>
 class Class : public codegen::Class<T>

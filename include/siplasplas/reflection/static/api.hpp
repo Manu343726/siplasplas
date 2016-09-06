@@ -41,10 +41,10 @@
  *
  *
  * ### TL;DR:
- *  - **`cpp::static_reflection::meta`**: Datatypes representing reflection metadata
- *  - **`cpp::static_reflection::codegen`**: Indexation of metadata generated during reflection parsing and
+ *  - `cpp::static_reflection::meta`: Datatypes representing reflection metadata
+ *  - `cpp::static_reflection::codegen`: Indexation of metadata generated during reflection parsing and
  *  processing (DRLParser)
- *  - **`cpp::static_reflection`**: API for static access of reflection metadata
+ *  - `cpp::static_reflection`: API for static access of reflection metadata
  *
  * ### Why `codegen` middle layer?
  *
@@ -53,9 +53,36 @@
  * all the metadata access is directly implemented in `meta`, but `codegen` can be used as a
  * translation layer if the metadata backend changes.
  *
- * \example examples/reflection/static/serialization.cpp
+ * ## Examples
+ *
+ *  - \link examples/reflection/static/chaiscript.cpp \endlink
+ *  - \link examples/reflection/static/enum.cpp \endlink
+ *  - \link examples/reflection/static/serialization.cpp \endlink
+ */
+
+/**
+ * \ingroup static-reflection
  * \example examples/reflection/static/enum.cpp
+ *
+ * This example shows how to use cpp::static_reflection::Enum to do enum
+ * introspection, get enum strings for values, etc
+ */
+
+/**
+ * \ingroup static-reflection
+ * \example examples/reflection/static/serialization.cpp
+ *
+ * This example uses cpp::static_reflection::Class to implement generic
+ * serialization of user defined class types
+ */
+
+/**
+ * \ingroup static-reflection
  * \example examples/reflection/static/chaiscript.cpp
+ *
+ * This example shows how the binding of a C++ API to an external language can be
+ * automated using static reflection. In the example, Member functions of a class are binded
+ * into a [chaiscript](http://chaiscript.com/) context
  */
 
 #include "sourceinfo.hpp"
