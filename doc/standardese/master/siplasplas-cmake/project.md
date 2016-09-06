@@ -5,8 +5,6 @@ layout: standardese-doc
 # Header file `project.hpp`
 
 ``` cpp
-#define SIPLASPLAS_CMAKE_PROJECT_HPP 
-
 #include <string>
 
 #include <siplasplas/signals/emitter.hpp>

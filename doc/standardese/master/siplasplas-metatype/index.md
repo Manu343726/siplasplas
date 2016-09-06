@@ -7,5 +7,5 @@ layout: standardese-doc
 
 
  - [`metatype.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-metatype/metatype.html)
- - [`files.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-metatype/files.html)
- - [`entities.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-metatype/entities.html)
+ - [`standardese_files.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-metatype/standardese_files.html)
+ - [`standardese_entities.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-metatype/standardese_entities.html)

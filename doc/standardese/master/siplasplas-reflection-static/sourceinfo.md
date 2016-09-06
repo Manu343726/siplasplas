@@ -5,8 +5,6 @@ layout: standardese-doc
 # Header file `sourceinfo.hpp`
 
 ``` cpp
-#define SIPLASPLAS_REFLECTION_STATIC_SOURCEINFO_HPP 
-
 #include <siplasplas/utility/meta.hpp>
 
 #include <array>
@@ -42,6 +40,8 @@ enum class Kind
 };
 ```
 
+Represents the different types of entities (namespaces, classes, functions, etc) the library can collect static reflection information.
+
 See cpp::static\_reflection::meta::SourceInfo.
 
 -----
@@ -67,9 +67,11 @@ public:
 };
 ```
 
+Stores source information of an entity
+
 SourceInfo class stores information about the declaration of an entity (class, function, etc) in the context of the sourcecode where the entity is declared. This information includes the file where the entity is declared, the line, the name of the entity, etc.
 
-### Function `cpp::static_reflection::meta::SourceInfo<Kind, FullName, Spelling, DisplayName, File, Line>::kind`<a id="cpp::static_reflection::meta::SourceInfo<Kind, FullName, Spelling, DisplayName, File, Line>::kind"></a>
+### Function `cpp::static_reflection::meta::SourceInfo<Kind, FullName, Spelling, DisplayName, File, Line>::kind`<a id="cpp::static_reflection::meta::SourceInfo<Kind, FullName, Spelling, DisplayName, File, Line>::kind()"></a>
 
 ``` cpp
 static constexpr static_reflection::Kind kind();
@@ -83,17 +85,19 @@ auto kind = cpp::static_reflection::Class<MyClass>::SourceInfo::kind(); // Retur
 
 -----
 
-### Function `cpp::static_reflection::meta::SourceInfo<Kind, FullName, Spelling, DisplayName, File, Line>::fullName`<a id="cpp::static_reflection::meta::SourceInfo<Kind, FullName, Spelling, DisplayName, File, Line>::fullName"></a>
+### Function `cpp::static_reflection::meta::SourceInfo<Kind, FullName, Spelling, DisplayName, File, Line>::fullName`<a id="cpp::static_reflection::meta::SourceInfo<Kind, FullName, Spelling, DisplayName, File, Line>::fullName()"></a>
 
 ``` cpp
 static constexpr const char* fullName();
 ```
 
-Returns the full qualified name of an entity \\returns a pointer to a null-terminated `constexpr` C string with the full name. If the source info is a default empty source info (Such as from an entity without reflection metadata available) returns an empty string.
+Returns the full qualified name of an entity
+
+*Returns*: a pointer to a null-terminated `constexpr` C string with the full name. If the source info is a default empty source info (Such as from an entity without reflection metadata available) returns an empty string.
 
 -----
 
-### Function `cpp::static_reflection::meta::SourceInfo<Kind, FullName, Spelling, DisplayName, File, Line>::spelling`<a id="cpp::static_reflection::meta::SourceInfo<Kind, FullName, Spelling, DisplayName, File, Line>::spelling"></a>
+### Function `cpp::static_reflection::meta::SourceInfo<Kind, FullName, Spelling, DisplayName, File, Line>::spelling`<a id="cpp::static_reflection::meta::SourceInfo<Kind, FullName, Spelling, DisplayName, File, Line>::spelling()"></a>
 
 ``` cpp
 static constexpr const char* spelling();
@@ -101,11 +105,11 @@ static constexpr const char* spelling();
 
 Returns the name of the entity See [`clang_getCursorSpelling()`](http://clang.llvm.org/doxygen/group__CINDEX__CURSOR__XREF.html#gaad1c9b2a1c5ef96cebdbc62f1671c763).
 
-*Returns:* a pointer to a null-terminated `constexpr` C string with the spelling. If the source info is a default empty source info (Such as from an entity without reflection metadata available) returns an empty string.
+*Returns*: a pointer to a null-terminated `constexpr` C string with the spelling. If the source info is a default empty source info (Such as from an entity without reflection metadata available) returns an empty string.
 
 -----
 
-### Function `cpp::static_reflection::meta::SourceInfo<Kind, FullName, Spelling, DisplayName, File, Line>::displayName`<a id="cpp::static_reflection::meta::SourceInfo<Kind, FullName, Spelling, DisplayName, File, Line>::displayName"></a>
+### Function `cpp::static_reflection::meta::SourceInfo<Kind, FullName, Spelling, DisplayName, File, Line>::displayName`<a id="cpp::static_reflection::meta::SourceInfo<Kind, FullName, Spelling, DisplayName, File, Line>::displayName()"></a>
 
 ``` cpp
 static constexpr const char* displayName();
@@ -117,11 +121,11 @@ The display name contains extra information that helps identify the entity, such
 
 See [`clang_getCursorDisplayName()`](http://clang.llvm.org/doxygen/group__CINDEX__CURSOR__XREF.html#gac3eba3224d109a956f9ef96fd4fe5c83)
 
-*Returns:* a pointer to a null-terminated `constexpr` C string with the display name. If the source info is a default empty source info (Such as from an entity without reflection metadata available) returns an empty string.
+*Returns*: a pointer to a null-terminated `constexpr` C string with the display name. If the source info is a default empty source info (Such as from an entity without reflection metadata available) returns an empty string.
 
 -----
 
-### Function `cpp::static_reflection::meta::SourceInfo<Kind, FullName, Spelling, DisplayName, File, Line>::file`<a id="cpp::static_reflection::meta::SourceInfo<Kind, FullName, Spelling, DisplayName, File, Line>::file"></a>
+### Function `cpp::static_reflection::meta::SourceInfo<Kind, FullName, Spelling, DisplayName, File, Line>::file`<a id="cpp::static_reflection::meta::SourceInfo<Kind, FullName, Spelling, DisplayName, File, Line>::file()"></a>
 
 ``` cpp
 static constexpr const char* file();
@@ -131,11 +135,11 @@ Returns the full path to the file where the entity is declared.
 
 The path returned is the full path to the declaration file of the entity **as read when the file was processed by DRLParser**. This full path may change if the user sources are deployed to a different path/machine, so user code should not rely in this full path. However, depending on the structure of the user project, a relative path to the user source tree or include tree may be get from this path
 
-*Returns:* a pointer to a null-terminated `constexpr` C string with the full path. If the source info is a default empty source info (Such as from an entity without reflection metadata available) returns an empty string.
+*Returns*: a pointer to a null-terminated `constexpr` C string with the full path. If the source info is a default empty source info (Such as from an entity without reflection metadata available) returns an empty string.
 
 -----
 
-### Function `cpp::static_reflection::meta::SourceInfo<Kind, FullName, Spelling, DisplayName, File, Line>::line`<a id="cpp::static_reflection::meta::SourceInfo<Kind, FullName, Spelling, DisplayName, File, Line>::line"></a>
+### Function `cpp::static_reflection::meta::SourceInfo<Kind, FullName, Spelling, DisplayName, File, Line>::line`<a id="cpp::static_reflection::meta::SourceInfo<Kind, FullName, Spelling, DisplayName, File, Line>::line()"></a>
 
 ``` cpp
 static constexpr std::size_t line();

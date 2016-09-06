@@ -5,8 +5,6 @@ layout: standardese-doc
 # Header file `visitor.hpp`
 
 ``` cpp
-#define SIPLASPLAS_VARIANT_VISITOR_HPP 
-
 #include <siplasplas/utility/function.hpp>
 
 namespace cpp

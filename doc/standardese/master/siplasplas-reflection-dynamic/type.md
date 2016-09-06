@@ -5,8 +5,6 @@ layout: standardese-doc
 # Header file `type.hpp`
 
 ``` cpp
-#define SIPLASPLAS_REFLECTION_DYNAMIC_TYPE_HPP 
-
 #include <siplasplas/reflection/common/type_info.hpp>
 
 #include <siplasplas/allocator/freelist_allocator.hpp>

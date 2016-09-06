@@ -314,10 +314,14 @@ template&lt;typename SourceInfo, typename EnumType, typename Constants, typename
 <p>Equivalent to <a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_enum.html#a19cda41e2aa34e1a1ed5d8d3197d5547" title="Returns the set of enum constants names. ">names()</a>[i]</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">i</td><td>Zero-indexed index of the constant. Constants are indexed from top declared ones to the bottom: ``` cpp enum class JoystickAxis { X, // Enum&lt;JoystickAxis&gt;::value(0) Y // Enum&lt;JoystickAxis&gt;::value(1) }; ``<code> the behavior is undefined if</code>i &gt;= <a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_enum.html#af835df471b4bea9def25732843b5c25b" title="Returns the number of constants declared in the enumeration type. ">count()</a>`.</td></tr>
+    <tr><td class="paramname">i</td><td>Zero-indexed index of the constant</td></tr>
   </table>
   </dd>
 </dl>
+<blockquote class="doxtable">
+<p><b>Note:</b> Constants are indexed from top to bottom:</p>
+<div class="fragment"><div class="line"><span class="keyword">enum class</span> JoystickAxis</div><div class="line">{</div><div class="line">    X, <span class="comment">// Enum&lt;JoystickAxis&gt;::value(0)</span></div><div class="line">    Y  <span class="comment">// Enum&lt;JoystickAxis&gt;::value(1)</span></div><div class="line">};</div></div><!-- fragment --> </blockquote>
+<p>the behavior is undefined if <code>i &gt;= <a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_enum.html#af835df471b4bea9def25732843b5c25b" title="Returns the number of constants declared in the enumeration type. ">count()</a></code>.</p>
 <dl class="section return"><dt>Returns</dt><dd>A pointer to a constexpr null terminated C string with the name of the i-th constant </dd></dl>
 
 </div>
@@ -414,10 +418,14 @@ template&lt;typename SourceInfo, typename EnumType, typename Constants, typename
 <p>Equivalent to <a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_enum.html#a36549864a03e509375bd577be03aa587" title="Returns the set of enum constants values. ">values()</a>[i]</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">i</td><td>Zero-indexed index of the constant. Constants are indexed from top declared ones to the bottom: ``` cpp enum class JoystickAxis { X, // Enum&lt;JoystickAxis&gt;::value(0) Y // Enum&lt;JoystickAxis&gt;::value(1) }; ``<code> the behavior is undefined if</code>i &gt;= <a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_enum.html#af835df471b4bea9def25732843b5c25b" title="Returns the number of constants declared in the enumeration type. ">count()</a>`. </td></tr>
+    <tr><td class="paramname">i</td><td>Zero-indexed index of the constant</td></tr>
   </table>
   </dd>
 </dl>
+<blockquote class="doxtable">
+<p><b>Note:</b> Constants are indexed from top to bottom:</p>
+<div class="fragment"><div class="line"><span class="keyword">enum class</span> JoystickAxis</div><div class="line">{</div><div class="line">    X, <span class="comment">// Enum&lt;JoystickAxis&gt;::value(0)</span></div><div class="line">    Y  <span class="comment">// Enum&lt;JoystickAxis&gt;::value(1)</span></div><div class="line">};</div></div><!-- fragment --> </blockquote>
+<p>the behavior is undefined if <code>i &gt;= <a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_enum.html#af835df471b4bea9def25732843b5c25b" title="Returns the number of constants declared in the enumeration type. ">count()</a></code>. </p>
 
 </div>
 </div>

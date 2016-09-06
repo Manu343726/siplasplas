@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['methods',['Methods',['../classcpp_1_1static__reflection_1_1meta_1_1_class.html#ad78d2434e5b613801467c11b0dc16f32',1,'cpp::static_reflection::meta::Class']]]
+  ['hashset',['HashSet',['../group__hash.html#gae68ed7e53b403d96f180ff0f20141fd2',1,'cpp']]],
+  ['hashtable',['HashTable',['../group__hash.html#gacd5cae7eac6a765000ff92a6e1040108',1,'cpp']]]
 ];

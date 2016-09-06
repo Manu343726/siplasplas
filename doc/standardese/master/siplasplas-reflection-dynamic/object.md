@@ -5,8 +5,6 @@ layout: standardese-doc
 # Header file `object.hpp`
 
 ``` cpp
-#define SIPLASPLAS_REFLECTION_DYNAMIC_OBJECT_HPP 
-
 #include "type.hpp"
 
 #include <memory>

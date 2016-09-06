@@ -5,8 +5,6 @@ layout: standardese-doc
 # Header file `object_manip.hpp`
 
 ``` cpp
-#define SIPLASPLAS_REFLECTION_DYNAMIC_OBJECT_MANIP_HPP 
-
 #include "object.hpp"
 
 #include "logger.hpp"
@@ -32,13 +30,7 @@ namespace cpp
             class InvokeVectorCallOnMember;
             
             template <typename ... Args, std::size_t ... Is>
-            std::tuple<Args...> vector_to_tuple(const std::vector<cpp::dynamic_reflection::Object>& vector, );
-            
-            template <typename ... Args, std::size_t ... Is>
             std::vector<cpp::dynamic_reflection::Object> tuple_to_vector();
-            
-            template <typename Function, std::size_t ... Is>
-            auto vector_call(Function function, const std::vector<cpp::dynamic_reflection::Object>& args, );
         }
         
         template <typename ... Args>

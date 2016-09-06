@@ -5,8 +5,6 @@ layout: standardese-doc
 # Header file `metatype.hpp`
 
 ``` cpp
-#define SIPLASPLAS_METATYPE_METATYPE_HPP 
-
 #include <unordered_map>
 
 #include <memory>

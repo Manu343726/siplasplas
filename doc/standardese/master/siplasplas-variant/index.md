@@ -10,5 +10,5 @@ layout: standardese-doc
  - [`optional.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-variant/optional.html)
  - [`variant.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-variant/variant.html)
  - [`visitor.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-variant/visitor.html)
- - [`files.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-variant/files.html)
- - [`entities.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-variant/entities.html)
+ - [`standardese_files.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-variant/standardese_files.html)
+ - [`standardese_entities.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-variant/standardese_entities.html)

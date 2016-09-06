@@ -5,8 +5,6 @@ layout: standardese-doc
 # Header file `attribute.hpp`
 
 ``` cpp
-#define SIPLASPLAS_REFLECTION_ATTRIBUTES_ATTRIBUTE_HPP 
-
 #include <vector>
 
 #include <siplasplas/reflection/dynamic/object.hpp>

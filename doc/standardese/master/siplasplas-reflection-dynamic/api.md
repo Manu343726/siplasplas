@@ -5,8 +5,6 @@ layout: standardese-doc
 # Header file `api.hpp`
 
 ``` cpp
-#define SIPLASPLAS_REFLECTION_DYNAMIC_API_HPP 
-
 #include "type.hpp"
 
 #include "object.hpp"

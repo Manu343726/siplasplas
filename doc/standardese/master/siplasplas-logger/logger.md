@@ -5,8 +5,6 @@ layout: standardese-doc
 # Header file `logger.hpp`
 
 ``` cpp
-#define SIPLASPLAS_LOGGER_LOGGER_HPP 
-
 #include <spdlog/fmt/ostr.h>
 
 #include <spdlog/spdlog.h>

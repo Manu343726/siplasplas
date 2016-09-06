@@ -7,5 +7,5 @@ layout: standardese-doc
 
 
  - [`fslistener.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-fswatch/fslistener.html)
- - [`files.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-fswatch/files.html)
- - [`entities.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-fswatch/entities.html)
+ - [`standardese_files.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-fswatch/standardese_files.html)
+ - [`standardese_entities.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-fswatch/standardese_entities.html)

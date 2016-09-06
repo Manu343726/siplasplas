@@ -5,8 +5,6 @@ layout: standardese-doc
 # Header file `linear_allocator.hpp`
 
 ``` cpp
-#define SIPLASPLAS_LINEAR_ALLOCATOR_HPP 
-
 #include <memory>
 
 #include <stdexcept>

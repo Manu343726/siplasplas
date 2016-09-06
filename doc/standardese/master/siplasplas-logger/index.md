@@ -7,5 +7,5 @@ layout: standardese-doc
 
 
  - [`logger.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-logger/logger.html)
- - [`files.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-logger/files.html)
- - [`entities.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-logger/entities.html)
+ - [`standardese_files.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-logger/standardese_files.html)
+ - [`standardese_entities.hpp`]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-logger/standardese_entities.html)

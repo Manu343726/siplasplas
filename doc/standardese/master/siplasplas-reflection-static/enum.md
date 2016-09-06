@@ -5,8 +5,6 @@ layout: standardese-doc
 # Header file `enum.hpp`
 
 ``` cpp
-#define SIPLASPLAS_REFLECTION_STATIC_ENUM_HPP 
-
 #include <siplasplas/utility/meta.hpp>
 
 #include <string>
@@ -38,9 +36,11 @@ class Enum
 {};
 ```
 
+Returns static reflection information of the given enumeration type.
+
 See cpp::static\_reflection::meta::Enum template for the returned information.
 
-### Template parameter `cpp::static_reflection::Enum<EnumType>::EnumType`<a id="cpp::static_reflection::Enum<EnumType>::EnumType"></a>
+### Template parameter `cpp::static_reflection::Enum<EnumType>::EnumType`<a id="cpp::static_reflection::Enum<EnumType>.EnumType"></a>
 
 ``` cpp
 typename EnumType

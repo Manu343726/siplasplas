@@ -5,8 +5,6 @@ layout: standardese-doc
 # Header file `type_info.hpp`
 
 ``` cpp
-#define SIPLASPLAS_REFLECTION_TYPE_INFO_HPP 
-
 #include <ctti/type_id.hpp>
 
 #include <bitset>
