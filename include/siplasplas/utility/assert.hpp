@@ -415,7 +415,7 @@ public:
 #define SIPLASPLAS_ASSERT_FALSE(...) SIPLASPLAS_ASSERT_IMPL(::fmt::format( \
                 "Expected '{}' to be false. Got true instead",            \
                 SIPLASPLAS_PP_STR((__VA_ARGS__))                          \
-            ), __VA_ARGS__)
+            ), !(__VA_ARGS__))
 
 
 #endif // SIPLASPLAS_UTILITY_ASSERT_HPP
