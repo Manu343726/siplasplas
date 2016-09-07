@@ -3,7 +3,7 @@ include(export_target)
 add_siplasplas_library(pluginexample NO_INSTALL
 SOURCES
     plugin.cpp
-    reflectionruntimeloader.cpp
+    export.cpp
 DEPENDS
     siplasplas-reflection-dynamic
     plugininterface

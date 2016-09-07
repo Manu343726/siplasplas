@@ -1,5 +1,6 @@
 #include <plugininterface/plugininterface.hpp>
 #include <siplasplas/reflection/dynamic/runtimeloader.hpp>
+#include <siplasplas/reflection/dynamic/object.hpp>
 #include <iostream>
 
 using namespace cpp;
