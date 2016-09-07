@@ -1,10 +1,8 @@
 #ifndef SIPLASPLAS_REFLECTION_DYNAMIC_FUNCTION_HPP
 #define SIPLASPLAS_REFLECTION_DYNAMIC_FUNCTION_HPP
 
-#include "object.hpp"
-#include "object_manip.hpp"
 #include "entity.hpp"
-#include "function_pointer.hpp"
+#include <siplasplas/typeerasure/function.hpp>
 
 namespace cpp
 {
@@ -16,16 +14,18 @@ class SIPLASPLAS_REFLECTION_DYNAMIC_EXPORT Function : public Entity
 {
 public:
     template<typename... Args>
-    Object operator()(Args&&... args) const
+    auto operator()(Args&&... args) const
     {
         return _functionPointer(std::forward<Args>(args)...);
     }
 
     template<typename... Args>
-    Object operator()(Args&&... args)
+    auto operator()(Args&&... args)
     {
         return _functionPointer(std::forward<Args>(args)...);
     }
+
+    const cpp::typeerasure::Function32& getFunction() const;
 
     template<typename FunctionPointer>
     static std::shared_ptr<Function> create(const SourceInfo& sourceInfo, FunctionPointer function)
@@ -42,7 +42,7 @@ private:
         _functionPointer{functionPointer}
     {}
 
-    FunctionPointer _functionPointer;
+    cpp::typeerasure::Function32 _functionPointer;
 };
 
 }

@@ -4,29 +4,9 @@
 using namespace cpp;
 using namespace cpp::dynamic_reflection;
 
-Object Field::get(const void* object) const
+const cpp::typeerasure::Field32& Field::getField() const
 {
-    return _fieldAccess->get(object);
-}
-
-Object Field::get(void* object)
-{
-    return _fieldAccess->get(object);
-}
-
-const Type& Field::type() const
-{
-    return _fieldAccess->type();
-}
-
-const Type& Field::declType() const
-{
-    return _fieldAccess->declType();
-}
-
-bool Field::isReference() const
-{
-    return _fieldAccess->isReference();
+    return _field;
 }
 
 Field& Field::fromEntity(const std::shared_ptr<Entity>& entity)

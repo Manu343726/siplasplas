@@ -256,7 +256,7 @@ public:
      * \returns A reference to `*this`
      */
     template<typename T>
-    SimpleAny& operator=(const T& value)
+    SimpleAny& operator=(T& value)
     {
         if(!hasType<T>())
         {
@@ -269,6 +269,34 @@ public:
         }
 
         return *this;
+    }
+
+    /**
+     * \brief Assigns an rvalue of type T
+     *
+     * If the current hosted type is T, performs a move assignment of \p value
+     * into the hosted object. Else, an exception is thrown (Cannot rebind
+     * an lvalue reference represented by the SimpleAny from an rvalue reference)
+     *
+     * \param value Value to be assigned to the any
+     * \returns A reference to `*this`
+     */
+    template<typename T>
+    SimpleAny& operator=(T&& value)
+    {
+        if(!hasType<std::decay_t<T>>())
+        {
+            throw cpp::exception<std::runtime_error>(
+                "Cannot assign an rvalue of type {} to an lvalue reference of type {}",
+                ctti::type_id(value).name(),
+                _typeInfo.typeName()
+            );
+        }
+        else
+        {
+            get<std::decay_t<T>>() = std::move(value);
+            return *this;
+        }
     }
 
 private:

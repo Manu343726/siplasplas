@@ -19,3 +19,8 @@ Function& Function::fromEntity(const std::shared_ptr<Entity>& entity)
         );
     }
 }
+
+const cpp::typeerasure::Function32& Function::getFunction() const
+{
+    return _functionPointer;
+}

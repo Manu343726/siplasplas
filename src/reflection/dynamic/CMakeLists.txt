@@ -17,6 +17,7 @@ SOURCES
 DEPENDS
     siplasplas-reflection-common
     siplasplas-reflection-static
+    siplasplas-typeerasure
     siplasplas-allocator
     siplasplas-utility
     ctti
