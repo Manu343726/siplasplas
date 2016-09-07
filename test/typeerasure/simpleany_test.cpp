@@ -23,6 +23,23 @@ TEST(SimpleAnyTest, create_noDefaultConstructibleType_throws)
     EXPECT_THROW(SimpleAny::create<NoDefaultConstructible>(), std::runtime_error);
 }
 
+TEST(SimpleAnyTest, defaultConstructed_isEmpty)
+{
+    SimpleAny any;
+    EXPECT_TRUE(any.empty());
+}
+
+TEST(SimpleAnyTest, constructedWithValue_noEmpty)
+{
+    EXPECT_FALSE(SimpleAny::create<std::string>().empty());
+    EXPECT_FALSE(SimpleAny::create<std::vector<std::string>>().empty());
+    EXPECT_FALSE((SimpleAny::create<std::array<char, 4>>()).empty());
+    EXPECT_FALSE((SimpleAny::create<std::array<char, 8>>()).empty());
+    EXPECT_FALSE((SimpleAny::create<std::array<char, 16>>()).empty());
+    EXPECT_FALSE((SimpleAny::create<std::array<char, 32>>()).empty());
+    EXPECT_FALSE((SimpleAny::create<std::array<char, 64>>()).empty());
+}
+
 TEST(SimpleAnyTest, create_smallTypes_noThrow)
 {
     EXPECT_NO_THROW(SimpleAny::create<std::string>());

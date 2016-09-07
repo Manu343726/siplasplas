@@ -101,6 +101,7 @@ public:
     template<typename T>
     const std::decay_t<T>& get() const
     {
+        SIPLASPLAS_ASSERT_FALSE(empty());
 #ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
         SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>())("SimpleAny has type '{}', requested '{}' instead", typeInfo().typeName(), ctti::type_id<std::decay_t<T>>().name());
 #endif
@@ -213,6 +214,7 @@ public:
     template<typename T>
     const std::decay_t<T>& get() const
     {
+        SIPLASPLAS_ASSERT_FALSE(empty());
 #ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
         SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>())("SimpleAny has type '{}', requested '{}' instead", typeInfo().typeName(), ctti::type_id<std::decay_t<T>>().name());
 #endif
@@ -228,6 +230,7 @@ public:
     template<typename T>
     std::decay_t<T>& get()
     {
+        SIPLASPLAS_ASSERT_FALSE(empty());
 #ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
         SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>())("SimpleAny has type '{}', requested '{}' instead", typeInfo().typeName(), ctti::type_id<std::decay_t<T>>().name());
 #endif
@@ -411,6 +414,7 @@ public:
     template<typename T>
     const std::decay_t<T>& get() const
     {
+        SIPLASPLAS_ASSERT_FALSE(empty());
 #ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
         SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>())("SimpleAny has type '{}', requested '{}' instead", typeInfo().typeName(), ctti::type_id<std::decay_t<T>>().name());
 #endif
@@ -435,6 +439,7 @@ public:
     template<typename T>
     std::decay_t<T>& get()
     {
+        SIPLASPLAS_ASSERT_FALSE(empty());
 #ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
         SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>())("SimpleAny has type '{}', requested '{}' instead", typeInfo().typeName(), ctti::type_id<std::decay_t<T>>().name());
 #endif

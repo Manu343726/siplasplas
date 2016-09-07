@@ -6,10 +6,21 @@ using namespace ::testing;
 using namespace ::cpp::typeerasure;
 using namespace ::std::string_literals;
 
+TEST(FunctionTest, defaultConstructed_isEmpty)
+{
+    Function32 function;
+    EXPECT_TRUE(function.empty());
+}
+
+TEST(FunctionTest, constructedWithValue_noEmpty)
+{
+    EXPECT_FALSE(Function32(addStringsByConstReference).empty());
+    EXPECT_FALSE(Function32(&Class::addStringsByConstReference).empty());
+    EXPECT_FALSE(Function32([](){}).empty());
+}
 
 TEST(FunctionTest, Function8_freeFunctionIntsByValue)
 {
-    auto result = Function8(addIntsByValue)(20, 22);
     EXPECT_EQ(42, Function8(addIntsByValue)(20, 22).get<int>());
     EXPECT_EQ(42, Function8(addIntsByValue).invoke(std::vector<cpp::AnyArg>{20, 22}).get<int>());
 }
