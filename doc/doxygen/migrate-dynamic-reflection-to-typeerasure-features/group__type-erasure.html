@@ -127,11 +127,14 @@ Modules</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_any.html">cpp::Any&lt; Storage, FunctionsStorage, FunctionArgsStorage &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_any.html">cpp::Any&lt; Storage, FunctionsStorage, FunctionArgsStorage, AttributesStorage &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements a type-erased object container with support for dynamic method and attribute invokation.  <a href="classcpp_1_1_any.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_any_arg.html">cpp::AnyArg</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents a type erased function call argument.  <a href="classcpp_1_1_any_arg.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_field.html">cpp::typeerasure::Field&lt; Storage, ObjectArgStorage &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores a type erased member object pointer.  <a href="classcpp_1_1typeerasure_1_1_field.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html">cpp::typeerasure::Function&lt; Storage, ArgsStorage, ReturnStorage &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Stores a type-erased callable of any signature and kind.  <a href="classcpp_1_1typeerasure_1_1_function.html#details">More...</a><br /></td></tr>
@@ -169,6 +172,22 @@ using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="gro
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#ga8a940a0384454b4445fcff40a7118d30">cpp::ReferenceAny</a> = Any&lt; NonOwningStorage, DeadPoolStorage&lt; 32 &gt;&gt;</td></tr>
 <tr class="memdesc:ga8a940a0384454b4445fcff40a7118d30"><td class="mdescLeft">&#160;</td><td class="mdescRight">A non-owning <a class="el" href="classcpp_1_1_any.html" title="Implements a type-erased object container with support for dynamic method and attribute invokation...">Any</a> that references an existing object. <br /></td></tr>
 <tr class="separator:ga8a940a0384454b4445fcff40a7118d30"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga5010d66b070a0b54d32bc0f3d6e4fbe5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga5010d66b070a0b54d32bc0f3d6e4fbe5"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#ga5010d66b070a0b54d32bc0f3d6e4fbe5">cpp::typeerasure::Field8</a> = Field&lt; DeadPoolStorage&lt; 8 &gt;&gt;</td></tr>
+<tr class="memdesc:ga5010d66b070a0b54d32bc0f3d6e4fbe5"><td class="mdescLeft">&#160;</td><td class="mdescRight">A field with 8 byte fixed-size storage. <br /></td></tr>
+<tr class="separator:ga5010d66b070a0b54d32bc0f3d6e4fbe5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaa602bc4c8c8bcb30040e0538de068acb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gaa602bc4c8c8bcb30040e0538de068acb"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#gaa602bc4c8c8bcb30040e0538de068acb">cpp::typeerasure::Field16</a> = Field&lt; DeadPoolStorage&lt; 16 &gt;&gt;</td></tr>
+<tr class="memdesc:gaa602bc4c8c8bcb30040e0538de068acb"><td class="mdescLeft">&#160;</td><td class="mdescRight">A field with 16 byte fixed-size storage. <br /></td></tr>
+<tr class="separator:gaa602bc4c8c8bcb30040e0538de068acb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gaf9b00614c89b90e957c455d4a889e806"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="gaf9b00614c89b90e957c455d4a889e806"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#gaf9b00614c89b90e957c455d4a889e806">cpp::typeerasure::Field32</a> = Field&lt; DeadPoolStorage&lt; 32 &gt;&gt;</td></tr>
+<tr class="memdesc:gaf9b00614c89b90e957c455d4a889e806"><td class="mdescLeft">&#160;</td><td class="mdescRight">A field with 32 byte fixed-size storage. <br /></td></tr>
+<tr class="separator:gaf9b00614c89b90e957c455d4a889e806"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1bc46723ae87fc0b3546e522899a03db"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga1bc46723ae87fc0b3546e522899a03db"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#ga1bc46723ae87fc0b3546e522899a03db">cpp::typeerasure::Field64</a> = Field&lt; DeadPoolStorage&lt; 64 &gt;&gt;</td></tr>
+<tr class="memdesc:ga1bc46723ae87fc0b3546e522899a03db"><td class="mdescLeft">&#160;</td><td class="mdescRight">A field with 64 byte fixed-size storage. <br /></td></tr>
+<tr class="separator:ga1bc46723ae87fc0b3546e522899a03db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ga528658ab4849fb859fd7d56b68b616a6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ga528658ab4849fb859fd7d56b68b616a6"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__type-erasure.html#ga528658ab4849fb859fd7d56b68b616a6">cpp::typeerasure::Function8</a> = Function&lt; DeadPoolStorage&lt; 8 &gt;&gt;</td></tr>
 <tr class="memdesc:ga528658ab4849fb859fd7d56b68b616a6"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="classcpp_1_1typeerasure_1_1_function.html" title="Stores a type-erased callable of any signature and kind. ">Function</a> with 8 byte fixed-size storage. <br /></td></tr>

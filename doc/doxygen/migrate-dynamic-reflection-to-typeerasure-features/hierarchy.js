@@ -46,6 +46,7 @@ var hierarchy =
     [ "cpp::static_reflection::Enum< EnumType >", "classcpp_1_1static__reflection_1_1_enum.html", null ],
     [ "cpp::static_reflection::meta::Enum< static_reflection::meta::EmptySourceInfo< Enum< EnumType > >, EnumType,::cpp::meta::list< std::integral_constant< EnumType, static_cast< EnumType >(0)> >,::cpp::meta::list< ::cpp::meta::string<> > >", "classcpp_1_1static__reflection_1_1meta_1_1_enum.html", null ],
     [ "cpp::Exception< Ex, Base >", "classcpp_1_1_exception.html", null ],
+    [ "cpp::typeerasure::Field< Storage, ObjectArgStorage >", "classcpp_1_1typeerasure_1_1_field.html", null ],
     [ "cpp::static_reflection::meta::Field< SourceInfo, F, field >", "classcpp_1_1static__reflection_1_1meta_1_1_field.html", null ],
     [ "cpp::static_reflection::Field< FieldType, field >", "classcpp_1_1static__reflection_1_1_field.html", null ],
     [ "cpp::static_reflection::meta::Field< static_reflection::meta::EmptySourceInfo< Field< FieldType, field > >, FieldType, field >", "classcpp_1_1static__reflection_1_1meta_1_1_field.html", null ],
@@ -54,6 +55,7 @@ var hierarchy =
     [ "cpp::static_reflection::Function< FunctionType, function >", "classcpp_1_1static__reflection_1_1_function.html", null ],
     [ "cpp::typeerasure::Function< Storage, ArgsStorage, ReturnStorage >", "classcpp_1_1typeerasure_1_1_function.html", null ],
     [ "cpp::static_reflection::meta::Function< static_reflection::meta::EmptySourceInfo< Function< FunctionType, function > >, FunctionType, function >", "classcpp_1_1static__reflection_1_1meta_1_1_function.html", null ],
+    [ "cpp::typeerasure::Function< Storage, ObjectArgStorage, cpp::cpp::NonOwningStorage >", "classcpp_1_1typeerasure_1_1_function.html", null ],
     [ "cpp::Hash< T >", "structcpp_1_1_hash.html", null ],
     [ "cpp::Identity", "classcpp_1_1_identity.html", null ],
     [ "cpp::detail::If< Condition >", "classcpp_1_1detail_1_1_if.html", null ],
@@ -74,7 +76,7 @@ var hierarchy =
       [ "cpp::SyncSink", "classcpp_1_1_sync_sink.html", null ]
     ] ],
     [ "cpp::SimpleAny< Storage >", "classcpp_1_1_simple_any.html", [
-      [ "cpp::Any< Storage, FunctionsStorage, FunctionArgsStorage >", "classcpp_1_1_any.html", null ]
+      [ "cpp::Any< Storage, FunctionsStorage, FunctionArgsStorage, AttributesStorage >", "classcpp_1_1_any.html", null ]
     ] ],
     [ "cpp::static_reflection::meta::SourceInfo< Kind, FullName, Spelling, DisplayName, File, Line >", "classcpp_1_1static__reflection_1_1meta_1_1_source_info.html", null ],
     [ "cpp::DynamicLibrary::Symbol", "classcpp_1_1_dynamic_library_1_1_symbol.html", null ],
