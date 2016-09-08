@@ -35,7 +35,6 @@ var annotated_dup =
         [ "Function", "classcpp_1_1static__reflection_1_1_function.html", null ]
       ] ],
       [ "typeerasure", null, [
-        [ "Field", "classcpp_1_1typeerasure_1_1_field.html", "classcpp_1_1typeerasure_1_1_field" ],
         [ "Function", "classcpp_1_1typeerasure_1_1_function.html", "classcpp_1_1typeerasure_1_1_function" ],
         [ "TypeInfo", "classcpp_1_1typeerasure_1_1_type_info.html", "classcpp_1_1typeerasure_1_1_type_info" ]
       ] ],

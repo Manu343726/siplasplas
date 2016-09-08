@@ -1,10 +1,8 @@
 var classcpp_1_1typeerasure_1_1_function =
 [
     [ "Function", "classcpp_1_1typeerasure_1_1_function.html#ab711e9f4840cd2f1f5226e291480166d", null ],
-    [ "Function", "classcpp_1_1typeerasure_1_1_function.html#a8926578c4b8b37c76788748f00d339a4", null ],
+    [ "Function", "classcpp_1_1typeerasure_1_1_function.html#a5fcf578d4cab4a48b5ce076dc198154c", null ],
     [ "empty", "classcpp_1_1typeerasure_1_1_function.html#a9dc2e35d0b3a70002b276f415e3cdada", null ],
-    [ "get", "classcpp_1_1typeerasure_1_1_function.html#a4329eb727c966447cb413e82dfa23359", null ],
-    [ "get", "classcpp_1_1typeerasure_1_1_function.html#a12ec581dda84b2c4986812f45685c405", null ],
     [ "invoke", "classcpp_1_1typeerasure_1_1_function.html#a93bedfcf9a04ff04fbaa617c40a89eb0", null ],
     [ "invoke", "classcpp_1_1typeerasure_1_1_function.html#afba6c8808c387c50a039e9c5dbccc758", null ],
     [ "invoke", "classcpp_1_1typeerasure_1_1_function.html#a1c5f29c1431d3896a7d7d61e85f4ce88", null ],

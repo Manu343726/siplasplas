@@ -123,10 +123,10 @@ $(document).ready(function(){initNavTree('classcpp_1_1typeerasure_1_1_function.h
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8926578c4b8b37c76788748f00d339a4"><td class="memTemplParams" colspan="2">template&lt;typename Callable , typename  = std::enable_if_t&lt;!std::is_same&lt;std::decay_t&lt;Callable&gt;, Function&gt;::value&gt;&gt; </td></tr>
-<tr class="memitem:a8926578c4b8b37c76788748f00d339a4"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#a8926578c4b8b37c76788748f00d339a4">Function</a> (Callable &amp;&amp;callable)</td></tr>
-<tr class="memdesc:a8926578c4b8b37c76788748f00d339a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="classcpp_1_1typeerasure_1_1_function.html" title="Stores a type-erased callable of any signature and kind. ">Function</a> from a Callable object.  <a href="#a8926578c4b8b37c76788748f00d339a4">More...</a><br /></td></tr>
-<tr class="separator:a8926578c4b8b37c76788748f00d339a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5fcf578d4cab4a48b5ce076dc198154c"><td class="memTemplParams" colspan="2">template&lt;typename Callable &gt; </td></tr>
+<tr class="memitem:a5fcf578d4cab4a48b5ce076dc198154c"><td class="memTemplItemLeft" align="right" valign="top">&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#a5fcf578d4cab4a48b5ce076dc198154c">Function</a> (Callable &amp;&amp;callable)</td></tr>
+<tr class="memdesc:a5fcf578d4cab4a48b5ce076dc198154c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs a <a class="el" href="classcpp_1_1typeerasure_1_1_function.html" title="Stores a type-erased callable of any signature and kind. ">Function</a> from a Callable object.  <a href="#a5fcf578d4cab4a48b5ce076dc198154c">More...</a><br /></td></tr>
+<tr class="separator:a5fcf578d4cab4a48b5ce076dc198154c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9dc2e35d0b3a70002b276f415e3cdada"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9dc2e35d0b3a70002b276f415e3cdada"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#a9dc2e35d0b3a70002b276f415e3cdada">empty</a> () const </td></tr>
 <tr class="memdesc:a9dc2e35d0b3a70002b276f415e3cdada"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the object is empty (No callable assigned) <br /></td></tr>
@@ -162,14 +162,6 @@ template&lt;typename Callable &gt; </td></tr>
 cpp::FunctionKind&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#ae6d18bee9b85d7b448d832a26f3caf6d">kind</a> () const </td></tr>
 <tr class="memdesc:ae6d18bee9b85d7b448d832a26f3caf6d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the function kind (free function, pointer to member function, functor, etc) of the callable. <br /></td></tr>
 <tr class="separator:ae6d18bee9b85d7b448d832a26f3caf6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4329eb727c966447cb413e82dfa23359"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a4329eb727c966447cb413e82dfa23359"><td class="memTemplItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#a4329eb727c966447cb413e82dfa23359">get</a> () const </td></tr>
-<tr class="memdesc:a4329eb727c966447cb413e82dfa23359"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the underlying callable object.  <a href="#a4329eb727c966447cb413e82dfa23359">More...</a><br /></td></tr>
-<tr class="separator:a4329eb727c966447cb413e82dfa23359"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a12ec581dda84b2c4986812f45685c405"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a12ec581dda84b2c4986812f45685c405"><td class="memTemplItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_function.html#a12ec581dda84b2c4986812f45685c405">get</a> ()</td></tr>
-<tr class="memdesc:a12ec581dda84b2c4986812f45685c405"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the underlying callable object.  <a href="#a12ec581dda84b2c4986812f45685c405">More...</a><br /></td></tr>
-<tr class="separator:a12ec581dda84b2c4986812f45685c405"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -194,13 +186,13 @@ class cpp::typeerasure::Function&lt; Storage, ArgsStorage, ReturnStorage &gt;</h
   </dd>
 </dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a8926578c4b8b37c76788748f00d339a4"></a>
+<a class="anchor" id="a5fcf578d4cab4a48b5ce076dc198154c"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Storage, typename ArgsStorage = Storage, typename ReturnStorage = Storage&gt; </div>
+template&lt;typename Storage , typename ArgsStorage  = Storage, typename ReturnStorage  = Storage&gt; </div>
 <div class="memtemplate">
-template&lt;typename Callable , typename  = std::enable_if_t&lt;!std::is_same&lt;std::decay_t&lt;Callable&gt;, Function&gt;::value&gt;&gt; </div>
+template&lt;typename Callable &gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -236,7 +228,7 @@ template&lt;typename Callable , typename  = std::enable_if_t&lt;!std::is_same&lt
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Storage, typename ArgsStorage = Storage, typename ReturnStorage = Storage&gt; </div>
+template&lt;typename Storage , typename ArgsStorage  = Storage, typename ReturnStorage  = Storage&gt; </div>
 <div class="memtemplate">
 template&lt;typename Callable , typename... Args&gt; </div>
 <table class="mlabels">
@@ -275,81 +267,11 @@ template&lt;typename Callable , typename... Args&gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a4329eb727c966447cb413e82dfa23359"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Storage, typename ArgsStorage = Storage, typename ReturnStorage = Storage&gt; </div>
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">const T&amp; <a class="el" href="classcpp_1_1typeerasure_1_1_function.html">cpp::typeerasure::Function</a>&lt; Storage, ArgsStorage, ReturnStorage &gt;::get </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns the underlying callable object. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>Type of the callable. The behavior is undefined if the underlying callable type is not equal to T (cv and ref qualifiers are ignored) </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
-<a class="anchor" id="a12ec581dda84b2c4986812f45685c405"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename Storage, typename ArgsStorage = Storage, typename ReturnStorage = Storage&gt; </div>
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">T&amp; <a class="el" href="classcpp_1_1typeerasure_1_1_function.html">cpp::typeerasure::Function</a>&lt; Storage, ArgsStorage, ReturnStorage &gt;::get </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Returns the underlying callable object. </p>
-<dl class="tparams"><dt>Template Parameters</dt><dd>
-  <table class="tparams">
-    <tr><td class="paramname">T</td><td>Type of the callable. The behavior is undefined if the underlying callable type is not equal to T (cv and ref qualifiers are ignored) </td></tr>
-  </table>
-  </dd>
-</dl>
-
-</div>
-</div>
 <a class="anchor" id="a93bedfcf9a04ff04fbaa617c40a89eb0"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Storage, typename ArgsStorage = Storage, typename ReturnStorage = Storage&gt; </div>
+template&lt;typename Storage , typename ArgsStorage  = Storage, typename ReturnStorage  = Storage&gt; </div>
 <div class="memtemplate">
 template&lt;typename ArgsVector &gt; </div>
 <table class="mlabels">
@@ -386,7 +308,7 @@ template&lt;typename ArgsVector &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Storage, typename ArgsStorage = Storage, typename ReturnStorage = Storage&gt; </div>
+template&lt;typename Storage , typename ArgsStorage  = Storage, typename ReturnStorage  = Storage&gt; </div>
 <div class="memtemplate">
 template&lt;typename ArgsVector &gt; </div>
 <table class="mlabels">
@@ -423,7 +345,7 @@ template&lt;typename ArgsVector &gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Storage, typename ArgsStorage = Storage, typename ReturnStorage = Storage&gt; </div>
+template&lt;typename Storage , typename ArgsStorage  = Storage, typename ReturnStorage  = Storage&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -458,7 +380,7 @@ template&lt;typename Storage, typename ArgsStorage = Storage, typename ReturnSto
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Storage, typename ArgsStorage = Storage, typename ReturnStorage = Storage&gt; </div>
+template&lt;typename Storage , typename ArgsStorage  = Storage, typename ReturnStorage  = Storage&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -493,7 +415,7 @@ template&lt;typename Storage, typename ArgsStorage = Storage, typename ReturnSto
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Storage, typename ArgsStorage = Storage, typename ReturnStorage = Storage&gt; </div>
+template&lt;typename Storage , typename ArgsStorage  = Storage, typename ReturnStorage  = Storage&gt; </div>
 <div class="memtemplate">
 template&lt;typename... Args&gt; </div>
 <table class="mlabels">
@@ -531,7 +453,7 @@ template&lt;typename... Args&gt; </div>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename Storage, typename ArgsStorage = Storage, typename ReturnStorage = Storage&gt; </div>
+template&lt;typename Storage , typename ArgsStorage  = Storage, typename ReturnStorage  = Storage&gt; </div>
 <div class="memtemplate">
 template&lt;typename... Args&gt; </div>
 <table class="mlabels">
