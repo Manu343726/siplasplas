@@ -181,12 +181,12 @@ public:
 
         const Attribute& attribute() const
         {
-            return _attribute;
+            return *_attribute;
         }
 
         Attribute& attribute()
         {
-            return _attribute;
+            return *_attribute;
         }
 
     private:
@@ -216,7 +216,7 @@ public:
 
         const Attribute& attribute() const
         {
-            return _attribute;
+            return *_attribute;
         }
 
     private:

@@ -275,7 +275,11 @@ private:
         template<typename T>
         const T& get() const
         {
-            SIPLASPLAS_ASSERT(typeInfo() == cpp::typeerasure::TypeInfo::get<std::decay_t<T>>());
+            SIPLASPLAS_ASSERT(typeInfo() == cpp::typeerasure::TypeInfo::get<std::decay_t<T>>())(
+                "Callable is of type {}, not {}",
+                typeInfo().typeName(),
+                ctti::type_id<std::decay_t<T>>().name()
+            );
 
             return *reinterpret_cast<const T*>(getObject());
         }
@@ -283,7 +287,11 @@ private:
         template<typename T>
         T& get()
         {
-            SIPLASPLAS_ASSERT(typeInfo() == cpp::typeerasure::TypeInfo::get<std::decay_t<T>>());
+            SIPLASPLAS_ASSERT(typeInfo() == cpp::typeerasure::TypeInfo::get<std::decay_t<T>>())(
+                "Callable is of type {}, not {}",
+                typeInfo().typeName(),
+                ctti::type_id<std::decay_t<T>>().name()
+            );
 
             return *reinterpret_cast<T*>(getObject());
         }
