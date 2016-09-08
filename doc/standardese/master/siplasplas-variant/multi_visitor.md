@@ -5,10 +5,6 @@ layout: standardese-doc
 # Header file `multi_visitor.hpp`
 
 ``` cpp
-#include <tuple>
-
-#include "visitor.hpp"
-
 namespace cpp
 {
     namespace detail
@@ -20,15 +16,13 @@ namespace cpp
         auto tuple_tail(const std::tuple<Head, Tail...>& tuple);
         
         template <typename Visitor, typename MatchedValues, typename Variants>
-        MultiVisitorProcessor<Visitor,
-        MatchedValues,
-        Variants> make_visitor_processor(Visitor&& visitor, MatchedValues&& matchedValues, Variants&& variants);
+        MultiVisitorProcessor<Visitor, MatchedValues, Variants> make_visitor_processor(Visitor&& visitor, MatchedValues&& matchedValues, Variants&& variants);
         
         template <typename Visitor, typename MatchedValues, typename Variant, typename ... Tail>
-        class MultiVisitorProcessor<Visitor, MatchedValues, std::tuple<Variant, Tail...>;
+        class MultiVisitorProcessor<Visitor, MatchedValues, std::tuple<Variant, Tail...>>;
         
         template <typename Visitor, typename MatchedValues>
-        class MultiVisitorProcessor<Visitor, MatchedValues, std::tuple<>;
+        class MultiVisitorProcessor<Visitor, MatchedValues, std::tuple<>>;
     }
     
     template <typename T, typename ... Visitors>

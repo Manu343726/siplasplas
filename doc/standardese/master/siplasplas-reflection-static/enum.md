@@ -5,21 +5,21 @@ layout: standardese-doc
 # Header file `enum.hpp`
 
 ``` cpp
-#include <siplasplas/utility/meta.hpp>
-
-#include <string>
-
-#include <limits>
-
-#include <array>
-
 namespace cpp
 {
     namespace static_reflection
     {
-        namespace meta{}
+        namespace meta
+        {
+            template <typename SourceInfo_, typename EnumType, EnumType ... Constants, typename ... ConstantsNames>
+            class Enum<SourceInfo_, EnumType,::cpp::meta::list<std::integral_constant<EnumType, Constants>...>,::cpp::meta::list<ConstantsNames...>>;
+        }
         
-        namespace codegen{}
+        namespace codegen
+        {
+            template <typename EnumType>
+            class Enum;
+        }
         
         template <typename EnumType>
         class Enum;

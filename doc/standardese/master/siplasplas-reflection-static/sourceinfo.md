@@ -5,12 +5,6 @@ layout: standardese-doc
 # Header file `sourceinfo.hpp`
 
 ``` cpp
-#include <siplasplas/utility/meta.hpp>
-
-#include <array>
-
-#include <string>
-
 namespace cpp
 {
     namespace static_reflection

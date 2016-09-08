@@ -9,7 +9,17 @@ namespace cpp
 {
     namespace static_reflection
     {
-        namespace meta{}
+        namespace meta
+        {
+            template <typename SourceInfo_, typename R, typename ... Args, R(*function)(Args...)>
+            class Function<SourceInfo_, R(*)(Args...), function>;
+            
+            template <typename SourceInfo_, typename R, typename Class, typename ... Args, R(Class::*)(Args...)const method>
+            class Function<SourceInfo_, R(Class::*)(Args...)const, method>;
+            
+            template <typename SourceInfo_, typename R, typename Class, typename ... Args, R(Class::*)(Args...) method>
+            class Function<SourceInfo_, R(Class::*)(Args...), method>;
+        }
         
         namespace codegen
         {

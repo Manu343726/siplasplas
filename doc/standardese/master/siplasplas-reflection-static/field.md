@@ -5,13 +5,15 @@ layout: standardese-doc
 # Header file `field.hpp`
 
 ``` cpp
-#include <siplasplas/utility/meta.hpp>
-
 namespace cpp
 {
     namespace static_reflection
     {
-        namespace meta{}
+        namespace meta
+        {
+            template <typename SourceInfo_, typename Class, typename T, T Class::* field>
+            class Field<SourceInfo_, T Class::*, field>;
+        }
         
         namespace codegen
         {
