@@ -12,7 +12,9 @@ var group__type_erasure =
       [ "operator()", "classcpp_1_1_any.html#ab97028606f578b350f706d28b578365d", null ],
       [ "operator()", "classcpp_1_1_any.html#ab0bff3c78794e698a41fa66bffd91718", null ],
       [ "operator[]", "classcpp_1_1_any.html#aad1f00e22b3f78bf0077a78baaeb75f1", null ],
-      [ "operator[]", "classcpp_1_1_any.html#a6bc33ecfaa59512c8043e7a3b6307850", null ]
+      [ "operator[]", "classcpp_1_1_any.html#a6bc33ecfaa59512c8043e7a3b6307850", null ],
+      [ "simpleAny", "classcpp_1_1_any.html#afd7619586d59cf1dd1538351c40fd97c", null ],
+      [ "simpleAny", "classcpp_1_1_any.html#a31f86f6e070fd79fa937c791fb682c52", null ]
     ] ],
     [ "AnyArg", "classcpp_1_1_any_arg.html", [
       [ "AnyArg", "classcpp_1_1_any_arg.html#a73f70460ac3b6035704b408801edef21", null ],
@@ -32,6 +34,8 @@ var group__type_erasure =
       [ "get", "classcpp_1_1typeerasure_1_1_field.html#af56af8eafd81c4434a07cd339de9cdd0", null ],
       [ "get", "classcpp_1_1typeerasure_1_1_field.html#a040b9900217006f3a53e5086bad5f537", null ],
       [ "get", "classcpp_1_1typeerasure_1_1_field.html#ad5158ede0b5f734a274d1e5a9fa32095", null ],
+      [ "get", "classcpp_1_1typeerasure_1_1_field.html#a85bca8e343340ec04133984ec128eafd", null ],
+      [ "get", "classcpp_1_1typeerasure_1_1_field.html#a5f4a56c471e73c31740966a465243e38", null ],
       [ "get", "classcpp_1_1typeerasure_1_1_field.html#ac41a8f94d3a991e89744bf7c975e82b3", null ],
       [ "get", "classcpp_1_1typeerasure_1_1_field.html#a6ac81cd5b2afdd84de2f8687c0f1399a", null ],
       [ "getAs", "classcpp_1_1typeerasure_1_1_field.html#ab759cbf396cfb3c5788c12a8f6668c80", null ],

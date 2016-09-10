@@ -8,5 +8,7 @@ var classcpp_1_1_any =
     [ "operator()", "classcpp_1_1_any.html#ab97028606f578b350f706d28b578365d", null ],
     [ "operator()", "classcpp_1_1_any.html#ab0bff3c78794e698a41fa66bffd91718", null ],
     [ "operator[]", "classcpp_1_1_any.html#aad1f00e22b3f78bf0077a78baaeb75f1", null ],
-    [ "operator[]", "classcpp_1_1_any.html#a6bc33ecfaa59512c8043e7a3b6307850", null ]
+    [ "operator[]", "classcpp_1_1_any.html#a6bc33ecfaa59512c8043e7a3b6307850", null ],
+    [ "simpleAny", "classcpp_1_1_any.html#afd7619586d59cf1dd1538351c40fd97c", null ],
+    [ "simpleAny", "classcpp_1_1_any.html#a31f86f6e070fd79fa937c791fb682c52", null ]
 ];

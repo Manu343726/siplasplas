@@ -2,7 +2,7 @@ var searchData=
 [
   ['semantics',['semantics',['../classcpp_1_1typeerasure_1_1_type_info.html#ae00400fa91dd0407f29f996b745dd694',1,'cpp::typeerasure::TypeInfo::semantics() const '],['../classcpp_1_1typeerasure_1_1_type_info.html#aaf9e4b25f200e799f38d43bd00f204a8',1,'cpp::typeerasure::TypeInfo::semantics(detail::ValueSemanticsOperation operation) const ']]],
   ['signalsink',['SignalSink',['../classcpp_1_1_signal_sink.html#a0c12f236d49430adddf02e220faf2052',1,'cpp::SignalSink::SignalSink(Caller &amp;caller, Callee &amp;callee)'],['../classcpp_1_1_signal_sink.html#a70709cffd3e19a0f3c25fbe6c672e2b4',1,'cpp::SignalSink::SignalSink(Caller &amp;caller)']]],
-  ['simpleany',['SimpleAny',['../classcpp_1_1_simple_any.html#ad9622e80d5d2991395173312d7fa1f5c',1,'cpp::SimpleAny::SimpleAny()'],['../classcpp_1_1_simple_any.html#ac9485d4f854ab202f1dc48cdf5b05c97',1,'cpp::SimpleAny::SimpleAny(const T &amp;value)']]],
+  ['simpleany',['SimpleAny',['../classcpp_1_1_simple_any.html#ad9622e80d5d2991395173312d7fa1f5c',1,'cpp::SimpleAny::SimpleAny()'],['../classcpp_1_1_simple_any.html#ac9485d4f854ab202f1dc48cdf5b05c97',1,'cpp::SimpleAny::SimpleAny(const T &amp;value)'],['../classcpp_1_1_any.html#afd7619586d59cf1dd1538351c40fd97c',1,'cpp::Any::simpleAny()'],['../classcpp_1_1_any.html#a31f86f6e070fd79fa937c791fb682c52',1,'cpp::Any::simpleAny() const ']]],
   ['size',['size',['../classcpp_1_1_fixed_size_storage.html#a46434c28c10c8c1eca53e6ec461c65cb',1,'cpp::FixedSizeStorage']]],
   ['sizeof',['sizeOf',['../classcpp_1_1typeerasure_1_1_type_info.html#ac6b9042c0b784671afa5b7374a6fddd7',1,'cpp::typeerasure::TypeInfo']]],
   ['sourcedir',['sourceDir',['../classcpp_1_1_c_make_project.html#a287a0a3fc1a7041e05b654f9e14d1f61',1,'cpp::CMakeProject']]],

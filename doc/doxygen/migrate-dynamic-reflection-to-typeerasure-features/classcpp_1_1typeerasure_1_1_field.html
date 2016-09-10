@@ -162,6 +162,12 @@ template&lt;typename T , typename  = std::enable_if_t&lt;        std::is_member_
 <tr class="memitem:ad5158ede0b5f734a274d1e5a9fa32095"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_field.html#ad5158ede0b5f734a274d1e5a9fa32095">get</a> (<a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny</a>&lt; Storage_ &gt; &amp;object) const </td></tr>
 <tr class="memdesc:ad5158ede0b5f734a274d1e5a9fa32095"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value of the member object of a given type-erased object.  <a href="#ad5158ede0b5f734a274d1e5a9fa32095">More...</a><br /></td></tr>
 <tr class="separator:ad5158ede0b5f734a274d1e5a9fa32095"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a85bca8e343340ec04133984ec128eafd"><td class="memItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_field.html#a85bca8e343340ec04133984ec128eafd">get</a> (<a class="el" href="group__type-erasure.html#ga96ea8afa78a5e2f6b5dff8b6506afb9b">cpp::ReferenceSimpleAny</a> &amp;object) const </td></tr>
+<tr class="memdesc:a85bca8e343340ec04133984ec128eafd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value of the member object of a given type-erased object reference.  <a href="#a85bca8e343340ec04133984ec128eafd">More...</a><br /></td></tr>
+<tr class="separator:a85bca8e343340ec04133984ec128eafd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f4a56c471e73c31740966a465243e38"><td class="memItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_field.html#a5f4a56c471e73c31740966a465243e38">get</a> (<a class="el" href="group__type-erasure.html#gacc6d5ee72d584e0775ff78d227bb9691">cpp::ConstReferenceSimpleAny</a> &amp;object) const </td></tr>
+<tr class="memdesc:a5f4a56c471e73c31740966a465243e38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value of the member object of a given type-erased object reference.  <a href="#a5f4a56c471e73c31740966a465243e38">More...</a><br /></td></tr>
+<tr class="separator:a5f4a56c471e73c31740966a465243e38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17ec6fc644ac9373e0b4494e30e6afc3"><td class="memTemplParams" colspan="2">template&lt;typename T , typename Storage_ &gt; </td></tr>
 <tr class="memitem:a17ec6fc644ac9373e0b4494e30e6afc3"><td class="memTemplItemLeft" align="right" valign="top">decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_field.html#a17ec6fc644ac9373e0b4494e30e6afc3">getAs</a> (<a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny</a>&lt; Storage_ &gt; &amp;object) const </td></tr>
 <tr class="memdesc:a17ec6fc644ac9373e0b4494e30e6afc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the value of the member object of a given type erased object.  <a href="#a17ec6fc644ac9373e0b4494e30e6afc3">More...</a><br /></td></tr>
@@ -324,6 +330,66 @@ template&lt;typename Storage_ &gt; </div>
 </div><div class="memdoc">
 
 <p>Returns the value of the member object of a given type-erased object. </p>
+<p>This function accesses to the member object referenced by the <a class="el" href="classcpp_1_1typeerasure_1_1_field.html" title="Stores a type erased member object pointer. ">Field</a> object on a given object. The behavior is undefined if the given object is not of the same class the stored member object pointer belongs to. Also, the behavior is undefined if the <a class="el" href="classcpp_1_1typeerasure_1_1_field.html" title="Stores a type erased member object pointer. ">Field</a> object is empty.</p>
+<dl class="section return"><dt>Returns</dt><dd>A type-erased reference to the member object in the given type-erased object </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a85bca8e343340ec04133984ec128eafd"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Storage , typename ObjectArgStorage  = Storage&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">decltype(auto) <a class="el" href="classcpp_1_1typeerasure_1_1_field.html">cpp::typeerasure::Field</a>&lt; Storage, ObjectArgStorage &gt;::get </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__type-erasure.html#ga96ea8afa78a5e2f6b5dff8b6506afb9b">cpp::ReferenceSimpleAny</a> &amp;&#160;</td>
+          <td class="paramname"><em>object</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the value of the member object of a given type-erased object reference. </p>
+<p>This function accesses to the member object referenced by the <a class="el" href="classcpp_1_1typeerasure_1_1_field.html" title="Stores a type erased member object pointer. ">Field</a> object on a given object. The behavior is undefined if the given object is not of the same class the stored member object pointer belongs to. Also, the behavior is undefined if the <a class="el" href="classcpp_1_1typeerasure_1_1_field.html" title="Stores a type erased member object pointer. ">Field</a> object is empty.</p>
+<dl class="section return"><dt>Returns</dt><dd>A type-erased reference to the member object in the given type-erased object </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a5f4a56c471e73c31740966a465243e38"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Storage , typename ObjectArgStorage  = Storage&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">decltype(auto) <a class="el" href="classcpp_1_1typeerasure_1_1_field.html">cpp::typeerasure::Field</a>&lt; Storage, ObjectArgStorage &gt;::get </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="group__type-erasure.html#gacc6d5ee72d584e0775ff78d227bb9691">cpp::ConstReferenceSimpleAny</a> &amp;&#160;</td>
+          <td class="paramname"><em>object</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the value of the member object of a given type-erased object reference. </p>
 <p>This function accesses to the member object referenced by the <a class="el" href="classcpp_1_1typeerasure_1_1_field.html" title="Stores a type erased member object pointer. ">Field</a> object on a given object. The behavior is undefined if the given object is not of the same class the stored member object pointer belongs to. Also, the behavior is undefined if the <a class="el" href="classcpp_1_1typeerasure_1_1_field.html" title="Stores a type erased member object pointer. ">Field</a> object is empty.</p>
 <dl class="section return"><dt>Returns</dt><dd>A type-erased reference to the member object in the given type-erased object </dd></dl>
 

@@ -5,6 +5,8 @@ layout: standardese-doc
 # Header file `class.hpp`
 
 ``` cpp
+#include "sourceinfo.hpp"
+
 namespace cpp
 {
     namespace static_reflection

@@ -7,6 +7,8 @@ var classcpp_1_1typeerasure_1_1_field =
     [ "get", "classcpp_1_1typeerasure_1_1_field.html#af56af8eafd81c4434a07cd339de9cdd0", null ],
     [ "get", "classcpp_1_1typeerasure_1_1_field.html#a040b9900217006f3a53e5086bad5f537", null ],
     [ "get", "classcpp_1_1typeerasure_1_1_field.html#ad5158ede0b5f734a274d1e5a9fa32095", null ],
+    [ "get", "classcpp_1_1typeerasure_1_1_field.html#a85bca8e343340ec04133984ec128eafd", null ],
+    [ "get", "classcpp_1_1typeerasure_1_1_field.html#a5f4a56c471e73c31740966a465243e38", null ],
     [ "get", "classcpp_1_1typeerasure_1_1_field.html#ac41a8f94d3a991e89744bf7c975e82b3", null ],
     [ "get", "classcpp_1_1typeerasure_1_1_field.html#a6ac81cd5b2afdd84de2f8687c0f1399a", null ],
     [ "getAs", "classcpp_1_1typeerasure_1_1_field.html#ab759cbf396cfb3c5788c12a8f6668c80", null ],
