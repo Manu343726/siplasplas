@@ -6,6 +6,19 @@ using namespace ::testing;
 using namespace ::std::string_literals;
 using namespace ::cpp;
 
+TEST(AnyTest, getReference_referencesSameObject)
+{
+    Any8  any8{Class()};
+    Any16 any16{Class()};
+    Any32 any32{Class()};
+    Any64 any64{Class()};
+
+    EXPECT_EQ(&any8.get<Class>(), &any8.getReference().get<Class>());
+    EXPECT_EQ(&any16.get<Class>(), &any16.getReference().get<Class>());
+    EXPECT_EQ(&any32.get<Class>(), &any32.getReference().get<Class>());
+    EXPECT_EQ(&any64.get<Class>(), &any64.getReference().get<Class>());
+}
+
 TEST(AnyTest, assignedMethodsAreRegistered)
 {
     Any8  any8{Class()};
@@ -88,6 +101,11 @@ TEST(AnyTest, any_assignedFields_referenceRightMemberObjects)
     Any32 any32{Class()};
     Any64 any64{Class()};
 
+    EXPECT_GT(any8.getStorage().dynamicAllocStorageSize(), 0);
+    EXPECT_GT(any16.getStorage().dynamicAllocStorageSize(), 0);
+    EXPECT_GT(any32.getStorage().dynamicAllocStorageSize(), 0);
+    EXPECT_EQ(any64.getStorage().dynamicAllocStorageSize(), 0);
+
     any8["i"] = &Class::i;
     any8["str"] = &Class::str;
 
@@ -119,13 +137,12 @@ TEST(AnyTest, any_assignedFields_referenceRightMemberObjects)
     EXPECT_EQ(&any64.get<Class>().i, &any64["i"].get<int>());
     EXPECT_TRUE(any64.hasAttribute("str"));
     EXPECT_EQ(&any64.get<Class>().str, &any64["str"].get<std::string>());
-    EXPECT_EQ(&any64.get<Class>().str, &any64["str"].get<std::string>());
 }
 
 TEST(AnyTest, referenceAny_assignedFields_referenceRightMemberObjcts)
 {
     Class object;
-    
+
     ReferenceAny any{object};
     ConstReferenceAny constAny{object};
 
@@ -172,6 +189,9 @@ TEST(AnyTest, Any64_setFieldValue)
     any["i"] = &Class::i;
     any["str"] = &Class::str;
 
-    EXPECT_EQ(&any.get<Class>().i, &any["i"].get<int>());
-    EXPECT_EQ(any["i"].get<int>(), 42);
+    any["i"] = 43;
+    any["str"] = "hello, world!"s;
+
+    EXPECT_EQ(43, any["i"].get<int>());
+    EXPECT_EQ("hello, world!", any["str"].get<std::string>());
 }

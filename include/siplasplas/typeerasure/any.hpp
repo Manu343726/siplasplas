@@ -158,7 +158,7 @@ public:
         template<typename T>
         T& get()
         {
-            return _attribute->template getAs<T>(*_this);
+            return _attribute->template getAs<T>(_this->simpleAny());
         }
 
         template<typename T>
@@ -170,7 +170,7 @@ public:
         template<typename T>
         const T& get() const
         {
-            return _attribute->template getAs<T>(*_this);
+            return _attribute->template getAs<T>(_this->simpleAny());
         }
 
         template<typename T>
@@ -205,7 +205,7 @@ public:
         template<typename T>
         const T& get() const
         {
-            return _attribute->template getAs<T>(*_this);
+            return _attribute->template getAs<T>(_this->simpleAny());
         }
 
         template<typename T>
@@ -305,6 +305,22 @@ public:
         {
             return false;
         }
+    }
+
+    /**
+     * \brief Returns the any object as a SimpleAny
+     */
+    ::cpp::SimpleAny<Storage>& simpleAny()
+    {
+        return *static_cast<::cpp::SimpleAny<Storage>*>(this);
+    }
+
+    /**
+     * \brief Returns the any object as a SimpleAny
+     */
+    const ::cpp::SimpleAny<Storage>& simpleAny() const
+    {
+        return *static_cast<::cpp::SimpleAny<Storage>*>(this);
     }
 
 private:

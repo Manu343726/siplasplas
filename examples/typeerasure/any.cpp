@@ -53,7 +53,7 @@ int main()
     // Arbitrary functions can be assigned as methods too:
     objects[1]("print") = [](const Bar& bar, std::ostream& os)
     {
-        os << "Bar(i = " << bar.i << ")";
+        os << "Bar(i = " << bar.i << ")\n";
     };
 
     objects[1]("print")(std::cout);

@@ -142,6 +142,14 @@ public:
         return *this;
     }
 
+    /**
+     * \brief Returns the storage backend of the SimpleAny object
+     */
+    const ConstNonOwningStorage& getStorage() const
+    {
+        return *static_cast<const ConstNonOwningStorage*>(this);
+    }
+
 private:
     cpp::typeerasure::TypeInfo _typeInfo;
 };
@@ -297,6 +305,14 @@ public:
             get<std::decay_t<T>>() = std::move(value);
             return *this;
         }
+    }
+
+    /**
+     * \brief Returns the storage backend of the SimpleAny object
+     */
+    const NonOwningStorage& getStorage() const
+    {
+        return *static_cast<const NonOwningStorage*>(this);
     }
 
 private:
@@ -568,6 +584,14 @@ public:
     ~SimpleAny()
     {
         _typeInfo.destroy(Storage::storage(_typeInfo));
+    }
+
+    /**
+     * \brief Returns the storage backend of the SimpleAny object
+     */
+    const Storage& getStorage() const
+    {
+        return *static_cast<const Storage*>(this);
     }
 
 private:

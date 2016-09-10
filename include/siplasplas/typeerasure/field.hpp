@@ -203,6 +203,37 @@ public:
 
     /**
      * \brief Returns the value of the member object of a given
+     * type-erased object reference
+     *
+     * This function accesses to the member object referenced by the Field object on
+     * a given object. The behavior is undefined if the given object is not of the same class
+     * the stored member object pointer belongs to. Also, the behavior is undefined if
+     * the Field object is empty.
+     *
+     * \returns A type-erased reference to the member object in the given type-erased object
+     */
+    decltype(auto) get(cpp::ReferenceSimpleAny& object) const
+    {
+        return _invoke(object);
+    }
+
+    /**
+     * \brief Returns the value of the member object of a given
+     * type-erased object reference
+     *
+     * This function accesses to the member object referenced by the Field object on
+     * a given object. The behavior is undefined if the given object is not of the same class
+     * the stored member object pointer belongs to. Also, the behavior is undefined if
+     * the Field object is empty.
+     *
+     * \returns A type-erased reference to the member object in the given type-erased object
+     */
+    decltype(auto) get(cpp::ConstReferenceSimpleAny& object) const
+    {
+        return _invoke(object);
+    }
+    /**
+     * \brief Returns the value of the member object of a given
      * type erased object
      *
      * This function accesses to the member object referenced by the Field object on
