@@ -70,7 +70,9 @@ public:
      * \param callable Callable entity to store. Could be a function pointer,
      * a member function pointer, a lambda expression, etc.
      */
-    template<typename Callable>
+    template<typename Callable,
+        typename = std::enable_if_t<!std::is_same<std::decay_t<Callable>, Function>::value>
+    >
     Function(Callable&& callable) :
         _invoke{Invoke<std::decay_t<Callable>>{std::forward<Callable>(callable)}}
     {}
@@ -110,6 +112,8 @@ public:
     template<typename... Args>
     SimpleAny<ReturnStorage> operator()(Args&&... args)
     {
+        SIPLASPLAS_ASSERT_FALSE(empty());
+
         AnyArg argsArray[] = {std::forward<Args>(args)..., AnyArg(nullptr)};
         return _invoke.template get<InvokeInterface>().invoke(std::begin(argsArray));
     }
@@ -127,6 +131,8 @@ public:
     template<typename... Args>
     SimpleAny<ReturnStorage> operator()(Args&&... args) const
     {
+        SIPLASPLAS_ASSERT_FALSE(empty());
+
         AnyArg argsArray[] = {std::forward<Args>(args)..., AnyArg(nullptr)};
         return _invoke.template get<InvokeInterface>().invoke(std::begin(argsArray));
     }
@@ -142,6 +148,8 @@ public:
     template<typename ArgsVector>
     SimpleAny<ReturnStorage> invoke(ArgsVector&& args)
     {
+        SIPLASPLAS_ASSERT_FALSE(empty());
+
         return _invoke.template get<InvokeInterface>().invoke(std::forward<ArgsVector>(args));
     }
 
@@ -156,6 +164,8 @@ public:
     template<typename ArgsVector>
     SimpleAny<ReturnStorage> invoke(ArgsVector&& args) const
     {
+        SIPLASPLAS_ASSERT_FALSE(empty());
+
         return _invoke.template get<InvokeInterface>().invoke(std::forward<ArgsVector>(args));
     }
 
@@ -169,6 +179,8 @@ public:
      */
     SimpleAny<ReturnStorage> invoke(AnyArg* args)
     {
+        SIPLASPLAS_ASSERT_FALSE(empty());
+
         return _invoke.template get<InvokeInterface>().invoke(args);
     }
 
@@ -182,6 +194,8 @@ public:
      */
     SimpleAny<ReturnStorage> invoke(AnyArg* args) const
     {
+        SIPLASPLAS_ASSERT_FALSE(empty());
+
         return _invoke.template get<InvokeInterface>().invoke(args);
     }
 
@@ -202,6 +216,32 @@ public:
     cpp::FunctionKind kind() const
     {
         return _invoke.template get<InvokeInterface>().kind();
+    }
+
+    /**
+     * \brief Returns the underlying callable object
+     *
+     * \tparam T Type of the callable. The behavior is undefined if
+     * the underlying callable type is not equal to T (cv and ref
+     * qualifiers are ignored)
+     */
+    template<typename T>
+    const T& get() const
+    {
+        return _invoke.template get<InvokeInterface>().template get<T>();
+    }
+
+    /**
+     * \brief Returns the underlying callable object
+     *
+     * \tparam T Type of the callable. The behavior is undefined if
+     * the underlying callable type is not equal to T (cv and ref
+     * qualifiers are ignored)
+     */
+    template<typename T>
+    T& get()
+    {
+        return _invoke.template get<InvokeInterface>().template get<T>();
     }
 
 private:
@@ -230,6 +270,31 @@ private:
         virtual void* getObject() = 0;
         virtual const void* getObject() const = 0;
         virtual cpp::FunctionKind kind() const = 0;
+        virtual cpp::typeerasure::TypeInfo typeInfo() const = 0;
+
+        template<typename T>
+        const T& get() const
+        {
+            SIPLASPLAS_ASSERT(typeInfo() == cpp::typeerasure::TypeInfo::get<std::decay_t<T>>())(
+                "Callable is of type {}, not {}",
+                typeInfo().typeName(),
+                ctti::type_id<std::decay_t<T>>().name()
+            );
+
+            return *reinterpret_cast<const T*>(getObject());
+        }
+
+        template<typename T>
+        T& get()
+        {
+            SIPLASPLAS_ASSERT(typeInfo() == cpp::typeerasure::TypeInfo::get<std::decay_t<T>>())(
+                "Callable is of type {}, not {}",
+                typeInfo().typeName(),
+                ctti::type_id<std::decay_t<T>>().name()
+            );
+
+            return *reinterpret_cast<T*>(getObject());
+        }
     };
 
     template<typename Callable>
@@ -353,6 +418,11 @@ private:
         cpp::FunctionKind kind() const override
         {
             return cpp::function_kind<Callable>();
+        }
+
+        cpp::typeerasure::TypeInfo typeInfo() const override
+        {
+            return cpp::typeerasure::TypeInfo::get<Callable>();
         }
 
     private:

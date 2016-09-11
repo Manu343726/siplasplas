@@ -101,6 +101,7 @@ public:
     template<typename T>
     const std::decay_t<T>& get() const
     {
+        SIPLASPLAS_ASSERT_FALSE(empty());
 #ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
         SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>())("SimpleAny has type '{}', requested '{}' instead", typeInfo().typeName(), ctti::type_id<std::decay_t<T>>().name());
 #endif
@@ -139,6 +140,14 @@ public:
         }
 
         return *this;
+    }
+
+    /**
+     * \brief Returns the storage backend of the SimpleAny object
+     */
+    const ConstNonOwningStorage& getStorage() const
+    {
+        return *static_cast<const ConstNonOwningStorage*>(this);
     }
 
 private:
@@ -213,6 +222,7 @@ public:
     template<typename T>
     const std::decay_t<T>& get() const
     {
+        SIPLASPLAS_ASSERT_FALSE(empty());
 #ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
         SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>())("SimpleAny has type '{}', requested '{}' instead", typeInfo().typeName(), ctti::type_id<std::decay_t<T>>().name());
 #endif
@@ -228,6 +238,7 @@ public:
     template<typename T>
     std::decay_t<T>& get()
     {
+        SIPLASPLAS_ASSERT_FALSE(empty());
 #ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
         SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>())("SimpleAny has type '{}', requested '{}' instead", typeInfo().typeName(), ctti::type_id<std::decay_t<T>>().name());
 #endif
@@ -253,7 +264,7 @@ public:
      * \returns A reference to `*this`
      */
     template<typename T>
-    SimpleAny& operator=(const T& value)
+    SimpleAny& operator=(T& value)
     {
         if(!hasType<T>())
         {
@@ -266,6 +277,42 @@ public:
         }
 
         return *this;
+    }
+
+    /**
+     * \brief Assigns an rvalue of type T
+     *
+     * If the current hosted type is T, performs a move assignment of \p value
+     * into the hosted object. Else, an exception is thrown (Cannot rebind
+     * an lvalue reference represented by the SimpleAny from an rvalue reference)
+     *
+     * \param value Value to be assigned to the any
+     * \returns A reference to `*this`
+     */
+    template<typename T>
+    SimpleAny& operator=(T&& value)
+    {
+        if(!hasType<std::decay_t<T>>())
+        {
+            throw cpp::exception<std::runtime_error>(
+                "Cannot assign an rvalue of type {} to an lvalue reference of type {}",
+                ctti::type_id(value).name(),
+                _typeInfo.typeName()
+            );
+        }
+        else
+        {
+            get<std::decay_t<T>>() = std::move(value);
+            return *this;
+        }
+    }
+
+    /**
+     * \brief Returns the storage backend of the SimpleAny object
+     */
+    const NonOwningStorage& getStorage() const
+    {
+        return *static_cast<const NonOwningStorage*>(this);
     }
 
 private:
@@ -411,6 +458,7 @@ public:
     template<typename T>
     const std::decay_t<T>& get() const
     {
+        SIPLASPLAS_ASSERT_FALSE(empty());
 #ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
         SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>())("SimpleAny has type '{}', requested '{}' instead", typeInfo().typeName(), ctti::type_id<std::decay_t<T>>().name());
 #endif
@@ -435,6 +483,7 @@ public:
     template<typename T>
     std::decay_t<T>& get()
     {
+        SIPLASPLAS_ASSERT_FALSE(empty());
 #ifdef SIPLASPLAS_TYPEERASURE_SIMPLEANY_TYPECHECKS
         SIPLASPLAS_ASSERT_TRUE(hasType<std::decay_t<T>>())("SimpleAny has type '{}', requested '{}' instead", typeInfo().typeName(), ctti::type_id<std::decay_t<T>>().name());
 #endif
@@ -535,6 +584,14 @@ public:
     ~SimpleAny()
     {
         _typeInfo.destroy(Storage::storage(_typeInfo));
+    }
+
+    /**
+     * \brief Returns the storage backend of the SimpleAny object
+     */
+    const Storage& getStorage() const
+    {
+        return *static_cast<const Storage*>(this);
     }
 
 private:

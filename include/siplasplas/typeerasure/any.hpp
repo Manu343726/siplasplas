@@ -3,6 +3,7 @@
 
 #include "simpleany.hpp"
 #include "function.hpp"
+#include "field.hpp"
 #include <siplasplas/utility/hash.hpp>
 
 namespace cpp
@@ -40,7 +41,8 @@ namespace cpp
 template<
     typename Storage,
     typename FunctionsStorage = Storage,
-    typename FunctionArgsStorage = FunctionsStorage
+    typename FunctionArgsStorage = FunctionsStorage,
+    typename AttributesStorage = FunctionsStorage
 >
 class Any : public SimpleAny<Storage>
 {
@@ -49,7 +51,7 @@ public:
     using SimpleAny<Storage>::SimpleAny;
 
     using Method = cpp::typeerasure::Function<FunctionsStorage, FunctionArgsStorage>;
-    using Attribute = cpp::typeerasure::Function<FunctionsStorage, FunctionArgsStorage, cpp::NonOwningStorage>;
+    using Attribute = cpp::typeerasure::Field<AttributesStorage>;
 
     template<typename Class, typename... Args>
     static Any create(Args&&... args)
@@ -84,6 +86,16 @@ public:
             return *this;
         }
 
+        const Method& method() const
+        {
+            return *_method;
+        }
+
+        Method& method()
+        {
+            return *_method;
+        }
+
     private:
         Method* _method;
         Any* _this;
@@ -101,6 +113,11 @@ public:
         auto operator()(Args&&... args) const
         {
             return (*_method)(_this->getReference(), std::forward<Args>(args)...);
+        }
+
+        const Method& method() const
+        {
+            return *_method;
         }
 
     private:
@@ -141,7 +158,7 @@ public:
         template<typename T>
         T& get()
         {
-            return (*_attribute)(_this->getReference()).template get<T>();
+            return _attribute->template getAs<T>(_this->simpleAny());
         }
 
         template<typename T>
@@ -153,7 +170,7 @@ public:
         template<typename T>
         const T& get() const
         {
-            return (*_attribute)(_this->getReference()).template get<T>();
+            return _attribute->template getAs<T>(_this->simpleAny());
         }
 
         template<typename T>
@@ -162,6 +179,15 @@ public:
             return get<T>();
         }
 
+        const Attribute& attribute() const
+        {
+            return *_attribute;
+        }
+
+        Attribute& attribute()
+        {
+            return *_attribute;
+        }
 
     private:
         Attribute* _attribute;
@@ -179,13 +205,18 @@ public:
         template<typename T>
         const T& get() const
         {
-            return (*_attribute)(*_this).template get<T>();
+            return _attribute->template getAs<T>(_this->simpleAny());
         }
 
         template<typename T>
         operator const T&() const
         {
             return get<T>();
+        }
+
+        const Attribute& attribute() const
+        {
+            return *_attribute;
         }
 
     private:
@@ -274,6 +305,22 @@ public:
         {
             return false;
         }
+    }
+
+    /**
+     * \brief Returns the any object as a SimpleAny
+     */
+    ::cpp::SimpleAny<Storage>& simpleAny()
+    {
+        return *static_cast<::cpp::SimpleAny<Storage>*>(this);
+    }
+
+    /**
+     * \brief Returns the any object as a SimpleAny
+     */
+    const ::cpp::SimpleAny<Storage>& simpleAny() const
+    {
+        return *static_cast<::cpp::SimpleAny<Storage>*>(this);
     }
 
 private:

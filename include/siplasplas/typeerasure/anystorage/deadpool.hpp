@@ -80,6 +80,12 @@ public:
             cpp::detail::aligned_free(dynamicAllocStoragePointer());
         }
     }
+
+    std::size_t dynamicAllocStorageSize() const
+    {
+        return _dynamicAllocStorageSize;
+    }
+
 private:
     mutable std::size_t _dynamicAllocStorageSize = 0;
     mutable std::aligned_storage_t<PreallocatedSize, PreallocatedAlignment> _preallocatedStorage;

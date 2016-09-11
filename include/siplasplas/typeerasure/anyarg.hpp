@@ -118,7 +118,7 @@ public:
         {
             if(isConst())
             {
-                throw std::runtime_error{"Cannot get a non-const reference to a const argument"};
+                return const_cast<T&>(_universalRef.get<cpp::ConstReferenceSimpleAny>().get<T>());
             }
             else
             {

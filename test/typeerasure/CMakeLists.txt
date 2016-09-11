@@ -4,10 +4,12 @@ SOURCES
     concepts/valuesemantics_test.cpp
     features/iostream_test.cpp
     features/valuesemantics_test.cpp
+    typeinfo_test.cpp
     simpleany_test.cpp
     referencesimpleany_test.cpp
     invoke_test.cpp
     function_test.cpp
+    field_test.cpp
     any_test.cpp
     anyarg_test.cpp
 DEPENDS
