@@ -6,7 +6,7 @@ var searchData=
   ['signals',['Signals',['../group__signals.html',1,'']]],
   ['signalsink',['SignalSink',['../classcpp_1_1_signal_sink.html',1,'cpp']]],
   ['signalsink',['SignalSink',['../classcpp_1_1_signal_sink.html#a0c12f236d49430adddf02e220faf2052',1,'cpp::SignalSink::SignalSink(Caller &amp;caller, Callee &amp;callee)'],['../classcpp_1_1_signal_sink.html#a70709cffd3e19a0f3c25fbe6c672e2b4',1,'cpp::SignalSink::SignalSink(Caller &amp;caller)']]],
-  ['simpleany',['SimpleAny',['../classcpp_1_1_simple_any.html#ad9622e80d5d2991395173312d7fa1f5c',1,'cpp::SimpleAny::SimpleAny()'],['../classcpp_1_1_simple_any.html#ac9485d4f854ab202f1dc48cdf5b05c97',1,'cpp::SimpleAny::SimpleAny(const T &amp;value)']]],
+  ['simpleany',['SimpleAny',['../classcpp_1_1_simple_any.html#ad9622e80d5d2991395173312d7fa1f5c',1,'cpp::SimpleAny::SimpleAny()'],['../classcpp_1_1_simple_any.html#ac9485d4f854ab202f1dc48cdf5b05c97',1,'cpp::SimpleAny::SimpleAny(const T &amp;value)'],['../classcpp_1_1_any.html#afd7619586d59cf1dd1538351c40fd97c',1,'cpp::Any::simpleAny()'],['../classcpp_1_1_any.html#a31f86f6e070fd79fa937c791fb682c52',1,'cpp::Any::simpleAny() const ']]],
   ['simpleany',['SimpleAny',['../classcpp_1_1_simple_any.html',1,'cpp']]],
   ['simpleany16',['SimpleAny16',['../group__type-erasure.html#gae4c410884d49686ab99bacb821a9d4ec',1,'cpp']]],
   ['simpleany32',['SimpleAny32',['../group__type-erasure.html#gab9fa9ebd99a86d12b409102725a88be0',1,'cpp']]],
