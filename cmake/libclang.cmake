@@ -94,7 +94,11 @@ if(SIPLASPLAS_DOWNLOAD_LIBCLANG)
 
     if(NOT EXISTS "${package_path}")
         message(STATUS "Downloading libclang ${SIPLASPLAS_LIBCLANG_VERSION} from \"${url}\"...")
-        file(DOWNLOAD "${url}" "${package_path}" SHOW_PROGRESS)
+        if(SIPLASPLAS_VERBOSE_CONFIG)
+            set(progress SHOW_PROGRESS)
+        endif()
+
+        file(DOWNLOAD "${url}" "${package_path}" ${progress})
     endif()
 
     if(NOT EXISTS "${CMAKE_BINARY_DIR}/llvm")
