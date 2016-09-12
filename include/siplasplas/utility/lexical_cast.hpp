@@ -1,6 +1,7 @@
 #ifndef SIPLASPLAS_UTILITY_LEXICAL_CAST_HPP
 #define SIPLASPLAS_UTILITY_LEXICAL_CAST_HPP
 
+#include <type_traits>
 #include <sstream>
 
 namespace cpp
