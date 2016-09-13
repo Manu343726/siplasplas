@@ -101,11 +101,6 @@ TEST(AnyTest, any_assignedFields_referenceRightMemberObjects)
     Any32 any32{Class()};
     Any64 any64{Class()};
 
-    EXPECT_GT(any8.getStorage().dynamicAllocStorageSize(), 0);
-    EXPECT_GT(any16.getStorage().dynamicAllocStorageSize(), 0);
-    EXPECT_GT(any32.getStorage().dynamicAllocStorageSize(), 0);
-    EXPECT_EQ(any64.getStorage().dynamicAllocStorageSize(), 0);
-
     any8["i"] = &Class::i;
     any8["str"] = &Class::str;
 

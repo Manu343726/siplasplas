@@ -41,6 +41,7 @@ namespace meta
  * of the entity, etc.
  */
 template<
+    typename Entity_,
     static_reflection::Kind Kind,
     typename FullName,
     typename Spelling,
@@ -52,7 +53,12 @@ class SourceInfo
 {
 public:
     /**
-     * \brief Retrns the kind (category) of the entity
+     * \brief Returns the entity (Or a type representation of the entity)
+     */
+    using Entity = Entity_;
+
+    /**
+     * \brief Returns the kind (category) of the entity
      *
      * ``` cpp
      * auto kind = cpp::static_reflection::Class<MyClass>::SourceInfo::kind(); // Returns Kind::CLASS
@@ -138,6 +144,7 @@ public:
 
 template<typename T>
 using EmptySourceInfo = SourceInfo<
+    T,
     (std::is_enum<T>::value ? Kind::ENUM : Kind::CLASS),
     ::cpp::meta::string<>,
     ::cpp::meta::string<>,

@@ -59,6 +59,7 @@ class Function
 {
 public:
     Function() = default;
+    Function(const Function&) = default;
 
     /**
      * \brief Constructs a Function from a Callable object
@@ -70,9 +71,9 @@ public:
      * \param callable Callable entity to store. Could be a function pointer,
      * a member function pointer, a lambda expression, etc.
      */
-    template<typename Callable,
-        typename = std::enable_if_t<!std::is_same<std::decay_t<Callable>, Function>::value>
-    >
+    template<typename Callable, typename = std::enable_if_t<
+        !std::is_same<std::decay_t<Callable>, Function>::value
+    >>
     Function(Callable&& callable) :
         _invoke{Invoke<std::decay_t<Callable>>{std::forward<Callable>(callable)}}
     {}
@@ -199,10 +200,15 @@ public:
         return _invoke.template get<InvokeInterface>().invoke(args);
     }
 
+    Function& operator=(const Function&) = default;
+    Function& operator=(Function&&) = default;
+
     /**
      * \brief Assigns a new callable to the function
      */
-    template<typename Callable>
+    template<typename Callable, typename = std::enable_if_t<
+        !std::is_same<std::decay_t<Callable>, Function>::value
+    >>
     Function& operator=(Callable&& callable)
     {
         _invoke = Invoke<std::decay_t<Callable>>{std::forward<Callable>(callable)};
@@ -301,6 +307,12 @@ private:
     class Invoke : public InvokeInterface
     {
     public:
+        // Mark it explicitly non default constructible to make std::is_default_constructible
+        // and our concept classes work. Else, Callable construction expression should be evaluated,
+        // yielding a "default constructible" Invoke class, but giving a compilation error when a non-default
+        // constructible callable ctor is invoked
+        Invoke() = delete;
+
         template<typename... Args>
         Invoke(Args&&... args) :
             _callable{std::forward<Args>(args)...}

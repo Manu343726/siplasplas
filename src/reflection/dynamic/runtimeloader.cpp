@@ -11,9 +11,14 @@ using namespace cpp;
 using namespace cpp::dynamic_reflection;
 using namespace cpp::reflection::dynamic;
 
-SourceInfo getSourceInfo(void* sourceInfo)
+SourceInfo getSourceInfo(const void* sourceInfo)
 {
-    return *reinterpret_cast<SourceInfo*>(sourceInfo);
+    return *reinterpret_cast<const SourceInfo*>(sourceInfo);
+}
+
+cpp::typeerasure::TypeInfo getTypeInfo(const void* typeInfo)
+{
+    return *reinterpret_cast<const cpp::typeerasure::TypeInfo*>(typeInfo);
 }
 
 RuntimeLoader::RuntimeLoader(const DynamicLibrary& library)
@@ -37,23 +42,41 @@ void RuntimeLoader::load(const DynamicLibrary& library)
     _library = library;
     _runtime.reset(library.path());
 
-    auto loadClass = [](void* context, void* sourceInfo)
+    auto loadClass = [](void* context, const void* sourceInfoPtr, const void* typeInfoPtr)
     {
         auto loaderContext = Context::get(context);
-        log().warn("Class '{}' from library {} ignored, classes are not supported",
-            getSourceInfo(sourceInfo).fullName(),
+        auto sourceInfo = getSourceInfo(sourceInfoPtr);
+        auto typeInfo   = getTypeInfo(typeInfoPtr);
+
+        log().debug("Loading class '{}' from library '{}'...",
+            sourceInfo.fullName(),
+            loaderContext.library->path()
+        );
+
+        loaderContext.runtime->addEntity(
+            Class::create(
+                sourceInfo,
+                typeInfo
+            )
+        );
+
+        log().info("Loaded class '{}' from library '{}'",
+            sourceInfo.fullName(),
             loaderContext.library->path()
         );
     };
-    auto loadEnum = [](void* context, void* sourceInfo)
+    auto loadEnum = [](void* context, const void* sourceInfoPtr, const void* typeInfoPtr)
     {
         auto loaderContext = Context::get(context);
+        auto sourceInfo = getSourceInfo(sourceInfoPtr);
+        auto typeInfo   = getTypeInfo(typeInfoPtr);
+
         log().warn("Enum '{}' from library {} ignored, enums are not supported",
-            getSourceInfo(sourceInfo).fullName(),
+            sourceInfo.fullName(),
             loaderContext.library->path()
         );
     };
-    auto loadEnumValue = [](void* context, void* sourceInfo, const char* name, std::int64_t value)
+    auto loadEnumValue = [](void* context, const void* sourceInfo, const char* name, std::int64_t value)
     {
         auto loaderContext = Context::get(context);
         log().warn("Enum value '{}::{}' ({}) from library {} ignored, enums are not supported",
@@ -63,22 +86,30 @@ void RuntimeLoader::load(const DynamicLibrary& library)
             loaderContext.library->path()
         );
     };
-    auto loadMethod = [](void* context, void* sourceInfo, void* functionRef)
+    auto loadMethod = [](void* context, const void* sourceInfoRef, void* functionRef)
     {
         auto loaderContext = Context::get(context);
-        auto& function = *reinterpret_cast<cpp::typeerasure::Function<cpp::FixedSizeStorage<64>>*>(functionRef);
+        auto sourceInfo = getSourceInfo(sourceInfoRef);
+        auto& function = *reinterpret_cast<cpp::dynamic_reflection::detail::MethodPointer*>(functionRef);
 
         SIPLASPLAS_ASSERT(function.kind() == cpp::FunctionKind::MEMBER_FUNCTION || function.kind() == cpp::FunctionKind::CONST_MEMBER_FUNCTION);
 
-        log().warn("Method '{}' from library {} ignored, methods not supported",
-            getSourceInfo(sourceInfo).fullName(),
+        log().info("loaded method '{}' from library '{}'",
+            sourceInfo.fullName(),
             loaderContext.library->path()
         );
+
+        loaderContext.runtime->addEntity(
+            Function::create(
+                sourceInfo,
+                function
+            )
+        );
     };
-    auto loadField = [](void* context, void* sourceInfo, void* functionRef)
+    auto loadField = [](void* context, const void* sourceInfo, void* functionRef)
     {
         auto loaderContext = Context::get(context);
-        auto function = *reinterpret_cast<cpp::typeerasure::Function<cpp::FixedSizeStorage<64>>*>(functionRef);
+        auto function = *reinterpret_cast<cpp::dynamic_reflection::detail::FieldPointer*>(functionRef);
 
         SIPLASPLAS_ASSERT(function.kind() == cpp::FunctionKind::MEMBER_OBJECT);
 

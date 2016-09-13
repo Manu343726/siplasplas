@@ -379,6 +379,19 @@ public:
     {}
 
     /**
+     * \brief Default constructs a value of the given type
+     *
+     * The behavior is undefined if the given type is not default constructible
+     *
+     * \param typeInfo Type of the value
+     */
+    SimpleAny(const cpp::typeerasure::TypeInfo& typeInfo) :
+        _typeInfo{typeInfo}
+    {
+        _typeInfo.defaultConstruct(Storage::storage(_typeInfo));
+    }
+
+    /**
      * \brief Checks whether the any has an object hosted in or
      * if is empty
      *

@@ -120,9 +120,7 @@ namespace codegen
  */
 template<typename T>
 class Class : public codegen::Class<T>
-{
-    using type = T;
-};
+{};
 
 }
 

@@ -15,8 +15,11 @@ int main()
 
     std::cout << "class '" << pluginClass.fullName() << "' loaded from shared library " << PLUGIN_LIBRARY << std::endl;
 
-    Object pluginInstance{pluginClass.type()};
-    PluginInterface& plugin = pluginInstance.get<PluginInterface>();
-    plugin.run();
-}
+    cpp::Any32 plugin = pluginClass.create();
+    cpp::Any32 alu = pluginClass.class_("ALU").create();
 
+    // Invoke Plugin::run():
+    plugin("run")();
+
+    std::cout << "Plugin::ALU::add(20, 22): " << alu("add")(20, 22).get<int>() << std::endl;
+}

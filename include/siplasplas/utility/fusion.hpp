@@ -3,6 +3,7 @@
 
 #include "tuple.hpp"
 #include "meta.hpp"
+#include "identity.hpp"
 
 #include <bitset>
 #include <sstream>
@@ -13,15 +14,6 @@ namespace cpp
 
 namespace detail
 {
-
-template<typename T>
-class DefaultConstructible
-{
-public:
-    constexpr DefaultConstructible() = default;
-
-    using type = T;
-};
 
 template<typename Function, typename Arg, typename... Args>
 void foreach(Function function, Arg&& arg, Args&&... args)
@@ -74,8 +66,8 @@ namespace
         static void apply_void(Function function)
         {
             ::cpp::foreach(
-                detail::DefaultConstructible<T>(),
-                detail::DefaultConstructible<Ts>()...
+                ::cpp::meta::identity<T>(),
+                ::cpp::meta::identity<Ts>()...
             )(function);
         }
 
@@ -83,8 +75,8 @@ namespace
         static std::vector<U> apply(Function function)
         {
             return {
-                function(detail::DefaultConstructible<T>()),
-                function(detail::DefaultConstructible<Ts>())...
+                ::cpp::meta::identity<T>(),
+                ::cpp::meta::identity<Ts>()...
             };
         }
 
@@ -92,8 +84,8 @@ namespace
         static auto apply(Function function)
         {
             return std::make_tuple(
-                function(detail::DefaultConstructible<T>()),
-                function(detail::DefaultConstructible<Ts>())...
+                ::cpp::meta::identity<T>(),
+                ::cpp::meta::identity<Ts>()...
             );
         }
     };

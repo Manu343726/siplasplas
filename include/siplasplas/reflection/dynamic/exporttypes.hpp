@@ -6,6 +6,8 @@
 #include <siplasplas/typeerasure/function.hpp>
 #include <siplasplas/reflection/static/api.hpp>
 #include <siplasplas/utility/fusion.hpp>
+#include <siplasplas/typeerasure/typeinfo.hpp>
+#include "logger.hpp"
 
 namespace cpp
 {
@@ -23,14 +25,21 @@ template<typename Entity>
     return &sourceInfo;
 }
 
-using MethodPointer = cpp::typeerasure::Function<cpp::FixedSizeStorage<64>>;
+template<typename T>
+::cpp::typeerasure::TypeInfo* typeInfoRef()
+{
+    static auto typeInfo = ::cpp::typeerasure::TypeInfo::get<T>();
+    return &typeInfo;
+}
+
+using MethodPointer = cpp::typeerasure::Function32;
 using FieldPointer  = MethodPointer;
 
-using EnumLoader      = void(*)(void* context, void* sourceInfo);
-using EnumValueLoader = void(*)(void* context, void* sourceInfo, const char*, std::int64_t);
-using ClassLoader     = void(*)(void* context, void* sourceInfo);
-using MethodLoader    = void(*)(void* context, void* sourceInfo, void* method);
-using FieldLoader     = void(*)(void* context, void* sourceInfo, void* field);
+using EnumLoader      = void(*)(void* context, const void* sourceInfo, const void* typeInfo);
+using EnumValueLoader = void(*)(void* context, const void* sourceInfo, const char*, std::int64_t);
+using ClassLoader     = void(*)(void* context, const void* sourceInfo, const void* typeInfo);
+using MethodLoader    = void(*)(void* context, const void* sourceInfo, void* method);
+using FieldLoader     = void(*)(void* context, const void* sourceInfo, void* field);
 
 template<typename T>
 void loadEnum(
@@ -40,11 +49,11 @@ void loadEnum(
 )
 {
     using Enum = ::cpp::static_reflection::Enum<T>;
-    loadEnum(context, sourceInfoRef<Enum>());
+    loadEnum(context, sourceInfoRef<Enum>(), typeInfoRef<T>());
 
-    for(std::size_t i = 0; i < Enum::size(); ++i)
+    for(std::size_t i = 0; i < Enum::count(); ++i)
     {
-        loadEnumValue(context, sourceInfoRef<Enum>(), Enum::names()[i], static_cast<std::int64_t>(Enum::values()[i]));
+        loadEnumValue(context, sourceInfoRef<Enum>(), Enum::name(i), static_cast<std::int64_t>(Enum::value(i)));
     }
 }
 
@@ -58,8 +67,18 @@ void loadClass(
     FieldLoader loadField
 )
 {
+    reflection::dynamic::log().debug("exporttypes.hpp: loadClass<{}>(context={})", ctti::type_id<T>().name(), context);
+
     using Class = ::cpp::static_reflection::Class<T>;
-    loadClass(context, sourceInfoRef<Class>());
+    static_assert(std::is_same<typename Class::type, T>::value, "???");
+
+    auto* classSourceInfoRef = sourceInfoRef<Class>();
+
+    reflection::dynamic::log().debug(" - fullname (from sourceinfo ref):      '{}'", classSourceInfoRef->fullName());
+    reflection::dynamic::log().debug(" - fullname (From static source info):  '{}'", Class::SourceInfo::fullName());
+    reflection::dynamic::log().debug(" - fullname (From dynamic source info): '{}'", ::cpp::dynamic_reflection::SourceInfo::fromStaticSourceInfo<Class>().fullName());
+
+    loadClass(context, classSourceInfoRef, typeInfoRef<T>());
 
     ::cpp::foreach_type<typename Class::Methods>([=](auto type)
     {
@@ -79,11 +98,14 @@ void loadClass(
 
     ::cpp::foreach_type<typename Class::Classes>([=](auto type)
     {
-        using Class = ::cpp::meta::type_t<decltype(type)>;
+        using ClassInfo = ::cpp::meta::type_t<decltype(type)>;
+        using Class = ::cpp::meta::type_t<ClassInfo>;
+
         detail::loadClass<Class>(
             context,
             loadClass,
             loadEnum,
+            loadEnumValue,
             loadMethod,
             loadField
         );
@@ -91,7 +113,9 @@ void loadClass(
 
     ::cpp::foreach_type<typename Class::Enums>([=](auto type)
     {
-        using Enum = ::cpp::meta::type_t<decltype(type)>;
+        using EnumInfo = ::cpp::meta::type_t<decltype(type)>;
+        using Enum = ::cpp::meta::type_t<EnumInfo>;
+
         detail::loadEnum<Enum>(context, loadEnum, loadEnumValue);
     });
 }

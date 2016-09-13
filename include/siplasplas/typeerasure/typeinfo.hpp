@@ -21,11 +21,12 @@ namespace detail
  */
 enum class ValueSemanticsOperation : std::size_t
 {
-    COPY_CONSTRUCT = 0,
-    MOVE_CONSTRUCT = 1,
-    COPY_ASSIGN    = 2,
-    MOVE_ASSIGN    = 3,
-    DESTROY        = 4
+    DEFAULT_CONSTRUCT = 0,
+    COPY_CONSTRUCT    = 1,
+    MOVE_CONSTRUCT    = 2,
+    COPY_ASSIGN       = 3,
+    MOVE_ASSIGN       = 4,
+    DESTROY           = 5
 };
 
 using ValueSemanticsOperationFunction = void(*)(void*, const void*);
@@ -55,6 +56,9 @@ template<typename T>
 ValueSemanticsOperationFunction valueSemanticsOperation(ValueSemanticsOperation operation)
 {
     static ValueSemanticsOperationFunction operations[] = {
+        +[](void* object, const void*) {
+            features::DefaultConstructible::apply<T>(object);
+        },
         +[](void* object, const void* other) {
             features::CopyConstructible::apply<T>(object, other);
         },
@@ -151,6 +155,17 @@ public:
     detail::ValueSemanticsOperationFunction semantics(detail::ValueSemanticsOperation operation) const
     {
         return semantics()(operation);
+    }
+
+    /**
+     * \brief Default constructs a value of the type
+     * If the passed argument is not of the represented type, the behavior is undefined
+     *
+     * \param where Address of the object to be constructed
+     */
+    void defaultConstruct(void* where) const
+    {
+        semantics(detail::ValueSemanticsOperation::DEFAULT_CONSTRUCT)(where, nullptr);
     }
 
     /**

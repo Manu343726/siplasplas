@@ -130,7 +130,7 @@ function(configure_siplasplas_reflection TARGET)
         set(libclang --libclang ${SIPLASPLAS_LIBCLANG_LIBRARY})
     endif()
 
-    if(DRLPARSER_VERBOSE)
+    if(DRLPARSER_VERBOSE OR SIPLASPLAS_VERBOSE_DRLPARSER)
         set(verbose --verbose)
     endif()
 
