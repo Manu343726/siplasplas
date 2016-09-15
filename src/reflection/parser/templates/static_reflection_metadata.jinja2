@@ -29,9 +29,17 @@
 >
 {%- endmacro %}
 
+{% macro sourceinfo_entity(node, class = None) -%}
+{% if class is none %}
+    {{instances[node.kindstring](node) | indent(4)}}
+{% else %}
+    {{instances[node.kindstring](class, node) | indent(4)}}
+{% endif %}
+{%- endmacro %}
 
-{% macro sourceinfo(node, kind) -%}
+{% macro sourceinfo(node, kind, class = None) -%}
 ::cpp::static_reflection::meta::SourceInfo<
+    {{sourceinfo_entity(node, class)}},
     ::cpp::static_reflection::Kind::{{kind}},
     ::cpp::meta::string<{{node.fullname_as_charpack}}>,
     ::cpp::meta::string<{{node.spelling_as_charpack}}>,
@@ -43,15 +51,15 @@
 
 {% macro method(class, node) -%}
 ::cpp::static_reflection::meta::Function<
-    {{sourceinfo(node, 'FUNCTION')     | indent(4)}},
-    {{utility.member_type(class, node) | indent(4)}},
-    {{utility.untyped_member_pointer(class, node) | indent(4)}}
+    {{sourceinfo(node, 'FUNCTION', class) | indent(4)}},
+    {{utility.member_type(class, node)              | indent(4)}},
+    {{utility.untyped_member_pointer(class, node)   | indent(4)}}
 >
 {%- endmacro %}
 
 {% macro field(class, node) -%}
 ::cpp::static_reflection::meta::Field<
-    {{sourceinfo(node, 'FIELD')           | indent(4)}},
+    {{sourceinfo(node, 'FIELD', class)    | indent(4)}},
     {{utility.member_type(class, node)    | indent(4)}},
     {{utility.member_pointer(class, node) | indent(4)}}
 >
@@ -59,7 +67,7 @@
 
 {% macro class(node) -%}
 ::cpp::static_reflection::meta::Class<
-    {{sourceinfo(node, 'CLASS') | indent(4)}},
+    {{sourceinfo(node, 'CLASS')               | indent(4)}},
     {{node.fullname}}, // Class
     {{generate_children(node, 'method', True) | indent(4)}},
     {{generate_children(node, 'field' , True) | indent(4)}},
