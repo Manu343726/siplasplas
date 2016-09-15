@@ -101,16 +101,21 @@ void Runtime::addEntity(const std::shared_ptr<Entity>& entity)
             _entities[entity->fullName()] = entity;
             entity->attach(*this);
         }
+
+        SIPLASPLAS_ASSERT(!entity->detached() && entity->runtime() == *this)(
+            "Entity '{}' detached or registered in other runtime. Entity runtime: {}. Runtime: {}",
+            entity->fullName(),
+            (entity->detached() ? "<detached>" : entity->runtime().name()),
+            name()
+        );
     }
     else
     {
-        throw cpp::exception<std::runtime_error>(
+        reflection::dynamic::log().warn(
             "The runtime already has an entity named '{}'",
             entity->fullName()
         );
     }
-
-    assert(!entity->detached() && entity->runtime() == *this);
 }
 
 namespace cpp

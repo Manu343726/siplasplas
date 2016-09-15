@@ -40,6 +40,17 @@ public:
     }
 };
 
+inline auto applyIdentity(const Identity& identity)
+{
+    return [identity](auto&& value)
+    {
+        return identity(std::forward<decltype(value)>(value));
+    };
+}
+
+template<typename T, typename Identity>
+constexpr auto applyIdentity(const Identity& identity) -> meta::type_t<decltype(identity.template type<T>())>;
+
 }
 
 #endif // SIPLASPLAS_UTILITY_IDENTITY_HPP

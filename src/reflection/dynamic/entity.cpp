@@ -126,6 +126,23 @@ Entity& Entity::getChildByName(const std::string& name)
     return getChildByFullName(Scope::fromParentScope(sourceInfo().scope(), name).fullName());
 }
 
+std::vector<std::string> Entity::getChildrenNamesByKind(const SourceInfo::Kind& kind)
+{
+    std::vector<std::string> childrenNames;
+
+    for(const auto& fullName : _children)
+    {
+        const auto& entity = getChildByFullName(fullName);
+
+        if(entity.kind() == kind)
+        {
+            childrenNames.push_back(fullName);
+        }
+    }
+
+    return childrenNames;
+}
+
 void Entity::addChild(const std::shared_ptr<Entity>& entity)
 {
     if(!isChild(entity))

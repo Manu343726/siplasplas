@@ -20,7 +20,7 @@ void loadClass(Runtime& runtime)
 {
     auto class_ = cpp::drfl::Class::create(
         SourceInfo::fromStaticSourceInfo<cpp::srfl::Class<Class>>(),
-        Type::get<Class>()
+        cpp::typeerasure::TypeInfo::get<Class>()
     );
 
     runtime.addEntity(class_);
@@ -63,11 +63,12 @@ int main()
 
     field.get(myObject) = 3;
     field.get(myOtherObject) = 4;
-    assert(myObject.field == 3);
-    assert(myOtherObject.field == 4);
-
-    field.get(myObject) = field.get(myOtherObject);
-    assert(myObject.field == 4);
+    SIPLASPLAS_ASSERT_EQ(myObject.field, 3)(
+        "field.get(myObject) = 3 failed"
+    );
+    SIPLASPLAS_ASSERT_EQ(myOtherObject.field, 4)(
+        "field.get(myOtherObject) = 4 failed"
+    );
 
     std::cout << "Result of invoking f: "
               << function(myObject, 1, 2).get<int>()

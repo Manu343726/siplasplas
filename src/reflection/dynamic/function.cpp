@@ -20,6 +20,16 @@ Function& Function::fromEntity(const std::shared_ptr<Entity>& entity)
     }
 }
 
+Function::Function(const cpp::dynamic_reflection::SourceInfo& sourceInfo, const cpp::typeerasure::Function32& function) :
+    Entity{sourceInfo},
+    _functionPointer{function}
+{}
+
+std::shared_ptr<Function> Function::create(const cpp::dynamic_reflection::SourceInfo& sourceInfo, const cpp::typeerasure::Function32& function)
+{
+    return std::shared_ptr<Function>{ new Function{sourceInfo, function} };
+}
+
 const cpp::typeerasure::Function32& Function::getFunction() const
 {
     return _functionPointer;

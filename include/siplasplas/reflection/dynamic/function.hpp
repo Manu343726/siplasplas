@@ -27,20 +27,12 @@ public:
 
     const cpp::typeerasure::Function32& getFunction() const;
 
-    template<typename FunctionPointer>
-    static std::shared_ptr<Function> create(const SourceInfo& sourceInfo, FunctionPointer function)
-    {
-        return std::shared_ptr<Function>{ new Function{sourceInfo, function} };
-    }
+    static std::shared_ptr<Function> create(const SourceInfo& sourceInfo, const cpp::typeerasure::Function32& function);
 
     static Function& fromEntity(const std::shared_ptr<Entity>& entity);
 
 private:
-    template<typename FunctionPointer>
-    Function(const SourceInfo& sourceInfo, FunctionPointer functionPointer) :
-        Entity{sourceInfo},
-        _functionPointer{functionPointer}
-    {}
+    Function(const SourceInfo& sourceInfo, const cpp::typeerasure::Function32& function);
 
     cpp::typeerasure::Function32 _functionPointer;
 };

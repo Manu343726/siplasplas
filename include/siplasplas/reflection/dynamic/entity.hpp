@@ -40,6 +40,7 @@ public:
     bool isChildByFullName(const std::string& fullName) const;
     Entity& getChildByFullName(const std::string& fullName);
     Entity& getChildByName(const std::string& name);
+    std::vector<std::string> getChildrenNamesByKind(const SourceInfo::Kind& kind);
 
     std::shared_ptr<Entity> pointer();
 
