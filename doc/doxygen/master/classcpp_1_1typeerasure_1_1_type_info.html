@@ -144,6 +144,9 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 detail::ValueSemanticsOperationFunction&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_type_info.html#aaf9e4b25f200e799f38d43bd00f204a8">semantics</a> (<a class="el" href="group__type-erasure.html#gac7671c64b391c768a4fb882637be87ca">detail::ValueSemanticsOperation</a> operation) const </td></tr>
 <tr class="memdesc:aaf9e4b25f200e799f38d43bd00f204a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the function implementing the given valuesemantics operation for the type. <br /></td></tr>
 <tr class="separator:aaf9e4b25f200e799f38d43bd00f204a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91be058fe0fe6cde62f3cca39b5f5e87"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_type_info.html#a91be058fe0fe6cde62f3cca39b5f5e87">defaultConstruct</a> (void *where) const </td></tr>
+<tr class="memdesc:a91be058fe0fe6cde62f3cca39b5f5e87"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructs a value of the type If the passed argument is not of the represented type, the behavior is undefined.  <a href="#a91be058fe0fe6cde62f3cca39b5f5e87">More...</a><br /></td></tr>
+<tr class="separator:a91be058fe0fe6cde62f3cca39b5f5e87"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad705ae1b03a3084326a26dedcd25c386"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_type_info.html#ad705ae1b03a3084326a26dedcd25c386">copyConstruct</a> (void *where, const void *other) const </td></tr>
 <tr class="memdesc:ad705ae1b03a3084326a26dedcd25c386"><td class="mdescLeft">&#160;</td><td class="mdescRight">Copy constructs values of the type If the passed arguments are not of the represented type, the behavior is undefined.  <a href="#ad705ae1b03a3084326a26dedcd25c386">More...</a><br /></td></tr>
 <tr class="separator:ad705ae1b03a3084326a26dedcd25c386"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -265,6 +268,38 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=<
   <table class="params">
     <tr><td class="paramname">where</td><td>Address of the object to be constructed </td></tr>
     <tr><td class="paramname">other</td><td>Address of the object to copy from </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a class="anchor" id="a91be058fe0fe6cde62f3cca39b5f5e87"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void cpp::typeerasure::TypeInfo::defaultConstruct </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>where</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Default constructs a value of the type If the passed argument is not of the represented type, the behavior is undefined. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">where</td><td>Address of the object to be constructed </td></tr>
   </table>
   </dd>
 </dl>

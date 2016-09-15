@@ -52,8 +52,8 @@ var hierarchy =
     [ "cpp::static_reflection::meta::Field< static_reflection::meta::EmptySourceInfo< Field< FieldType, field > >, FieldType, field >", "classcpp_1_1static__reflection_1_1meta_1_1_field.html", null ],
     [ "cpp::FixedSizeStorage< Size, Alignment >", "classcpp_1_1_fixed_size_storage.html", null ],
     [ "cpp::static_reflection::Function< FunctionType, function >", "classcpp_1_1static__reflection_1_1_function.html", null ],
-    [ "cpp::static_reflection::meta::Function< SourceInfo, FunctionType, function >", "classcpp_1_1static__reflection_1_1meta_1_1_function.html", null ],
     [ "cpp::typeerasure::Function< Storage, ArgsStorage, ReturnStorage >", "classcpp_1_1typeerasure_1_1_function.html", null ],
+    [ "cpp::static_reflection::meta::Function< SourceInfo, FunctionType, function >", "classcpp_1_1static__reflection_1_1meta_1_1_function.html", null ],
     [ "cpp::static_reflection::meta::Function< static_reflection::meta::EmptySourceInfo< Function< FunctionType, function > >, FunctionType, function >", "classcpp_1_1static__reflection_1_1meta_1_1_function.html", null ],
     [ "cpp::typeerasure::Function< Storage, ObjectArgStorage, cpp::cpp::NonOwningStorage >", "classcpp_1_1typeerasure_1_1_function.html", null ],
     [ "cpp::Hash< T >", "structcpp_1_1_hash.html", null ],
@@ -78,7 +78,7 @@ var hierarchy =
     [ "cpp::SimpleAny< Storage >", "classcpp_1_1_simple_any.html", [
       [ "cpp::Any< Storage, FunctionsStorage, FunctionArgsStorage, AttributesStorage >", "classcpp_1_1_any.html", null ]
     ] ],
-    [ "cpp::static_reflection::meta::SourceInfo< Kind, FullName, Spelling, DisplayName, File, Line >", "classcpp_1_1static__reflection_1_1meta_1_1_source_info.html", null ],
+    [ "cpp::static_reflection::meta::SourceInfo< Entity_, Kind, FullName, Spelling, DisplayName, File, Line >", "classcpp_1_1static__reflection_1_1meta_1_1_source_info.html", null ],
     [ "cpp::DynamicLibrary::Symbol", "classcpp_1_1_dynamic_library_1_1_symbol.html", null ],
     [ "cpp::typeerasure::TypeInfo", "classcpp_1_1typeerasure_1_1_type_info.html", null ],
     [ "cpp::UniversalReference< T, IsLvalueReference, IsConst >", "classcpp_1_1_universal_reference.html", null ],

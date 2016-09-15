@@ -35,8 +35,7 @@ namespace cpp
 template <typename T>
 class Class
 : public codegen::Class<T>
-{
-};
+{};
 ```
 
 Returns static reflection information of a given class

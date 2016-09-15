@@ -47,6 +47,7 @@ var group__type_erasure =
     ] ],
     [ "Function", "classcpp_1_1typeerasure_1_1_function.html", [
       [ "Function", "classcpp_1_1typeerasure_1_1_function.html#ab711e9f4840cd2f1f5226e291480166d", null ],
+      [ "Function", "classcpp_1_1typeerasure_1_1_function.html#af7258b2d398c5d1731d32c91fc417205", null ],
       [ "Function", "classcpp_1_1typeerasure_1_1_function.html#a8926578c4b8b37c76788748f00d339a4", null ],
       [ "empty", "classcpp_1_1typeerasure_1_1_function.html#a9dc2e35d0b3a70002b276f415e3cdada", null ],
       [ "get", "classcpp_1_1typeerasure_1_1_function.html#a4329eb727c966447cb413e82dfa23359", null ],
@@ -58,11 +59,14 @@ var group__type_erasure =
       [ "kind", "classcpp_1_1typeerasure_1_1_function.html#ae6d18bee9b85d7b448d832a26f3caf6d", null ],
       [ "operator()", "classcpp_1_1typeerasure_1_1_function.html#af63bcc5f9ec7a9b0a1bb3a7a5c641f60", null ],
       [ "operator()", "classcpp_1_1typeerasure_1_1_function.html#aaceb57f91aec0922d7f657bd39fbd45c", null ],
-      [ "operator=", "classcpp_1_1typeerasure_1_1_function.html#a0820ff3e26deba957a9c72ff77f26243", null ]
+      [ "operator=", "classcpp_1_1typeerasure_1_1_function.html#a637b168b95c4f68fcc3e8bcc464da3a3", null ],
+      [ "operator=", "classcpp_1_1typeerasure_1_1_function.html#aa44ae7084fc4a8d16c6da5c0334c7c3f", null ],
+      [ "operator=", "classcpp_1_1typeerasure_1_1_function.html#a34592606b8e7213657ff258756afbc23", null ]
     ] ],
     [ "SimpleAny", "classcpp_1_1_simple_any.html", [
       [ "EmptyTag", "structcpp_1_1_simple_any_1_1_empty_tag.html", null ],
       [ "SimpleAny", "classcpp_1_1_simple_any.html#ad9622e80d5d2991395173312d7fa1f5c", null ],
+      [ "SimpleAny", "classcpp_1_1_simple_any.html#a22cef4cc08916eb2ae6c7eab642092c8", null ],
       [ "SimpleAny", "classcpp_1_1_simple_any.html#ac9485d4f854ab202f1dc48cdf5b05c97", null ],
       [ "SimpleAny", "classcpp_1_1_simple_any.html#aec15b1ff77cfd2e7b1909d7ad3a86a4d", null ],
       [ "SimpleAny", "classcpp_1_1_simple_any.html#ad75047f87a51b9d9673f625beef1611c", null ],
@@ -85,6 +89,7 @@ var group__type_erasure =
       [ "alignment", "classcpp_1_1typeerasure_1_1_type_info.html#ab20d1c8b7bc30820bdeffbdca7ed2c14", null ],
       [ "copyAssign", "classcpp_1_1typeerasure_1_1_type_info.html#aeb17c5ae570229c8a9a98a9ca96ee9ca", null ],
       [ "copyConstruct", "classcpp_1_1typeerasure_1_1_type_info.html#ad705ae1b03a3084326a26dedcd25c386", null ],
+      [ "defaultConstruct", "classcpp_1_1typeerasure_1_1_type_info.html#a91be058fe0fe6cde62f3cca39b5f5e87", null ],
       [ "destroy", "classcpp_1_1typeerasure_1_1_type_info.html#a55ad6a562387b3914daf1c9b3f184268", null ],
       [ "isPointer", "classcpp_1_1typeerasure_1_1_type_info.html#a5ff232f445010425154c74e144a5625c", null ],
       [ "moveAssign", "classcpp_1_1typeerasure_1_1_type_info.html#a96ea03d498cce728b8ed559e53b7054b", null ],

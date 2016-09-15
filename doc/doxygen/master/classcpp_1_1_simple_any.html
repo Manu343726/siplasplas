@@ -143,6 +143,9 @@ Public Member Functions</h2></td></tr>
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_simple_any.html#ad9622e80d5d2991395173312d7fa1f5c">SimpleAny</a> ()</td></tr>
 <tr class="memdesc:ad9622e80d5d2991395173312d7fa1f5c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructs an empty <a class="el" href="classcpp_1_1_simple_any.html" title="Implements a type-erased value container with minimal value semantics requirements. ">SimpleAny</a>. <br /></td></tr>
 <tr class="separator:ad9622e80d5d2991395173312d7fa1f5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22cef4cc08916eb2ae6c7eab642092c8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_simple_any.html#a22cef4cc08916eb2ae6c7eab642092c8">SimpleAny</a> (const <a class="el" href="classcpp_1_1typeerasure_1_1_type_info.html">cpp::typeerasure::TypeInfo</a> &amp;<a class="el" href="classcpp_1_1_simple_any.html#a224ef65d5a1ee5411cf7d94155ce61fa">typeInfo</a>)</td></tr>
+<tr class="memdesc:a22cef4cc08916eb2ae6c7eab642092c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Default constructs a value of the given type.  <a href="#a22cef4cc08916eb2ae6c7eab642092c8">More...</a><br /></td></tr>
+<tr class="separator:a22cef4cc08916eb2ae6c7eab642092c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4ebe3f63990da1c9957f003a298f163"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_simple_any.html#ab4ebe3f63990da1c9957f003a298f163">empty</a> () const </td></tr>
 <tr class="memdesc:ab4ebe3f63990da1c9957f003a298f163"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks whether the any has an object hosted in or if is empty.  <a href="#ab4ebe3f63990da1c9957f003a298f163">More...</a><br /></td></tr>
 <tr class="separator:ab4ebe3f63990da1c9957f003a298f163"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -225,6 +228,41 @@ class cpp::SimpleAny&lt; Storage &gt;</h3>
   </dd>
 </dl>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a22cef4cc08916eb2ae6c7eab642092c8"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Storage&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classcpp_1_1_simple_any.html">cpp::SimpleAny</a>&lt; Storage &gt;::<a class="el" href="classcpp_1_1_simple_any.html">SimpleAny</a> </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="classcpp_1_1typeerasure_1_1_type_info.html">cpp::typeerasure::TypeInfo</a> &amp;&#160;</td>
+          <td class="paramname"><em>typeInfo</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Default constructs a value of the given type. </p>
+<p>The behavior is undefined if the given type is not default constructible</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">typeInfo</td><td>Type of the value </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
 <a class="anchor" id="ac9485d4f854ab202f1dc48cdf5b05c97"></a>
 <div class="memitem">
 <div class="memproto">
