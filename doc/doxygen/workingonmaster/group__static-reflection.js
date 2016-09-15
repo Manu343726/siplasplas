@@ -37,7 +37,9 @@ var group__static_reflection =
       [ "operator()", "classcpp_1_1static__reflection_1_1meta_1_1_function.html#a5fb221180f811d50dcf4571a312fbe94", null ]
     ] ],
     [ "Function", "classcpp_1_1static__reflection_1_1_function.html", null ],
-    [ "SourceInfo", "classcpp_1_1static__reflection_1_1meta_1_1_source_info.html", null ],
+    [ "SourceInfo", "classcpp_1_1static__reflection_1_1meta_1_1_source_info.html", [
+      [ "Entity", "classcpp_1_1static__reflection_1_1meta_1_1_source_info.html#a4f67cd783d3d9a62237c82c468fbe806", null ]
+    ] ],
     [ "Class", "classcpp_1_1static__reflection_1_1_class.html", null ],
     [ "Enum", "classcpp_1_1static__reflection_1_1_enum.html", null ],
     [ "Kind", "group__static-reflection.html#ga6861198f6b3d051a9f6cc383b1ddbd83", null ]

@@ -27,7 +27,7 @@ var annotated_dup =
           [ "Enum", "classcpp_1_1static__reflection_1_1meta_1_1_enum.html", "classcpp_1_1static__reflection_1_1meta_1_1_enum" ],
           [ "Field", "classcpp_1_1static__reflection_1_1meta_1_1_field.html", "classcpp_1_1static__reflection_1_1meta_1_1_field" ],
           [ "Function", "classcpp_1_1static__reflection_1_1meta_1_1_function.html", "classcpp_1_1static__reflection_1_1meta_1_1_function" ],
-          [ "SourceInfo", "classcpp_1_1static__reflection_1_1meta_1_1_source_info.html", null ]
+          [ "SourceInfo", "classcpp_1_1static__reflection_1_1meta_1_1_source_info.html", "classcpp_1_1static__reflection_1_1meta_1_1_source_info" ]
         ] ],
         [ "Class", "classcpp_1_1static__reflection_1_1_class.html", null ],
         [ "Enum", "classcpp_1_1static__reflection_1_1_enum.html", null ],

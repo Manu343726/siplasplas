@@ -16,4 +16,4 @@ layout: standardese-doc
 
   - `cpp::static_reflection::meta`
     
-      - [SourceInfo\<Kind, FullName, Spelling, DisplayName, File, Line\>](sourceinfo.md#cpp::static_reflection::meta::SourceInfo\<Kind,%20FullName,%20Spelling,%20DisplayName,%20File,%20Line\> "cpp::static_reflection::meta::SourceInfo\<Kind, FullName, Spelling, DisplayName, File, Line\>") - Stores source information of an entity
+      - [SourceInfo\<Entity\_, Kind, FullName, Spelling, DisplayName, File, Line\>](sourceinfo.md#cpp::static_reflection::meta::SourceInfo\<Entity_,%20Kind,%20FullName,%20Spelling,%20DisplayName,%20File,%20Line\> "cpp::static_reflection::meta::SourceInfo\<Entity_, Kind, FullName, Spelling, DisplayName, File, Line\>") - Stores source information of an entity
