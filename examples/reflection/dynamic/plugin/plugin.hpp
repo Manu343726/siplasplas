@@ -8,6 +8,18 @@ class PLUGINEXAMPLE_EXPORT Plugin : public PluginInterface
 {
 public:
     void run() override;
+
+    class ALU
+    {
+    public:
+        enum class Operation
+        {
+            ADD, SUB
+        };
+
+        int add(int a, int b);
+        int sub(int a, int b);
+    };
 };
 
 #include <reflection/examples/reflection/dynamic/plugin/plugin.hpp>
