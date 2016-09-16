@@ -29,6 +29,11 @@ Class& Class::fromEntity(const std::shared_ptr<Entity>& entity)
     }
 }
 
+Enum& Class::enum_(const std::string& name)
+{
+    return Enum::fromEntity(getChildByName(name).pointer());
+}
+
 Class& Class::class_(const std::string& name)
 {
     return Class::fromEntity(getChildByName(name).pointer());

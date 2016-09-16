@@ -4,6 +4,7 @@
 #include "field.hpp"
 #include "function.hpp"
 #include "entity.hpp"
+#include "enum.hpp"
 #include "type.hpp"
 #include <siplasplas/typeerasure/typeinfo.hpp>
 
@@ -19,6 +20,7 @@ public:
     static std::shared_ptr<Class> create(const SourceInfo& sourceInfo, const cpp::typeerasure::TypeInfo& typeInfo);
     static Class& fromEntity(const std::shared_ptr<Entity>& entity);
 
+    Enum& enum_(const std::string& name);
     Class& class_(const std::string& name);
     Field& field_(const std::string& name);
     Function& function_(const std::string& name);

@@ -3,6 +3,7 @@
 
 #include "entity.hpp"
 #include "class.hpp"
+#include "enum.hpp"
 #include <unordered_map>
 
 namespace cpp
@@ -21,6 +22,7 @@ public:
 
     Namespace& namespace_(const std::string& name);
     Class& class_(const std::string& name);
+    Enum&  enum_(const std::string& name);
 
 private:
     Namespace(const Metadata& metadata);

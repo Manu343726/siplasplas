@@ -40,3 +40,8 @@ Class& Namespace::class_(const std::string& name)
 {
     return Class::fromEntity(getChildByName(name).pointer());
 }
+
+Enum& Namespace::enum_(const std::string& name)
+{
+    return Enum::fromEntity(getChildByName(name).pointer());
+}
