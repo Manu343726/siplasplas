@@ -4,6 +4,7 @@ SOURCES
     sourceinfo.cpp
     scope.cpp
     entity.cpp
+    enum.cpp
     runtime.cpp
     namespace.cpp
     type.cpp

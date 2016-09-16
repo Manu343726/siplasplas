@@ -5,6 +5,7 @@
 #include <siplasplas/utility/memory_manip.hpp>
 #include <siplasplas/utility/meta.hpp>
 #include <siplasplas/utility/function_traits.hpp>
+#include <siplasplas/utility/typeinfo.hpp>
 
 namespace cpp
 {
@@ -109,7 +110,7 @@ using ValueSemantics = decltype(&valueSemanticsOperation<int>);
  *  );
  * ```
  */
-class TypeInfo
+class TypeInfo : public cpp::TypeInfo
 {
 public:
     /**
@@ -117,27 +118,7 @@ public:
      */
     detail::ValueSemantics semantics() const
     {
-#if UINTPTR_MAX == UINT64_MAX // See constructor bellow
-        return cpp::detail::untagPointer(_semantics);
-#else
         return _semantics;
-#endif
-    }
-
-    /**
-     * \brief Returns the size of the type
-     */
-    std::size_t sizeOf() const
-    {
-        return _sizeOf;
-    }
-
-    /**
-     * \brief Returns the name of the type
-     */
-    const char* typeName() const
-    {
-        return _typeId.name().c_str();
     }
 
     /**
@@ -254,12 +235,8 @@ public:
 private:
     template<typename T>
     constexpr TypeInfo(meta::identity<T>) :
-// If virtual addresses have 64 bits, use a use a tagged pointer to store the alignment,
-// else use an extra member
-#if UINTPTR_MAX == UINT64_MAX
-        _semantics{cpp::detail::tagPointer(&detail::valueSemanticsOperation<T>, alignof(T))},
-        _sizeOf{sizeof(T)},
-        _typeId{ctti::type_id<T>()},
+        cpp::TypeInfo{cpp::TypeInfo::get<T>()},
+        _semantics{detail::valueSemanticsOperation<T>},
         _isPointer{
             std::is_pointer<T>::value &&
             cpp::function_kind<T>() != cpp::FunctionKind::FREE_FUNCTION
@@ -268,42 +245,7 @@ private:
         static_assert(alignof(T) < (1 << 16), "Alignment of T cannot be tagged in a pointer, its value overflows a 16 bit unsigned integer");
     }
 
-public:
-    /**
-     * \brief returns the alignment of the type
-     */
-    std::size_t alignment() const
-    {
-        return cpp::detail::readTaggedPointer(_semantics);
-    }
-
-private:
-#else
-        _semantics{&valueSemanticsOperation<T>},
-        _alignment{alignof(T)},
-        _sizeOf{sizeof(T)},
-        _typeId{ctti::type_id<T>()},
-        _isPointer{
-            std::is_pointer<T>::value &&
-            cpp::function_kind<T>() != cpp::FunctionKind::FREE_FUNCTION
-        }
-    {}
-
-public:
-    /**
-     * \brief returns the alignment of the type
-     */
-    constexpr std::size_t alignment() const
-    {
-        return _alignment;
-    }
-
-private:
-    std::size_t _alignment;
-#endif // if not 64 bit
     detail::ValueSemantics _semantics;
-    std::size_t _sizeOf;
-    ctti::type_id_t _typeId;
     bool _isPointer;
 };
 

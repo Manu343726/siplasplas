@@ -35,11 +35,29 @@ template<typename T>
 using MethodPointer = cpp::typeerasure::Function32;
 using FieldPointer  = MethodPointer;
 
-using EnumLoader      = void(*)(void* context, const void* sourceInfo, const void* typeInfo);
+using EnumLoader      = void(*)(void* context, const void* sourceInfo, const void* typeInfo, const void* underlyingTypeInfo, std::size_t count, const char* names[], const std::int64_t values[]);
 using EnumValueLoader = void(*)(void* context, const void* sourceInfo, const char*, std::int64_t);
 using ClassLoader     = void(*)(void* context, const void* sourceInfo, const void* typeInfo);
 using MethodLoader    = void(*)(void* context, const void* sourceInfo, void* method);
 using FieldLoader     = void(*)(void* context, const void* sourceInfo, void* field);
+
+template<typename T, std::size_t... Is>
+void loadEnumImpl(void* context, EnumLoader loadEnum, EnumValueLoader loadEnumValue, cpp::meta::index_sequence<Is...>)
+{
+    using Enum = ::cpp::static_reflection::Enum<T>;
+    std::int64_t values[] = {static_cast<std::int64_t>(Enum::value(Is))...};
+    const char*  names[]  = {Enum::name(Is)...};
+
+    loadEnum(
+        context,
+        sourceInfoRef<Enum>(),
+        typeInfoRef<T>(),
+        typeInfoRef<std::underlying_type_t<T>>(),
+        Enum::count(),
+        names,
+        values
+    );
+}
 
 template<typename T>
 void loadEnum(
@@ -49,12 +67,13 @@ void loadEnum(
 )
 {
     using Enum = ::cpp::static_reflection::Enum<T>;
-    loadEnum(context, sourceInfoRef<Enum>(), typeInfoRef<T>());
 
-    for(std::size_t i = 0; i < Enum::count(); ++i)
-    {
-        loadEnumValue(context, sourceInfoRef<Enum>(), Enum::name(i), static_cast<std::int64_t>(Enum::value(i)));
-    }
+    loadEnumImpl<T>(
+        context,
+        loadEnum,
+        loadEnumValue,
+        cpp::meta::make_index_sequence<Enum::count()>()
+    );
 }
 
 template<typename T>

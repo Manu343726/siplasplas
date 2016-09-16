@@ -7,6 +7,7 @@
 #include "field.hpp"
 #include "function.hpp"
 #include "class.hpp"
+#include "enum.hpp"
 #include "namespace.hpp"
 #include "runtime.hpp"
 

@@ -65,13 +65,54 @@ void RuntimeLoader::load(const DynamicLibrary& library)
             loaderContext.library->path()
         );
     };
-    auto loadEnum = [](void* context, const void* sourceInfoPtr, const void* typeInfoPtr)
+    auto loadEnum = [](
+        void* context,
+        const void* sourceInfoPtr,
+        const void* typeInfoPtr,
+        const void* underlyingTypeInfoPtr,
+        std::size_t count,
+        const char* names[],
+        const std::int64_t values[])
     {
         auto loaderContext = Context::get(context);
         auto sourceInfo = getSourceInfo(sourceInfoPtr);
         auto typeInfo   = getTypeInfo(typeInfoPtr);
+        auto underlyingTypeInfo = getTypeInfo(underlyingTypeInfoPtr);
 
-        log().warn("Enum '{}' from library {} ignored, enums are not supported",
+        std::vector<std::string> namesCopy;
+        std::vector<std::int64_t> valuesCopy;
+        namesCopy.reserve(count);
+        valuesCopy.reserve(count);
+
+        log().debug("Loading enum '{}' from library '{}'...",
+            sourceInfo.fullName(),
+            loaderContext.library->path()
+        );
+
+
+        for(std::size_t i = 0; i < count; ++i)
+        {
+            namesCopy.emplace_back(names[i]);
+            valuesCopy.emplace_back(values[i]);
+
+            log().debug(" - Loading {}::{} ({})",
+                sourceInfo.fullName(),
+                names[i],
+                values[i]
+            );
+        }
+
+        loaderContext.runtime->addEntity(
+            Enum::create(
+                sourceInfo,
+                typeInfo,
+                underlyingTypeInfo,
+                namesCopy,
+                valuesCopy
+            )
+        );
+
+        log().info("Loaded enum '{}' from library '{}'",
             sourceInfo.fullName(),
             loaderContext.library->path()
         );
