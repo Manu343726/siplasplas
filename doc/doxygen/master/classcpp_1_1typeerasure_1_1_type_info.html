@@ -120,7 +120,9 @@ $(document).ready(function(){initNavTree('classcpp_1_1typeerasure_1_1_type_info.
 <p>Contains minimal information to execute the value semantics operations of a type.  
  <a href="classcpp_1_1typeerasure_1_1_type_info.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="typeinfo_8hpp_source.html">siplasplas/typeerasure/typeinfo.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="typeerasure_2typeinfo_8hpp_source.html">siplasplas/typeerasure/typeinfo.hpp</a>&gt;</code></p>
+
+<p>Inherits cpp::TypeInfo.</p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -128,14 +130,6 @@ Public Member Functions</h2></td></tr>
 detail::ValueSemantics&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_type_info.html#ae00400fa91dd0407f29f996b745dd694">semantics</a> () const </td></tr>
 <tr class="memdesc:ae00400fa91dd0407f29f996b745dd694"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retuns the type-erased semantics of the type. See valueSemantics(). <br /></td></tr>
 <tr class="separator:ae00400fa91dd0407f29f996b745dd694"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac6b9042c0b784671afa5b7374a6fddd7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac6b9042c0b784671afa5b7374a6fddd7"></a>
-std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_type_info.html#ac6b9042c0b784671afa5b7374a6fddd7">sizeOf</a> () const </td></tr>
-<tr class="memdesc:ac6b9042c0b784671afa5b7374a6fddd7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the size of the type. <br /></td></tr>
-<tr class="separator:ac6b9042c0b784671afa5b7374a6fddd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aacdc17217161abf0d477ac24626f7192"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aacdc17217161abf0d477ac24626f7192"></a>
-const char *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_type_info.html#aacdc17217161abf0d477ac24626f7192">typeName</a> () const </td></tr>
-<tr class="memdesc:aacdc17217161abf0d477ac24626f7192"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the name of the type. <br /></td></tr>
-<tr class="separator:aacdc17217161abf0d477ac24626f7192"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ff232f445010425154c74e144a5625c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5ff232f445010425154c74e144a5625c"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_type_info.html#a5ff232f445010425154c74e144a5625c">isPointer</a> () const </td></tr>
 <tr class="memdesc:a5ff232f445010425154c74e144a5625c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the type is a pointer type. <br /></td></tr>
@@ -162,10 +156,6 @@ detail::ValueSemanticsOperationFunction&#160;</td><td class="memItemRight" valig
 <tr class="memitem:a55ad6a562387b3914daf1c9b3f184268"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_type_info.html#a55ad6a562387b3914daf1c9b3f184268">destroy</a> (void *where) const </td></tr>
 <tr class="memdesc:a55ad6a562387b3914daf1c9b3f184268"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys objects of the type If the passed arguments are not of the represented type, the behavior is undefined.  <a href="#a55ad6a562387b3914daf1c9b3f184268">More...</a><br /></td></tr>
 <tr class="separator:a55ad6a562387b3914daf1c9b3f184268"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab20d1c8b7bc30820bdeffbdca7ed2c14"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab20d1c8b7bc30820bdeffbdca7ed2c14"></a>
-std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_type_info.html#ab20d1c8b7bc30820bdeffbdca7ed2c14">alignment</a> () const </td></tr>
-<tr class="memdesc:ab20d1c8b7bc30820bdeffbdca7ed2c14"><td class="mdescLeft">&#160;</td><td class="mdescRight">returns the alignment of the type <br /></td></tr>
-<tr class="separator:ab20d1c8b7bc30820bdeffbdca7ed2c14"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -425,7 +415,7 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=<
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>include/siplasplas/typeerasure/<a class="el" href="typeinfo_8hpp_source.html">typeinfo.hpp</a></li>
+<li>include/siplasplas/typeerasure/<a class="el" href="typeerasure_2typeinfo_8hpp_source.html">typeinfo.hpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->

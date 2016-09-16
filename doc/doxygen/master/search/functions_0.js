@@ -8,7 +8,6 @@ var searchData=
   ['aligned_5fmalloc',['aligned_malloc',['../group__memory-manip.html#gaf300d008c5db6103a31e463e2b0d19f8',1,'cpp::detail']]],
   ['aligned_5fmalloc_5fblock',['aligned_malloc_block',['../group__memory-manip.html#ga342e7b7c8fc6e309adb37f446b5e9b3e',1,'cpp::detail']]],
   ['aligned_5fptr',['aligned_ptr',['../group__memory-manip.html#gab4fdc580f07afd23d2cc7b1ee0c28d48',1,'cpp::detail::aligned_ptr(char *pointer, std::size_t alignment)'],['../group__memory-manip.html#ga86f6dd7ad9cef297add6ab338b1523af',1,'cpp::detail::aligned_ptr(void *pointer, std::size_t alignment)'],['../group__memory-manip.html#gae169dbc31c9d0c0ea8faab15515b39d9',1,'cpp::detail::aligned_ptr(const char *pointer, std::size_t alignment)'],['../group__memory-manip.html#gaabdc011d4b9b1dc7245b658f9e4eddb3',1,'cpp::detail::aligned_ptr(const void *pointer, std::size_t alignment)']]],
-  ['alignment',['alignment',['../classcpp_1_1typeerasure_1_1_type_info.html#ab20d1c8b7bc30820bdeffbdca7ed2c14',1,'cpp::typeerasure::TypeInfo']]],
   ['anyarg',['AnyArg',['../classcpp_1_1_any_arg.html#a73f70460ac3b6035704b408801edef21',1,'cpp::AnyArg']]],
   ['apply',['apply',['../classcpp_1_1features_1_1_o_streamable.html#a3467930aee822f6183de89de596f8530',1,'cpp::features::OStreamable::apply()'],['../classcpp_1_1features_1_1_i_streamable.html#a9fc4131e82a9c090eb85aabef41721b4',1,'cpp::features::IStreamable::apply()']]],
   ['assertexpression',['AssertExpression',['../classcpp_1_1_assert_expression.html#a747d06793ac638fae3da51bae1eca33d',1,'cpp::AssertExpression']]],

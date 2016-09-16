@@ -26,7 +26,6 @@ var searchData=
   ['siplasplas_5fassert_5ftrue',['SIPLASPLAS_ASSERT_TRUE',['../group__assert.html#ga1bb2314a7eed7c6840a732eaddf9dfbd',1,'assert.hpp']]],
   ['siplasplas_5futility_5fcompiles',['SIPLASPLAS_UTILITY_COMPILES',['../group__utility.html#gaad62b455cf4d9cf038c6652f3081a229',1,'compiles.hpp']]],
   ['size',['size',['../classcpp_1_1_fixed_size_storage.html#a46434c28c10c8c1eca53e6ec461c65cb',1,'cpp::FixedSizeStorage']]],
-  ['sizeof',['sizeOf',['../classcpp_1_1typeerasure_1_1_type_info.html#ac6b9042c0b784671afa5b7374a6fddd7',1,'cpp::typeerasure::TypeInfo']]],
   ['sourcedir',['sourceDir',['../classcpp_1_1_c_make_project.html#a287a0a3fc1a7041e05b654f9e14d1f61',1,'cpp::CMakeProject']]],
   ['sourceinfo',['SourceInfo',['../classcpp_1_1static__reflection_1_1meta_1_1_class.html#aa0cbe40830cd944c9940fa47cd9cecef',1,'cpp::static_reflection::meta::Class::SourceInfo()'],['../classcpp_1_1static__reflection_1_1meta_1_1_enum.html#a9c41d74df4c6fa2f4f44a773e6208eba',1,'cpp::static_reflection::meta::Enum::SourceInfo()'],['../classcpp_1_1static__reflection_1_1meta_1_1_field.html#a8c9ef84f9f3c18c7c35286d6418729b1',1,'cpp::static_reflection::meta::Field::SourceInfo()'],['../classcpp_1_1static__reflection_1_1meta_1_1_function.html#afbc00bb7590ef35c39d9418df78fc942',1,'cpp::static_reflection::meta::Function::SourceInfo()']]],
   ['sourceinfo',['SourceInfo',['../classcpp_1_1static__reflection_1_1meta_1_1_source_info.html',1,'cpp::static_reflection::meta']]],
@@ -37,6 +36,6 @@ var searchData=
   ['stdoutline',['stdoutLine',['../classcpp_1_1_c_make_project.html#aceaea90bf1d90509c04914275ab7ba3d',1,'cpp::CMakeProject::stdoutLine()'],['../classcpp_1_1_c_make_target.html#aedcf2f2da4510d1b81169107e6a6374e',1,'cpp::CMakeTarget::stdoutLine()']]],
   ['storage',['storage',['../classcpp_1_1_fixed_size_storage.html#a8cfa3add6823e441b397161142235f20',1,'cpp::FixedSizeStorage::storage(cpp::typeerasure::TypeInfo typeInfo) const '],['../classcpp_1_1_fixed_size_storage.html#a483f3ae5ce23adf83f91fa02bcfbfb1c',1,'cpp::FixedSizeStorage::storage(cpp::typeerasure::TypeInfo typeInfo)'],['../classcpp_1_1_const_non_owning_storage.html#ae94061cde217809b57c5381e4835e48c',1,'cpp::ConstNonOwningStorage::storage()'],['../classcpp_1_1_non_owning_storage.html#a178e7916a80469f864bf90e9d98aa3c4',1,'cpp::NonOwningStorage::storage()']]],
   ['symbol',['Symbol',['../classcpp_1_1_dynamic_library_1_1_symbol.html',1,'cpp::DynamicLibrary']]],
-  ['syncsink',['SyncSink',['../classcpp_1_1_sync_sink.html#a87c58a6a826c13765db34e722435127a',1,'cpp::SyncSink::SyncSink(Caller &amp;caller, Function function)'],['../classcpp_1_1_sync_sink.html#ac016584f59da637a8e99b1e146fb8a3b',1,'cpp::SyncSink::SyncSink(Caller &amp;caller, Callee &amp;callee, Function function)']]],
-  ['syncsink',['SyncSink',['../classcpp_1_1_sync_sink.html',1,'cpp']]]
+  ['syncsink',['SyncSink',['../classcpp_1_1_sync_sink.html',1,'cpp']]],
+  ['syncsink',['SyncSink',['../classcpp_1_1_sync_sink.html#a87c58a6a826c13765db34e722435127a',1,'cpp::SyncSink::SyncSink(Caller &amp;caller, Function function)'],['../classcpp_1_1_sync_sink.html#ac016584f59da637a8e99b1e146fb8a3b',1,'cpp::SyncSink::SyncSink(Caller &amp;caller, Callee &amp;callee, Function function)']]]
 ];
