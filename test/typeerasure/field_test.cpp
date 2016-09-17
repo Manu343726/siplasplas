@@ -20,15 +20,15 @@ TEST(FieldTest, referencesRightMemberObject)
 
     Class object;
 
-    EXPECT_EQ(TypeInfo::get<std::string>(), stringField8.get(object).typeInfo());
-    EXPECT_EQ(TypeInfo::get<std::string>(), stringField16.get(object).typeInfo());
-    EXPECT_EQ(TypeInfo::get<std::string>(), stringField32.get(object).typeInfo());
-    EXPECT_EQ(TypeInfo::get<std::string>(), stringField64.get(object).typeInfo());
+    EXPECT_EQ(::cpp::typeerasure::TypeInfo::get<std::string>(), stringField8.get(object).typeInfo());
+    EXPECT_EQ(::cpp::typeerasure::TypeInfo::get<std::string>(), stringField16.get(object).typeInfo());
+    EXPECT_EQ(::cpp::typeerasure::TypeInfo::get<std::string>(), stringField32.get(object).typeInfo());
+    EXPECT_EQ(::cpp::typeerasure::TypeInfo::get<std::string>(), stringField64.get(object).typeInfo());
 
-    EXPECT_EQ(TypeInfo::get<int>(), intField8.get(object).typeInfo());
-    EXPECT_EQ(TypeInfo::get<int>(), intField16.get(object).typeInfo());
-    EXPECT_EQ(TypeInfo::get<int>(), intField32.get(object).typeInfo());
-    EXPECT_EQ(TypeInfo::get<int>(), intField64.get(object).typeInfo());
+    EXPECT_EQ(::cpp::typeerasure::TypeInfo::get<int>(), intField8.get(object).typeInfo());
+    EXPECT_EQ(::cpp::typeerasure::TypeInfo::get<int>(), intField16.get(object).typeInfo());
+    EXPECT_EQ(::cpp::typeerasure::TypeInfo::get<int>(), intField32.get(object).typeInfo());
+    EXPECT_EQ(::cpp::typeerasure::TypeInfo::get<int>(), intField64.get(object).typeInfo());
 
 
     EXPECT_EQ(&object.str, &stringField8.getAs<std::string>(object));
