@@ -14,13 +14,33 @@ namespace cpp
         namespace meta
         {
             template <typename SourceInfo_, typename Class_, typename Methods_, typename Fields_, typename Constructors_, typename Classes_, typename Enums_>
-            class Class;
+            class Class
+            {
+            public:
+                using class_type = Class_;
+                
+                using type = class_type;
+                
+                using SourceInfo = SourceInfo_;
+                
+                using Methods = Methods_;
+                
+                using Fields = Fields_;
+                
+                using Constructors = Constructors_;
+                
+                using Classes = Classes_;
+                
+                using Enums = Enums_;
+            };
         }
         
         namespace codegen
         {
             template <typename T>
-            class Class;
+            class Class
+            : public static_reflection::meta::Class<static_reflection::meta::EmptySourceInfo<T>, T, ::cpp::meta::list<>, ::cpp::meta::list<>, ::cpp::meta::list<>, ::cpp::meta::list<>, ::cpp::meta::list<> >
+            {};
         }
         
         template <typename T>
@@ -29,7 +49,7 @@ namespace cpp
 }
 ```
 
-## Class template `cpp::static_reflection::Class<T>`<a id="cpp::static_reflection::Class<T>"></a>
+## Class template `cpp::static_reflection::Class<T>`<a id="cpp::static_reflection::Class__T__"></a>
 
 ``` cpp
 template <typename T>
@@ -44,7 +64,7 @@ This template returns (inherits) a cpp::static\_reflection::meta::Class instance
 
 See cpp::static\_reflection::meta::Class for the returned information.
 
-### Template parameter `cpp::static_reflection::Class<T>::T`<a id="cpp::static_reflection::Class<T>.T"></a>
+### Template parameter `cpp::static_reflection::Class<T>::T`<a id="cpp::static_reflection::Class__T__.T"></a>
 
 ``` cpp
 typename T

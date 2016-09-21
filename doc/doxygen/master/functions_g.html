@@ -83,6 +83,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_func.html"><span>Functions</span></a></li>
       <li><a href="functions_vars.html"><span>Variables</span></a></li>
       <li><a href="functions_type.html"><span>Typedefs</span></a></li>
+      <li><a href="functions_rela.html"><span>Related&#160;Functions</span></a></li>
     </ul>
   </div>
   <div id="navrow4" class="tabs3">
@@ -145,27 +146,46 @@ $(document).ready(function(){initNavTree('functions_g.html','');});
 <h3><a class="anchor" id="index_g"></a>- g -</h3><ul>
 <li>get()
 : <a class="el" href="classcpp_1_1_any_arg.html#a73b2f2009c33fa3de1cb57a38dc05c74">cpp::AnyArg</a>
+, <a class="el" href="classcpp_1_1dynamic__reflection_1_1_field.html#abc9fd788119fc02fb56e0481ba848e92">cpp::dynamic_reflection::Field</a>
 , <a class="el" href="classcpp_1_1_dynamic_library_1_1_symbol.html#a6005d5c25e4dd3e027a044f5f87888df">cpp::DynamicLibrary::Symbol</a>
 , <a class="el" href="classcpp_1_1_simple_any.html#a82cfcf4cb1157c8c7bdc8186830feefd">cpp::SimpleAny&lt; Storage &gt;</a>
 , <a class="el" href="classcpp_1_1_simple_any_3_01_const_non_owning_storage_01_4.html#ae9c2936f9e2b27ee6bc15525e1befa15">cpp::SimpleAny&lt; ConstNonOwningStorage &gt;</a>
-, <a class="el" href="classcpp_1_1_simple_any_3_01_non_owning_storage_01_4.html#a5b2d560bb2349a7d14a93bb3edf210ac">cpp::SimpleAny&lt; NonOwningStorage &gt;</a>
-, <a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_field.html#a3a5d23778df549b035d239799d582f4a">cpp::static_reflection::meta::Field&lt; SourceInfo, F, field &gt;</a>
+, <a class="el" href="classcpp_1_1_simple_any_3_01_non_owning_storage_01_4.html#a7210da4d11be74a305e080add893c099">cpp::SimpleAny&lt; NonOwningStorage &gt;</a>
+, <a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_field.html#aca04c03480e05ecd814de343eadd7cc0">cpp::static_reflection::meta::Field&lt; SourceInfo, F, field &gt;</a>
 , <a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_function.html#a34ff2eb587307610ee377070f9bf53e3">cpp::static_reflection::meta::Function&lt; SourceInfo, FunctionType, function &gt;</a>
-, <a class="el" href="classcpp_1_1typeerasure_1_1_field.html#af56af8eafd81c4434a07cd339de9cdd0">cpp::typeerasure::Field&lt; Storage, ObjectArgStorage &gt;</a>
-, <a class="el" href="classcpp_1_1typeerasure_1_1_function.html#a12ec581dda84b2c4986812f45685c405">cpp::typeerasure::Function&lt; Storage, ArgsStorage, ReturnStorage &gt;</a>
+, <a class="el" href="classcpp_1_1typeerasure_1_1_field.html#a6ac81cd5b2afdd84de2f8687c0f1399a">cpp::typeerasure::Field&lt; Storage, ObjectArgStorage &gt;</a>
+, <a class="el" href="classcpp_1_1typeerasure_1_1_function.html#a4329eb727c966447cb413e82dfa23359">cpp::typeerasure::Function&lt; Storage, ArgsStorage, ReturnStorage &gt;</a>
 , <a class="el" href="classcpp_1_1typeerasure_1_1_type_info.html#ab3e9550b8ffcdc14408ccabeac420ca0">cpp::typeerasure::TypeInfo</a>
 , <a class="el" href="classcpp_1_1_universal_reference.html#a6bc46b0cce455ab055159c9628b9d545">cpp::UniversalReference&lt; T, IsLvalueReference, IsConst &gt;</a>
 , <a class="el" href="classcpp_1_1_universal_reference_3_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_t_00_01317da0ee22d68a1b11e0bf5e76ec5679.html#ae0567f0910c5bf735702b1ad41a9f272">cpp::UniversalReference&lt;                  T,           false,           false &gt;</a>
 , <a class="el" href="classcpp_1_1_universal_reference_3_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_t_00_013d7c84b76fe12a69d69f1a3494ce1211.html#a5485d2725aaf9d2ae4f0e717bc3bd12d">cpp::UniversalReference&lt;                  T,           true,           false &gt;</a>
 </li>
 <li>getAs()
-: <a class="el" href="classcpp_1_1typeerasure_1_1_field.html#a17ec6fc644ac9373e0b4494e30e6afc3">cpp::typeerasure::Field&lt; Storage, ObjectArgStorage &gt;</a>
+: <a class="el" href="classcpp_1_1typeerasure_1_1_field.html#aeda07fdbb06abef7fc89a23412b73256">cpp::typeerasure::Field&lt; Storage, ObjectArgStorage &gt;</a>
+</li>
+<li>getChildByFullName()
+: <a class="el" href="classcpp_1_1dynamic__reflection_1_1_entity.html#a54649753088c68a9b9dc55c14887f018">cpp::dynamic_reflection::Entity</a>
+</li>
+<li>getChildByName()
+: <a class="el" href="classcpp_1_1dynamic__reflection_1_1_entity.html#a894def7676b290f9bcec3a80cde8e0fd">cpp::dynamic_reflection::Entity</a>
+</li>
+<li>getChildrenNamesByKind()
+: <a class="el" href="classcpp_1_1dynamic__reflection_1_1_entity.html#a139bb416b085795c574124af1117bf18">cpp::dynamic_reflection::Entity</a>
+</li>
+<li>getEntity()
+: <a class="el" href="classcpp_1_1dynamic__reflection_1_1_runtime.html#ae039e5acdb56151e838cab1382a9774c">cpp::dynamic_reflection::Runtime</a>
+</li>
+<li>getField()
+: <a class="el" href="classcpp_1_1dynamic__reflection_1_1_field.html#a3ca534e6d1a2b08aeb2c844802ee0d8b">cpp::dynamic_reflection::Field</a>
+</li>
+<li>getFunction()
+: <a class="el" href="classcpp_1_1dynamic__reflection_1_1_function.html#abdccfaf1ee65472224eec85425e512fa">cpp::dynamic_reflection::Function</a>
 </li>
 <li>getObject()
 : <a class="el" href="classcpp_1_1_dynamic_library_1_1_symbol.html#a37d72e3094fe936c0570103f44018c0b">cpp::DynamicLibrary::Symbol</a>
 </li>
 <li>getReference()
-: <a class="el" href="classcpp_1_1_simple_any.html#a51cca3b55a686638d3735bf01b12dd32">cpp::SimpleAny&lt; Storage &gt;</a>
+: <a class="el" href="classcpp_1_1_simple_any.html#a2fc22ea0e86cd3a58fb758806ec3e174">cpp::SimpleAny&lt; Storage &gt;</a>
 </li>
 <li>getStorage()
 : <a class="el" href="classcpp_1_1_simple_any.html#aa033f3e9c04d4a36a0a23fc1bd8ed884">cpp::SimpleAny&lt; Storage &gt;</a>

@@ -83,6 +83,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions_func.html"><span>Functions</span></a></li>
       <li><a href="functions_vars.html"><span>Variables</span></a></li>
       <li><a href="functions_type.html"><span>Typedefs</span></a></li>
+      <li><a href="functions_rela.html"><span>Related&#160;Functions</span></a></li>
     </ul>
   </div>
   <div id="navrow4" class="tabs3">
@@ -149,12 +150,19 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 <li>caller()
 : <a class="el" href="classcpp_1_1_signal_sink.html#a63f40e31909da73b43110119c8830604">cpp::SignalSink</a>
 </li>
+<li>class_()
+: <a class="el" href="classcpp_1_1dynamic__reflection_1_1_class.html#a2d5b584f9f21952c8e9f379cec0d79d0">cpp::dynamic_reflection::Class</a>
+, <a class="el" href="classcpp_1_1dynamic__reflection_1_1_namespace.html#a0216669b4f4100b787778013d1b215ed">cpp::dynamic_reflection::Namespace</a>
+</li>
 <li>class_type
 : <a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_field.html#a69a2241a92ba062d07f6ea3444bcb8d0">cpp::static_reflection::meta::Field&lt; SourceInfo, F, field &gt;</a>
 , <a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_function.html#a348bc5694ae575fdf5e3cc9f122dced6">cpp::static_reflection::meta::Function&lt; SourceInfo, FunctionType, function &gt;</a>
 </li>
 <li>Classes
 : <a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_class.html#a6dcb5c425c0efda67278a31c05fa5fb1">cpp::static_reflection::meta::Class</a>
+</li>
+<li>clear()
+: <a class="el" href="classcpp_1_1dynamic__reflection_1_1_runtime.html#a150abe0ae88211bc74d46626579552cf">cpp::dynamic_reflection::Runtime</a>
 </li>
 <li>CMakeProject()
 : <a class="el" href="classcpp_1_1_c_make_project.html#a2c5c7b0287a2703aea4a887147f7c268">cpp::CMakeProject</a>
@@ -172,7 +180,7 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 : <a class="el" href="classcpp_1_1_signal_emitter.html#a066ef1c17fd4550eed4bb11436af3e33">cpp::SignalEmitter</a>
 </li>
 <li>connect_async()
-: <a class="el" href="classcpp_1_1_signal_emitter.html#a154d13b2bcf5f8bbf997b5172284b486">cpp::SignalEmitter</a>
+: <a class="el" href="classcpp_1_1_signal_emitter.html#a74547169c5a7375e9812e966efb2d3fd">cpp::SignalEmitter</a>
 </li>
 <li>ConstNonOwningStorage()
 : <a class="el" href="classcpp_1_1_const_non_owning_storage.html#ac83a24e137098b2391aa4d3f465dfc5a">cpp::ConstNonOwningStorage</a>
@@ -187,10 +195,16 @@ $(document).ready(function(){initNavTree('functions_c.html','');});
 : <a class="el" href="classcpp_1_1typeerasure_1_1_type_info.html#ad705ae1b03a3084326a26dedcd25c386">cpp::typeerasure::TypeInfo</a>
 </li>
 <li>count()
-: <a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_enum.html#af835df471b4bea9def25732843b5c25b">cpp::static_reflection::meta::Enum&lt; SourceInfo, EnumType, Constants, ConstantsNames &gt;</a>
+: <a class="el" href="classcpp_1_1dynamic__reflection_1_1_enum.html#a2db3878244d7aa98ec2125b4a53d1f3d">cpp::dynamic_reflection::Enum</a>
+, <a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_enum.html#af835df471b4bea9def25732843b5c25b">cpp::static_reflection::meta::Enum&lt; SourceInfo, EnumType, Constants, ConstantsNames &gt;</a>
 </li>
 <li>create()
-: <a class="el" href="classcpp_1_1_simple_any.html#aefc4c44055e1f138368566631665fed5">cpp::SimpleAny&lt; Storage &gt;</a>
+: <a class="el" href="classcpp_1_1dynamic__reflection_1_1_class.html#a4226401bebe03ba6ee202c0acbc7deea">cpp::dynamic_reflection::Class</a>
+, <a class="el" href="classcpp_1_1dynamic__reflection_1_1_enum.html#a7512f5c8824499a14c86866fb2e3ff2f">cpp::dynamic_reflection::Enum</a>
+, <a class="el" href="classcpp_1_1dynamic__reflection_1_1_field.html#a97cb7b44d08204088f0c80623468bdf7">cpp::dynamic_reflection::Field</a>
+, <a class="el" href="classcpp_1_1dynamic__reflection_1_1_function.html#a753839702ad2b29a044d31b99e934503">cpp::dynamic_reflection::Function</a>
+, <a class="el" href="classcpp_1_1dynamic__reflection_1_1_namespace.html#abccdf64528ca9694cbc6575bdabc9287">cpp::dynamic_reflection::Namespace</a>
+, <a class="el" href="classcpp_1_1_simple_any.html#aefc4c44055e1f138368566631665fed5">cpp::SimpleAny&lt; Storage &gt;</a>
 , <a class="el" href="classcpp_1_1_simple_any_3_01_const_non_owning_storage_01_4.html#afe44f60fe0a3b0161008873118b78954">cpp::SimpleAny&lt; ConstNonOwningStorage &gt;</a>
 , <a class="el" href="classcpp_1_1_simple_any_3_01_non_owning_storage_01_4.html#aad3ce1ee2ca2051297b3cb292f89ef3b">cpp::SimpleAny&lt; NonOwningStorage &gt;</a>
 , <a class="el" href="classcpp_1_1typeerasure_1_1_function.html#a506122a87fc02437e43fd3dca41f9c07">cpp::typeerasure::Function&lt; Storage, ArgsStorage, ReturnStorage &gt;</a>

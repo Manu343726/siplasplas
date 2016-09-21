@@ -1,6 +1,7 @@
 var searchData=
 [
   ['class',['Class',['../classcpp_1_1static__reflection_1_1meta_1_1_class.html',1,'cpp::static_reflection::meta']]],
+  ['class',['Class',['../classcpp_1_1dynamic__reflection_1_1_class.html',1,'cpp::dynamic_reflection']]],
   ['class',['Class',['../classcpp_1_1static__reflection_1_1_class.html',1,'cpp::static_reflection']]],
   ['class_3c_20static_5freflection_3a_3ameta_3a_3aemptysourceinfo_3c_20t_20_3e_2c_20t_2c_3a_3acpp_3a_3ameta_3a_3alist_3c_3e_2c_3a_3acpp_3a_3ameta_3a_3alist_3c_3e_2c_3a_3acpp_3a_3ameta_3a_3alist_3c_3e_2c_3a_3acpp_3a_3ameta_3a_3alist_3c_3e_2c_3a_3acpp_3a_3ameta_3a_3alist_3c_3e_20_3e',['Class&lt; static_reflection::meta::EmptySourceInfo&lt; T &gt;, T,::cpp::meta::list&lt;&gt;,::cpp::meta::list&lt;&gt;,::cpp::meta::list&lt;&gt;,::cpp::meta::list&lt;&gt;,::cpp::meta::list&lt;&gt; &gt;',['../classcpp_1_1static__reflection_1_1meta_1_1_class.html',1,'cpp::static_reflection::meta']]],
   ['cmakeproject',['CMakeProject',['../classcpp_1_1_c_make_project.html',1,'cpp']]],

@@ -5,6 +5,7 @@ var searchData=
   ['simpleany',['SimpleAny',['../classcpp_1_1_simple_any.html#ad9622e80d5d2991395173312d7fa1f5c',1,'cpp::SimpleAny::SimpleAny()'],['../classcpp_1_1_simple_any.html#a22cef4cc08916eb2ae6c7eab642092c8',1,'cpp::SimpleAny::SimpleAny(const cpp::typeerasure::TypeInfo &amp;typeInfo)'],['../classcpp_1_1_simple_any.html#ac9485d4f854ab202f1dc48cdf5b05c97',1,'cpp::SimpleAny::SimpleAny(const T &amp;value)'],['../classcpp_1_1_any.html#afd7619586d59cf1dd1538351c40fd97c',1,'cpp::Any::simpleAny()'],['../classcpp_1_1_any.html#a31f86f6e070fd79fa937c791fb682c52',1,'cpp::Any::simpleAny() const ']]],
   ['size',['size',['../classcpp_1_1_fixed_size_storage.html#a46434c28c10c8c1eca53e6ec461c65cb',1,'cpp::FixedSizeStorage']]],
   ['sourcedir',['sourceDir',['../classcpp_1_1_c_make_project.html#a287a0a3fc1a7041e05b654f9e14d1f61',1,'cpp::CMakeProject']]],
+  ['sourceinfo',['sourceInfo',['../classcpp_1_1dynamic__reflection_1_1_entity.html#a6d8f552a011d10fa640efc972a5ed34a',1,'cpp::dynamic_reflection::Entity']]],
   ['spelling',['spelling',['../classcpp_1_1static__reflection_1_1meta_1_1_source_info.html#a30fdf48a1231490daae71d5599bda490',1,'cpp::static_reflection::meta::SourceInfo']]],
   ['startwatch',['startWatch',['../classcpp_1_1_c_make_project.html#ae50f1dac1dff13c0ca09aa39bd333200',1,'cpp::CMakeProject']]],
   ['staticif',['staticIf',['../group__utility.html#ga654d1cbd2f4b0fdd4abaf8213893fbd3',1,'cpp']]],

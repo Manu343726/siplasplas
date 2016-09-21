@@ -42,6 +42,13 @@ var hierarchy =
     [ "cpp::DummyAssertExpression", "classcpp_1_1_dummy_assert_expression.html", null ],
     [ "cpp::DynamicLibrary", "classcpp_1_1_dynamic_library.html", null ],
     [ "cpp::SimpleAny< Storage >::EmptyTag", "structcpp_1_1_simple_any_1_1_empty_tag.html", null ],
+    [ "cpp::dynamic_reflection::Entity", "classcpp_1_1dynamic__reflection_1_1_entity.html", [
+      [ "cpp::dynamic_reflection::Class", "classcpp_1_1dynamic__reflection_1_1_class.html", null ],
+      [ "cpp::dynamic_reflection::Enum", "classcpp_1_1dynamic__reflection_1_1_enum.html", null ],
+      [ "cpp::dynamic_reflection::Field", "classcpp_1_1dynamic__reflection_1_1_field.html", null ],
+      [ "cpp::dynamic_reflection::Function", "classcpp_1_1dynamic__reflection_1_1_function.html", null ],
+      [ "cpp::dynamic_reflection::Namespace", "classcpp_1_1dynamic__reflection_1_1_namespace.html", null ]
+    ] ],
     [ "cpp::static_reflection::meta::Enum< SourceInfo, EnumType, Constants, ConstantsNames >", "classcpp_1_1static__reflection_1_1meta_1_1_enum.html", null ],
     [ "cpp::static_reflection::Enum< EnumType >", "classcpp_1_1static__reflection_1_1_enum.html", null ],
     [ "cpp::static_reflection::meta::Enum< static_reflection::meta::EmptySourceInfo< Enum< EnumType > >, EnumType,::cpp::meta::list< std::integral_constant< EnumType, static_cast< EnumType >(0)> >,::cpp::meta::list< ::cpp::meta::string<> > >", "classcpp_1_1static__reflection_1_1meta_1_1_enum.html", null ],
@@ -66,6 +73,8 @@ var hierarchy =
     ] ],
     [ "cpp::features::OStreamable", "classcpp_1_1features_1_1_o_streamable.html", null ],
     [ "cpp::RawHash< T >", "classcpp_1_1_raw_hash.html", null ],
+    [ "cpp::dynamic_reflection::Runtime", "classcpp_1_1dynamic__reflection_1_1_runtime.html", null ],
+    [ "cpp::dynamic_reflection::RuntimeLoader", "classcpp_1_1dynamic__reflection_1_1_runtime_loader.html", null ],
     [ "cpp::SignalEmitter", "classcpp_1_1_signal_emitter.html", [
       [ "cpp::CMakeProject", "classcpp_1_1_c_make_project.html", null ],
       [ "cpp::CMakeTarget", "classcpp_1_1_c_make_target.html", null ],

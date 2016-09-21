@@ -17,6 +17,16 @@ var annotated_dup =
       [ "detail", null, [
         [ "If", "classcpp_1_1detail_1_1_if.html", "classcpp_1_1detail_1_1_if" ]
       ] ],
+      [ "dynamic_reflection", null, [
+        [ "Class", "classcpp_1_1dynamic__reflection_1_1_class.html", "classcpp_1_1dynamic__reflection_1_1_class" ],
+        [ "Entity", "classcpp_1_1dynamic__reflection_1_1_entity.html", "classcpp_1_1dynamic__reflection_1_1_entity" ],
+        [ "Enum", "classcpp_1_1dynamic__reflection_1_1_enum.html", "classcpp_1_1dynamic__reflection_1_1_enum" ],
+        [ "Field", "classcpp_1_1dynamic__reflection_1_1_field.html", "classcpp_1_1dynamic__reflection_1_1_field" ],
+        [ "Function", "classcpp_1_1dynamic__reflection_1_1_function.html", "classcpp_1_1dynamic__reflection_1_1_function" ],
+        [ "Namespace", "classcpp_1_1dynamic__reflection_1_1_namespace.html", "classcpp_1_1dynamic__reflection_1_1_namespace" ],
+        [ "Runtime", "classcpp_1_1dynamic__reflection_1_1_runtime.html", "classcpp_1_1dynamic__reflection_1_1_runtime" ],
+        [ "RuntimeLoader", "classcpp_1_1dynamic__reflection_1_1_runtime_loader.html", "classcpp_1_1dynamic__reflection_1_1_runtime_loader" ]
+      ] ],
       [ "features", null, [
         [ "IStreamable", "classcpp_1_1features_1_1_i_streamable.html", null ],
         [ "OStreamable", "classcpp_1_1features_1_1_o_streamable.html", null ]
