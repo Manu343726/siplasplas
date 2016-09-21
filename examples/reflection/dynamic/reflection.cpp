@@ -54,6 +54,19 @@ void loadClass(Runtime& runtime)
 int main()
 {
     Runtime runtime{"reflection example"};
+    runtime.addEntity(
+        cpp::dynamic_reflection::Function::create(
+            cpp::dynamic_reflection::SourceInfo(
+                "::freePlainFunction",
+                cpp::dynamic_reflection::Kind::FUNCTION,
+                "freePlainFunction",
+                "freePlainFunction()",
+                "examples/reflection/dynamic/reflection.cpp",
+                13
+            ),
+            cpp::typeerasure::Function32(freePlainFunction)
+        )
+    );
 
     loadClass<MyClass>(runtime);
 

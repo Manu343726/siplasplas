@@ -28,7 +28,15 @@ template<bool Result, bool NoExcept = false>
 class Concept : public std::integral_constant<bool, Result>
 {
 public:
+    /**
+     * \brief Returns whether the concept implementation (feature) is noexcept or not
+     */
     static constexpr bool no_except = NoExcept;
+
+    /**
+     * \brief Concept result. True if the concept is satisfied, false otherwise
+     */
+    static constexpr bool vakue = Result;
 };
 
 template<bool Result, bool NoExcept>

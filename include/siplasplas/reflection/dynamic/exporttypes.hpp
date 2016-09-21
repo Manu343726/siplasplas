@@ -198,6 +198,19 @@ void loadTypes(
 
 }
 
+/**
+ * \ingroup dynamic-reflection
+ * \brief Exports dynamic reflection information of the given types
+ *
+ * This macro defines a C API function to load dynamic
+ * reflection information of the given types across DLLs.
+ *
+ * cpp::dynamic_reflection::RuntimeLoader class takes a dynamic library
+ * loaded at runtime and uses this exported C API to load type information
+ * into a cpp::dynamic_reflection::Runtime object.
+ *
+ * \param Variadic pack of types to export
+ */
 #define SIPLASPLAS_REFLECTION_DYNAMIC_EXPORT_TYPES(...)               \
 extern "C" void SIPLASPLAS_REFLECTION_DYNAMIC_LOADTYPES(              \
     void* context,                                                    \

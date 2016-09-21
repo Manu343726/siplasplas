@@ -13,6 +13,35 @@
 
 #include <siplasplas/reflection/common/annotations.hpp>
 
+/**
+ * \ingroup reflection
+ * \defgroup dynamic-reflection
+ * \brief Access to dynamic reflection information
+ *
+ * # Examples:
+ *
+ *  - \link examples/reflection/dynamic/plugin.cpp\endlink
+ *  - \link examples/reflection/dynamic/reflection.cpp\endlink
+ */
+
+/**
+ * \ingroup dynamic-reflection
+ * \example examples/reflection/dynamic/plugin.cpp
+ *
+ * This example shows how the siplasplas-reflection-dynamic
+ * API can be used to export library API types and functions,
+ * and be loaded at runtime after loading the library
+ */
+
+/**
+ * \ingroup dynamic-reflection
+ * \example examples/reflection/dynamic/reflection.cpp
+ *
+ * SHows the basics of the dynamic reflection API: How to
+ * register entities, reference types, instance objects,
+ * etc.
+ */
+
 namespace cpp
 {
 

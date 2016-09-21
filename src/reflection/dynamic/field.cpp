@@ -4,6 +4,16 @@
 using namespace cpp;
 using namespace cpp::dynamic_reflection;
 
+std::shared_ptr<Field> Field::create(const SourceInfo& sourceInfo, const cpp::typeerasure::Field32& field)
+{
+    return std::shared_ptr<Field>{ new Field{sourceInfo, field} };
+}
+
+Field::Field(const SourceInfo& sourceInfo, const cpp::typeerasure::Field32& field) :
+    Entity{sourceInfo},
+    _field{field}
+{}
+
 const cpp::typeerasure::Field32& Field::getField() const
 {
     return _field;
