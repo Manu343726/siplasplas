@@ -97,17 +97,17 @@ template<typename... Ts>
 nlohmann::json serialize(const std::tuple<Ts...>& value)
 {
     auto json  = nlohmann::json::object();
-    auto array = nlohmann::json::array();
+    auto map   = nlohmann::json::object();
 
     cpp::foreach_type<cpp::meta::make_index_sequence_for<Ts...>>([&](auto type)
     {
         using Index = cpp::meta::type_t<decltype(type)>;
 
-        array.push_back(serialize(std::get<Index::value>(value)));
+        map[std::to_string(Index::value)] = serialize(std::get<Index::value>(value));
     });
 
     json["type"]  = cpp::lexical_cast(ctti::type_id(value).name());
-    json["value"] = array;
+    json["value"] = map;
 
     return json;
 }
@@ -175,6 +175,12 @@ std::enable_if_t<std::is_class<T>::value, nlohmann::json> serialize(const T& obj
     {
         using FieldInfo = cpp::meta::type_t<decltype(type)>;
 
+        fmt::print("In class {}, field {} (Type: {})\n",
+            ctti::type_id<T>().name(),
+            FieldInfo::SourceInfo::spelling(),
+            ctti::type_id<typename FieldInfo::value_type>().name()
+        );
+
         // We use the spelling of the field as key, and the serialized value as value:
         fields[FieldInfo::SourceInfo::spelling()] = serialize(
             cpp::invoke(FieldInfo::get(), object) // C++17 std::invoke() on member object ptr
@@ -237,6 +243,12 @@ public:
         {
             using FieldInfo = cpp::meta::type_t<decltype(type)>;
             using Type = typename FieldInfo::value_type;
+
+            fmt::print("Deserializing {} (Type: {}, Stored type: {})\n",
+                ctti::type_id<T>().name(),
+                ctti::type_id<Type>().name(),
+                fields[FieldInfo::SourceInfo::spelling()]["type"].template get<std::string>()
+            );
 
             cpp::invoke(FieldInfo::get(), object) = Deserialize<Type>::apply(fields[FieldInfo::SourceInfo::spelling()]);
         });
@@ -308,7 +320,7 @@ class Deserialize<std::tuple<Ts...>, void>
 public:
     static std::tuple<Ts...> apply(const nlohmann::json& json)
     {
-        SIPLASPLAS_ASSERT(json["value"].is_array());
+        SIPLASPLAS_ASSERT(json["value"].is_object());
         SIPLASPLAS_ASSERT_EQ(json["type"].get<std::string>(), cpp::lexical_cast(ctti::type_id<std::tuple<Ts...>>().name()));
 
         std::tuple<Ts...> tuple;
@@ -317,7 +329,7 @@ public:
         {
             using Index = cpp::meta::type_t<decltype(type)>;
 
-            std::get<Index::value>(tuple) = Deserialize<cpp::meta::pack_get_t<Index::value, Ts...>>::apply(json["value"][Index::value]);
+            std::get<Index::value>(tuple) = Deserialize<cpp::meta::pack_get_t<Index::value, Ts...>>::apply(json["value"][std::to_string(Index::value)]);
         });
 
         return tuple;
