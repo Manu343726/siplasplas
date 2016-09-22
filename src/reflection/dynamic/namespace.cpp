@@ -1,19 +1,20 @@
 #include "namespace.hpp"
 #include "runtime.hpp"
 #include <siplasplas/utility/string.hpp>
+#include <siplasplas/utility/assert.hpp>
 
 using namespace cpp;
 using namespace dynamic_reflection;
 
-Namespace::Namespace(const Namespace::Metadata& metadata) :
-    Entity(metadata)
+Namespace::Namespace(const SourceInfo& sourceInfo) :
+    Entity(sourceInfo)
 {
-    assert(metadata.kind() == SourceInfo::Kind::NAMESPACE);
+    SIPLASPLAS_ASSERT(sourceInfo.kind() == SourceInfo::Kind::NAMESPACE);
 }
 
-std::shared_ptr<Namespace> Namespace::create(const Namespace::Metadata& metadata)
+std::shared_ptr<Namespace> Namespace::create(const SourceInfo& sourceInfo)
 {
-    return std::shared_ptr<Namespace>{new Namespace(metadata)};
+    return std::shared_ptr<Namespace>{new Namespace(sourceInfo)};
 }
 
 Namespace& Namespace::fromEntity(const std::shared_ptr<Entity>& entity)
