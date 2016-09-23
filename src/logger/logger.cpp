@@ -18,7 +18,7 @@ std::shared_ptr<spdlog::sinks::rotating_file_sink_mt> Logger::createSink(const s
 {
     constexpr std::size_t LOGGER_BUFFER_LENGTH = 1024*1024;
     constexpr std::size_t LOGGER_FILES_MAX = 10;
-    return std::make_shared<spdlog::sinks::rotating_file_sink_mt>(name,  + "siplasplas.log", LOGGER_BUFFER_LENGTH, LOGGER_FILES_MAX, FORCE_FLUSH);
+    return std::make_shared<spdlog::sinks::rotating_file_sink_mt>(name,  "siplasplas.log", LOGGER_BUFFER_LENGTH, LOGGER_FILES_MAX);
 }
 
 std::shared_ptr<spdlog::sinks::dist_sink_mt>& Logger::commonSink()
