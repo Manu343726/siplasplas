@@ -94,7 +94,7 @@ if(SIPLASPLAS_DOWNLOAD_LIBCLANG)
 
     if(NOT EXISTS "${package_path}")
         message(STATUS "Downloading libclang ${SIPLASPLAS_LIBCLANG_VERSION} from \"${url}\"...")
-        if(SIPLASPLAS_VERBOSE_CONFIG)
+        if(NOT SIPLASPLAS_CI_BUILD)
             set(progress SHOW_PROGRESS)
         endif()
 
