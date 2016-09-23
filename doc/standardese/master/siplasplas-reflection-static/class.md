@@ -64,12 +64,8 @@ This template returns (inherits) a cpp::static\_reflection::meta::Class instance
 
 See cpp::static\_reflection::meta::Class for the returned information.
 
-### Template parameter `cpp::static_reflection::Class<T>::T`<a id="cpp::static_reflection::Class__T__.T"></a>
+**Parameters:**
 
-``` cpp
-typename T
-```
-
-Must be a class type.
+  - <a id="cpp::static_reflection::Class__T__.T"></a>`T` - Must be a class type.
 
 -----

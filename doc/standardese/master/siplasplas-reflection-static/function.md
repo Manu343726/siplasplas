@@ -143,12 +143,8 @@ Returns static reflection information of a function
 
 See cpp::static\_reflection::meta::Function for the specific information returned
 
-### Template parameter `cpp::static_reflection::Function<FunctionType, function>::function`<a id="cpp::static_reflection::Function__FunctionType, function__.function"></a>
+**Parameters:**
 
-``` cpp
-FunctionType function
-```
-
-Pointer to the function
+  - <a id="cpp::static_reflection::Function__FunctionType, function__.function"></a>`function` - Pointer to the function
 
 -----

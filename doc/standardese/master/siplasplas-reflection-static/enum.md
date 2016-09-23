@@ -74,12 +74,8 @@ Returns static reflection information of the given enumeration type.
 
 See cpp::static\_reflection::meta::Enum template for the returned information.
 
-### Template parameter `cpp::static_reflection::Enum<EnumType>::EnumType`<a id="cpp::static_reflection::Enum__EnumType__.EnumType"></a>
+**Parameters:**
 
-``` cpp
-typename EnumType
-```
-
-Must be an enumeration type. The behavior is undefined otherwise.
+  - <a id="cpp::static_reflection::Enum__EnumType__.EnumType"></a>`EnumType` - Must be an enumeration type. The behavior is undefined otherwise.
 
 -----

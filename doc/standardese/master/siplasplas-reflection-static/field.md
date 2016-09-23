@@ -60,22 +60,10 @@ Returns static reflection information of a given pointer to member object
 
 See cpp::static\_reflection::meta::Field for specific informatio about the returned information
 
-### Template parameter `cpp::static_reflection::Field<FieldType, field>::FieldType`<a id="cpp::static_reflection::Field__FieldType, field__.FieldType"></a>
+**Parameters:**
 
-``` cpp
-typename FieldType
-```
+  - <a id="cpp::static_reflection::Field__FieldType, field__.FieldType"></a>`FieldType` - Type of the pointer to member object, i.e.  `T Class::*`
 
-Type of the pointer to member object, i.e. 
-
-`T Class::*`
-
-### Template parameter `cpp::static_reflection::Field<FieldType, field>::field`<a id="cpp::static_reflection::Field__FieldType, field__.field"></a>
-
-``` cpp
-FieldType field
-```
-
-Pointer to member object
+  - <a id="cpp::static_reflection::Field__FieldType, field__.field"></a>`field` - Pointer to member object
 
 -----
