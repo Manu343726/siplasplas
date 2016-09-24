@@ -9,13 +9,13 @@ CMAKE_EXTRA_ARGS
 	-DSTATIC_LIB=ON
 COMPILE_OPTIONS
 	${fPIC}
+HEADER_DIRS
+    include/efsw
 )
 
 add_siplasplas_thirdparty_component(efsw DEFAULT
 THIRD_PARTY
     efsw
-INCLUDE_DIRS
-    include/
 )
 
 find_package(Threads REQUIRED)

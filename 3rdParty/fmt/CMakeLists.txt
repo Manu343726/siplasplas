@@ -10,8 +10,8 @@ COMPILE_OPTIONS
 CMAKE_EXTRA_ARGS
     -DCMAKE_VERBOSE_MAKEFILE=ON
     -DFMT_TEST=OFF
-INCLUDE_DIRS
-    .
+HEADER_DIRS
+    fmt
 )
 
 add_siplasplas_thirdparty_component(fmt DEFAULT

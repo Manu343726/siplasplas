@@ -32,7 +32,7 @@ endfunction()
 function(add_siplasplas_thirdparty NAME)
     set(options HEADER_ONLY SKIP_CONFIGURE_STEP SKIP_BUILD_STEP RENAME)
     set(oneValueArgs URL HG_REPOSITORY HG_TAG GIT_REPOSITORY GIT_TAG CONFIGURE_COMMAND BUILD_COMMAND OUTPUT_SOURCE_DIR OUTPUT_BINARY_DIR)
-    set(multiValueArgs DEPENDS INCLUDE_DIRS BINARIES COMPILE_OPTIONS COMPILE_DEFINITIONS EXTERNAL_PROJECT_EXTRA_ARGS CMAKE_ARGS CMAKE_EXTRA_ARGS)
+    set(multiValueArgs DEPENDS HEADER_DIRS BINARIES COMPILE_OPTIONS COMPILE_DEFINITIONS EXTERNAL_PROJECT_EXTRA_ARGS CMAKE_ARGS CMAKE_EXTRA_ARGS)
     cmake_parse_arguments(THIRDPARTY
         "${options}"
         "${oneValueArgs}"
@@ -138,10 +138,28 @@ function(add_siplasplas_thirdparty NAME)
     add_dependencies(${NAME} ${external})
 
     set(includedirs)
-    foreach(includedir ${THIRDPARTY_INCLUDE_DIRS})
-        list(APPEND includedirs
-            "${repodir}/${includedir}"
-            "${source_dir}/${includedir}"
+    foreach(dir ${THIRDPARTY_HEADER_DIRS})
+        list(APPEND includedirs "${source_dir}/${dir}/..")
+
+        install(
+            DIRECTORY "${source_dir}/${dir}" DESTINATION include/
+            FILES_MATCHING PATTERN "*.h"
+        )
+        install(
+            DIRECTORY "${source_dir}/${dir}" DESTINATION include/
+            FILES_MATCHING PATTERN "*.hpp"
+        )
+        install(
+            DIRECTORY "${source_dir}/${dir}" DESTINATION include/
+            FILES_MATCHING PATTERN "*.c"
+        )
+        install(
+            DIRECTORY "${source_dir}/${dir}" DESTINATION include/
+            FILES_MATCHING PATTERN "*.cc"
+        )
+        install(
+            DIRECTORY "${source_dir}/${dir}" DESTINATION include/
+            FILES_MATCHING PATTERN "*.cpp"
         )
     endforeach()
     target_include_directories(${NAME} INTERFACE ${includedirs})

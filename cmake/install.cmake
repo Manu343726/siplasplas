@@ -33,3 +33,6 @@ function(install_siplasplas_example EXAMPLE)
 endfunction()
 
 install(DIRECTORY "${CMAKE_SOURCE_DIR}/include/siplasplas" DESTINATION include/)
+install(DIRECTORY "${CMAKE_BINARY_DIR}/output/reflection" DESTINATION include/)
+install(DIRECTORY "${CMAKE_BINARY_DIR}/exports/siplasplas" DESTINATION include/)
+install(DIRECTORY "${CMAKE_BINARY_DIR}/exports/examples" DESTINATION include/)

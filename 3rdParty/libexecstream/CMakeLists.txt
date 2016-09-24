@@ -1,8 +1,8 @@
 add_siplasplas_thirdparty(libexecstream
 GIT_REPOSITORY
     "https://github.com/Manu343726/libexecstream"
-INCLUDE_DIRS
-    include/
+HEADER_DIRS
+    include/libexecstream
 )
 
 add_siplasplas_thirdparty_component(libexecstream DEFAULT

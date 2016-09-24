@@ -1,3 +1,7 @@
+if(NOT SIPLASPLAS_IMGUI_SFML_EXAMPLES_ENABLED)
+    return()
+endif()
+
 if(SIPLASPLAS_LIBRARIES_STATIC)
     set(type STATIC)
     set(SFML_STATIC_LIBRARIES TRUE)
@@ -57,7 +61,7 @@ if(WIN32)
     set(opengl ${OPENGL_LIBRARIES} opengl32)
 endif()
 
-add_siplasplas_library(imgui-sfml EXCLUDE_FROM_ALL
+add_siplasplas_library(imgui-sfml
 SOURCES
     imgui-sfml/imgui-SFML.cpp
     imgui-sfml/imgui.cpp

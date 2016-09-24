@@ -5,8 +5,8 @@ endif()
 add_siplasplas_thirdparty(chaiscript HEADER_ONLY
 URL
     "https://github.com/ChaiScript/ChaiScript/archive/v${CHAISCRIPT_VERSION}.zip"
-INCLUDE_DIRS
-    include/
+HEADER_DIRS
+    include/chaiscript
 )
 
 find_package(Threads REQUIRED)
