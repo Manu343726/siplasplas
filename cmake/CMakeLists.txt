@@ -5,6 +5,7 @@ FILES
     pip.cmake
     FindLibClang.cmake
     FindPythonPip.cmake
+    FindSiplasplas.cmake
     siplasplas.cmake
 DESTINATION
     cmake/
