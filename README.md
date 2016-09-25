@@ -4,13 +4,192 @@ A library for C++ reflection and introspection
 
 ## Features
 
-TODO: Examples, more detailed list, etc
+### Reflection metadata
 
- - static reflection of C++ classes, enums, and functions
- - dynamic reflection of C++ namespaces, classes, enums, and functions
- - Multithread message passing (signals and slots)
- - cmake access API
- - Runtime C++ compilation (wip)
+All reflection metadata is processed by DRLParser, a python script
+that takes input about a proejct (Compilation options, include dirs, etc)
+and scans the project headers, generating C++ header files with
+the reflection information of the corresponding input header. All
+generated code is C++11 compatible.
+
+### CMake integration
+
+Users should not worry about DRLParser and its input, a set of cmake
+scripts is given to simplify reflection in user projects. Just include
+`siplasplas.cmake` and invoke `configure_siplasplas_reflection()` with your target:
+
+``` cmake
+add_library(MyLibrary myLib.cpp)
+
+target_include_directories(MyLibrary PUBLIC include/)
+target_compile_options(MyLibrary PRIVATE -std=c++11 -Wall)
+
+configure_siplasplas_reflection(MyLibrary)
+```
+
+This will add a custom pre-build target that automatically runs
+DRLParser and generates reflection metadata headers before building your
+library.
+
+### Static reflection
+
+SIplasplas provides a template-based API to access to static reflection
+information of user defined types:
+
+``` cpp
+// particle.hpp
+
+class Particle
+{
+public:
+    struct Position
+    {
+        float x, y, z;
+    };
+
+    struct Color
+    {
+        float a, r, g, b;
+    };
+
+    enum class State
+    {
+        Alive,
+        Dead
+    };
+
+    Position position;
+    Color color;
+    State state;
+};
+```
+
+siplasplas uses a libclang based script to generate C++ code with
+all the metadata. After running this script, include both
+the user header and the generated header:
+
+``` cpp
+#include <particle.hpp>
+#include <reflection/particle.hpp> // Reflection data (generated code)
+
+std::vector<Particle> particles;
+
+std::ostream& operator<<(std::ostream& os, const Particle::Position& position)
+{
+    using PositionClass = cpp::static_reflection::Class<Particle::Position>;
+
+    os << "{";
+
+    // For each coordinate in the Position class...
+    cpp::foreach_type<PositionClass::Fields>([&](auto type)
+    {
+        using Field = cpp::meta::type_t<decltype(type)>;
+
+        os << Field::spelling() << ": "            // Field name ("x", "y", "z")
+           << cpp::invoke(Field::get(), position)  // Field value (Like C++17 invoke with member object ptr)
+           << " ";
+    });
+
+    return os << "}";
+}
+
+std::ostream& operator<<(std::ostream& os, const Particle::Color& color)
+{
+    using ColorClass = cpp::static_reflection::Class<Particle::Color>;
+
+    os << "{";
+
+    // For each channel in the Color class...
+    cpp::foreach_type<ColorClass::Fields>([&](auto type)
+    {
+        using Field = cpp::meta::type_t<decltype(type)>;
+
+        os << Field::spelling() << ": "             // channel name (r, g, b, ...)
+           << cpp::invoke(Field::get(), color)*255  // channel value
+           << " ";
+    });
+
+    return os << "}";
+}
+
+std::ostream& operator<<(std::ostream& os, const Particle::State& state)
+{
+    // Use static reflection to get the name of the enum value:
+    return os << cpp::static_reflection::Enum<Particle::State>::toString(state);
+}
+
+int main()
+{
+    for(const auto& particle : particles)
+    {
+        std::cout << "position: " << particle.position << std::endl;
+        std::cout << "color: " << particle.color << std::endl;
+        std::cout << "state: " << particle.state << std::endl;
+    }
+}
+```
+
+The static reflection API currently supports:
+
+ - User defined class types: Source information, set of public non-static member objects and functions, member types.
+ - User defined enumeration types: Set of enum constants values, enum constants names, to/from string methods
+ - User defined functions
+
+### Dynamic reflection
+
+Siplasplas also supports dynamic reflection in the form of a simple entity based component
+system:
+
+``` cpp
+cpp::dynamic_reflection::Runtime runtime = loadDynamicReflection();
+
+// Get dynamic reflection info of the class ::Particle::Position:
+cpp::dynamic_reflection::Class&  positionClass = runtime.class_("Particle").class_("Position");
+
+// Manipulate a particle object using dynamic reflection:
+Particle particle;
+positionCLass.field_("x").get(particle.position) = 42.0f; // particle.position.x = 42
+
+// You can also create objects dynamically:
+auto particle2 = runtime.class_("Particle").create();
+
+// Returned objects are dynamically manipulable too:
+particle2["color"]["r"] = 0.5f;
+```
+
+The dynamic reflection API can be used to load APIs from external libraries at
+runtime in a straightforward way:
+
+``` cpp
+int main()
+{
+    cpp::DynamicLibrary lib{"libmylibrary.so"};
+    cpp::dynamic_reflection::Runtimeloader loader{lib};
+    cpp::dynamic_reflection::Runtime& runtime = loader.runtime();
+
+    auto myObject = runtime.class_("MyClass").create();
+
+    // Invoke MyClass::function with params 1 and "hello":
+    myObject("function")(1, std::string("hello!"));
+}
+```
+### Other features:
+
+Siplasplas offers other features, building blocks for the APIs explained
+above, including:
+
+ - **Type erasure**: A module dedicated to type erasure, with classes designed to
+   manipulate type erased functions, member object pointers, and objects.
+
+ - **Signals**: Siplasplas implements a simple message passing system for inter-thread
+   communication.
+
+ - **CMake API**: With the ultimate goal of providing the basis for a work in progress
+   runtime C++ compilation module, siplasplas implements a C++ API to configure and build existing CMake
+   projects.
+
+ - **Utilities**: Dynamic library loading, aligned malloc, assertions, function type introspection,
+   metaprogramming, hashing, etc. Lots of stuff!
 
 ## Supported compilers
 
@@ -18,15 +197,11 @@ siplasplas has been tested in GCC 5.1/5.2/6.1, Clang 3.6/3.7/3.8, and Visual Stu
 
 ## Documentation
 
-Documentation is available [here]({{site.url}}{{site.baseurl}}/doc/).
+Documentation is available [here](https://manu343726.github.io/siplasplas/doc)
 
 The documentation is available in Doxygen and Standardese format, each one
 with multiple versions corresponding to the latest documentation of each
-siplasplas branch.
-
-> There are no siplasplas releases yet, so there's no stable
-> documentation. However, you can consider the `master` branch the most
-> stable one.
+siplasplas release and active branch.
 
 ## Installation
 
@@ -37,6 +212,8 @@ process. The following instructions are to build siplasplas from sources.
 
 ### TL;DR
 
+You can build siplasplas from sources:
+
 ``` bash
 $ git clone https://github.com/Manu343726/siplasplas --recursive
 $ cd siplasplas
@@ -45,6 +222,31 @@ $ cd build
 $ cmake ..
 $ cmake --build .
 ```
+
+Or download the [`bootstrap cmake script`](https://github.com/Manu343726/siplasplas/blob/master/bootstrap.cmake)
+and point it to one of the siplasplas releases:
+
+``` cmake
+set(SIPLASPLAS_PACKAGE_URL <url to siplasplas release package>)
+set(SIPLASPLAS_INSTALL_DRLPARSER_DEPENDENCIES ON) # Download DRLparser deps with pip
+set(SIPLASPLAS_LIBCLANG_VERSION 3.8.0) # libclang version
+set(SIPLASPLAS_DOWNLOAD_LIBCLANG ON) # Download and configure libclang automatically
+
+include(bootstrap.cmake)
+```
+
+This will download and configure a siplasplas installation in your buildtree. After including
+`bootstrap.cmake`, a `FindSiplasplas.cmake` module is available in your module path to link against
+the different siplasplas modules:
+
+``` cmake
+find_package(Siplasplas)
+
+target_link_libraries(MyLibrary PUBLIC siplasplas-reflection-dynamic)
+```
+
+The module defines one imported library for each siplasplas module. All inter-module dependencies are already
+solved.
 
 ### Prerequisites
 
@@ -178,7 +380,7 @@ configuration can be modified using some options and variables:
 
  - `SIPLASPLAS_LIBCLANG_VERSION`: Version of libclang used by the
    reflection parser. Inferred from the installed clang version by
-   default.  
+   default.
    > **NOTE:** siplasplas has been tested with libclang 3.7 and 3.8 only.
    > siplasplas sources use C++14 features, a clang version with C++14
    > support is needed. *Actually, the siplasplas configuration uses
