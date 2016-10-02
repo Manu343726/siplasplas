@@ -2,6 +2,7 @@ add_siplasplas_test(utility
 SOURCES
     memory_manip_test.cpp
     compiles_test.cpp
+    typeinfo_test.cpp
 DEPENDS
     siplasplas-utility
 DEFAULT_TEST_MAIN

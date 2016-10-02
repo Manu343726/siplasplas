@@ -1,6 +1,7 @@
 #ifndef SIPLASPLAS_UTILITY_TYPEINFO_HPP
 #define SIPLASPLAS_UTILITY_TYPEINFO_HPP
 
+#include "function_traits.hpp"
 #include <ctti/type_id.hpp>
 #include <bitset>
 #include <cstdint>
@@ -86,70 +87,68 @@ public:
     template<typename T>
     static constexpr TypeInfo get()
     {
+#define BITSET_TRAIT(trait) (static_cast<std::uint64_t>(std::trait<T>::value) << static_cast<std::size_t>(TypeTraitIndex::trait))
         return{
             ctti::type_id<T>(),
             sizeof(T),
             alignof(T),
+            cpp::function_kind<T>(),
             BitsetValue{
-                // Primary type categories:
-                (static_cast<std::size_t>(TypeTraitIndex::is_void)                    << std::is_void<T>::value)                    |
-                (static_cast<std::size_t>(TypeTraitIndex::is_null_pointer)            << std::is_null_pointer<T>::value)            |
-                (static_cast<std::size_t>(TypeTraitIndex::is_integral)                << std::is_integral<T>::value)                |
-                (static_cast<std::size_t>(TypeTraitIndex::is_floating_point)          << std::is_floating_point<T>::value)          |
-                (static_cast<std::size_t>(TypeTraitIndex::is_array)                   << std::is_array<T>::value)                   |
-                (static_cast<std::size_t>(TypeTraitIndex::is_enum)                    << std::is_enum<T>::value)                    |
-                (static_cast<std::size_t>(TypeTraitIndex::is_union)                   << std::is_union<T>::value)                   |
-                (static_cast<std::size_t>(TypeTraitIndex::is_class)                   << std::is_class<T>::value)                   |
-                (static_cast<std::size_t>(TypeTraitIndex::is_function)                << std::is_function<T>::value)                |
-                (static_cast<std::size_t>(TypeTraitIndex::is_pointer)                 << std::is_pointer<T>::value)                 |
-                (static_cast<std::size_t>(TypeTraitIndex::is_lvalue_reference)        << std::is_lvalue_reference<T>::value)        |
-                (static_cast<std::size_t>(TypeTraitIndex::is_rvalue_reference)        << std::is_rvalue_reference<T>::value)        |
-                (static_cast<std::size_t>(TypeTraitIndex::is_member_object_pointer)   << std::is_member_object_pointer<T>::value)   |
-                (static_cast<std::size_t>(TypeTraitIndex::is_member_function_pointer) << std::is_member_function_pointer<T>::value) |
-
-                // Composite type categories:
-                (static_cast<std::size_t>(TypeTraitIndex::is_fundamental)    << std::is_fundamental<T>::value)    |
-                (static_cast<std::size_t>(TypeTraitIndex::is_arithmetic)     << std::is_arithmetic<T>::value)     |
-                (static_cast<std::size_t>(TypeTraitIndex::is_scalar)         << std::is_scalar<T>::value)         |
-                (static_cast<std::size_t>(TypeTraitIndex::is_object)         << std::is_object<T>::value)         |
-                (static_cast<std::size_t>(TypeTraitIndex::is_compound)       << std::is_compound<T>::value)       |
-                (static_cast<std::size_t>(TypeTraitIndex::is_reference)      << std::is_reference<T>::value)      |
-                (static_cast<std::size_t>(TypeTraitIndex::is_member_pointer) << std::is_member_pointer<T>::value) |
-
-                // Type properties:
-                (static_cast<std::size_t>(TypeTraitIndex::is_const)                           << std::is_const<T>::value)                           |
-                (static_cast<std::size_t>(TypeTraitIndex::is_volatile)                        << std::is_volatile<T>::value)                        |
-                (static_cast<std::size_t>(TypeTraitIndex::is_trivial)                         << std::is_trivial<T>::value)                         |
-                (static_cast<std::size_t>(TypeTraitIndex::is_trivially_copyable)              << std::is_trivially_copyable<T>::value)              |
-                (static_cast<std::size_t>(TypeTraitIndex::is_standard_layout)                 << std::is_standard_layout<T>::value)                 |
-                (static_cast<std::size_t>(TypeTraitIndex::is_pod)                             << std::is_pod<T>::value)                             |
-                (static_cast<std::size_t>(TypeTraitIndex::is_literal_type)                    << std::is_literal_type<T>::value)                    |
-                (static_cast<std::size_t>(TypeTraitIndex::is_empty)                           << std::is_empty<T>::value)                           |
-                (static_cast<std::size_t>(TypeTraitIndex::is_polymorphic)                     << std::is_polymorphic<T>::value)                     |
-                (static_cast<std::size_t>(TypeTraitIndex::is_abstract)                        << std::is_abstract<T>::value)                        |
-                (static_cast<std::size_t>(TypeTraitIndex::is_signed)                          << std::is_signed<T>::value)                          |
-                (static_cast<std::size_t>(TypeTraitIndex::is_unsigned)                        << std::is_unsigned<T>::value)                        |
-                (static_cast<std::size_t>(TypeTraitIndex::is_default_constructible)           << std::is_default_constructible<T>::value)           |
-                (static_cast<std::size_t>(TypeTraitIndex::is_copy_constructible)              << std::is_copy_constructible<T>::value)              |
-                (static_cast<std::size_t>(TypeTraitIndex::is_move_constructible)              << std::is_move_constructible<T>::value)              |
-                (static_cast<std::size_t>(TypeTraitIndex::is_copy_assignable)                 << std::is_copy_assignable<T>::value)                 |
-                (static_cast<std::size_t>(TypeTraitIndex::is_move_assignable)                 << std::is_move_assignable<T>::value)                 |
-                (static_cast<std::size_t>(TypeTraitIndex::is_destructible)                    << std::is_destructible<T>::value)                    |
-                (static_cast<std::size_t>(TypeTraitIndex::is_trivially_default_constructible) << std::is_trivially_default_constructible<T>::value) |
-                (static_cast<std::size_t>(TypeTraitIndex::is_trivially_copy_constructible)    << std::is_trivially_copy_constructible<T>::value)    |
-                (static_cast<std::size_t>(TypeTraitIndex::is_trivially_move_constructible)    << std::is_trivially_move_constructible<T>::value)    |
-                (static_cast<std::size_t>(TypeTraitIndex::is_trivially_copy_assignable)       << std::is_trivially_copy_assignable<T>::value)       |
-                (static_cast<std::size_t>(TypeTraitIndex::is_trivially_move_assignable)       << std::is_trivially_move_assignable<T>::value)       |
-                (static_cast<std::size_t>(TypeTraitIndex::is_trivially_destructible)          << std::is_trivially_destructible<T>::value)          |
-                (static_cast<std::size_t>(TypeTraitIndex::is_nothrow_default_constructible)   << std::is_nothrow_default_constructible<T>::value)   |
-                (static_cast<std::size_t>(TypeTraitIndex::is_nothrow_copy_constructible)      << std::is_nothrow_copy_constructible<T>::value)      |
-                (static_cast<std::size_t>(TypeTraitIndex::is_nothrow_move_constructible)      << std::is_nothrow_move_constructible<T>::value)      |
-                (static_cast<std::size_t>(TypeTraitIndex::is_nothrow_copy_assignable)         << std::is_nothrow_copy_assignable<T>::value)         |
-                (static_cast<std::size_t>(TypeTraitIndex::is_nothrow_move_assignable)         << std::is_nothrow_move_assignable<T>::value)         |
-                (static_cast<std::size_t>(TypeTraitIndex::is_nothrow_destructible)            << std::is_nothrow_destructible<T>::value)            |
-                (static_cast<std::size_t>(TypeTraitIndex::has_virtual_destructor)             << std::has_virtual_destructor<T>::value)
+                BITSET_TRAIT(is_void) |
+                BITSET_TRAIT(is_null_pointer) |
+                BITSET_TRAIT(is_integral) |
+                BITSET_TRAIT(is_floating_point) |
+                BITSET_TRAIT(is_array) |
+                BITSET_TRAIT(is_enum) |
+                BITSET_TRAIT(is_union) |
+                BITSET_TRAIT(is_class) |
+                BITSET_TRAIT(is_function) |
+                BITSET_TRAIT(is_pointer) |
+                BITSET_TRAIT(is_lvalue_reference) |
+                BITSET_TRAIT(is_rvalue_reference) |
+                BITSET_TRAIT(is_member_object_pointer) |
+                BITSET_TRAIT(is_member_function_pointer) |
+                BITSET_TRAIT(is_fundamental) |
+                BITSET_TRAIT(is_arithmetic) |
+                BITSET_TRAIT(is_scalar) |
+                BITSET_TRAIT(is_object) |
+                BITSET_TRAIT(is_compound) |
+                BITSET_TRAIT(is_reference) |
+                BITSET_TRAIT(is_member_pointer) |
+                BITSET_TRAIT(is_const) |
+                BITSET_TRAIT(is_volatile) |
+                BITSET_TRAIT(is_trivial) |
+                BITSET_TRAIT(is_trivially_copyable) |
+                BITSET_TRAIT(is_standard_layout) |
+                BITSET_TRAIT(is_pod) |
+                BITSET_TRAIT(is_literal_type) |
+                BITSET_TRAIT(is_empty) |
+                BITSET_TRAIT(is_polymorphic) |
+                BITSET_TRAIT(is_abstract) |
+                BITSET_TRAIT(is_signed) |
+                BITSET_TRAIT(is_unsigned) |
+                BITSET_TRAIT(is_default_constructible) |
+                BITSET_TRAIT(is_copy_constructible) |
+                BITSET_TRAIT(is_move_constructible) |
+                BITSET_TRAIT(is_copy_assignable) |
+                BITSET_TRAIT(is_move_assignable) |
+                BITSET_TRAIT(is_destructible) |
+                BITSET_TRAIT(is_trivially_default_constructible) |
+                BITSET_TRAIT(is_trivially_copy_constructible) |
+                BITSET_TRAIT(is_trivially_move_constructible) |
+                BITSET_TRAIT(is_trivially_copy_assignable) |
+                BITSET_TRAIT(is_trivially_move_assignable) |
+                BITSET_TRAIT(is_trivially_destructible) |
+                BITSET_TRAIT(is_nothrow_default_constructible) |
+                BITSET_TRAIT(is_nothrow_copy_constructible) |
+                BITSET_TRAIT(is_nothrow_move_constructible) |
+                BITSET_TRAIT(is_nothrow_copy_assignable) |
+                BITSET_TRAIT(is_nothrow_move_assignable) |
+                BITSET_TRAIT(is_nothrow_destructible) |
+                BITSET_TRAIT(has_virtual_destructor)
             }
         };
+#undef BITSET_TRAIT
     }
 
     constexpr bool operator()(const TypeTraitIndex typeTrait) const
@@ -182,6 +181,17 @@ public:
         return _alignment;
     }
 
+    constexpr cpp::FunctionKind kind() const
+    {
+        return _kind;
+    }
+
+    constexpr bool isPointer() const
+    {
+        return (*this)(TypeTraitIndex::is_pointer) &&
+            kind() != cpp::FunctionKind::FREE_FUNCTION;
+    }
+
     friend constexpr bool operator==(const TypeInfo& lhs, const TypeInfo& rhs)
     {
         return lhs.type_id() == rhs.type_id();
@@ -196,15 +206,18 @@ private:
     ctti::type_id_t _typeId;
     std::size_t _sizeOf;
     std::size_t _alignment;
+    cpp::FunctionKind _kind;
     TypeTraits _typeTraits;
 
     constexpr TypeInfo(const ctti::type_id_t& typeId,
                        const std::size_t sizeOf,
                        const std::size_t alignment,
+                       const cpp::FunctionKind kind,
                        const BitsetValue typeTraits) :
         _typeId{ typeId },
         _sizeOf{sizeOf},
         _alignment{ alignment },
+        _kind{kind},
         _typeTraits{ typeTraits }
     {}
 };
