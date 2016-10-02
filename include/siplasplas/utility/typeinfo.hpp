@@ -157,12 +157,12 @@ public:
         return _typeTraits[static_cast<std::size_t>(typeTrait)];
     }
 
-    constexpr const char* name() const
+    constexpr ctti::detail::cstring name() const
     {
-        return _typeId.name().c_str();
+        return _typeId.name();
     }
 
-    constexpr const char* typeName() const
+    constexpr ctti::detail::cstring typeName() const
     {
         return name();
     }

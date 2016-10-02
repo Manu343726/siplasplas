@@ -1,11 +1,10 @@
 #ifndef SIPLASPLAS_REFLECTION_DYNAMIC_CLASS_HPP
 #define SIPLASPLAS_REFLECTION_DYNAMIC_CLASS_HPP
 
+#include "entity.hpp"
 #include "field.hpp"
 #include "function.hpp"
-#include "entity.hpp"
 #include "enum.hpp"
-#include "type.hpp"
 #include <siplasplas/typeerasure/typeinfo.hpp>
 
 namespace cpp

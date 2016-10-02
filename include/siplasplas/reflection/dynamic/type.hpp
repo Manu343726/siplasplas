@@ -97,7 +97,7 @@ public:
         return type();
     }
 
-    const char* typeName() const
+    const ctti::detail::cstring typeName() const
     {
         return typeInfo().name();
     }
@@ -283,7 +283,7 @@ private:
             static U apply(const std::string& value)
             {
                 throw std::runtime_error{
-                    "lexical_cast not supported for type i'" + std::string(ctti::type_id<U>().name().c_str()) +
+                    "lexical_cast not supported for type i'" + cpp::lexical_cast(ctti::type_id<U>().name()) +
                     "', you must overload operator>>"
                 };
             }
