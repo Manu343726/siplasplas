@@ -147,7 +147,18 @@ if(SIPLASPLAS_DOWNLOAD_LIBCLANG)
         message(FATAL_ERROR "Could not find libclang library at ${llvm_root}/lib")
     endif()
     set(SIPLASPLAS_LIBCLANG_INCLUDE_DIR "${llvm_root}/include")
-    set(SIPLASPLAS_LIBCLANG_SYSTEM_INCLUDE_DIR "${llvm_root}/lib/clang/${SIPLASPLAS_LIBCLANG_VERSION}/include")
+
+    # Use downloaded clang includes only if the compiler
+    # is not a clang, else compilation may fail.
+    # Later libclang_system_include_dir() function guesses
+    # the right path from the clang compiler config
+    if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+        message(STATUS "libclang ${SIPLASPLAS_LIBCLANG_VERSION} downloaded, but compiler is ${CMAKE_CXX_COMPILER_ID}")
+        unset(SIPLASPLAS_LIBCLANG_SYSTEM_INCLUDE_DIR)
+    else()
+        message(STATUS "Using downloaded libclang ${SIPLASPLAS_LIBCLANG_VERSION} system includes")
+        set(SIPLASPLAS_LIBCLANG_SYSTEM_INCLUDE_DIR "${llvm_root}/lib/clang/${SIPLASPLAS_LIBCLANG_VERSION}/include")
+    endif()
 else()
     if(NOT SIPLASPLAS_LIBCLANG_LIBRARY)
         if(WIN32)
