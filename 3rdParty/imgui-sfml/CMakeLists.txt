@@ -11,11 +11,11 @@ else()
 endif()
 
 set(sfml-components
-    sfml-system
-    sfml-network
-    sfml-window
-    sfml-graphics
-    sfml-audio
+    system
+    network
+    window
+    graphics
+    audio
 )
 
 if(SIPLASPLAS_USE_SYSTEM_SFML)
@@ -41,7 +41,7 @@ else()
     endif()
 
     foreach(component ${sfml-components})
-        add_siplasplas_thirdparty_component(${component} ${type}
+        add_siplasplas_thirdparty_component(sfml-${component} ${type}
         THIRD_PARTY
             sfml
         SHARED_LIBRARY_SUFFIX
@@ -51,7 +51,7 @@ else()
         BINARY_DIR
             lib
         )
-        list(APPEND sfml-targets sfml-${component})
+        list(APPEND sfml-targets sfml-fml-${component})
     endforeach()
 endif()
 
