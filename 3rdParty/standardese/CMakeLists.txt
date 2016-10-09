@@ -1,7 +1,3 @@
-if(WIN32)
-    return()
-endif()
-
 include(libclang)
 
 libclang_library(LIBCLANG_LIBRARY)
