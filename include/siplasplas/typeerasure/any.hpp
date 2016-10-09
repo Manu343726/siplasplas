@@ -133,23 +133,25 @@ public:
             _this{this_}
         {}
 
-        template<typename Invokable>
-        std::enable_if_t<
-            cpp::function_kind<std::decay_t<Invokable>>() == cpp::FunctionKind::MEMBER_OBJECT,
-            AttributeProxy&
+        template<typename Invokable, typename =
+            std::enable_if_t<
+                cpp::function_kind<std::decay_t<Invokable>>() == cpp::FunctionKind::MEMBER_OBJECT,
+                AttributeProxy&
+            >
         >
-        operator=(Invokable&& invokable)
+        AttributeProxy& operator=(Invokable&& invokable)
         {
             (*_attribute) = std::forward<Invokable>(invokable);
             return *this;
         }
 
-        template<typename T>
-        std::enable_if_t<
-            cpp::function_kind<std::decay_t<T>>() != cpp::FunctionKind::MEMBER_OBJECT,
-            AttributeProxy&
+        template<typename T,
+            std::enable_if_t<
+                cpp::function_kind<std::decay_t<T>>() != cpp::FunctionKind::MEMBER_OBJECT,
+                AttributeProxy&
+            >
         >
-        operator=(T&& value)
+        AttributeProxy& operator=(T&& value)
         {
             get<std::decay_t<T>>() = std::forward<T>(value);
             return *this;

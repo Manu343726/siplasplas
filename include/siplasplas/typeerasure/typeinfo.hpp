@@ -27,7 +27,8 @@ enum class ValueSemanticsOperation : std::size_t
     MOVE_CONSTRUCT    = 2,
     COPY_ASSIGN       = 3,
     MOVE_ASSIGN       = 4,
-    DESTROY           = 5
+    DESTROY           = 5,
+    END_OF_ENUM
 };
 
 using ValueSemanticsOperationFunction = void(*)(void*, const void*);
@@ -56,23 +57,23 @@ using ValueSemanticsOperationFunction = void(*)(void*, const void*);
 template<typename T>
 ValueSemanticsOperationFunction valueSemanticsOperation(ValueSemanticsOperation operation)
 {
-    static ValueSemanticsOperationFunction operations[] = {
-        +[](void* object, const void*) {
+    static ValueSemanticsOperationFunction operations[static_cast<std::size_t>(ValueSemanticsOperation::END_OF_ENUM)] = {
+        [](void* object, const void*) {
             features::DefaultConstructible::apply<T>(object);
         },
-        +[](void* object, const void* other) {
+        [](void* object, const void* other) {
             features::CopyConstructible::apply<T>(object, other);
         },
-        +[](void* object, const void* other) {
+        [](void* object, const void* other) {
             features::MoveConstructible::apply<T>(object, const_cast<void*>(other));
         },
-        +[](void* object, const void* other) {
+        [](void* object, const void* other) {
             features::CopyAssignable::apply<T>(object, other);
         },
-        +[](void* object, const void* other) {
+        [](void* object, const void* other) {
             features::MoveAssignable::apply<T>(object, const_cast<void*>(other));
         },
-        +[](void* object, const void*) {
+        [](void* object, const void*) {
             features::Destructible::apply<T>(object);
         }
     };

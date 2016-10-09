@@ -10,10 +10,10 @@ namespace cpp
 namespace
 {
 
-template<typename Function, typename... Args, std::size_t... Is>
-constexpr auto tuple_call(Function function, const std::tuple<Args...>& tuple, meta::index_sequence<Is...>)
+template<typename Function>
+constexpr auto tuple_call(Function function, const std::tuple<>& tuple, meta::index_sequence<>)
 {
-    return function(std::forward<Args>(std::get<Is>(tuple))...);
+    return function();
 }
 
 template<typename Head, typename... Tail, std::size_t... Is>
@@ -24,23 +24,22 @@ constexpr auto tuple_tail(const std::tuple<Head, Tail...>& tuple, std::index_seq
 
 }
 
-template<typename Function, typename... Args>
-constexpr auto tuple_call(Function function, const std::tuple<Args...>& tuple)
+template<typename Function>
+constexpr auto tuple_call(Function function, const std::tuple<>& tuple)
 {
-    return tuple_call(function, tuple, meta::make_index_sequence_for<Args...>{});
+    return tuple_call(function, tuple, meta::make_index_sequence_for<>{});
+}
+
+template<typename Function, typename Head, typename... Tail>
+constexpr auto tuple_tail(Function function, const std::tuple<Head, Tail...>& tuple)
+{
+    return tuple_tail(function, tuple, std::index_sequence_for<Head, Tail...>{});
 }
 
 template<typename Function, typename... Args>
 constexpr auto tuple_call(const std::tuple<Args...>& tuple, Function function)
 {
     return tuple_call(function, tuple);
-}
-
-
-template<typename Head, typename... Tail>
-constexpr auto tuple_tail(const std::tuple<Head, Tail...>& tuple)
-{
-    return tuple_tail(tuple, std::index_sequence_for<Tail...>{});
 }
 
 }

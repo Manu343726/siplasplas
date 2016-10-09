@@ -28,6 +28,8 @@ struct CopyConstructible
     CopyConstructible() {}; // to instance lvalues in tests
     CopyConstructible(const CopyConstructible&) {}
     CopyConstructible(CopyConstructible&&) {}
+    CopyConstructible& operator=(const CopyConstructible&) = default;
+    CopyConstructible& operator=(CopyConstructible&&) = default;
 };
 
 struct NoThrowCopyConstructible
@@ -109,94 +111,102 @@ struct NoThrowDestructible
     ~NoThrowDestructible() noexcept {}
 };
 
-struct NoDefaultConstructible
+class NoDefaultConstructible
 {
-    NoDefaultConstructible() = delete;
+    NoDefaultConstructible() = default;
 };
 
-struct NoNoThrowDefaultConstructible
+class NoNoThrowDefaultConstructible
 {
-    NoNoThrowDefaultConstructible() noexcept = delete;
+    NoNoThrowDefaultConstructible() noexcept = default;
 };
 
-struct NoConstructible
+class NoConstructible
 {
     template<typename... Args>
-    NoConstructible(Args&&...) = delete;
+    NoConstructible(Args&&...) = default;
 };
 
-struct NoNoThrowConstructible
+class NoNoThrowConstructible
 {
     template<typename... Args>
-    NoNoThrowConstructible(Args&&...) noexcept = delete;
+    NoNoThrowConstructible(Args&&...) noexcept = default;
 };
 
 struct NoCopyConstructible
 {
     NoCopyConstructible() {}; // to instance lvalues in tests
-    NoCopyConstructible(const NoCopyConstructible&) = delete;
     NoCopyConstructible(NoCopyConstructible&&) {}
+
+private:
+    NoCopyConstructible(const NoCopyConstructible&) = default;
 };
 
-struct NoNoThrowCopyConstructible
+class NoNoThrowCopyConstructible
 {
-    NoNoThrowCopyConstructible(const NoNoThrowCopyConstructible&) noexcept = delete;
+    NoNoThrowCopyConstructible(const NoNoThrowCopyConstructible&) noexcept = default;
 };
 
 struct NoMoveConstructible
 {
     NoMoveConstructible() {} // to instantiate lvalues in tests
     NoMoveConstructible(const NoMoveConstructible&) {}
-    NoMoveConstructible(NoMoveConstructible&&) = delete;
+
+private:
+    NoMoveConstructible(NoMoveConstructible&&) = default;
 };
 
-struct NoNoThrowMoveConstructible
+class NoNoThrowMoveConstructible
 {
-    NoNoThrowMoveConstructible(NoNoThrowMoveConstructible&&) noexcept = delete;
+    NoNoThrowMoveConstructible(NoNoThrowMoveConstructible&&) noexcept = default;
 };
 
-struct NoAssignable
-{
-    template<typename T>
-    NoAssignable& operator=(const T&) = delete;
-};
-
-struct NoNoThrowAssignable
+class NoAssignable
 {
     template<typename T>
-    NoNoThrowAssignable& operator=(const T&) noexcept = delete;
+    NoAssignable& operator=(const T&) = default;
 };
 
-struct NoCopyAssignable
+class NoNoThrowAssignable
 {
-    NoCopyAssignable& operator=(const NoCopyAssignable&) = delete;
+    template<typename T>
+    NoNoThrowAssignable& operator=(const T&) noexcept = default;
 };
 
-struct NoNoThrowCopyAssignable
+class NoCopyAssignable
 {
-    NoNoThrowCopyAssignable& operator=(const NoNoThrowCopyAssignable&) noexcept = delete;
+    NoCopyAssignable& operator=(const NoCopyAssignable&) = default;
 };
 
-struct NoMoveAssignable
+class NoNoThrowCopyAssignable
 {
-    NoMoveAssignable& operator=(NoMoveAssignable&&) = delete;
+    NoNoThrowCopyAssignable& operator=(const NoNoThrowCopyAssignable&) noexcept = default;
 };
 
-struct NoNoThrowMoveAssignable
+class NoMoveAssignable
 {
-    NoNoThrowMoveAssignable& operator=(NoNoThrowMoveAssignable&&) noexcept = delete;
+    NoMoveAssignable& operator=(NoMoveAssignable&&) = default;
+};
+
+class NoNoThrowMoveAssignable
+{
+    NoNoThrowMoveAssignable& operator=(NoNoThrowMoveAssignable&&) noexcept = default;
 };
 
 struct NoDestructible
 {
     NoDestructible() {}
-    ~NoDestructible() = delete;
+
+private:
+    ~NoDestructible() = default;
 };
 
 struct NoNoThrowDestructible
 {
     NoNoThrowDestructible() {}
-    ~NoNoThrowDestructible() noexcept = delete;
+
+private:
+    ~NoNoThrowDestructible() noexcept = default;
 };
 
 #endif // SIPLASPLAS_TEST_TYPEERASURE_CONCEPTS_MOCKS_HPP

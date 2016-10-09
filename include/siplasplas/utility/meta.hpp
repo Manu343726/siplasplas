@@ -195,7 +195,7 @@ namespace meta
         }
 
     private:
-        static constexpr const T array[] = {Values...};
+        static constexpr const T array[sizeof...(Values)] = {Values...};
     };
 
     template<typename T, T... Values>

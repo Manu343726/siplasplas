@@ -93,7 +93,7 @@ public:
     constexpr auto Then(const Body& body, Args&&... args) ->
         typename std::enable_if<
             std::is_void<decltype(body(::cpp::Identity(), std::forward<Args>(args)...))>::value,
-            If&
+            const If&
         >::type
     {
         body(::cpp::Identity(), std::forward<Args>(args)...);
@@ -115,13 +115,13 @@ public:
     constexpr If() = default;
 
     template<typename Body, typename... Args>
-    constexpr If& Then(const Body&, Args&&...)
+    constexpr const If& Then(const Body&, Args&&...) const
     {
         return *this;
     }
 
     template<typename Body, typename... Args>
-    constexpr decltype(auto) Else(const Body& body, Args&&... args)
+    constexpr decltype(auto) Else(const Body& body, Args&&... args) const
     {
         return body(Identity(), std::forward<Args>(args)...);
     }

@@ -93,8 +93,13 @@ class MoveConstructible : public Concept<
  */
 template<typename T, typename U>
 class Assignable : public Concept<
+#ifdef _MSC_VER
+    false,
+    std::is_nothrow_assignable<T, U>::value
+#else
     std::is_assignable<T, U>::value,
     std::is_nothrow_assignable<T, U>::value
+#endif // _MSC_VER
 > {};
 
 

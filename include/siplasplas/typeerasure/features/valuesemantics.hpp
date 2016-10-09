@@ -58,13 +58,11 @@ public:
     {
         // Cannot believe this is the best way to perfect-capture a variadic pack...
 
-        return cpp::staticIf<concepts::Constructible<T, std::decay_t<Args>...>::value>([args = std::forward_as_tuple(std::forward<Args>(args)...)](auto identity)
+        return cpp::staticIf<concepts::Constructible<T, std::decay_t<Args>...>::value>([](auto identity, auto&&... args)
         {
-            return cpp::tuple_call(args, [](auto... args)
-            {
-                return meta::type_t<decltype(identity.template type<T>())>(std::forward<decltype(args)>(args)...);
-            });
-        }).Else([](auto) -> T
+            return meta::type_t<decltype(identity.template type<T>())>(std::forward<decltype(args)>(args)...);
+        }, std::forward<Args>(args)...)
+        .Else([](auto) -> T
         {
             throw cpp::exception<std::runtime_error>(
                 "Type '{}' is not constructible",
@@ -78,13 +76,11 @@ public:
     {
         // Cannot believe this is the best way to perfect-capture a variadic pack...
 
-        cpp::staticIf<concepts::Constructible<T, std::decay_t<Args>...>::value>([where, args = std::forward_as_tuple(std::forward<Args>(args)...)](auto identity)
+        cpp::staticIf<concepts::Constructible<T, std::decay_t<Args>...>::value>([where](auto identity, auto&&... args)
         {
-            cpp::tuple_call(args, [where](auto... args)
-            {
-                cpp::construct<meta::type_t<decltype(identity.template type<T>())>>(where, std::forward<decltype(args)>(args)...);
-            });
-        }).Else([](auto)
+            cpp::construct<meta::type_t<decltype(identity.template type<T>())>>(where, std::forward<decltype(args)>(args)...);
+        }, std::forward<Args>(args)...)
+        .Else([](auto)
         {
             throw cpp::exception<std::runtime_error>(
                 "Type '{}' is not constructible",
