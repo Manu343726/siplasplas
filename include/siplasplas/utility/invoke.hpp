@@ -21,17 +21,6 @@ namespace detail
         template<typename Function, typename Object_, typename... Args>
         static decltype(auto) apply(Function function, Object_&& object, Args&&... args)
         {
-            constexpr ctti::type_id_t typeIds[] = { ctti::type_id<decltype(std::forward<Args>(args))>()..., ctti::type_id<void>() };
-
-            utility::log().debug("About to invoke member function:");
-            utility::log().debug("  Function: {}", ctti::type_id<Function>().name());
-            utility::log().debug("  Object: {}", ctti::type_id<decltype(std::forward<Object_>(object))>().name());
-
-            for(std::size_t i = 0; i < sizeof...(args); ++i)
-            {
-                utility::log().debug("  #{} {}", i, typeIds[i].name());
-            }
-
             return (std::forward<Object_>(object).*function)(std::forward<Args>(args)...);
         }
     };
