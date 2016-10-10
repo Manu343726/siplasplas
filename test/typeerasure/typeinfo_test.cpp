@@ -4,6 +4,11 @@
 using namespace ::testing;
 using namespace ::cpp::typeerasure;
 
+static_assert(
+    TypeInfo::get<void(*)(int, const std::string&)>().arguments()[1] == TypeInfo::get<const std::string&>(),
+    "Second param of void(int, const std::string&) is const std::string&"
+);
+
 TEST(TypeInfoTest, equalityOperator_sameTypesEqual)
 {
     EXPECT_EQ(TypeInfo::get<int>(), TypeInfo::get<int>());

@@ -1,6 +1,7 @@
 #ifndef SIPLASPLAS_UTILITY_META_H
 #define SIPLASPLAS_UTILITY_META_H
 
+#include "array_view.hpp"
 #include <type_traits>
 #include <cstdint>
 
@@ -170,55 +171,204 @@ namespace meta
     template<char... Chars>
     using string = list<std::integral_constant<char, Chars>...>;
 
-    template<typename Sequence>
+    struct DummyValueToType {};
+
+    template<typename Seq, typename TypeToValue>
     class SequenceToArray;
 
-    template<template<typename...> class Seq, typename T, T... Values>
-    class SequenceToArray<Seq<std::integral_constant<T, Values>...>>
+
+    template<template<typename...> class Seq, typename Head, typename... Tail, typename TypeToValue>
+    class SequenceToArray<Seq<Head, Tail...>, TypeToValue>
     {
     public:
-        using array_t = const T[sizeof...(Values)];
+        using value_type = typename TypeToValue::value_type;
 
-        static constexpr const array_t& get()
-        {
-            return array;
-        }
+        constexpr SequenceToArray() = default;
 
-        static constexpr const T get(std::size_t i)
+        static constexpr const value_type& get(std::size_t i)
         {
             return array[i];
         }
 
-        static constexpr std::size_t size()
+        static constexpr ConstArrayView<value_type> get()
         {
-            return sizeof...(Values);
+            return {Bounds::begin(), Bounds::size()};
+        }
+
+        struct Bounds
+        {
+            static constexpr std::size_t size()
+            {
+                return sizeof...(Tail) + 1;
+            }
+
+            static constexpr const value_type* begin()
+            {
+                return array;
+            }
+
+            static constexpr const value_type* end()
+            {
+                return array + size();
+            }
+
+            static constexpr const value_type* const cbegin()
+            {
+                return array;
+            }
+
+            static constexpr const value_type* const cend()
+            {
+                return array + size();
+            }
+        };
+
+        constexpr std::size_t size() const
+        {
+            return Bounds::size();
+        }
+
+        constexpr const value_type& operator[](std::size_t i) const
+        {
+            return get(i);
+        }
+
+        constexpr const value_type* begin() const
+        {
+            return Bounds::begin();
+        }
+
+        constexpr const value_type* end() const
+        {
+            return Bounds::end();
+        }
+
+        constexpr const value_type* const cbegin() const
+        {
+            return Bounds::cbegin();
+        }
+
+        constexpr const value_type* const cend() const
+        {
+            return Bounds::cend();
         }
 
     private:
-        static constexpr const T array[sizeof...(Values)] = {Values...};
+        static constexpr value_type array[] = {
+            TypeToValue::template get<Head>(),
+            TypeToValue::template get<Tail>()...
+        };
+    };
+
+    template<template<typename...> class Seq, typename Head, typename... Tail, typename TypeToValue>
+    constexpr typename TypeToValue::value_type SequenceToArray<Seq<Head, Tail...>, TypeToValue>::array[sizeof...(Tail) + 1];
+
+    template<template<typename...> class Seq, typename TypeToValue>
+    class SequenceToArray<Seq<>, TypeToValue>
+    {
+    public:
+        using value_type = typename TypeToValue::value_type;
+
+        constexpr SequenceToArray() = default;
+
+        static constexpr const value_type& get(std::size_t i)
+        {
+            return *static_cast<void*>(nullptr);
+        }
+
+        struct Bounds
+        {
+            static constexpr std::size_t size()
+            {
+                return 0;
+            }
+
+            static constexpr const value_type* begin()
+            {
+                return nullptr;
+            }
+
+            static constexpr const value_type* end()
+            {
+                return nullptr;
+            }
+
+            static constexpr const value_type* const cbegin()
+            {
+                return nullptr;
+            }
+
+            static constexpr const value_type* const cend()
+            {
+                return nullptr;
+            }
+        };
+
+        static constexpr ConstArrayView<value_type> get()
+        {
+            return {static_cast<value_type*>(nullptr), static_cast<std::size_t>(0)};
+        }
+
+        constexpr std::size_t size() const
+        {
+            return Bounds::size();
+        }
+
+        constexpr const value_type& operator[](std::size_t i) const
+        {
+            return get(i);
+        }
+
+        constexpr const value_type* begin() const
+        {
+            return Bounds::begin();
+        }
+
+        constexpr const value_type* end() const
+        {
+            return Bounds::end();
+        }
+
+        constexpr const value_type* const cbegin() const
+        {
+            return Bounds::cbegin();
+        }
+
+        constexpr const value_type* const cend() const
+        {
+            return Bounds::cend();
+        }
+    };
+
+    template<typename T>
+    struct IntegralConstantToValue
+    {
+        using value_type = T;
+
+        template<typename IntegralConstant>
+        static constexpr value_type get()
+        {
+            return IntegralConstant::value;
+        }
     };
 
     template<typename T, T... Values>
-    using PackToArray = SequenceToArray<list<std::integral_constant<T, Values>...>>;
-
-    template<template<typename...> class Seq, typename T, T... Values>
-    constexpr const T SequenceToArray<Seq<std::integral_constant<T, Values>...>>::array[sizeof...(Values)];
+    using PackToArray = SequenceToArray<
+        list<std::integral_constant<T, Values>...>,
+        IntegralConstantToValue<T>
+    >;
 
     template<typename String>
     class StringToArray;
 
     template<template<typename...> class Seq, char... Chars>
-    class StringToArray<Seq<std::integral_constant<char, Chars>...>> : public SequenceToArray<Seq<std::integral_constant<char, Chars>..., std::integral_constant<char, '\0'>>>
+    class StringToArray<Seq<std::integral_constant<char, Chars>...>> :
+        public PackToArray<char, Chars..., '\0'>
     {
     public:
         static constexpr const char* c_str()
         {
-            return SequenceToArray<Seq<std::integral_constant<char, Chars>..., std::integral_constant<char, '\0'>>>::get();
-        }
-
-        static constexpr std::size_t length()
-        {
-            return sizeof...(Chars);
+            return PackToArray<char, Chars..., '\0'>::Bounds::begin();
         }
     };
 

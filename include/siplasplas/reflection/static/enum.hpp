@@ -71,7 +71,7 @@ public:
     /**
      * \brief Array type returned by values()
      */
-    using values_array_t = const EnumType[sizeof...(Constants)];
+    using values_array_t = cpp::ConstArrayView<EnumType>;
 
     constexpr Enum() = default;
 
@@ -96,10 +96,10 @@ public:
 
     /**
      * \brief Returns the set of enum constants values
-     * \returns A const reference to a constexpr C array with the EnumType
+     * \returns A const array view to the enum constants values array
      * values
      */
-    static constexpr const values_array_t& values()
+    static constexpr values_array_t values()
     {
         return ::cpp::meta::PackToArray<EnumType, Constants...>::get();
     }

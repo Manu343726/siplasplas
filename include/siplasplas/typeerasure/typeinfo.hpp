@@ -127,7 +127,7 @@ public:
      */
     bool isPointer() const
     {
-        return _isPointer;
+        return cpp::TypeInfo::isPointer();
     }
 
     /**
@@ -215,12 +215,31 @@ public:
     }
 
     /**
+     * \brief Returns the type information of the function arguments.
+     *
+     * The behavior is undefined if the type is not a function type
+     */
+    constexpr cpp::ConstArrayView<TypeInfo> arguments() const
+    {
+        return _functionArgs;
+    }
+
+    /**
      * \brief Returns the type information of type T
      */
     template<typename T>
     static constexpr TypeInfo get()
     {
         return TypeInfo{meta::identity<T>()};
+    }
+
+    /**
+     * \brief Returns the type information of type T
+     */
+    template<typename T>
+    static constexpr TypeInfo get(const T&)
+    {
+        return TypeInfo::get<T>();
     }
 
     friend constexpr bool operator==(const TypeInfo& lhs, const TypeInfo& rhs)
@@ -234,20 +253,32 @@ public:
     }
 
 private:
+    struct TypeToTypeInfo
+    {
+        using value_type = TypeInfo;
+
+        template<typename T>
+        static constexpr TypeInfo get()
+        {
+            return TypeInfo::get<T>();
+        }
+    };
+
     template<typename T>
     constexpr TypeInfo(meta::identity<T>) :
         cpp::TypeInfo{cpp::TypeInfo::get<T>()},
-        _semantics{detail::valueSemanticsOperation<T>},
-        _isPointer{
-            std::is_pointer<T>::value &&
-            cpp::function_kind<T>() != cpp::FunctionKind::FREE_FUNCTION
+        _semantics{detail::valueSemanticsOperation<std::decay_t<T>>},
+        _functionArgs{
+            cpp::meta::SequenceToArray<
+                cpp::function_arguments<T>,
+                TypeToTypeInfo
+            >::get()
         }
-    {
-        static_assert(alignof(T) < (1 << 16), "Alignment of T cannot be tagged in a pointer, its value overflows a 16 bit unsigned integer");
-    }
+    {}
 
     detail::ValueSemantics _semantics;
-    bool _isPointer;
+    cpp::ConstArrayView<TypeInfo> _functionArgs;
+
 };
 
 }

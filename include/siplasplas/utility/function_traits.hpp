@@ -38,6 +38,7 @@ namespace detail
     template<typename Function>
     struct get_function_signature
     {
+        using args = meta::list<>;
         static constexpr FunctionKind kind = FunctionKind::INVALID;
     };
 

@@ -100,40 +100,63 @@ public:
 class CopyConstructible
 {
 public:
-    template<typename T>
-    static T apply(const T& value) noexcept(concepts::CopyConstructible<T>::no_except)
+    template<typename T, bool CopyConstructible = concepts::CopyConstructible<T>::value>
+    struct Apply
     {
-        return cpp::staticIf<concepts::CopyConstructible<T>::value>([&value](auto identity)
+        static T apply(const T& value) noexcept(concepts::CopyConstructible<T>::no_except)
         {
-            return meta::type_t<decltype(identity.template type<T>())>(value);
-        }).Else([](auto) -> T
+            return T{value};
+        }
+
+        static void apply(T* where, const T& value) noexcept(concepts::CopyConstructible<T>::no_except)
+        {
+            return cpp::construct<T>(where, value);
+        }
+
+        static void apply(void* where, const void* other) noexcept(concepts::CopyConstructible<T>::no_except)
+        {
+            return cpp::construct<T>(where, *reinterpret_cast<const T*>(other));
+        }
+    };
+
+    template<typename T>
+    struct Apply<T, false>
+    {
+        static T apply(const T& ealue) noexcept(false)
         {
             throw cpp::exception<std::runtime_error>(
                 "Type '{}' is not copy constructible",
                 ctti::type_id<T>().name()
             );
-        });
+        }
+
+        static void apply(T* where, const T& value) noexcept(false)
+        {
+            apply(value);
+        }
+
+        static void apply(void* where, const void* other) noexcept(false)
+        {
+            apply(reinterpret_cast<T*>(where), *reinterpret_cast<const T*>(other));
+        }
+    };
+
+    template<typename T>
+    static T apply(const T& value) noexcept(concepts::CopyConstructible<T>::no_except)
+    {
+        return Apply<T>::apply(value);
     }
 
     template<typename T>
     static void apply(T* where, const T& value) noexcept(concepts::CopyConstructible<T>::no_except)
     {
-        cpp::staticIf<concepts::CopyConstructible<T>::value>([where, &value](auto identity)
-        {
-            cpp::construct<meta::type_t<decltype(identity.template type<T>())>>(where, value);
-        }).Else([](auto) -> T
-        {
-            throw cpp::exception<std::runtime_error>(
-                "Type '{}' is not copy constructible",
-                ctti::type_id<T>().name()
-            );
-        });
+        Apply<T>::apply(where, value);
     }
 
     template<typename T>
     static void apply(void* where, const void* other) noexcept(concepts::CopyConstructible<T>::no_except)
     {
-        apply<T>(reinterpret_cast<T*>(where), *reinterpret_cast<const T*>(other));
+        Apply<T>::apply(where, other);
     }
 };
 
