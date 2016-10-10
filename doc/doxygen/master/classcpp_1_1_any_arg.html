@@ -133,14 +133,14 @@ template&lt;typename T , typename  = std::enable_if_t&lt;        !std::is_same&l
 <tr class="memitem:aaadd7372a1d724c77f6ba45ef0687897"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaadd7372a1d724c77f6ba45ef0687897"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>AnyArg</b> (const <a class="el" href="group__type-erasure.html#gacc6d5ee72d584e0775ff78d227bb9691">cpp::ConstReferenceSimpleAny</a> &amp;reference)</td></tr>
 <tr class="separator:aaadd7372a1d724c77f6ba45ef0687897"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a73b2f2009c33fa3de1cb57a38dc05c74"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a73b2f2009c33fa3de1cb57a38dc05c74"><td class="memTemplItemLeft" align="right" valign="top">const T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1_any_arg.html#a73b2f2009c33fa3de1cb57a38dc05c74">get</a> () const </td></tr>
-<tr class="memdesc:a73b2f2009c33fa3de1cb57a38dc05c74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const reference to the argument object.  <a href="#a73b2f2009c33fa3de1cb57a38dc05c74">More...</a><br /></td></tr>
-<tr class="separator:a73b2f2009c33fa3de1cb57a38dc05c74"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a45425137f7330c04a8f1626035c19d32"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a45425137f7330c04a8f1626035c19d32"><td class="memTemplItemLeft" align="right" valign="top">T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1_any_arg.html#a45425137f7330c04a8f1626035c19d32">get</a> ()</td></tr>
-<tr class="memdesc:a45425137f7330c04a8f1626035c19d32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a reference to the argument object.  <a href="#a45425137f7330c04a8f1626035c19d32">More...</a><br /></td></tr>
-<tr class="separator:a45425137f7330c04a8f1626035c19d32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c7a5d5811011b3cecce17f6a731ce73"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a6c7a5d5811011b3cecce17f6a731ce73"><td class="memTemplItemLeft" align="right" valign="top">const std::decay_t&lt; T &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1_any_arg.html#a6c7a5d5811011b3cecce17f6a731ce73">get</a> () const </td></tr>
+<tr class="memdesc:a6c7a5d5811011b3cecce17f6a731ce73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a const reference to the argument object.  <a href="#a6c7a5d5811011b3cecce17f6a731ce73">More...</a><br /></td></tr>
+<tr class="separator:a6c7a5d5811011b3cecce17f6a731ce73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46cdc8eb078c8c765207ad5edc697597"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a46cdc8eb078c8c765207ad5edc697597"><td class="memTemplItemLeft" align="right" valign="top">std::decay_t&lt; T &gt; &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1_any_arg.html#a46cdc8eb078c8c765207ad5edc697597">get</a> ()</td></tr>
+<tr class="memdesc:a46cdc8eb078c8c765207ad5edc697597"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a reference to the argument object.  <a href="#a46cdc8eb078c8c765207ad5edc697597">More...</a><br /></td></tr>
+<tr class="separator:a46cdc8eb078c8c765207ad5edc697597"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a392bef8cf72f36a9bd02fe66d4f15a74"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a392bef8cf72f36a9bd02fe66d4f15a74"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_any_arg.html#a392bef8cf72f36a9bd02fe66d4f15a74">isRvalue</a> () const </td></tr>
 <tr class="memdesc:a392bef8cf72f36a9bd02fe66d4f15a74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the argument was an rvalue. <br /></td></tr>
@@ -163,7 +163,7 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <li>If the initializer value is an rvalue, the initializer value is moved into the <a class="el" href="classcpp_1_1_any_arg.html" title="Represents a type erased function call argument. ">AnyArg</a>. The <a class="el" href="classcpp_1_1_any_arg.html" title="Represents a type erased function call argument. ">AnyArg</a> object owns the value. If the moved in value is not copyable, an exception is thrown when performing <a class="el" href="classcpp_1_1_any_arg.html" title="Represents a type erased function call argument. ">AnyArg</a> copy. See cpp::features::Copyable. </li>
 </ul>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="a73b2f2009c33fa3de1cb57a38dc05c74"></a>
+<a class="anchor" id="a6c7a5d5811011b3cecce17f6a731ce73"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -173,7 +173,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const T&amp; cpp::AnyArg::get </td>
+          <td class="memname">const std::decay_t&lt;T&gt;&amp; cpp::AnyArg::get </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -197,7 +197,7 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a class="anchor" id="a45425137f7330c04a8f1626035c19d32"></a>
+<a class="anchor" id="a46cdc8eb078c8c765207ad5edc697597"></a>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
@@ -207,7 +207,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">T&amp; cpp::AnyArg::get </td>
+          <td class="memname">std::decay_t&lt;T&gt;&amp; cpp::AnyArg::get </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -223,7 +223,7 @@ template&lt;typename T &gt; </div>
 <p>Returns a reference to the argument object. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname">T</td><td>Type of the argument (cv qualifiers and references are ignored). The behavior is undefined if T is not the original type of the argument The behavior is also undefined if this <a class="el" href="classcpp_1_1_any_arg.html#a45425137f7330c04a8f1626035c19d32" title="Returns a reference to the argument object. ">get()</a> overload is called and the argument is const lvalue reference (See <a class="el" href="classcpp_1_1_any_arg.html#aa81c3cc1d532ae5bcb013ea6a9a14bad" title="Checks if the argument was const. ">isConst()</a> and <a class="el" href="classcpp_1_1_any_arg.html#ad98fc6243af79398a8cada04098979cd" title="Checks if the argument was an lvalue. ">isLvalue()</a>)</td></tr>
+    <tr><td class="paramname">T</td><td>Type of the argument (cv qualifiers and references are ignored). The behavior is undefined if T is not the original type of the argument The behavior is also undefined if this <a class="el" href="classcpp_1_1_any_arg.html#a46cdc8eb078c8c765207ad5edc697597" title="Returns a reference to the argument object. ">get()</a> overload is called and the argument is const lvalue reference (See <a class="el" href="classcpp_1_1_any_arg.html#aa81c3cc1d532ae5bcb013ea6a9a14bad" title="Checks if the argument was const. ">isConst()</a> and <a class="el" href="classcpp_1_1_any_arg.html#ad98fc6243af79398a8cada04098979cd" title="Checks if the argument was an lvalue. ">isLvalue()</a>)</td></tr>
   </table>
   </dd>
 </dl>
