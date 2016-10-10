@@ -71,7 +71,7 @@ public:
      * \returns A const reference to the argument
      */
     template<typename T>
-    const T& get() const
+    const std::decay_t<T>& get() const
     {
         if(isReferenceAny())
         {
@@ -112,13 +112,13 @@ public:
      * \returns A reference to the argument
      */
     template<typename T>
-    T& get()
+    std::decay_t<T>& get()
     {
         if(isReferenceAny())
         {
             if(isConst())
             {
-                return const_cast<T&>(_universalRef.get<cpp::ConstReferenceSimpleAny>().get<T>());
+                return const_cast<std::decay_t<T>&>(_universalRef.get<cpp::ConstReferenceSimpleAny>().get<T>());
             }
             else
             {

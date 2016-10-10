@@ -133,27 +133,13 @@ public:
             _this{this_}
         {}
 
-        template<typename Invokable, typename =
-            std::enable_if_t<
-                cpp::function_kind<std::decay_t<Invokable>>() == cpp::FunctionKind::MEMBER_OBJECT,
-                AttributeProxy&
-            >
-        >
-        AttributeProxy& operator=(Invokable&& invokable)
-        {
-            (*_attribute) = std::forward<Invokable>(invokable);
-            return *this;
-        }
-
-        template<typename T,
-            std::enable_if_t<
-                cpp::function_kind<std::decay_t<T>>() != cpp::FunctionKind::MEMBER_OBJECT,
-                AttributeProxy&
-            >
-        >
+        template<typename T>
         AttributeProxy& operator=(T&& value)
         {
-            get<std::decay_t<T>>() = std::forward<T>(value);
+            assign(
+                std::forward<T>(value),
+                cpp::meta::bool_<cpp::function_kind<std::decay_t<T>>() == cpp::FunctionKind::MEMBER_OBJECT>()
+            );
             return *this;
         }
 
@@ -194,6 +180,18 @@ public:
     private:
         Attribute* _attribute;
         Any* _this;
+
+        template<typename Callable>
+        void assign(Callable&& callable, cpp::meta::true_)
+        {
+            (*_attribute) = std::forward<Callable>(callable);
+        }
+
+        template<typename T>
+        void assign(T&& value, cpp::meta::false_)
+        {
+            get<std::decay_t<T>>() = std::forward<T>(value);
+        }
     };
 
     class ConstAttributeProxy

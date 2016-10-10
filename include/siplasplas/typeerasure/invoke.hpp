@@ -46,11 +46,45 @@ void logInvoke(::cpp::meta::index_sequence<Is...>, const cpp::SimpleAny<Storages
     }
 }
 
-template<typename Indices>
+class RemoveConst
+{
+public:
+    template<typename T, bool IsRvalueReference = std::is_rvalue_reference<T>::value>
+    class Apply
+    {
+    public:
+        using Type = std::decay_t<T>;
+
+        static constexpr Type& apply(const Type& value)
+        {
+            return const_cast<Type&>(value);
+        }
+    };
+
+    template<typename T>
+    class Apply<T, true>
+    {
+    public:
+        using Type = std::decay_t<T>;
+
+        static constexpr Type&& apply(Type&& value)
+        {
+            return std::move(value);
+        }
+    };
+
+    template<typename T>
+    constexpr decltype(auto) operator()(T&& value) const
+    {
+        return Apply<decltype(value)>::apply(std::forward<T>(value));
+    }
+};
+
+template<typename Indices, typename ArgsPolicy = cpp::Identity>
 class Invoke;
 
-template<std::size_t Head, std::size_t... Tail>
-class Invoke<::cpp::meta::index_sequence<Head, Tail...>>
+template<std::size_t Head, std::size_t... Tail, typename ArgsPolicy>
+class Invoke<::cpp::meta::index_sequence<Head, Tail...>, ArgsPolicy>
 {
 public:
     template<typename Callable, typename Iterator>
@@ -58,18 +92,18 @@ public:
     {
         return ::cpp::invoke(
             std::forward<Callable>(callable),
-            (argsBegin + Head)->template get<
+            ArgsPolicy()((argsBegin + Head)->template get<
                 ::cpp::function_argument<
                     Head,
                     std::decay_t<Callable>
                 >
-            >(),
-            (argsBegin + Tail)->template get<
+            >()),
+            ArgsPolicy()((argsBegin + Tail)->template get<
                 ::cpp::function_argument<
                     Tail,
                     std::decay_t<Callable>
                 >
-            >()...
+            >())...
         );
     }
 
@@ -78,24 +112,24 @@ public:
     {
         return ::cpp::invoke(
             std::forward<Callable>(callable),
-            std::forward<HeadArg>(head).template get<
+            ArgsPolicy()(std::forward<HeadArg>(head).template get<
                 ::cpp::function_argument<
                     Head,
                     std::decay_t<Callable>
                 >
-            >(),
-            std::forward<TailArgs>(tail).template get<
+            >()),
+            ArgsPolicy()(std::forward<TailArgs>(tail).template get<
                 ::cpp::function_argument<
                     Tail,
                     std::decay_t<Callable>
                 >
-            >()...
+            >())...
         );
     }
 };
 
-template<>
-class Invoke<::cpp::meta::index_sequence<>>
+template<typename ArgsPolicy>
+class Invoke<::cpp::meta::index_sequence<>, ArgsPolicy>
 {
 public:
     template<typename Callable, typename Iterator>
@@ -104,7 +138,7 @@ public:
         return ::cpp::invoke(std::forward<Callable>(callable));
     }
 
-    template<typename Callable, typename Args...>
+    template<typename Callable, typename... Args>
     static decltype(auto) apply_pack(Callable&& callable, Args&&...)
     {
         return ::cpp::invoke(std::forward<Callable>(callable));
@@ -126,7 +160,9 @@ public:
 template<typename Callable, typename... Storages>
 decltype(auto) invoke(Callable&& callable, const ::cpp::SimpleAny<Storages>&... args)
 {
-    return ::cpp::typeerasure::detail::Invoke<::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>>::apply_pack(std::forward<Callable>(callable), args...);
+    return ::cpp::typeerasure::detail::Invoke<
+        ::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>
+    >::apply_pack(std::forward<Callable>(callable), args...);
 }
 
 /**
@@ -142,7 +178,9 @@ decltype(auto) invoke(Callable&& callable, const ::cpp::SimpleAny<Storages>&... 
 template<typename Callable, typename... Storages>
 decltype(auto) invoke(Callable&& callable, ::cpp::SimpleAny<Storages>&... args)
 {
-    return ::cpp::typeerasure::detail::Invoke<::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>>::apply_pack(std::forward<Callable>(callable), args...);
+    return ::cpp::typeerasure::detail::Invoke<
+        ::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>
+    >::apply_pack(std::forward<Callable>(callable), args...);
 }
 
 /**
@@ -158,7 +196,9 @@ decltype(auto) invoke(Callable&& callable, ::cpp::SimpleAny<Storages>&... args)
 template<typename Callable, typename... Storages>
 decltype(auto) invoke(Callable&& callable, ::cpp::SimpleAny<Storages>&&... args)
 {
-    return ::cpp::typeerasure::detail::Invoke<::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>>::apply_pack(std::forward<Callable>(callable), std::move(args)...);
+    return ::cpp::typeerasure::detail::Invoke<
+        ::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>
+    >::apply_pack(std::forward<Callable>(callable), std::move(args)...);
 }
 
 /**
@@ -174,7 +214,9 @@ decltype(auto) invoke(Callable&& callable, ::cpp::SimpleAny<Storages>&&... args)
 template<typename Callable, typename Storage>
 decltype(auto) invoke(Callable&& callable, const std::vector<::cpp::SimpleAny<Storage>>& args)
 {
-    return ::cpp::typeerasure::detail::Invoke<::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>>::apply_sequence(std::forward<Callable>(callable), std::begin(args));
+    return ::cpp::typeerasure::detail::Invoke<
+        ::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>
+    >::apply_sequence(std::forward<Callable>(callable), std::begin(args));
 }
 
 /**
@@ -190,7 +232,9 @@ decltype(auto) invoke(Callable&& callable, const std::vector<::cpp::SimpleAny<St
 template<typename Callable, typename Storage>
 decltype(auto) invoke(Callable&& callable, std::vector<::cpp::SimpleAny<Storage>>& args)
 {
-    return ::cpp::typeerasure::detail::Invoke<::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>>::apply_sequence(std::forward<Callable>(callable), std::begin(args));
+    return ::cpp::typeerasure::detail::Invoke<
+        ::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>
+    >::apply_sequence(std::forward<Callable>(callable), std::begin(args));
 }
 
 /**
@@ -206,7 +250,10 @@ decltype(auto) invoke(Callable&& callable, std::vector<::cpp::SimpleAny<Storage>
 template<typename Callable, typename Storage>
 decltype(auto) invoke(Callable&& callable, std::vector<::cpp::SimpleAny<Storage>>&& args)
 {
-    return ::cpp::typeerasure::detail::Invoke<::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>>::apply_sequence(std::forward<Callable>(callable), std::begin(std::move(args)));
+    return ::cpp::typeerasure::detail::Invoke<::cpp::meta::make_index_sequence<
+        ::cpp::function_arguments<std::decay_t<Callable>>::size>,
+        ::cpp::typeerasure::detail::RemoveConst
+    >::apply_sequence(std::forward<Callable>(callable), std::begin(std::move(args)));
 }
 
 /**
@@ -225,7 +272,9 @@ decltype(auto) invoke(Callable&& callable, std::vector<::cpp::SimpleAny<Storage>
 template<typename Callable>
 decltype(auto) invoke(Callable&& callable, const std::vector<::cpp::AnyArg>& args)
 {
-    return ::cpp::typeerasure::detail::Invoke<::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>>::apply_sequence(std::forward<Callable>(callable), std::begin(args));
+    return ::cpp::typeerasure::detail::Invoke<
+        ::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>
+    >::apply_sequence(std::forward<Callable>(callable), std::begin(args));
 }
 
 /**
@@ -244,7 +293,9 @@ decltype(auto) invoke(Callable&& callable, const std::vector<::cpp::AnyArg>& arg
 template<typename Callable>
 decltype(auto) invoke(Callable&& callable, std::vector<::cpp::AnyArg>& args)
 {
-    return ::cpp::typeerasure::detail::Invoke<::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>>::apply_sequence(std::forward<Callable>(callable), std::begin(args));
+    return ::cpp::typeerasure::detail::Invoke<
+        ::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>
+    >::apply_sequence(std::forward<Callable>(callable), std::begin(args));
 }
 
 /**
@@ -263,7 +314,10 @@ decltype(auto) invoke(Callable&& callable, std::vector<::cpp::AnyArg>& args)
 template<typename Callable>
 decltype(auto) invoke(Callable&& callable, std::vector<::cpp::AnyArg>&& args)
 {
-    return ::cpp::typeerasure::detail::Invoke<::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>>::apply_sequence(std::forward<Callable>(callable), std::begin(std::move(args)));
+    return ::cpp::typeerasure::detail::Invoke<
+        ::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>,
+        ::cpp::typeerasure::detail::RemoveConst
+    >::apply_sequence(std::forward<Callable>(callable), std::begin(std::move(args)));
 }
 
 /**
@@ -282,7 +336,9 @@ decltype(auto) invoke(Callable&& callable, std::vector<::cpp::AnyArg>&& args)
 template<typename Callable, typename Iterator, typename = typename std::iterator_traits<Iterator>::value_type>
 decltype(auto) invoke(Callable&& callable, Iterator argsBegin)
 {
-    return ::cpp::typeerasure::detail::Invoke<::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>>::apply_sequence(std::forward<Callable>(callable), argsBegin);
+    return ::cpp::typeerasure::detail::Invoke<
+        ::cpp::meta::make_index_sequence<::cpp::function_arguments<std::decay_t<Callable>>::size>
+    >::apply_sequence(std::forward<Callable>(callable), argsBegin);
 }
 
 }

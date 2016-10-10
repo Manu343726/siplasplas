@@ -113,7 +113,8 @@ struct NoThrowDestructible
 
 class NoDefaultConstructible
 {
-    NoDefaultConstructible() = default;
+private:
+    NoDefaultConstructible() {}
 };
 
 class NoNoThrowDefaultConstructible
@@ -123,14 +124,16 @@ class NoNoThrowDefaultConstructible
 
 class NoConstructible
 {
+private:
     template<typename... Args>
-    NoConstructible(Args&&...) = default;
+    NoConstructible(Args&&...) {}
 };
 
 class NoNoThrowConstructible
 {
+private:
     template<typename... Args>
-    NoNoThrowConstructible(Args&&...) noexcept = default;
+    NoNoThrowConstructible(Args&&...) noexcept {}
 };
 
 struct NoCopyConstructible
@@ -144,6 +147,7 @@ private:
 
 class NoNoThrowCopyConstructible
 {
+private:
     NoNoThrowCopyConstructible(const NoNoThrowCopyConstructible&) noexcept = default;
 };
 
@@ -158,33 +162,39 @@ private:
 
 class NoNoThrowMoveConstructible
 {
+private:
     NoNoThrowMoveConstructible(NoNoThrowMoveConstructible&&) noexcept = default;
 };
 
 class NoAssignable
 {
+private:
     template<typename T>
-    NoAssignable& operator=(const T&) = default;
+    NoAssignable& operator=(const T&) {}
 };
 
 class NoNoThrowAssignable
 {
+private:
     template<typename T>
-    NoNoThrowAssignable& operator=(const T&) noexcept = default;
+    NoNoThrowAssignable& operator=(const T&) noexcept {}
 };
 
 class NoCopyAssignable
 {
+private:
     NoCopyAssignable& operator=(const NoCopyAssignable&) = default;
 };
 
 class NoNoThrowCopyAssignable
 {
+private:
     NoNoThrowCopyAssignable& operator=(const NoNoThrowCopyAssignable&) noexcept = default;
 };
 
 class NoMoveAssignable
 {
+private:
     NoMoveAssignable& operator=(NoMoveAssignable&&) = default;
 };
 
