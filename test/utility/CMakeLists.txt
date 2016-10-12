@@ -1,5 +1,6 @@
 add_siplasplas_test(utility
 SOURCES
+    arrayview_test.cpp
     memory_manip_test.cpp
     compiles_test.cpp
     typeinfo_test.cpp

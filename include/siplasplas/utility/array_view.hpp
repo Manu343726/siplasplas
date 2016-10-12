@@ -1,6 +1,7 @@
 #ifndef SIPLASPLAS_UTILITY_ARRAYVIEW_HPP
 #define SIPLASPLAS_UTILITY_ARRAYVIEW_HPP
 
+#include "constexpralgorithms.hpp"
 #include <array>
 
 namespace cpp
@@ -141,6 +142,78 @@ private:
     const T* _begin;
     std::size_t _size;
 };
+
+template<typename T, typename U>
+constexpr bool operator==(const ArrayView<T>& lhs, const ArrayView<U>& rhs)
+{
+    return cpp::equal(
+        lhs.begin(), lhs.end(),
+        rhs.begin(), rhs.end()
+    );
+}
+
+template<typename T, typename U>
+constexpr bool operator==(const ConstArrayView<T>& lhs, const ArrayView<U>& rhs)
+{
+    return cpp::equal(
+        lhs.begin(), lhs.end(),
+        rhs.begin(), rhs.end()
+    );
+}
+
+template<typename T, typename U>
+constexpr bool operator==(const ConstArrayView<T>& lhs, const ConstArrayView<U>& rhs)
+{
+    return cpp::equal(
+        lhs.begin(), lhs.end(),
+        rhs.begin(), rhs.end()
+    );
+}
+
+template<typename T, typename U>
+constexpr bool operator==(const ArrayView<T>& lhs, const ConstArrayView<U>& rhs)
+{
+    return cpp::equal(
+        lhs.begin(), lhs.end(),
+        rhs.begin(), rhs.end()
+    );
+}
+
+template<typename T, typename U>
+constexpr bool operator!=(const ArrayView<T>& lhs, const ArrayView<U>& rhs)
+{
+    return !(lhs == rhs);
+}
+
+template<typename T, typename U>
+constexpr bool operator!=(const ConstArrayView<T>& lhs, const ArrayView<U>& rhs)
+{
+    return !(lhs == rhs);
+}
+
+template<typename T, typename U>
+constexpr bool operator!=(const ConstArrayView<T>& lhs, const ConstArrayView<U>& rhs)
+{
+    return !(lhs == rhs);
+}
+
+template<typename T, typename U>
+constexpr bool operator!=(const ArrayView<T>& lhs, const ConstArrayView<U>& rhs)
+{
+    return !(lhs == rhs);
+}
+
+template<typename T, std::size_t N>
+constexpr ArrayView<T> arrayView(const T (&array)[N])
+{
+    return { array };
+}
+
+template<typename T, std::size_t N>
+constexpr ConstArrayView<T> constArrayView(const T (&array)[N])
+{
+    return { array };
+}
 }
 
 #endif // SIPLASPLAS_UTILITY_ARRAYVIEW_HPP
