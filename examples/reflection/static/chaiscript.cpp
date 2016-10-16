@@ -12,6 +12,6 @@ int main()
     {
         using Method = cpp::meta::type_t<decltype(method)>;
 
-        chai.add(chaiscript::fun(Method::get()), Method::SourceInfo::spelling());
+        chai.add(chaiscript::fun(Method::get()), cpp::lexical_cast(Method::SourceInfo::spelling()));
     });
 }

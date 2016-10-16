@@ -1,6 +1,7 @@
 #ifndef SIPLASPLAS_REFLECTION_STATIC_SOURCEINFO_HPP
 #define SIPLASPLAS_REFLECTION_STATIC_SOURCEINFO_HPP
 
+#include <siplasplas/utility/array_view.hpp>
 #include <siplasplas/utility/meta.hpp>
 #include <array>
 #include <string>
@@ -71,28 +72,26 @@ public:
 
     /**
      * \brief Returns the full qualified name of an entity
-     * \returns a pointer to a null-terminated `constexpr` C string
-     * with the full name.
+     * \returns a constexpr string view with the full name.
      * If the source info is a default empty source info (Such as from an entity without reflection
      * metadata available) returns an empty string.
      */
-    static constexpr const char* fullName()
+    static constexpr cpp::ConstStringView fullName()
     {
-        return ::cpp::meta::StringToArray<FullName>::c_str();
+        return ::cpp::meta::StringToArray<FullName>::get();
     }
 
     /**
      * \brief Returns the name of the entity
      * See [`clang_getCursorSpelling()`](http://clang.llvm.org/doxygen/group__CINDEX__CURSOR__XREF.html#gaad1c9b2a1c5ef96cebdbc62f1671c763).
      *
-     * \returns a pointer to a null-terminated `constexpr` C string
-     * with the spelling.
+     * \returns A constexpr string view with the spelling.
      * If the source info is a default empty source info (Such as from an entity without reflection
      * metadata available) returns an empty string.
      */
-    static constexpr const char* spelling()
+    static constexpr cpp::ConstStringView spelling()
     {
-        return ::cpp::meta::StringToArray<Spelling>::c_str();
+        return ::cpp::meta::StringToArray<Spelling>::get();
     }
 
     /**

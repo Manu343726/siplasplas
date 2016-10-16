@@ -31,9 +31,9 @@ public:
     static SourceInfo fromStaticSourceInfo()
     {
         return {
-            Entity::SourceInfo::SourceInfo::fullName(),
+            Entity::SourceInfo::SourceInfo::fullName().str(),
             Entity::SourceInfo::kind(),
-            Entity::SourceInfo::spelling(),
+            Entity::SourceInfo::spelling().str(),
             Entity::SourceInfo::displayName(),
             Entity::SourceInfo::file(),
             Entity::SourceInfo::line()

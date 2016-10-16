@@ -16,14 +16,14 @@ cpp::Any32 createObject(Args&&... args)
     {
         using Field = cpp::meta::type_t<decltype(field)>;
 
-        any[Field::SourceInfo::spelling()] = Field::get();
+        any[Field::SourceInfo::spelling().str()] = Field::get();
     });
 
     cpp::foreach_type<typename cpp::srfl::Class<Class>::Methods>([&](auto function)
     {
         using Function = cpp::meta::type_t<decltype(function)>;
 
-        any(Function::SourceInfo::spelling()) = Function::get();
+        any(Function::SourceInfo::spelling().str()) = Function::get();
     });
 
     return any;

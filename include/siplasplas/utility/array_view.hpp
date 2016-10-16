@@ -143,6 +143,66 @@ private:
     std::size_t _size;
 };
 
+template<typename T>
+std::ostream& operator<<(std::ostream& os, const ArrayView<T>& arrayView)
+{
+    os << "{";
+
+    for(std::size_t i = 0; i < arrayView.size(); ++i)
+    {
+        if(i < arrayView.size() - 1)
+        {
+            os << arrayView[i] << ", ";
+        }
+        else
+        {
+            os << arrayView[i];
+        }
+    }
+
+    return os << "}";
+}
+
+template<typename T>
+std::ostream& operator<<(std::ostream& os, const ConstArrayView<T>& arrayView)
+{
+    os << "{";
+
+    for(std::size_t i = 0; i < arrayView.size(); ++i)
+    {
+        if(i < arrayView.size() - 1)
+        {
+            os << arrayView[i] << ", ";
+        }
+        else
+        {
+            os << arrayView[i];
+        }
+    }
+
+    return os << "}";
+}
+
+inline std::ostream& operator<<(std::ostream& os, const ArrayView<char>& arrayView)
+{
+    for(const char c : arrayView)
+    {
+        os << c;
+    }
+
+    return os;
+}
+
+inline std::ostream& operator<<(std::ostream& os, const ConstArrayView<char>& arrayView)
+{
+    for(const char c : arrayView)
+    {
+        os << c;
+    }
+
+    return os;
+}
+
 template<typename T, typename U>
 constexpr bool operator==(const ArrayView<T>& lhs, const ArrayView<U>& rhs)
 {
@@ -214,6 +274,83 @@ constexpr ConstArrayView<T> constArrayView(const T (&array)[N])
 {
     return { array };
 }
+
+class StringView : public ArrayView<char>
+{
+public:
+    using ArrayView<char>::ArrayView;
+
+    constexpr StringView(const ArrayView<char>& arrayView) :
+        ArrayView<char>{arrayView}
+    {}
+
+    constexpr StringView(ArrayView<char>&& arrayView) :
+        ArrayView<char>{std::move(arrayView)}
+    {}
+
+    std::string str() const
+    {
+        /*
+         * The range std::string constructor takes the string as is, so passing
+         * a range including a null terminator at the end (Such as when passing an
+         * string literal to a [Const]ArrayView) leads to a string with a
+         * \0 character at the end. Instead, return a range without that final
+         * null terminator so std::string gets the right string
+         */
+        if((*this)[size() - 1] == '\0')
+        {
+            return { begin(), end() - 1};
+        }
+        else
+        {
+            return { begin(), end() };
+        }
+    }
+
+    const char* c_str() const
+    {
+        return begin();
+    }
+};
+
+class ConstStringView : public ConstArrayView<char>
+{
+public:
+    using ConstArrayView<char>::ConstArrayView;
+
+    constexpr ConstStringView(const ConstArrayView<char>& arrayView) :
+        ConstArrayView<char>{arrayView}
+    {}
+
+    constexpr ConstStringView(ConstArrayView<char>&& arrayView) :
+        ConstArrayView<char>{std::move(arrayView)}
+    {}
+
+    std::string str() const
+    {
+        /*
+         * The range std::string constructor takes the string as is, so passing
+         * a range including a null terminator at the end (Such as when passing an
+         * string literal to a [Const]ArrayView) leads to a string with a
+         * \0 character at the end. Instead, return a range without that final
+         * null terminator so std::string gets the right string
+         */
+        if((*this)[size() - 1] == '\0')
+        {
+            return { begin(), end() - 1};
+        }
+        else
+        {
+            return { begin(), end() };
+        }
+    }
+
+    const char* c_str() const
+    {
+        return begin();
+    }
+};
+
 }
 
 #endif // SIPLASPLAS_UTILITY_ARRAYVIEW_HPP

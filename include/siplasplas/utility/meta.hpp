@@ -340,7 +340,7 @@ namespace meta
 
         static constexpr const value_type& get(std::size_t i)
         {
-            return *static_cast<void*>(nullptr);
+            return *static_cast<value_type*>(nullptr);
         }
 
         struct Bounds
@@ -438,6 +438,38 @@ namespace meta
             return PackToArray<char, Chars..., '\0'>::Bounds::begin();
         }
     };
+
+    template<typename Lhs, typename LhsToValue, typename Rhs, typename RhsToValue>
+    constexpr bool operator==(const SequenceToArray<Lhs, LhsToValue>& lhs, const SequenceToArray<Rhs, RhsToValue>& rhs)
+    {
+        return cpp::equal(lhs, rhs);
+    }
+
+    template<typename Lhs, typename LhsToValue, typename Rhs, typename RhsToValue>
+    constexpr bool operator!=(const SequenceToArray<Lhs, LhsToValue>& lhs, const SequenceToArray<Rhs, RhsToValue>& rhs)
+    {
+        return !(lhs == rhs);
+    }
+
+    template<typename Sequence, typename ToValue>
+    std::ostream& operator<<(std::ostream& os, const SequenceToArray<Sequence, ToValue>& sequence)
+    {
+        os << "{";
+
+        for(std::size_t i = 0; i < sequence.size(); ++i)
+        {
+            if(i < sequence.size() - 1)
+            {
+                os << sequence[i] << ", ";
+            }
+            else
+            {
+                os << sequence[i];
+            }
+        }
+
+        return os << "}";
+    }
 
     template<char... Chars>
     using PackStringToArray = StringToArray<list<std::integral_constant<char, Chars>...>>;

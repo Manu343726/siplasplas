@@ -182,7 +182,7 @@ std::enable_if_t<std::is_class<T>::value, nlohmann::json> serialize(const T& obj
         );
 
         // We use the spelling of the field as key, and the serialized value as value:
-        fields[FieldInfo::SourceInfo::spelling()] = serialize(
+        fields[cpp::lexical_cast(FieldInfo::SourceInfo::spelling())] = serialize(
             cpp::invoke(FieldInfo::get(), object) // C++17 std::invoke() on member object ptr
         );
     });
@@ -247,10 +247,10 @@ public:
             fmt::print("Deserializing {} (Type: {}, Stored type: {})\n",
                 ctti::type_id<T>().name(),
                 ctti::type_id<Type>().name(),
-                fields[FieldInfo::SourceInfo::spelling()]["type"].template get<std::string>()
+                fields[cpp::lexical_cast(FieldInfo::SourceInfo::spelling())]["type"].template get<std::string>()
             );
 
-            cpp::invoke(FieldInfo::get(), object) = Deserialize<Type>::apply(fields[FieldInfo::SourceInfo::spelling()]);
+            cpp::invoke(FieldInfo::get(), object) = Deserialize<Type>::apply(fields[cpp::lexical_cast(FieldInfo::SourceInfo::spelling())]);
         });
 
         return object;
