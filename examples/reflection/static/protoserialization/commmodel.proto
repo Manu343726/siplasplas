@@ -1,0 +1,13 @@
+package commmodel;
+
+message NetworkSettings
+{
+    optional string ipAddress = 1;
+    optional string gateway = 2;
+    optional int32 pingInterval = 3;
+}
+
+message ChangeNetworkSettings
+{
+    optional NetworkSettings newSettings = 1;
+}

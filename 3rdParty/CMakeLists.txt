@@ -13,6 +13,7 @@ add_subdirectory(libexecstream)
 
 if(SIPLASPLAS_BUILD_EXAMPLES)
     add_subdirectory(chaiscript)
+    add_subdirectory(protobuf)
 
     if(NOT SIPLASPLAS_CI_BUILD)
         # Cannot configure SFML with current

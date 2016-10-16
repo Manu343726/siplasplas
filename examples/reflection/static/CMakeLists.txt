@@ -28,3 +28,5 @@ add_siplasplas_example_simple(enum INCLUDE_DIRS .. DEPENDS siplasplas-reflection
 configure_siplasplas_reflection(examples-enum)
 add_siplasplas_example_simple(membermatching INCLUDE_DIRS .. DEPENDS siplasplas-reflection-static)
 configure_siplasplas_reflection(examples-membermatching)
+
+add_subdirectory(protoserialization)
