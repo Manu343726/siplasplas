@@ -24,3 +24,13 @@ enum class EnumWithIntUnderlyingType : int
     INT_ENUM_VALUE_2 = 1 + 1
 };
 
+class ClassWithMultipleMembers
+{
+public:
+    void foo();
+    void foobar();
+    void quux();
+    void fo();
+};
+
+#include <reflection/examples/reflection/astexamples.hpp>

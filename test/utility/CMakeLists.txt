@@ -1,6 +1,7 @@
 add_siplasplas_test(utility
 SOURCES
     meta_test.cpp
+    constexpralgorithms_test.cpp
     arrayview_test.cpp
     memory_manip_test.cpp
     compiles_test.cpp

@@ -26,3 +26,5 @@ add_siplasplas_example_simple(serialization INCLUDE_DIRS .. DEPENDS siplasplas-r
 configure_siplasplas_reflection(examples-serialization)
 add_siplasplas_example_simple(enum INCLUDE_DIRS .. DEPENDS siplasplas-reflection-static)
 configure_siplasplas_reflection(examples-enum)
+add_siplasplas_example_simple(membermatching INCLUDE_DIRS .. DEPENDS siplasplas-reflection-static)
+configure_siplasplas_reflection(examples-membermatching)
