@@ -156,6 +156,9 @@ detail::ValueSemanticsOperationFunction&#160;</td><td class="memItemRight" valig
 <tr class="memitem:a55ad6a562387b3914daf1c9b3f184268"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_type_info.html#a55ad6a562387b3914daf1c9b3f184268">destroy</a> (void *where) const </td></tr>
 <tr class="memdesc:a55ad6a562387b3914daf1c9b3f184268"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destroys objects of the type If the passed arguments are not of the represented type, the behavior is undefined.  <a href="#a55ad6a562387b3914daf1c9b3f184268">More...</a><br /></td></tr>
 <tr class="separator:a55ad6a562387b3914daf1c9b3f184268"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22faf67a34c7c9f6cdadd66127e3ac74"><td class="memItemLeft" align="right" valign="top">constexpr cpp::ConstArrayView&lt; <a class="el" href="classcpp_1_1typeerasure_1_1_type_info.html">TypeInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_type_info.html#a22faf67a34c7c9f6cdadd66127e3ac74">arguments</a> () const </td></tr>
+<tr class="memdesc:a22faf67a34c7c9f6cdadd66127e3ac74"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type information of the function arguments.  <a href="#a22faf67a34c7c9f6cdadd66127e3ac74">More...</a><br /></td></tr>
+<tr class="separator:a22faf67a34c7c9f6cdadd66127e3ac74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
@@ -164,6 +167,11 @@ template&lt;typename T &gt; </td></tr>
 <tr class="memitem:ab3e9550b8ffcdc14408ccabeac420ca0"><td class="memTemplItemLeft" align="right" valign="top">static constexpr <a class="el" href="classcpp_1_1typeerasure_1_1_type_info.html">TypeInfo</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_type_info.html#ab3e9550b8ffcdc14408ccabeac420ca0">get</a> ()</td></tr>
 <tr class="memdesc:ab3e9550b8ffcdc14408ccabeac420ca0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type information of type T. <br /></td></tr>
 <tr class="separator:ab3e9550b8ffcdc14408ccabeac420ca0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a354fbb53067c9269113e17962f6a584a"><td class="memTemplParams" colspan="2"><a class="anchor" id="a354fbb53067c9269113e17962f6a584a"></a>
+template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a354fbb53067c9269113e17962f6a584a"><td class="memTemplItemLeft" align="right" valign="top">static constexpr <a class="el" href="classcpp_1_1typeerasure_1_1_type_info.html">TypeInfo</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classcpp_1_1typeerasure_1_1_type_info.html#a354fbb53067c9269113e17962f6a584a">get</a> (const T &amp;)</td></tr>
+<tr class="memdesc:a354fbb53067c9269113e17962f6a584a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the type information of type T. <br /></td></tr>
+<tr class="separator:a354fbb53067c9269113e17962f6a584a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -178,6 +186,32 @@ constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator!=<
 <div class="textblock"><p>Contains minimal information to execute the value semantics operations of a type. </p>
 <p>This class stores the alignment and value semantics operations of a type. The value semantics operations are aset of type-erased functions mapping to the different value semantics features (CopyConstructible, DefaultConstructible, etc). This mapping is implemented as a lookup table of function pointers.</p>
 <div class="fragment"><div class="line">std::aligned_storage&lt;sizeof(std::string), alignof(std::string)&gt; stringStorage;</div><div class="line">std::string str = <span class="stringliteral">&quot;hello, world!&quot;</span>;</div><div class="line"><span class="keyword">auto</span> typeInfo = TypeInfo::get&lt;std::string&gt;();</div><div class="line"></div><div class="line"><span class="comment">// Copy construct the string from str:</span></div><div class="line">typeInfo.copyConstruct(&amp;stringStorage, &amp;str);</div><div class="line"></div><div class="line"><span class="comment">// Or if there&#39;s no access to a properly aligned storage, use TypeInfo::alignment():</span></div><div class="line"><span class="keywordtype">char</span> buffer[64];</div><div class="line">typeInfo.copyConstruct(</div><div class="line">    <a class="code" href="group__memory-manip.html#gab4fdc580f07afd23d2cc7b1ee0c28d48">cpp::detail::aligned_ptr</a>(&amp;buffer[0], typeInfo.alignment()), <span class="comment">// Get an aligned address first</span></div><div class="line">    &amp;str</div><div class="line"> );</div></div><!-- fragment --> </div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a22faf67a34c7c9f6cdadd66127e3ac74"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr cpp::ConstArrayView&lt;<a class="el" href="classcpp_1_1typeerasure_1_1_type_info.html">TypeInfo</a>&gt; cpp::typeerasure::TypeInfo::arguments </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Returns the type information of the function arguments. </p>
+<p>The behavior is undefined if the type is not a function type </p>
+
+</div>
+</div>
 <a class="anchor" id="aeb17c5ae570229c8a9a98a9ca96ee9ca"></a>
 <div class="memitem">
 <div class="memproto">

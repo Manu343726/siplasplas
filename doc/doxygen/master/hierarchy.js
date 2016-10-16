@@ -52,6 +52,7 @@ var hierarchy =
     [ "cpp::static_reflection::meta::Enum< SourceInfo, EnumType, Constants, ConstantsNames >", "classcpp_1_1static__reflection_1_1meta_1_1_enum.html", null ],
     [ "cpp::static_reflection::Enum< EnumType >", "classcpp_1_1static__reflection_1_1_enum.html", null ],
     [ "cpp::static_reflection::meta::Enum< static_reflection::meta::EmptySourceInfo< Enum< EnumType > >, EnumType,::cpp::meta::list< std::integral_constant< EnumType, static_cast< EnumType >(0)> >,::cpp::meta::list< ::cpp::meta::string<> > >", "classcpp_1_1static__reflection_1_1meta_1_1_enum.html", null ],
+    [ "cpp::Equal", "structcpp_1_1_equal.html", null ],
     [ "cpp::Exception< Ex, Base >", "classcpp_1_1_exception.html", null ],
     [ "cpp::typeerasure::Field< Storage, ObjectArgStorage >", "classcpp_1_1typeerasure_1_1_field.html", null ],
     [ "cpp::static_reflection::meta::Field< SourceInfo, F, field >", "classcpp_1_1static__reflection_1_1meta_1_1_field.html", null ],
@@ -59,8 +60,8 @@ var hierarchy =
     [ "cpp::static_reflection::meta::Field< static_reflection::meta::EmptySourceInfo< Field< FieldType, field > >, FieldType, field >", "classcpp_1_1static__reflection_1_1meta_1_1_field.html", null ],
     [ "cpp::FixedSizeStorage< Size, Alignment >", "classcpp_1_1_fixed_size_storage.html", null ],
     [ "cpp::static_reflection::Function< FunctionType, function >", "classcpp_1_1static__reflection_1_1_function.html", null ],
-    [ "cpp::static_reflection::meta::Function< SourceInfo, FunctionType, function >", "classcpp_1_1static__reflection_1_1meta_1_1_function.html", null ],
     [ "cpp::typeerasure::Function< Storage, ArgsStorage, ReturnStorage >", "classcpp_1_1typeerasure_1_1_function.html", null ],
+    [ "cpp::static_reflection::meta::Function< SourceInfo, FunctionType, function >", "classcpp_1_1static__reflection_1_1meta_1_1_function.html", null ],
     [ "cpp::static_reflection::meta::Function< static_reflection::meta::EmptySourceInfo< Function< FunctionType, function > >, FunctionType, function >", "classcpp_1_1static__reflection_1_1meta_1_1_function.html", null ],
     [ "cpp::typeerasure::Function< Storage, ObjectArgStorage, cpp::cpp::NonOwningStorage >", "classcpp_1_1typeerasure_1_1_function.html", null ],
     [ "cpp::Hash< T >", "structcpp_1_1_hash.html", null ],
@@ -71,6 +72,7 @@ var hierarchy =
     [ "cpp::NonOwningStorage", "classcpp_1_1_non_owning_storage.html", [
       [ "cpp::SimpleAny< NonOwningStorage >", "classcpp_1_1_simple_any_3_01_non_owning_storage_01_4.html", null ]
     ] ],
+    [ "cpp::NotEqual", "structcpp_1_1_not_equal.html", null ],
     [ "cpp::features::OStreamable", "classcpp_1_1features_1_1_o_streamable.html", null ],
     [ "cpp::RawHash< T >", "classcpp_1_1_raw_hash.html", null ],
     [ "cpp::dynamic_reflection::Runtime", "classcpp_1_1dynamic__reflection_1_1_runtime.html", null ],

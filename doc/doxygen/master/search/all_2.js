@@ -2,8 +2,8 @@ var searchData=
 [
   ['callee',['callee',['../classcpp_1_1_signal_sink.html#a42d0092ebdf35ebf9c3a2fea21cb8798',1,'cpp::SignalSink']]],
   ['caller',['caller',['../classcpp_1_1_signal_sink.html#a63f40e31909da73b43110119c8830604',1,'cpp::SignalSink']]],
-  ['class',['Class',['../classcpp_1_1static__reflection_1_1meta_1_1_class.html',1,'cpp::static_reflection::meta']]],
   ['class',['Class',['../classcpp_1_1dynamic__reflection_1_1_class.html',1,'cpp::dynamic_reflection']]],
+  ['class',['Class',['../classcpp_1_1static__reflection_1_1meta_1_1_class.html',1,'cpp::static_reflection::meta']]],
   ['class',['Class',['../classcpp_1_1static__reflection_1_1_class.html',1,'cpp::static_reflection']]],
   ['class_3c_20static_5freflection_3a_3ameta_3a_3aemptysourceinfo_3c_20t_20_3e_2c_20t_2c_3a_3acpp_3a_3ameta_3a_3alist_3c_3e_2c_3a_3acpp_3a_3ameta_3a_3alist_3c_3e_2c_3a_3acpp_3a_3ameta_3a_3alist_3c_3e_2c_3a_3acpp_3a_3ameta_3a_3alist_3c_3e_2c_3a_3acpp_3a_3ameta_3a_3alist_3c_3e_20_3e',['Class&lt; static_reflection::meta::EmptySourceInfo&lt; T &gt;, T,::cpp::meta::list&lt;&gt;,::cpp::meta::list&lt;&gt;,::cpp::meta::list&lt;&gt;,::cpp::meta::list&lt;&gt;,::cpp::meta::list&lt;&gt; &gt;',['../classcpp_1_1static__reflection_1_1meta_1_1_class.html',1,'cpp::static_reflection::meta']]],
   ['class_5f',['class_',['../classcpp_1_1dynamic__reflection_1_1_class.html#a2d5b584f9f21952c8e9f379cec0d79d0',1,'cpp::dynamic_reflection::Class::class_()'],['../classcpp_1_1dynamic__reflection_1_1_namespace.html#a0216669b4f4100b787778013d1b215ed',1,'cpp::dynamic_reflection::Namespace::class_()']]],
@@ -31,6 +31,7 @@ var searchData=
   ['configurefinished',['configureFinished',['../classcpp_1_1_c_make_project.html#ae3cd65a5a5b2a8db7583d0bf5181cc7a',1,'cpp::CMakeProject']]],
   ['connect',['connect',['../classcpp_1_1_signal_emitter.html#a066ef1c17fd4550eed4bb11436af3e33',1,'cpp::SignalEmitter::connect(Caller &amp;caller, R(Class::*source)(Args...), Function function)'],['../classcpp_1_1_signal_emitter.html#a8519d6b9541fd06c16707649bed4c446',1,'cpp::SignalEmitter::connect(Caller &amp;caller, R(Class::*source)(Args...), Callee &amp;callee, Function function)']]],
   ['connect_5fasync',['connect_async',['../classcpp_1_1_signal_emitter.html#a154d13b2bcf5f8bbf997b5172284b486',1,'cpp::SignalEmitter::connect_async(Caller &amp;caller, R(Class::*source)(Args...), Function function)'],['../classcpp_1_1_signal_emitter.html#a74547169c5a7375e9812e966efb2d3fd',1,'cpp::SignalEmitter::connect_async(Caller &amp;caller, R(Class::*source)(Args...), Callee &amp;callee, Function function)']]],
+  ['constexpr_2dalgorithms',['Constexpr-algorithms',['../group__constexpr-algorithms.html',1,'']]],
   ['constnonowningstorage',['ConstNonOwningStorage',['../classcpp_1_1_const_non_owning_storage.html',1,'cpp']]],
   ['constnonowningstorage',['ConstNonOwningStorage',['../classcpp_1_1_const_non_owning_storage.html#ac83a24e137098b2391aa4d3f465dfc5a',1,'cpp::ConstNonOwningStorage']]],
   ['constreferenceany',['ConstReferenceAny',['../group__type-erasure.html#gae0b55f34e1b12d4d90a095658a35ee67',1,'cpp']]],

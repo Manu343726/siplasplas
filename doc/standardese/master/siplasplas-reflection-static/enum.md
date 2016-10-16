@@ -25,7 +25,7 @@ namespace cpp
                 
                 using names_array_t = std::array<const char*, sizeof...(ConstantsNames)>;
                 
-                using values_array_t = const EnumType[sizeof...(Constants)];
+                using values_array_t = cpp::ConstArrayView<EnumType>;
                 
                 constexpr Enum() = default;
                 
@@ -33,7 +33,7 @@ namespace cpp
                 
                 static constexpr const names_array_t& names();
                 
-                static constexpr const values_array_t& values();
+                static constexpr values_array_t values();
                 
                 static constexpr EnumType value(std::size_t i);
                 

@@ -1,5 +1,6 @@
 var classcpp_1_1typeerasure_1_1_type_info =
 [
+    [ "arguments", "classcpp_1_1typeerasure_1_1_type_info.html#a22faf67a34c7c9f6cdadd66127e3ac74", null ],
     [ "copyAssign", "classcpp_1_1typeerasure_1_1_type_info.html#aeb17c5ae570229c8a9a98a9ca96ee9ca", null ],
     [ "copyConstruct", "classcpp_1_1typeerasure_1_1_type_info.html#ad705ae1b03a3084326a26dedcd25c386", null ],
     [ "defaultConstruct", "classcpp_1_1typeerasure_1_1_type_info.html#a91be058fe0fe6cde62f3cca39b5f5e87", null ],

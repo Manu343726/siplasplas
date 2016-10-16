@@ -51,9 +51,9 @@ public:
     
     static constexpr static_reflection::Kind kind();
     
-    static constexpr const char* fullName();
+    static constexpr cpp::ConstStringView fullName();
     
-    static constexpr const char* spelling();
+    static constexpr cpp::ConstStringView spelling();
     
     static constexpr const char* displayName();
     
@@ -92,24 +92,24 @@ auto kind = cpp::static_reflection::Class<MyClass>::SourceInfo::kind(); // Retur
 ### Function `cpp::static_reflection::meta::SourceInfo<Entity_, Kind, FullName, Spelling, DisplayName, File, Line>::fullName`<a id="cpp::static_reflection::meta::SourceInfo__Entity_, Kind, FullName, Spelling, DisplayName, File, Line__::fullName()"></a>
 
 ``` cpp
-static constexpr const char* fullName();
+static constexpr cpp::ConstStringView fullName();
 ```
 
 Returns the full qualified name of an entity
 
-*Returns*: a pointer to a null-terminated `constexpr` C string with the full name. If the source info is a default empty source info (Such as from an entity without reflection metadata available) returns an empty string.
+*Returns*: a constexpr string view with the full name. If the source info is a default empty source info (Such as from an entity without reflection metadata available) returns an empty string.
 
 -----
 
 ### Function `cpp::static_reflection::meta::SourceInfo<Entity_, Kind, FullName, Spelling, DisplayName, File, Line>::spelling`<a id="cpp::static_reflection::meta::SourceInfo__Entity_, Kind, FullName, Spelling, DisplayName, File, Line__::spelling()"></a>
 
 ``` cpp
-static constexpr const char* spelling();
+static constexpr cpp::ConstStringView spelling();
 ```
 
 Returns the name of the entity See [`clang_getCursorSpelling()`](http://clang.llvm.org/doxygen/group__CINDEX__CURSOR__XREF.html#gaad1c9b2a1c5ef96cebdbc62f1671c763).
 
-*Returns*: a pointer to a null-terminated `constexpr` C string with the spelling. If the source info is a default empty source info (Such as from an entity without reflection metadata available) returns an empty string.
+*Returns*: A constexpr string view with the spelling. If the source info is a default empty source info (Such as from an entity without reflection metadata available) returns an empty string.
 
 -----
 

@@ -6,6 +6,7 @@ var searchData=
   ['namespace',['Namespace',['../classcpp_1_1dynamic__reflection_1_1_namespace.html',1,'cpp::dynamic_reflection']]],
   ['namespace_5f',['namespace_',['../classcpp_1_1dynamic__reflection_1_1_namespace.html#a589616d5788f7fb8512ea0d50dbe5e58',1,'cpp::dynamic_reflection::Namespace::namespace_()'],['../classcpp_1_1dynamic__reflection_1_1_runtime.html#a5a9d8891cd54201e87451701de333b8b',1,'cpp::dynamic_reflection::Runtime::namespace_()'],['../classcpp_1_1dynamic__reflection_1_1_runtime.html#a3c5642efa2cd688abd99267c0beace52',1,'cpp::dynamic_reflection::Runtime::namespace_(const std::string &amp;fullName)']]],
   ['no_5fexcept',['no_except',['../classcpp_1_1concepts_1_1_concept.html#acf67429f3844b302e96a3501bdf3ad1f',1,'cpp::concepts::Concept']]],
+  ['nonowningstorage',['NonOwningStorage',['../classcpp_1_1_non_owning_storage.html',1,'cpp']]],
   ['nonowningstorage',['NonOwningStorage',['../classcpp_1_1_non_owning_storage.html#a702845a416efcfcbf410299d3b391277',1,'cpp::NonOwningStorage']]],
-  ['nonowningstorage',['NonOwningStorage',['../classcpp_1_1_non_owning_storage.html',1,'cpp']]]
+  ['notequal',['NotEqual',['../structcpp_1_1_not_equal.html',1,'cpp']]]
 ];

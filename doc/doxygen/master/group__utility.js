@@ -1,6 +1,7 @@
 var group__utility =
 [
     [ "Assert", "group__assert.html", "group__assert" ],
+    [ "Constexpr-algorithms", "group__constexpr-algorithms.html", "group__constexpr-algorithms" ],
     [ "Dynamic-library", "group__dynamic-library.html", "group__dynamic-library" ],
     [ "Error-handling", "group__error-handling.html", "group__error-handling" ],
     [ "Hash", "group__hash.html", "group__hash" ],
