@@ -50,7 +50,7 @@ function(configure_siplasplas_reflection TARGET)
     cmake_parse_arguments(DRLPARSER
         ""
         ""
-        "EXCLUDE;BLACKLIST"
+        "EXCLUDE;BLACKLIST;FILES"
         ${ARGN}
     )
 
@@ -143,6 +143,11 @@ function(configure_siplasplas_reflection TARGET)
         set(exclude --exclude "\"${exclude_globs}\"")
     endif()
 
+    if(DRLPARSER_FILES)
+        string(REGEX REPLACE ";" "," files "${DRLPARSER_FILES}")
+        set(files --files "\"${files}\"")
+    endif()
+
     list(APPEND DRLPARSER_BLACKLIST "${CMAKE_BINARY_DIR}")
     string(REGEX REPLACE ";" "," blacklist_dirs "${DRLPARSER_BLACKLIST}")
     set(blacklist --blacklist "\"${blacklist_dirs}\"")
@@ -153,6 +158,7 @@ function(configure_siplasplas_reflection TARGET)
     set(options
         --compile-options "\"${COMPILE_OPTIONS}\""
         --searchdirs "\"${INCLUDE_DIRS}\""
+        ${files}
         ${includedirs}
         -s ${CMAKE_SOURCE_DIR}
         -o "${DSIPLASPLAS_REFLECTION_OUTPUT_DIR_FULLPATH}"

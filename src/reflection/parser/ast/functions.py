@@ -10,7 +10,10 @@ class Method(Node):
         return self.displayname[(len(self.spelling) + 1):-1]
 
     def process(self):
-        if self.cursor.is_static_method():
+        # Skip static methods and the assignment operator:
+        # Because we not consider statics to be member functions
+        # and operator= breaks the generator code
+        if self.cursor.is_static_method() or self.cursor.spelling == 'operator=':
             self.set_skip()
 
 
