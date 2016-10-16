@@ -114,7 +114,7 @@ function(add_siplasplas_target NAME TARGET_TYPE)
             endif()
 
             set(common_options -std=${STD_CXX} -Wall -pedantic -ftemplate-depth-1024 -fPIC -ftemplate-backtrace-limit=0)
-            set(debug_options -O0 -g3)
+            set(debug_options -O0 -g3 -p)
             set(release_options -O3 -g0)
 
             if(TARGET_TYPE STREQUAL "LIBRARY" AND ARGS_SHARED)
