@@ -159,14 +159,81 @@ namespace meta
         };
     };
 
+    struct div_
+    {
+        template<typename Lhs, typename Rhs>
+        struct apply : assert<
+            is_integral<Lhs>,
+            is_integral<Rhs>
+        >
+        {
+            using type = std::integral_constant<decltype(Lhs::value / Rhs::value), Lhs::value / Rhs::value>;
+        };
+    };
+
     template<typename Lhs, typename Rhs>
     using add_t = apply_t<add_, Lhs, Rhs>;
+
+    template<typename Lhs, typename Rhs>
+    using div_t = apply_t<div_, Lhs, Rhs>;
+
+    struct greater
+    {
+        template<typename Lhs, typename Rhs>
+        struct apply : assert<
+            is_integral<Lhs>,
+            is_integral<Rhs>
+        >
+        {
+            using type = bool_<(Lhs::value > Rhs::value)>;
+        };
+    };
+    struct greater_or_equal
+    {
+        template<typename Lhs, typename Rhs>
+        struct apply : assert<
+            is_integral<Lhs>,
+            is_integral<Rhs>
+        >
+        {
+            using type = bool_<(Lhs::value >= Rhs::value)>;
+        };
+    };
+    struct less
+    {
+        template<typename Lhs, typename Rhs>
+        struct apply : assert<
+            is_integral<Lhs>,
+            is_integral<Rhs>
+        >
+        {
+            using type = bool_<(Lhs::value < Rhs::value)>;
+        };
+    };
+    struct less_or_equal
+    {
+        template<typename Lhs, typename Rhs>
+        struct apply : assert<
+            is_integral<Lhs>,
+            is_integral<Rhs>
+        >
+        {
+            using type = bool_<(Lhs::value <= Rhs::value)>;
+        };
+    };
 
     template<typename... Ts>
     struct list
     {
         static constexpr std::size_t size = sizeof...(Ts);
     };
+
+    template<typename List>
+    struct list_size;
+
+    template<template<typename...> class Sequence, typename... Ts>
+    struct list_size<Sequence<Ts...>> : public size_t<sizeof...(Ts)>
+    {};
 
     template<char... Chars>
     using string = list<std::integral_constant<char, Chars>...>;
@@ -416,6 +483,9 @@ namespace meta
     template<std::size_t I>
     using index_t = std::integral_constant<std::size_t, I>;
 
+    template<typename T, T... Values>
+    using integer_sequence = list<std::integral_constant<T, Values>...>;
+
     template<std::size_t... Is>
     using index_sequence = list<index_t<Is>...>;
 
@@ -528,13 +598,125 @@ namespace meta
     template<typename T, std::size_t Index, typename Seq>
     using remove_t = cat_t<split_before_t<Index, Seq>, split_after_t<Index, Seq>>;
 
+    namespace detail
+    {
+        template<typename Result, typename Lhs, typename Rhs, typename Compare>
+        struct merge;
 
-	template<typename Key, typename Value>
-	struct pair
-	{
-		using key = Key;
-		using value = Value;
-	};
+        template<template<typename...> class Sequence, typename... Ts, typename LhsHead, typename... LhsTail, typename RhsHead, typename... RhsTail, typename Compare>
+        struct merge<Sequence<Ts...>, Sequence<LhsHead, LhsTail...>, Sequence<RhsHead, RhsTail...>, Compare>
+        {
+            using next_result = std::conditional_t<
+                apply_t<Compare, LhsHead, RhsHead>::value,
+                Sequence<Ts..., LhsHead>,
+                Sequence<Ts..., RhsHead>
+            >;
+            using next_lhs = std::conditional_t<
+                apply_t<Compare, LhsHead, RhsHead>::value,
+                Sequence<LhsTail...>,
+                Sequence<LhsHead, LhsTail...>
+            >;
+            using next_rhs = std::conditional_t<
+                apply_t<Compare, LhsHead, RhsHead>::value,
+                Sequence<RhsHead, RhsTail...>,
+                Sequence<RhsTail...>
+            >;
+
+            using type = type_t<
+                merge<
+                    next_result,
+                    next_lhs,
+                    next_rhs,
+                    Compare
+                >
+            >;
+        };
+
+        template<template<typename...> class Sequence, typename... Ts, typename LhsHead, typename... LhsTail, typename Compare>
+        struct merge<Sequence<Ts...>, Sequence<LhsHead, LhsTail...>, Sequence<>, Compare>
+        {
+            using type = Sequence<Ts..., LhsHead, LhsTail...>;
+        };
+
+        template<template<typename...> class Sequence, typename... Ts, typename RhsHead, typename... RhsTail, typename Compare>
+        struct merge<Sequence<Ts...>, Sequence<>, Sequence<RhsHead, RhsTail...>, Compare>
+        {
+            using type = Sequence<Ts..., RhsHead, RhsTail...>;
+        };
+
+        template<template<typename...> class Sequence, typename... Ts, typename Compare>
+        struct merge<Sequence<Ts...>, Sequence<>, Sequence<>, Compare>
+        {
+            using type = Sequence<Ts...>;
+        };
+    }
+
+    template<typename Lhs, typename Rhs, typename Compare = less>
+    using merge = detail::merge<functor_t<Lhs>, Lhs, Rhs, Compare>;
+
+    template<typename Lhs, typename Rhs, typename Compare = less>
+    using merge_t = type_t<merge<Lhs, Rhs, Compare>>;
+
+    namespace detail
+    {
+        namespace mergesort
+        {
+            template<typename List, typename Compare>
+            struct mergesort
+            {
+                using left  = split_left_t< div_t<list_size<List>, int32_t<2>>::value, List>;
+                using right = split_after_t<div_t<list_size<List>, int32_t<2>>::value, List>;
+
+                using left_sorted  = type_t<mergesort<left,  Compare>>;
+                using right_sorted = type_t<mergesort<right, Compare>>;
+
+                using type = merge_t<left_sorted, right_sorted, Compare>;
+            };
+
+            template<template<typename...> class Sequence, typename Compare>
+            struct mergesort<Sequence<>, Compare>
+            {
+                using type = Sequence<>;
+            };
+
+            template<template<typename...> class Sequence, typename T, typename Compare>
+            struct mergesort<Sequence<T>, Compare>
+            {
+                using type = Sequence<T>;
+            };
+
+            template<template<typename...> class Sequence, typename T, typename U, typename Compare>
+            struct mergesort<Sequence<T, U>, Compare>
+            {
+                template<typename First, typename Second, bool FirstWins = apply_t<Compare, First, Second>::value>
+                struct apply
+                {
+                    using type = Sequence<First, Second>;
+                };
+
+                template<typename First, typename Second>
+                struct apply<First, Second, false>
+                {
+                    using type = Sequence<Second, First>;
+                };
+
+                using type = type_t<apply<T, U>>;
+            };
+        }
+    }
+
+    template<typename List, typename Compare = less>
+    using sort = detail::mergesort::mergesort<List, Compare>;
+
+    template<typename List, typename Compare = less>
+    using sort_t = type_t<sort<List, Compare>>;
+
+    template<typename Key, typename Value>
+    struct pair
+    {
+        using key = Key;
+        using value = Value;
+    };
 
     template<typename Pair>
     using key_t = typename Pair::key;
@@ -547,22 +729,22 @@ namespace meta
     template<typename... Ts>
     struct inherit<list<Ts...>> : Ts... {};
 
-	template<typename...>
-	struct map;
+    template<typename...>
+    struct map;
 
-	template<typename... Keys, typename... Values>
-	struct map<pair<Keys, Values>...>
-	{
-		using keys   = list<Keys...>;
-		using values = list<Values...>;
+    template<typename... Keys, typename... Values>
+    struct map<pair<Keys, Values>...>
+    {
+        using keys   = list<Keys...>;
+        using values = list<Values...>;
         using pairs  = list<pair<Keys, Values>...>;
 
         template<typename Key>
         using at_key = type_t<decltype(lookup((inherit<pairs>*)nullptr))>;
-	private:
-		template<typename Key, typename Value>
+    private:
+        template<typename Key, typename Value>
         identity<Value> lookup(pair<Key, Value>*);
-	};
+    };
 
     template<typename Map>
     using keys_t = typename Map::keys;
