@@ -14,6 +14,11 @@ var annotated_dup =
         [ "MoveConstructible", "classcpp_1_1concepts_1_1_move_constructible.html", null ],
         [ "OStreamable", "classcpp_1_1concepts_1_1_o_streamable.html", null ]
       ] ],
+      [ "constexp", null, [
+        [ "Equal", "structcpp_1_1constexp_1_1_equal.html", "structcpp_1_1constexp_1_1_equal" ],
+        [ "NotEqual", "structcpp_1_1constexp_1_1_not_equal.html", "structcpp_1_1constexp_1_1_not_equal" ],
+        [ "StringView", "classcpp_1_1constexp_1_1_string_view.html", "classcpp_1_1constexp_1_1_string_view" ]
+      ] ],
       [ "detail", null, [
         [ "If", "classcpp_1_1detail_1_1_if.html", "classcpp_1_1detail_1_1_if" ]
       ] ],
@@ -60,14 +65,12 @@ var annotated_dup =
       [ "DeadPoolStorage", "classcpp_1_1_dead_pool_storage.html", "classcpp_1_1_dead_pool_storage" ],
       [ "DummyAssertExpression", "classcpp_1_1_dummy_assert_expression.html", "classcpp_1_1_dummy_assert_expression" ],
       [ "DynamicLibrary", "classcpp_1_1_dynamic_library.html", "classcpp_1_1_dynamic_library" ],
-      [ "Equal", "structcpp_1_1_equal.html", "structcpp_1_1_equal" ],
       [ "Exception", "classcpp_1_1_exception.html", "classcpp_1_1_exception" ],
       [ "FileSystemListener", "classcpp_1_1_file_system_listener.html", "classcpp_1_1_file_system_listener" ],
       [ "FixedSizeStorage", "classcpp_1_1_fixed_size_storage.html", "classcpp_1_1_fixed_size_storage" ],
       [ "Hash", "structcpp_1_1_hash.html", "structcpp_1_1_hash" ],
       [ "Identity", "classcpp_1_1_identity.html", "classcpp_1_1_identity" ],
       [ "NonOwningStorage", "classcpp_1_1_non_owning_storage.html", "classcpp_1_1_non_owning_storage" ],
-      [ "NotEqual", "structcpp_1_1_not_equal.html", "structcpp_1_1_not_equal" ],
       [ "RawHash", "classcpp_1_1_raw_hash.html", "classcpp_1_1_raw_hash" ],
       [ "SignalEmitter", "classcpp_1_1_signal_emitter.html", "classcpp_1_1_signal_emitter" ],
       [ "SignalSink", "classcpp_1_1_signal_sink.html", "classcpp_1_1_signal_sink" ],

@@ -22,5 +22,13 @@ var group__assert =
     [ "SIPLASPLAS_ASSERT_LE", "group__assert.html#ga886c7190567c50ed629f405d0f8fda2d", null ],
     [ "SIPLASPLAS_ASSERT_LT", "group__assert.html#gade65127ee32f777a70f3bd9a79405ed8", null ],
     [ "SIPLASPLAS_ASSERT_NE", "group__assert.html#ga3de0ef146157c71d5ab6036f56aa5ce7", null ],
-    [ "SIPLASPLAS_ASSERT_TRUE", "group__assert.html#ga1bb2314a7eed7c6840a732eaddf9dfbd", null ]
+    [ "SIPLASPLAS_ASSERT_TRUE", "group__assert.html#ga1bb2314a7eed7c6840a732eaddf9dfbd", null ],
+    [ "SIPLASPLAS_STATICASSERT_BE", "group__assert.html#ga74197e70f7027fc2fbfffbcf42155492", null ],
+    [ "SIPLASPLAS_STATICASSERT_BT", "group__assert.html#ga4e97517374c9dda72a250eaa7157d3e1", null ],
+    [ "SIPLASPLAS_STATICASSERT_EQ", "group__assert.html#ga6ffaaac16da6383f785a6044dcb9004b", null ],
+    [ "SIPLASPLAS_STATICASSERT_FALSE", "group__assert.html#ga4f3a22c085050dacd76558624574d232", null ],
+    [ "SIPLASPLAS_STATICASSERT_LE", "group__assert.html#ga143475f9b2c2b3396677eadaee70fbd5", null ],
+    [ "SIPLASPLAS_STATICASSERT_LT", "group__assert.html#gaf2b1afd9276b300d12204ddc1585c506", null ],
+    [ "SIPLASPLAS_STATICASSERT_NE", "group__assert.html#ga7b35be807c54425ae47fa8d7528522f9", null ],
+    [ "SIPLASPLAS_STATICASSERT_TRUE", "group__assert.html#gabcf5483c2abe116013d007dd2594433d", null ]
 ];

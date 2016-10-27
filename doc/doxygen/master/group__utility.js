@@ -1,7 +1,6 @@
 var group__utility =
 [
     [ "Assert", "group__assert.html", "group__assert" ],
-    [ "Constexpr-algorithms", "group__constexpr-algorithms.html", "group__constexpr-algorithms" ],
     [ "Dynamic-library", "group__dynamic-library.html", "group__dynamic-library" ],
     [ "Error-handling", "group__error-handling.html", "group__error-handling" ],
     [ "Hash", "group__hash.html", "group__hash" ],
@@ -28,6 +27,7 @@ var group__utility =
       [ "get", "classcpp_1_1_universal_reference_3_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_t_00_01317da0ee22d68a1b11e0bf5e76ec5679.html#ae0567f0910c5bf735702b1ad41a9f272", null ]
     ] ],
     [ "SIPLASPLAS_UTILITY_COMPILES", "group__utility.html#gaad62b455cf4d9cf038c6652f3081a229", null ],
+    [ "addConst", "group__utility.html#ga9c62e2e4851079587baff795e67aa846", null ],
     [ "compiles", "group__utility.html#gaf4e3666d709fc6add22d09c6ab830469", null ],
     [ "construct", "group__utility.html#ga81ebc024fb46c3b4128443a6bf3e2464", null ],
     [ "construct", "group__utility.html#ga6eb03b1733484d2450d8a98ff9e793be", null ],
@@ -36,6 +36,7 @@ var group__utility =
     [ "invoke", "group__utility.html#gaf4744fbb3392aeb77a421cc17243f1af", null ],
     [ "lexical_cast", "group__utility.html#ga808e1d5b24e934c1f7638db8a46bb6b7", null ],
     [ "lexical_cast", "group__utility.html#ga867a648ffab91b5b8948bc80fbac0340", null ],
+    [ "removeConst", "group__utility.html#ga99a7a44eba3cd71db0ed4f1135ccc0d4", null ],
     [ "staticIf", "group__utility.html#ga654d1cbd2f4b0fdd4abaf8213893fbd3", null ],
     [ "universalReference", "group__utility.html#ga64331d68fc4c2b5be09b1e93bb8aeb2e", null ]
 ];

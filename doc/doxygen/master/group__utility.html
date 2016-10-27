@@ -117,9 +117,6 @@ Modules</h2></td></tr>
 <tr class="memitem:group__assert"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__assert.html">Assert</a></td></tr>
 <tr class="memdesc:group__assert"><td class="mdescLeft">&#160;</td><td class="mdescRight">Assertion utilities. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:group__constexpr-algorithms"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__constexpr-algorithms.html">Constexpr-algorithms</a></td></tr>
-<tr class="memdesc:group__constexpr-algorithms"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constexpr counterparts of some standard algorithms. <br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:group__dynamic-library"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__dynamic-library.html">Dynamic-library</a></td></tr>
 <tr class="memdesc:group__dynamic-library"><td class="mdescLeft">&#160;</td><td class="mdescRight">Cross platform API to load symbols from shared librarties at runtime. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -156,6 +153,14 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:ga99a7a44eba3cd71db0ed4f1135ccc0d4"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga99a7a44eba3cd71db0ed4f1135ccc0d4"><td class="memTemplItemLeft" align="right" valign="top">constexpr T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__utility.html#ga99a7a44eba3cd71db0ed4f1135ccc0d4">cpp::removeConst</a> (const T &amp;value)</td></tr>
+<tr class="memdesc:ga99a7a44eba3cd71db0ed4f1135ccc0d4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes the const qualifier from an lvalue reference.  <a href="group__utility.html#ga99a7a44eba3cd71db0ed4f1135ccc0d4">More...</a><br /></td></tr>
+<tr class="separator:ga99a7a44eba3cd71db0ed4f1135ccc0d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9c62e2e4851079587baff795e67aa846"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga9c62e2e4851079587baff795e67aa846"><td class="memTemplItemLeft" align="right" valign="top">constexpr const T &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__utility.html#ga9c62e2e4851079587baff795e67aa846">cpp::addConst</a> (const T &amp;value)</td></tr>
+<tr class="memdesc:ga9c62e2e4851079587baff795e67aa846"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adds a const qualifier to a non const lvalue reference.  <a href="group__utility.html#ga9c62e2e4851079587baff795e67aa846">More...</a><br /></td></tr>
+<tr class="separator:ga9c62e2e4851079587baff795e67aa846"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:gaf4e3666d709fc6add22d09c6ab830469"><td class="memTemplParams" colspan="2">template&lt;typename Expr &gt; </td></tr>
 <tr class="memitem:gaf4e3666d709fc6add22d09c6ab830469"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__utility.html#gaf4e3666d709fc6add22d09c6ab830469">cpp::compiles</a> (Expr &amp;&amp;expr)</td></tr>
 <tr class="memdesc:gaf4e3666d709fc6add22d09c6ab830469"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if an expression is well formed.  <a href="group__utility.html#gaf4e3666d709fc6add22d09c6ab830469">More...</a><br /></td></tr>
@@ -201,23 +206,23 @@ template&lt;typename Callable , typename... Args&gt; </td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <p>Some random utilities needed by other siplasplas modules. </p>
 <p>The siplaspals-utility module implements various utilities used in the implementation of other siplasplas modules. These utilities are not grouped in any special way, but we encourage the policy of rising utilities into full-fledged modules if these became too complex.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000009">Todo:</a></b></dt><dd><p class="startdd">Move <a class="el" href="meta_8hpp_source.html">meta.hpp</a>, <a class="el" href="function__traits_8hpp_source.html">function_traits.hpp</a>, <a class="el" href="tuple_8hpp_source.html">tuple.hpp</a>, and <a class="el" href="fusion_8hpp_source.html">fusion.hpp</a> to a siplasplas-meta module. </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000009">Todo:</a></b></dt><dd><p class="startdd">Move meta.hpp, <a class="el" href="function__traits_8hpp_source.html">function_traits.hpp</a>, <a class="el" href="tuple_8hpp_source.html">tuple.hpp</a>, and <a class="el" href="fusion_8hpp_source.html">fusion.hpp</a> to a siplasplas-meta module. </p>
 <p>Move <a class="el" href="error__logger_8hpp_source.html">error_logger.hpp</a> and <a class="el" href="exception_8hpp_source.html">exception.hpp</a> to a siplasplas-exception module? </p>
 <p class="enddd">Move cpp::Overload&lt;&gt; to <a class="el" href="function__traits_8hpp_source.html">function_traits.hpp</a></p>
 </dd></dl>
 <p>siplasplas-utility includes the following features:</p>
 <ul>
-<li><b>Assertion macros</b>: A set of assertion macros based in Google Test syntax. See <a class="el" href="assert_8hpp_source.html">assert.hpp</a>.</li>
+<li><b>Assertion macros</b>: A set of assertion macros based in Google Test syntax. See assert.hpp.</li>
 <li><b>Clonable pointer</b>: A smart pointer implementing clone semantics. See cloning_ptr.hpp.</li>
 <li><b>Dynamic library loading</b>: Cross platform classes to load symbols from shared libraries at runtime. See <a class="el" href="classcpp_1_1_dynamic_library.html" title="Provides a cross-platform interface to load symbols from shared libraries at runtime. ">cpp::DynamicLibrary</a>.</li>
 <li><b>Exceptions hierarchy</b>: An exception hierarchy with <a href="https://github.com/fmtlib/fmt">fmt</a> syntax for error messages and automatic logging of exception stack traces. See <a class="el" href="exception_8hpp_source.html">exception.hpp</a>.</li>
 <li><b>Function type introspection utilities</b>: Metafunctions to check function types and signatures. See <a class="el" href="function__traits_8hpp_source.html">function_traits.hpp</a>.</li>
-<li><b>One header metaprogramming library</b>: A header full of metaprogramming tools. See <a class="el" href="meta_8hpp_source.html">meta.hpp</a>.</li>
+<li><b>One header metaprogramming library</b>: A header full of metaprogramming tools. See meta.hpp.</li>
 <li><b>Overloaded functor factory</b>: See function.hpp.</li>
 <li><b>Heterogeneous operations on type and parameter packs</b>: See <a class="el" href="fusion_8hpp_source.html">fusion.hpp</a>.</li>
 <li><b>Hash utilities</b>: A <a class="el" href="group__hash.html#ga8b00a3ff97782ab4de57bb04a9c9f6d6" title="Implements a hash function for values of type T. ">cpp::hash()</a> function and equivalent functors that give default hashing for enum types, tuples, function pointer types, etc. See <a class="el" href="hash_8hpp_source.html">hash.hpp</a>.</li>
 <li><b>Preprocessor utilities</b>: See <a class="el" href="preprocessor_8hpp_source.html">preprocessor.hpp</a>.</li>
-<li><b>String utilities</b>: See <a class="el" href="string_8hpp_source.html">string.hpp</a>.</li>
+<li><b>String utilities</b>: See string.hpp.</li>
 <li><b>Raw memory manipulation</b>: Tools for raw memory manipulation such as functions to compute aligned addresses, functions to read/write values directly into raw memory, etc. See <a class="el" href="memory__manip_8hpp_source.html">memory_manip.hpp</a>.</li>
 <li><b>Tuple manipulation tools</b>: See <a class="el" href="tuple_8hpp_source.html">tuple.hpp</a>. </li>
 </ul>
@@ -250,6 +255,33 @@ template&lt;typename Callable , typename... Args&gt; </td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a class="anchor" id="ga9c62e2e4851079587baff795e67aa846"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr const T&amp; cpp::addConst </td>
+          <td>(</td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Adds a const qualifier to a non const lvalue reference. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>Non const lvalue reference to an object</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>COnst lvalue reference to the given object </dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="gaf4e3666d709fc6add22d09c6ab830469"></a>
 <div class="memitem">
 <div class="memproto">
@@ -475,6 +507,33 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A value of type <code>T</code> equivalent to the <code>value</code> string representation argument. </dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ga99a7a44eba3cd71db0ed4f1135ccc0d4"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr T&amp; cpp::removeConst </td>
+          <td>(</td>
+          <td class="paramtype">const T &amp;&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Removes the const qualifier from an lvalue reference. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">value</td><td>Const lvalue reference to an object</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Non const lvalue reference to the given object </dd></dl>
 
 </div>
 </div>

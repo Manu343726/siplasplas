@@ -8,5 +8,5 @@ var searchData=
   ['no_5fexcept',['no_except',['../classcpp_1_1concepts_1_1_concept.html#acf67429f3844b302e96a3501bdf3ad1f',1,'cpp::concepts::Concept']]],
   ['nonowningstorage',['NonOwningStorage',['../classcpp_1_1_non_owning_storage.html',1,'cpp']]],
   ['nonowningstorage',['NonOwningStorage',['../classcpp_1_1_non_owning_storage.html#a702845a416efcfcbf410299d3b391277',1,'cpp::NonOwningStorage']]],
-  ['notequal',['NotEqual',['../structcpp_1_1_not_equal.html',1,'cpp']]]
+  ['notequal',['NotEqual',['../structcpp_1_1constexp_1_1_not_equal.html',1,'cpp::constexp']]]
 ];

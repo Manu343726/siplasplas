@@ -8,6 +8,7 @@ layout: standardese-doc
 
  - [`siplasplas-logger` module]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-logger/)
  - [`siplasplas-utility` module]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-utility/)
+ - [`siplasplas-constexpr` module]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-constexpr/)
  - [`siplasplas-variant` module]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-variant/)
  - [`siplasplas-allocator` module]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-allocator/)
  - [`siplasplas-metatype` module]({{site.url}}{{site.baseurl}}/doc/standardese/master/siplasplas-metatype/)
