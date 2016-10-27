@@ -1,7 +1,8 @@
 #ifndef SIPLASPLAS_REFLECTION_STATIC_SOURCEINFO_HPP
 #define SIPLASPLAS_REFLECTION_STATIC_SOURCEINFO_HPP
 
-#include <siplasplas/utility/array_view.hpp>
+#include <siplasplas/constexpr/string.hpp>
+#include <siplasplas/constexpr/meta.hpp>
 #include <siplasplas/utility/meta.hpp>
 #include <array>
 #include <string>
@@ -52,6 +53,8 @@ template<
 >
 class SourceInfo
 {
+private:
+
 public:
     /**
      * \brief Returns the entity (Or a type representation of the entity)
@@ -76,9 +79,9 @@ public:
      * If the source info is a default empty source info (Such as from an entity without reflection
      * metadata available) returns an empty string.
      */
-    static constexpr cpp::ConstStringView fullName()
+    static constexpr const cpp::constexp::String<FullName::size + 1>& fullName()
     {
-        return ::cpp::meta::StringToArray<FullName>::get();
+        return cpp::constexp::SequenceToString<FullName>::str();
     }
 
     /**
@@ -89,9 +92,9 @@ public:
      * If the source info is a default empty source info (Such as from an entity without reflection
      * metadata available) returns an empty string.
      */
-    static constexpr cpp::ConstStringView spelling()
+    static constexpr const cpp::constexp::String<Spelling::size + 1>& spelling()
     {
-        return ::cpp::meta::StringToArray<Spelling>::get();
+        return cpp::constexp::SequenceToString<Spelling>::str();
     }
 
     /**
@@ -110,7 +113,7 @@ public:
      */
     static constexpr const char* displayName()
     {
-        return ::cpp::meta::StringToArray<DisplayName>::c_str();
+        return ::cpp::constexp::SequenceToString<DisplayName>::c_str();
     }
 
     /**
@@ -129,7 +132,7 @@ public:
      */
     static constexpr const char* file()
     {
-        return ::cpp::meta::StringToArray<File>::c_str();
+        return ::cpp::constexp::SequenceToString<File>::c_str();
     }
 
     /**

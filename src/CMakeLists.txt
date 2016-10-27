@@ -1,5 +1,6 @@
 add_subdirectory(logger)
 add_subdirectory(utility)
+add_subdirectory(constexpr)
 add_subdirectory(variant)
 add_subdirectory(allocator)
 add_subdirectory(metatype)

@@ -1,10 +1,14 @@
-#ifndef SIPLASPLAS_UTILITY_ARRAYVIEW_HPP
-#define SIPLASPLAS_UTILITY_ARRAYVIEW_HPP
+#ifndef SIPLASPLAS_CONSTEXPR_ARRAYVIEW_HPP
+#define SIPLASPLAS_CONSTEXPR_ARRAYVIEW_HPP
 
-#include "constexpralgorithms.hpp"
+#include "algorithm.hpp"
 #include <array>
+#include <ostream>
 
 namespace cpp
+{
+
+namespace constexp
 {
 
 template<typename T>
@@ -206,7 +210,7 @@ inline std::ostream& operator<<(std::ostream& os, const ConstArrayView<char>& ar
 template<typename T, typename U>
 constexpr bool operator==(const ArrayView<T>& lhs, const ArrayView<U>& rhs)
 {
-    return cpp::equal(
+    return cpp::constexp::equal(
         lhs.begin(), lhs.end(),
         rhs.begin(), rhs.end()
     );
@@ -215,7 +219,7 @@ constexpr bool operator==(const ArrayView<T>& lhs, const ArrayView<U>& rhs)
 template<typename T, typename U>
 constexpr bool operator==(const ConstArrayView<T>& lhs, const ArrayView<U>& rhs)
 {
-    return cpp::equal(
+    return cpp::constexp::equal(
         lhs.begin(), lhs.end(),
         rhs.begin(), rhs.end()
     );
@@ -224,7 +228,7 @@ constexpr bool operator==(const ConstArrayView<T>& lhs, const ArrayView<U>& rhs)
 template<typename T, typename U>
 constexpr bool operator==(const ConstArrayView<T>& lhs, const ConstArrayView<U>& rhs)
 {
-    return cpp::equal(
+    return cpp::constexp::equal(
         lhs.begin(), lhs.end(),
         rhs.begin(), rhs.end()
     );
@@ -233,7 +237,7 @@ constexpr bool operator==(const ConstArrayView<T>& lhs, const ConstArrayView<U>&
 template<typename T, typename U>
 constexpr bool operator==(const ArrayView<T>& lhs, const ConstArrayView<U>& rhs)
 {
-    return cpp::equal(
+    return cpp::constexp::equal(
         lhs.begin(), lhs.end(),
         rhs.begin(), rhs.end()
     );
@@ -275,82 +279,8 @@ constexpr ConstArrayView<T> constArrayView(const T (&array)[N])
     return { array };
 }
 
-class StringView : public ArrayView<char>
-{
-public:
-    using ArrayView<char>::ArrayView;
-
-    constexpr StringView(const ArrayView<char>& arrayView) :
-        ArrayView<char>{arrayView}
-    {}
-
-    constexpr StringView(ArrayView<char>&& arrayView) :
-        ArrayView<char>{std::move(arrayView)}
-    {}
-
-    std::string str() const
-    {
-        /*
-         * The range std::string constructor takes the string as is, so passing
-         * a range including a null terminator at the end (Such as when passing an
-         * string literal to a [Const]ArrayView) leads to a string with a
-         * \0 character at the end. Instead, return a range without that final
-         * null terminator so std::string gets the right string
-         */
-        if((*this)[size() - 1] == '\0')
-        {
-            return { begin(), end() - 1};
-        }
-        else
-        {
-            return { begin(), end() };
-        }
-    }
-
-    const char* c_str() const
-    {
-        return begin();
-    }
-};
-
-class ConstStringView : public ConstArrayView<char>
-{
-public:
-    using ConstArrayView<char>::ConstArrayView;
-
-    constexpr ConstStringView(const ConstArrayView<char>& arrayView) :
-        ConstArrayView<char>{arrayView}
-    {}
-
-    constexpr ConstStringView(ConstArrayView<char>&& arrayView) :
-        ConstArrayView<char>{std::move(arrayView)}
-    {}
-
-    std::string str() const
-    {
-        /*
-         * The range std::string constructor takes the string as is, so passing
-         * a range including a null terminator at the end (Such as when passing an
-         * string literal to a [Const]ArrayView) leads to a string with a
-         * \0 character at the end. Instead, return a range without that final
-         * null terminator so std::string gets the right string
-         */
-        if((*this)[size() - 1] == '\0')
-        {
-            return { begin(), end() - 1};
-        }
-        else
-        {
-            return { begin(), end() };
-        }
-    }
-
-    const char* c_str() const
-    {
-        return begin();
-    }
-};
+}
 
 }
 
-#endif // SIPLASPLAS_UTILITY_ARRAYVIEW_HPP
+#endif // SIPLASPLAS_CONSTEXPR_ARRAYVIEW_HPP

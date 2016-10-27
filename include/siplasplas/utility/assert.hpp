@@ -417,5 +417,90 @@ public:
                 SIPLASPLAS_PP_STR((__VA_ARGS__))                          \
             ), !(__VA_ARGS__))
 
+/**
+ * \ingroup assert
+ * \brief Defines an static equal to assertion
+ *
+ * Compilation fails if the first operand (*expression*) is not
+ * equal to the second (*expected*). The equality comparison (`operator==`)
+ * must be a constant expression.
+ */
+#define SIPLASPLAS_STATICASSERT_EQ(expr, expect) \
+    static_assert((expr) == (expect), "Expected equal values")
+
+/**
+ * \ingroup assert
+ * \brief Defines an static not equal to assertion
+ *
+ * Compilation fails if the first operand (*expression*) is
+ * equal to the second (*expected*). The inequality comparison
+ * (`operator!=`) must be a constant expression.
+ */
+#define SIPLASPLAS_STATICASSERT_NE(expr, expect) \
+    static_assert((expr) != (expect), "Expected non equal values")
+
+/**
+ * \ingroup assert
+ * \brief Defines an static bigger than assertion
+ *
+ * Compilation fails if the first operand (*expression*) is not
+ * bigger than the second (*expected*). The bigger than comparison
+ * (`operator>`) must be a constant expression.
+ */
+#define SIPLASPLAS_STATICASSERT_BT(expr, expect) \
+    static_assert((expr) >  (expect), "Expected first operand bigger than the second")
+
+/**
+ * \ingroup assert
+ * \brief Defines an static less than assertion
+ *
+ * Compilation fails if the first operand (*expression*) is not
+ * less than the second (*expected*). The less than comparison
+ * (`operator<`) must be a constant expression.
+ */
+#define SIPLASPLAS_STATICASSERT_LT(expr, expect) \
+    static_assert((expr) <  (expect), "Expected first operand less than the second")
+
+/**
+ * \ingroup assert
+ * \brief Defines an static bigger or equal to assertion
+ *
+ * Compilation fails if the first operand (*expression*) is not
+ * bigger or equal to the second (*expected*). The comparison
+ * (`operator>=`) must be a constant expression.
+ */
+#define SIPLASPLAS_STATICASSERT_BE(expr, expect) \
+    static_assert((expr) >= (expect), "Expected first operand bigger or equal than the second")
+
+/**
+ * \ingroup assert
+ * \brief Defines an static less or equal to assertion
+ *
+ * Compilation fails if the first operand (*expression*) is not
+ * less or equal to the second (*expected*). The comparison
+ * (`operator<=`) must be a constant expression.
+ */
+#define SIPLASPLAS_STATICASSERT_LE(expr, expect) \
+    static_assert((expr) <= (expect), "Expected first operand less or equal than the second")
+
+/**
+ * \ingroup assert
+ * \brief Defines an static true assertion
+ *
+ * Compilation fails if the expression does not evauate to true.
+ * The expression must be a constant expression.
+ */
+#define SIPLASPLAS_STATICASSERT_TRUE(expression) \
+    static_assert((expression), "Expected true expression, got false instead")
+
+/**
+ * \ingroup assert
+ * \brief Defines an static false assertion
+ *
+ * Compilation fails if the expression does not evauate to false.
+ * The expression must be a constant expression.
+ */
+#define SIPLASPLAS_STATICASSERT_FALSE(expression) \
+    static_assert((expression), "Expected false expression, got true instead")
 
 #endif // SIPLASPLAS_UTILITY_ASSERT_HPP

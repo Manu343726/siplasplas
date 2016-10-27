@@ -3,9 +3,10 @@
 
 #include "features/valuesemantics.hpp"
 #include <siplasplas/utility/memory_manip.hpp>
-#include <siplasplas/utility/meta.hpp>
 #include <siplasplas/utility/function_traits.hpp>
 #include <siplasplas/utility/typeinfo.hpp>
+#include <siplasplas/constexpr/arrayview.hpp>
+#include <siplasplas/constexpr/meta.hpp>
 
 namespace cpp
 {
@@ -219,7 +220,7 @@ public:
      *
      * The behavior is undefined if the type is not a function type
      */
-    constexpr cpp::ConstArrayView<TypeInfo> arguments() const
+    constexpr cpp::constexp::ConstArrayView<TypeInfo> arguments() const
     {
         return _functionArgs;
     }
@@ -269,7 +270,7 @@ private:
         cpp::TypeInfo{cpp::TypeInfo::get<T>()},
         _semantics{detail::valueSemanticsOperation<std::decay_t<T>>},
         _functionArgs{
-            cpp::meta::SequenceToArray<
+            cpp::constexp::SequenceToArray<
                 cpp::function_arguments<T>,
                 TypeToTypeInfo
             >::get()
@@ -277,7 +278,7 @@ private:
     {}
 
     detail::ValueSemantics _semantics;
-    cpp::ConstArrayView<TypeInfo> _functionArgs;
+    cpp::constexp::ConstArrayView<TypeInfo> _functionArgs;
 
 };
 

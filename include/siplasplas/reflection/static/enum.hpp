@@ -2,6 +2,8 @@
 #define SIPLASPLAS_REFLECTION_STATIC_ENUM_HPP
 
 #include <siplasplas/utility/meta.hpp>
+#include <siplasplas/constexpr/arrayview.hpp>
+#include <siplasplas/constexpr/meta.hpp>
 #include <string>
 #include <limits>
 #include <array>
@@ -71,7 +73,7 @@ public:
     /**
      * \brief Array type returned by values()
      */
-    using values_array_t = cpp::ConstArrayView<EnumType>;
+    using values_array_t = cpp::constexp::ConstArrayView<EnumType>;
 
     constexpr Enum() = default;
 
@@ -101,7 +103,7 @@ public:
      */
     static constexpr values_array_t values()
     {
-        return ::cpp::meta::PackToArray<EnumType, Constants...>::get();
+        return ::cpp::constexp::PackToArray<EnumType, Constants...>::get();
     }
 
     /**
@@ -218,7 +220,10 @@ public:
     }
 
 private:
-    static constexpr std::array<const char*, sizeof...(ConstantsNames)> _namesArray = {{::cpp::meta::StringToArray<ConstantsNames>::c_str()...}};
+    static constexpr std::array<const char*, sizeof...(ConstantsNames)> _namesArray = {{
+        ::cpp::constexp::SequenceToString<ConstantsNames>::c_str()...
+    }};
+
     static constexpr bool streq(const char* lhs, const char* rhs)
     {
         return ((*rhs and *lhs) ? (*lhs == *rhs) and streq(lhs + 1, rhs + 1) : (not *lhs and not *rhs));

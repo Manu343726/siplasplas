@@ -1,19 +1,23 @@
-#ifndef SIPLASPLAS_UTILITY_CONSTEXPRALGORITHMS_HPP
-#define SIPLASPLAS_UTILITY_CONSTEXPRALGORITHMS_HPP
+#ifndef SIPLASPLAS_CONSTEXPR_ALGORITHM_HPP
+#define SIPLASPLAS_CONSTEXPR_ALGORITHM_HPP
 
-#include <iterator>
+#include <cstdint>
+#include <type_traits>
 
 namespace cpp
 {
 
+namespace constexp
+{
+
 /**
- * \ingroup utility
- * \defgroup constexpr-algorithms
+ * \ingroup constexpr
+ * \defgroup algorithm
  * \brief Constexpr counterparts of some standard algorithms
  */
 
 /**
- * \ingroup constexpr-algorithms
+ * \ingroup algorithm
  * \brief Constexpr functor that compares two values for equality
  *
  * The functor invokes `operator==` on the given values. The functor
@@ -31,7 +35,7 @@ struct Equal
 };
 
 /**
- * \ingroup constexpr-algorithms
+ * \ingroup algorithm
  * \brief Constexpr functor that compares two values for inequality
  *
  * The functor invokes `operator!=` on the given values. The functor
@@ -49,7 +53,7 @@ struct NotEqual
 };
 
 /**
- * \ingroup constexpr-algorithms
+ * \ingroup algorithm
  * \brief Returns an iterator pointing to the beginning of a sequence
  * \returns An iterator pointing to the first element of a sequence. Invokes
  * `sequence.begin()`.
@@ -61,7 +65,7 @@ constexpr auto begin(const Sequence& sequence)
 }
 
 /**
- * \ingroup constexpr-algorithms
+ * \ingroup algorithm
  * \brief Returns an iterator pointing to the beginning of an array
  * \returns An iterator pointing to the first element of the array
  * Returns &array[0].
@@ -73,7 +77,7 @@ constexpr auto begin(const T (&array)[N])
 }
 
 /**
- * \ingroup constexpr-algorithms
+ * \ingroup algorithm
  * \brief Returns an iterator pointing to the end of a sequence
  * \returns An iterator pointing to the past the end element of a sequence. Invokes
  * `sequence.end()`.
@@ -85,7 +89,7 @@ constexpr auto end(const Sequence& sequence)
 }
 
 /**
- * \ingroup constexpr-algorithms
+ * \ingroup algorithm
  * \brief Returns an iterator pointing to the end of an array
  * \returns An iterator pointing to the past the end element of the array
  * Returns &array[N].
@@ -97,7 +101,7 @@ constexpr auto end(const T (&array)[N])
 }
 
 /**
- * \ingroup constexpr-algorithms
+ * \ingroup algorithm
  * \brief Returns the distance between two iterators
  */
 template<typename Begin, typename End>
@@ -107,7 +111,7 @@ constexpr auto distance(Begin begin, End end)
 }
 
 /**
- * \ingroup constexpr-algorithms
+ * \ingroup algorithm
  * \brief Compares if two sequences are equal
  *
  * \param begin1 Iterator to the beginning of the first sequence
@@ -137,18 +141,19 @@ constexpr bool equal(
 )
 {
     return (begin1 == end1 || begin2 == end2) ?
-        ((::cpp::distance(begin1, end1) != ::cpp::distance(begin2, end2)) ?
+        ((::cpp::constexp::distance(begin1, end1) !=
+          ::cpp::constexp::distance(begin2, end2)) ?
             false
         :
             true
         )
     :
         compare(*begin1++, *begin2++) &&
-        equal(begin1, end1, begin2, end2, compare);
+        ::cpp::constexp::equal(begin1, end1, begin2, end2, compare);
 }
 
 /**
- * \ingroup constexpr-algorithms
+ * \ingroup algorithm
  * \brief Compares if two sequences are equal
  *
  * \param begin1 Iterator to the beginning of the first sequence
@@ -175,12 +180,12 @@ constexpr bool equal(
     return equal(
         begin1, end1,
         begin2, end2,
-        ::cpp::Equal()
+        ::cpp::constexp::Equal()
     );
 }
 
 /**
- * \ingroup constexpr-algorithms
+ * \ingroup algorithm
  * \brief Compares if two sequences are equal
  *
  * \param lhs First sequence
@@ -192,14 +197,14 @@ constexpr bool equal(
 template<typename Lhs, typename Rhs>
 constexpr bool equal(const Lhs& lhs, const Rhs& rhs)
 {
-    return ::cpp::equal(
-        ::cpp::begin(lhs), ::cpp::end(lhs),
-        ::cpp::begin(rhs), ::cpp::end(rhs)
+    return ::cpp::constexp::equal(
+        ::cpp::constexp::begin(lhs), ::cpp::constexp::end(lhs),
+        ::cpp::constexp::begin(rhs), ::cpp::constexp::end(rhs)
     );
 }
 
 /**
- * \ingroup constexpr-algorithms
+ * \ingroup algorithm
  * \brief Returns the greatest value of the two given
  * \returns lhs if lhs is bigger or equal than rhs. rhs otherwise.
  */
@@ -213,7 +218,7 @@ constexpr const T& max(const T& lhs, const T& rhs)
 }
 
 /**
- * \ingroup constexpr-algorithms
+ * \ingroup algorithm
  * \brief Returns the greatest value of the two given
  * \returns lhs if lhs is bigger or equal than rhs. rhs otherwise.
  */
@@ -228,16 +233,16 @@ constexpr std::common_type_t<T, U> max(const T& lhs, const U& rhs)
 }
 
 /**
- * \ingroup constexpr-algorithms
+ * \ingroup algorithm
  * \brief Returns the greatest value of the set of values given
  */
 template<typename First, typename Second, typename Third, typename... Tail>
 constexpr decltype(auto) max(const First& first, const Second& second, const Third& third,
                    const Tail&... tail)
 {
-    return ::cpp::max(
+    return ::cpp::constexp::max(
         first,
-        ::cpp::max(
+        ::cpp::constexp::max(
             second,
             third,
             tail...
@@ -248,7 +253,7 @@ constexpr decltype(auto) max(const First& first, const Second& second, const Thi
 
 
 /**
- * \ingroup constexpr-algorithms
+ * \ingroup algorithm
  * \brief Returns the smallest value of the two given
  * \returns lhs if lhs is less or equal than rhs. rhs otherwise.
  */
@@ -262,7 +267,7 @@ constexpr const T& min(const T& lhs, const T& rhs)
 }
 
 /**
- * \ingroup constexpr-algorithms
+ * \ingroup algorithm
  * \brief Returns the smallest value of the two given
  * \returns lhs if lhs is less or equal than rhs. rhs otherwise.
  */
@@ -279,16 +284,16 @@ constexpr std::common_type_t<T, U> min(const T& lhs, const U& rhs)
 }
 
 /**
- * \ingroup constexpr-algorithms
+ * \ingroup algorithm
  * \brief Returns the smallest value of the set of values given
  */
 template<typename First, typename Second, typename Third, typename... Tail>
 constexpr decltype(auto) min(const First& first, const Second& second, const Third& third,
                    const Tail&... tail)
 {
-    return ::cpp::min(
+    return ::cpp::constexp::min(
         first,
-        ::cpp::min(
+        ::cpp::constexp::min(
             second,
             third,
             tail...
@@ -298,7 +303,7 @@ constexpr decltype(auto) min(const First& first, const Second& second, const Thi
 
 
 /**
- * \ingroup constexpr-algorithms
+ * \ingroup algorithm
  * \brief Computes the distance between two sequences using the
  * Levenshtein distance algorithm
  */
@@ -311,36 +316,39 @@ constexpr std::size_t levenshteinDistance(
     Begin2 begin2, End2 end2
 )
 {
-    return (begin1 == end1) ?
-        ::cpp::distance(begin2, end2)
+    return (begin1 >= end1) ?
+        ::cpp::constexp::distance(begin2, end2)
     :(
-           (begin2 == end2) ?
-        ::cpp::distance(begin1, end1)
+           (begin2 >= end2) ?
+        ::cpp::constexp::distance(begin1, end1)
     :(
-        ::cpp::min(
-            ::cpp::levenshteinDistance(begin1 + 1, end1, begin2, end2) + 1,
-            ::cpp::levenshteinDistance(begin1, end1, begin2 + 1, end2) + 1,
-            ::cpp::levenshteinDistance(begin1 + 1, end1, begin2 + 1, end2) +
+        ::cpp::constexp::min(
+            ::cpp::constexp::levenshteinDistance(begin1 + 1, end1, begin2, end2) + 1,
+            ::cpp::constexp::levenshteinDistance(begin1, end1, begin2 + 1, end2) + 1,
+            ::cpp::constexp::levenshteinDistance(begin1 + 1, end1, begin2 + 1, end2) +
             ((*begin1 == *begin2) ? 0 : 1)
         )
     ));
 }
 
 /**
- * \ingroup constexpr-algorithms
+ * \ingroup algorithm
  * \brief Computes the distance between two sequences using the
  * Levenshtein distance algorithm
  */
 template<typename Lhs, typename Rhs>
 constexpr std::size_t levenshteinDistance(const Lhs& lhs, const Rhs& rhs)
 {
-    return ::cpp::levenshteinDistance(
-        ::cpp::begin(lhs),
-        ::cpp::end(lhs),
-        ::cpp::begin(rhs),
-        ::cpp::end(rhs)
+    return ::cpp::constexp::levenshteinDistance(
+        ::cpp::constexp::begin(lhs),
+        ::cpp::constexp::end(lhs),
+        ::cpp::constexp::begin(rhs),
+        ::cpp::constexp::end(rhs)
     );
 }
+
 }
 
-#endif // SIPLASPLAS_UTILITY_CONSTEXPRALGORITHMS_HPP
+}
+
+#endif // SIPLASPLAS_CONSTEXPR_ALGORITHM_HPP

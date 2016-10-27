@@ -3,4 +3,5 @@ SOURCES
     logger.cpp
 DEPENDS
     siplasplas-utility
+    siplasplas-constexpr
 )

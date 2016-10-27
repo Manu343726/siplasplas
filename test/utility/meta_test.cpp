@@ -1,6 +1,8 @@
 #include <siplasplas/utility/meta.hpp>
+#include <siplasplas/constexpr/meta.hpp>
 #include <gmock/gmock.h>
-using namespace cpp::meta;
+using namespace ::cpp::meta;
+using namespace ::cpp::constexp;
 using namespace testing;
 
 template<typename Seq>

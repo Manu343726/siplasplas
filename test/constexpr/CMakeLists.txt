@@ -1,0 +1,10 @@
+add_siplasplas_test(constexpr
+SOURCES
+    algorithm_test.cpp
+    arrayview_test.cpp
+    stringview_test.cpp
+    meta_test.cpp
+    string_test.cpp
+DEPENDS
+    siplasplas-constexpr
+)
