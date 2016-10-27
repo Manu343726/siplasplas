@@ -33,4 +33,12 @@ public:
     void fo();
 };
 
+template<typename T>
+class TemplateToBeSpecialized
+{};
+
+template<>
+class TemplateToBeSpecialized<int>
+{};
+
 #include <reflection/examples/reflection/astexamples.hpp>

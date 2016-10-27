@@ -1,5 +1,7 @@
 #include <astexamples.hpp>
 #include <siplasplas/utility/meta.hpp>
+#include <siplasplas/constexpr/arrayview.hpp>
+#include <siplasplas/constexpr/algorithm.hpp>
 #include <siplasplas/reflection/static/api.hpp>
 #include <siplasplas/utility/fusion.hpp>
 #include <iostream>
@@ -7,7 +9,7 @@
 namespace reflection = cpp::static_reflection;
 
 
-constexpr cpp::ConstArrayView<char> method = "foobar";
+constexpr cpp::constexp::ConstArrayView<char> method = "foobar";
 
 struct Compare
 {
@@ -15,8 +17,8 @@ struct Compare
     struct apply
     {
         using type = cpp::meta::bool_<
-            cpp::levenshteinDistance(method, Lhs::SourceInfo::spelling()) >=
-            cpp::levenshteinDistance(method, Rhs::SourceInfo::spelling())
+            cpp::constexp::levenshteinDistance(method, Lhs::SourceInfo::spelling()) >=
+            cpp::constexp::levenshteinDistance(method, Rhs::SourceInfo::spelling())
         >;
     };
 };

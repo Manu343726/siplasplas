@@ -175,6 +175,17 @@ function(configure_siplasplas_reflection TARGET)
     set(command ${DRLPARSER_SCRIPT} ${options})
     log("DRLParser command: ${command}")
 
+    if(DRLPARSER_FILES)
+        # If user specified some files must be explicitly parsed,
+        # wait for those files (Can be generated files) first
+        add_custom_target(${TARGET}_drlparser_wait_for_files
+        DEPENDS
+            ${DRLPARSER_FILES}
+        )
+
+        set(waitForFiles DEPENDS ${TARGET}_drlparser_wait_for_files)
+    endif()
+
     add_prebuild_command(
         NAME ${TARGET}_drlparser
         TARGET ${TARGET}
@@ -182,5 +193,6 @@ function(configure_siplasplas_reflection TARGET)
         VERBATIM
         WORKING_DIRECTORY "${SIPLASPLAS_DRLPARSER_DIR}"
         COMMENT "Running siplasplas reflection parser for ${TARGET}"
+        ${waitForFiles}
     )
 endfunction()

@@ -1,72 +1,63 @@
 #include "datamodel.hpp"
+#include "mapping.hpp"
 #include <commmodel.pb.h>
-#include <siplasplas/utility/constexpralgorithms.hpp>
-#include <siplasplas/utility/meta.hpp>
-#include <siplasplas/utility/fusion.hpp>
+#include <ctti/type_id.hpp>
 #include <reflection/examples/reflection/static/protoserialization/datamodel.hpp>
 #include <reflection/build/examples/reflection/static/protoserialization/commmodel.pb.h>
 #include <iostream>
 
-namespace reflection = cpp::static_reflection;
-
-template<typename Field>
-struct SortBySpellingDistance
-{
-    template<typename Lhs, typename Rhs>
-    struct apply
-    {
-        using type = cpp::meta::bool_<
-            cpp::levenshteinDistance(
-                Field::SourceInfo::spelling(),
-                Lhs::SourceInfo::spelling()
-            )
-            <=
-            cpp::levenshteinDistance(
-                Field::SourceInfo::spelling(),
-                Rhs::SourceInfo::spelling()
-            )
-        >;
-    };
-};
-
-using DataModelFields = reflection::Class<NetworkSettings>::Fields;
-using CommModelMethods = reflection::Class<commmodel::NetworkSettings>::Methods;
-
 int main()
 {
-    std::cout << "Data model class: " << reflection::Class<NetworkSettings>::SourceInfo::fullName() << std::endl;
+    // Fill some protos:
+    commmodel::NetworkSettings networkSettingsProto;
+    commmodel::ServerSettings serverSettingsProto;
+    commmodel::Settings settingsProto;
+    commmodel::SettingsOperation settingsOperationProto;
 
-    cpp::foreach_type<DataModelFields>([](auto type)
-    {
-        using Type = cpp::meta::type_t<decltype(type)>;
+    networkSettingsProto.set_ipaddress("192.168.1.2");
+    networkSettingsProto.set_gateway("192.168.1.1");
+    networkSettingsProto.set_pingintervalms(10000);
+    serverSettingsProto.set_port(4242);
+    *settingsProto.mutable_networksettings() = networkSettingsProto;
+    *settingsProto.mutable_serversettings()  = serverSettingsProto;
+    settingsOperationProto.set_operation(commmodel::Operation::Set);
+    *settingsOperationProto.mutable_settings() = settingsProto;
 
-        std::cout << "  Data model field: " << Type::SourceInfo::fullName() << std::endl;
-    });
+    // Translate them to the data model:
+    const NetworkSettings networkSettingsData{
+        mapping::read<NetworkSettings>(networkSettingsProto)
+    };
+    const ServerSettings serverSettingsData{
+        mapping::read<ServerSettings>(serverSettingsProto)
+    };
+    const Settings settingsData{
+        mapping::read<Settings>(settingsProto)
+    };
+    const SettingsOperation settingsOperationData{
+        mapping::read<SettingsOperation>(settingsOperationProto)
+    };
 
-    std::cout << "Comm model class: " << reflection::Class<commmodel::NetworkSettings>::SourceInfo::fullName() << std::endl;
+    // Translate the data model back to protos:
+    const commmodel::NetworkSettings networkSettingsProtoAgain{
+        mapping::write<commmodel::NetworkSettings>(networkSettingsData)
+    };
+    const commmodel::ServerSettings serverSettingsProtoAgain{
+        mapping::write<commmodel::ServerSettings>(serverSettingsData)
+    };
+    const commmodel::Settings settingsProtoAgain{
+        mapping::write<commmodel::Settings>(settingsData)
+    };
+    const commmodel::SettingsOperation settingsOperationProtoAgain{
+        mapping::write<commmodel::SettingsOperation>(settingsOperationData)
+    };
 
-    cpp::foreach_type<CommModelMethods>([](auto type)
-    {
-        using Type = cpp::meta::type_t<decltype(type)>;
 
-        std::cout << "  Comm model method: " << Type::SourceInfo::fullName() << std::endl;
-    });
-
-    std::cout << "Data model -> Comm model mapping:\n";
-
-    cpp::foreach_type<DataModelFields>([](auto type)
-    {
-        using Field = cpp::meta::type_t<decltype(type)>;
-        using NearestCommMethod = cpp::meta::head_t<
-            cpp::meta::sort_t<
-                CommModelMethods,
-                SortBySpellingDistance<Field>
-            >
-        >;
-
-        std::cout << "  " << Field::SourceInfo::fullName()
-                  << " -> "
-                  << NearestCommMethod::SourceInfo::fullName()
-                  << std::endl;
-    });
+    std::cout << "C++ data model: " << networkSettingsData << std::endl;
+    std::cout << "C++ data model: " << serverSettingsData << std::endl;
+    std::cout << "C++ data model: " << settingsData << std::endl;
+    std::cout << "C++ data model: " << settingsOperationData << std::endl;
+    std::cout << "Protobuf comm model: " << networkSettingsProtoAgain.DebugString() << std::endl;
+    std::cout << "Protobuf comm model: " << serverSettingsProtoAgain.DebugString() << std::endl;
+    std::cout << "Protobuf comm model: " << settingsProtoAgain.DebugString() << std::endl;
+    std::cout << "Protobuf comm model: " << settingsOperationProtoAgain.DebugString() << std::endl;
 }

@@ -205,7 +205,7 @@ endfunction()
 function(add_prebuild_command)
     set(options)
     set(oneValueArgs NAME TARGET)
-    set(multiValueArgs)
+    set(multiValueArgs DEPENDS)
     cmake_parse_arguments(PC
         "${options}"
         "${oneValueArgs}"
@@ -230,6 +230,11 @@ function(add_prebuild_command)
     get_target_dependencies_targets_only(${PC_TARGET} deps)
     add_dependencies(${PC_NAME} ${deps})
     add_dependencies(${PC_TARGET} ${PC_NAME})
+
+    # Build the explicit dependencies first:
+    if(PC_DEPENDS)
+        add_dependencies(${PC_NAME} ${PC_DEPENDS})
+    endif()
 endfunction()
 
 # Copies dll dependencies of a target to its runtime

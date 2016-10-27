@@ -4,7 +4,35 @@ message NetworkSettings
 {
     optional string ipAddress = 1;
     optional string gateway = 2;
-    optional int32 pingInterval = 3;
+    optional int32 pingIntervalMs = 3;
+}
+
+message ServerSettings
+{
+    optional int32 port = 1;
+}
+
+message Settings
+{
+    optional NetworkSettings networkSettings = 1;
+    optional ServerSettings serverSettings = 2;
+}
+
+enum Operation
+{
+    Set = 0;
+    Get = 1;
+}
+
+message SettingsOperation
+{
+    optional Operation operation = 1;
+    optional Settings settings = 2;
+}
+
+message MessageWithOperation
+{
+    optional Operation operation = 1;
 }
 
 message ChangeNetworkSettings
