@@ -83,9 +83,9 @@ class Node(object):
         """ Yields an string representation of the node, suitable for AST printing"""
 
         if self.cursor.kind == CursorKind.UNEXPOSED_DECL:
-            short = '{}: (Unexposed decl) \'{}\''.format(self.file, text_in_cursor(self.cursor))
+            short = '{}:{}: (Unexposed decl) \'{}\''.format(self.file, self.cursor.location.line, text_in_cursor(self.cursor))
         else:
-            short = "{}: ({}, Type kind: {}) {}".format(self.file, str(self.node_class_kind()), str(self.cursor.type.kind), self.fullname)
+            short = "{}:{}: ({}, Type kind: {}) {}".format(self.file, self.cursor.location.line, str(self.node_class_kind()), str(self.cursor.type.kind), self.fullname)
 
         if self.attributes:
             return short + '\n' + '\n =>'.join([a.description() for a in self.attributes])
@@ -183,10 +183,13 @@ class Node(object):
 
     @property
     def name(self):
-        if self.spelling:
-            return self.spelling
+        if self.kindstring == 'class':
+            return self.displayname
         else:
-            return ''
+            if self.spelling:
+                return self.spelling
+            else:
+                return ''
 
     @property
     def is_public(self):
