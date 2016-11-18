@@ -110,9 +110,10 @@ class App:
         outputfiles = []
 
         for root, dirnames, filenames in files:
-            for file in filenames:
-                if self.file_matches(os.path.join(root, file)):
-                    outputfiles.append(os.path.abspath(os.path.join(root, file)))
+            if not self.blacklisted_dir(root):
+                for file in filenames:
+                    if self.file_matches(os.path.join(root, file)):
+                        outputfiles.append(os.path.abspath(os.path.join(root, file)))
 
         return outputfiles
 
