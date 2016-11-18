@@ -228,7 +228,9 @@ function(add_prebuild_command)
     # Here we force the command target to be the uppermost dependency of the TARGET, so
     # the command is run only after building all other TARGET dependencies
     get_target_dependencies_targets_only(${PC_TARGET} deps)
-    add_dependencies(${PC_NAME} ${deps})
+    if(deps)
+        add_dependencies(${PC_NAME} ${deps})
+    endif()
     add_dependencies(${PC_TARGET} ${PC_NAME})
 
     # Build the explicit dependencies first:
