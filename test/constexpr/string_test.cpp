@@ -45,8 +45,3 @@ TEST(StringTest, conversionTest)
         "hello, world"
     );
 }
-
-TEST(StringTest, stringDistanceSorting)
-{
-    using º
-}
