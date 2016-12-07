@@ -1,3 +1,4 @@
+set(CMAKE_MODULE_PATH "${CONAN_CMAKE_MODULE_PATH}")
 find_package(Protobuf ${SIPLAPSLAS_PROTOBUF_VERSION} REQUIRED)
 
 add_library(protobuf INTERFACE)

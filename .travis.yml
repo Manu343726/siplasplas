@@ -23,8 +23,7 @@ matrix:
             - gcc-5
             - libboost1.55-all-dev # For Standardese
             - valgrind
-            - protobuf # We don't currently have a CMake script to download and build
-                       # protobuf from sources. Thanks autotools.
+
           sources:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.7
@@ -107,6 +106,12 @@ install:
   - export PATH=${DEPS_DIR}/cmake/bin:${PATH}
 
   - cmake --version
+
+
+############################################################################
+# Install conan.io package manager
+############################################################################
+  - pip install --user conan && export PATH=$PATH:$HOME/.local/bin
 
 
   # Finished building deps

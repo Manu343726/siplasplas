@@ -1,0 +1,5 @@
+[requires]
+Protobuf/2.6.1@memsharded/testing
+
+[generators]
+cmake

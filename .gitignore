@@ -1,6 +1,10 @@
 # Ignore YCM config file (It's generated with cmake)
 .ycm_extra_conf.py
 
+# Ignore conan generator output
+3rdParty/conanbuildinfo.cmake
+3rdParty/conaninfo.txt
+
 # Ignore reflection output
 *.rfl*
 *.ast # AST output files

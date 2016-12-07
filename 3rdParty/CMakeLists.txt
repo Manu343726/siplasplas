@@ -1,4 +1,13 @@
 include(thirdparty)
+include(pip)
+
+execute_process(
+    COMMAND conan install --build=outdated
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+include(conanbuildinfo.cmake)
+conan_basic_setup()
 
 add_subdirectory(ctti)
 add_subdirectory(json4moderncpp)
