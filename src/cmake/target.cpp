@@ -2,7 +2,7 @@
 #include "project.hpp"
 #include "logger.hpp"
 
-#include <json4moderncpp/src/json.hpp>
+#include <json.hpp>
 
 using namespace cpp;
 

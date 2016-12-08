@@ -1,9 +1,7 @@
 set(CMAKE_MODULE_PATH "${CONAN_CMAKE_MODULE_PATH}")
 find_package(Protobuf ${SIPLAPSLAS_PROTOBUF_VERSION} REQUIRED)
 
-add_library(protobuf INTERFACE)
-target_include_directories(protobuf INTERFACE "${PROTOBUF_INCLUDE_DIR}")
-target_link_libraries(protobuf INTERFACE ${PROTOBUF_LIBRARIES})
+add_conan_library(protobuf)
 
 function(add_protobuf_library NAME)
     cmake_parse_arguments(
@@ -27,7 +25,7 @@ function(add_protobuf_library NAME)
     if(NOT MSVC)
         target_compile_options(${NAME} PRIVATE -std=c++11)
     endif()
-    target_link_libraries(${NAME} PUBLIC protobuf)
+    target_link_libraries(${NAME} PUBLIC protobuf-conan)
     target_include_directories(${NAME} PUBLIC "${CMAKE_CURRENT_BINARY_DIR}")
 
     message(STATUS "SIPLASPLAS PROTOBUF LIBRARY ${NAME}")

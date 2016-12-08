@@ -15,8 +15,8 @@ SOURCES
     error_logger.cpp
     logger.cpp
 DEPENDS
-    ctti
-    fmt
+    ctti-conan
+    fmt-conan
     backward-cpp
     siplasplas-logger
 LINK_LIBS

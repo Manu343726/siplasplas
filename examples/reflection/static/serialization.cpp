@@ -3,7 +3,7 @@
 #include <ctti/type_id.hpp>
 #include <siplasplas/utility/fusion.hpp>
 #include <siplasplas/utility/invoke.hpp>
-#include <json4moderncpp/src/json.hpp>
+#include <json.hpp>
 #include <iostream>
 #include <sstream>
 

@@ -1,5 +1,14 @@
 [requires]
 Protobuf/2.6.1@memsharded/testing
+ctti/0.0.1@Manu343726/testing
+spdlog/0.10.0@memsharded/stable
+fmt/3.0.0@memsharded/testing
+nlJson/2.0.2@arnemertz/stable
+googlemock/1.7.0@azriel91/stable-1
+
+[options]
+fmt:shared=False
+fmt:fPIC=True
 
 [generators]
 cmake

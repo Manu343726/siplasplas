@@ -5,7 +5,7 @@ SOURCES
     logger.cpp
 DEPENDS
     libexecstream
-    json4moderncpp
+    nljson-conan
     siplasplas-fswatch
 )
 

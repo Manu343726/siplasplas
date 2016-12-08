@@ -206,15 +206,15 @@ function(add_siplasplas_target NAME TARGET_TYPE)
         if(TARGET_TYPE STREQUAL "UNIT_TEST")
             set_target_properties(${NAME} PROPERTIES EXCLUDE_FROM_ALL TRUE)
 
-            if(NOT TARGET googletest)
-                message(FATAL_ERROR "GoogleTest third party should be configured first")
+            if(NOT TARGET googlemock-conan)
+                message(FATAL_ERROR "GoogleMock third party should be configured first")
             endif()
 
             # gmock is linked against tests by default,
             # gmock default main if requested in settings
             target_link_libraries(${NAME} PRIVATE
-                googletest-gmock
-                $<$<BOOL:ARGS_DEFAULT_TEST_MAIN>:googletest-gmock-main>
+                googlemock-conan
+                $<$<BOOL:ARGS_DEFAULT_TEST_MAIN>:googlemock-conan-gmock_main>
             )
         endif()
 

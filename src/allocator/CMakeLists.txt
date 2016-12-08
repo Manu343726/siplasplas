@@ -7,5 +7,5 @@ SOURCES
     embedded_allocator.cpp
 DEPENDS
     siplasplas-utility
-    ctti
+    ctti-conan
 )
