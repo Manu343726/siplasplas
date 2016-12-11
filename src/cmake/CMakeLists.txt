@@ -4,7 +4,7 @@ SOURCES
     target.cpp
     logger.cpp
 DEPENDS
-    libexecstream
+    libexecstream-conan
     nljson-conan
     siplasplas-fswatch
 )

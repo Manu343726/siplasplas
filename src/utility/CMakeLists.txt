@@ -1,8 +1,8 @@
 
 if(WIN32)
-	set(dynamiclibapi)
+    set(dynamiclibapi)
 else()
-	set(dynamiclibapi dl)
+    set(dynamiclibapi dl)
 endif()
 
 add_siplasplas_library(siplasplas-utility
@@ -17,7 +17,7 @@ SOURCES
 DEPENDS
     ctti-conan
     fmt-conan
-    backward-cpp
+    backward-conan
     siplasplas-logger
 LINK_LIBS
     ${dynamiclibapi}

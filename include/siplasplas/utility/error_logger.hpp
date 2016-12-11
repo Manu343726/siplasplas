@@ -2,7 +2,7 @@
 #define SIPLASPLAS_UTILITY_ERRORLOGGER_HPP
 
 #include <siplasplas/logger/logger.hpp>
-#include <backward-cpp/backward.hpp>
+#include <backward/backward.hpp>
 #include <fmt/format.h>
 #include <siplasplas/utility/export.hpp>
 

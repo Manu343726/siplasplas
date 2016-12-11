@@ -1,7 +1,6 @@
 #include <libexecstream/exec-stream.h>
 #include <iostream>
-#include <algorithm>
-#include <iterator>
+#include <string>
 
 int main()
 {

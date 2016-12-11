@@ -7,20 +7,20 @@ execute_process(
 )
 
 include(conanbuildinfo.cmake)
-include(conan.cmake)
 conan_basic_setup()
+include(${CONAN_CMAKE-UTILS_ROOT}/conan.cmake)
 
 add_conan_library(ctti)
 add_conan_library(nljson)
 add_conan_library(fmt)
 add_conan_library(spdlog DEPENDS fmt-conan)
-add_subdirectory(backward-cpp)   # no conan
+add_conan_library(backward)
 add_conan_library(googletest)
-add_conan_library(googlemock DEPENDS googletest-conan EXTRA_LIBS gmock_main) # conan
+add_conan_library(googlemock DEPENDS googletest-conan EXTRA_LIBS gmock_main)
 add_subdirectory(standardese)    # no conan
 add_subdirectory(efsw)           # no conan
 add_subdirectory(readerwriterqueue) # no conan
-add_subdirectory(libexecstream)     # no conan
+add_conan_library(libexecstream)
 
 if(SIPLASPLAS_BUILD_EXAMPLES)
     add_subdirectory(chaiscript) # no conan
