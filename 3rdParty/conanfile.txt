@@ -8,6 +8,7 @@ nlJson/2.0.2@arnemertz/stable
 googlemock/1.7.0@azriel91/stable-1
 libexecstream/0.3.0@Manu343726/testing
 backward/0.0.0@Manu343726/testing
+readerwriterqueue/1.0.0@Manu343726/testing
 
 [options]
 fmt:shared=False

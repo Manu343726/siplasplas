@@ -19,7 +19,7 @@ add_conan_library(googletest)
 add_conan_library(googlemock DEPENDS googletest-conan EXTRA_LIBS gmock_main)
 add_subdirectory(standardese)    # no conan
 add_subdirectory(efsw)           # no conan
-add_subdirectory(readerwriterqueue) # no conan
+add_conan_library(readerwriterqueue)
 add_conan_library(libexecstream)
 
 if(SIPLASPLAS_BUILD_EXAMPLES)
