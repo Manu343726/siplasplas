@@ -9,11 +9,13 @@ googlemock/1.7.0@azriel91/stable-1
 libexecstream/0.3.0@Manu343726/testing
 backward/0.0.0@Manu343726/testing
 readerwriterqueue/1.0.0@Manu343726/testing
+efsw/1.0.0@Manu343726/testing
 
 [options]
 fmt:shared=False
 fmt:fPIC=True
 libexecstream:shared=False
+efsw:fPIC=True
 
 [generators]
 cmake

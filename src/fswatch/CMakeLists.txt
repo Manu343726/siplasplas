@@ -2,7 +2,7 @@ add_siplasplas_library(siplasplas-fswatch
 SOURCES
     fslistener.cpp
 DEPENDS
-    efsw
+    efsw-conan
     siplasplas-signals
 )
 

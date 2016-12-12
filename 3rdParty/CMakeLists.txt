@@ -18,13 +18,13 @@ add_conan_library(backward)
 add_conan_library(googletest)
 add_conan_library(googlemock DEPENDS googletest-conan EXTRA_LIBS gmock_main)
 add_subdirectory(standardese)    # no conan
-add_subdirectory(efsw)           # no conan
+add_conan_library(efsw)
 add_conan_library(readerwriterqueue)
 add_conan_library(libexecstream)
 
 if(SIPLASPLAS_BUILD_EXAMPLES)
     add_subdirectory(chaiscript) # no conan
-    add_subdirectory(protobuf) # conan
+    add_subdirectory(protobuf)
 
     if(NOT SIPLASPLAS_CI_BUILD)
         # Cannot configure SFML with current
