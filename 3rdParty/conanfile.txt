@@ -10,6 +10,7 @@ libexecstream/0.3.0@Manu343726/testing
 backward/0.0.0@Manu343726/testing
 readerwriterqueue/1.0.0@Manu343726/testing
 efsw/1.0.0@Manu343726/testing
+clang/3.8.0@smspillaz/stable
 
 [options]
 fmt:shared=False
