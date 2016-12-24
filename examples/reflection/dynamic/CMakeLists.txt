@@ -3,7 +3,7 @@ include(export_target)
 add_subdirectory(plugininterface)
 add_subdirectory(plugin)
 
-add_siplasplas_example_simple(reflection DEPENDS siplasplas-reflection-dynamic json4moderncpp)
+add_siplasplas_example_simple(reflection DEPENDS siplasplas-reflection-dynamic nljson-conan)
 configure_siplasplas_reflection(examples-reflection)
 export_target_properties(examples-reflection)
 

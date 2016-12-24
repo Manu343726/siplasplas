@@ -7,5 +7,5 @@ SOURCES
 DEPENDS
     siplasplas-reflection-static
     siplasplas-typeerasure
-    readerwriterqueue
+    readerwriterqueue-conan
 )

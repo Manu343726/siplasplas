@@ -1,5 +1,5 @@
 #include <iostream>
-#include <backward-cpp/backward.hpp>
+#include <backward/backward.hpp>
 
 void print_backtrace(std::size_t frames = 32)
 {

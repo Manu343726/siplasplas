@@ -1,2 +1,2 @@
-add_siplasplas_example_simple(efsw EXCLUDE_FROM_RUN_ALL DEPENDS efsw siplasplas-signals)
+add_siplasplas_example_simple(efsw EXCLUDE_FROM_RUN_ALL DEPENDS efsw-conan siplasplas-signals)
 configure_siplasplas_reflection(examples-efsw)

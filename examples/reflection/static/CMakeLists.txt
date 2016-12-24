@@ -18,11 +18,11 @@ endfunction()
 
 get_ram_mb(RAMMB)
 if(RAMMB GREATER 1024 OR SIPLASPLAS_BUILD_CHAISCRIPT_EXAMPLE)
-    add_siplasplas_example_simple(chaiscript INCLUDE_DIRS .. DEPENDS chaiscript siplasplas-reflection-static)
+    add_siplasplas_example_simple(chaiscript INCLUDE_DIRS .. DEPENDS chaiscript-conan siplasplas-reflection-static)
     configure_siplasplas_reflection(examples-chaiscript)
 endif()
 
-add_siplasplas_example_simple(serialization INCLUDE_DIRS .. DEPENDS siplasplas-reflection-static json4moderncpp)
+add_siplasplas_example_simple(serialization INCLUDE_DIRS .. DEPENDS siplasplas-reflection-static nljson-conan)
 configure_siplasplas_reflection(examples-serialization)
 add_siplasplas_example_simple(enum INCLUDE_DIRS .. DEPENDS siplasplas-reflection-static)
 configure_siplasplas_reflection(examples-enum)

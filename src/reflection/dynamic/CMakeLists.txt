@@ -21,5 +21,5 @@ DEPENDS
     siplasplas-typeerasure
     siplasplas-allocator
     siplasplas-utility
-    ctti
+    ctti-conan
 )
