@@ -1,4 +1,5 @@
 #include "dynamiclibrary.hpp"
+#include "exception.hpp"
 
 static std::pair<void*, std::string> loadLibrary(const std::string& libraryPath);
 static std::pair<void*, std::string> loadSymbol(cpp::DynamicLibrary& library, const std::string& syumbolName);
@@ -18,7 +19,6 @@ public:
 #ifdef WIN32
 #define NOMINMAX
 #include <Windows.h>
-#include "exception.hpp"
 
 using namespace cpp;
 
@@ -55,8 +55,38 @@ static void closeLibrary(void* libraryHandle)
     FreeLibrary(reinterpret_cast<HMODULE>(libraryHandle));
 }
 #else
-#include <link.h>
 #include <dlfcn.h>
+#if defined(__APPLE__)
+
+using namespace cpp;
+
+static std::pair<void*, std::string> loadLibrary(const std::string& libraryPath)
+{
+    const char* path = libraryPath.empty() ? nullptr : libraryPath.c_str();
+    void* handle = dlopen(path, RTLD_LAZY);
+
+    if (handle)
+    {
+        Dl_info info;
+
+        // Load binary path information from dladdr() API if available, else
+        // use the user provided path
+        if (dladdr(handle, &info) || !info.dli_fname)
+        {
+            return{ handle, libraryPath };
+        }
+        else
+        {
+            return{ handle, info.dli_fname };
+        }
+    }
+    else
+    {
+        throw std::runtime_error{ "Cannot load shared library " + std::string{ libraryPath } };
+    }
+}
+#else // __APPLE__
+#include <link.h>
 
 using namespace cpp;
 
@@ -86,6 +116,8 @@ static std::pair<void*, std::string> loadLibrary(const std::string& libraryPath)
     }
 }
 
+#endif // __APPLE__
+
 static std::pair<void*, std::string> loadSymbol(DynamicLibrary& library, const std::string& symbolName)
 {
     void* handle = dlsym(library.handle(), symbolName.c_str());
@@ -104,7 +136,7 @@ static void closeLibrary(void* libraryHandle)
 {
     dlclose(libraryHandle);
 }
-#endif
+#endif // WIN32
 
 using namespace cpp;
 
