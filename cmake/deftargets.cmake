@@ -57,6 +57,11 @@ function(add_run_target NAME TARGET_TYPE)
         endif()
     endif()
 
+    if(TARGET_TYPE MATCHES "UNIT_TEST")
+        # Always enable gtest colors
+        list(APPEND ARGS_RUN_ARGS --gtest_color=yes)
+    endif()
+
     # Create custom target to run the executable/test
     add_custom_target(${run-target}
         COMMAND ${valgrind_command} $<TARGET_FILE_DIR:${NAME}>/$<TARGET_FILE_NAME:${NAME}> ${ARGS_RUN_ARGS} ${dump_errors}

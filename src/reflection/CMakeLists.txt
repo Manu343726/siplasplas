@@ -1,6 +1,7 @@
 add_subdirectory(common)
 add_subdirectory(static)
 add_subdirectory(dynamic)
+add_subdirectory(parser)
 
 if(NOT SIPLASPLAS_REFLECTION_MODULE)
     set(SIPLASPLAS_REFLECTION_MODULE "${CMAKE_CURRENT_LIST_DIR}/parser/drlparser.cmake" CACHE INTERNAL "")

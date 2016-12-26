@@ -21,7 +21,7 @@ add_subdirectory(standardese)
 add_conan_library(efsw)
 add_conan_library(readerwriterqueue)
 add_conan_library(libexecstream)
-add_conan_library(clang EXTRA_LIBS clang clangTooling)
+add_conan_library(clang)
 
 if(SIPLASPLAS_BUILD_EXAMPLES)
     add_conan_library(chaiscript)
