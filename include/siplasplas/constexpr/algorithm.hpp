@@ -347,6 +347,73 @@ constexpr std::size_t levenshteinDistance(const Lhs& lhs, const Rhs& rhs)
     );
 }
 
+/**
+ * \ingroup algorithm
+ * \brief Finds a value in a sequence
+ * \param begin Iterator pointing to the first element of the sequence
+ * \param end Iterator pointing to past-the-end element of the sequence
+ * \param value Value to compare elements to
+ *
+ * \returns Iterator to the first element equal to the given value, \p end if not
+ * found.
+ */
+template<typename Iterator, typename T>
+constexpr Iterator find(Iterator begin, Iterator end, const T& value)
+{
+    return (begin == end) ? end :
+        (*begin == value) ? begin :
+        find(begin + 1, end, value);
+}
+
+#ifndef SIPLASPLAS_CONSTEXPR_ALGORITHM_MAX_STRLEN_LENGTH
+    /**
+    * \brief Maximum string length supported by the cpp::constexp::strlen() algorithm
+    *
+    * This constant controls the recursion limit of the strlen() algorithm. If the given string
+    * has the null terminator past the MAX_STRLEN_LENGTH'th element, the behavior is undefined.
+    * The value of the constant may be tunned by settings SIPLASPLAS_CONSTEXPR_ALGORITHM_MAX_STRLEN_LENGTH
+    * macro:
+    *
+    * ``` cpp
+    * #define SIPLASPLAS_CONSTEXPR_ALGORITHM_MAX_STRLEN_LENGTH 128
+    * constexpr std::size_t length = cpp::constexp::strlen("hello, world");
+    * ```
+    */
+    constexpr std::size_t MAX_STRLEN_LENGTH = 1024 * 1024;
+#else
+    /**
+    * \brief Maximum string length supported by the cpp::constexp::strlen() algorithm
+    *
+    * This constant controls the recursion limit of the strlen() algorithm. If the given string
+    * has the null terminator past the MAX_STRLEN_LENGTH'th element, the behavior is undefined.
+    * The value of the constant may be tunned by settings SIPLASPLAS_CONSTEXPR_ALGORITHM_MAX_STRLEN_LENGTH
+    * macro:
+    *
+    * ``` cpp
+    * #define SIPLASPLAS_CONSTEXPR_ALGORITHM_MAX_STRLEN_LENGTH 128
+    * constexpr std::size_t length = cpp::constexp::strlen("hello, world");
+    * ```
+    */
+    constexpr std::size_t MAX_STRLEN_LENGTH = SIPLASPLAS_CONSTEXPR_ALGORITHM_MAX_STRLEN_LENGTH;
+#endif // SIPLASPLAS_CONSTEXPR_ALGORITHM_MAX_STRLEN_LENGTH
+
+/**
+ * \brief Returns the length of the given null-terminated string
+ *
+ * \param str Null-terminated C string
+ *
+ * \returns The length of the given string. The behavior is undefined
+ * if the passed string is not a null terminated string or if the string length is bigger than
+ * the algorithm limit (See MAX_STRLEN_LENGTH).
+ */
+constexpr std::size_t strlen(const char* str)
+{
+    return ::cpp::constexp::distance(
+        str,
+        ::cpp::constexp::find(str, str + ::cpp::constexp::MAX_STRLEN_LENGTH, '\0')
+    );
+}
+
 }
 
 }
