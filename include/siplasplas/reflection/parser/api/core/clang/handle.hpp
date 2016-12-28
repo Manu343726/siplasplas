@@ -22,6 +22,7 @@ namespace clang
 {
 
 /**
+ * \ingroup clang
  * \brief Returns the null value for a given handle type RawHandle
  *
  * This trait can be specialized to specify the null value of
@@ -48,6 +49,7 @@ public:
 };
 
 /**
+ * \ingroup clang
  * \brief NullHandle specialization for pointer types
  *
  * Returns nullptr as null value.
@@ -60,6 +62,7 @@ public:
 };
 
 /**
+ * \ingroup clang
  * \brief Returns the null value for a given handle type RawHandle
  *
  * \tparam RawHandle Handle type
@@ -71,6 +74,7 @@ constexpr RawHandle nullHandle()
 }
 
 /**
+ * \ingroup clang
  * \brief Provides a iunique-ownership RAII wrapper for raw resources
  *
  * This class owns a raw clang resource instanced by a factory
@@ -128,10 +132,19 @@ public:
     }
 
     /**
-     * \brief Releases the owned handle. The owned handle becomes null after
-     * the release operation.
+     * \brief Returns the managed raw handle and releases the ownership
      */
-    constexpr void release() noexcept
+    RawHandle release() noexcept
+    {
+        RawHandle oldHandle = _rawHandle;
+        _rawHandle = nullHandle<RawHandle>();
+        return oldHandle;
+    }
+
+    /**
+     * \brief Resets the handle by releasing the owned handle and then becoming null
+     */
+    constexpr void reset() noexcept
     {
         reset(nullHandle<RawHandle>());
     }
@@ -185,7 +198,7 @@ public:
      */
     ~UniqueHandle() noexcept
     {
-        release();
+        reset();
     }
 
     friend constexpr bool operator==(const UniqueHandle& lhs, const UniqueHandle& rhs)
@@ -204,6 +217,7 @@ private:
 
 
 /**
+ * \ingroup clang
  * \brief Provides a shared-ownership RAII wrapper for raw resources
  *
  * This class owns a raw clang resource instanced by a factory
@@ -235,6 +249,19 @@ public:
     {}
 
     /**
+     * \brief Takes ownership of the given unique handle
+     *
+     * The shared handle is initialized by owning a raw handle currently
+     * owned by a given unique handle. After the initialization the unique
+     * handle becomes null.
+     *
+     * \param handle Unique handle to take the raw handle from
+     */
+    SharedHandle(UniqueHandle& handle) :
+        _handlePtr{std::make_shared<UniqueHandle>(handle.release())}
+    {}
+
+    /**
      * \brief Takes ownership of the given raw handle
      *
      * This operation assigns a new raw handle to the shared handle. This is
@@ -260,11 +287,8 @@ public:
     }
 
     /**
-     * \brief Releases the underlying new handle
-     *
-     * Takes ownership of a new raw handle and releases the old one first. After this operation,
-     * all SharedHandle instances related to this one own the new raw handle. The raw handle becomes
-     * null after the operation
+     * \brief Releases the owned handle. The owned handle becomes null after
+     * the release operation. All sibling shared handles become null after this operation.
      */
     void release() noexcept
     {
@@ -287,6 +311,17 @@ public:
     bool isNull() const noexcept
     {
         return _handlePtr->isNull();
+    }
+
+    /**
+     * \brief Returns an unique handle to the owned underlying raw handle
+     *
+     * \returns A unique handle owning the raw handle. After this operation
+     * this shared handle and its sibling become null.
+     */
+    UniqueHandle unique()
+    {
+        return std::move(*_handlePtr);
     }
 
 private:

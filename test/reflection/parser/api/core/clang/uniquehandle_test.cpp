@@ -51,16 +51,22 @@ TEST_F(UniqueHandleTest, reset_OwnsNewHandle)
     expectRelease(44);
 }
 
-TEST_F(UniqueHandleTest, release_ReleasesHandleIfNotNull)
+TEST_F(UniqueHandleTest, reset_noArgs_oldHandleReleasedAndBecomesNull)
 {
+    CustomUniqueHandle handle{43};
+
+    expectRelease(43);
+    handle.reset();
+    EXPECT_TRUE(handle.isNull());
+}
+
+TEST_F(UniqueHandleTest, release_oldRawHandleIsNotReleased)
+{
+    expectRelease(43).Times(0);
     CustomUniqueHandle notNull{43};
-    CustomUniqueHandle null = CustomUniqueHandle::null();
 
-    expectRelease(43).Times(1);
-    notNull.release();
-
-    expectRelease(nullHandle<CustomRawHandleType>()).Times(0);
-    null.release();
+    auto rawHandle = notNull.release();
+    EXPECT_EQ(43, rawHandle.value);
 }
 
 TEST_F(UniqueHandleTest, moveCtor_takesOwnershipOfHandle)
