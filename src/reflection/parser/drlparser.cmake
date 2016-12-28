@@ -29,15 +29,15 @@ macro(drlparser_setup)
             # that's why the clang packages are tagged 3.x and we compare against
             # SIPLASPLAS_LIBCLANG_VERSION_MAJOR_MINOR instead of SIPLASPLAS_LIBCLANG_VERSION
 
-            if(NOT libclang_bindings_version VERSION_EQUAL SIPLASPLAS_LIBCLANG_VERSION_MAJOR_MINOR)
-                message(FATAL_ERROR "libclang python bindings (clang==${libclang_bindings_version}) do not match required libclang version (${SIPLASPLAS_LIBCLANG_VERSION})")
+            if(NOT libclang_bindings_version VERSION_EQUAL SIPLASPLAS_LIBCLANG_VERSION_MAJOR_MINOR_LEGACY)
+                message(FATAL_ERROR "libclang python bindings (clang==${libclang_bindings_version}) do not match required libclang version (${SIPLASPLAS_LIBCLANG_VERSION_LEGACY})")
             else()
                 message(STATUS "libclang python bindings found")
             endif()
         else()
             message(STATUS "Python bindings (package \"clang\") not found. Installing...")
 
-            pip_install_package(clang ${SIPLASPLAS_LIBCLANG_VERSION_MAJOR_MINOR})
+            pip_install_package(clang ${SIPLASPLAS_LIBCLANG_VERSION_MAJOR_MINOR_LEGACY})
         endif()
 
         set(__SIPLASPLAS_DRLPARSER_DEPS_SATISFIED TRUE CACHE INTERNAL "")
@@ -90,7 +90,7 @@ function(configure_siplasplas_reflection TARGET)
         endforeach()
         log("libclang system include dir: ${LIBCLANG_SYSTEM_INCLUDE_DIR}")
 
-        list(APPEND EXTRA_LIBCLANG_INCLUDES ${STDLIBCPP_INCLUDES} ${LIBCLANG_SYSTEM_INCLUDE_DIR})
+        list(APPEND EXTRA_LIBCLANG_INCLUDES ${STDLIBCPP_INCLUDES} ${SIPLASPLAS_LIBCLANG_SYSTEM_INCLUDE_DIR_LEGACY})
     endif()
 
     target_include_directories(${TARGET}
@@ -125,9 +125,9 @@ function(configure_siplasplas_reflection TARGET)
         set(ignore_database --ignore-database)
     endif()
 
-    if(SIPLASPLAS_LIBCLANG_LIBRARY)
-        log("DRLParser custom libclang file: ${SIPLASPLAS_LIBCLANG_LIBRARY}")
-        set(libclang --libclang ${SIPLASPLAS_LIBCLANG_LIBRARY})
+    if(SIPLASPLAS_LIBCLANG_LIBRARY_LEGACY)
+        log("DRLParser custom libclang file: ${SIPLASPLAS_LIBCLANG_LIBRARY_LEGACY}")
+        set(libclang --libclang ${SIPLASPLAS_LIBCLANG_LIBRARY_LEGACY})
     endif()
 
     if(DRLPARSER_VERBOSE OR SIPLASPLAS_VERBOSE_DRLPARSER)
