@@ -24,6 +24,10 @@ public:
         ArrayView{begin, static_cast<std::size_t>(end - begin)}
     {}
 
+    constexpr ArrayView(std::initializer_list<T> initList) :
+        ArrayView{const_cast<T*>(initList.begin()), const_cast<T*>(initList.end())}
+    {}
+
     template<std::size_t N>
     constexpr ArrayView(const T (&array)[N]) :
         ArrayView{array, N}
@@ -100,6 +104,10 @@ public:
     template<std::size_t N>
     constexpr ConstArrayView(const std::array<T, N>& array) :
         ConstArrayView{array.begin(), N}
+    {}
+
+    constexpr ConstArrayView(std::initializer_list<T> initList) :
+        ConstArrayView{initList.begin(), initList.end()}
     {}
 
     constexpr std::size_t size() const
