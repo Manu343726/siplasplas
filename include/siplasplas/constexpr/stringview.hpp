@@ -27,6 +27,14 @@ public:
         ArrayView<char>{std::move(arrayView)}
     {}
 
+    constexpr StringView(char* const str) :
+        ArrayView<char>{str, str + ::cpp::constexp::strlen(str)}
+    {}
+
+    StringView(std::string& str) :
+        ArrayView<char>{&str[0], &str[str.size()]}
+    {}
+
     std::string str() const
     {
         /*
@@ -65,6 +73,14 @@ public:
         ConstArrayView<char>{std::move(arrayView)}
     {}
 
+    constexpr ConstStringView(const char* str) :
+        ConstArrayView<char>{str, str + ::cpp::constexp::strlen(str)}
+    {}
+
+    ConstStringView(const std::string& str) :
+        ConstArrayView<char>{&str[0], &str[str.size()]}
+    {}
+
     std::string str() const
     {
         /*
@@ -89,6 +105,9 @@ public:
         return begin();
     }
 };
+
+using StringViews = ArrayView<const char*>;
+using ConstStringViews = ConstArrayView<const char*>;
 
 }
 
