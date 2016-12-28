@@ -36,6 +36,7 @@ option(SIPLASPLAS_IMGUI_SFML_EXAMPLES_ENABLED "Enable examples using imgui and S
 option(SIPLASPLAS_VERBOSE_DRLPARSER "Run reflection parser with detailed diagnostics" OFF)
 
 include(cmake/siplasplas.cmake)
+include(3rdParty/conan.cmake)
 
 add_subdirectory(cmake)
 add_subdirectory(3rdParty)

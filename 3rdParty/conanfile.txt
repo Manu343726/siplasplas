@@ -13,6 +13,7 @@ efsw/1.0.0@Manu343726/testing
 clang/3.8.0@smspillaz/stable
 LuaCppTemplater/1.0.0@sztomi/luacpptemplater
 ChaiScript/5.8.5@Manu343726/testing
+range-v3/latest@ericniebler/stable
 
 [options]
 fmt:shared=False

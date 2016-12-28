@@ -1,0 +1,16 @@
+add_siplasplas_library(siplasplas-reflection-parser-api-core-clang
+SOURCES
+    translationunit.cpp
+    index.cpp
+    string.cpp
+    error.cpp
+    unsavedfile.cpp
+    diagnostic.cpp
+    logger.cpp
+    compileoptions.cpp
+DEPENDS
+    siplasplas-utility
+    siplasplas-constexpr
+    CONAN_PKG::clang
+    clang-conan-clang
+)

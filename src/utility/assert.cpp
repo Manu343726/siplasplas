@@ -11,12 +11,19 @@ AssertExpression::AssertExpression(bool assertionResult,
     _detail{""},
     _file{file},
     _line{line},
-    _assertionFailed{!assertionResult}
+    _assertionFailed{!assertionResult},
+    _noThrow{false}
 {}
 
 AssertExpression& AssertExpression::onFailure(const std::function<void()>& callback)
 {
     _onFailureCallback = callback;
+    return *this;
+}
+
+AssertExpression& AssertExpression::noThrow()
+{
+    _noThrow = true;
     return *this;
 }
 
@@ -29,9 +36,11 @@ AssertExpression::~AssertExpression() noexcept(false)
             _onFailureCallback();
         }
 
+        std::string message;
+
         if(_detail.empty())
         {
-            throw cpp::exception<AssertException>(
+            message = fmt::format(
                 "File {}, line {} Assertion Failed: {}",
                 _file,
                 _line,
@@ -40,13 +49,22 @@ AssertExpression::~AssertExpression() noexcept(false)
         }
         else
         {
-            throw cpp::exception<AssertException>(
+            message = fmt::format(
                 "File {}, line {} Assertion Failed: {}\nDetails: {}",
                 _file,
                 _line,
                 _message,
                 _detail
             );
+        }
+
+        if(_noThrow)
+        {
+            utility::errorLogger().critical("[failed not-thrown assertion] {}", message);
+        }
+        else
+        {
+            throw AssertException{message};
         }
     }
 }

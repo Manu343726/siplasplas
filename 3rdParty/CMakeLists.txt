@@ -1,15 +1,6 @@
 include(thirdparty)
 include(pip)
 
-execute_process(
-    COMMAND conan install --build=outdated
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-)
-
-include(conanbuildinfo.cmake)
-conan_basic_setup()
-include(${CONAN_CMAKE-UTILS_ROOT}/conan.cmake)
-
 add_conan_library(ctti)
 add_conan_library(nljson)
 add_conan_library(fmt)
@@ -21,7 +12,8 @@ add_subdirectory(standardese)
 add_conan_library(efsw)
 add_conan_library(readerwriterqueue)
 add_conan_library(libexecstream)
-add_conan_library(clang EXTRA_LIBS clang clangTooling)
+add_conan_library(clang EXTRA_LIBS clang)
+add_conan_library(range-v3)
 
 if(SIPLASPLAS_BUILD_EXAMPLES)
     add_conan_library(chaiscript)
