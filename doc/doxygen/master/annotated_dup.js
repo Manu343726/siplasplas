@@ -36,6 +36,28 @@ var annotated_dup =
         [ "IStreamable", "classcpp_1_1features_1_1_i_streamable.html", null ],
         [ "OStreamable", "classcpp_1_1features_1_1_o_streamable.html", null ]
       ] ],
+      [ "reflection", null, [
+        [ "parser", null, [
+          [ "api", null, [
+            [ "core", null, [
+              [ "clang", null, [
+                [ "CompileOptions", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_compile_options.html", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_compile_options" ],
+                [ "Diagnostic", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_diagnostic.html", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_diagnostic" ],
+                [ "Error", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_error.html", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_error" ],
+                [ "FileWriter", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_file_writer.html", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_file_writer" ],
+                [ "Index", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_index.html", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_index" ],
+                [ "NullHandle", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_null_handle.html", null ],
+                [ "NullHandle< RawHandle * >", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_null_handle_3_01_raw_handle_01_5_01_4.html", null ],
+                [ "SharedHandle", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_shared_handle.html", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_shared_handle" ],
+                [ "String", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_string.html", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_string" ],
+                [ "TranslationUnit", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_translation_unit.html", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_translation_unit" ],
+                [ "UniqueHandle", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle" ],
+                [ "UnsavedFile", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unsaved_file.html", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unsaved_file" ]
+              ] ]
+            ] ]
+          ] ]
+        ] ]
+      ] ],
       [ "static_reflection", null, [
         [ "meta", null, [
           [ "Class", "classcpp_1_1static__reflection_1_1meta_1_1_class.html", "classcpp_1_1static__reflection_1_1meta_1_1_class" ],
@@ -79,7 +101,7 @@ var annotated_dup =
       [ "SimpleAny< NonOwningStorage >", "classcpp_1_1_simple_any_3_01_non_owning_storage_01_4.html", "classcpp_1_1_simple_any_3_01_non_owning_storage_01_4" ],
       [ "SyncSink", "classcpp_1_1_sync_sink.html", "classcpp_1_1_sync_sink" ],
       [ "UniversalReference", "classcpp_1_1_universal_reference.html", "classcpp_1_1_universal_reference" ],
-      [ "UniversalReference<                  T,           false,           false >", "classcpp_1_1_universal_reference_3_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_t_00_01317da0ee22d68a1b11e0bf5e76ec5679.html", "classcpp_1_1_universal_reference_3_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_t_00_01317da0ee22d68a1b11e0bf5e76ec5679" ],
-      [ "UniversalReference<                  T,           true,           false >", "classcpp_1_1_universal_reference_3_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_t_00_013d7c84b76fe12a69d69f1a3494ce1211.html", "classcpp_1_1_universal_reference_3_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_t_00_013d7c84b76fe12a69d69f1a3494ce1211" ]
+      [ "UniversalReference< T, false, false >", "classcpp_1_1_universal_reference_3_01_t_00_01false_00_01false_01_4.html", "classcpp_1_1_universal_reference_3_01_t_00_01false_00_01false_01_4" ],
+      [ "UniversalReference< T, true, false >", "classcpp_1_1_universal_reference_3_01_t_00_01true_00_01false_01_4.html", "classcpp_1_1_universal_reference_3_01_t_00_01true_00_01false_01_4" ]
     ] ]
 ];

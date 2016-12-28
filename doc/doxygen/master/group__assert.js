@@ -4,12 +4,14 @@ var group__assert =
     [ "AssertExpression", "classcpp_1_1_assert_expression.html", [
       [ "AssertExpression", "classcpp_1_1_assert_expression.html#a747d06793ac638fae3da51bae1eca33d", null ],
       [ "~AssertExpression", "classcpp_1_1_assert_expression.html#aa79800e71aa879d2167d7e660b29b7fd", null ],
-      [ "detail", "classcpp_1_1_assert_expression.html#aa49f0ca91221d2d9300fd484b838c7b6", null ],
+      [ "detail", "classcpp_1_1_assert_expression.html#a5f16a85cf1ac20fa742aabecd5c6264d", null ],
+      [ "noThrow", "classcpp_1_1_assert_expression.html#a7853fa9b62f90210e733b2ed0027c729", null ],
       [ "onFailure", "classcpp_1_1_assert_expression.html#aa31218125f0b03ad8d380908e1d3e268", null ],
-      [ "operator()", "classcpp_1_1_assert_expression.html#aae7fc220b74614490642ff76bf1f2b93", null ]
+      [ "operator()", "classcpp_1_1_assert_expression.html#a5656728f43d39f3ab2321cdbcc1b1a2e", null ]
     ] ],
     [ "DummyAssertExpression", "classcpp_1_1_dummy_assert_expression.html", [
       [ "detail", "classcpp_1_1_dummy_assert_expression.html#a71e6594a2f48664f7337589835230a9b", null ],
+      [ "noThrow", "classcpp_1_1_dummy_assert_expression.html#ad3aeb6fb3ff32348dd5c814a8d1b9d49", null ],
       [ "onFailure", "classcpp_1_1_dummy_assert_expression.html#adcee6bf8b3e9fdb9e2650d24a4e10abf", null ],
       [ "operator()", "classcpp_1_1_dummy_assert_expression.html#aec56f063f3c168211991283de09b8712", null ]
     ] ],

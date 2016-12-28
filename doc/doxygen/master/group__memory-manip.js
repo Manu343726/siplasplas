@@ -19,7 +19,7 @@ var group__memory_manip =
     [ "readTaggedPointer", "group__memory-manip.html#ga2853964a8544a9f4e4b7fe7825f8cb30", null ],
     [ "readTaggedPointer", "group__memory-manip.html#ga8236cce445cfa6e098fd08737e78499e", null ],
     [ "tagPointer", "group__memory-manip.html#ga4526dc776a686b7377416021812aceb4", null ],
-    [ "tagPointer", "group__memory-manip.html#gaf2d1c9dd21fb459235efa2f7a281cb8d", null ],
+    [ "tagPointer", "group__memory-manip.html#gaeb31ecf3b4a765274c5a3c5e7684737d", null ],
     [ "untagPointer", "group__memory-manip.html#gaba9adb82c913725ac2e0ae97bcf34704", null ],
-    [ "untagPointer", "group__memory-manip.html#gac6d18df75333ae65c1e2883b2940f7ac", null ]
+    [ "untagPointer", "group__memory-manip.html#ga30f977f63fdef0d69fbb7ee53dcc72a1", null ]
 ];

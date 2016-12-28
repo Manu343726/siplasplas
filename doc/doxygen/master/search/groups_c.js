@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['value_2dsemantics',['Value-semantics',['../group__value-semantics.html',1,'']]]
+  ['utility',['Utility',['../group__utility.html',1,'']]]
 ];

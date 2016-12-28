@@ -5,7 +5,8 @@ var hierarchy =
     [ "cpp::AssertExpression", "classcpp_1_1_assert_expression.html", null ],
     [ "cpp::static_reflection::meta::Class", "classcpp_1_1static__reflection_1_1meta_1_1_class.html", null ],
     [ "cpp::static_reflection::Class< T >", "classcpp_1_1static__reflection_1_1_class.html", null ],
-    [ "cpp::static_reflection::meta::Class< static_reflection::meta::EmptySourceInfo< T >, T,::cpp::meta::list<>,::cpp::meta::list<>,::cpp::meta::list<>,::cpp::meta::list<>,::cpp::meta::list<> >", "classcpp_1_1static__reflection_1_1meta_1_1_class.html", null ],
+    [ "cpp::static_reflection::meta::Class< static_reflection::meta::EmptySourceInfo< T >, T, ::cpp::meta::list<>, ::cpp::meta::list<>, ::cpp::meta::list<>, ::cpp::meta::list<>, ::cpp::meta::list<> >", "classcpp_1_1static__reflection_1_1meta_1_1_class.html", null ],
+    [ "cpp::reflection::parser::api::core::clang::CompileOptions", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_compile_options.html", null ],
     [ "cpp::concepts::Concept< Result, NoExcept >", "classcpp_1_1concepts_1_1_concept.html", null ],
     [ "cpp::concepts::Concept< false >", "classcpp_1_1concepts_1_1_concept.html", [
       [ "cpp::concepts::IStreamable< T, typename >", "classcpp_1_1concepts_1_1_i_streamable.html", null ],
@@ -51,13 +52,15 @@ var hierarchy =
     ] ],
     [ "cpp::static_reflection::meta::Enum< SourceInfo, EnumType, Constants, ConstantsNames >", "classcpp_1_1static__reflection_1_1meta_1_1_enum.html", null ],
     [ "cpp::static_reflection::Enum< EnumType >", "classcpp_1_1static__reflection_1_1_enum.html", null ],
-    [ "cpp::static_reflection::meta::Enum< static_reflection::meta::EmptySourceInfo< Enum< EnumType > >, EnumType,::cpp::meta::list< std::integral_constant< EnumType, static_cast< EnumType >(0)> >,::cpp::meta::list< ::cpp::meta::string<> > >", "classcpp_1_1static__reflection_1_1meta_1_1_enum.html", null ],
+    [ "cpp::static_reflection::meta::Enum< static_reflection::meta::EmptySourceInfo< Enum< EnumType > >, EnumType, ::cpp::meta::list< std::integral_constant< EnumType, static_cast< EnumType >(0)> >, ::cpp::meta::list< ::cpp::meta::string<> > >", "classcpp_1_1static__reflection_1_1meta_1_1_enum.html", null ],
     [ "cpp::constexp::Equal", "structcpp_1_1constexp_1_1_equal.html", null ],
+    [ "cpp::reflection::parser::api::core::clang::Error", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_error.html", null ],
     [ "cpp::Exception< Ex, Base >", "classcpp_1_1_exception.html", null ],
+    [ "cpp::typeerasure::Field< Storage, ObjectArgStorage >", "classcpp_1_1typeerasure_1_1_field.html", null ],
     [ "cpp::static_reflection::meta::Field< SourceInfo, F, field >", "classcpp_1_1static__reflection_1_1meta_1_1_field.html", null ],
     [ "cpp::static_reflection::Field< FieldType, field >", "classcpp_1_1static__reflection_1_1_field.html", null ],
-    [ "cpp::typeerasure::Field< Storage, ObjectArgStorage >", "classcpp_1_1typeerasure_1_1_field.html", null ],
     [ "cpp::static_reflection::meta::Field< static_reflection::meta::EmptySourceInfo< Field< FieldType, field > >, FieldType, field >", "classcpp_1_1static__reflection_1_1meta_1_1_field.html", null ],
+    [ "cpp::reflection::parser::api::core::clang::FileWriter", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_file_writer.html", null ],
     [ "cpp::FixedSizeStorage< Size, Alignment >", "classcpp_1_1_fixed_size_storage.html", null ],
     [ "cpp::typeerasure::Function< Storage, ArgsStorage, ReturnStorage >", "classcpp_1_1typeerasure_1_1_function.html", null ],
     [ "cpp::static_reflection::meta::Function< SourceInfo, FunctionType, function >", "classcpp_1_1static__reflection_1_1meta_1_1_function.html", null ],
@@ -73,10 +76,13 @@ var hierarchy =
       [ "cpp::SimpleAny< NonOwningStorage >", "classcpp_1_1_simple_any_3_01_non_owning_storage_01_4.html", null ]
     ] ],
     [ "cpp::constexp::NotEqual", "structcpp_1_1constexp_1_1_not_equal.html", null ],
+    [ "cpp::reflection::parser::api::core::clang::NullHandle< RawHandle >", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_null_handle.html", null ],
+    [ "cpp::reflection::parser::api::core::clang::NullHandle< RawHandle * >", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_null_handle_3_01_raw_handle_01_5_01_4.html", null ],
     [ "cpp::features::OStreamable", "classcpp_1_1features_1_1_o_streamable.html", null ],
     [ "cpp::RawHash< T >", "classcpp_1_1_raw_hash.html", null ],
     [ "cpp::dynamic_reflection::Runtime", "classcpp_1_1dynamic__reflection_1_1_runtime.html", null ],
     [ "cpp::dynamic_reflection::RuntimeLoader", "classcpp_1_1dynamic__reflection_1_1_runtime_loader.html", null ],
+    [ "cpp::reflection::parser::api::core::clang::SharedHandle< RawHandle, Release >", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_shared_handle.html", null ],
     [ "cpp::SignalEmitter", "classcpp_1_1_signal_emitter.html", [
       [ "cpp::CMakeProject", "classcpp_1_1_c_make_project.html", null ],
       [ "cpp::CMakeTarget", "classcpp_1_1_c_make_target.html", null ],
@@ -93,7 +99,14 @@ var hierarchy =
     [ "cpp::constexp::StringView", "classcpp_1_1constexp_1_1_string_view.html", null ],
     [ "cpp::DynamicLibrary::Symbol", "classcpp_1_1_dynamic_library_1_1_symbol.html", null ],
     [ "cpp::typeerasure::TypeInfo", "classcpp_1_1typeerasure_1_1_type_info.html", null ],
+    [ "cpp::reflection::parser::api::core::clang::UniqueHandle< RawHandle, Release >", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html", [
+      [ "cpp::reflection::parser::api::core::clang::Diagnostic", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_diagnostic.html", null ],
+      [ "cpp::reflection::parser::api::core::clang::Index", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_index.html", null ],
+      [ "cpp::reflection::parser::api::core::clang::String", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_string.html", null ],
+      [ "cpp::reflection::parser::api::core::clang::TranslationUnit", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_translation_unit.html", null ]
+    ] ],
     [ "cpp::UniversalReference< T, IsLvalueReference, IsConst >", "classcpp_1_1_universal_reference.html", null ],
-    [ "cpp::UniversalReference<                  T,           false,           false >", "classcpp_1_1_universal_reference_3_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_t_00_01317da0ee22d68a1b11e0bf5e76ec5679.html", null ],
-    [ "cpp::UniversalReference<                  T,           true,           false >", "classcpp_1_1_universal_reference_3_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_01_t_00_013d7c84b76fe12a69d69f1a3494ce1211.html", null ]
+    [ "cpp::UniversalReference< T, false, false >", "classcpp_1_1_universal_reference_3_01_t_00_01false_00_01false_01_4.html", null ],
+    [ "cpp::UniversalReference< T, true, false >", "classcpp_1_1_universal_reference_3_01_t_00_01true_00_01false_01_4.html", null ],
+    [ "cpp::reflection::parser::api::core::clang::UnsavedFile", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unsaved_file.html", null ]
 ];
