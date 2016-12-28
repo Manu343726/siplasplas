@@ -5,5 +5,5 @@ SOURCES
     core.cpp
 DEPENDS
     siplasplas-utility
-    siplasplas-reflection-api-core-clang
+    siplasplas-reflection-parser-api-core-clang
 )
