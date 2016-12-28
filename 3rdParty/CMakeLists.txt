@@ -1,15 +1,6 @@
 include(thirdparty)
 include(pip)
 
-execute_process(
-    COMMAND conan install --build=outdated
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-)
-
-include(conanbuildinfo.cmake)
-conan_basic_setup()
-include(${CONAN_CMAKE-UTILS_ROOT}/conan.cmake)
-
 add_conan_library(ctti)
 add_conan_library(nljson)
 add_conan_library(fmt)
