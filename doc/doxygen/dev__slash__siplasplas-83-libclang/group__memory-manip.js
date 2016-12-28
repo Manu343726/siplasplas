@@ -1,0 +1,25 @@
+var group__memory_manip =
+[
+    [ "AlignedMallocAlingOffset", "group__memory-manip.html#ga5928a3dd004a5e3a2965c031644684ea", null ],
+    [ "aligned_free", "group__memory-manip.html#gaf687fec1110b3966b35e50f1ac76c1ff", null ],
+    [ "aligned_malloc", "group__memory-manip.html#gaf300d008c5db6103a31e463e2b0d19f8", null ],
+    [ "aligned_malloc_block", "group__memory-manip.html#ga342e7b7c8fc6e309adb37f446b5e9b3e", null ],
+    [ "aligned_ptr", "group__memory-manip.html#gab4fdc580f07afd23d2cc7b1ee0c28d48", null ],
+    [ "aligned_ptr", "group__memory-manip.html#ga86f6dd7ad9cef297add6ab338b1523af", null ],
+    [ "aligned_ptr", "group__memory-manip.html#gae169dbc31c9d0c0ea8faab15515b39d9", null ],
+    [ "aligned_ptr", "group__memory-manip.html#gaabdc011d4b9b1dc7245b658f9e4eddb3", null ],
+    [ "is_aligned", "group__memory-manip.html#ga488b583efccb73b95fc86570a2e78c4f", null ],
+    [ "is_aligned", "group__memory-manip.html#ga4d8f7e5f5743aceb3efcfe197e612583", null ],
+    [ "is_aligned", "group__memory-manip.html#gad5dc2a2574e06016fcc0f30483ff4abf", null ],
+    [ "is_aligned", "group__memory-manip.html#ga08c4249f74a2f3daa063467186750b31", null ],
+    [ "missalignment", "group__memory-manip.html#ga055cbe10db0b5bd9d5872355b4c03654", null ],
+    [ "missalignment", "group__memory-manip.html#ga48a6b7c4956039a6586238507ebf3c2b", null ],
+    [ "missalignment", "group__memory-manip.html#gad7f23776302f41ccfce366e8c4fdc30f", null ],
+    [ "missalignment", "group__memory-manip.html#gab55632800c338656882153aa0d878403", null ],
+    [ "readTaggedPointer", "group__memory-manip.html#ga2853964a8544a9f4e4b7fe7825f8cb30", null ],
+    [ "readTaggedPointer", "group__memory-manip.html#ga8236cce445cfa6e098fd08737e78499e", null ],
+    [ "tagPointer", "group__memory-manip.html#ga4526dc776a686b7377416021812aceb4", null ],
+    [ "tagPointer", "group__memory-manip.html#gaeb31ecf3b4a765274c5a3c5e7684737d", null ],
+    [ "untagPointer", "group__memory-manip.html#gaba9adb82c913725ac2e0ae97bcf34704", null ],
+    [ "untagPointer", "group__memory-manip.html#ga30f977f63fdef0d69fbb7ee53dcc72a1", null ]
+];
