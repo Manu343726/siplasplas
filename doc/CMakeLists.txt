@@ -49,7 +49,7 @@ if(SIPLASPLAS_DEPLOY_DOCS)
     )
 
     # Automatically generate docs before cloning website
-    add_dependencies(deploy-docs_clone_website doc standardese-doc)
+    add_dependencies(deploy-docs_clone_website doc)
 
     set(standardese_docs_src  "${CMAKE_BINARY_DIR}/doc/standardese")
     set(standardese_docs_dest "${SIPLASPLAS_WEBSITE_PATH}/doc/standardese/${sanitized_branch}")
