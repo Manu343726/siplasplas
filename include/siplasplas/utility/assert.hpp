@@ -127,13 +127,22 @@ public:
         return detail(std::forward<String>(messageBody), std::forward<Args>(args)...);
     }
 
+    /**
+     * \brief Makes the asssertion to not throw on failure.
+     *
+     * This function disables the default behavior of throwing
+     * an AssertException when the assertion fails, making onFailure() user-provided
+     * callback the only noticeable action. Also it logs to critical level by default.
+     */
+    AssertExpression& noThrow();
+
 private:
     std::string _message;
     std::string _detail;
     std::string _file;
     std::size_t _line;
     std::function<void()> _onFailureCallback;
-    bool _assertionFailed;
+    bool _assertionFailed, _noThrow;
 };
 
 /**
@@ -181,6 +190,14 @@ public:
      */
     template<typename String, typename... Args>
     DummyAssertExpression& operator()(String&&, Args&&...)
+    {
+        return *this;
+    }
+
+    /*
+     * \brief Does nothing.
+     */
+    DummyAssertExpression& noThrow()
     {
         return *this;
     }
