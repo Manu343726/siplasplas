@@ -40,8 +40,7 @@ using CXTranslationUnit = core::clang::UniqueHandle<
  * \ingroup clang
  * \brief Gives access to a parsed translation unit data
  */
-SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_EXPORT
-class TranslationUnit : public CXTranslationUnit
+class SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_EXPORT TranslationUnit : public CXTranslationUnit
 {
 public:
     using CXTranslationUnit::CXTranslationUnit;

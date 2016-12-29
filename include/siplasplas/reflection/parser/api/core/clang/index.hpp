@@ -6,6 +6,7 @@
 #include "unsavedfile.hpp"
 #include "translationunit.hpp"
 #include "compileoptions.hpp"
+#include <siplasplas/reflection/parser/api/core/clang/export.hpp>
 
 namespace cpp
 {
@@ -38,7 +39,7 @@ using CXIndex = core::clang::UniqueHandle<
  * \ingroup clang
  * \brief Compilation index
  */
-class Index : public core::clang::CXIndex
+class SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_EXPORT Index : public core::clang::CXIndex
 {
 public:
     Index();

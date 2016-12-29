@@ -38,8 +38,7 @@ using CXDiagnostic = core::clang::UniqueHandle<
  * \ingroup clang
  * \brief A single diagnostic, containing the diagnostic's severity, text, etc
  */
-SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_EXPORT
-class Diagnostic : public core::clang::CXDiagnostic
+class SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_EXPORT Diagnostic : public core::clang::CXDiagnostic
 {
 public:
     using core::clang::CXDiagnostic::CXDiagnostic;

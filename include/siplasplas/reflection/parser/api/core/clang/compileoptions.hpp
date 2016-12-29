@@ -38,7 +38,7 @@ namespace clang
  * etc. The class also keep tracks that compile options are unique and
  * are not set twice.
  */
-SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_EXPORT class CompileOptions
+class SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_EXPORT CompileOptions
 {
 public:
     CompileOptions() = default;

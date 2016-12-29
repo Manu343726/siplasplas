@@ -4,6 +4,7 @@
 #include <siplasplas/constexpr/stringview.hpp>
 #include <clang-c/CXString.h>
 #include "handle.hpp"
+#include <siplasplas/reflection/parser/api/core/clang/export.hpp>
 
 
 bool operator==(const ::CXString& lhs, const ::CXString rhs);
@@ -48,7 +49,7 @@ using CXString = core::clang::UniqueHandle<
  * \ingroup clang
  * \brief Interface to a string managed by the libclang C interface
  */
-class String : public core::clang::CXString
+class SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_EXPORT String : public core::clang::CXString
 {
 public:
     using core::clang::CXString::CXString;
