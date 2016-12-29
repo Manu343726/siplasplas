@@ -8,6 +8,7 @@
 #include "handle.hpp"
 #include "string.hpp"
 #include "diagnostic.hpp"
+#include "cursor.hpp"
 
 namespace cpp
 {
@@ -81,6 +82,11 @@ public:
      * otherwise
      */
     bool noDiagnostics() const;
+
+    /**
+     * \brief Returns the cursor that represents this translation unit
+     */
+    core::clang::Cursor cursor() const;
 };
 
 }

@@ -8,9 +8,12 @@ SOURCES
     diagnostic.cpp
     logger.cpp
     compileoptions.cpp
+    cursor.cpp
+    cursorkind.cpp
 DEPENDS
     siplasplas-utility
     siplasplas-constexpr
     CONAN_PKG::clang
+    CONAN_PKG::type_safe
     clang-conan-clang
 )
