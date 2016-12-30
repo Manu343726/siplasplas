@@ -29,7 +29,7 @@ CursorKind Cursor::kind() const
 
 TranslationUnit Cursor::translationUnit() const
 {
-    return ::clang_Cursor_getTranslationUnit(cxCursor());
+    return TranslationUnit::proxy(::clang_Cursor_getTranslationUnit(cxCursor()));
 }
 
 std::size_t Cursor::hash() const
