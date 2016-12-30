@@ -4,6 +4,7 @@
 #include <siplasplas/constexpr/stringview.hpp>
 #include <clang-c/CXString.h>
 #include "handle.hpp"
+#include "handleentity.hpp"
 #include <siplasplas/reflection/parser/api/core/clang/export.hpp>
 
 
@@ -49,10 +50,11 @@ using CXString = core::clang::UniqueHandle<
  * \ingroup clang
  * \brief Interface to a string managed by the libclang C interface
  */
-class SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_EXPORT String : public core::clang::CXString
+class SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_EXPORT String
+    : public core::clang::UniqueHandleEntity<core::clang::CXString>
 {
 public:
-    using core::clang::CXString::CXString;
+    using core::clang::UniqueHandleEntity<core::clang::CXString>::UniqueHandleEntity;
 
     /**
      * \brief Returns a string view to the string data

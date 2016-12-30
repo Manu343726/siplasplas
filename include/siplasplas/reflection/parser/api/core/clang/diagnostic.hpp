@@ -5,7 +5,7 @@
 #include "handle.hpp"
 #include "string.hpp"
 #include <siplasplas/reflection/parser/api/core/clang/export.hpp>
-
+#include "handleentity.hpp"
 
 namespace cpp
 {
@@ -38,10 +38,11 @@ using CXDiagnostic = core::clang::UniqueHandle<
  * \ingroup clang
  * \brief A single diagnostic, containing the diagnostic's severity, text, etc
  */
-class SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_EXPORT Diagnostic : public core::clang::CXDiagnostic
+class SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_EXPORT Diagnostic
+    : public core::clang::UniqueHandleEntity<core::clang::CXDiagnostic>
 {
 public:
-    using core::clang::CXDiagnostic::CXDiagnostic;
+    using core::clang::UniqueHandleEntity<core::clang::CXDiagnostic>::UniqueHandleEntity;
 
     /**
      * \brief Options to control the display of diagnostics

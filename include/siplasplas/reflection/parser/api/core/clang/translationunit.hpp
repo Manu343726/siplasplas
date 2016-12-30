@@ -9,6 +9,7 @@
 #include "string.hpp"
 #include "diagnostic.hpp"
 #include "cursor.hpp"
+#include "handleentity.hpp"
 
 namespace cpp
 {
@@ -41,10 +42,11 @@ using CXTranslationUnit = core::clang::UniqueHandle<
  * \ingroup clang
  * \brief Gives access to a parsed translation unit data
  */
-class SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_EXPORT TranslationUnit : public CXTranslationUnit
+class SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_EXPORT TranslationUnit
+    : public core::clang::UniqueHandleEntity<core::clang::CXTranslationUnit>
 {
 public:
-    using CXTranslationUnit::CXTranslationUnit;
+    using core::clang::UniqueHandleEntity<core::clang::CXTranslationUnit>::UniqueHandleEntity;
 
     /**
      * \brief Returns the original translation unit source file name

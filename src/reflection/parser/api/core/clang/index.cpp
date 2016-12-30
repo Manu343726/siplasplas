@@ -8,7 +8,7 @@ static constexpr bool CREATE_INDEX_EXCLUDE_DECLS_FROM_PCH = true;
 static constexpr bool CREATE_INDEX_DISPLAY_DIAGNOSTICS = true;
 
 Index::Index() :
-    core::clang::CXIndex{::clang_createIndex(
+    UniqueHandleEntity<core::clang::CXIndex>{::clang_createIndex(
         CREATE_INDEX_EXCLUDE_DECLS_FROM_PCH,
         CREATE_INDEX_DISPLAY_DIAGNOSTICS
     )}
