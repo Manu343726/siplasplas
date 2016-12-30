@@ -36,3 +36,8 @@ std::size_t Cursor::hash() const
 {
     return ::clang_hashCursor(cxCursor());
 }
+
+bool Cursor::isNull() const
+{
+    return ::clang_Cursor_isNull(cxCursor());
+}
