@@ -5,44 +5,13 @@
 #include <iostream>
 #include <fstream>
 #include <range/v3/all.hpp>
+#include "clangtest.hpp"
 
 using namespace ::testing;
 using namespace ::cpp::reflection::parser::api::core::clang;
 
-class IndexTest : public Test
+class IndexTest : public Test, public cpp::test::ClangTest
 {
-protected:
-    Index index;
-
-    void writeFile(const cpp::constexp::ConstStringView& fileName, const cpp::constexp::ConstStringViews& lines)
-    {
-        std::ofstream os{fileName.c_str()};
-
-        if(os)
-        {
-            for(const char* line : lines)
-            {
-                os << line << std::endl;
-            }
-        }
-        else
-        {
-            throw cpp::exception<std::runtime_error>("cannot open file '{}'", fileName);
-        }
-    }
-
-    void helloWorld(const cpp::constexp::ConstStringView& fileName)
-    {
-        writeFile(fileName, {
-            "#include <iostream>",
-            "",
-            "int main()",
-            "{",
-            "    for(const char* word : {\"hello\", \"world\"})",
-            "        std::cout << word;",
-            "}"
-        });
-    }
 };
 
 TEST_F(IndexTest, contruction_cxIndexNotNull)

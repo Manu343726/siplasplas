@@ -1,10 +1,11 @@
-add_siplasplas_test(reflection-parser-api-core-clang
+add_subdirectory(bdd)
+add_subdirectory(unit)
+
+add_siplasplas_library(siplasplas-reflection-parser-api-core-clang-test NO_INSTALL
 SOURCES
-    handletest.cpp
-    uniquehandle_test.cpp
-    sharedhandle_test.cpp
-    nullhandle_test.cpp
-    index_test.cpp
+    clangtest.cpp
+INCLUDE_DIRS
+    "${CMAKE_CURRENT_SOURCE_DIR}"
 DEPENDS
     siplasplas-reflection-parser-api-core-clang
 )
