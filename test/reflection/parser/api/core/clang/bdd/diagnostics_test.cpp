@@ -56,11 +56,20 @@ SCENARIO("Diagnostics can be displayed with default format settings")
             THEN("Two diagnostics are generated")
             {
                 REQUIRE(tu.numberOfDiagnostics() == 2);
-            }
 
-            AND_THEN("The first diagnostic is a warning")
-            {
-                REQUIRE(diagnostics[0].categoryText().str().str() == "warning");
+                AND_THEN("The first diagnostic is a warning")
+                {
+                    CAPTURE(diagnostics[0]);
+                    REQUIRE(diagnostics[0].severity() == Diagnostic::Severity::Warning);
+                    REQUIRE(diagnostics[0].severityString().str() == "Warning");
+
+                    AND_THEN("The second diagnostic is an error")
+                    {
+                        CAPTURE(diagnostics[1]);
+                        REQUIRE(diagnostics[1].severity() == Diagnostic::Severity::Error);
+                        REQUIRE(diagnostics[1].severityString().str() == "Error");
+                    }
+                }
             }
         }
     }

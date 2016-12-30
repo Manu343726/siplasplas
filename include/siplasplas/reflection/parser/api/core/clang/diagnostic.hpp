@@ -106,6 +106,29 @@ public:
     };
 
     /**
+     * \brief Describes the severity of a particular diagnostic.
+     */
+    enum class Severity
+    {
+        Ignored = ::CXDiagnostic_Ignored, ///< A diagnostic that has been suppressed, e.g., by a command-line option.
+        Note    = ::CXDiagnostic_Note,    ///< This diagnostic is a note that should be attached to the previous (non-note) diagnostic.
+        Warning = ::CXDiagnostic_Warning, ///< This diagnostic indicates suspicious code that may not be wrong.
+        Error   = ::CXDiagnostic_Error,   ///< This diagnostic indicates that the code is ill-formed.
+        Fatal   = ::CXDiagnostic_Fatal,   ///< This diagnostic indicates that the code is ill-formed such that future parser recovery is unlikely to produce useful results.
+    };
+
+    /**
+     * \brief Returns the severity of this diagnotic
+     */
+    Severity severity() const;
+
+    /**
+     * \brief Returns an string representation of the
+     * severity of the diagnostic
+     */
+    cpp::constexp::ConstStringView severityString() const;
+
+    /**
     * \brief Returns the category number of the diagnostic
     */
     int category() const;
@@ -129,6 +152,9 @@ public:
      */
     core::clang::String display(const cpp::constexp::ConstArrayView<DisplayOption>& displayOptions) const;
 };
+
+std::ostream& operator<<(std::ostream& os, const Diagnostic::Severity severity);
+std::ostream& operator<<(std::ostream& os, const Diagnostic& diagnostic);
 
 }
 
