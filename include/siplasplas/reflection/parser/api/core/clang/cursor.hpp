@@ -88,6 +88,8 @@ private:
     ::CXCursor _cursor;
 };
 
+std::ostream& operator<<(std::ostream& os, const Cursor& cursor);
+
 }
 
 }

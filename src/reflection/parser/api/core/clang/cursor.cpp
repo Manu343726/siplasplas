@@ -41,3 +41,38 @@ bool Cursor::isNull() const
 {
     return ::clang_Cursor_isNull(cxCursor());
 }
+
+namespace cpp
+{
+
+namespace reflection
+{
+
+namespace parser
+{
+
+namespace api
+{
+
+namespace core
+{
+
+namespace clang
+{
+
+std::ostream& operator<<(std::ostream& os, const Cursor& cursor)
+{
+    return os << cursor.spelling() << " (" << cursor.displayName() << ")";
+}
+
+}
+
+}
+
+}
+
+}
+
+}
+
+}

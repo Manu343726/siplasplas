@@ -12,6 +12,7 @@ SOURCES
     compileoptions.cpp
     cursor.cpp
     cursorkind.cpp
+    visitor.cpp
 DEPENDS
     siplasplas-utility
     siplasplas-constexpr
