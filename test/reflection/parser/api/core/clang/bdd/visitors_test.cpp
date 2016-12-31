@@ -68,6 +68,9 @@ SCENARIO("Visitors abort AST traversal by default")
                 CounterVisitor visitor;
                 const CounterVisitor constVisitor;
 
+                REQUIRE(tu.cursor().kind() == CursorKind::Kind::TranslationUnit);
+                REQUIRE(tu.cursor().kind().str().str() == "TranslationUnit");
+
                 REQUIRE(visitor.visit(tu.cursor()));
                 REQUIRE(visitor.count() == 1);
                 REQUIRE(constVisitor.visit(tu.cursor()));

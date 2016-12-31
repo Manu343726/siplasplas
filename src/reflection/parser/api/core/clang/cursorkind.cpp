@@ -1,20 +1,26 @@
 #include "cursorkind.hpp"
+#include "detail/cursorkindenumserialization.hpp"
 
 using namespace ::cpp::reflection::parser::api::core::clang;
+using namespace ::cpp::constexp;
 
-::CXCursorKind convert(const CursorKind& kind)
+CursorKind::CursorKind(const ::CXCursorKind kind) :
+    _kind{static_cast<Kind>(kind)}
+{}
+
+CursorKind::Kind CursorKind::kind() const
 {
-    return static_cast<::CXCursorKind>(kind);
+    return _kind;
+}
+
+ConstStringView CursorKind::str() const
+{
+    return ::simpleKindString(cxCursorKind());
 }
 
 ::CXCursorKind CursorKind::cxCursorKind() const
 {
-    return convert(*this);
-}
-
-String CursorKind::str() const
-{
-    return ::clang_getCursorKindSpelling(cxCursorKind());
+    return static_cast<::CXCursorKind>(kind());
 }
 
 bool CursorKind::isAttribute() const
@@ -60,4 +66,94 @@ bool CursorKind::isTranslationUnit() const
 bool CursorKind::isUnexposed() const
 {
     return ::clang_isUnexposed(cxCursorKind());
+}
+
+namespace cpp
+{
+
+namespace reflection
+{
+
+namespace parser
+{
+
+namespace api
+{
+
+namespace core
+{
+
+namespace clang
+{
+
+std::ostream& operator<<(std::ostream& os, const CursorKind::Kind kind)
+{
+    return os << ::simpleKindString(static_cast<::CXCursorKind>(kind));
+}
+
+std::ostream& operator<<(std::ostream& os, const CursorKind& kind)
+{
+    return os << kind.str();
+}
+
+bool operator==(const CursorKind& lhs, const CursorKind& rhs)
+{
+    return lhs.kind() == rhs.kind();
+}
+
+bool operator==(const CursorKind& lhs, const CursorKind::Kind rhs)
+{
+    return lhs.kind() == rhs;
+}
+
+bool operator==(const CursorKind& lhs, const ::CXCursorKind rhs)
+{
+    return lhs.cxCursorKind() == rhs;
+}
+
+bool operator==(const CursorKind::Kind lhs, const CursorKind& rhs)
+{
+    return lhs == rhs.kind();
+}
+
+bool operator==(const ::CXCursorKind lhs, const CursorKind& rhs)
+{
+    return lhs == rhs.cxCursorKind();
+}
+
+bool operator!=(const CursorKind& lhs, const CursorKind& rhs)
+{
+    return !(lhs == rhs);
+}
+
+bool operator!=(const CursorKind& lhs, const CursorKind::Kind rhs)
+{
+    return !(lhs == rhs);
+}
+
+bool operator!=(const CursorKind& lhs, const ::CXCursorKind rhs)
+{
+    return !(lhs == rhs);
+}
+
+bool operator!=(const CursorKind::Kind lhs, const CursorKind& rhs)
+{
+    return !(lhs == rhs);
+}
+
+bool operator!=(const ::CXCursorKind lhs, const CursorKind& rhs)
+{
+    return !(lhs == rhs);
+}
+
+}
+
+}
+
+}
+
+}
+
+}
+
 }

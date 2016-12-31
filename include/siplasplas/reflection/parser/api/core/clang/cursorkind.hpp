@@ -4,7 +4,6 @@
 #include <clang-c/Index.h>
 #include "handle.hpp"
 #include "string.hpp"
-#include <type_safe/strong_typedef.hpp>
 #include <siplasplas/reflection/parser/api/core/clang/export.hpp>
 
 namespace cpp
@@ -25,22 +24,28 @@ namespace core
 namespace clang
 {
 
+/**
+ * \brief Provides information about the specific kind of a cursor
+ */
 class SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_EXPORT CursorKind
-    : public type_safe::strong_typedef<CursorKind, ::CXCursorKind>
-    , public type_safe::strong_typedef_op::equality_comparison<::CXCursorKind>
-    , public type_safe::strong_typedef_op::mixed_equality_comparison<CursorKind, ::CXCursorKind>
 {
 public:
-    using type_safe::strong_typedef<CursorKind, ::CXCursorKind>::strong_typedef;
+#include "detail/cursorkindenum.hpp"
 
-    CursorKind(const ::CXCursorKind kind) :
-        type_safe::strong_typedef<CursorKind, ::CXCursorKind>{kind}
-    {}
+    /**
+     * \brief Initializes a CursorKind with the given raw libclang CXCursorKind value
+     */
+    CursorKind(const ::CXCursorKind kind);
+
+    /**
+     * \brief Returns the cursor kind value
+     */
+    Kind kind() const;
 
     /**
      * \brief Returns an string representation of the cursor kind
      */
-    core::clang::String str() const;
+    cpp::constexp::ConstStringView str() const;
 
     /**
      * \brief Returns the underlying libclang CXCursorKind value
@@ -100,7 +105,25 @@ public:
      * an entity not exposed by the libclang AST
      */
     bool isUnexposed() const;
+
+private:
+    Kind _kind;
 };
+
+std::ostream& operator<<(std::ostream& os, const CursorKind::Kind kind);
+std::ostream& operator<<(std::ostream& os, const CursorKind& kind);
+
+bool operator==(const CursorKind& lhs, const CursorKind& rhs);
+bool operator==(const CursorKind& lhs, const CursorKind::Kind rhs);
+bool operator==(const CursorKind& lhs, const ::CXCursorKind rhs);
+bool operator==(const CursorKind::Kind lhs, const CursorKind& rhs);
+bool operator==(const ::CXCursorKind lhs, const CursorKind& rhs);
+
+bool operator!=(const CursorKind& lhs, const CursorKind& rhs);
+bool operator!=(const CursorKind& lhs, const CursorKind::Kind rhs);
+bool operator!=(const CursorKind& lhs, const ::CXCursorKind rhs);
+bool operator!=(const CursorKind::Kind lhs, const CursorKind& rhs);
+bool operator!=(const ::CXCursorKind lhs, const CursorKind& rhs);
 
 }
 
