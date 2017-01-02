@@ -1,6 +1,7 @@
 #include <catch.hpp>
 #include "../clangtest.hpp"
 #include <siplasplas/reflection/parser/api/core/clang/visitor.hpp>
+#include <siplasplas/reflection/parser/api/core/clang/kindvisitor.hpp>
 #include <iostream>
 
 using namespace ::cpp::reflection::parser::api::core::clang;
@@ -75,6 +76,61 @@ SCENARIO("Visitors abort AST traversal by default")
                 REQUIRE(visitor.count() == 1);
                 REQUIRE(constVisitor.visit(tu.cursor()));
                 REQUIRE(constVisitor.count() == 1);
+            }
+        }
+    }
+}
+
+SCENARIO("Kind visitors visit nodes of a specific kind only")
+{
+    GIVEN("An index and a C++11 sourcefile to parse")
+    {
+        Index index;
+        cpp::test::ClangTest::writeFile("visitors_test.hpp",
+        {
+"#include <chrono>",
+"",
+"namespace foo",
+"{",
+"    class Foo {};",
+"    namespace bar {}",
+"    namespace quux {};",
+"    namespace foobar",
+"    {",
+"        namespace foobarquux {}",
+"    }",
+"}"});
+
+        REQUIRE(!index.isNull());
+
+        WHEN("The sourcefile is parsed with clang include dirs and C++11 option")
+        {
+            TranslationUnit tu = index.parse("visitors_test.hpp", CompileOptions()
+                .I(SIPLASPLAS_LIBCLANG_INCLUDE_DIR)
+                .I(SIPLASPLAS_LIBCLANG_SYSTEM_INCLUDE_DIR)
+                .std("c++11")
+            );
+
+            REQUIRE(!tu.isNull());
+            REQUIRE(tu.spelling().str().str() == "visitors_test.hpp");
+
+            THEN("A namespace kind visitor visits namespaces only")
+            {
+                class NamespaceVisitor : public KindVisitor<CursorKind::Kind::Namespace>
+                {
+                public:
+                    Visitor::Result onKind(const Cursor& current, const Cursor& parent) override
+                    {
+                        REQUIRE(current.kind() == CursorKind::Kind::Namespace);
+                        std::cout << "On " << current << " (Parent: " << parent << ")" << std::endl;
+
+                        visit(current);
+                        return Visitor::Result::Continue;
+                    }
+                };
+
+                NamespaceVisitor visitor;
+                visitor.visit(tu.cursor());
             }
         }
     }
