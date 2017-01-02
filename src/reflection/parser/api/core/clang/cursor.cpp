@@ -7,6 +7,16 @@ Cursor::Cursor(const ::CXCursor& cursor) :
     _cursor{cursor}
 {}
 
+Cursor Cursor::lexicalParent() const
+{
+    return ::clang_getCursorLexicalParent(cxCursor());
+}
+
+Cursor Cursor::semanticParent() const
+{
+    return ::clang_getCursorSemanticParent(cxCursor());
+}
+
 const ::CXCursor& Cursor::cxCursor() const
 {
     return _cursor;
@@ -62,7 +72,7 @@ namespace clang
 
 std::ostream& operator<<(std::ostream& os, const Cursor& cursor)
 {
-    return os << cursor.spelling() << " (" << cursor.displayName() << ")";
+    return os << cursor.spelling() << " ('" << cursor.displayName() << "', " << cursor.kind() << ")";
 }
 
 }
