@@ -539,6 +539,38 @@ namespace meta
     template<typename... Ts>
     struct inherit<list<Ts...>> : Ts... {};
 
+    namespace detail
+    {
+        template<typename Ts>
+        struct aggregate;
+
+        template<template<typename...> class Seq, typename T, typename... Ts>
+        struct aggregate<Seq<T, Ts...>> : public
+            aggregate<Seq<Ts...>>
+        {
+            aggregate()                            = delete;
+            aggregate(const aggregate&)            = delete;
+            aggregate(aggregate&&)                 = delete;
+            aggregate& operator=(const aggregate&) = delete;
+            aggregate& operator=(aggregate&&)      = delete;
+
+            T member;
+        };
+
+        template<template<typename...> class Seq>
+        struct aggregate<Seq<>>
+        {
+            aggregate()                            = delete;
+            aggregate(const aggregate&)            = delete;
+            aggregate(aggregate&&)                 = delete;
+            aggregate& operator=(const aggregate&) = delete;
+            aggregate& operator=(aggregate&&)      = delete;
+        };
+    }
+
+    template<typename... Ts>
+    using aggregate = ::cpp::meta::detail::aggregate<::cpp::meta::list<Ts...>>;
+
     template<typename...>
     struct map;
 
@@ -754,23 +786,6 @@ namespace meta
     };
     template<typename Seq>
     using to_index_sequence_t = type_t<to_index_sequence<Seq>>;
-
-    template<template<typename...> class Zipper, typename... Seqs>
-    struct zip
-    {
-
-    };
-
-    template<template<typename...> class Function, typename... Args>
-    struct bind
-    {
-        template<typename... Ts>
-        struct apply
-        {
-            using indices = make_index_sequence_for<Ts...>;
-
-        };
-    };
 }
 
 }
