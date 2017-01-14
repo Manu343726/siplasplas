@@ -29,6 +29,8 @@ namespace clang
 class SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_EXPORT Visitor
 {
 public:
+    virtual ~Visitor() = default;
+
     /**
      * \brief Describes how the traversal of the children of a particular
      * cursor should proceed after visiting a particular child cursor.
