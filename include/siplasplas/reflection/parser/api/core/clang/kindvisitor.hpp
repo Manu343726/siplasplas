@@ -1,7 +1,7 @@
 #ifndef SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_KINDVISITOR_HPP
 #define SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_KINDVISITOR_HPP
 
-#include "visitor.hpp"
+#include "filteredvisitor.hpp"
 
 namespace cpp
 {
@@ -21,55 +21,29 @@ namespace core
 namespace clang
 {
 
-template<core::clang::CursorKind::Kind Kind>
-class KindVisitor : public core::clang::Visitor
+namespace visitor_tags
 {
-public:
-    virtual Visitor::Result onKind(const Cursor& current, const Cursor& parent) const
-    {
-        return Visitor::Result::Break;
-    }
 
-    virtual Visitor::Result onKind(const Cursor& current, const Cursor& parent)
-    {
-        return Visitor::Result::Break;
-    }
+template<core::clang::CursorKind::Kind CursorKind>
+struct Kind {};
 
-    virtual Visitor::Result onIgnoredKind(const Cursor& current, const Cursor& parent) const
-    {
-        return Visitor::Result::Continue;
-    }
+}
 
-    virtual Visitor::Result onIgnoredKind(const Cursor& current, const Cursor& parent)
+template<core::clang::CursorKind::Kind Kind>
+struct KindVisitorPredicate
+{
+    bool operator()(const Cursor& current, const Cursor& parent = Cursor()) const
     {
-        return Visitor::Result::Continue;
-    }
-
-private:
-    Visitor::Result onCursor(const Cursor& current, const Cursor& parent) const override
-    {
-        if(current.kind() == Kind)
-        {
-            return onKind(current, parent);
-        }
-        else
-        {
-            return onIgnoredKind(current, parent);
-        }
-    }
-
-    Visitor::Result onCursor(const Cursor& current, const Cursor& parent) override
-    {
-        if(current.kind() == Kind)
-        {
-            return onKind(current, parent);
-        }
-        else
-        {
-            return onIgnoredKind(current, parent);
-        }
+        return current.kind() == Kind;
     }
 };
+
+template<core::clang::CursorKind::Kind Kind, typename Visitor = core::clang::Visitor>
+using KindVisitor = core::clang::FilteredVisitor<
+    core::clang::KindVisitorPredicate<Kind>,
+    Visitor,
+    core::clang::visitor_tags::Kind<Kind>
+>;
 
 }
 
