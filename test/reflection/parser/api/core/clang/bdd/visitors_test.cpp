@@ -1,6 +1,7 @@
 #include <catch.hpp>
 #include "../clangtest.hpp"
 #include <siplasplas/reflection/parser/api/core/clang/visitor.hpp>
+#include <siplasplas/reflection/parser/api/core/clang/recursivevisitor.hpp>
 #include <siplasplas/reflection/parser/api/core/clang/kindvisitor.hpp>
 #include <iostream>
 
@@ -21,18 +22,18 @@ public:
         return Visitor::visit(root);
     }
 
-    Visitor::Result onCursor(const Cursor& current, const Cursor& parent) const override
+    Visitor::Result onCursor(visitor_tags::Simple tag, const Cursor& current, const Cursor& parent) const override
     {
         _count++;
         std::cout << current << std::endl;
-        return Visitor::onCursor(current, parent);
+        return Visitor::onCursor(tag, current, parent);
     }
 
-    Visitor::Result onCursor(const Cursor& current, const Cursor& parent) override
+    Visitor::Result onCursor(visitor_tags::Simple tag, const Cursor& current, const Cursor& parent) override
     {
         _count++;
         std::cout << current << std::endl;
-        return Visitor::onCursor(current, parent);
+        return Visitor::onCursor(tag, current, parent);
     }
 
     std::size_t count() const
@@ -116,21 +117,55 @@ SCENARIO("Kind visitors visit nodes of a specific kind only")
 
             THEN("A namespace kind visitor visits namespaces only")
             {
-                class NamespaceVisitor : public KindVisitor<CursorKind::Kind::Namespace>
+                std::unordered_map<std::string, bool> namespaces = {
+                    { "foo", false },
+                    { "bar", false },
+                    { "quux", false },
+                    { "foobar", false },
+                    { "foobarquux", false },
+                };
+
+                class NamespaceVisitor : public KindVisitor<
+                    CursorKind::Kind::Namespace,
+                    RecursiveVisitor
+                >
                 {
                 public:
-                    Visitor::Result onKind(const Cursor& current, const Cursor& parent) override
+                    NamespaceVisitor(std::unordered_map<std::string, bool>& namespaces) :
+                        namespaces(namespaces)
+                    {}
+
+                    Visitor::Result onCursor(
+                        visitor_tags::Kind<CursorKind::Kind::Namespace>,
+                        const Cursor& current, const Cursor& parent) override
                     {
                         REQUIRE(current.kind() == CursorKind::Kind::Namespace);
                         std::cout << "On " << current << " (Parent: " << parent << ")" << std::endl;
 
-                        visit(current);
+                        auto it = namespaces.find(current.spelling().str().str());
+
+                        if(it != namespaces.end())
+                        {
+                            it->second = true;
+                        }
+
                         return Visitor::Result::Continue;
                     }
+
+                private:
+                    std::unordered_map<std::string, bool>& namespaces;
                 };
 
-                NamespaceVisitor visitor;
+                NamespaceVisitor visitor{namespaces};
                 visitor.visit(tu.cursor());
+
+                for(const auto& keyValue : namespaces)
+                {
+                    const auto& namespace_ = keyValue.first;
+                    const auto& visited    = keyValue.second;
+
+                    REQUIRE(visited);
+                }
             }
         }
     }
