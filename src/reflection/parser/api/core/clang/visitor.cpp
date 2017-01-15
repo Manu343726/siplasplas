@@ -10,7 +10,7 @@ bool Visitor::visit(const Cursor& cursor) const
         {
             const auto* self = const_cast<const Visitor*>(reinterpret_cast<Visitor*>(userData));
             return static_cast<::CXChildVisitResult>(self->onCursor(
-                Cursor{current}, Cursor{parent}
+                Tag(), Cursor{current}, Cursor{parent}
             ));
         },
         reinterpret_cast<void*>(const_cast<Visitor*>(this))
@@ -25,19 +25,19 @@ bool Visitor::visit(const Cursor& cursor)
         {
             auto* self = reinterpret_cast<Visitor*>(userData);
             return static_cast<::CXChildVisitResult>(self->onCursor(
-                Cursor{current}, Cursor{parent}
+                Tag(), Cursor{current}, Cursor{parent}
             ));
         },
         reinterpret_cast<void*>(this)
     );
 }
 
-Visitor::Result Visitor::onCursor(const Cursor& current, const Cursor& parent) const
+Visitor::Result Visitor::onCursor(Visitor::Tag, const Cursor& current, const Cursor& parent) const
 {
     return Result::Break;
 }
 
-Visitor::Result Visitor::onCursor(const Cursor& current, const Cursor& parent)
+Visitor::Result Visitor::onCursor(Visitor::Tag, const Cursor& current, const Cursor& parent)
 {
     return Result::Break;
 }

@@ -22,6 +22,11 @@ namespace core
 namespace clang
 {
 
+namespace visitor_tags
+{
+    struct Simple {};
+}
+
 /**
  * \ingroup clang
  * \brief Implements an AST visitor interface
@@ -30,6 +35,8 @@ class SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_EXPORT Visitor
 {
 public:
     virtual ~Visitor() = default;
+
+    using Tag = core::clang::visitor_tags::Simple;
 
     /**
      * \brief Describes how the traversal of the children of a particular
@@ -72,7 +79,7 @@ public:
      * \returns A Result value to indicate whether the traversal of the AST must
      * be aborted, continue through siblings, or deep recursively
      */
-    virtual Result onCursor(const Cursor& current, const Cursor& parent) const;
+    virtual Result onCursor(Tag, const Cursor& current, const Cursor& parent) const;
 
     /**
      * \brief Callback invoked each time a cursor is visited. Aborts visitation by
@@ -84,7 +91,7 @@ public:
      * \returns A Result value to indicate whether the traversal of the AST must
      * be aborted, continue through siblings, or deep recursively
      */
-    virtual Result onCursor(const Cursor& current, const Cursor& parent);
+    virtual Result onCursor(Tag, const Cursor& current, const Cursor& parent);
 };
 
 }
