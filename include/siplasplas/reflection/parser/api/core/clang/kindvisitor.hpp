@@ -24,11 +24,24 @@ namespace clang
 namespace visitor_tags
 {
 
+/**
+ * \brief Tag used to identify KindVisitor onCursor()
+ * methods.
+ *
+ * \tparam CursorKind Kind of the cursors that will be
+ * visited.
+ */
 template<core::clang::CursorKind::Kind CursorKind>
 struct Kind {};
 
 }
 
+/**
+ * \brief Implements the KindVisitor filtering criteria
+ *
+ * \tparam Kind Kind of the cursors that will be
+ * visited.
+ */
 template<core::clang::CursorKind::Kind Kind>
 struct KindVisitorPredicate
 {
@@ -38,6 +51,14 @@ struct KindVisitorPredicate
     }
 };
 
+/**
+ * \brief Filters a given visitor by visiting cursors of the given
+ * kind only
+ *
+ * \tparam Kind Kind of the cursors that will be visited
+ * \tparam Visitor Original visitor class which visitation algorithm
+ * will be filtered.
+ */
 template<core::clang::CursorKind::Kind Kind, typename Visitor = core::clang::Visitor>
 using KindVisitor = core::clang::FilteredVisitor<
     core::clang::KindVisitorPredicate<Kind>,

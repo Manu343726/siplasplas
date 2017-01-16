@@ -23,16 +23,31 @@ namespace clang
 
 namespace visitor_tags
 {
+    /**
+     * \brief Tags a onCursor() method
+     * inherited/overrided from a RecursiveVisitor
+     */
     struct Recursive {};
 }
 
 /**
  * \ingroup clang
  * \brief Implements a recursive AST visitor interface
+ *
+ * A recursive visitor implements a depth-first AST traversal
+ * that is guaranteed to visit all the nodes of a (sub)tree. The traversal
+ * can be aborted by returning Visitor::Result::Break from the
+ * onCursor() methods.
+ *
+ * The onVisitor() methods of this visitor class are identified by the visitor_tags::Recursive
+ * tag.
  */
 class SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_EXPORT RecursiveVisitor : public Visitor
 {
 public:
+    /**
+     * \brief Tag used to identify this visitor onCursor() methods
+     */
     using Tag = core::clang::visitor_tags::Recursive;
 
     /**
