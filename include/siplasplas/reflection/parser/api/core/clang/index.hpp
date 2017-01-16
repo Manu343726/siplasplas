@@ -1,11 +1,13 @@
 #ifndef SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_INDEX_HPP
-#define SIPLASPLAS_REFLECTION_PARSER_API_CODE_CLANG_INDEX_HPP
+#define SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_INDEX_HPP
 
 #include <siplasplas/constexpr/stringview.hpp>
 #include "handle.hpp"
 #include "unsavedfile.hpp"
 #include "translationunit.hpp"
 #include "compileoptions.hpp"
+#include "handleentity.hpp"
+#include <siplasplas/reflection/parser/api/core/clang/export.hpp>
 
 namespace cpp
 {
@@ -38,7 +40,8 @@ using CXIndex = core::clang::UniqueHandle<
  * \ingroup clang
  * \brief Compilation index
  */
-class Index : public core::clang::CXIndex
+class SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_EXPORT Index
+    : public core::clang::UniqueHandleEntity<core::clang::CXIndex>
 {
 public:
     Index();

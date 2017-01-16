@@ -1,0 +1,11 @@
+add_siplasplas_test(reflection-parser-api-core-clang
+SOURCES
+    handletest.cpp
+    uniquehandle_test.cpp
+    sharedhandle_test.cpp
+    nullhandle_test.cpp
+    index_test.cpp
+    translationunit_test.cpp
+DEPENDS
+    siplasplas-reflection-parser-api-core-clang-test
+)

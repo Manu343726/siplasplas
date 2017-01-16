@@ -16,3 +16,8 @@ bool TranslationUnit::noDiagnostics() const
 {
     return numberOfDiagnostics() == 0;
 }
+
+Cursor TranslationUnit::cursor() const
+{
+    return ::clang_getTranslationUnitCursor(rawHandle());
+}

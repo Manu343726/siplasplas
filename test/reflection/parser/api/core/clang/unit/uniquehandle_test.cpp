@@ -103,3 +103,20 @@ TEST_F(UniqueHandleTest, handleAssignment_ReleasesOldHandleAndTakesOwnershipOfNe
     EXPECT_FALSE(handle.isNull());
     expectRelease(44);
 }
+
+TEST_F(UniqueHandleTest, proxyHandle_DoesNotReleaseRawHandleOnReset)
+{
+    expectRelease(43).Times(0);
+    auto proxy = CustomUniqueHandle::proxy(43);
+
+    expectRelease(44).Times(1);
+    CustomUniqueHandle handle{44};
+    auto handleProxy = handle.proxy();
+
+    handleProxy.reset();
+    proxy.reset();
+
+    EXPECT_TRUE(handleProxy.isNull());
+    EXPECT_TRUE(proxy.isNull());
+    EXPECT_FALSE(handle.isNull());
+}

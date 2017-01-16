@@ -5,7 +5,7 @@
 #include "handle.hpp"
 #include "string.hpp"
 #include <siplasplas/reflection/parser/api/core/clang/export.hpp>
-
+#include "handleentity.hpp"
 
 namespace cpp
 {
@@ -38,11 +38,11 @@ using CXDiagnostic = core::clang::UniqueHandle<
  * \ingroup clang
  * \brief A single diagnostic, containing the diagnostic's severity, text, etc
  */
-SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_EXPORT
-class Diagnostic : public core::clang::CXDiagnostic
+class SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_EXPORT Diagnostic
+    : public core::clang::UniqueHandleEntity<core::clang::CXDiagnostic>
 {
 public:
-    using core::clang::CXDiagnostic::CXDiagnostic;
+    using core::clang::UniqueHandleEntity<core::clang::CXDiagnostic>::UniqueHandleEntity;
 
     /**
      * \brief Options to control the display of diagnostics
@@ -106,6 +106,29 @@ public:
     };
 
     /**
+     * \brief Describes the severity of a particular diagnostic.
+     */
+    enum class Severity
+    {
+        Ignored = ::CXDiagnostic_Ignored, ///< A diagnostic that has been suppressed, e.g., by a command-line option.
+        Note    = ::CXDiagnostic_Note,    ///< This diagnostic is a note that should be attached to the previous (non-note) diagnostic.
+        Warning = ::CXDiagnostic_Warning, ///< This diagnostic indicates suspicious code that may not be wrong.
+        Error   = ::CXDiagnostic_Error,   ///< This diagnostic indicates that the code is ill-formed.
+        Fatal   = ::CXDiagnostic_Fatal,   ///< This diagnostic indicates that the code is ill-formed such that future parser recovery is unlikely to produce useful results.
+    };
+
+    /**
+     * \brief Returns the severity of this diagnotic
+     */
+    Severity severity() const;
+
+    /**
+     * \brief Returns an string representation of the
+     * severity of the diagnostic
+     */
+    cpp::constexp::ConstStringView severityString() const;
+
+    /**
     * \brief Returns the category number of the diagnostic
     */
     int category() const;
@@ -129,6 +152,9 @@ public:
      */
     core::clang::String display(const cpp::constexp::ConstArrayView<DisplayOption>& displayOptions) const;
 };
+
+std::ostream& operator<<(std::ostream& os, const Diagnostic::Severity severity);
+std::ostream& operator<<(std::ostream& os, const Diagnostic& diagnostic);
 
 }
 

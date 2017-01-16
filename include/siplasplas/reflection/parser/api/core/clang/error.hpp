@@ -27,8 +27,7 @@ namespace clang
  * \ingroup clang
  * \brief Represents a libclang API error
  */
-SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_EXPORT
-class Error
+class SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_EXPORT Error
 {
 public:
     /**

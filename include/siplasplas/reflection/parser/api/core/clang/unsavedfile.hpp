@@ -6,6 +6,7 @@
 #include <sstream>
 #include <siplasplas/constexpr/stringview.hpp>
 #include "handle.hpp"
+#include <siplasplas/reflection/parser/api/core/clang/export.hpp>
 
 namespace cpp
 {
@@ -29,7 +30,7 @@ namespace clang
  * \ingroup clang
  * \brief Represents an unsaved file in memory
  */
-class UnsavedFile
+class SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_EXPORT UnsavedFile
 {
 public:
     /**

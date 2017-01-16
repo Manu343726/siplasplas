@@ -2,6 +2,9 @@
 #define SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_HANDLE_HPP
 
 #include <memory>
+#include <ctti/type_id.hpp>
+#include <siplasplas/utility/exception.hpp>
+#include "logger.hpp"
 
 namespace cpp
 {
@@ -74,6 +77,28 @@ constexpr RawHandle nullHandle()
 }
 
 /**
+ * \brief Represents the operation mode of a UniqueHandle
+ *
+ * The UniqueHandle RAII behavior can be disabled/enabled on demand
+ * depending on whether the user wants an owning handle or a proxy.
+ */
+enum class HandleMode
+{
+    RAII, ///< The handle owns the underlying raw handle, releasing in on destruction
+    Proxy ///< The handle is just a proxy to an existing handle, and will not release on destuction
+};
+
+inline std::ostream& operator<<(std::ostream& os, const HandleMode mode)
+{
+    static constexpr const char* strings[] = {
+        "HandleMode::RAII",
+        "HandleMode::Proxy"
+    };
+
+    return os << strings[static_cast<std::size_t>(mode)];
+}
+
+/**
  * \ingroup clang
  * \brief Provides a iunique-ownership RAII wrapper for raw resources
  *
@@ -93,15 +118,16 @@ public:
      *
      * \param handle Raw handle to a clang resource
      */
-    constexpr UniqueHandle(RawHandle rawHandle) noexcept :
-        _rawHandle{rawHandle}
+    constexpr UniqueHandle(RawHandle rawHandle, HandleMode mode = HandleMode::RAII) noexcept :
+        _rawHandle{rawHandle},
+        _mode{mode}
     {}
 
     /**
      * \brief Move constructs a handle by taking the ownership of the given handle
      */
     constexpr UniqueHandle(UniqueHandle&& other) noexcept :
-        UniqueHandle{other.rawHandle()}
+        UniqueHandle{other.rawHandle(), other.mode()}
     {
         other._rawHandle = nullHandle<RawHandle>();
     }
@@ -114,10 +140,21 @@ public:
      */
     constexpr UniqueHandle& operator=(UniqueHandle&& handle) noexcept
     {
-        (*this) = handle.rawHandle();
-        handle._rawHandle = nullHandle<RawHandle>();
+        if(mode() == handle.mode())
+        {
+            (*this) = handle.rawHandle();
+            handle._rawHandle = nullHandle<RawHandle>();
 
-        return *this;
+            return *this;
+        }
+        else
+        {
+            throw cpp::exception<std::runtime_error>(
+                "Cannot assign handles of different operating modes (current = {}, other = {})",
+                mode(),
+                handle.mode()
+            );
+        }
     }
 
     /**
@@ -152,13 +189,24 @@ public:
     /**
      * \brief Resets the owned raw handle
      *
-     * The old raw handle is released first
+     * The old raw handle is released first if the
+     * operation mode is set to RAII
      */
     constexpr void reset(RawHandle rawHandle) noexcept
     {
-        if(!isNull())
+        if(!isNull() && mode() == HandleMode::RAII)
         {
+            log().debug("UniqueHandle<{}>::reset(): Handle released",
+                ctti::type_id<RawHandle>().name()
+            );
             Release(_rawHandle);
+        }
+        else
+        {
+            log().debug("UniqueHandle<{}>::reset(): Handle null or non-RAII mode (mode={})",
+                ctti::type_id<RawHandle>().name(),
+                mode()
+            );
         }
 
         _rawHandle = rawHandle;
@@ -201,6 +249,33 @@ public:
         reset();
     }
 
+    /**
+     * \brief Returns the operating mode (RAII vs Proxy) of the handle
+     */
+    HandleMode mode() const
+    {
+        return _mode;
+    }
+
+    /**
+     * \brief Returns a non-owning proxy to this handle
+     */
+    UniqueHandle proxy() const
+    {
+        return {_rawHandle, HandleMode::Proxy};
+    }
+
+    /**
+     * \brief Returns a proxy handle to the given raw handle
+     *
+     * Proxy handles are UniqueHandles with the RAII "release on destruction" semantic
+     * disabled.
+     */
+    static UniqueHandle proxy(const RawHandle& rawHandle)
+    {
+        return {rawHandle, HandleMode::Proxy};
+    }
+
     friend constexpr bool operator==(const UniqueHandle& lhs, const UniqueHandle& rhs)
     {
         return lhs.rawHandle() == rhs.rawHandle();
@@ -213,6 +288,7 @@ public:
 
 private:
     RawHandle _rawHandle;
+    HandleMode _mode;
 };
 
 
