@@ -41,18 +41,31 @@ var annotated_dup =
           [ "api", null, [
             [ "core", null, [
               [ "clang", null, [
+                [ "visitor_tags", null, [
+                  [ "Filter", "structcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1visitor__tags_1_1_filter.html", null ],
+                  [ "Kind", "structcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1visitor__tags_1_1_kind.html", null ],
+                  [ "Recursive", "structcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1visitor__tags_1_1_recursive.html", null ],
+                  [ "Simple", "structcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1visitor__tags_1_1_simple.html", null ]
+                ] ],
                 [ "CompileOptions", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_compile_options.html", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_compile_options" ],
+                [ "Cursor", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_cursor.html", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_cursor" ],
+                [ "CursorKind", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_cursor_kind.html", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_cursor_kind" ],
                 [ "Diagnostic", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_diagnostic.html", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_diagnostic" ],
                 [ "Error", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_error.html", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_error" ],
                 [ "FileWriter", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_file_writer.html", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_file_writer" ],
+                [ "FilteredVisitor", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_filtered_visitor.html", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_filtered_visitor" ],
                 [ "Index", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_index.html", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_index" ],
+                [ "KindVisitorPredicate", "structcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_kind_visitor_predicate.html", "structcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_kind_visitor_predicate" ],
                 [ "NullHandle", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_null_handle.html", null ],
                 [ "NullHandle< RawHandle * >", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_null_handle_3_01_raw_handle_01_5_01_4.html", null ],
+                [ "RecursiveVisitor", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_recursive_visitor.html", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_recursive_visitor" ],
                 [ "SharedHandle", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_shared_handle.html", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_shared_handle" ],
                 [ "String", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_string.html", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_string" ],
                 [ "TranslationUnit", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_translation_unit.html", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_translation_unit" ],
                 [ "UniqueHandle", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle" ],
-                [ "UnsavedFile", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unsaved_file.html", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unsaved_file" ]
+                [ "UniqueHandleEntity", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle_entity.html", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle_entity" ],
+                [ "UnsavedFile", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unsaved_file.html", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unsaved_file" ],
+                [ "Visitor", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_visitor.html", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_visitor" ]
               ] ]
             ] ]
           ] ]
@@ -92,6 +105,7 @@ var annotated_dup =
       [ "FixedSizeStorage", "classcpp_1_1_fixed_size_storage.html", "classcpp_1_1_fixed_size_storage" ],
       [ "Hash", "structcpp_1_1_hash.html", "structcpp_1_1_hash" ],
       [ "Identity", "classcpp_1_1_identity.html", "classcpp_1_1_identity" ],
+      [ "MemberFunctor", "classcpp_1_1_member_functor.html", "classcpp_1_1_member_functor" ],
       [ "NonOwningStorage", "classcpp_1_1_non_owning_storage.html", "classcpp_1_1_non_owning_storage" ],
       [ "RawHash", "classcpp_1_1_raw_hash.html", "classcpp_1_1_raw_hash" ],
       [ "SignalEmitter", "classcpp_1_1_signal_emitter.html", "classcpp_1_1_signal_emitter" ],

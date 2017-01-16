@@ -99,7 +99,8 @@ Inheritance diagram for cpp::reflection::parser::api::core::clang::Diagnostic:</
  <div class="center">
   <img src="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_diagnostic.png" usemap="#cpp::reflection::parser::api::core::clang::Diagnostic_map" alt=""/>
   <map id="cpp::reflection::parser::api::core::clang::Diagnostic_map" name="cpp::reflection::parser::api::core::clang::Diagnostic_map">
-<area href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html" title="Provides a iunique-ownership RAII wrapper for raw resources. " alt="cpp::reflection::parser::api::core::clang::UniqueHandle&lt; RawHandle, Release &gt;" shape="rect" coords="0,0,453,24"/>
+<area href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle_entity.html" alt="cpp::reflection::parser::api::core::clang::UniqueHandleEntity&lt; core::clang::CXDiagnostic &gt;" shape="rect" coords="0,56,512,80"/>
+<area href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html" title="Provides a iunique-ownership RAII wrapper for raw resources. " alt="cpp::reflection::parser::api::core::clang::UniqueHandle&lt; RawHandle, Release &gt;" shape="rect" coords="0,0,512,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -108,9 +109,28 @@ Public Types</h2></td></tr>
 <tr class="memitem:a107c4844e81770945d795db589bcf049"><td class="memItemLeft" align="right" valign="top"><a id="a107c4844e81770945d795db589bcf049"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_diagnostic.html#a107c4844e81770945d795db589bcf049">DisplayOption</a> <tr class="memdesc:a107c4844e81770945d795db589bcf049"><td class="mdescLeft">&#160;</td><td class="mdescRight">Options to control the display of diagnostics. <br /></td></tr>
 </td></tr>
 <tr class="separator:a107c4844e81770945d795db589bcf049"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26d8460ad3ed21f6c06205e924e22aa0"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_diagnostic.html#a26d8460ad3ed21f6c06205e924e22aa0">Severity</a> { <br />
+&#160;&#160;<a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_diagnostic.html#a26d8460ad3ed21f6c06205e924e22aa0ad96143ba1b15645919cea00ec9d1be62">Severity::Ignored</a>, 
+<a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_diagnostic.html#a26d8460ad3ed21f6c06205e924e22aa0a3b0649c72650c313a357338dcdfb64ec">Severity::Note</a>, 
+<a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_diagnostic.html#a26d8460ad3ed21f6c06205e924e22aa0a0eaadb4fcb48a0a0ed7bc9868be9fbaa">Severity::Warning</a>, 
+<a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_diagnostic.html#a26d8460ad3ed21f6c06205e924e22aa0a902b0d55fddef6f8d651fe1035b7d4bd">Severity::Error</a>, 
+<br />
+&#160;&#160;<a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_diagnostic.html#a26d8460ad3ed21f6c06205e924e22aa0a882384ec38ce8d9582b57e70861730e4">Severity::Fatal</a>
+<br />
+ }<tr class="memdesc:a26d8460ad3ed21f6c06205e924e22aa0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Describes the severity of a particular diagnostic.  <a href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_diagnostic.html#a26d8460ad3ed21f6c06205e924e22aa0">More...</a><br /></td></tr>
+</td></tr>
+<tr class="separator:a26d8460ad3ed21f6c06205e924e22aa0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:ac78df0866b7905c2836cb0014abdf220"><td class="memItemLeft" align="right" valign="top"><a id="ac78df0866b7905c2836cb0014abdf220"></a>
+<a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_diagnostic.html#a26d8460ad3ed21f6c06205e924e22aa0">Severity</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_diagnostic.html#ac78df0866b7905c2836cb0014abdf220">severity</a> () const</td></tr>
+<tr class="memdesc:ac78df0866b7905c2836cb0014abdf220"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the severity of this diagnotic. <br /></td></tr>
+<tr class="separator:ac78df0866b7905c2836cb0014abdf220"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b582a62f728a627dc1a5c09a99af762"><td class="memItemLeft" align="right" valign="top"><a id="a9b582a62f728a627dc1a5c09a99af762"></a>
+cpp::constexp::ConstStringView&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_diagnostic.html#a9b582a62f728a627dc1a5c09a99af762">severityString</a> () const</td></tr>
+<tr class="memdesc:a9b582a62f728a627dc1a5c09a99af762"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns an string representation of the severity of the diagnostic. <br /></td></tr>
+<tr class="separator:a9b582a62f728a627dc1a5c09a99af762"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9603bc07a98338a019163313d60f53b9"><td class="memItemLeft" align="right" valign="top"><a id="a9603bc07a98338a019163313d60f53b9"></a>
 int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_diagnostic.html#a9603bc07a98338a019163313d60f53b9">category</a> () const</td></tr>
 <tr class="memdesc:a9603bc07a98338a019163313d60f53b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the category number of the diagnostic. <br /></td></tr>
@@ -126,10 +146,14 @@ int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class
 <tr class="memitem:a782c26b21ae0cf26ae9ce54fddd21b23"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_string.html">core::clang::String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_diagnostic.html#a782c26b21ae0cf26ae9ce54fddd21b23">display</a> (const cpp::constexp::ConstArrayView&lt; <a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_diagnostic.html#a107c4844e81770945d795db589bcf049">DisplayOption</a> &gt; &amp;displayOptions) const</td></tr>
 <tr class="memdesc:a782c26b21ae0cf26ae9ce54fddd21b23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a string representation of the diagnostic ready to display, formatted with the given options.  <a href="#a782c26b21ae0cf26ae9ce54fddd21b23">More...</a><br /></td></tr>
 <tr class="separator:a782c26b21ae0cf26ae9ce54fddd21b23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle_entity"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle_entity')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle_entity.html">cpp::reflection::parser::api::core::clang::UniqueHandleEntity&lt; core::clang::CXDiagnostic &gt;</a></td></tr>
+<tr class="memitem:a6f296929a53645227218282cb4794a3e inherit pub_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle_entity"><td class="memItemLeft" align="right" valign="top"><a id="a6f296929a53645227218282cb4794a3e"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>UniqueHandleEntity</b> (<a class="el" href="group__clang.html#gad49c98176dc867f680848a625df6812d">core::clang::CXDiagnostic</a> &amp;&amp;handle)</td></tr>
+<tr class="separator:a6f296929a53645227218282cb4794a3e inherit pub_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle_entity"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html">cpp::reflection::parser::api::core::clang::UniqueHandle&lt; RawHandle, Release &gt;</a></td></tr>
-<tr class="memitem:a532531544633e711ab3f2378fabdf8fa inherit pub_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html#a532531544633e711ab3f2378fabdf8fa">UniqueHandle</a> (RawHandle <a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html#acc5cf5f39d77cf0426c5e37e0ad2a249">rawHandle</a>) noexcept</td></tr>
-<tr class="memdesc:a532531544633e711ab3f2378fabdf8fa inherit pub_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle"><td class="mdescLeft">&#160;</td><td class="mdescRight">Takes ownership of a given raw handle.  <a href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html#a532531544633e711ab3f2378fabdf8fa">More...</a><br /></td></tr>
-<tr class="separator:a532531544633e711ab3f2378fabdf8fa inherit pub_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f2a4a50d73cc870ea2bd92acee69324 inherit pub_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle"><td class="memItemLeft" align="right" valign="top">constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html#a9f2a4a50d73cc870ea2bd92acee69324">UniqueHandle</a> (RawHandle <a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html#acc5cf5f39d77cf0426c5e37e0ad2a249">rawHandle</a>, HandleMode <a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html#a2f9f026a58a2244fce50e3f750c61a1c">mode</a>=HandleMode::RAII) noexcept</td></tr>
+<tr class="memdesc:a9f2a4a50d73cc870ea2bd92acee69324 inherit pub_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle"><td class="mdescLeft">&#160;</td><td class="mdescRight">Takes ownership of a given raw handle.  <a href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html#a9f2a4a50d73cc870ea2bd92acee69324">More...</a><br /></td></tr>
+<tr class="separator:a9f2a4a50d73cc870ea2bd92acee69324 inherit pub_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4e7a4b1bd0a638da1562b9d7ba551bac inherit pub_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle"><td class="memItemLeft" align="right" valign="top"><a id="a4e7a4b1bd0a638da1562b9d7ba551bac"></a>
 constexpr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html#a4e7a4b1bd0a638da1562b9d7ba551bac">UniqueHandle</a> (<a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html">UniqueHandle</a> &amp;&amp;other) noexcept</td></tr>
 <tr class="memdesc:a4e7a4b1bd0a638da1562b9d7ba551bac inherit pub_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle"><td class="mdescLeft">&#160;</td><td class="mdescRight">Move constructs a handle by taking the ownership of the given handle. <br /></td></tr>
@@ -162,6 +186,14 @@ constexpr RawHandle&#160;</td><td class="memItemRight" valign="bottom"><a class=
 &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html#a0810c2ad743f5419dc3dd063d345876c">~UniqueHandle</a> () noexcept</td></tr>
 <tr class="memdesc:a0810c2ad743f5419dc3dd063d345876c inherit pub_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle"><td class="mdescLeft">&#160;</td><td class="mdescRight">Releases the owned handle. Invokes <a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html#ab914849ffbb02c9e3ff09c6b9180d4e7" title="Returns the managed raw handle and releases the ownership. ">release()</a> <br /></td></tr>
 <tr class="separator:a0810c2ad743f5419dc3dd063d345876c inherit pub_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f9f026a58a2244fce50e3f750c61a1c inherit pub_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle"><td class="memItemLeft" align="right" valign="top"><a id="a2f9f026a58a2244fce50e3f750c61a1c"></a>
+HandleMode&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html#a2f9f026a58a2244fce50e3f750c61a1c">mode</a> () const</td></tr>
+<tr class="memdesc:a2f9f026a58a2244fce50e3f750c61a1c inherit pub_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the operating mode (RAII vs Proxy) of the handle. <br /></td></tr>
+<tr class="separator:a2f9f026a58a2244fce50e3f750c61a1c inherit pub_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36c8b4c5e1c4fe3f3b5f77f81960db56 inherit pub_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle"><td class="memItemLeft" align="right" valign="top"><a id="a36c8b4c5e1c4fe3f3b5f77f81960db56"></a>
+<a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html">UniqueHandle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html#a36c8b4c5e1c4fe3f3b5f77f81960db56">proxy</a> () const</td></tr>
+<tr class="memdesc:a36c8b4c5e1c4fe3f3b5f77f81960db56 inherit pub_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a non-owning proxy to this handle. <br /></td></tr>
+<tr class="separator:a36c8b4c5e1c4fe3f3b5f77f81960db56 inherit pub_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -169,10 +201,50 @@ Additional Inherited Members</h2></td></tr>
 <tr class="memitem:a83a4c29e7a9b4337043c786b50ec0bdd inherit pub_static_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html">UniqueHandle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html#a83a4c29e7a9b4337043c786b50ec0bdd">null</a> () noexcept</td></tr>
 <tr class="memdesc:a83a4c29e7a9b4337043c786b50ec0bdd inherit pub_static_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a null <a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html" title="Provides a iunique-ownership RAII wrapper for raw resources. ">UniqueHandle</a> instance.  <a href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html#a83a4c29e7a9b4337043c786b50ec0bdd">More...</a><br /></td></tr>
 <tr class="separator:a83a4c29e7a9b4337043c786b50ec0bdd inherit pub_static_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21acf92706b027cfb7a9e4fd58bd6924 inherit pub_static_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html">UniqueHandle</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html#a21acf92706b027cfb7a9e4fd58bd6924">proxy</a> (const RawHandle &amp;<a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html#acc5cf5f39d77cf0426c5e37e0ad2a249">rawHandle</a>)</td></tr>
+<tr class="memdesc:a21acf92706b027cfb7a9e4fd58bd6924 inherit pub_static_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a proxy handle to the given raw handle.  <a href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html#a21acf92706b027cfb7a9e4fd58bd6924">More...</a><br /></td></tr>
+<tr class="separator:a21acf92706b027cfb7a9e4fd58bd6924 inherit pub_static_methods_classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>A single diagnostic, containing the diagnostic's severity, text, etc. </p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
+</div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="a26d8460ad3ed21f6c06205e924e22aa0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26d8460ad3ed21f6c06205e924e22aa0">&sect;&nbsp;</a></span>Severity</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_diagnostic.html#a26d8460ad3ed21f6c06205e924e22aa0">cpp::reflection::parser::api::core::clang::Diagnostic::Severity</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Describes the severity of a particular diagnostic. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a26d8460ad3ed21f6c06205e924e22aa0ad96143ba1b15645919cea00ec9d1be62"></a>Ignored&#160;</td><td class="fielddoc"><p>A diagnostic that has been suppressed, e.g., by a command-line option. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a26d8460ad3ed21f6c06205e924e22aa0a3b0649c72650c313a357338dcdfb64ec"></a>Note&#160;</td><td class="fielddoc"><p>This diagnostic is a note that should be attached to the previous (non-note) diagnostic. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a26d8460ad3ed21f6c06205e924e22aa0a0eaadb4fcb48a0a0ed7bc9868be9fbaa"></a>Warning&#160;</td><td class="fielddoc"><p>This diagnostic indicates suspicious code that may not be wrong. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a26d8460ad3ed21f6c06205e924e22aa0a902b0d55fddef6f8d651fe1035b7d4bd"></a>Error&#160;</td><td class="fielddoc"><p>This diagnostic indicates that the code is ill-formed. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a26d8460ad3ed21f6c06205e924e22aa0a882384ec38ce8d9582b57e70861730e4"></a>Fatal&#160;</td><td class="fielddoc"><p>This diagnostic indicates that the code is ill-formed such that future parser recovery is unlikely to produce useful results. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
 <a id="a782c26b21ae0cf26ae9ce54fddd21b23"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a782c26b21ae0cf26ae9ce54fddd21b23">&sect;&nbsp;</a></span>display()</h2>
 

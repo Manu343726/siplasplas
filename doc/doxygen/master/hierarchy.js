@@ -39,6 +39,8 @@ var hierarchy =
     [ "cpp::ConstNonOwningStorage", "classcpp_1_1_const_non_owning_storage.html", [
       [ "cpp::SimpleAny< ConstNonOwningStorage >", "classcpp_1_1_simple_any_3_01_const_non_owning_storage_01_4.html", null ]
     ] ],
+    [ "cpp::reflection::parser::api::core::clang::Cursor", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_cursor.html", null ],
+    [ "cpp::reflection::parser::api::core::clang::CursorKind", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_cursor_kind.html", null ],
     [ "cpp::DeadPoolStorage< PreallocatedSize, PreallocatedAlignment >", "classcpp_1_1_dead_pool_storage.html", null ],
     [ "cpp::DummyAssertExpression", "classcpp_1_1_dummy_assert_expression.html", null ],
     [ "cpp::DynamicLibrary", "classcpp_1_1_dynamic_library.html", null ],
@@ -61,6 +63,7 @@ var hierarchy =
     [ "cpp::static_reflection::Field< FieldType, field >", "classcpp_1_1static__reflection_1_1_field.html", null ],
     [ "cpp::static_reflection::meta::Field< static_reflection::meta::EmptySourceInfo< Field< FieldType, field > >, FieldType, field >", "classcpp_1_1static__reflection_1_1meta_1_1_field.html", null ],
     [ "cpp::reflection::parser::api::core::clang::FileWriter", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_file_writer.html", null ],
+    [ "cpp::reflection::parser::api::core::clang::visitor_tags::Filter< Predicate >", "structcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1visitor__tags_1_1_filter.html", null ],
     [ "cpp::FixedSizeStorage< Size, Alignment >", "classcpp_1_1_fixed_size_storage.html", null ],
     [ "cpp::typeerasure::Function< Storage, ArgsStorage, ReturnStorage >", "classcpp_1_1typeerasure_1_1_function.html", null ],
     [ "cpp::static_reflection::meta::Function< SourceInfo, FunctionType, function >", "classcpp_1_1static__reflection_1_1meta_1_1_function.html", null ],
@@ -71,6 +74,12 @@ var hierarchy =
     [ "cpp::Identity", "classcpp_1_1_identity.html", null ],
     [ "cpp::detail::If< Condition >", "classcpp_1_1detail_1_1_if.html", null ],
     [ "cpp::features::IStreamable", "classcpp_1_1features_1_1_i_streamable.html", null ],
+    [ "cpp::reflection::parser::api::core::clang::visitor_tags::Kind< CursorKind >", "structcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1visitor__tags_1_1_kind.html", null ],
+    [ "cpp::reflection::parser::api::core::clang::KindVisitorPredicate< Kind >", "structcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_kind_visitor_predicate.html", null ],
+    [ "cpp::MemberFunctor< F, Ebo >", "classcpp_1_1_member_functor.html", null ],
+    [ "cpp::MemberFunctor< Predicate >", "classcpp_1_1_member_functor.html", [
+      [ "cpp::reflection::parser::api::core::clang::FilteredVisitor< Predicate, Visitor, VisitorTag >", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_filtered_visitor.html", null ]
+    ] ],
     [ "cpp::CMakeTarget::Metadata", "structcpp_1_1_c_make_target_1_1_metadata.html", null ],
     [ "cpp::NonOwningStorage", "classcpp_1_1_non_owning_storage.html", [
       [ "cpp::SimpleAny< NonOwningStorage >", "classcpp_1_1_simple_any_3_01_non_owning_storage_01_4.html", null ]
@@ -80,6 +89,7 @@ var hierarchy =
     [ "cpp::reflection::parser::api::core::clang::NullHandle< RawHandle * >", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_null_handle_3_01_raw_handle_01_5_01_4.html", null ],
     [ "cpp::features::OStreamable", "classcpp_1_1features_1_1_o_streamable.html", null ],
     [ "cpp::RawHash< T >", "classcpp_1_1_raw_hash.html", null ],
+    [ "cpp::reflection::parser::api::core::clang::visitor_tags::Recursive", "structcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1visitor__tags_1_1_recursive.html", null ],
     [ "cpp::dynamic_reflection::Runtime", "classcpp_1_1dynamic__reflection_1_1_runtime.html", null ],
     [ "cpp::dynamic_reflection::RuntimeLoader", "classcpp_1_1dynamic__reflection_1_1_runtime_loader.html", null ],
     [ "cpp::reflection::parser::api::core::clang::SharedHandle< RawHandle, Release >", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_shared_handle.html", null ],
@@ -92,6 +102,7 @@ var hierarchy =
       [ "cpp::AsyncSink", "classcpp_1_1_async_sink.html", null ],
       [ "cpp::SyncSink", "classcpp_1_1_sync_sink.html", null ]
     ] ],
+    [ "cpp::reflection::parser::api::core::clang::visitor_tags::Simple", "structcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1visitor__tags_1_1_simple.html", null ],
     [ "cpp::SimpleAny< Storage >", "classcpp_1_1_simple_any.html", [
       [ "cpp::Any< Storage, FunctionsStorage, FunctionArgsStorage, AttributesStorage >", "classcpp_1_1_any.html", null ]
     ] ],
@@ -100,13 +111,26 @@ var hierarchy =
     [ "cpp::DynamicLibrary::Symbol", "classcpp_1_1_dynamic_library_1_1_symbol.html", null ],
     [ "cpp::typeerasure::TypeInfo", "classcpp_1_1typeerasure_1_1_type_info.html", null ],
     [ "cpp::reflection::parser::api::core::clang::UniqueHandle< RawHandle, Release >", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html", [
-      [ "cpp::reflection::parser::api::core::clang::Diagnostic", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_diagnostic.html", null ],
-      [ "cpp::reflection::parser::api::core::clang::Index", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_index.html", null ],
-      [ "cpp::reflection::parser::api::core::clang::String", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_string.html", null ],
-      [ "cpp::reflection::parser::api::core::clang::TranslationUnit", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_translation_unit.html", null ]
+      [ "cpp::reflection::parser::api::core::clang::UniqueHandleEntity< core::clang::CXDiagnostic >", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle_entity.html", [
+        [ "cpp::reflection::parser::api::core::clang::Diagnostic", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_diagnostic.html", null ]
+      ] ],
+      [ "cpp::reflection::parser::api::core::clang::UniqueHandleEntity< core::clang::CXIndex >", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle_entity.html", [
+        [ "cpp::reflection::parser::api::core::clang::Index", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_index.html", null ]
+      ] ],
+      [ "cpp::reflection::parser::api::core::clang::UniqueHandleEntity< core::clang::CXString >", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle_entity.html", [
+        [ "cpp::reflection::parser::api::core::clang::String", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_string.html", null ]
+      ] ],
+      [ "cpp::reflection::parser::api::core::clang::UniqueHandleEntity< core::clang::CXTranslationUnit >", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle_entity.html", [
+        [ "cpp::reflection::parser::api::core::clang::TranslationUnit", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_translation_unit.html", null ]
+      ] ]
     ] ],
+    [ "cpp::reflection::parser::api::core::clang::UniqueHandleEntity< Handle >", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle_entity.html", null ],
     [ "cpp::UniversalReference< T, IsLvalueReference, IsConst >", "classcpp_1_1_universal_reference.html", null ],
     [ "cpp::UniversalReference< T, false, false >", "classcpp_1_1_universal_reference_3_01_t_00_01false_00_01false_01_4.html", null ],
     [ "cpp::UniversalReference< T, true, false >", "classcpp_1_1_universal_reference_3_01_t_00_01true_00_01false_01_4.html", null ],
-    [ "cpp::reflection::parser::api::core::clang::UnsavedFile", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unsaved_file.html", null ]
+    [ "cpp::reflection::parser::api::core::clang::UnsavedFile", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unsaved_file.html", null ],
+    [ "cpp::reflection::parser::api::core::clang::Visitor", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_visitor.html", [
+      [ "cpp::reflection::parser::api::core::clang::FilteredVisitor< Predicate, Visitor, VisitorTag >", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_filtered_visitor.html", null ],
+      [ "cpp::reflection::parser::api::core::clang::RecursiveVisitor", "classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_recursive_visitor.html", null ]
+    ] ]
 ];

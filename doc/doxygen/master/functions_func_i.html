@@ -90,8 +90,12 @@ $(document).ready(function(){initNavTree('functions_func_i.html','');});
 : <a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_compile_options.html#ad3dd7f6e7fdaee3f78869f665eae7c7f">cpp::reflection::parser::api::core::clang::CompileOptions</a>
 </li>
 <li>invoke()
-: <a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_function.html#a57df4c68a0c5ac393ecf7ddbfc1f4501">cpp::static_reflection::meta::Function&lt; SourceInfo, FunctionType, function &gt;</a>
+: <a class="el" href="classcpp_1_1_member_functor.html#a897878d1c309c6b2b401ca5437eca1ae">cpp::MemberFunctor&lt; F, Ebo &gt;</a>
+, <a class="el" href="classcpp_1_1static__reflection_1_1meta_1_1_function.html#a57df4c68a0c5ac393ecf7ddbfc1f4501">cpp::static_reflection::meta::Function&lt; SourceInfo, FunctionType, function &gt;</a>
 , <a class="el" href="classcpp_1_1typeerasure_1_1_function.html#af38faa923035f17b198fc0cd2c7060fc">cpp::typeerasure::Function&lt; Storage, ArgsStorage, ReturnStorage &gt;</a>
+</li>
+<li>isAttribute()
+: <a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_cursor_kind.html#a54cb282e5f5d1b94a208544cc6e9323e">cpp::reflection::parser::api::core::clang::CursorKind</a>
 </li>
 <li>isChild()
 : <a class="el" href="classcpp_1_1dynamic__reflection_1_1_entity.html#ab062b12a6b15c0f8c30b735364680d47">cpp::dynamic_reflection::Entity</a>
@@ -105,18 +109,43 @@ $(document).ready(function(){initNavTree('functions_func_i.html','');});
 <li>isConst()
 : <a class="el" href="classcpp_1_1_any_arg.html#a6b767e4497374e6c0d5c7b616336ad0c">cpp::AnyArg</a>
 </li>
+<li>isDeclaration()
+: <a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_cursor_kind.html#a346a478f11ee3db77b50b516d0bf3dc7">cpp::reflection::parser::api::core::clang::CursorKind</a>
+</li>
+<li>isExpression()
+: <a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_cursor_kind.html#a58595b8ce3b6fed30b0966584d8d8eaa">cpp::reflection::parser::api::core::clang::CursorKind</a>
+</li>
+<li>isInvalid()
+: <a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_cursor_kind.html#a1882ae7e3a044382a932b39acf08911d">cpp::reflection::parser::api::core::clang::CursorKind</a>
+</li>
 <li>isLvalue()
 : <a class="el" href="classcpp_1_1_any_arg.html#a205115f256fd8ccd60b14004c9e68490">cpp::AnyArg</a>
 </li>
 <li>isNull()
-: <a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_shared_handle.html#a4faf579bd0fba97ece58681131f54e75">cpp::reflection::parser::api::core::clang::SharedHandle&lt; RawHandle, Release &gt;</a>
+: <a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_cursor.html#ac09fdb02911b58ebecf0f08278700bad">cpp::reflection::parser::api::core::clang::Cursor</a>
+, <a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_shared_handle.html#a4faf579bd0fba97ece58681131f54e75">cpp::reflection::parser::api::core::clang::SharedHandle&lt; RawHandle, Release &gt;</a>
 , <a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_unique_handle.html#a4d3afbe403ebdb58d0a4118ff032cbf8">cpp::reflection::parser::api::core::clang::UniqueHandle&lt; RawHandle, Release &gt;</a>
 </li>
 <li>isPointer()
 : <a class="el" href="classcpp_1_1typeerasure_1_1_type_info.html#a086708b6508e17d17c67f8ceae2f1f85">cpp::typeerasure::TypeInfo</a>
 </li>
+<li>isPreprocessing()
+: <a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_cursor_kind.html#a45018431fd5bc661ca2469ba08a35c46">cpp::reflection::parser::api::core::clang::CursorKind</a>
+</li>
+<li>isReference()
+: <a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_cursor_kind.html#ad46d61abb3dd5054da13f9beb8f719eb">cpp::reflection::parser::api::core::clang::CursorKind</a>
+</li>
 <li>isRvalue()
 : <a class="el" href="classcpp_1_1_any_arg.html#adcd7b863b5ff1fc98a8218f4ff9b9f8e">cpp::AnyArg</a>
+</li>
+<li>isStatement()
+: <a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_cursor_kind.html#a109be3862ee0cfb978aa21470dcb6441">cpp::reflection::parser::api::core::clang::CursorKind</a>
+</li>
+<li>isTranslationUnit()
+: <a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_cursor_kind.html#aea0f986a5e683f0b3c6bf2157fe470b0">cpp::reflection::parser::api::core::clang::CursorKind</a>
+</li>
+<li>isUnexposed()
+: <a class="el" href="classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_cursor_kind.html#a86a7ba7cb7c411ebf33a17a2dad5e338">cpp::reflection::parser::api::core::clang::CursorKind</a>
 </li>
 <li>isUnsigned()
 : <a class="el" href="classcpp_1_1dynamic__reflection_1_1_enum.html#a5aeb159322a94c25c6d46619a89a7aec">cpp::dynamic_reflection::Enum</a>

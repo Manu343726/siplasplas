@@ -84,6 +84,7 @@ $(document).ready(function(){initNavTree('group__utility.html','');});
 <a href="#groups">Modules</a> &#124;
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#define-members">Macros</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Utility</div>  </div>
@@ -116,6 +117,9 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_identity.html">cpp::Identity</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A functor class implementing the identity function.  <a href="classcpp_1_1_identity.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_member_functor.html">cpp::MemberFunctor&lt; F, Ebo &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements optimal-storage for a functor that will be used as member of a class.  <a href="classcpp_1_1_member_functor.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classcpp_1_1_universal_reference.html">cpp::UniversalReference&lt; T, IsLvalueReference, IsConst &gt;</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Implements a copyable wrapper of an universal reference.  <a href="classcpp_1_1_universal_reference.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -131,6 +135,13 @@ Macros</h2></td></tr>
 <tr class="memitem:ga285511bcb46f7f1c74e74d8f59644a32"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__utility.html#ga285511bcb46f7f1c74e74d8f59644a32">SIPLASPLAS_UTILITY_COMPILES</a>(...)</td></tr>
 <tr class="memdesc:ga285511bcb46f7f1c74e74d8f59644a32"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if an expression is well formed.  <a href="#ga285511bcb46f7f1c74e74d8f59644a32">More...</a><br /></td></tr>
 <tr class="separator:ga285511bcb46f7f1c74e74d8f59644a32"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:ga0e0ea9e96867cd98d7f3a5d11e2315a8"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga0e0ea9e96867cd98d7f3a5d11e2315a8"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__utility.html#ga0e0ea9e96867cd98d7f3a5d11e2315a8">cpp::IsEboCandidate</a> = ::cpp::meta::bool_&lt;(sizeof(::cpp::meta::inherit&lt; T, ::cpp::meta::aggregate&lt; int &gt;&gt;)==sizeof(int)) &gt;</td></tr>
+<tr class="memdesc:ga0e0ea9e96867cd98d7f3a5d11e2315a8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if a type is a candidate for the Empty Base Optimization (EBO)  <a href="group__utility.html#ga0e0ea9e96867cd98d7f3a5d11e2315a8">More...</a><br /></td></tr>
+<tr class="separator:ga0e0ea9e96867cd98d7f3a5d11e2315a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -234,6 +245,33 @@ template&lt;typename Callable , typename... Args&gt; </td></tr>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>An implementation defined type constexpr-convertible to bool. The returned value converts to true if the expression is well formed, converts to false otherwise. </dd></dl>
+
+</div>
+</div>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="ga0e0ea9e96867cd98d7f3a5d11e2315a8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ga0e0ea9e96867cd98d7f3a5d11e2315a8">&sect;&nbsp;</a></span>IsEboCandidate</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="group__utility.html#ga0e0ea9e96867cd98d7f3a5d11e2315a8">cpp::IsEboCandidate</a> = typedef ::cpp::meta::bool_&lt; (sizeof(::cpp::meta::inherit&lt;T, ::cpp::meta::aggregate&lt;int&gt;&gt;) == sizeof(int)) &gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Checks if a type is a candidate for the Empty Base Optimization (EBO) </p>
+<p>This trait checks if the compiler would perform EBO when inheriting from the give type. This could be a hint to decide whether to store a T member by inheritance or by aggregation to save some space.</p>
+<p>Note that any compliant compiler would perform this optimization on any empty type, so using standard <code>std::is_empty</code> trait should be enough.</p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">T</td><td>Type to check EBO-ness </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

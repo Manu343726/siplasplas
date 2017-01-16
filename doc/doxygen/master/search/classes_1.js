@@ -20,5 +20,7 @@ var searchData=
   ['constnonowningstorage',['ConstNonOwningStorage',['../classcpp_1_1_const_non_owning_storage.html',1,'cpp']]],
   ['constructible',['Constructible',['../classcpp_1_1concepts_1_1_constructible.html',1,'cpp::concepts']]],
   ['copyassignable',['CopyAssignable',['../classcpp_1_1concepts_1_1_copy_assignable.html',1,'cpp::concepts']]],
-  ['copyconstructible',['CopyConstructible',['../classcpp_1_1concepts_1_1_copy_constructible.html',1,'cpp::concepts']]]
+  ['copyconstructible',['CopyConstructible',['../classcpp_1_1concepts_1_1_copy_constructible.html',1,'cpp::concepts']]],
+  ['cursor',['Cursor',['../classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_cursor.html',1,'cpp::reflection::parser::api::core::clang']]],
+  ['cursorkind',['CursorKind',['../classcpp_1_1reflection_1_1parser_1_1api_1_1core_1_1clang_1_1_cursor_kind.html',1,'cpp::reflection::parser::api::core::clang']]]
 ];

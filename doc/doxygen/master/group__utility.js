@@ -10,6 +10,13 @@ var group__utility =
       [ "type", "classcpp_1_1_identity.html#a5245b8e18284728e6cf85381a5d67f1d", null ],
       [ "type", "classcpp_1_1_identity.html#ae50ae9da1ca3ea769619bb0e38a6fad0", null ]
     ] ],
+    [ "MemberFunctor", "classcpp_1_1_member_functor.html", [
+      [ "MemberFunctor", "classcpp_1_1_member_functor.html#a57f3e5d543f532f23ada78bdb35ec313", null ],
+      [ "get", "classcpp_1_1_member_functor.html#adfc49d9f15bb194219a2b1acc0d549c1", null ],
+      [ "get", "classcpp_1_1_member_functor.html#a25739b40218d7b39ef889d88bc7a1fe4", null ],
+      [ "invoke", "classcpp_1_1_member_functor.html#a897878d1c309c6b2b401ca5437eca1ae", null ],
+      [ "invoke", "classcpp_1_1_member_functor.html#a67419e85b699d98466a1042f2d4bb1f0", null ]
+    ] ],
     [ "UniversalReference", "classcpp_1_1_universal_reference.html", [
       [ "ValueType", "classcpp_1_1_universal_reference.html#af157eab6e3c8958dc13f5b4fd3d2856f", null ],
       [ "UniversalReference", "classcpp_1_1_universal_reference.html#abdf517add357b2522ee67d23eb701332", null ],
@@ -27,6 +34,7 @@ var group__utility =
       [ "get", "classcpp_1_1_universal_reference_3_01_t_00_01false_00_01false_01_4.html#a4f3d1d2b9ae10d22abc00277a07490ba", null ]
     ] ],
     [ "SIPLASPLAS_UTILITY_COMPILES", "group__utility.html#ga285511bcb46f7f1c74e74d8f59644a32", null ],
+    [ "IsEboCandidate", "group__utility.html#ga0e0ea9e96867cd98d7f3a5d11e2315a8", null ],
     [ "addConst", "group__utility.html#ga9c62e2e4851079587baff795e67aa846", null ],
     [ "compiles", "group__utility.html#gaf4e3666d709fc6add22d09c6ab830469", null ],
     [ "construct", "group__utility.html#ga3b5da9f5d87371e7c5ee01f41e1478b8", null ],
