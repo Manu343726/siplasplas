@@ -4,6 +4,7 @@ SOURCES
     main.cpp
     visitors_test.cpp
 DEPENDS
-    siplasplas-reflection-parser-api-core-clang-test
+    siplasplas-reflection-parser-api-core-testutils
+    siplasplas-reflection-parser-api-core-clang
     CONAN_PKG::catch
 )

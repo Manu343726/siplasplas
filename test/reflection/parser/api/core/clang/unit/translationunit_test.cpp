@@ -1,15 +1,15 @@
 #include <siplasplas/reflection/parser/api/core/clang/translationunit.hpp>
 #include <gmock/gmock.h>
-#include "clangtest.hpp"
+#include <test-utils/asttest.hpp>
 
 using namespace ::testing;
 using namespace ::cpp::reflection::parser::api::core::clang;
 
-class TranslationUnitTest : public Test, cpp::test::ClangTest
+class TranslationUnitTest : public Test, cpp::test::AstTest
 {
 protected:
     TranslationUnitTest() :
-        cpp::test::ClangTest{"translationunit_test.cpp"},
+        cpp::test::AstTest{"translationunit_test.cpp"},
         tu{index.parse("translationunit_test.cpp", CompileOptions()
             .I(SIPLASPLAS_LIBCLANG_INCLUDE_DIR)
             .I(SIPLASPLAS_LIBCLANG_SYSTEM_INCLUDE_DIR)

@@ -5,12 +5,12 @@
 #include <iostream>
 #include <fstream>
 #include <range/v3/all.hpp>
-#include "clangtest.hpp"
+#include <test-utils/asttest.hpp>
 
 using namespace ::testing;
 using namespace ::cpp::reflection::parser::api::core::clang;
 
-class IndexTest : public Test, public cpp::test::ClangTest
+class IndexTest : public Test, public cpp::test::AstTest
 {
 };
 

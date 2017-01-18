@@ -1,16 +1,16 @@
-#include "clangtest.hpp"
+#include "asttest.hpp"
 #include <fstream>
 #include <siplasplas/utility/exception.hpp>
 
 using namespace ::cpp::test;
 using namespace ::cpp::constexp;
 
-ClangTest::ClangTest(const ConstStringView& helloWorldFileName)
+AstTest::AstTest(const ConstStringView& helloWorldFileName)
 {
     helloWorld(helloWorldFileName);
 }
 
-void ClangTest::writeFile(const ConstStringView& filePath, const ConstStringViews& contents)
+void AstTest::writeFile(const ConstStringView& filePath, const ConstStringViews& contents)
 {
     std::ofstream os{filePath.c_str()};
 
@@ -27,7 +27,7 @@ void ClangTest::writeFile(const ConstStringView& filePath, const ConstStringView
     }
 }
 
-void ClangTest::helloWorld(const cpp::constexp::ConstStringView& fileName)
+void AstTest::helloWorld(const cpp::constexp::ConstStringView& fileName)
 {
     writeFile(fileName, {
         "#include <iostream>",
@@ -38,4 +38,9 @@ void ClangTest::helloWorld(const cpp::constexp::ConstStringView& fileName)
         "        std::cout << word;",
         "}"
     });
+}
+
+std::string AstTest::testFile(const std::string& filename)
+{
+    return SIPLASPLAS_REFLECTION_PARSER_API_CORE_TESTUTILS_SOURCEDIR + ("/" + filename);
 }

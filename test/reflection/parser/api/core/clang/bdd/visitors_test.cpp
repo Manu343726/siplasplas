@@ -1,5 +1,5 @@
 #include <catch.hpp>
-#include "../clangtest.hpp"
+#include <test-utils/asttest.hpp>
 #include <siplasplas/reflection/parser/api/core/clang/visitor.hpp>
 #include <siplasplas/reflection/parser/api/core/clang/recursivevisitor.hpp>
 #include <siplasplas/reflection/parser/api/core/clang/kindvisitor.hpp>
@@ -50,20 +50,17 @@ SCENARIO("Visitors abort AST traversal by default")
     GIVEN("An index and a C++11 sourcefile to parse")
     {
         Index index;
-        cpp::test::ClangTest::helloWorld("visitors_test.cpp");
-
         REQUIRE(!index.isNull());
 
         WHEN("The sourcefile is parsed with clang include dirs and C++11 option")
         {
-            TranslationUnit tu = index.parse("visitors_test.cpp", CompileOptions()
+            TranslationUnit tu = index.parse(cpp::test::AstTest::testFile("helloworld.cpp"), CompileOptions()
                 .I(SIPLASPLAS_LIBCLANG_INCLUDE_DIR)
                 .I(SIPLASPLAS_LIBCLANG_SYSTEM_INCLUDE_DIR)
                 .std("c++11")
             );
 
             REQUIRE(!tu.isNull());
-            REQUIRE(tu.spelling().str().str() == "visitors_test.cpp");
 
             THEN("The visitation of the translation unit is aborted inmediately using default visitors")
             {
@@ -87,7 +84,7 @@ SCENARIO("Kind visitors visit nodes of a specific kind only")
     GIVEN("An index and a C++11 sourcefile to parse")
     {
         Index index;
-        cpp::test::ClangTest::writeFile("visitors_test.hpp",
+        cpp::test::AstTest::writeFile("visitors_test.hpp",
         {
 "#include <chrono>",
 "",
@@ -113,7 +110,6 @@ SCENARIO("Kind visitors visit nodes of a specific kind only")
             );
 
             REQUIRE(!tu.isNull());
-            REQUIRE(tu.spelling().str().str() == "visitors_test.hpp");
 
             THEN("A namespace kind visitor visits namespaces only")
             {

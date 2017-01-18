@@ -7,5 +7,6 @@ SOURCES
     index_test.cpp
     translationunit_test.cpp
 DEPENDS
-    siplasplas-reflection-parser-api-core-clang-test
+    siplasplas-reflection-parser-api-core-testutils
+    siplasplas-reflection-parser-api-core-clang
 )
