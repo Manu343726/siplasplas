@@ -3,6 +3,7 @@
 
 #include "arrayview.hpp"
 #include <string>
+#include <cstring>
 
 namespace cpp
 {
@@ -90,7 +91,11 @@ public:
          * \0 character at the end. Instead, return a range without that final
          * null terminator so std::string gets the right string
          */
-        if((*this)[size() - 1] == '\0')
+        if(size() == 0)
+        {
+            return "";
+        }
+        else if((*this)[size() - 1] == '\0')
         {
             return { begin(), end() - 1};
         }
@@ -108,6 +113,46 @@ public:
 
 using StringViews = ArrayView<const char*>;
 using ConstStringViews = ConstArrayView<const char*>;
+
+inline bool operator==(const ConstStringView& lhs, const std::string& rhs)
+{
+    return lhs == ConstStringView(rhs);
+}
+
+inline bool operator==(const StringView& lhs, const std::string& rhs)
+{
+    return lhs == ConstStringView(rhs);
+}
+
+inline bool operator==(const std::string& lhs, const ConstStringView& rhs)
+{
+    return ConstStringView(lhs) == rhs;
+}
+
+inline bool operator==(const std::string& lhs, const StringView& rhs)
+{
+    return ConstStringView(lhs) == rhs;
+}
+
+inline bool operator!=(const ConstStringView& lhs, const std::string& rhs)
+{
+    return !(lhs == rhs);
+}
+
+inline bool operator!=(const StringView& lhs, const std::string& rhs)
+{
+    return !(lhs == rhs);
+}
+
+inline bool operator!=(const std::string& lhs, const ConstStringView& rhs)
+{
+    return !(lhs == rhs);
+}
+
+inline bool operator!=(const std::string& lhs, const StringView& rhs)
+{
+    return !(lhs == rhs);
+}
 
 }
 
