@@ -13,6 +13,7 @@ SOURCES
     cursor.cpp
     cursorkind.cpp
     visitor.cpp
+    visitorinterface.cpp
     recursivevisitor.cpp
 DEPENDS
     siplasplas-utility

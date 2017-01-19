@@ -1,6 +1,7 @@
 #include <catch.hpp>
 #include <test-utils/asttest.hpp>
 #include <siplasplas/reflection/parser/api/core/clang/visitor.hpp>
+#include <siplasplas/reflection/parser/api/core/clang/visitorinterface.hpp>
 #include <siplasplas/reflection/parser/api/core/clang/recursivevisitor.hpp>
 #include <siplasplas/reflection/parser/api/core/clang/kindvisitor.hpp>
 #include <iostream>
@@ -113,54 +114,59 @@ SCENARIO("Kind visitors visit nodes of a specific kind only")
 
             THEN("A namespace kind visitor visits namespaces only")
             {
-                std::unordered_map<std::string, bool> namespaces = {
-                    { "foo", false },
-                    { "bar", false },
-                    { "quux", false },
-                    { "foobar", false },
-                    { "foobarquux", false },
+                std::unordered_map<std::string, std::size_t> namespaces = {
+                    { "foo", 0 },
+                    { "bar", 0 },
+                    { "quux", 0 },
+                    { "foobar", 0 },
+                    { "foobarquux", 0 },
                 };
 
-                class NamespaceVisitor : public KindVisitor<
+                class NamespaceVisitor : public VisitorInterface::Make<KindVisitor<
                     CursorKind::Kind::Namespace,
                     RecursiveVisitor
-                >
+                >>
                 {
                 public:
-                    NamespaceVisitor(std::unordered_map<std::string, bool>& namespaces) :
+                    NamespaceVisitor(std::unordered_map<std::string, std::size_t>& namespaces) :
                         namespaces(namespaces)
                     {}
 
-                    Visitor::Result onCursor(
-                        visitor_tags::Kind<CursorKind::Kind::Namespace>,
-                        const Cursor& current, const Cursor& parent) override
+                    VisitorResult onCursor(const Cursor& current, const Cursor& parent) override
                     {
                         REQUIRE(current.kind() == CursorKind::Kind::Namespace);
-                        std::cout << "On " << current << " (Parent: " << parent << ")" << std::endl;
 
                         auto it = namespaces.find(current.spelling().str().str());
 
                         if(it != namespaces.end())
                         {
-                            it->second = true;
+                            it->second++;
+                            std::cout << "On " << current << " (Parent: " << parent << ") [count=" << it->second << "]" << std::endl;
+                        }
+                        else
+                        {
+                            std::cout << "On " << current << " (Parent: " << parent << ")" << std::endl;
                         }
 
-                        return Visitor::Result::Continue;
+                        return VisitorResult::Continue;
                     }
 
                 private:
-                    std::unordered_map<std::string, bool>& namespaces;
+                    std::unordered_map<std::string, std::size_t>& namespaces;
                 };
 
                 NamespaceVisitor visitor{namespaces};
                 visitor.visit(tu.cursor());
 
-                for(const auto& keyValue : namespaces)
+                THEN("All namespaces are visited at least once")
                 {
-                    const auto& namespace_ = keyValue.first;
-                    const auto& visited    = keyValue.second;
+                    for(const auto& keyValue : namespaces)
+                    {
+                        const auto& namespace_ = keyValue.first;
+                        const auto& visited    = keyValue.second;
 
-                    REQUIRE(visited);
+                        REQUIRE(visited == 1);
+                    }
                 }
             }
         }

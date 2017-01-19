@@ -126,6 +126,11 @@ public:
     virtual Result onCursor(Tag, const Cursor& current, const Cursor& parent);
 };
 
+/**
+ * \brief Alias of Visitor::Result for conflicting contexts
+ */
+using VisitorResult = Visitor::Result;
+
 }
 
 }
