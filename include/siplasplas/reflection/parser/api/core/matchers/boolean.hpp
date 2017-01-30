@@ -65,7 +65,7 @@ private:
 
 /**
  * \ingroup matchers
- * \brief Implements a variadic matches that returns the
+ * \brief Implements a variadic matcher that returns the
  * logical or of its inner matchers
  */
 template<typename... Matchers>
@@ -73,7 +73,7 @@ using AnyMatcher = VariadicMatcher<std::logical_or<>, false, Matchers...>;
 
 /**
  * \ingroup matchers
- * \brief Implements a variadic matches that returns the
+ * \brief Implements a variadic matcher that returns the
  * logical and of its inner matchers
  */
 template<typename... Matchers>
