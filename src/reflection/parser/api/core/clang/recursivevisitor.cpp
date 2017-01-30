@@ -1,14 +1,19 @@
 #include "recursivevisitor.hpp"
+#include <siplasplas/utility/scopedincrement.hpp>
 
 using namespace ::cpp::reflection::parser::api::core::clang;
 
 Visitor::Result RecursiveVisitor::onCursor(Visitor::Tag, const Cursor& current, const Cursor& parent)
 {
-    if(!visit(current))
-    {
-        Result result = onCursor(Tag(), current, parent);
+    cpp::ScopedSizeCounter scopedCounter{_depth};
 
-        if(result != Result::Break)
+    // Visit siblings first:
+    Result result = onCursor(Tag(), current, parent);
+
+    if(result == Result::Continue)
+    {
+        // Then visit children (breadth first traversal)
+        if(visit(current))
         {
             return Result::Continue;
         }
@@ -25,11 +30,15 @@ Visitor::Result RecursiveVisitor::onCursor(Visitor::Tag, const Cursor& current, 
 
 Visitor::Result RecursiveVisitor::onCursor(Visitor::Tag, const Cursor& current, const Cursor& parent) const
 {
-    if(!visit(current))
-    {
-        Result result = onCursor(Tag(), current, parent);
+    cpp::ScopedSizeCounter scopedCounter{_depth};
 
-        if(result != Result::Break)
+    // Visit siblings first:
+    Result result = onCursor(Tag(), current, parent);
+
+    if(result == Result::Continue)
+    {
+        // Then visit children (breadth first traversal)
+        if(visit(current))
         {
             return Result::Continue;
         }
@@ -52,4 +61,14 @@ Visitor::Result RecursiveVisitor::onCursor(RecursiveVisitor::Tag, const Cursor& 
 Visitor::Result RecursiveVisitor::onCursor(RecursiveVisitor::Tag, const Cursor& current, const Cursor& parent)
 {
     return Result::Break;
+}
+
+std::size_t RecursiveVisitor::depth() const
+{
+    return _depth;
+}
+
+void RecursiveVisitor::resetDepth()
+{
+    _depth = 0;
 }

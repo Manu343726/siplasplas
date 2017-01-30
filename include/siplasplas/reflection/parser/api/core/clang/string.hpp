@@ -73,8 +73,14 @@ bool operator==(const String& lhs, const cpp::constexp::ConstStringView& rhs);
 bool operator==(const cpp::constexp::ConstStringView& lhs, const String& rhs);
 bool operator==(const std::string& lhs, const String& rhs);
 bool operator==(const String& lhs, const std::string& rhs);
+bool operator==(const String& lhs, const char* rhs);
+bool operator==(const char* lhs, const String& rhs);
 bool operator!=(const String& lhs, const cpp::constexp::ConstStringView& rhs);
 bool operator!=(const cpp::constexp::ConstStringView& lhs, const String& rhs);
+bool operator!=(const std::string& lhs, const String& rhs);
+bool operator!=(const String& lhs, const std::string& rhs);
+bool operator!=(const String& lhs, const char* rhs);
+bool operator!=(const char* lhs, const String& rhs);
 
 }
 

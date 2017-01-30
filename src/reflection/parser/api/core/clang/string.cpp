@@ -79,6 +79,16 @@ bool operator==(const String& lhs, const std::string& rhs)
     return rhs == lhs;
 }
 
+bool operator==(const char* lhs, const String& rhs)
+{
+    return cpp::constexp::ConstStringView(lhs) == rhs.str();
+}
+
+bool operator==(const String& lhs, const char* rhs)
+{
+    return rhs == lhs;
+}
+
 bool operator!=(const String& lhs, const cpp::constexp::ConstStringView& rhs)
 {
     return !(lhs == rhs);
@@ -95,6 +105,16 @@ bool operator!=(const std::string& lhs, const String& rhs)
 }
 
 bool operator!=(const String& lhs, const std::string& rhs)
+{
+    return !(lhs == rhs);
+}
+
+bool operator!=(const char* lhs, const String& rhs)
+{
+    return !(lhs == rhs);
+}
+
+bool operator!=(const String& lhs, const char* rhs)
 {
     return !(lhs == rhs);
 }

@@ -34,7 +34,7 @@ namespace visitor_tags
  * \ingroup clang
  * \brief Implements a recursive AST visitor interface
  *
- * A recursive visitor implements a depth-first AST traversal
+ * A recursive visitor implements a breadth-first AST traversal
  * that is guaranteed to visit all the nodes of a (sub)tree. The traversal
  * can be aborted by returning Visitor::Result::Break from the
  * onCursor() methods.
@@ -74,9 +74,22 @@ public:
      */
     virtual Result onCursor(Tag, const Cursor& current, const Cursor& parent);
 
+    /**
+     * \brief Returns the distance from the root cursor where the visitor started
+     * to the currently visited cursor
+     */
+    std::size_t depth() const;
+
+    /**
+     * \brief Sets the internal depth counter to zero
+     */
+    void resetDepth();
+
 private:
     Result onCursor(Visitor::Tag, const Cursor& current, const Cursor& parent) const override final;
     Result onCursor(Visitor::Tag, const Cursor& current, const Cursor& parent)       override final;
+
+    mutable std::size_t _depth = 0;
 };
 
 }

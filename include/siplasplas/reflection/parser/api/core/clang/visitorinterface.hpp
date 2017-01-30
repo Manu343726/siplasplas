@@ -106,6 +106,8 @@ template<typename Visitor, typename Tag>
 class VisitorInterface::Make : private Visitor, public VisitorInterface
 {
 public:
+    using Visitor::Visitor;
+
     bool visit(const Cursor& cursor) const override final
     {
         return Visitor::visit(cursor);

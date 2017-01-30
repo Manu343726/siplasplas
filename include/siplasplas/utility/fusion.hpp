@@ -148,6 +148,91 @@ auto fold(Function function, Previous&& previous, Head&& head, Tail&&... tail)
     );
 }
 
+namespace
+{
+
+template<typename Function, typename Previous, typename... Args, std::size_t... Indices>
+auto fold_tuple(Function function, Previous&& previous, const std::tuple<Args...>& tuple, cpp::meta::index_sequence<Indices...>)
+{
+    return fold(
+        function,
+        std::forward<Previous>(previous),
+        std::get<Indices>(tuple)...
+    );
+}
+
+template<typename Function, typename Previous, typename... Args, std::size_t... Indices>
+auto fold_tuple(Function function, Previous&& previous, std::tuple<Args...>&& tuple, cpp::meta::index_sequence<Indices...>)
+{
+    return fold(
+        function,
+        std::forward<Previous>(previous),
+        std::move(std::get<Indices>(tuple))...
+    );
+}
+
+template<typename Function, typename Previous>
+auto fold_tuple(Function function, Previous&& previous, const std::tuple<>& tuple, cpp::meta::index_sequence<>)
+{
+    return std::forward<Previous>(previous);
+}
+
+template<typename Function, typename Previous>
+auto fold_tuple(Function function, Previous&& previous, std::tuple<>&& tuple, cpp::meta::index_sequence<>)
+{
+    return std::forward<Previous>(previous);
+}
+
+}
+
+template<typename Function, typename Previous, typename... Args>
+auto foldTuple(Function function, Previous&& previous, const std::tuple<Args...>& tuple)
+{
+    return fold_tuple(function, std::forward<Previous>(previous), tuple, cpp::meta::make_index_sequence_for<Args...>());
+}
+
+template<typename Function, typename Previous, typename... Args>
+auto foldTuple(Function function, Previous&& previous, std::tuple<Args...>&& tuple)
+{
+    return fold_tuple(function, std::forward<Previous>(previous), std::move(tuple), cpp::meta::make_index_sequence_for<Args...>());
+}
+
+template<typename Predicate, typename... Args>
+bool anyOf(Predicate predicate, const Args&... args)
+{
+    return fold([predicate](bool previous, const auto& current)
+    {
+        return previous || predicate(current);
+    }, false, args...);
+}
+
+template<typename Predicate, typename... Args>
+bool allOf(Predicate predicate, const Args&... args)
+{
+    return fold([predicate](bool previous, const auto& current)
+    {
+        return previous && predicate(current);
+    }, true, args...);
+}
+
+template<typename Predicate, typename... Args>
+bool anyOfTuple(Predicate predicate, const std::tuple<Args...>& args)
+{
+    return fold_tuple([predicate](bool previous, const auto& current)
+    {
+        return previous || predicate(current);
+    }, false, args, cpp::meta::make_index_sequence_for<Args...>());
+}
+
+template<typename Predicate, typename... Args>
+bool allOfTuple(Predicate predicate, const std::tuple<Args...>& args)
+{
+    return fold_tuple([predicate](bool previous, const auto& current)
+    {
+        return previous && predicate(current);
+    }, true, args, cpp::meta::make_index_sequence_for<Args...>());
+}
+
 template<typename T, typename Function, typename... Args>
 std::vector<T> fmap(Function function, Args&&... args)
 {

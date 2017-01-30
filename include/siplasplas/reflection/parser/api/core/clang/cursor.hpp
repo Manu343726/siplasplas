@@ -166,6 +166,8 @@ private:
 };
 
 std::ostream& operator<<(std::ostream& os, const Cursor& cursor);
+bool operator==(const Cursor& lhs, const Cursor& rhs);
+bool operator!=(const Cursor& lhs, const Cursor& rhs);
 
 }
 

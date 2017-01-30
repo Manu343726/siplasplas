@@ -72,7 +72,20 @@ namespace clang
 
 std::ostream& operator<<(std::ostream& os, const Cursor& cursor)
 {
-    return os << cursor.spelling() << " ('" << cursor.displayName() << "', " << cursor.kind() << ")";
+    return os << "{\"" << cursor.spelling()
+        << "\" (' DisplayName: '" << cursor.displayName()
+        << "', Kind: " << cursor.kind()
+        << ", Hash: " << cursor.hash() << ")}";
+}
+
+bool operator==(const Cursor& lhs, const Cursor& rhs)
+{
+    return ::clang_equalCursors(lhs.cxCursor(), rhs.cxCursor());
+}
+
+bool operator!=(const Cursor& lhs, const Cursor& rhs)
+{
+    return !(lhs == rhs);
 }
 
 }
