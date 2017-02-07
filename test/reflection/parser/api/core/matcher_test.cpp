@@ -38,8 +38,18 @@ TEST_F(CursorMatcherTest, classDeclMatcher_matchessClassesWithSpecificNameOnly)
         {
             std::cout << "On " << result.root() << std::endl;
 
-            EXPECT_EQ(CursorKind::Kind::Namespace, result.root().kind());
-            //EXPECT_EQ(CursorKind::Kind::ClassDecl, result.cursors().get("class").kind());
+            EXPECT_EQ(CursorKind::Kind::ClassDecl, result.root().kind());
+
+            for(const auto& method : result.cursors().getAll("methods"))
+            {
+                std::cout << "Class " << result.root().spelling()
+                    << ", method " << method.displayName() << std::endl;
+            }
+            for(const auto& method : result.cursors().getAll("staticMethods"))
+            {
+                std::cout << "Class " << result.root().spelling()
+                    << ", static method " << method.displayName() << std::endl;
+            }
         }
     };
 
@@ -47,7 +57,12 @@ TEST_F(CursorMatcherTest, classDeclMatcher_matchessClassesWithSpecificNameOnly)
     MyCallback callback;
 
     finder.addMatcher(
-        namespaceDecl(unless(has(classDecl()))),
+        classDecl(
+            has(anyOf(
+                id("methods", cxxMethod(unless(isStatic()))),
+                id("staticMethods", cxxMethod(isStatic()))
+            ))
+        ),
         callback
     );
 

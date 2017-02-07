@@ -1,5 +1,6 @@
 #include "matchfinder.hpp"
 #include <siplasplas/reflection/parser/api/core/clang/recursivevisitor.hpp>
+#include "logger.hpp"
 
 using namespace cpp::reflection::parser::api::core;
 using namespace cpp::reflection::parser::api::core::clang;
@@ -78,34 +79,18 @@ bool MatchChildVisitor::findMatch(const Cursor& root)
 
 Visitor::Result MatchChildVisitor::onCursor(RecursiveVisitor::Tag, const Cursor& current, const Cursor& parent)
 {
-    if(_matches)
+    using cpp::reflection::parser::api::core::log;
+    log().debug("MatchChildVisitor::onCursor(current = {}", current);
+
+    if(RecursiveVisitor::depth() > _maxDepth)
     {
-        // Already matched previously, abort visitation
-        // (May be redundant if the conditions bellow are
-        // correctly implemented, but...)
+        // Max depth reached, abort
         return Visitor::Result::Break;
     }
     else
     {
-        if(RecursiveVisitor::depth() > _maxDepth)
-        {
-            // Max depth reached, abort
-            return Visitor::Result::Break;
-        }
-        else
-        {
-            if(_matcher.matches(current, _boundedCursors, _finder))
-            {
-                // Match found, set result and abort visitation
-                _matches = true;
-                return Visitor::Result::Break;
-            }
-            else
-            {
-                // Continue searching
-                return Visitor::Result::Continue;
-            }
-        }
+        _matches = _matcher.matches(current, _boundedCursors, _finder);
+        return Visitor::Result::Continue;
     }
 }
 
@@ -164,6 +149,8 @@ void MatchingAstVisitor::match(const Cursor& root)
 
 VisitorResult MatchingAstVisitor::onCursor(RecursiveVisitor::Tag, const Cursor& current, const Cursor& parent)
 {
+    using cpp::reflection::parser::api::core::log;
+    log().debug("MatchingAstVisitor::onCursor(current = {}", current);
     // Try to find a match in the currently visited node
     // Note this may spawn new recursive visitors to find
     // inner matches in the AST

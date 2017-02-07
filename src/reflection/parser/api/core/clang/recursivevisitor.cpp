@@ -13,7 +13,7 @@ Visitor::Result RecursiveVisitor::onCursor(Visitor::Tag, const Cursor& current, 
     if(result == Result::Continue)
     {
         // Then visit children (breadth first traversal)
-        if(visit(current))
+        if(!visit(current))
         {
             return Result::Continue;
         }
@@ -38,7 +38,7 @@ Visitor::Result RecursiveVisitor::onCursor(Visitor::Tag, const Cursor& current, 
     if(result == Result::Continue)
     {
         // Then visit children (breadth first traversal)
-        if(visit(current))
+        if(!visit(current))
         {
             return Result::Continue;
         }

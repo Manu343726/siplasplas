@@ -6,18 +6,7 @@ using namespace cpp::reflection::parser::api::core::clang;
 
 void BoundCursors::bind(ConstStringView name, const Cursor& cursor)
 {
-    auto result = _cursors.insert({name.str(), cursor});
-
-    if(!result.second)
-    {
-        const Cursor& alreadyBound = result.first->second;
-
-        throw cpp::exception<std::runtime_error>(
-            "A cursor is already bound to the name '{}' ({})",
-            name,
-            alreadyBound
-        );
-    }
+    _cursors[name.str()].push_back(cursor);
 }
 
 const Cursor& BoundCursors::get(ConstStringView name) const
@@ -26,7 +15,24 @@ const Cursor& BoundCursors::get(ConstStringView name) const
 
     if(it != _cursors.end())
     {
-        return it->second;
+        return it->second.front();
+    }
+    else
+    {
+        throw cpp::exception<std::out_of_range>(
+            "No cursor bound with name '{}'",
+            name
+        );
+    }
+}
+
+ConstArrayView<Cursor> BoundCursors::getAll(ConstStringView name) const
+{
+    auto it = _cursors.find(name.str());
+
+    if(it != _cursors.end())
+    {
+        return {it->second.data(), it->second.size()};
     }
     else
     {

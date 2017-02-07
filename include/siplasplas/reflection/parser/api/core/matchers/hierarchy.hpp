@@ -140,7 +140,6 @@ private:
  * \tparam Matchers Inner matcher types
  */
 template<typename... Matchers>
-template<typename... Matchers>
 class DescendantMatcher : public MatcherInterface
 {
 public:

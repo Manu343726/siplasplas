@@ -3,7 +3,9 @@
 
 #include "clang/cursor.hpp"
 #include <siplasplas/constexpr/stringview.hpp>
+#include <siplasplas/constexpr/arrayview.hpp>
 #include <siplasplas/reflection/parser/api/core/export.hpp>
+#include <vector>
 
 namespace cpp
 {
@@ -40,11 +42,18 @@ public:
 
     /**
      * \brief Returns the matching cursor bound to the given name
+     *
+     * If there are multiple cursors bound to the given name, returns the first one
      */
     const core::clang::Cursor& get(cpp::constexp::ConstStringView name) const;
 
+    /**
+     * \brief Returns the set of cursors bound to a given name
+     */
+    cpp::constexp::ConstArrayView<core::clang::Cursor> getAll(cpp::constexp::ConstStringView name) const;
+
 private:
-    std::unordered_map<std::string, core::clang::Cursor> _cursors;
+    std::unordered_map<std::string, std::vector<core::clang::Cursor>> _cursors;
 };
 
 class AstMatchFinder;
