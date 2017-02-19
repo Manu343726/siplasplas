@@ -7,24 +7,15 @@ Visitor::Result RecursiveVisitor::onCursor(Visitor::Tag, const Cursor& current, 
 {
     cpp::ScopedSizeCounter scopedCounter{_depth};
 
-    // Visit siblings first:
     Result result = onCursor(Tag(), current, parent);
 
     if(result == Result::Continue)
     {
-        // Then visit children (breadth first traversal)
-        if(!visit(current))
-        {
-            return Result::Continue;
-        }
-        else
-        {
-            return Result::Break;
-        }
+        return Result::Recurse;
     }
     else
     {
-        return Result::Break;
+        return Result::Continue;
     }
 }
 

@@ -42,6 +42,11 @@ class SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_EXPORT Cursor
 public:
 
     /**
+     * \brief Returns the null cursor, which represents no entity
+     */
+    static Cursor null();
+
+    /**
      * \brief Initializes a Cursor with a CXCursor object returned
      * by the libclang API
      */
@@ -160,6 +165,26 @@ public:
      * \brief Returns a hash value for this cursor
      */
     std::size_t hash() const;
+
+    /**
+     * \brief Returns the number of levels from the root of the AST to this
+     * cursor
+     */
+    std::size_t depth() const;
+
+    /**
+     * \brief Returns the number of AST levels between this cursor
+     * and one of its ancestors. The behavior is undefined if the given
+     * cursor is not an ancestor
+     */
+    std::size_t distanceToAncestor(const Cursor& ancestor) const;
+
+    /**
+     * \brief Returns the number of AST levels between this cursor
+     * and one of its descendants. The behavior is undefined if the given
+     * cursor is not a descendant
+     */
+    std::size_t distanceToDescendant(const Cursor& ancestor) const;
 
 private:
     ::CXCursor _cursor;
