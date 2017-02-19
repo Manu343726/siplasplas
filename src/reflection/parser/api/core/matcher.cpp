@@ -36,10 +36,8 @@ ConstArrayView<Cursor> BoundCursors::getAll(ConstStringView name) const
     }
     else
     {
-        throw cpp::exception<std::out_of_range>(
-            "No cursor bound with name '{}'",
-            name
-        );
+        // Returns empty view
+        return {};
     }
 }
 
