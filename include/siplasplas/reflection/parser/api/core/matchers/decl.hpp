@@ -51,6 +51,19 @@ SIPLASPLAS_REFLECTION_PARSER_API_CORE_MATCHERS_KINDMATCHER(classDecl, ClassDecl)
 
 /**
  * \ingroup matchers
+ * \brief Matches a class template declaration
+ *
+ * \param innerMatchers Set of inner matchers
+ *
+ * ``` cpp
+ * // A class with a class template member:
+ * classDecl(has(classTemplate()))
+ * ```
+ */
+SIPLASPLAS_REFLECTION_PARSER_API_CORE_MATCHERS_KINDMATCHER(classTemplate, ClassTemplate)
+
+/**
+ * \ingroup matchers
  * \brief Matches a C++ member function declaration
  *
  * \param innerMatchers Set of inner matchers
@@ -61,6 +74,20 @@ SIPLASPLAS_REFLECTION_PARSER_API_CORE_MATCHERS_KINDMATCHER(classDecl, ClassDecl)
  * ```
  */
 SIPLASPLAS_REFLECTION_PARSER_API_CORE_MATCHERS_KINDMATCHER(cxxMethod, CXXMethod)
+
+/**
+ * \ingroup matchers
+ * \brief Matches a member variable declaration from a C struct,
+ * union, or C++ class
+ *
+ * \param innerMatchers Set of inner matchers
+ *
+ * ``` cpp
+ * // A class with at a field:
+ * classDecl(has(fieldDecl()))
+ * ```
+ */
+SIPLASPLAS_REFLECTION_PARSER_API_CORE_MATCHERS_KINDMATCHER(fieldDecl, FieldDecl)
 
 /**
  * \ingroup matchers
