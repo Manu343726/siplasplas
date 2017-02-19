@@ -49,6 +49,7 @@ private:
     AstMatchFinder& _finder;
     const std::size_t _maxDepth;
     bool _matches;
+    Cursor _root;
 
     Visitor::Result onCursor(RecursiveVisitor::Tag, const Cursor& current, const Cursor& parent);
 
@@ -65,13 +66,15 @@ MatchChildVisitor::MatchChildVisitor(
     _boundedCursors(boundedCursors),
     _finder(finder),
     _maxDepth{maxDepth},
-    _matches{false}
+    _matches{false},
+    _root{Cursor::null()}
 {}
 
 bool MatchChildVisitor::findMatch(const Cursor& root)
 {
     reset();
 
+    _root = root;
     Visitor::visit(root);
 
     return _matches;
@@ -80,16 +83,23 @@ bool MatchChildVisitor::findMatch(const Cursor& root)
 Visitor::Result MatchChildVisitor::onCursor(RecursiveVisitor::Tag, const Cursor& current, const Cursor& parent)
 {
     using cpp::reflection::parser::api::core::log;
-    log().debug("MatchChildVisitor::onCursor(current = {}", current);
+    std::size_t depth = current.distanceToAncestor(_root);
 
-    if(RecursiveVisitor::depth() > _maxDepth)
+    if(current.distanceToAncestor(_root) > _maxDepth)
     {
+        log().debug("MatchChildVisitor::onCursor((depth: {}) current = {}, parent = {}): Max depth ({}) reached", depth, current, parent, _maxDepth);
         // Max depth reached, abort
         return Visitor::Result::Break;
     }
     else
     {
-        _matches = _matcher.matches(current, _boundedCursors, _finder);
+        log().debug("MatchChildVisitor::onCursor((depth: {}) current = {}, parent = {})", depth, current, parent);
+
+        if(_matcher.matches(current, _boundedCursors, _finder))
+        {
+            _matches = true;
+        }
+
         return Visitor::Result::Continue;
     }
 }
@@ -98,6 +108,7 @@ void MatchChildVisitor::reset()
 {
     _matches = false;
     RecursiveVisitor::resetDepth();
+    _root = Cursor::null();
 }
 
 //
