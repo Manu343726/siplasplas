@@ -73,7 +73,12 @@ public:
         return _begin + i;
     }
 
-    constexpr T operator[](std::size_t i) const
+    constexpr const T& operator[](std::size_t i) const
+    {
+        return _begin[i];
+    }
+
+    constexpr T& operator[](std::size_t i)
     {
         return _begin[i];
     }

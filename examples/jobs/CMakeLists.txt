@@ -1,0 +1,1 @@
+add_siplasplas_example_simple(jobs DEPENDS siplasplas-jobs)

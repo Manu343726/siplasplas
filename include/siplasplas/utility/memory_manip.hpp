@@ -14,7 +14,7 @@
 
 namespace cpp
 {
-    namespace detail
+    inline namespace detail
     {
         /**
          * \ingroup memory-manip
@@ -432,6 +432,15 @@ namespace cpp
         private:
             char* _at;
         };
+
+        /**
+         * \brief Returns the lenght of the CPU cache line in bytes
+         */
+        constexpr std::size_t cachelineBytes()
+        {
+            // Yes, I know, this is not portable at all
+            return 64;
+        }
     }
 }
 

@@ -40,6 +40,7 @@ std::shared_ptr<spdlog::logger> Logger::addLogger(const std::string& name)
     distSink->add_sink(commonSink());
     auto logger = std::make_shared<spdlog::logger>(name, distSink);
     logger->set_level(LOG_LEVEL);
+    logger->flush_on(spdlog::level::debug);
 
     spdlog::register_logger(logger);
 

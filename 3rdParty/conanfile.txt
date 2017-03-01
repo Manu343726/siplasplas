@@ -7,7 +7,6 @@ fmt/3.0.0@memsharded/testing
 nlJson/2.0.2@arnemertz/stable
 googlemock/1.7.0@azriel91/stable-1
 libexecstream/0.3.0@Manu343726/testing
-
 backward/1.3.0@Manu343726/testing
 readerwriterqueue/1.0.0@Manu343726/testing
 efsw/1.0.0@Manu343726/testing
@@ -16,6 +15,7 @@ ChaiScript/5.8.5@Manu343726/testing
 range-v3/latest@ericniebler/stable
 type_safe/0.1@Manu343726/testing
 catch/1.3.0@TyRoXx/stable
+concurrentqueue/1.0.0@Manu343726/testing
 
 [options]
 fmt:shared=False
