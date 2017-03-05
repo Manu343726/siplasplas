@@ -15,6 +15,8 @@ SOURCES
     visitor.cpp
     visitorinterface.cpp
     recursivevisitor.cpp
+    file.cpp
+    sourcelocation.cpp
 DEPENDS
     siplasplas-utility
     siplasplas-constexpr

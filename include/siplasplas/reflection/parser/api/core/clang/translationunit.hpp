@@ -10,6 +10,8 @@
 #include "diagnostic.hpp"
 #include "cursor.hpp"
 #include "handleentity.hpp"
+#include "sourcelocation.hpp"
+#include "file.hpp"
 
 namespace cpp
 {
@@ -47,6 +49,37 @@ class SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_EXPORT TranslationUnit
 {
 public:
     using core::clang::UniqueHandleEntity<core::clang::CXTranslationUnit>::UniqueHandleEntity;
+
+    /**
+     * \brief Represents a translation unit inclusion
+     */
+    class SIPLASPLAS_REFLECTION_PARSER_API_CORE_CLANG_EXPORT Inclusion
+    {
+    public:
+        Inclusion(const core::clang::File& file, std::vector<core::clang::SourceLocation>&& stack);
+
+        /**
+         * \brief Returns the file being included
+         */
+        const core::clang::File& file() const;
+
+        /**
+         * \brief Returns the inclusion stack, the set of locations of the include
+         * directives that reached this included file. The array is sorted from the
+         * rearest inclusion (The file that inmediately included this file) and goes
+         * upwards (To the outermost file in the translation unit)
+         */
+        cpp::constexp::ConstArrayView<core::clang::SourceLocation> stack() const;
+
+    private:
+        core::clang::File _includedFile;
+        std::vector<core::clang::SourceLocation> _includeStack;
+    };
+
+    /**
+     * \brief Returns the set of inclusions of this translation unit
+     */
+    std::vector<Inclusion> inclusions() const;
 
     /**
      * \brief Returns the original translation unit source file name

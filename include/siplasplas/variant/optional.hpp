@@ -13,7 +13,7 @@ public:
     Optional() = default;
 
     template<typename Arg, typename... Args>
-    Optional(Arg&& arg, Args&&... args) :
+    explicit Optional(Arg&& arg, Args&&... args) :
         _variant{T{std::forward<Arg>(arg), std::forward<Args>(args)...}}
     {}
 
@@ -116,7 +116,7 @@ public:
 template<typename T>
 Optional<std::decay_t<T>> just(T&& value)
 {
-    return {value};
+    return Optional<std::decay_t<T>>{std::forward<T>(value)};
 }
 
 inline Nothing nothing()
