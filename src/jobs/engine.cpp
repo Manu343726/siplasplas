@@ -3,14 +3,16 @@
 
 using namespace cpp::jobs;
 
-Engine::Engine(std::size_t workerThreads, std::size_t jobsPerThread)
+Engine::Engine(std::size_t workerThreads, std::size_t jobsPerThread) :
+    _randomEngine{std::random_device()()},
+    _dist{0, workerThreads}
 {
     std::size_t jobsPerQueue = jobsPerThread / 128;
-    _workers.emplace_back(std::make_unique<Worker>(this, jobsPerQueue, Worker::Mode::Sync));
+    _workers.emplace_back(std::make_unique<Worker>(this, jobsPerQueue, Worker::Mode::Foreground));
 
     for(std::size_t i = 1; i < workerThreads; ++i)
     {
-        _workers.emplace_back(std::make_unique<Worker>(this, jobsPerQueue, Worker::Mode::Async));
+        _workers.emplace_back(std::make_unique<Worker>(this, jobsPerQueue, Worker::Mode::Background));
     }
 
     for(auto& worker : _workers)
@@ -21,10 +23,7 @@ Engine::Engine(std::size_t workerThreads, std::size_t jobsPerThread)
 
 Worker* Engine::randomWorker()
 {
-    std::random_device rd;
-    std::default_random_engine gen{rd()};
-    std::uniform_int_distribution<std::size_t> dist{0, _workers.size()};
-    Worker* worker = _workers[dist(gen)].get();
+    Worker* worker = _workers[_dist(_randomEngine)].get();
 
     if(worker != nullptr && worker->running())
     {

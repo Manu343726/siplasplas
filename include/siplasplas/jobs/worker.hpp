@@ -20,8 +20,8 @@ class SIPLASPLAS_JOBS_EXPORT Worker
 public:
     enum class Mode
     {
-        Async,
-        Sync
+        Background,
+        Foreground
     };
 
     enum class State
@@ -31,7 +31,7 @@ public:
         Stopping
     };
 
-    Worker(Engine* engine, std::size_t poolSize, Mode mode = Mode::Async);
+    Worker(Engine* engine, std::size_t poolSize, Mode mode = Mode::Background);
     ~Worker();
 
     std::thread::id threadId() const;

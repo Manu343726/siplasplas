@@ -7,7 +7,7 @@ using namespace cpp::jobs;
 
 int main()
 {
-    Engine engine{4, 1024*1024*1024};
+    Engine engine{8, 1024*1024*1024};
     Worker* worker = engine.threadWorker();
 
     Job* root = worker->pool().createJob([](Job& job)

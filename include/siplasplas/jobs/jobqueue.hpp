@@ -2,7 +2,6 @@
 #define SIPLASPLAS_JOBS_JOBQUEUE_HPP
 
 #include "job.hpp"
-#include <mutex>
 #include <vector>
 
 namespace cpp
@@ -23,11 +22,8 @@ public:
     bool empty() const;
 
 private:
-    mutable std::mutex _mutex;
     std::vector<Job*> _jobs;
     std::atomic<int> _top, _bottom;
-
-    int unsafeSize() const;
 };
 
 }

@@ -59,7 +59,7 @@ void Worker::run()
 
 
 
-    if(_mode == Mode::Async)
+    if(_mode == Mode::Background)
     {
         _workerThread = std::thread{mainLoop};
         _workerThreadId = _workerThread.get_id();
@@ -154,7 +154,7 @@ Job* Worker::getJob()
     }
     else
     {
-        // Stole job from another worker
+        // Steal job from another worker
 
         Worker* worker = _engine->randomWorker();
 

@@ -56,7 +56,6 @@ Job* closure(Job* job, Function function, Job* parent = nullptr)
             // Destroy the payload closure before leaving the job
             cpp::destroy(closure);
         });
-
     };
 
     // Initialize the allocated job:

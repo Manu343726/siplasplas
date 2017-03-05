@@ -95,16 +95,9 @@ Job* JobQueue::steal()
     }
 }
 
-
-int JobQueue::unsafeSize() const
-{
-    return _bottom - _top;
-}
-
 std::size_t JobQueue::size() const
 {
-    std::lock_guard<std::mutex> guard{_mutex};
-    return unsafeSize();
+    return _top - _bottom;
 }
 
 bool JobQueue::empty() const
