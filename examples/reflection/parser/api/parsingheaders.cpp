@@ -1,5 +1,6 @@
 #include <siplasplas/jobs/engine.hpp>
 #include <siplasplas/reflection/parser/api/core/clang/index.hpp>
+#include <siplasplas/constexpr/arrayview.hpp>
 
 using namespace cpp::jobs;
 using namespace cpp::reflection::parser::api::core::clang;
@@ -14,15 +15,14 @@ public:
 
     void run()
     {
-        std::unordered_map<std::string, TranslationUnit> tus;
-        tus.reserve(_files.size());
-
         Job* compileFiles = _engine.threadWorker()->pool().createClosureJob(
-            [this, &tus](Job& job)
+            [this](Job& job)
             {
                 for(const auto& file : _files)
                 {
-                    parseFile(file, tus, job);
+                    std::cout << "Parser::run(): " << file << std::endl;
+
+                    parseFile(file, job);
                 }
             }
         );
@@ -33,42 +33,90 @@ public:
 
     TranslationUnit parseFile(const std::string& file)
     {
+        std::cout << "Parser::parseFile(\"" << file << "\")" << std::endl;
+
         return _index.parse(file, CompileOptions()
-            .std("c++11")
+            .std("c++14")
             .I(SIPLASPLAS_LIBCLANG_INCLUDE_DIR)
             .I(SIPLASPLAS_LIBCLANG_SYSTEM_INCLUDE_DIR)
+            .I(SIPLASPLAS_INCLUDE_DIR)
+            .I(SIPLASPLAS_REFLECTION_OUTPUT_DIR)
+            .I(SIPLASPLAS_EXPORTS_DIR)
+            .I(CTTI_INCLUDE_DIR)
         );
     }
 
-    void parseFile(const std::string& file, std::unordered_map<std::string, TranslationUnit>& tus, Job& parentJob)
+    void parseFile(const std::string& file, Job& parentJob)
     {
         Job* fileJob = _engine.threadWorker()->pool().createClosureJobAsChild(
-            [this, file, &tus, &parentJob](Job& fileJob)
+            [this, file, &parentJob](Job& fileJob)
             {
-                auto tu = parseFile(file);
-                auto inclusions = tu.inclusions();
-                std::unordered_map<std::string, TranslationUnit> tus;
-                tus.reserve(inclusions.size());
-
-                for(const auto& inclusion : inclusions)
+                if(!alreadyParsed(file))
                 {
-                    parseFile(inclusion.file().fileName().str().str(), tus, fileJob);
+                    auto tu = parseFile(file);
+                    auto inclusions = tu.inclusions();
+                    storeTu(file, tu);
+
+                    for(const auto& inclusion : inclusions)
+                    {
+                        parseFile(inclusion.file().fileName().str().str(), fileJob);
+                    }
+                }
+                else
+                {
+                    std::cout << "Parser::parseFile(\"" << file << "\"): Already parsed, skipping" << std::endl;
                 }
             },
             &parentJob
         );
 
-        _engine.threadWorker()->submit(fileJob);
+        if(fileJob)
+        {
+            _engine.threadWorker()->submit(fileJob);
+        }
     }
 
+    const std::unordered_map<std::string, TranslationUnit>& translationUnits() const
+    {
+        return _tus;
+    }
 private:
     Index _index;
     std::vector<std::string> _files;
+    mutable std::recursive_mutex _lockTus;
+    std::unordered_map<std::string, TranslationUnit> _tus;
     Engine _engine;
+
+    bool alreadyParsed(const std::string& file) const
+    {
+        std::lock_guard<std::recursive_mutex> guard{_lockTus};
+        return _tus.find(file) != _tus.end();
+    }
+
+    void storeTu(const std::string& file, TranslationUnit& tu)
+    {
+        std::lock_guard<std::recursive_mutex> guard{_lockTus};
+
+        if(!alreadyParsed(file))
+        {
+            _tus.emplace(file, std::move(tu));
+        }
+        else
+        {
+            std::cout << "Parser::storeTu(\"" << file << "\"): Already parsed, will be ignored..." << std::endl;
+        }
+    }
 };
 
 int main()
 {
-    Parser parser{{"../../astexamples.hpp", "../../myclass.hpp", "../../myenum.hpp"}, 4};
+    Parser parser{{
+        SIPLASPLAS_INCLUDE_DIR "/siplasplas/reflection/parser/api/core/clang/index.hpp"
+    }, 4};
     parser.run();
+
+    for(const auto& keyValue : parser.translationUnits())
+    {
+        std::cout << "TranslationUnit: " << keyValue.second.spelling() << std::endl;
+    }
 }

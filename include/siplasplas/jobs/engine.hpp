@@ -3,6 +3,7 @@
 
 #include "worker.hpp"
 #include <siplasplas/constexpr/arrayview.hpp>
+#include <siplasplas/utility/staticvector.hpp>
 #include <random>
 
 namespace cpp
@@ -44,11 +45,17 @@ public:
     Worker* randomWorker();
 
     /**
-     * \brief Returns the worker associated to this thread.
+     * \brief Returns the worker associated to a given thread
      *
-     * \returns A pointer to the worker which is using the caller thread to
-     * process work. Nullptr if there is no worker associated to the
-     * caller thread
+     * \param threadId Id of the thread
+     *
+     * \returns A pointer to the worker which is using the given thread
+     * as worker thread, nullptr if no worker is using the give thread.
+     */
+    Worker* findThreadWorker(const std::thread::id threadId);
+
+    /**
+     * \brief Returns the worker associated to the caller thread
      */
     Worker* threadWorker();
 
@@ -56,10 +63,23 @@ public:
      * \brief Returns a view to the set of workers, which can be used to gather
      * statistics
      */
-    cpp::constexp::ConstArrayView<std::unique_ptr<Worker>> workers() const;
+    cpp::constexp::ConstArrayView<Worker> workers() const;
+
+    /**
+     * \brief Returns a view to the set of workers, which can be used to gather
+     * statistics
+     */
+    cpp::constexp::ArrayView<Worker> workers();
+
+    /**
+     * \brief Returns the total number of jobs run by the engine
+     */
+    std::size_t totalJobsRun() const;
+
+    ~Engine();
 
 private:
-    std::vector<std::unique_ptr<Worker>> _workers;
+    cpp::StaticVector<Worker> _workers;
     std::default_random_engine _randomEngine;
     std::uniform_int_distribution<std::size_t> _dist;
 };

@@ -59,7 +59,6 @@ public:
         is_copy_assignable,
         is_move_assignable,
         is_destructible,
-        is_trivially_default_constructible,
         is_trivially_copy_constructible,
         is_trivially_move_constructible,
         is_trivially_copy_assignable,
@@ -133,7 +132,6 @@ public:
                 BITSET_TRAIT(is_copy_assignable) |
                 BITSET_TRAIT(is_move_assignable) |
                 BITSET_TRAIT(is_destructible) |
-                BITSET_TRAIT(is_trivially_default_constructible) |
                 BITSET_TRAIT(is_trivially_copy_constructible) |
                 BITSET_TRAIT(is_trivially_move_constructible) |
                 BITSET_TRAIT(is_trivially_copy_assignable) |
@@ -201,6 +199,12 @@ public:
     {
         return !(lhs == rhs);
     }
+
+    struct Null {};
+
+    constexpr TypeInfo() :
+        TypeInfo{get<Null>()}
+    {}
 
 private:
     ctti::type_id_t _typeId;

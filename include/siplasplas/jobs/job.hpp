@@ -4,10 +4,12 @@
 #include <siplasplas/jobs/export.hpp>
 #include <siplasplas/utility/memory_manip.hpp>
 #include <siplasplas/utility/destroy.hpp>
+#include <ctti/type_id.hpp>
 #include <atomic>
 #include <type_traits>
 #include <cstdint>
 #include <cstring>
+#include <thread>
 
 namespace cpp
 {
@@ -91,6 +93,11 @@ public:
     bool finished() const;
 
     /**
+     * \brief Returns the number of children unfinished jobs left
+     */
+    std::uint32_t unfinishedChildrenJobs() const;
+
+    /**
      * \brief Returns the parent of the job
      *
      * \returns A pointer to the parent job, nullptr if the job has no parent
@@ -98,23 +105,45 @@ public:
     Job* parent() const;
 
     /**
+     * \brief Returns the function associated with the job
+     */
+    JobFunction function() const;
+
+    /**
      * \brief Discards the job, marking it as processed even if the job function
      * has not been executed.
      */
     void discard();
 
-private:
-    JobFunction _function;
-    Job* _parent;
-    std::atomic<std::uint32_t> _unfinishedChildrenJobs;
+    /**
+     * \brief Changes the job function so an action is executed when the
+     * job is marked as finished. Invoking this method outside the job function
+     * has undefined behavior.
+     *
+     * \param jobFunction Function that will be invoked when the job finishes
+     */
+    void whenFinished(JobFunction jobFunction);
 
-    static constexpr const std::size_t JOB_PAYLOAD_SIZE = sizeof(_function) + sizeof(_parent) + sizeof(_unfinishedChildrenJobs);
-    static constexpr const std::size_t JOB_PADDING_SIZE = cpp::cachelineBytes() - JOB_PAYLOAD_SIZE;
-    static_assert(JOB_PAYLOAD_SIZE < cpp::cachelineBytes(), "Job payload does not fit in a cache line");
+private:
+    struct Payload
+    {
+        JobFunction function;
+        Job* parent;
+        std::atomic<std::uint32_t> unfinishedChildrenJobs;
+    };
+
+    Payload _payload;
+
+    static constexpr const std::size_t JOB_PAYLOAD_SIZE = sizeof(Payload);
+    static constexpr const std::size_t JOB_MAX_PADDING_SIZE = cpp::cachelineBytes() * 2;
+    static constexpr const std::size_t JOB_PADDING_SIZE = JOB_MAX_PADDING_SIZE - JOB_PAYLOAD_SIZE;
+    static_assert(JOB_PAYLOAD_SIZE < JOB_MAX_PADDING_SIZE, "Job payload does not fit in a cache line");
 
     char _padding[JOB_PADDING_SIZE];
 
     void finish();
+    void incrementUnfinishedChildrenJobs();
+    bool decrementUnfinishedChildrenJobs();
 
     template<typename Data>
     std::enable_if_t<std::is_pod<Data>::value && sizeof(Data) <= JOB_PADDING_SIZE>
@@ -165,6 +194,25 @@ public:
     const void* data() const;
 
     /**
+     * \brief Constructs an object in the data storage of the job
+     *
+     * This function constructs in place an object of the given type
+     * at the beginning of the job data storage. Users must manually
+     * invoke object destructor later.
+     *
+     * \tparam T Type of the object that will be constructed
+     * \param args Constructor arguments
+     */
+    template<typename T, typename... Args>
+    void constructData(Args&&... args)
+    {
+        static_assert(sizeof(T) <= JOB_MAX_PADDING_SIZE, "Objects of that type do not fit in "
+            "the job data storage");
+
+        cpp::construct<T>(data(), std::forward<Args>(args)...);
+    }
+
+    /**
      * \brief Returns the maximum size of the data that can be associated with a job
      */
     static constexpr std::size_t maxDataSize()
@@ -174,6 +222,8 @@ public:
 };
 
 static_assert(std::is_pod<Job>::value, "Job type must be a POD");
+
+std::ostream& operator<<(std::ostream& os, const Job& job);
 
 }
 

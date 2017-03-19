@@ -34,6 +34,7 @@ option(SIPLASPLAS_ENABLE_ASSERTS "Force assertions, which are disabled by defaul
 option(SIPLASPLAS_DUMP_ERRORS "Dump error logs after running an executable. Implies SIPLASPLAS_CLEAR_LOGS" ON)
 option(SIPLASPLAS_IMGUI_SFML_EXAMPLES_ENABLED "Enable examples using imgui and SFML" OFF)
 option(SIPLASPLAS_VERBOSE_DRLPARSER "Run reflection parser with detailed diagnostics" OFF)
+option(SIPLASPLAS_UFTRACE "Build siplasplas targets with function tracing enabled for uftrace" OFF)
 
 include(cmake/siplasplas.cmake)
 include(3rdParty/conan.cmake)

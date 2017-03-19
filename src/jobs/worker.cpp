@@ -25,11 +25,6 @@ void Worker::run()
 
     auto mainLoop = [this]
     {
-        _running = true;
-        _state = State::Running;
-
-        jobs::log().debug("[worker {}] Main loop started...", threadId());
-
         while(_running)
         {
             Job* job = getJob();
@@ -44,20 +39,9 @@ void Worker::run()
             {
                 ++_cyclesWithoutJobs;
                 _maxCyclesWithoutJobs = std::max(_cyclesWithoutJobs, _maxCyclesWithoutJobs);
-
-                if(_cyclesWithoutJobs % 1000 == 0)
-                {
-                    jobs::log().debug("[worker {}] Worker::run(): {} cycles without getting any job to run",
-                        _cyclesWithoutJobs, threadId());
-                }
             }
         }
-
-        _state = State::Stopping;
-        jobs::log().debug("[worker {}] Stopping...", threadId());
     };
-
-
 
     if(_mode == Mode::Background)
     {
@@ -66,22 +50,21 @@ void Worker::run()
     }
     else
     {
-        _running = true;
-        _state = State::Running;
         _workerThreadId = std::this_thread::get_id();
     }
 
-    jobs::log().debug("[worker {}] Starting...", threadId());
+    _running = true;
+    _state = State::Running;
 }
 
 void Worker::stop()
 {
-    _running = false;
+    bool expected = true;
+    while(!_running.compare_exchange_weak(expected, false));
+
+    _state = State::Stopping;
     join();
     _state = State::Idle;
-
-    jobs::log().debug("Worker {} stopped. Stopped by thread {}",
-        threadId(), std::this_thread::get_id());
 }
 
 Worker::~Worker()
@@ -93,9 +76,7 @@ void Worker::join()
 {
     if(std::this_thread::get_id() != threadId() && _workerThread.joinable())
     {
-        jobs::log().debug("Waiting for worker {} to exit...", threadId());
         _workerThread.join();
-        jobs::log().debug("Worker thread {} finished", threadId());
     }
 }
 
@@ -113,9 +94,9 @@ void Worker::submit(Job* job)
     }
 }
 
-void Worker::wait(Job* job)
+void Worker::wait(Job* waitJob)
 {
-    while(!job->finished())
+    while(!waitJob->finished())
     {
         Job* job = getJob();
 
@@ -129,12 +110,6 @@ void Worker::wait(Job* job)
         {
             ++_cyclesWithoutJobs;
             _maxCyclesWithoutJobs = std::max(_cyclesWithoutJobs, _maxCyclesWithoutJobs);
-
-            if(_cyclesWithoutJobs % 1000 == 0)
-            {
-                jobs::log().debug("[worker {}] Worker::wait(): {} cycles without getting any job to run",
-                    _cyclesWithoutJobs, threadId());
-            }
         }
     }
 }
@@ -206,4 +181,29 @@ std::size_t Worker::maxCyclesWithoutJobs() const
 std::size_t Worker::totalJobsDiscarded() const
 {
     return _totalJobsDiscarded;
+}
+
+namespace cpp
+{
+
+namespace jobs
+{
+
+std::ostream& operator<<(std::ostream& os, const Worker::State state)
+{
+    switch(state)
+    {
+    case Worker::State::Idle:
+        return os << "Worker::State::Idle";
+    case Worker::State::Running:
+        return os << "Worker::State::Running";
+    case Worker::State::Stopping:
+        return os << "Worker::State::Stopping";
+    default:
+        return os << "Unknown Worker::State value (" << static_cast<std::underlying_type_t<Worker::State>>(state) << ")";
+    }
+}
+
+}
+
 }

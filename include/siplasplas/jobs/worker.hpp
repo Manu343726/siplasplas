@@ -4,6 +4,7 @@
 #include "pool.hpp"
 #include "job.hpp"
 #include "jobqueue.hpp"
+#include "lockedjobqueue.hpp"
 #include <thread>
 #include <atomic>
 
@@ -15,6 +16,12 @@ namespace jobs
 
 class Engine;
 
+using WorkQueue = cpp::jobs::JobQueue;
+
+/**
+ * \ingroup jobs
+ * \
+ */
 class SIPLASPLAS_JOBS_EXPORT Worker
 {
 public:
@@ -50,7 +57,7 @@ public:
     std::size_t maxCyclesWithoutJobs() const;
 
 private:
-    JobQueue _workQueue;
+    WorkQueue _workQueue;
     Pool _pool;
     Engine* _engine;
     std::thread _workerThread;
@@ -64,7 +71,10 @@ private:
     std::size_t _maxCyclesWithoutJobs;
 
     Job* getJob();
+    void getJobs();
 };
+
+std::ostream& operator<<(std::ostream& os, const Worker::State state);
 
 }
 

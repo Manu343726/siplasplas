@@ -30,6 +30,19 @@ void destroy(T* objectPtr)
     objectPtr->~T();
 }
 
+/**
+ * \ingroup utility
+ * \brief Invokes the destructor of an object allocated
+ * at the given storage address
+ *
+ * \tparam T Must be Destructible (See std::is_destructible)
+ */
+template<typename T>
+void destroy(void* objPtr)
+{
+    reinterpret_cast<T*>(objPtr)->~T();
+}
+
 template<typename R, typename... Args>
 void destroy(R(*functionPointer)(Args...))
 {

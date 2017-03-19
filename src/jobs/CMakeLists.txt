@@ -9,6 +9,7 @@ SOURCES
     engine.cpp
     logger.cpp
     jobqueue.cpp
+    lockedjobqueue.cpp
 DEPENDS
     siplasplas-utility
     CONAN_PKG::concurrentqueue

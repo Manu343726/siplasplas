@@ -46,15 +46,25 @@ Job* closure(Job* job, Function function, Job* parent = nullptr)
             auto& closure = job.getData<Closure<Function>>();
             closure.run(job);
 
-            // Destroy the payload closure before leaving the job
-            cpp::destroy(closure);
+            // Install a finished callback to destroy the closure
+            // when the job is marked as finished. This allows any child job
+            // to capture references to the parent closure
+            job.whenFinished([](Job& job)
+            {
+                cpp::destroy(job.getData<Closure<Function>>());
+            });
         }).Else([&job](auto)
         {
             auto& closure = job.getData<std::unique_ptr<Closure<Function>>>();
             closure->run(job);
 
-            // Destroy the payload closure before leaving the job
-            cpp::destroy(closure);
+            // Install a finished callback to destroy the closure
+            // when the job is marked as finished. This allows any child job
+            // to capture references to the parent closure
+            job.whenFinished([](Job& job)
+            {
+                cpp::destroy(job.getData<std::unique_ptr<Closure<Function>>>());
+            });
         });
     };
 
@@ -64,12 +74,12 @@ Job* closure(Job* job, Function function, Job* parent = nullptr)
     cpp::staticIf<sizeof(Closure<Function>) <= Job::maxDataSize()>([&job, function](auto)
     {
         // Construct the closure in the job payload:
-        cpp::construct<Closure<Function>>(job->data(), function);
+        job->constructData<Closure<Function>>(function);
     }).Else([&job, function](auto)
     {
         // The closure object does not fit in the job payload,
         // dynamically allocate it:
-        cpp::construct<std::unique_ptr<Closure<Function>>>(job->data(), std::make_unique<Closure<Function>>(function));
+        job->constructData<std::unique_ptr<Closure<Function>>>(std::make_unique<Closure<Function>>(function));
     });
 
     return job;

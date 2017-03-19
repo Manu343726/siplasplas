@@ -119,6 +119,11 @@ function(add_siplasplas_target NAME TARGET_TYPE)
             endif()
 
             set(common_options -std=${STD_CXX} -Wall -pedantic -ftemplate-depth-1024 -fPIC -ftemplate-backtrace-limit=0)
+
+            if(SIPLASPLAS_UFTRACE AND NOT MSVC)
+                list(APPEND common_options -finstrument-functions)
+            endif()
+
             set(debug_options -O0 -g3 -p)
             set(release_options -O3 -g0)
 
