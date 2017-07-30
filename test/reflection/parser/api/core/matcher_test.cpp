@@ -34,7 +34,8 @@ TEST_F(CursorMatcherTest, classDeclMatcher_matchessClassesWithSpecificNameOnly)
 {
     std::unordered_map<std::string, bool> classes = {
         {"Foo", false},
-        {"FooTemplate", false}
+        {"FooTemplate", false},
+        {"FooTemplateMember", false}
     };
 
     class MyCallback : public MatchCallback

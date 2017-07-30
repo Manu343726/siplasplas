@@ -32,6 +32,18 @@ String Cursor::displayName() const
     return ::clang_getCursorDisplayName(cxCursor());
 }
 
+std::string Cursor::fullQualifiedName() const
+{
+    if(semanticParent().isNull())
+    {
+        return spelling().str().str();
+    }
+    else
+    {
+        return semanticParent().fullQualifiedName() + "::" + spelling().str().str();
+    }
+}
+
 CursorKind Cursor::kind() const
 {
     return ::clang_getCursorKind(cxCursor());

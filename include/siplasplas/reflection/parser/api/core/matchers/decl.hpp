@@ -51,6 +51,32 @@ SIPLASPLAS_REFLECTION_PARSER_API_CORE_MATCHERS_KINDMATCHER(classDecl, ClassDecl)
 
 /**
  * \ingroup matchers
+ * \brief Matches an struct declaration
+ *
+ * \param innerMatchers Set of inner matchers
+ *
+ * ``` cpp
+ * // A class with an struct member:
+ * classDecl(has(structDecl()))
+ * ```
+ */
+SIPLASPLAS_REFLECTION_PARSER_API_CORE_MATCHERS_KINDMATCHER(structDecl, StructDecl)
+
+/**
+ * \ingroup matchers
+ * \brief Matches an enumeration declaration
+ *
+ * \param innerMatchers Set of inner matchers
+ *
+ * ``` cpp
+ * // A class with a class member:
+ * classDecl(has(classDecl()))
+ * ```
+ */
+SIPLASPLAS_REFLECTION_PARSER_API_CORE_MATCHERS_KINDMATCHER(enumDecl, EnumDecl)
+
+/**
+ * \ingroup matchers
  * \brief Matches a class template declaration
  *
  * \param innerMatchers Set of inner matchers

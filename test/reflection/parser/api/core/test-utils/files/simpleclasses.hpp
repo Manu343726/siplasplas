@@ -23,6 +23,14 @@ class FooTemplate
 public:
     void method(const char* str, int i) const;
     int j;
+
+    class FooTemplateMember
+    {
+        void f();
+        void f() const;
+
+        int c;
+    };
 };
 
 #endif // SIPLASPLAS_TEST_REFLECTION_PARSER_API_CORE_TESTUTILS_FILES_SIMPLECLASSES_HPP

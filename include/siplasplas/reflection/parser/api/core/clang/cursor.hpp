@@ -140,6 +140,11 @@ public:
     core::clang::String displayName() const;
 
     /**
+     * \brief Returns the full qualified name of the entity pointer by the cursor
+     */
+    std::string fullQualifiedName() const;
+
+    /**
      * \brief Returns the cursor kind (Whether it points to a namespace declaration,
      * a function definition, etc)
      */
